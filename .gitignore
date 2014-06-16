@@ -1,3 +1,4 @@
+.settings
 *.rbc
 capybara-*.html
 .rspec
