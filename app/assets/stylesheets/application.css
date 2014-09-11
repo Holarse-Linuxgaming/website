@@ -12,6 +12,12 @@
  *
  *= require_tree .
  *= require_self
- *= require formtastic
- *= require formtastic-bootstrap
+ *= require "unify/style"
+ *= require "unify/line-icons"
+ *= require "unify/pages/blog_magazine"
+ *= require "unify/pages/blog"
+ *= require "unify/pages/page_search_inner"
+ *= require "unify/plugins/custom-sky-forms"
+ *= require "unify/plugins/sky-forms-red"
+ *= require "unify/themes/red"
  */
