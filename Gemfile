@@ -1,21 +1,21 @@
 #encoding: utf-8
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.5'
+gem 'rails', '4.1.6'
 
 #
 # datenbank
 # 
-gem 'activerecord-jdbcsqlite3-adapter'
-gem 'friendly_id'
-
+#gem 'activerecord-jdbcsqlite3-adapter'
+gem 'sqlite3'
+gem 'friendly_id', '~> 5.0.4'
 
 group :development, :test do
-    gem 'rspec-rails', '~> 2.14.1'
-    gem 'fabrication', '~> 2.11.2'
+    gem 'rspec-rails', '~> 3.1.0'
+    gem 'fabrication', '~> 2.11.3'
     gem 'database_cleaner'
-    gem 'capybara'
-    gem 'forgery'
+    gem 'capybara', '~> 2.4.3'
+  gem 'forgery', '~> 0.6.0'
 end
 
 # 
@@ -26,10 +26,9 @@ gem 'sass-rails', '~> 4.0.3'
 #
 # view
 #
-gem 'acts-as-taggable-on', '~> 3.0.2'
-gem 'draper'
-gem 'formtastic', '~> 2.3.0rc'
-gem 'formtastic-bootstrap'
+gem 'acts-as-taggable-on', '~> 3.4.2'
+gem 'draper', '~> 1.4.0'
+gem 'formtastic', '~> 3.0.0'
 
 #
 # js compressor
@@ -44,9 +43,9 @@ gem 'jbuilder', '~> 2.0'
 #
 # Use ActiveModel has_secure_password
 # 
-gem 'bcrypt', '~> 3.1.6'
+gem 'bcrypt', '~> 3.1.7'
 
 #
 # dateianhänge
 # 
-gem 'paperclip', "~> 3.0"
+gem 'paperclip', "~> 4.2.0"

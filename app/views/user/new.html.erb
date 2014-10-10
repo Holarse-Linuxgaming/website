@@ -1,0 +1,40 @@
+    <div class="container content">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+                <form class="reg-page">
+                    <div class="reg-header">
+                        <h2>Register a new account</h2>
+                      <p>Bereits ein Konto vorhanden? Hier <%= link_to "klicken", login_path, class: "color-green" %>, um sich anzumelden.</p>                    
+                    </div>
+                   
+                    <label>Email Address <span class="color-red">*</span></label>
+                    <input type="text" class="form-control margin-bottom-20">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>Password <span class="color-red">*</span></label>
+                            <input type="password" class="form-control margin-bottom-20">
+                        </div>
+                        <div class="col-sm-6">
+                            <label>Confirm Password <span class="color-red">*</span></label>
+                            <input type="password" class="form-control margin-bottom-20">
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label class="checkbox">
+                                <input type="checkbox"> 
+                                Ich verspreche: <a href="page_terms.html" class="color-green">ganz lieb und artig zu sein</a>
+                            </label>                        
+                        </div>
+                        <div class="col-lg-6 text-right">
+                            <button class="btn-u" type="submit">Register</button>                        
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div><!--/container-->

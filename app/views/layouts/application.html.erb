@@ -29,21 +29,13 @@
                 <!-- Topbar Navigation -->
                 <ul class="loginbar pull-right">
                     <li>
-                        <i class="fa fa-globe"></i>
-                        <a>Languages</a>
-                        <ul class="lenguages">
-                            <li class="active">
-                                <a href="#">English <i class="fa fa-check"></i></a> 
-                            </li>
-                            <li><a href="#">Spanish</a></li>
-                            <li><a href="#">Russian</a></li>
-                            <li><a href="#">German</a></li>
-                        </ul>
+                      <i class="fa fa-envelope"></i>
+                      <%= link_to "Info-Postkasten", "#" %>
                     </li>
                     <li class="topbar-devider"></li>   
-                    <li><a href="page_faq.html">Help</a></li>  
-                    <li class="topbar-devider"></li>   
-                    <li><a href="page_login.html">Login</a></li>   
+                    <li><%= link_to "Anmelden", login_path %></li>  
+                    <li class="topbar-devider"></li>  
+                  <li><%= link_to "Registrieren", register_path %></li>
                 </ul>
                 <!-- End Topbar Navigation -->
             </div>
@@ -621,8 +613,10 @@
             <div class="row">
                 <div class="col-md-6">                     
                     <p>
-                        2000-2014 &copy; Holarse - Spielen unter Linux. 
-                        <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+                      2000-<%= Date.today.year %> &copy; Holarse - Spielen unter Linux. 
+                      <%= link_to imprint_path do %>
+                        <i class="fa fa-legal"></i> Impressum
+                      <% end %>
                     </p>
                 </div>
                 <div class="col-md-6">
