@@ -15,7 +15,7 @@ group :development, :test do
     gem 'fabrication', '~> 2.11.3'
     gem 'database_cleaner'
     gem 'capybara', '~> 2.4.3'
-  gem 'forgery', '~> 0.6.0'
+    gem 'forgery', '~> 0.6.0'
 end
 
 # 
@@ -44,6 +44,11 @@ gem 'jbuilder', '~> 2.0'
 # Use ActiveModel has_secure_password
 # 
 gem 'bcrypt', '~> 3.1.7'
+
+#
+# dateianhänge
+# 
+gem 'paperclip', "~> 4.2.0"
 
 #
 # dateianhänge
