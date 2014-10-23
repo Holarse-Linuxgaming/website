@@ -6,19 +6,19 @@ class SessionController < ApplicationController
   
   def login
     begin
-      user = UserLogin.call(params[:login][:username], params[:login][:password])
+      user = UserLogin.call(params)
       session[:user_id] = user.id
-      redirect_to root_path, notice: "Willkommen zurück #{user.username}"
+      redirect_to root_path, success: "Willkommen zurück #{user.username}"
     rescue Exception => e
       Rails.logger.debug(e)
-      flash[:alert] = e.message
+      flash[:danger] = e.message
       render :login
     end
   end
 
   def logout
     if current_user
-      flash[:notice] = "Auf Wiedersehen #{current_user.username}!"
+      flash[:info] = "Auf Wiedersehen #{current_user.username}!"
       session[:user_id] = nil      
     end
     redirect_to root_path

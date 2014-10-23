@@ -12,4 +12,10 @@
  *
  *= require_tree .
  *= require_self
- */
+ *= require formtastic
+ *= require unify/bootstrap.min
+ *= require unify/style
+ *= require unify/line-icons
+ *= require unify/font-awesome.min
+ *= require unify/default
+*/

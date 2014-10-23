@@ -1,21 +1,45 @@
 <!DOCTYPE html>
-<html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->  
 <head>
   <title>Holarse</title>
+  <!-- Meta -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+   <!-- Favicon -->
+  <link rel="shortcut icon" href="favicon.ico">
+
   <%= stylesheet_link_tag    'application', media: 'all' %>
   <%= csrf_meta_tags %>
 </head>
 <body>
   
-  <p>CurrentUser: <%= current_user.username %></p>
+  <div class="wrapper">
+    <%= render partial: "header" %>
+    <%= render partial: "breadcrumbs" %>
+    
+    <% flash.each do |name, msg| %>
+      <%= content_tag :div, msg, class: "alert alert-#{name} fade in" %>
+    <% end %>
+    
+    <%= yield %>
+    <%= render partial: "footer" %>
+  </div>  
   
-<% flash.each do |name, msg| %>
-  <%= content_tag :div, msg, class: name %>
-<% end %>
-
-<%= yield %>
-
   <%= javascript_include_tag 'application' %>
+  <script type="text/javascript">
+    jQuery(document).ready(function() {
+        App.init();
+    });
+  </script>
+  <!--[if lt IE 9]>
+    <script src="assets/plugins/respond.js"></script>
+    <script src="assets/plugins/html5shiv.js"></script>
+  <![endif]-->  
+  
   
 </body>
 </html>

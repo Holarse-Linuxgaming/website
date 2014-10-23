@@ -1,8 +1,34 @@
-<h1>Session#login</h1>
-<p>Find me in app/views/session/login.html.erb</p>
+    <div class="container content">		
+    	<div class="row">
+            <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
+                <%= form_tag("login", method: "post", :class => "reg-page") do %>
+                    <div class="reg-header">            
+                        <h2>Login to your account</h2>
+                    </div>
 
-<%= semantic_form_for "login" do |f| %>
-  <%= f.input :username %>
-  <%= f.input :password %>
-  <%= f.submit %>
-<% end %>
+                    <div class="input-group margin-bottom-20">
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                      <%= text_field_tag(:username, nil, placeholder: "Benutzername", class: "form-control") %>
+                    </div>                    
+                    <div class="input-group margin-bottom-20">
+                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                      <%= password_field_tag(:password, nil, placeholder: "Passwort", class: "form-control") %>
+                    </div>                    
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="checkbox"><input type="checkbox"> Stay signed in</label>                        
+                        </div>
+                        <div class="col-md-6">
+                          <%= submit_tag("Login", class: "btn-u pull-right") %>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <h4>Forget your Password ?</h4>
+                    <p>no worries, <a class="color-green" href="#">click here</a> to reset your password.</p>
+                <% end %>
+            </div>
+        </div><!--/row-->
+    </div><!--/container-->	
