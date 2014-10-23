@@ -17,5 +17,7 @@
  *= require unify/style
  *= require unify/line-icons
  *= require unify/font-awesome.min
- *= require unify/default
+ *= require unify/red
+ *= require unify/blog_magazine
+ *= require unify/page_log_reg_v1
 */

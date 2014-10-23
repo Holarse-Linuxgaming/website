@@ -5,23 +5,18 @@
             <div class="container">
                 <!-- Topbar Navigation -->
                 <ul class="loginbar pull-right">
-                    <li>
-                        <i class="fa fa-globe"></i>
-                        <a>Languages</a>
-                        <ul class="lenguages">
-                            <li class="active">
-                                <a href="#">English <i class="fa fa-check"></i></a> 
-                            </li>
-                            <li><a href="#">Spanish</a></li>
-                            <li><a href="#">Russian</a></li>
-                            <li><a href="#">German</a></li>
-                        </ul>
-                    </li>
                     <li class="topbar-devider"></li>   
-                    <li><a href="page_faq.html">Help</a></li>  
-                    <li class="topbar-devider"></li>   
-                    <% if current_user.respond_to :isGuest?
-                    <li><%= profile_or_login %></li>   
+                    <% if is_guest? %>
+                      <li><%= link_to "Registrieren", register_path %></li>  
+                    <% else %>
+                      <li><%= link_to current_user.username, current_user %></li>
+                    <% end %>
+                    <li class="topbar-devider"></li>
+                    <% if is_guest? %>
+                      <li><%= link_to "Login", login_path %></li>
+                    <% else %>
+                      <li><%= link_to "Logout", logout_path %></li>  
+                    <% end %>
                 </ul>
                 <!-- End Topbar Navigation -->
             </div>
@@ -37,9 +32,9 @@
                         <span class="sr-only">Toggle navigation</span>
                         <span class="fa fa-bars"></span>
                     </button>
-                    <a class="navbar-brand" href="index.html">
-                        <img id="logo-header" src="assets/img/logo1-default.png" alt="Logo">
-                    </a>
+                    <%= link_to root_path, class: "navbar-brand" do %>
+                      <%= image_tag "img/logo1-red.png", id: "logo-header" %>
+                    <% end %>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
