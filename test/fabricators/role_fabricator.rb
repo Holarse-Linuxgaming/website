@@ -1,0 +1,2 @@
+Fabricator(:role) do
+end
