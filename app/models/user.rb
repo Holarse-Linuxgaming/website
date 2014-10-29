@@ -1,5 +1,9 @@
 class User < ActiveRecord::Base
+  extend FriendlyId
+  
   has_secure_password
+  
+  friendly_id :username, use: :slugged
   
   # relation
   has_and_belongs_to_many :roles

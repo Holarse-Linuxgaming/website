@@ -22,6 +22,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    @user = User.friendly.find(current_user.id)
   end
 
   def update
