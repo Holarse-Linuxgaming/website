@@ -11,6 +11,7 @@
   <meta name="author" content="">
    <!-- Favicon -->
   <link rel="shortcut icon" href="favicon.ico">
+  <base href="http://turtle-sonic.codio.io:3000" />  
 
   <%= stylesheet_link_tag    'application', media: 'all' %>
   <%= csrf_meta_tags %>
@@ -33,8 +34,16 @@
   <script type="text/javascript">
     jQuery(document).ready(function() {
         App.init();
+        App.initCounter();
+        Datepicker.initDatepicker();
     });
   </script>
+  <script>
+    jQuery(document).ready(function ($) {
+        "use strict";
+        $('.contentHolder').perfectScrollbar();
+    });
+  </script>  
   <!--[if lt IE 9]>
     <script src="assets/plugins/respond.js"></script>
     <script src="assets/plugins/html5shiv.js"></script>

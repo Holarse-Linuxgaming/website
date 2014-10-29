@@ -14,5 +14,11 @@
 //= require unify/jquery-migrate-1.2.1.min
 //= require unify/bootstrap.min
 //= require unify/back-to-top
+//= require unify/waypoints.min
+//= require unify/jquery.counterup.min
+//= require unify/jquery-ui.min
+//= require unify/jquery.mousewheel
+//= require unify/perfect-scrollbar
 //= require unify/app
+//= require unify/datepicker
 //= require_tree .
