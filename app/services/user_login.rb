@@ -6,7 +6,7 @@ class UserLogin
     
     UserLocked.call(user)
     
-    raise "Benutzername oder Passwort falsch" unless user.authenticate(params[:password])
+    raise 'Benutzername oder Passwort falsch' unless user.authenticate(params[:password])
     
     user
   end

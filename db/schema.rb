@@ -13,11 +13,11 @@
 
 ActiveRecord::Schema.define(version: 20141029155634) do
 
-  create_table "friendly_id_slugs", force: true do |t|
-    t.string   "slug",                      null: false
-    t.integer  "sluggable_id",              null: false
+  create_table "friendly_id_slugs", force: :cascade do |t|
+    t.string   "slug",           limit: 255, null: false
+    t.integer  "sluggable_id",               null: false
     t.string   "sluggable_type", limit: 50
-    t.string   "scope"
+    t.string   "scope",          limit: 255
     t.datetime "created_at"
   end
 
@@ -26,27 +26,26 @@ ActiveRecord::Schema.define(version: 20141029155634) do
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id"
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
 
-  create_table "roles", force: true do |t|
-    t.string   "name"
-    t.string   "label"
+  create_table "roles", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.string   "label",      limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "roles_users", id: false, force: true do |t|
+  create_table "roles_users", id: false, force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "role_id", null: false
   end
 
-  create_table "users", force: true do |t|
-    t.string   "username"
-    t.string   "email"
+  create_table "users", force: :cascade do |t|
+    t.string   "username",        limit: 255
+    t.string   "email",           limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "password_digest"
-    t.integer  "failedattempts",  default: 0
-    t.boolean  "locked",          default: false
-    t.integer  "failed_attempts", default: 0
+    t.string   "password_digest", limit: 255
+    t.boolean  "locked",                      default: false
+    t.integer  "failed_attempts",             default: 0
   end
 
 end
