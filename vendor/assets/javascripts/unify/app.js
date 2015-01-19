@@ -1,36 +1,13 @@
 /*
  * Template Name: Unify - Responsive Bootstrap Template
- * Description: Business, Corporate, Portfolio and Blog Theme.
- * Version: 1.4
+ * Description: Business, Corporate, Portfolio, E-commerce and Blog Theme.
+ * Version: 1.6
  * Author: @htmlstream
  * Website: http://htmlstream.com
 */
 
 var App = function () {
-
-    function handleIEFixes() {
-        //fix html5 placeholder attribute for ie7 & ie8
-        if (jQuery.browser.msie && jQuery.browser.version.substr(0, 1) < 9) { // ie7&ie8
-            jQuery('input[placeholder], textarea[placeholder]').each(function () {
-                var input = jQuery(this);
-
-                jQuery(input).val(input.attr('placeholder'));
-
-                jQuery(input).focus(function () {
-                    if (input.val() == input.attr('placeholder')) {
-                        input.val('');
-                    }
-                });
-
-                jQuery(input).blur(function () {
-                    if (input.val() == '' || input.val() == input.attr('placeholder')) {
-                        input.val(input.attr('placeholder'));
-                    }
-                });
-            });
-        }
-    }
-
+    //Bootstrap Tooltips and Popovers
     function handleBootstrap() {
         /*Bootstrap Carousel*/
         jQuery('.carousel').carousel({
@@ -53,6 +30,7 @@ var App = function () {
         jQuery('.popovers-destroy').popover('destroy');
     }
 
+    //Search Box (Header)
     function handleSearch() {    
         jQuery('.search').click(function () {
             if(jQuery('.search-btn').hasClass('fa-search')){
@@ -67,6 +45,7 @@ var App = function () {
         }); 
     }
 
+    //Sidebar Navigation Toggle
     function handleToggle() {
         jQuery('.list-toggle').on('click', function() {
             jQuery(this).toggleClass('active');
@@ -83,74 +62,35 @@ var App = function () {
         */
     }
 
-    function handleSwitcher() {    
-        var panel = jQuery('.style-switcher');
-
-        jQuery('.style-switcher-btn').click(function () {
-            jQuery('.style-switcher').show();
-        });
-
-        jQuery('.theme-close').click(function () {
-            jQuery('.style-switcher').hide();
-        });
-        
-        jQuery('li', panel).click(function () {
-            var color = jQuery(this).attr("data-style");
-            var data_header = jQuery(this).attr("data-header");
-            setColor(color, data_header);
-            jQuery('.list-unstyled li', panel).removeClass("theme-active");
-            jQuery(this).addClass("theme-active");
-        });
-
-        var setColor = function (color, data_header) {
-            jQuery('#style_color').attr("href", "assets/css/themes/" + color + ".css");
-            if(data_header == 'light'){
-                jQuery('#style_color-header-1').attr("href", "assets/css/themes/headers/header1-" + color + ".css");
-                jQuery('#logo-header').attr("src", "assets/img/logo1-" + color + ".png");
-                jQuery('#logo-footer').attr("src", "assets/img/logo2-" + color + ".png");
-            } else if(data_header == 'dark'){
-                jQuery('#style_color-header-2').attr("href", "assets/css/themes/headers/header2-" + color + ".css");
-                jQuery('#logo-header').attr("src", "assets/img/logo1-" + color + ".png");
-                jQuery('#logo-footer').attr("src", "assets/img/logo2-" + color + ".png");
-            }
-        }
-    }
-
-    function handleBoxed() {
-        jQuery('.boxed-layout-btn').click(function(){
-            jQuery(this).addClass("active-switcher-btn");
-            jQuery(".wide-layout-btn").removeClass("active-switcher-btn");
-            jQuery("body").addClass("boxed-layout container");
-        });
-        jQuery('.wide-layout-btn').click(function(){
-            jQuery(this).addClass("active-switcher-btn");
-            jQuery(".boxed-layout-btn").removeClass("active-switcher-btn");
-            jQuery("body").removeClass("boxed-layout container");
-        });
-    }
-
+    //Fixed Header
     function handleHeader() {
          jQuery(window).scroll(function() {
             if (jQuery(window).scrollTop()>100){
-                jQuery(".header-fixed .header").addClass("header-fixed-shrink");
+                jQuery(".header-fixed .header-sticky").addClass("header-fixed-shrink");
             }
             else {
-                jQuery(".header-fixed .header").removeClass("header-fixed-shrink");
+                jQuery(".header-fixed .header-sticky").removeClass("header-fixed-shrink");
             }
         });
+    }
+
+    //Header Mega Menu
+    function handleMegaMenu() {
+        jQuery(document).on('click', '.mega-menu .dropdown-menu', function(e) {
+            e.stopPropagation()
+        })
     }
 
     return {
         init: function () {
             handleBootstrap();
-            handleIEFixes();
             handleSearch();
             handleToggle();
-            handleSwitcher();
-            handleBoxed();
             handleHeader();
+            handleMegaMenu();
         },
 
+        //Clients Logo
         initSliders: function () {
             jQuery('#clients-flexslider').flexslider({
                 animation: "slide",
@@ -191,55 +131,7 @@ var App = function () {
             });
         },
 
-        initFancybox: function () {
-            jQuery(".fancybox-button").fancybox({
-            groupAttr: 'data-rel',
-            prevEffect: 'none',
-            nextEffect: 'none',
-            closeBtn: true,
-            helpers: {
-                title: {
-                    type: 'inside'
-                    }
-                }
-            });
-
-            jQuery(".iframe").fancybox({
-                maxWidth    : 800,
-                maxHeight   : 600,
-                fitToView   : false,
-                width       : '70%',
-                height      : '70%',
-                autoSize    : false,
-                closeClick  : false,
-                openEffect  : 'none',
-                closeEffect : 'none'
-            });            
-        },
-
-        initBxSlider: function () {
-            jQuery('.bxslider').bxSlider({
-                maxSlides: 4,
-                minSlides: 4,
-                slideWidth: 360,
-                slideMargin: 10,
-            });            
-
-            jQuery('.bxslider1').bxSlider({
-                minSlides: 3,
-                maxSlides: 3,
-                slideWidth: 360,
-                slideMargin: 10
-            });            
-
-            jQuery('.bxslider2').bxSlider({
-                minSlides: 2,
-                maxSlides: 2,
-                slideWidth: 360,
-                slideMargin: 10
-            });            
-        },
-
+        //Counters 
         initCounter: function () {
             jQuery('.counter').counterUp({
                 delay: 10,
@@ -247,9 +139,12 @@ var App = function () {
             });
         },
 
+        //Parallax Backgrounds
         initParallaxBg: function () {
-            jQuery('.parallaxBg').parallax("50%", 0.2);
-            jQuery('.parallaxBg1').parallax("50%", 0.4);
+             jQuery(window).load(function() {
+                jQuery('.parallaxBg').parallax("50%", 0.2);
+                jQuery('.parallaxBg1').parallax("50%", 0.4);
+            });
         },
 
     };

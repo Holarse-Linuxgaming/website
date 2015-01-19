@@ -13,14 +13,9 @@
  *= require_tree .
  *= require_self
  *= require formtastic
- *= require unify/bootstrap.min
  *= require unify/style
- *= require unify/line-icons
- *= require unify/font-awesome.min
- *= require unify/red
- *= require unify/blog_magazine
- *= require unify/page_log_reg_v1
- *= require unify/profile
- *= require unify/perfect-scrollbar
- *= require unify/custom-sky-forms
+ *= require unify/dark-red
+ *= require unify/dark
+ *= require unify/header-v2
+ *= require unify/footer-v3
 */

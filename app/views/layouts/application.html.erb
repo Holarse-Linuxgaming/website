@@ -11,44 +11,33 @@
   <meta name="author" content="">
    <!-- Favicon -->
   <link rel="shortcut icon" href="favicon.ico">
-  <base href="http://turtle-sonic.codio.io:3000" />  
 
-  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <link rel="stylesheet" href="//oss.maxcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//oss.maxcdn.com/fontawesome/4.2.0/css/font-awesome.min.css">
+
+  <%= stylesheet_link_tag 'application', media: 'all' %>
   <%= csrf_meta_tags %>
 </head>
-<body>
-  
-  <div class="wrapper">
-    <%= render partial: "header" %>
-    <%= render partial: "breadcrumbs" %>
-    
-    <% flash.each do |name, msg| %>
-      <%= content_tag :div, msg, class: "alert alert-#{name} fade in" %>
-    <% end %>
-    
+<body class="dark">
+
+<div class="wrapper">
+  <%= render partial: "header" %>
+  <%= render partial: "slider" %>
+  <%= render partial: "breadcrumbs" %>
+  <div class="container content">
     <%= yield %>
-    <%= render partial: "footer" %>
-  </div>  
-  
-  <%= javascript_include_tag 'application' %>
-  <script type="text/javascript">
-    jQuery(document).ready(function() {
-        App.init();
-        App.initCounter();
-        Datepicker.initDatepicker();
-    });
-  </script>
-  <script>
-    jQuery(document).ready(function ($) {
-        "use strict";
-        $('.contentHolder').perfectScrollbar();
-    });
-  </script>  
-  <!--[if lt IE 9]>
-    <script src="assets/plugins/respond.js"></script>
-    <script src="assets/plugins/html5shiv.js"></script>
-  <![endif]-->  
-  
-  
+  </div>
+  <%= render partial: "footer" %>
+</div>
+
+<%= javascript_include_tag "application" %>
+<script type="text/javascript" src="//oss.maxcdn.com/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="//oss.maxcdn.com/jquery.migrate/1.2.1/jquery-migrate.min.js"></script>
+<script type="text/javascript" src="//oss.maxcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>  
+<script type="text/javascript">
+  jQuery(document).ready(function() {
+    App.init();      
+  });
+</script>
 </body>
 </html>

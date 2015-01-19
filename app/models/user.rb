@@ -11,4 +11,8 @@ class User < ActiveRecord::Base
   #validation
   validates :username, :email, presence: true, uniqueness: true
   validates :password, presence: true, on: :create, confirmation: true
+
+  def is_guest?
+    false
+  end
 end
