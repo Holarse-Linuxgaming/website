@@ -6,37 +6,6 @@
  * Website: http://htmlstream.com
 */
 
-/*Import Global Compulsory CSS Files*/
-@import url(app.css);
-@import url(ie8.css);
-@import url(blocks.css);
-@import url(plugins.css);
-
-/*Import CSS Plugins*/
-@import url(plugins/animate.css);
-@import url(plugins/box-shadows.css);
-@import url(plugins/style-switcher.css);
-
-/*Import Headers*/
-@import url(headers/header-default.css);
-@import url(headers/header-v1.css);
-@import url(headers/header-v2.css);
-@import url(headers/header-v3.css);
-@import url(headers/header-v4.css);
-
-/*Import Footers*/
-@import url(footers/footer-default.css);
-@import url(footers/footer-v1.css);
-@import url(footers/footer-v2.css);
-@import url(footers/footer-v3.css);
-@import url(footers/footer-v4.css);
-@import url(footers/footer-v5.css);
-@import url(footers/footer-v6.css);
-@import url(footers/footer-v7.css);
-
-/*Import Google Font*/
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400);
-
 body { 
    color: #333; 
    font-size: 13px;

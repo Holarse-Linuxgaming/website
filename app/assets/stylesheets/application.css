@@ -14,8 +14,12 @@
  *= require_self
  *= require formtastic
  *= require unify/style
- *= require unify/dark-red
- *= require unify/dark
- *= require unify/header-v2
+ *= require unify/app
+ *= require unify/blocks
+ *= require unify/plugins
+ *= require unify/animate
+ *= require unify/box-shadows
+ *= require unify/header-default
  *= require unify/footer-v3
+ *= require unify/dark-red
 */
