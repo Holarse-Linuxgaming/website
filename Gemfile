@@ -7,7 +7,7 @@ gem 'rails', '4.2.0'
 gem 'activerecord-jdbcsqlite3-adapter', '1.3.8'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
-gem 'sass'
+gem 'sass-rails'
 
 gem 'fabrication', '~> 2.11.3', group: :test
 gem 'faker', '~> 1.4.3', group: :test

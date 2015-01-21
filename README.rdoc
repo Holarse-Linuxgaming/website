@@ -1,28 +1,27 @@
-== README
+== Holarse 2015
+Die neue Holarse-Webseite
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+== Entwicklungsumgebung
 
-Things you may want to cover:
+ mkdir bin
 
-* Ruby version
+Jruby herunterladen und in bin installieren und ausführbar machen.
 
-* System dependencies
+ jruby -S gem install bundler
 
-* Configuration
+Holarse-Webseite aus Git herunterladen.
 
-* Database creation
+ cd website
+ jruby -S bundle install
+ 
+Holarse-Datenbank bereitstellen
 
-* Database initialization
+ jruby -S rake db:setup
 
-* How to run the test suite
+fertig
 
-* Services (job queues, cache servers, search engines, etc.)
+== Produktion
 
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+ jruby -S rake assets:clobber
+ jruby -S rake assets:precompile RAILS_ENV=production
+ jruby -S rails s -e production
