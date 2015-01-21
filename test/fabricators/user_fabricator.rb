@@ -3,7 +3,7 @@ Fabricator(:user) do
   email { Faker::Internet.email }
   password { Faker::Internet.password }
   locked false
-  failedattempts 0
+  failed_attempts 0
 end
 
 Fabricator(:legacy_user, from: :user) do

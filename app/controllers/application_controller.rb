@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  add_breadcrumb "Holarse", :root_path
+
   private
   
   def current_user

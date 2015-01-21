@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141029155634) do
+ActiveRecord::Schema.define(version: 20150121200645) do
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",           limit: 255, null: false
@@ -46,6 +46,9 @@ ActiveRecord::Schema.define(version: 20141029155634) do
     t.string   "password_digest", limit: 255
     t.boolean  "locked",                      default: false
     t.integer  "failed_attempts",             default: 0
+    t.string   "slug",            limit: 255
   end
+
+  add_index "users", ["slug"], name: "index_users_on_slug", unique: true
 
 end

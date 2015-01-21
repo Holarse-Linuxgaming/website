@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 class SessionController < ApplicationController
   
+
   def new
+    add_breadcrumb "Login", :login_path
     render :login
   end
   
@@ -18,6 +20,8 @@ class SessionController < ApplicationController
   end
 
   def logout
+    add_breadcrumb "Logout", :logout_path
+
     if current_user
       flash[:info] = "Auf Wiedersehen #{current_user.username}!"
       session[:user_id] = nil      

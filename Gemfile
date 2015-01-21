@@ -11,10 +11,11 @@ gem 'sass-rails'
 
 gem 'fabrication', '~> 2.11.3', group: :test
 gem 'faker', '~> 1.4.3', group: :test
+gem 'capybara', group: :test
 
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
-
+gem 'breadcrumbs_on_rails'
 gem 'formtastic', '~> 3.0'
 
 gem 'friendly_id', '~> 5.0.0'

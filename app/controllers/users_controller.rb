@@ -1,6 +1,10 @@
 class UsersController < ApplicationController
   
+  add_breadcrumb "Benutzer"
+
   def new
+    add_breadcrumb "Registrieren", register_path
+
     @user = User.new
   end
   
