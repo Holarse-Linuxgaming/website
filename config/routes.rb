@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'about' => 'static_page#about', as: :about
+
   resources :users
   get 'register' => 'users#new', as: :register
 
