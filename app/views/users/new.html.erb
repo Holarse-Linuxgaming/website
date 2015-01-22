@@ -1,43 +1,49 @@
- <div class="container content">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-                <%= form_for(@user, class: "reg-page") do |f| %>
-                    <div class="reg-header">
-                        <h2>Register a new account</h2>
-                      <p>Already Signed Up? Click <%= link_to "Anmelden", login_path, class:"color-green" %> to login your account.</p>                    
-                    </div>
+<div class="container content">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+      <%= form_for(@user, html: { class: "sky-form" }) do |f| %>
+      <header>Neues Konto erstellen</header>
+      
+      <fieldset>                  
+        <section>
+          <label class="input">
+            <i class="icon-append fa fa-user"></i>
+	    <%= f.text_field(:username, placeholder: "Benutzername") %>
+	    <%= display_form_errors(@user.errors[:username]) %>
+          </label>
+        </section>
+        
+        <section>
+          <label class="input">
+            <i class="icon-append fa
+                      fa-envelope"></i>
+	    <%= f.text_field(:email, placeholder:
+                "Email-Adresse") %>
+          </label>
+        </section>
+        
+        <section>
+          <label class="input">
+            <i class="icon-append fa fa-lock"></i>
+	    <%= f.password_field(:password,
+		placeholder: "Passwort") %>
+          </label>
+        </section>
+        
+        <section>
+          <label class="input">
+            <i class="icon-append fa fa-lock"></i>
+	    <%= f.password_field(:password_confirmation,
+		placeholder: "Passwort bestätigen") %>
+          </label>
+        </section>
+      </fieldset>
+      <footer>
+        <button type="submit"
+                class="btn-u">Registrieren</button>
+      </footer>
+      <% end %>
 
-                    <%= f.label(:username) %>
-                    <%= f.text_field(:username, class: "form-control margin-bottom-20") %>
-              
-                    <%= f.label(:email) %>
-                    <%= f.text_field(:email, class: "form-control margin-bottom-20") %>
-              
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <%= f.label(:password) %>
-                            <%= f.password_field(:password, class: "form-control margin-bottom-20") %>
-                        </div>
-                        <div class="col-sm-6">
-                            <%= f.label(:password_confirmation) %>
-                            <%= f.password_field(:password_confirmation, class: "form-control margin-bottom-20") %>                          
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <label class="checkbox">
-                                <input type="checkbox"> 
-                                I read <a href="page_terms.html" class="color-green">Terms and Conditions</a>
-                            </label>                        
-                        </div>
-                        <div class="col-lg-6 text-right">
-                            <button class="btn-u" type="submit">Register</button>                        
-                        </div>
-                    </div>
-                <% end %>
-            </div>
-        </div>
-    </div><!--/container-->	
+    </div>
+  </div>
+</div><!--/container-->	
