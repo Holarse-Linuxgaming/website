@@ -7,23 +7,22 @@
           <!-- About -->
           <div class="col-sm-3 md-margin-bottom-40">
 	    <%= link_to root_path do %>
-	    <%= image_tag "logo2-dark-red.png", id: "logo-footer", class: "footer-logo" %>
+	    <%= image_tag "holarse_logo_sm.jpg", id: "logo-footer", class: "footer-logo" %>
 	    <% end %>
-            <p>About Unify dolor sit amet, consectetur adipiscing elit. Maecenas eget nisl id libero tincidunt sodales.</p>
-            <p>Duis eleifend fermentum ante ut aliquam. Cras mi risus, dignissim sed adipiscing ut, placerat non arcu.</p>    
+            <p>Holarse bringt eurem Pinguin das Spielen bei.</p><p>Egal ob ihr lieber mit freier Software spielt, Dedicated Server aufsetzt, oder mit aktuellen Triple-A-Titeln eure Grafikkarten zum Schwitzen bringen wollt. Wir helfen euch dabei.</p><p>Holarse ist nicht nur ein Wiki, wir sind auch eine Community und bieten Mitspieler, Kommunikationsmöglichkeiten (Text und VoIP) und viele Spieleserver. Dabei darf es auch gerne ausgefallener sein. Hauptsache es läuft unterm Pinguin.</p>
           </div><!--/col-md-3-->
           <!-- End About -->                    
 
           <!-- Simple List -->
           <div class="col-sm-3 md-margin-bottom-40">
-            <div class="thumb-headline"><h2>About Unify</h2></div>
+            <div class="thumb-headline"><h2>&Uuml;ber Holarse</h2></div>
             <ul class="list-unstyled simple-list margin-bottom-20">
-              <li><a href="#">About Us</a></li>
+              <li><%= link_to "Über Holarse", about_path %></li>
               <li><a href="#">Forum</a></li>
               <li><a href="#">Careers</a></li>
               <li><a href="#">Community</a></li>
               <li><a href="#">Stories</a></li>
-              <li><a href="#">Contact Us</a></li>
+              <li><%= link_to "Impressum", imprint_path %></li>
             </ul>
 
             <div class="thumb-headline"><h2>Help &amp; Information Center</h2></div>
@@ -73,15 +72,13 @@
               <li><a href="#">Start-up</a></li>
             </ul>
 
-            <div class="thumb-headline"><h2>Digital Network</h2></div>
+            <div class="thumb-headline"><h2>Holarse im Netz</h2></div>
             <ul class="list-unstyled simple-list">
-              <li><a href="#">Wrapbootstrap.com</a></li>
-              <li><a href="#">Bootstrap.com</a></li>
-              <li><a href="#">Fortawesome.com</a></li>
-              <li><a href="#">Jquery.com</a></li>
-              <li><a href="#">Wordpress.com</a></li>
-              <li><a href="#">Unslpash.com</a></li>
-              <li><a href="#">Github.com</a></li>
+               <li><a href="https://twitter.com/holarse">Twitter</a></li>
+              <li><a href="https://plus.google.com/107899576009406028129/posts">Google+</a></li>
+              <li><a href="https://www.youtube.com/user/holarse">YouTube</a></li>
+              <li><a href="">RSS-Feed</a></li>
+              <li><a href="https://github.com/Holarse-Linuxgaming">Github</a></li>
             </ul>
           </div><!--/col-md-3-->
           <!-- End Simple List -->                        
@@ -95,8 +92,7 @@
           <!-- Terms Info-->
           <div class="col-md-6">
             <p>
-              2014 &copy; All Rights Reserved. Unify Theme by 
-              <a target="_blank" href="https://twitter.com/htmlstream">Htmlstream</a> | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+              &copy; 2000 - <%= DateTime.now.year %> Bernd Ritter. Unify Theme von <a href="https://twitter.com/htmlstream">Htmlstream</a> | <%= link_to "Datenschutzerklärung", privacy_path %> | <%= link_to "Impressum", imprint_path %>
             </p>
           </div>
           <!-- End Terms Info-->
