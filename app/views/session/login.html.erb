@@ -1,34 +1,53 @@
-    <div class="container content">		
-    	<div class="row">
-            <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
-                <%= form_tag(login_path, method: "post", :class => "reg-page") do %>
-                    <div class="reg-header">            
-                        <h2>Login to your account</h2>
-                    </div>
+<div class="container content">		
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
+      
+      <%= form_tag(login_path, method: "post", class: "sky-form") do |f| %>
 
-                    <div class="input-group margin-bottom-20">
-                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                      <%= text_field_tag(:username, nil, placeholder: "Benutzername", class: "form-control") %>
-                    </div>                    
-                    <div class="input-group margin-bottom-20">
-                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                      <%= password_field_tag(:password, nil, placeholder: "Passwort", class: "form-control") %>
-                    </div>                    
+      <header>An Holarse anmelden</header>
 
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label class="checkbox"><input type="checkbox"> Stay signed in</label>                        
-                        </div>
-                        <div class="col-md-6">
-                          <%= submit_tag("Login", class: "btn-u pull-right") %>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <h4>Forget your Password ?</h4>
-                    <p>no worries, <a class="color-green" href="#">click here</a> to reset your password.</p>
-                <% end %>
+      <fieldset>                  
+        <section>
+          <div class="row">
+            <label class="label col col-4">Benutzername</label>
+            <div class="col col-8">
+              <label class="input">
+                <i class="icon-append fa fa-user"></i>
+		<%= f.text_field :username %>
+              </label>
             </div>
-        </div><!--/row-->
-    </div><!--/container-->	
+          </div>
+        </section>
+        
+        <section>
+          <div class="row">
+            <label class="label col col-4">Password</label>
+            <div class="col col-8">
+              <label class="input">
+                <i class="icon-append fa fa-lock"></i>
+		<%= f.password_field :password %>
+                <input name="password" type="password">
+              </label>
+              <div class="note"><a href="#sky-form2" class="modal-opener">Passwort vergessen?</a></div>
+            </div>
+          </div>
+        </section>
+        
+        <section>
+          <div class="row">
+            <div class="col col-4"></div>
+            <div class="col col-8">
+              <label class="checkbox"><input name="remember" checked="" type="checkbox"><i></i>Keep me logged in</label>
+            </div>
+          </div>
+        </section>
+      </fieldset>
+      <footer>
+        <button type="submit" class="btn-u">Anmelden</button>
+	<%= link_to "Registrieren", register_path, class: "btn-u btn-u-default" %>
+      </footer>
+
+      <% end %>
+    </div>
+  </div><!--/row-->
+</div><!--/container-->	
