@@ -4,12 +4,13 @@
       <%= form_for(@user, html: { class: "sky-form" }) do |f| %>
       <header>Neues Konto erstellen</header>
       
+      <%= display_form_errors(@user) %>
+
       <fieldset>                  
         <section>
           <label class="input">
             <i class="icon-append fa fa-user"></i>
 	    <%= f.text_field(:username, placeholder: "Benutzername") %>
-	    <%= display_form_errors(@user.errors[:username]) %>
           </label>
         </section>
         
