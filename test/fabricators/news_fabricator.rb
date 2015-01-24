@@ -1,0 +1,2 @@
+Fabricator(:news) do
+end

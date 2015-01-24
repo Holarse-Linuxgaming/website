@@ -1,0 +1,2 @@
+Fabricator(:article) do
+end
