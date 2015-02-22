@@ -1,53 +1,30 @@
-<div class="container content">		
-  <div class="row">
-    <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
-      
-      <%= form_tag(login_path, method: "post", class: "sky-form") do |f| %>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
 
-      <header>An Holarse anmelden</header>
+      <%= form_tag(login_path, method: "post", class: "sky-form") do %>
+        <header>An Holarse anmelden</header>
 
-      <fieldset>                  
-        <section>
-          <div class="row">
-            <label class="label col col-4">Benutzername</label>
-            <div class="col col-8">
-              <label class="input">
-                <i class="icon-append fa fa-user"></i>
-		<%= f.text_field :username %>
-              </label>
-            </div>
-          </div>
-        </section>
-        
-        <section>
-          <div class="row">
-            <label class="label col col-4">Password</label>
-            <div class="col col-8">
-              <label class="input">
-                <i class="icon-append fa fa-lock"></i>
-		<%= f.password_field :password %>
-                <input name="password" type="password">
-              </label>
-              <div class="note"><a href="#sky-form2" class="modal-opener">Passwort vergessen?</a></div>
-            </div>
-          </div>
-        </section>
-        
-        <section>
-          <div class="row">
-            <div class="col col-4"></div>
-            <div class="col col-8">
-              <label class="checkbox"><input name="remember" checked="" type="checkbox"><i></i>Keep me logged in</label>
-            </div>
-          </div>
-        </section>
-      </fieldset>
-      <footer>
-        <button type="submit" class="btn-u">Anmelden</button>
-	<%= link_to "Registrieren", register_path, class: "btn-u btn-u-default" %>
-      </footer>
-
+          <fieldset>
+            <section>
+              <%= label_tag :username, nil, class: "label" %>
+              <%= label_tag nil, class: "input" do %>
+                <i class="icon-prepend fa fa-user"></i>
+                <%= text_field_tag :username, nil, placeholder: "Benutzername" %>
+              <% end %>
+            </section>
+            <section>
+              <%= label_tag :password, nil, class: "label" %>
+              <%= label_tag nil, class: "input" do %>
+                  <i class="icon-prepend fa fa-key"></i>
+                  <%= password_field_tag :password, nil, placeholder: "Passwort" %>
+              <% end %>
+            </section>
+          </fieldset>
+          <footer>
+            <%= submit_tag "Anmelden", class: "btn-u btn-u-default" %>
+          </footer>
       <% end %>
+
     </div>
-  </div><!--/row-->
-</div><!--/container-->	
+
+</div><!--/row-->
