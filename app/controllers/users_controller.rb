@@ -26,6 +26,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    add_breadcrumb current_user.username, current_user
     @user = User.friendly.find(current_user.id)
   end
 
