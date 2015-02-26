@@ -12,7 +12,6 @@
  *
  *= require_tree .
  *= require_self
- *= require formtastic
  *= require unify/style
  *= require unify/app
  *= require unify/blocks
@@ -25,4 +24,5 @@
  *= require unify/sky-forms
  *= require unify/sky-forms-red
  *= require unify/custom-sky-forms
+ *= require unify/custom
 */
