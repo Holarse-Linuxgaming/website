@@ -1,5 +1,5 @@
 == Holarse 2015
-Die neue Holarse-Webseite
+Die neue Holarse-Webseite. Testweise unter http://test.holarse-linuxgaming.de
 
 == Entwicklungsumgebung
 
