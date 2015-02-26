@@ -7,7 +7,6 @@
 	box-shadow: 0 0 20px rgba(0,0,0,.3);
 	font: 13px/1.55 'Open Sans', Helvetica, Arial, sans-serif;
 	color: #666;
-	border: 1px solid #BBB;
 }
 .sky-form header {
 	display: block;
@@ -22,7 +21,7 @@
 	display: block;	
 	padding: 25px 30px 5px;
 	border: none;
-	background: rgba(240,240,240,1);
+	background: rgba(255,255,255,.9);
 }
 .sky-form fieldset + fieldset {
 	border-top: 1px solid rgba(0,0,0,.1);
