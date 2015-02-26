@@ -1,7 +1,7 @@
 #encoding :utf-8
 class ArticlesController < ApplicationController
 
-  before_filter :login_required, only: [:new, :create, :destroy]
+  before_filter :login_required, only: [:new, :create, :update, :destroy]
 
   add_breadcrumb "Artikel", :articles_path
 
@@ -19,7 +19,7 @@ class ArticlesController < ApplicationController
     @article = Article.create(article_params)
 
     if @article.save
-      flash[:notice] = "Der Artikel #{@article.title} wurde erfolgreich angelegt."
+      flash[:success] = "Der Artikel #{@article.title} wurde erfolgreich angelegt."
       redirect_to @article
     else
       flash[:error] = "Es gab ein Problem beim Speichern des Artikels"
@@ -31,6 +31,19 @@ class ArticlesController < ApplicationController
     @article = Article.friendly.find(params[:id])
     add_breadcrumb @article.title, @article
     add_breadcrumb "Bearbeiten"
+  end
+
+  def update
+    @article = Article.friendly.find(params[:id])
+    @article.update_attributes(article_params)
+
+    if @article.save
+      flash[:success] = "Der Artikel wurde aktualisiert."
+      redirect_to @article
+    else
+      flash[:error] = "Es gab ein Problem beim Speichern des Artikels"
+      render :edit
+    end
   end
 
   def new
