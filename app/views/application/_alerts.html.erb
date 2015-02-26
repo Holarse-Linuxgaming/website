@@ -1,0 +1,11 @@
+<p>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <% flash.map do |key,msg| %>
+              <%= content_tag :div, msg, class: "alert alert-#{key} fade in" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+</p>

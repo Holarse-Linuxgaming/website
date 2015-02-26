@@ -11,13 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150124201548) do
+ActiveRecord::Schema.define(version: 20150223191658) do
 
   create_table "articles", force: :cascade do |t|
     t.string   "title",           limit: 255,                 null: false
     t.string   "alternatives",    limit: 255
     t.text     "content",                                     null: false
-    t.boolean  "frozen",                      default: false
+    t.boolean  "unchangable",                 default: false
     t.boolean  "commentsallowed",             default: true
     t.string   "slug",            limit: 255
     t.datetime "created_at",                                  null: false
@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(version: 20150124201548) do
     t.string   "title",           limit: 255,                 null: false
     t.string   "subtitle",        limit: 255
     t.text     "content"
-    t.boolean  "frozen",                      default: false
+    t.boolean  "unchangable",                 default: false
     t.boolean  "commentsallowed",             default: true
     t.string   "slug",            limit: 255
     t.datetime "created_at",                                  null: false

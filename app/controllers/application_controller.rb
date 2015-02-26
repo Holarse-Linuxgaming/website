@@ -5,6 +5,15 @@ class ApplicationController < ActionController::Base
 
   add_breadcrumb "Holarse", :root_path
 
+  protected
+
+  def login_required
+    if current_user.is_guest?
+      flash[:danger] = "Bitte zuerst anmelden"
+      redirect_to login_path
+    end
+  end
+
   private
   
   def current_user
