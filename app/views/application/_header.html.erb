@@ -42,9 +42,9 @@
         <ul class="nav navbar-nav">                
           <li><a href="page_about.html">News</a></li>
           <li class="dropdown active">
-            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+            <%= link_to articles_path, class: "drop-down-toggle", data: { toggle: "dropdown" } do %>
               Spiele
-            </a>
+            <% end %>
             <ul class="dropdown-menu">
               <li class="active"><a href="page_misc_blank.html">- Blank page</a></li>
               <li><a href="page_misc_boxed.html">- Boxed Page</a></li>
@@ -60,15 +60,7 @@
           <li><a href="">Community</a></li>
 	  <li><a href="">Rabatte</a></li>
           <li><a href="">Videos</a></li>
-          <li class="dropdown active">
-            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
-              Mitmachen!
-            </a>
-            <ul class="dropdown-menu">
-              <li><%= link_to "Neuer Artikel", new_article_path %></li>
-              <li><%= link_to "Neue News", new_news_path %></li>
-            </ul>
-          </li>
+          <%= render partial: "collaborate" %>
 
           <!-- Search Block -->
           <li>

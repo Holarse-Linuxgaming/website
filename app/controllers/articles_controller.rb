@@ -1,11 +1,13 @@
+#encoding :utf-8
 class ArticlesController < ApplicationController
 
   before_filter :login_required, only: [:new, :create, :destroy]
 
-  add_breadcrumb "Artikel"
+  add_breadcrumb "Artikel", :articles_path
 
   def index
-    @articles = Article.all
+    @articles = Article.all.decorate
+    add_breadcrumb "Übersicht"
   end
 
   def show
@@ -20,13 +22,15 @@ class ArticlesController < ApplicationController
       flash[:notice] = "Der Artikel #{@article.title} wurde erfolgreich angelegt."
       redirect_to @article
     else
-      flash[:error] = "Es gab ein PRoblem beim Speichern des Artikels"
+      flash[:error] = "Es gab ein Problem beim Speichern des Artikels"
       render :edit
     end
   end
 
   def edit
-    @article = Article.find(params[:id])
+    @article = Article.friendly.find(params[:id])
+    add_breadcrumb @article.title, @article
+    add_breadcrumb "Bearbeiten"
   end
 
   def new
