@@ -21,3 +21,5 @@ gem 'formtastic', '~> 3.0'
 gem 'friendly_id', '~> 5.0.0'
 gem 'draper'
 gem 'puma'
+
+gem 'dalli'
