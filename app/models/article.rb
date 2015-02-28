@@ -4,6 +4,7 @@ class Article < ActiveRecord::Base
   friendly_id :title, use: :slugged
 
   validates :title, :content, presence: true
+  validates :title, uniqueness: true
 
   has_many :comments, as: :commentable
 
