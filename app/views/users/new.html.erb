@@ -18,30 +18,26 @@
           <label class="input">
             <i class="icon-append fa
                       fa-envelope"></i>
-	    <%= f.text_field(:email, placeholder:
-                "Email-Adresse") %>
+	    <%= f.text_field(:email, placeholder: "Email-Adresse") %>
           </label>
         </section>
         
         <section>
           <label class="input">
             <i class="icon-append fa fa-lock"></i>
-	    <%= f.password_field(:password,
-		placeholder: "Passwort") %>
+	    <%= f.password_field(:password, placeholder: "Passwort") %>
           </label>
         </section>
         
         <section>
           <label class="input">
             <i class="icon-append fa fa-lock"></i>
-	    <%= f.password_field(:password_confirmation,
-		placeholder: "Passwort bestätigen") %>
+	            <%= f.password_field(:password_confirmation, placeholder: "Passwort bestätigen") %>
           </label>
         </section>
       </fieldset>
       <footer>
-        <button type="submit"
-                class="btn-u">Registrieren</button>
+        <button type="submit" class="btn-u">Registrieren</button>
       </footer>
       <% end %>
 

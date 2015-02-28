@@ -10,4 +10,8 @@ class ArticleDecorator < Draper::Decorator
   #     end
   #   end
 
+  def rendered_content
+    RenderContent.(object)
+  end
+
 end

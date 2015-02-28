@@ -9,19 +9,19 @@
               <%= label_tag :username, nil, class: "label" %>
               <%= label_tag nil, class: "input" do %>
                 <i class="icon-prepend fa fa-user"></i>
-                <%= text_field_tag :username, nil, placeholder: "Benutzername" %>
+                <%= text_field_tag :username, nil, placeholder: 'Benutzername' %>
               <% end %>
             </section>
             <section>
               <%= label_tag :password, nil, class: "label" %>
               <%= label_tag nil, class: "input" do %>
                   <i class="icon-prepend fa fa-key"></i>
-                  <%= password_field_tag :password, nil, placeholder: "Passwort" %>
+                  <%= password_field_tag :password, nil, placeholder: 'Passwort' %>
               <% end %>
             </section>
           </fieldset>
           <footer>
-            <%= submit_tag "Anmelden", class: "btn-u btn-u-default" %>
+            <%= submit_tag 'Anmelden', class: "btn-u btn-u-primary" %>
           </footer>
       <% end %>
 

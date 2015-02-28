@@ -52,6 +52,7 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    dalli (2.7.2)
     draper (1.4.0)
       actionpack (>= 3.0)
       activemodel (>= 3.0)
@@ -75,6 +76,7 @@ GEM
     jdbc-sqlite3 (3.7.2.1)
     json (1.8.2)
     json (1.8.2-java)
+    kramdown (1.5.0)
     loofah (2.0.1)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
@@ -152,12 +154,14 @@ DEPENDENCIES
   bcrypt (~> 3.1.7)
   breadcrumbs_on_rails
   capybara
+  dalli
   draper
   fabrication (~> 2.11.3)
   faker (~> 1.4.3)
   formtastic (~> 3.0)
   friendly_id (~> 5.0.0)
   jbuilder (~> 2.0)
+  kramdown
   puma
   rails (= 4.2.0)
   sass-rails

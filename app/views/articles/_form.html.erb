@@ -1,21 +1,21 @@
 <%= form_for(@article, html: { class: "sky-form" }) do |t| %>
     <fieldset>
       <section>
-        <%= t.label :title, class: "label" %>
+        <%= t.label 'Titel', class: "label" %>
         <%= t.label nil, class: "input" do %>
             <%= t.text_field :title, placeholder: "Titel" %>
         <% end %>
       </section>
       <section>
-        <%= t.label :alternatives, class: "label" %>
+        <%= t.label 'Alternativnamen', class: "label" %>
         <%= t.label nil, class: "input" do %>
             <%= t.text_field :alternatives, placeholder: "Alternativnamen kommasepariert" %>
         <% end %>
       </section>
       <section>
-        <%= t.label :content, class: "label" %>
+        <%= t.label 'Inhalt', class: "label" %>
         <%= t.label nil, class: "textarea textarea-resizable" do %>
-            <%= t.text_area :content, placeholder: "Artikel hier eingeben..." %>
+            <%= t.text_area :content, placeholder: 'Artikel hier eingeben...', rows: 15, class: "editor" %>
         <% end %>
       </section>
       <section>

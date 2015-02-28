@@ -11,4 +11,6 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require unify/app
+//= require markitup/jquery.markitup
+//= require markitup/markitup.config
 //= require_tree .

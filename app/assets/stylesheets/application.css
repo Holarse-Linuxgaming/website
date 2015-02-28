@@ -25,4 +25,6 @@
  *= require unify/sky-forms-red
  *= require unify/custom-sky-forms
  *= require unify/custom
+ *= require markitup/skin/style
+ *= require markitup/set/markdown/style
 */
