@@ -18,7 +18,8 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'breadcrumbs_on_rails'
 gem 'formtastic', '~> 3.0'
 
-gem 'kramdown'
+gem 'kramdown' # markdown
+gem 'coderay' # syntax highlighting
 
 gem 'friendly_id', '~> 5.0.0'
 gem 'draper'
