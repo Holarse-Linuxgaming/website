@@ -1,6 +1,8 @@
 class Article < ActiveRecord::Base
   extend FriendlyId
 
+  acts_as_taggable_on :genres, :multiplayer, :common
+
   friendly_id :title, use: :slugged
 
   validates :title, :content, presence: true

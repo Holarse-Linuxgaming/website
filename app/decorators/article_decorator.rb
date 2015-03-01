@@ -22,6 +22,10 @@ class ArticleDecorator < Draper::Decorator
     object.updated_at || object.created_at
   end
 
+  def tags
+    genre_list + common_list
+  end
+
   def last_author
     object.try(:user).try(:username)
   end

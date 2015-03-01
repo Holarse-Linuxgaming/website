@@ -2,4 +2,8 @@
 // All this logic will automatically be available in application.js.
 $(document).ready(function() {
     $(".editor").markItUp(mySettings);
+    
+    $("#article_genre_list").tagsInput();
+    $("#article_common_list").tagsInput();
+
 });
