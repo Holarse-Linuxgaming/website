@@ -17,6 +17,7 @@ class ArticlesController < ApplicationController
 
   def create
     @article = Article.create(article_params)
+    @article.user = current_user
 
     if @article.save
       flash[:success] = "Der Artikel #{@article.title} wurde erfolgreich angelegt."
@@ -36,6 +37,7 @@ class ArticlesController < ApplicationController
   def update
     @article = Article.friendly.find(params[:id])
     @article.update_attributes(article_params)
+    @article.user = current_user
 
     if @article.save
       flash[:success] = "Der Artikel wurde aktualisiert."

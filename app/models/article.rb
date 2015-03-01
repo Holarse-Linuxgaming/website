@@ -7,5 +7,6 @@ class Article < ActiveRecord::Base
   validates :title, uniqueness: true
 
   has_many :comments, as: :commentable
+  belongs_to :user
 
 end

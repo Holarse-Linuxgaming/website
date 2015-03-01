@@ -1,0 +1,34 @@
+<div class="inner-results">
+  <h3><%= link_to item.title, item %></h3>
+  <ul class="list-inline up-ul">
+    <li><%= item.secondary %></li>
+    <li class="btn-group">
+      <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+        More<i class="fa fa-caret-down"></i>
+        <span class="sr-only">Toggle Dropdown</span>                            
+      </button>
+      <ul role="menu" class="dropdown-menu">
+        <li><a href="#">Share</a></li>
+        <li><a href="#">Similar</a></li>
+        <li><a href="#">Advanced search</a></li>
+      </ul>
+    </li>
+    <li><a href="#">Wrapbootstrap</a></li>
+    <li><a href="#">Dribbble</a></li>
+  </ul>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ut orci urna. Morbi blandit enim eget risus posuere dapibus. Vestibulum velit nisi, tempus in placerat non, auctor eu purus. Morbi suscipit porta libero, ac tempus tellus consectetur non. Praesent eget consectetur nunc. Aliquam erat volutpat. Suspendisse ultrices eros eros, consectetur facilisis urna posuere id.</p>
+  <ul class="list-inline down-ul">
+    <li>
+      <ul class="list-inline star-vote">
+        <li><i class="color-green fa fa-star"></i></li>
+        <li><i class="color-green fa fa-star"></i></li>
+        <li><i class="color-green fa fa-star"></i></li>
+        <li><i class="color-green fa fa-star"></i></li>
+        <li><i class="color-green fa fa-star-half-o"></i></li>
+      </ul>
+    </li>
+    <li><%= item.last_update %> - Zuletzt bearbeitet von <%= item.last_author %></li>
+    <li>234,034 views</li>
+    <li><a href="#">Web designer</a></li>
+  </ul>    
+</div>

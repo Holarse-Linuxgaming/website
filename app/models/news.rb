@@ -6,5 +6,6 @@ class News < ActiveRecord::Base
   validates :title, :content, presence: true
 
   has_many :comments, as: :commentable
+  belongs_to :user
 
 end

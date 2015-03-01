@@ -14,4 +14,16 @@ class ArticleDecorator < Draper::Decorator
     RenderContent.(object)
   end
 
+  def secondary
+    object.alternatives
+  end
+
+  def last_update
+    object.updated_at || object.created_at
+  end
+
+  def last_author
+    object.try(:user).try(:username)
+  end
+
 end

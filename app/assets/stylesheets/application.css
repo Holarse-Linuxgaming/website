@@ -21,6 +21,7 @@
  *= require unify/header-default
  *= require unify/footer-v3
  *= require unify/red
+ *= require unify/page_search_inner
  *= require unify/sky-forms
  *= require unify/sky-forms-red
  *= require unify/custom-sky-forms
