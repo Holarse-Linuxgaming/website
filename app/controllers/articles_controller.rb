@@ -1,7 +1,7 @@
 #encoding :utf-8
 class ArticlesController < ApplicationController
 
-  before_filter :login_required, only: [:new, :create, :update, :destroy]
+  before_filter :login_required, expect: [ :index, :show ]
 
   add_breadcrumb "Artikel", :articles_path
 
