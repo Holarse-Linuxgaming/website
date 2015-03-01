@@ -15,6 +15,7 @@
  *= require unify/style
  *= require unify/app
  *= require unify/blocks
+ *= require unify/blog
  *= require unify/plugins
  *= require unify/animate
  *= require unify/box-shadows
