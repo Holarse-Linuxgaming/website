@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'search/index', as: :search
+
   get 'about' => 'static_page#about', as: :about
   get 'imprint' => 'static_page#imprint', as: :imprint
   get 'privacy' => 'static_page#privacy', as: :privacy

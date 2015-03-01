@@ -1,0 +1,6 @@
+<h1>Suchergebnisse<small><%= @results.size %> Ergebnisse</small></h1>
+<ul>
+  <% @results.each do |result| %>
+    <li><%= link_to result.title, result %></li>
+  <% end %>
+</ul>
