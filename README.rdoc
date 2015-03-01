@@ -22,6 +22,8 @@ fertig
 
 == Produktion
 
+ jruby -S rake db:migrate RAILS_ENV=production
  jruby -S rake assets:clobber
+ jruby -S rake assets:clearjruby -S rake db:migrate RAILS_ENV=production
  jruby -S rake assets:precompile RAILS_ENV=production
  jruby -S rails s -e production
