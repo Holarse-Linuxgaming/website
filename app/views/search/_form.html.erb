@@ -4,7 +4,7 @@
     <div class="input-group animated fadeInDown">
       <%= text_field_tag :q, params[:q], class: "form-control", placeholder: "Holarse durchsuchen" %>
       <span class="input-group-btn">
-        <button class="btn-u" type="button">Los</button>
+	<%= submit_tag "Los", class: "btn-u" %>
       </span>
     </div>
   <% end %>
