@@ -1,0 +1,11 @@
+<li class="dropdown active">
+  <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+    Bearbeiten
+  </a>
+  <ul class="dropdown-menu">
+    <li><%= link_to "Neue News", new_news_path %></li>
+    <% if @news and @news.persisted? %>
+      <li><%= link_to "Bearbeiten", edit_news_path(@news) %></li>
+    <% end %>
+  </ul>
+</li>

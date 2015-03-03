@@ -4,6 +4,11 @@
       <div class="page-header">
 	<h1>Willkommen auf Holarse <small>Wir bringen eurem Pinguin das Spielen bei</small></h1>
       </div>
+      <ul class="list-group">
+	<% @items.each do |item| %>
+	<li class="list-group-item"><%= link_to item.title, item %></li>
+	<% end %>
+      </ul>
     </div>
   </div>
 </div>

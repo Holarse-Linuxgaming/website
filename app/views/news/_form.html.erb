@@ -1,0 +1,34 @@
+<%= form_for(@news, html: { class: "sky-form" }) do |t| %>
+    <fieldset>
+      <section>
+        <%= t.label 'Titel', class: "label" %>
+        <%= t.label nil, class: "input" do %>
+            <%= t.text_field :title, placeholder: "Titel" %>
+        <% end %>
+      </section>
+      <section>
+        <%= t.label 'Untertitel', class: "label" %>
+        <%= t.label nil, class: "input" do %>
+            <%= t.text_field :subtitle, placeholder: "Untertitel" %>
+        <% end %>
+      </section>
+      <section>
+	<%= t.label 'Tags', class: "label" %>
+	<%= t.label nil, class: "input" do %>
+	   <%= t.text_field :news_list, value: @news.news_list.to_s, placeholder: "Kommasepariert Tags eingeben" %>
+	<% end %>
+      </section>
+      <section>
+        <%= t.label 'Inhalt', class: "label" %>
+        <%= t.label nil, class: "textarea textarea-resizable" do %>
+            <%= t.text_area :content, placeholder: 'Artikel hier eingeben...', rows: 15, class: "editor" %>
+        <% end %>
+      </section>
+      <section>
+        <%= t.button :submit, class: "btn-u btn-u-primary" do %>
+            <i class="fa fa-save"></i> Speichern
+        <% end %>
+      </section>
+
+    </fieldset>
+<% end %>
