@@ -1,2 +1,2 @@
-Fabricator(:articles) do
+Fabricator(:article) do
 end
