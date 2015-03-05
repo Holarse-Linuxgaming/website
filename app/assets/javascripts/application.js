@@ -11,4 +11,5 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require unify/app
+//= require jquery.tagsinput.min
 //= require_tree .
