@@ -3,10 +3,10 @@ class NewsController < ApplicationController
 
   before_filter :login_required, except: [ :index, :show ]
 
-  add_breadcrumb "News", "index"
-
+  add_breadcrumb "News", :news_index_path
+  
   def index
-    @news = News.all.decorate
+    @news = News.order(created_at: :desc).decorate
     add_breadcrumb "Übersicht"
   end
 
