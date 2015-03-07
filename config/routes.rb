@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   resources :articles
   resources :news
 
+  resources :videos
+
   get 'login' => 'session#new', as: :login
   post 'login' => 'session#login'
   get 'logout' => 'session#logout', as: :logout

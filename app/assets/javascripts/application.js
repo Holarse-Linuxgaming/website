@@ -10,6 +10,7 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
-//= require unify/app
 //= require jquery.tagsinput.min
+//= require unify/app
+//= require unify/fancy-box
 //= require_tree .
