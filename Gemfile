@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
 # Use sqlite3 as the database for Active Record
-gem 'activerecord-jdbcsqlite3-adapter', '1.3.8'
+gem 'activerecord-jdbcmysql-adapter', '~> 1.3.17'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 gem 'sass-rails'
