@@ -1,5 +1,9 @@
 language: ruby
 rvm:
-  - jruby-19mode
+  - jruby-9000
 jdk:
-  - openjdk7
+  - openjdk8
+sudo: false
+cache: bundler
+services:
+  - mysql
