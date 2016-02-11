@@ -2,8 +2,11 @@ language: ruby
 rvm:
   - jruby-9000
 jdk:
-  - openjdk8
+  - openjdk7
 sudo: false
 cache: bundler
 services:
-  - mysql
+  - memcached
+  - elasticsearch
+  - rabbitmq
+
