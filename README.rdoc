@@ -1,4 +1,5 @@
 == Holarse 2015
+{<img src="https://travis-ci.org/Holarse-Linuxgaming/website.svg?branch=master" alt="Build Status" />}[https://travis-ci.org/Holarse-Linuxgaming/website]
 Die neue Holarse-Webseite. Testweise unter http://test.holarse-linuxgaming.de
 
 == Entwicklungsumgebung
