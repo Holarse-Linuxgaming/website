@@ -1,2 +1,0 @@
-Fabricator(:article) do
-end

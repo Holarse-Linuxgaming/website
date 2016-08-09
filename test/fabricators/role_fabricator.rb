@@ -1,2 +1,0 @@
-Fabricator(:role) do
-end

@@ -1,2 +1,0 @@
-Fabricator(:news) do
-end

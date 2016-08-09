@@ -1,2 +1,0 @@
-Fabricator(:comment) do
-end
