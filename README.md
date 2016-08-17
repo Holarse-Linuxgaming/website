@@ -16,4 +16,4 @@ wie sie hier https://docs.jboss.org/author/display/WFLY10/DataSource+configurati
 Danach startet man die Commandline von WildFly (jboss-cli.sh), verbindet sich (mit dem Befehl connect) und führt folgenden
 Befehl aus: deploy <Pfad zur präparierten Jar>
 Jetzt kann in der Admin-Oberfläche von Wildfly (Default unter localhost:9990) unter Configuration -> Subsystems -> Datasources ->
-Non-XA die Datanbank hinzugefügt werden (vorausgesetzt man hat einen admin user eingerichtet).
+Non-XA die Datenbank hinzugefügt werden (vorausgesetzt man hat einen admin user eingerichtet).
