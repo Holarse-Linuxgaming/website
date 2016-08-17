@@ -1,10 +1,14 @@
-Installation:
+# Holarse 2017 (In Development)
+
+[![Build Status](https://travis-ci.org/Holarse-Linuxgaming/website.svg?branch=master)](https://travis-ci.org/Holarse-Linuxgaming/website)
+
+## Installation
 
 wget
 http://download.jboss.org/wildfly/10.0.0.Final/wildfly-10.0.0.Final.tar.gz
 unzip wildfly-10.0.0.Final.tar.gz
 
-Datenbankanbindung:
+### Datenbankanbindung:
 
 Damit die Datenbankanbindung funktioniert muss der Treiber und die Datasource zum Applicationserver hinzugefügt werden.
 Dazu ladet man sich den mysql-connector von https://dev.mysql.com/downloads/connector/j/ herunter und befolgt die Schritte
