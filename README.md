@@ -11,9 +11,9 @@ unzip wildfly-10.0.0.Final.tar.gz
 ### Datenbankanbindung:
 
 Damit die Datenbankanbindung funktioniert muss der Treiber und die Datasource zum Applicationserver hinzugefügt werden.
-Dazu ladet man sich den mysql-connector von https://dev.mysql.com/downloads/connector/j/ herunter und befolgt die Schritte
+Dazu lädt man sich den mysql-connector von https://dev.mysql.com/downloads/connector/j/ herunter und befolgt die Schritte
 wie sie hier https://docs.jboss.org/author/display/WFLY10/DataSource+configuration unter "Modify the JAR" beschrieben sind.
-Danach startet man die Commandline von WildFly (jboss-cli.sh), verbindet sich (mit dem Befehl connect) und führ folgenden
+Danach startet man die Commandline von WildFly (jboss-cli.sh), verbindet sich (mit dem Befehl connect) und führt folgenden
 Befehl aus: deploy <Pfad zur präparierten Jar>
 Jetzt kann in der Admin-Oberfläche von Wildfly (Default unter localhost:9990) unter Configuration -> Subsystems -> Datasources ->
-Non-XA die Datanbank hinzufügen (vorausgesetzt man hat einen admin user eingerichtet).
+Non-XA die Datanbank hinzufügt werden (vorausgesetzt man hat einen admin user eingerichtet).
