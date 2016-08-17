@@ -27,3 +27,4 @@ config/initializers/secret_token.rb
 .rvmrc
 
 .idea/
+*.iml
