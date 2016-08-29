@@ -28,3 +28,7 @@ config/initializers/secret_token.rb
 
 .idea/
 *.iml
+*.gz
+install/apache*
+install/wildfly*
+install/mysql*
