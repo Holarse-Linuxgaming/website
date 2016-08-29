@@ -9,6 +9,7 @@
     Thymeleaf fragments; {1} will be evaluated to either 'list', 'form' or 'view'.
   -->
   <definition name="/*/*" template="layout/application">
+      <put-attribute name="header" value="fragments/header" />
       <put-attribute name="content" value="{1}/{2}" />
       <put-attribute name="footer" value="fragments/footer" />
   </definition>

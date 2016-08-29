@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import org.apache.log4j.Logger;
 
 @Controller
 @RequestMapping("/")
 public class Welcome {
 
+    private final static transient Logger log = Logger.getLogger(Welcome.class);
     private final UserRepository userRepository;
 
     @Autowired
@@ -36,14 +38,20 @@ public class Welcome {
     @RequestMapping("user.html")
     public String user(Model model) {
         List<User> users = this.userRepository.findAll();
-        for (User s: users) System.out.println(s.getName() + " is here!");
+        users.stream().forEach((s) -> {
+            log.debug(s.getName() + " is here!");
+        });
         model.addAttribute("users", users);
         return "/welcome/user";
     }
 
     @RequestMapping("adduser.html")
     public String adduser(@RequestParam(value="name", required=false, defaultValue="TestUser") String name, Model model) {
-        User s = new User(name + "@holarse-linuxgaming.de", name, "123456");
+        User s = new User();
+        s.setName(name);
+        s.setEmail(s.getName() + "@holarse-linuxgaming.de");
+        s.setPassword("12345");
+        
         this.userRepository.save(s);
         model.addAttribute("user", s);
         return "/welcome/adduser";
