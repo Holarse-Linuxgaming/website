@@ -5,7 +5,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 
-@Entity
+@Entity(name = "roles")
 public class Role extends EntityBase {
 
     @Column(length = 20, unique = true)
