@@ -20,7 +20,7 @@ public abstract class Node extends EntityBase {
     private String title;
     
     @ManyToMany
-    @JoinTable(name = "nodes_comments", joinColumns = @JoinColumn(name = "node_id"), inverseJoinColumns = @JoinColumn(name = "comment_id"))
+    @JoinTable(name = "comments", joinColumns = @JoinColumn(name = "node_id"), inverseJoinColumns = @JoinColumn(name = "node_id"))
     private Set<Comment> comments;    
 
     public String getTitle() {

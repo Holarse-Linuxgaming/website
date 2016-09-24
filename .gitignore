@@ -31,4 +31,5 @@ config/initializers/secret_token.rb
 *.gz
 install/apache*
 install/wildfly*
+install/payara*
 install/mysql*
