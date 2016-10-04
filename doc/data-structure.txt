@@ -1,0 +1,124 @@
+<article uid="25" revision="992">
+  <tags>
+    <tag>Spiele</tag>
+    <tag>Kommerziell</tag>
+    <tag>Action</tag>
+  </tags>
+
+  <updated_at>2016-09-20 12:22:33 UTC</updated_at>
+  <author uid="22">john</author>
+  <change>Rechtschreibfehler korrigiert</change>
+  
+  <states>
+    <state type="locked">true</state>
+    <state type="commentsclosed">false</state>
+    <state type="draft">true</state>
+    <state type="archived">false</state>
+  </states>
+
+  <titles>
+    <title type="main">Hauptname</title>
+    <title type="alternative">Alternativer Name</title>
+  </titles>
+  
+  <links>
+    <link type="website" description="opt. Beschreibung">http://url.com</link>
+  </links>
+
+  <shops>
+    <shop type="steam">steam-url</shop>
+    <shop type="gog">gog-url</shop>
+  </shops>
+
+  <images>
+    <image description="blabla">image-url</image>
+  </images>
+
+  <videos>
+    <video type="youtube">yt-url</video>
+  </videos>
+</article>
+
+<news uid="25" revision="992">
+  <tags>
+    <tag>Spiele</tag>
+    <tag>Kommerziell</tag>
+    <tag>Action</tag>
+  </tags>
+
+  <date>2016-09-20 12:22:33 UTC</date>
+
+  <category>VERSION</category>
+  
+  <states>
+    <state type="locked">true</state>
+    <state type="commentsclosed">false</state>
+    <state type="draft">true</state>
+    <state type="archived">false</state>
+    <state type="sticky">false</state>
+  </states>
+
+  <titles>
+    <title type="main">Hauptname</title>
+    <title type="subtitle">Untertitel</title>
+  </titles>
+  
+  <links>
+    <link type="website" description="opt. Beschreibung">http://url.com</link>
+  </links>
+
+  <shops>
+    <shop type="steam">steam-url</shop>
+    <shop type="gog">gog-url</shop>
+  </shops>
+
+  <images>
+    <image description="blabla">image-url</image>
+  </images>
+
+  <videos>
+    <video type="youtube">yt-url</video>
+  </videos>
+
+  <updated_at>2016-09-20 12:22:33 UTC</updated_at>
+  <author uid="22">john</author>
+  <change>Rechtschreibfehler korrigiert</change>
+
+  <updates>
+    <update>
+      <date>2016-09-30 12:12:12 UTC</date>
+      <author>john</author>
+      <content>blablabla</content>
+    </update>
+  </updates>
+</news>
+
+<thread uid="22">
+  <!-- bloße weiterleitung auf die comments mit der entsprechenden nodeid -->
+</thread>
+
+<comments nodeid="25">
+  <comment uid="2">
+    <user uid="22">john</user>
+    <content>hallo welt!</content>
+    <date>2016-09-20 12:22:33 UTC</date>
+    <deleted>true</deleted>
+    <links>
+      <link type="website" description="opt. Beschreibung">http://url.com</link>
+    </links>
+    <images>
+      <image description="blabla">image-url</image>
+    </images>
+    <videos>
+      <video type="youtube">yt-url</video>
+    </videos>
+  </comment>
+</comments>
+
+<user uid="22">
+  <created>2010-09-09 12:12:12 UTC</created>
+  <login>john</login>
+  <locked>false</locked>
+  <signature>yeah linux</signature>
+  <password type="bcrypt">SFDGJKJFDKGJDFKLGJF</password>
+</user>
