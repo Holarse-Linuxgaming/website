@@ -1,14 +1,17 @@
-<article uid="25" revision="992">
+<article uid="25">
   <tags>
     <tag>Spiele</tag>
     <tag>Kommerziell</tag>
     <tag>Action</tag>
   </tags>
 
-  <updated_at>2016-09-20 12:22:33 UTC</updated_at>
-  <author uid="22">john</author>
-  <change>Rechtschreibfehler korrigiert</change>
-  
+  <revision>
+    <updated_at>2016-09-20 12:22:33 UTC</updated_at>
+    <author uid="22">john</author>
+    <change>Rechtschreibfehler korrigiert</change>
+    <revid>123</revid>
+  </revision>
+ 
   <states>
     <state type="locked">true</state>
     <state type="commentsclosed">false</state>
@@ -37,16 +40,19 @@
   <videos>
     <video type="youtube">yt-url</video>
   </videos>
+
+  <content type="plain|html|markdown|wiki">
+  </content>
 </article>
 
-<news uid="25" revision="992">
+<news uid="25">
   <tags>
     <tag>Spiele</tag>
     <tag>Kommerziell</tag>
     <tag>Action</tag>
   </tags>
-
-  <date>2016-09-20 12:22:33 UTC</date>
+  
+  <type>short|video|full</type>
 
   <category>VERSION</category>
   
@@ -80,9 +86,15 @@
     <video type="youtube">yt-url</video>
   </videos>
 
-  <updated_at>2016-09-20 12:22:33 UTC</updated_at>
-  <author uid="22">john</author>
-  <change>Rechtschreibfehler korrigiert</change>
+  <content type="plain|html|markdown|wiki">
+  </content>
+
+  <revision>
+    <updated_at>2016-09-20 12:22:33 UTC</updated_at>
+    <author uid="22">john</author>
+    <change>Rechtschreibfehler korrigiert</change>
+    <revid>123</revid>
+  </revision>
 
   <updates>
     <update>
@@ -100,7 +112,9 @@
 <comments nodeid="25">
   <comment uid="2">
     <user uid="22">john</user>
-    <content>hallo welt!</content>
+    <content type="plain|html|markdown|wiki">
+      hallo welt!
+    </content>
     <date>2016-09-20 12:22:33 UTC</date>
     <deleted>true</deleted>
     <links>
