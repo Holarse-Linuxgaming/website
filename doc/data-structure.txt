@@ -106,6 +106,7 @@
 </news>
 
 <thread uid="22">
+  <forum>Allgemein</forum>
   <!-- bloße weiterleitung auf die comments mit der entsprechenden nodeid -->
 </thread>
 
@@ -135,4 +136,8 @@
   <locked>false</locked>
   <signature>yeah linux</signature>
   <password type="bcrypt">SFDGJKJFDKGJDFKLGJF</password>
+  <roles>
+    <role>ADMIN</role>
+    <role>MODERATOR</role>
+  </roles>
 </user>
