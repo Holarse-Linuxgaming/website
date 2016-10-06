@@ -33,5 +33,10 @@ public class Content {
     public void setContent(String content) {
         this.content = content;
     }
+
+    @Override
+    public String toString() {
+        return "Content{" + "type=" + type + ", content=" + content + '}';
+    }
     
 }

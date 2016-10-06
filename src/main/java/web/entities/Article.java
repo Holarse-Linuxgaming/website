@@ -1,11 +1,13 @@
 package web.entities;
 
+import web.entities.sub.Tag;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import web.entities.sub.Content;
 import web.entities.sub.Title;
@@ -18,8 +20,13 @@ public class Article {
     @XmlAttribute
     private Long uid;
     
-    @XmlElement(name="title")    
+    @XmlElementWrapper(name = "titles")    
+    @XmlElement(name = "title")
     private List<Title> titles = new ArrayList<>();
+
+    @XmlElementWrapper(name = "tags")
+    @XmlElement(name = "tag")
+    private List<Tag> tags = new ArrayList<>();
     
     @XmlElement
     private Content content;
@@ -43,7 +50,6 @@ public class Article {
         titles.add(new Title(type, title));
     }
 
-
     public List<Title> getTitles() {
         return titles;
     }
@@ -58,6 +64,19 @@ public class Article {
 
     public void setContent(Content content) {
         this.content = content;
+    }
+ 
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
+
+    @Override
+    public String toString() {
+        return "Article{" + "uid=" + uid + ", titles=" + titles + ", tags=" + tags + ", content=" + content + '}';
     }
     
 }

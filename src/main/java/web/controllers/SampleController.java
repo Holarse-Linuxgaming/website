@@ -11,6 +11,7 @@ import web.configuration.AtomicIdGenerator;
 import web.entities.Article;
 import web.entities.sub.Content;
 import web.entities.sub.ContentType;
+import web.entities.sub.Tag;
 import web.entities.sub.TitleType;
 import web.services.ArticleService;
 
@@ -40,7 +41,13 @@ public class SampleController {
         map.addAttribute("hallo", "möööp");        
         map.addAttribute("title", "Holarse - Spielen unter Linux");
         
-        map.addAttribute("article", as.findById(uid));
+        final Article a = as.findById(uid);
+        logger.debug("{}", a);
+        
+        map.addAttribute("article", a);
+        
+        as.writeArticleToDisk(generateSampleArticle());
+        
         return "index";
     }
 
@@ -53,6 +60,10 @@ public class SampleController {
     protected Article generateSampleArticle() {
             final Article a = new Article(AtomicIdGenerator.nextId());
             a.addNewTitle(TitleType.MAIN, "Der erste Artikel");
+            Tag t = new Tag();
+            t.setName("Kommerziell");
+            
+            a.getTags().add(t);
 
             final Content c = new Content();
             c.setType(ContentType.PLAIN);
