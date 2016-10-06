@@ -13,7 +13,7 @@
         <p>[[${hallo}]]</p>
         <p>[[${article.uid}]]</p>
         
-        <article th:attr="data-uid=${article.uid}">
+        <article th:data-uid="${article.uid}">
             [[${article.content.content}]]
         </article>
         
