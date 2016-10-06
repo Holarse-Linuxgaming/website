@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+  </head>
+  <body>
+      <div th:fragment="header">
+        <header th:inline="text">Willkommen auf [[${title}]]</header>
+      </div>
+  </body>
+</html>
