@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head lang="de">
+
+        <title>Spring Framework Guru</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    </head>
+    <body th:inline="text">
+        <div th:replace="fragments/header :: header"></div>
+
+        <h2>Fellow Spring Framework Gurus!!!</h2>
+        <p th:text="${hallo}"></p>
+        <p>[[${hallo}]]</p>
+        <p>[[${article.uid}]]</p>
+        
+        <article th:data-uid="${article.uid}">
+
+            <ul>
+                <li th:each="tag : ${article.tags}" th:text="${tag.name}"></li>
+            </ul>
+            
+            <hr>
+            
+            [[${article.content.content}]]
+        </article>
+        
+        <div th:replace="fragments/footer :: footer"></div>
+    </body>
+</html>

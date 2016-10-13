@@ -53,6 +53,10 @@ public class Article {
     public List<Title> getTitles() {
         return titles;
     }
+    
+    public String getMainTitle() {
+        return getTitles().stream().filter(t -> t.getType().equals(TitleType.MAIN)).findFirst().get().getTitle();
+    }
 
     public void setTitles(List<Title> titles) {
         this.titles = titles;

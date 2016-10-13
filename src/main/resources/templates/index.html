@@ -8,21 +8,9 @@
     <body th:inline="text">
         <div th:replace="fragments/header :: header"></div>
 
-        <h2>Fellow Spring Framework Gurus!!!</h2>
-        <p th:text="${hallo}"></p>
-        <p>[[${hallo}]]</p>
-        <p>[[${article.uid}]]</p>
-        
-        <article th:data-uid="${article.uid}">
-
-            <ul>
-                <li th:each="tag : ${article.tags}" th:text="${tag.name}"></li>
-            </ul>
-            
-            <hr>
-            
-            [[${article.content.content}]]
-        </article>
+        <ul>
+            <li th:each="article : ${articles}"><a th:href="@{/wiki/{uid}(uid=${article.uid})}">[[${article.mainTitle}]]</a></li>
+        </ul>
         
         <div th:replace="fragments/footer :: footer"></div>
     </body>

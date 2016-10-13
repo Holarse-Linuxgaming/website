@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
 import javax.annotation.PostConstruct;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -22,7 +24,7 @@ public class ArticleService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private final List<Article> cache = new ArrayList<>(500);
+    private final Map<Long, Article> idxMain = new WeakHashMap<>(500);
 
     @Value("${holarse.directories.articles}")
     private String directory;
@@ -31,9 +33,10 @@ public class ArticleService {
     public void initArticlesFromDisk() throws IOException {
         logger.debug("--------------------------------------------------------------------------------------------------");
         logger.debug("Loading articles from " + directory);
+        idxMain.clear();
         Files.list(Paths.get(directory)).filter(Files::isRegularFile).forEach(p -> loadArticleFromDisk(p.toFile()));
         logger.debug("--------------------------------------------------------------------------------------------------");
-        logger.debug("Loaded: {} articles", cache.size());
+        logger.debug("Loaded: {} articles", idxMain.size());
         logger.debug("--------------------------------------------------------------------------------------------------");
     }
 
@@ -59,7 +62,7 @@ public class ArticleService {
             final Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             final Article article = (Article) jaxbUnmarshaller.unmarshal(file);
 
-            cache.add(article);
+            idxMain.put(article.getUid(), article);
 
             logger.debug("{}", article);
             
@@ -69,11 +72,11 @@ public class ArticleService {
     }
 
     public Article findById(final Long uid) {
-        return cache
-                .stream()
-                .filter(i -> i.getUid().equals(uid))
-                .findFirst()
-                .get();
+        return idxMain.get(uid);
+    }
+    
+    public Collection<Article> findAll() {
+        return idxMain.values();
     }
 
 }
