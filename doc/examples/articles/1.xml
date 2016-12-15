@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article uid="1">
+  <tags>
+    <tag>Spiele</tag>
+    <tag>Kommerziell</tag>
+    <tag>Action</tag>
+  </tags>
+
+  <revision>
+    <updated_at>2016-09-20 12:22:33 UTC</updated_at>
+    <author uid="22">john</author>
+    <change>Rechtschreibfehler korrigiert</change>
+    <revid>123</revid>
+  </revision>
+ 
+  <states>
+    <state type="locked">true</state>
+    <state type="commentsclosed">false</state>
+    <state type="draft">true</state>
+    <state type="archived">false</state>
+  </states>
+
+  <titles>
+    <title type="MAIN">Hauptname</title>
+    <title type="ALTERNATIVE">Alternativer Name</title>
+  </titles>
+  
+  <links>
+    <link type="website" description="opt. Beschreibung">http://url.com</link>
+  </links>
+
+  <shops>
+    <shop type="steam">steam-url</shop>
+    <shop type="gog">gog-url</shop>
+  </shops>
+
+  <images>
+    <image description="blabla">image-url</image>
+  </images>
+
+  <videos>
+    <video type="youtube">yt-url</video>
+  </videos>
+
+  <content type="plain">
+      Ich bin ein Inhalt und hier steht dann ganz viel!
+  </content>
+</article>

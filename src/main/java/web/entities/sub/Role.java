@@ -5,9 +5,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlValue;
 
+/**
+ * Role of a user
+ */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Tag {
+public class Role {
     
     @XmlValue
     private String name;
@@ -22,7 +25,7 @@ public class Tag {
 
     @Override
     public String toString() {
-        return "Tag{" + "name=" + name + '}';
+        return "Role{" + "name=" + name + '}';
     }
     
 }

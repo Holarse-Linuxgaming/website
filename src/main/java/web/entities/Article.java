@@ -15,7 +15,7 @@ import web.entities.sub.TitleType;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Article {
+public class Article implements Entity {
 
     @XmlAttribute
     private Long uid;
@@ -38,10 +38,12 @@ public class Article {
         this.uid = uid;
     }
 
+    @Override
     public Long getUid() {
         return uid;
     }
 
+    @Override
     public void setUid(Long uid) {
         this.uid = uid;
     }

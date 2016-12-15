@@ -28,10 +28,8 @@ public class ArticleController {
     }
     
     @RequestMapping("{uid}")
-    String article(final @PathVariable("uid") long uid, final ModelMap map) {
+    String article(final @PathVariable("uid") long uid, final ModelMap map) throws Exception {
         logger.debug("Asking for article uid {}", uid);
-        map.addAttribute("hallo", "möööp");        
-        map.addAttribute("title", "Holarse - Spielen unter Linux");
         
         final Article a = as.findById(uid);
         logger.debug("{}", a);
@@ -40,5 +38,13 @@ public class ArticleController {
         
         return "article";
     }    
+    
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @RequestMapping("{uid}/reload")
+    void reloadArticle(final @PathVariable("uid") long uid, final ModelMap map) throws Exception {
+        logger.debug("Asking to reload article uid {}", uid);
+        
+        as.reloadFromDisk(uid);
+    }        
     
 }
