@@ -34,7 +34,7 @@ public abstract class AbstractService<E extends Entity> {
      * @throws IOException
      */
     @PostConstruct
-    public void initArticlesFromDisk() throws IOException {
+    public void initFromDisk() throws IOException {
         logger.debug("--------------------------------------------------------------------------------------------------");
         logger.debug("Loading " + getEntityClass().getCanonicalName() + " from " + getDirectory());
         index.purge();

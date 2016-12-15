@@ -9,42 +9,42 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import web.entities.Article;
-import web.services.ArticleService;
+import web.entities.User;
+import web.services.UserService;
 
 @Controller
-@RequestMapping(value = { "wiki", "articles" })
-public class ArticleController {
+@RequestMapping(value = "users")
+public class UserController {
     
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     
     @Autowired
-    private ArticleService as;
+    private UserService us;
 
     @RequestMapping("reload")
     @ResponseStatus(HttpStatus.ACCEPTED)
     void reload() throws Exception {
-        as.initFromDisk();
+        us.initFromDisk();
     }
     
     @RequestMapping("{uid}")
     String article(final @PathVariable("uid") long uid, final ModelMap map) throws Exception {
-        logger.debug("Asking for article uid {}", uid);
+        logger.debug("Asking for user uid {}", uid);
         
-        final Article a = as.findById(uid);
-        logger.debug("{}", a);
+        final User u = us.findById(uid);
+        logger.debug("{}", u);
         
-        map.addAttribute("article", a);
+        map.addAttribute("user", u);
         
-        return "article";
+        return "user";
     }    
     
     @ResponseStatus(HttpStatus.ACCEPTED)
     @RequestMapping("{uid}/reload")
     void reloadArticle(final @PathVariable("uid") long uid, final ModelMap map) throws Exception {
-        logger.debug("Asking to reload article uid {}", uid);
+        logger.debug("Asking to reload user uid {}", uid);
         
-        as.reloadFromDisk(uid);
+        us.reloadFromDisk(uid);
     }        
     
 }

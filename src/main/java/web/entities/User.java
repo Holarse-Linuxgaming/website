@@ -62,5 +62,12 @@ public class User implements Entity {
     public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
+
+    @Override
+    public String toString() {
+        return "User{" + "uid=" + uid + ", login=" + login + ", signature=" + signature + ", roles=" + roles + '}';
+    }
+    
+    
     
 }

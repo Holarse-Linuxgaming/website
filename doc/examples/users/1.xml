@@ -1,0 +1,11 @@
+<user uid="1">
+  <created>2010-09-09 12:12:12 UTC</created>
+  <login>comrad</login>
+  <locked>false</locked>
+  <signature>yeah linux</signature>
+  <password type="bcrypt">SFDGJKJFDKGJDFKLGJF</password>
+  <roles>
+    <role>ADMIN</role>
+    <role>MODERATOR</role>
+  </roles>
+</user>
