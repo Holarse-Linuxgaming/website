@@ -11,6 +11,10 @@ Kompilieren mit
 ```
 mvn clean package
 ```
+Der Server erwartet in »/tmp« noch einige Verzeichnisse:
+```
+mkdir -p /tmp/holarse/{users,articles}
+```
 Den Server starten mit:
 ```
 java -jar target/Holarse-1.0-SNAPSHOT.jar
@@ -19,4 +23,5 @@ java -jar target/Holarse-1.0-SNAPSHOT.jar
 ## Aufrufen
 http://localhost:9000
 
-Der Dienst erwartet die Dokumente unter /tmp/holarse/articles/, Beispieldateien liegen in doc/examples/articles.
+Der Dienst erwartet die Dokumente unter /tmp/holarse/articles/
+und /tmp/holarse/users/, Beispieldateien liegen in doc/examples/articles.
