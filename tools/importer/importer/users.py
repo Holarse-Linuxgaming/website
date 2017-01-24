@@ -3,11 +3,14 @@ import MySQLdb
 import xml.etree.ElementTree as ET
 import datetime
 import os
-import util
+import importer.util
 
 def do_import(db, base_dir):
     USERS_DIR=os.path.join(base_dir, 'users')
 
+    if not os.path.exists(USERS_DIR):
+        os.makedirs(USERS_DIR)
+    
     # get all users
     cur = db.cursor()
     cur.execute("select u.uid, u.name, u.pass, u.mail, us.signature, u.created, u.login, u.status, u.picture from users u left join users_signature us on us.uid = u.uid")
@@ -17,7 +20,14 @@ def do_import(db, base_dir):
     for u_result in cur.fetchall():
         count = count + 1
         uid = u_result[0]
-    
+
+        filename = "%s.xml" % uid
+        filepath = os.path.join(USERS_DIR, filename)
+
+        if os.path.exists(filepath):
+            print("skipping %s" % filename)
+            continue
+        
         # xml user
         xml_user = ET.Element('user')
         xml_user.set('uid', str(uid))
@@ -42,10 +52,9 @@ def do_import(db, base_dir):
 
             xml_role = ET.SubElement(xml_roles, 'role')
             xml_role.text = rolename
-            xml_roles.append(xml_role)
 
-        filename = "%s.xml" % uid
-        ET.ElementTree(xml_user).write(os.path.join(USERS_DIR, filename), "UTF-8", True)
+        ET.ElementTree(xml_user).write(filepath, "UTF-8", True)
+        ET.dump(xml_user)
 
     # field_view mit den zusatzattributen wie rechner, ort usw fehlen hier noch
     return count
