@@ -4,7 +4,7 @@ import MySQLdb
 import xml.etree.ElementTree as ET
 import os
 
-import importer.users, importer.articles, importer.util
+import importer.users, importer.articles, importer.news
 
 BASE_DIR=os.path.join('/tmp','import')
 ARTICLES_DIR=os.path.join(BASE_DIR, 'articles')
@@ -19,6 +19,8 @@ count = importer.articles.do_import(db, BASE_DIR)
 print("imported %d articles" % count)
 
 # get all news
+count = importer.news.do_import(db, BASE_DIR)
+print("imported %d news" % count)
 
 # get all forum posts
 

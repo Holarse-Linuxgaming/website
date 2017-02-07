@@ -3,7 +3,7 @@ import MySQLdb
 import xml.etree.ElementTree as ET
 import datetime
 import os
-import importer.util
+import importer.util as util
 
 def do_import(db, base_dir):
     USERS_DIR=os.path.join(base_dir, 'users')
