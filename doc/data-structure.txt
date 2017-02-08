@@ -31,15 +31,18 @@
   <shops>
     <shop type="steam">steam-url</shop>
     <shop type="gog">gog-url</shop>
+    <shop type="own">own-url</shop>
   </shops>
 
-  <images>
-    <image description="blabla">image-url</image>
-  </images>
+  <media>
+	<images>
+		<image description="blabla">image-url</image>
+	</images>
 
-  <videos>
-    <video type="youtube">yt-url</video>
-  </videos>
+	<videos>
+		<video type="youtube">yt-url</video>
+	</videos>
+  </media>
 
   <content type="plain|html|markdown|wiki">
   </content>
