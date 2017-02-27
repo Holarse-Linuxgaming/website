@@ -2,15 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head lang="de">
 
-        <title>Spring Framework Guru</title>
+        <title>Holarse - Spielen unter Linux - [[${article.mainTitle}]]</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     </head>
     <body th:inline="text">
         <div th:replace="fragments/header :: header"></div>
 
-        <h2>Fellow Spring Framework Gurus!!!</h2>
-        <p th:text="${hallo}"></p>
-        <p>[[${hallo}]]</p>
+        <h2>[[${article.mainTitle}]]</h2>
         <p>[[${article.uid}]]</p>
         
         <article th:data-uid="${article.uid}">
@@ -21,7 +19,9 @@
             
             <hr>
             
-            [[${article.content.content}]]
+            <p th:data-format="${article.content.type}">
+                [[${article.content.content}]]
+            </p>
         </article>
         
         <div th:replace="fragments/footer :: footer"></div>

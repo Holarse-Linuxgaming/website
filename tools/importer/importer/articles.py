@@ -33,10 +33,15 @@ def do_import(db, base_dir):
         xml_article.set('uid', uid)
         xml_article.set('revision', vid)
     
-        ET.SubElement(xml_article, 'title').text = a_result[4]
+        xml_titles = ET.SubElement(xml_article, 'titles')
+
+        xml_title = ET.SubElement(xml_titles, 'title')
+        xml_title.text = a_result[4]
+        xml_title.set('type', 'MAIN')
+
         xml_content = ET.SubElement(xml_article, 'content')
         xml_content.text = a_result[5]
-        xml_content.set('content-type', 'wiki')
+        xml_content.set('type', 'WIKI')
         ET.SubElement(xml_article, 'created_at').text = util.ts_to_utc(a_result[2])
 
         cur_tags = db.cursor()

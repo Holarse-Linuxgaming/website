@@ -9,7 +9,7 @@
         <div th:replace="fragments/header :: header"></div>
 
         <ul>
-            <li th:each="article : ${articles}"><a th:href="@{/wiki/{uid}(uid=${article.uid})}">[[${article.mainTitle}]]</a></li>
+            <li th:each="article : ${articles}"><a th:href="@{/wiki/{uid}(uid=${article.uid})}">[[${article}]]</a></li>
         </ul>
         
         <div th:replace="fragments/footer :: footer"></div>

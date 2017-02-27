@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 
 @XmlRootElement
@@ -14,15 +15,7 @@ public class Title {
     private TitleType type;
     @XmlValue
     private String title;
-
-    public Title() {
-    }
-
-    public Title(TitleType type, String title) {
-        this.type = type;
-        this.title = title;
-    }
-    
+   
     public TitleType getType() {
         return type;
     }

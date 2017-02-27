@@ -48,10 +48,6 @@ public class Article implements Entity {
         this.uid = uid;
     }
 
-    public void addNewTitle(final TitleType type, final String title) {
-        titles.add(new Title(type, title));
-    }
-
     public List<Title> getTitles() {
         return titles;
     }

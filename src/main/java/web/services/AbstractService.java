@@ -14,7 +14,6 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import web.entities.Entity;
 import web.exceptions.EntityNotFoundException;
 import web.services.backend.index.Index;
@@ -23,11 +22,10 @@ public abstract class AbstractService<E extends Entity> {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
-    private Index<E> index;
-
     abstract protected String getDirectory();
 
+    abstract protected Index<E> getIndex();
+    
     /**
      * Initiales laden vom Persistence-Backend anfordern
      *
@@ -37,16 +35,16 @@ public abstract class AbstractService<E extends Entity> {
     public void initFromDisk() throws IOException {
         logger.debug("--------------------------------------------------------------------------------------------------");
         logger.debug("Loading " + getEntityClass().getCanonicalName() + " from " + getDirectory());
-        index.purge();
+        getIndex().purge();
         Files.list(Paths.get(getDirectory())).filter(Files::isRegularFile).forEach(p -> {
             try {
-                loadFromDisk(p.toFile());
+                    loadFromDisk(p.toFile());
             } catch (EntityNotFoundException ex) {
                 logger.warn("File {} not found", p.toString(), ex);
             }
         });
         logger.debug("--------------------------------------------------------------------------------------------------");
-        logger.debug("Loaded: {} " + getEntityClass().getCanonicalName() + " " + index.getSize());
+        logger.debug("Loaded: {} " + getEntityClass().getCanonicalName() + " " + getIndex().getSize());
         logger.debug("--------------------------------------------------------------------------------------------------");
     }
 
@@ -67,7 +65,7 @@ public abstract class AbstractService<E extends Entity> {
      * @throws EntityNotFoundException
      */
     protected void loadFromDisk(final File file) throws EntityNotFoundException {
-        logger.debug("Trying to load file " + file.getAbsolutePath());
+        //logger.debug("Trying to load file " + file.getAbsolutePath());
 
         if (!file.exists()) {
             logger.warn("File {} was not found.", file.getAbsolutePath());
@@ -79,9 +77,9 @@ public abstract class AbstractService<E extends Entity> {
             final Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             final E entity = (E) jaxbUnmarshaller.unmarshal(file);
 
-            logger.debug("File loaded {}", entity);
+            //logger.debug("File loaded {}", entity);
 
-            index.put(entity);
+            getIndex().put(entity);
 
         } catch (JAXBException e) {
             logger.error("Error while loading xml file {}", file.getAbsoluteFile(), e);
@@ -103,7 +101,7 @@ public abstract class AbstractService<E extends Entity> {
             jaxbMarshaller.marshal(entity, targetFile);
 
             logger.debug("Writing entity {} ({}) complete", entity.getUid(), targetFile.getAbsolutePath());
-            index.delete(entity.getUid());
+            getIndex().delete(entity.getUid());
         } catch (JAXBException e) {
             logger.error("Error while writing xml file {}", targetFile.getAbsolutePath(), e);
         }
@@ -139,17 +137,17 @@ public abstract class AbstractService<E extends Entity> {
      * @throws EntityNotFoundException
      */
     public E findById(final Long uid) throws EntityNotFoundException {
-        if (index.exists(uid)) {
+        if (getIndex().exists(uid)) {
             logger.info("Found uid " + uid + " in index");
-            return index.get(uid);
+            return getIndex().get(uid);
         }
 
         // Versuchen das nochmal von der Platte zu laden
-        logger.debug("Trying to load uid " + uid + " from disk");
+        //logger.debug("Trying to load uid " + uid + " from disk");
         loadFromDisk(getFilename(uid)); // Exception falls nicht gefunden
 
         // Jetzt ists im Index
-        return index.get(uid);
+        return getIndex().get(uid);
     }
 
     /**
@@ -158,7 +156,7 @@ public abstract class AbstractService<E extends Entity> {
      * @return
      */
     public Collection<E> findAll() {
-        return index.getAll();
+        return getIndex().getAll();
     }
 
 }
