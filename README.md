@@ -3,6 +3,7 @@
 ## Requirements
 * OpenJDK 1.8
 * Verzeichnis unter /tmp/holarse/articles
+* Open Port 9000 (possibly nginx later)
 
 ## Installation
 Kompilieren mit
