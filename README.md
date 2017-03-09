@@ -1,7 +1,5 @@
 # HolaCMS 2017 (In Development)
 
-[![Build Status](https://travis-ci.org/Holarse-Linuxgaming/website.svg?branch=master)](https://travis-ci.org/Holarse-Linuxgaming/website)
-
 ## Requirements
 * OpenJDK 1.8
 * Verzeichnis unter /tmp/holarse/articles
