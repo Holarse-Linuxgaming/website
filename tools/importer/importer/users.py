@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import MySQLdb
+import pymysql
 import xml.etree.ElementTree as ET
 import datetime
 import os

@@ -1,27 +1,34 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-import MySQLdb
+import pymysql.cursors
 import xml.etree.ElementTree as ET
 import os
+import configparser
 
 import importer.users, importer.articles, importer.news
 
-BASE_DIR=os.path.join('/tmp','import')
+# read config
+config = configparser.ConfigParser()
+config.read(os.path.join("config.ini"))
+
+BASE_DIR=config["export"]["base_dir"]
 ARTICLES_DIR=os.path.join(BASE_DIR, 'articles')
 
-db = MySQLdb.connect(host="localhost", user="export", passwd="export", db="holarse", charset='utf8')
+db = pymysql.connect(unix_socket=config["database"]["unix_socket"], database=config["database"]["db"], user=config["database"]["user"], passwd=config["database"]["passwd"])
 
-count = importer.users.do_import(db, BASE_DIR)
-print("imported %d users" % count)
+count_u = importer.users.do_import(db, BASE_DIR)
+print("imported %d users" % count_u)
     
 # get all articles
-count = importer.articles.do_import(db, BASE_DIR)
-print("imported %d articles" % count)
+count_a = importer.articles.do_import(db, BASE_DIR)
+print("imported %d articles" % count_a)
 
 # get all news
-count = importer.news.do_import(db, BASE_DIR)
-print("imported %d news" % count)
+count_n = importer.news.do_import(db, BASE_DIR)
+print("imported %d news" % count_n)
 
 # get all forum posts
 
 db.close()
+
+print("export completed with %d objects to %s" % (count_u + count_a + count_n, BASE_DIR))
