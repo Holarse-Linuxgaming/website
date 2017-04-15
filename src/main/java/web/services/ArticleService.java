@@ -10,7 +10,7 @@ import web.services.backend.index.Index;
 @Service
 public class ArticleService extends AbstractService<Article> {
 
-    @Value("${holarse.directories.articles}")
+    @Value("${holarse.directories.base}/articles")
     private String directory;
 
     @Autowired

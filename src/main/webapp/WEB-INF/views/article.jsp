@@ -1,0 +1,1 @@
+ich bin ein artikel mit dem Titel ${article.mainTitle}.

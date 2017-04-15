@@ -13,5 +13,5 @@ public class HolarseWebApp {
     public static void main(String[] args) throws Exception {
         SpringApplication.run(HolarseWebApp.class, args);
     }
-    
+
 }

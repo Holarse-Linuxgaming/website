@@ -10,7 +10,7 @@ import web.services.backend.index.Index;
 @Service
 public class UserService extends AbstractService<User> {
 
-    @Value("${holarse.directories.users}")
+    @Value("${holarse.directories.base}/users")
     private String directory;
 
     @Autowired
