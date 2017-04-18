@@ -1,5 +1,6 @@
 package web.entities.sub;
 
+import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -9,7 +10,7 @@ import javax.xml.bind.annotation.XmlValue;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Title {
+public class Title implements Serializable  {
  
     @XmlAttribute
     private TitleType type;

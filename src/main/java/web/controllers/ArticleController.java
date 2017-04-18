@@ -20,31 +20,17 @@ public class ArticleController {
     
     @Autowired
     private ArticleService as;
-
-    @RequestMapping("reload")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    void reload() throws Exception {
-        as.initFromDisk();
-    }
     
     @RequestMapping("{uid}")
     String article(final @PathVariable("uid") long uid, final ModelMap map) throws Exception {
         logger.debug("Asking for article uid {}", uid);
         
-        final Article a = as.findById(uid);
+        final Article a = as.get(uid);
         logger.debug("{}", a);
         
         map.addAttribute("article", a);
         
         return "article";
-    }    
-    
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    @RequestMapping("{uid}/reload")
-    void reloadArticle(final @PathVariable("uid") long uid, final ModelMap map) throws Exception {
-        logger.debug("Asking to reload article uid {}", uid);
-        
-        as.reloadFromDisk(uid);
-    }        
+    }          
     
 }

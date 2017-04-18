@@ -1,5 +1,6 @@
 package web.controllers;
 
+import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class WelcomeController {
     String home(final ModelMap map) {
         map.addAttribute("title", "Holarse - Spielen unter Linux");
 
-        map.addAttribute("articles", as.findAll());
+        map.addAttribute("articles", new ArrayList<>());
         
         return "index";
     }

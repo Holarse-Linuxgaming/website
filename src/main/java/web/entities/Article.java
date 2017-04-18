@@ -1,5 +1,6 @@
 package web.entities;
 
+import java.io.Serializable;
 import web.entities.sub.Tag;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import web.entities.sub.TitleType;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Article implements Entity {
+public class Article implements Entity, Serializable {
 
     @XmlAttribute
     private Long uid;
@@ -52,6 +53,10 @@ public class Article implements Entity {
         return titles;
     }
     
+    /**
+     * TODO Das muss z.B. in einen Decorator verschoben werden.
+     * @return 
+     */
     public String getMainTitle() {
         return getTitles().stream().filter(t -> t.getType().equals(TitleType.MAIN)).findFirst().get().getTitle();
     }

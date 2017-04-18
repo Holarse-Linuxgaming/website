@@ -1,30 +1,22 @@
 package web.services;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import web.entities.Article;
-import web.services.backend.index.Index;
+import web.services.backend.DataService;
 
 @Service
-public class ArticleService extends AbstractService<Article> {
+public class ArticleService {
 
-    @Value("${holarse.directories.base}/articles")
-    private String directory;
-
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+   
     @Autowired
-    @Qualifier("articleIndex")
-    private Index<Article> index;
+    private DataService ds;
     
-    @Override
-    protected String getDirectory() {
-        return directory;
+    public Article get(final Long uid) throws Exception {
+        return ds.getArticle(uid);
     }
-    
-    @Override
-    protected Index<Article> getIndex() {
-        return index;
-    }
-    
+
 }
