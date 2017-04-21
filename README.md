@@ -12,7 +12,7 @@ Zunächst benötigt der Server die Daten. Dazu ist eine Kopie der Holarse-Datenb
 
 Für den Export benötigt man noch ein weiteres Python3-Paket:
 
-	sudo zypper in pymysql
+	sudo zypper in python3-PyMySQL
 
 Dann kann man die Daten aus der Datenbank für den Import vorbereiten mit:
 
