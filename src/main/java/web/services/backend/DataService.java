@@ -1,5 +1,6 @@
 package web.services.backend;
 
+import java.util.Collection;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import javax.cache.CacheManager;
 import javax.cache.annotation.CacheDefaults;
@@ -19,23 +20,14 @@ import web.services.backend.file.PersistenceBackend;
 public class DataService {
 
     @Autowired
-    private PersistenceBackend<? extends Entity> pb;
-    
-//    //create cache
-//    @Component
-//    public static class ArticleCachingSetup implements JCacheManagerCustomizer {
-//        @Override
-//        public void customize(CacheManager cacheManager) {
-//            cacheManager.createCache("article", new MutableConfiguration<>()
-//                    .setExpiryPolicyFactory(TouchedExpiryPolicy.factoryOf(new Duration(SECONDS, 10)))
-//                    .setStoreByValue(false)
-//                    .setStatisticsEnabled(true));
-//        }
-//    }    
-    
+    private PersistenceBackend<Article> pb;
     
     public Article getArticle(final Long uid) throws Exception {
         return pb.read(uid, Article.class);
+    }
+    
+    public Collection<Article> getAllArticles() throws Exception {
+        return pb.getAll(Article.class);
     }
     
     public User getUser(final Long uid) throws Exception {

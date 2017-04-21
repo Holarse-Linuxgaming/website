@@ -18,10 +18,10 @@ public class WelcomeController {
     private ArticleService as;
     
     @RequestMapping("/")
-    String home(final ModelMap map) {
+    String home(final ModelMap map) throws Exception {
         map.addAttribute("title", "Holarse - Spielen unter Linux");
 
-        map.addAttribute("articles", new ArrayList<>());
+        map.addAttribute("articles", as.getAll());
         
         return "index";
     }
