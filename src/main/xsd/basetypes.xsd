@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+           xmlns:h="http://holarse.de/entity/sub/"    
+           targetNamespace="http://holarse.de/entity/sub/" 
+           version="1.0">
+
+    <xs:simpleType name="titletype">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="MAIN" />
+            <xs:enumeration value="ALTERNATIVE" />
+        </xs:restriction>
+    </xs:simpleType>          
+    
+    <xs:complexType name="title">
+        <xs:sequence>
+            <xs:element name="title" type="xs:string" />
+            <xs:element name="titleType" type="h:titletype" />
+        </xs:sequence>
+    </xs:complexType>      
+    
+</xs:schema> 
+
