@@ -36,7 +36,7 @@ def do_import(db, base_dir):
         ET.SubElement(xml_news, 'title').text = a_result[4]
         xml_content = ET.SubElement(xml_news, 'content')
         xml_content.text = a_result[5]
-        xml_content.set('content-type', 'wiki')
+        xml_content.set('type', 'WIKI')
         ET.SubElement(xml_news, 'created_at').text = util.ts_to_utc(a_result[2])
 
         ET.ElementTree(xml_news).write(filepath, "UTF-8", True)

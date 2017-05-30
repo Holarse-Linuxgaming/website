@@ -68,5 +68,36 @@
         </xs:sequence>
     </xs:group>     
     
+    <xs:simpleType name="passwordtype">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="MD5" />
+            <xs:enumeration value="BCRYPT" />
+        </xs:restriction>
+    </xs:simpleType>     
+    
+    <xs:complexType name="password">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="type" type="h:passwordtype" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>  
+    
+    <xs:complexType name="state">
+        <xs:sequence>
+            <xs:element name="locked" type="xs:boolean" default="false" />
+            <xs:element name="commentable" type="xs:boolean" default="true" />
+            <xs:element name="draft" type="xs:boolean" default="false" />
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="revision">
+        <xs:sequence>
+            <xs:element name="revid" type="xs:long" />
+            <xs:element name="changelog" type="xs:string" minOccurs="0" />
+            <xs:element name="author" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>    
+    
 </xs:schema> 
 
