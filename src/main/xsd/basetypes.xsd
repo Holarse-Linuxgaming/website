@@ -99,5 +99,16 @@
         </xs:sequence>
     </xs:complexType>    
     
+    <xs:complexType name="node" abstract="true">
+        <xs:sequence>
+            <xs:element name="created" type="xs:dateTime" />            
+            <xs:element name="author" type="xs:string" />
+            <xs:element name="revision" type="h:revision" />            
+            <xs:element name="state" type="h:state" />                
+            <xs:element name="content" type="h:content" />
+        </xs:sequence>
+        <xs:attribute name="uid" type="xs:long" />        
+    </xs:complexType>      
+    
 </xs:schema> 
 
