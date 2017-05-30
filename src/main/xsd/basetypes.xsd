@@ -9,7 +9,7 @@
             <xs:enumeration value="MAIN" />
             <xs:enumeration value="ALTERNATIVE" />
         </xs:restriction>
-    </xs:simpleType>          
+    </xs:simpleType>     
     
     <xs:complexType name="title">
         <xs:sequence>
@@ -17,6 +17,56 @@
             <xs:element name="titleType" type="h:titletype" />
         </xs:sequence>
     </xs:complexType>      
+    
+    <xs:group name="titles">
+        <xs:sequence>
+            <xs:element name="titles" type="h:title" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:group>    
+
+    <xs:complexType name="tag">
+        <xs:simpleContent>
+            <xs:extension base="xs:string" />
+        </xs:simpleContent>
+    </xs:complexType>    
+    
+    <xs:group name="tags">
+        <xs:sequence>
+            <xs:element name="tags" type="h:tag" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:group>        
+
+    <xs:simpleType name="contenttype">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="PLAIN" />
+            <xs:enumeration value="MARKDOWN" />
+            <xs:enumeration value="WIKI" />
+        </xs:restriction>
+    </xs:simpleType>             
+
+    <xs:complexType name="content">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="type" type="h:contenttype" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    
+    <xs:simpleType name="role">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="ANONYMOUS" />
+            <xs:enumeration value="USER" />
+            <xs:enumeration value="ADMIN" />
+            <xs:enumeration value="MOD" />
+            <xs:enumeration value="REPORTER" />
+        </xs:restriction>
+    </xs:simpleType>    
+    
+    <xs:group name="roles">
+        <xs:sequence>
+            <xs:element name="roles" type="h:role" minOccurs="1" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:group>     
     
 </xs:schema> 
 

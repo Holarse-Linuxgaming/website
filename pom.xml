@@ -158,6 +158,9 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <locale>en</locale>
+                </configuration>                
             </plugin>            
         </plugins>
     </build>
