@@ -14,7 +14,7 @@ import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "de.holarse.web")
+@ComponentScan(basePackages = "de.holarse")
 @PropertySource("classpath:application.properties")
 public class AppConfig extends WebMvcConfigurerAdapter{
  
@@ -53,6 +53,6 @@ public class AppConfig extends WebMvcConfigurerAdapter{
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
-    }    
+    }   
      
 }
