@@ -10,9 +10,9 @@
     <xs:element name="user">
         <xs:complexType>
             <xs:sequence>
+                <xs:element name="login" type="xs:string" />
                 <xs:element name="created" type="xs:dateTime" />
                 <xs:element name="signature" type="xs:string" minOccurs="0" />
-                <xs:element name="login" type="xs:string" />
                 <xs:element name="email" type="xs:string" />
                 <xs:element name="locked" type="xs:boolean" default="false" />
                 <xs:element name="avatar" type="xs:string" minOccurs="0" />
