@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component
 @Component
 class Example {
 
-  def sayHello():String = "Hello World"
+  def sayHello() = "Hello World"
 
 
 }

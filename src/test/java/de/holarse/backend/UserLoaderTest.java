@@ -28,7 +28,7 @@ public class UserLoaderTest {
 
     @Test
     public void loadUserFile() {
-        File f = new File("src/test/data/users/1.xml");
+        File f = new File("src/test/resources/users/1.xml");
         try {
             User u = userLoader.load(f);
             assertEquals("comrad", u.getLogin());
