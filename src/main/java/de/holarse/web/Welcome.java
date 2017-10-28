@@ -14,12 +14,16 @@ public class Welcome {
 
     @Autowired
     UserLoader userLoader;
+
+    @Autowired
+    Example ex;
     
     final Logger log = LoggerFactory.getLogger(Welcome.class);
     
     @RequestMapping({"", "index.html" })
     public String index(final ModelMap map) {
         log.debug("I am here!");
+        log.debug(ex.sayHello());
         map.addAttribute("welcomeMessage", "world");
         map.addAttribute("users", userLoader.getUsers());
         return "welcome/index";
