@@ -2,14 +2,11 @@ package de.holarse.backend;
 
 import de.holarse.entity.User;
 import java.io.File;
-import java.io.FilenameFilter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +21,7 @@ public class UserLoader {
     @Value("${holarse.document.path}")
     private String directory;
 
-    private final List<User> users = new ArrayList<>(3000);
+    private final List<User> users = new ArrayList<>(1750);
 
     public List<User> getUsers() {
         return users;
@@ -32,17 +29,21 @@ public class UserLoader {
 
     @PostConstruct
     public void loadFromFileSystem() {
-        log.debug("loading users");
-        final File[] userFiles = new File(directory, "users").listFiles((File dir, String name) -> name.endsWith(".xml"));
+        final File usersDirectory = new File(directory, "users");
+        log.debug("loading users from " + usersDirectory);
 
-        for (final File f : userFiles) {
+        final long start = System.currentTimeMillis();
+        users.clear();
+        for (File userFile: usersDirectory.listFiles((dir, name) -> name.endsWith(".xml"))) {
             try {
-                users.add(load(f));
+                users.add(load(userFile));
             } catch (JAXBException je) {
-                log.error("Could not read user file " + f.getAbsolutePath(), je);
+                log.error("Could not read backend file " + userFile, je);
             }
         }
 
+        final long duration = System.currentTimeMillis() - start;
+        log.info("Loaded " + users.size() + " users after " + duration + " ms.");
     }
 
     protected User load(final File file) throws JAXBException {
@@ -51,12 +52,5 @@ public class UserLoader {
 
         return (User) um.unmarshal(file);
     }
-    
-    protected void save(final User user, final String name) throws JAXBException, IOException {
-        final JAXBContext jaxbContext = JAXBContext.newInstance(User.class);
-        final Marshaller m = jaxbContext.createMarshaller();
-        
-        m.marshal(user, File.createTempFile("user", ".xml"));
-    }
-    
+
 }

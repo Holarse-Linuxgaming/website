@@ -1,9 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<h1>Hello World from ${welcomeMessage}</h1>
-
-Available Users:
-<ul>
-    <c:forEach items="${users}" var="user">
-        <li>${user.login}</li>
-    </c:forEach>
-</ul>
+<main>
+  <div class="container">
+  See a list of all users: <a href="users/">All users</a>.
+  </div>
+</main>
