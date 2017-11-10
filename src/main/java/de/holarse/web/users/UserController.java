@@ -16,14 +16,14 @@ public class UserController {
 
     @RequestMapping("/")
     public String index(ModelMap map) {
-        map.addAttribute("users", userLoader.getUsers());
+        map.addAttribute("users", userLoader.getAll());
 
         return "users/index";
     }
 
     @RequestMapping("/{userId}")
     public String show(@PathVariable("userId") Long userId, ModelMap map) {
-        map.addAttribute("user", userLoader.getUsers().stream().filter(u -> u.getUid().equals(userId)).findFirst().orElseThrow(IllegalArgumentException::new));
+        map.addAttribute("user", userLoader.getAll().stream().filter(u -> u.getUid().equals(userId)).findFirst().orElseThrow(IllegalArgumentException::new));
         return "users/show";
     }
 

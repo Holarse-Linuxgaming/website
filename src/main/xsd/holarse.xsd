@@ -48,6 +48,18 @@
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
-    </xs:element>        
+    </xs:element>
+    
+    <xs:element name="comment">
+        <xs:complexType>    
+            <xs:complexContent>
+                <xs:extension base="h:node">
+                    <xs:sequence>
+                        <xs:element name="attachted-to" type="xs:long" />
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>    
 
-</xs:schema> 
+</xs:schema>          

@@ -8,7 +8,7 @@ import importer.util as util
 def do_import(db, base_dir):
     USERS_DIR=os.path.join(base_dir, 'users')
 
-    ET.register_namespace('hlrs', "http://holarse.de/entity/")
+    ET.register_namespace('holarse', "http://holarse.de/entity/")
 
     if not os.path.exists(USERS_DIR):
         os.makedirs(USERS_DIR)
