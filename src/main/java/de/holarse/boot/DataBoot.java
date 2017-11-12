@@ -5,7 +5,10 @@
  */
 package de.holarse.boot;
 
+import de.holarse.backend.ArticleLoader;
 import de.holarse.backend.CommentLoader;
+import de.holarse.backend.GenericLoader;
+import de.holarse.backend.NewsLoader;
 import de.holarse.backend.UserLoader;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +19,14 @@ public class DataBoot {
     
     @Autowired UserLoader ul;
     @Autowired CommentLoader cl;
+    @Autowired ArticleLoader al;
+    @Autowired NewsLoader nl;
     
     @PostConstruct
     public void loadData() {
         ul.loadFromFileSystem();
+        al.loadFromFileSystem();
+        nl.loadFromFileSystem();
         cl.loadFromFileSystem();
     }
     

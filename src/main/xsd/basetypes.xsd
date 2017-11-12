@@ -57,7 +57,7 @@
             <xs:enumeration value="ANONYMOUS" />
             <xs:enumeration value="USER" />
             <xs:enumeration value="ADMIN" />
-            <xs:enumeration value="MOD" />
+            <xs:enumeration value="MODERATOR" />
             <xs:enumeration value="REPORTER" />
         </xs:restriction>
     </xs:simpleType>    
@@ -71,6 +71,7 @@
     <xs:simpleType name="passwordtype">
         <xs:restriction base="xs:string">
             <xs:enumeration value="MD5" />
+            <xs:enumeration value="SHA512" />
             <xs:enumeration value="BCRYPT" />
         </xs:restriction>
     </xs:simpleType>     
