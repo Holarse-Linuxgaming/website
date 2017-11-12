@@ -91,6 +91,7 @@
             <xs:element name="draft" type="xs:boolean" default="false" />
             <xs:element name="published" type="xs:boolean" default="true" />
             <xs:element name="deleted" type="xs:boolean" default="false" />
+            <xs:element name="archived" type="xs:boolean" default="false" />
         </xs:sequence>
     </xs:complexType>
     
