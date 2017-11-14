@@ -1,4 +1,4 @@
-package de.holarse.backend;
+package de.holarse.backend.xml;
 
 import de.holarse.entity.User;
 import java.io.File;

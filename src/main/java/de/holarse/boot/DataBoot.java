@@ -5,10 +5,11 @@
  */
 package de.holarse.boot;
 
-import de.holarse.backend.ArticleLoader;
-import de.holarse.backend.CommentLoader;
-import de.holarse.backend.NewsLoader;
-import de.holarse.backend.UserLoader;
+import de.holarse.backend.cache.UserCacheBuilder;
+import de.holarse.backend.xml.ArticleLoader;
+import de.holarse.backend.xml.CommentLoader;
+import de.holarse.backend.xml.NewsLoader;
+import de.holarse.backend.xml.UserLoader;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,12 +22,16 @@ public class DataBoot {
     @Autowired ArticleLoader al;
     @Autowired NewsLoader nl;
     
+    @Autowired UserCacheBuilder ucb;
+    
     @PostConstruct
     public void loadData() {
         ul.loadFromFileSystem();
         al.loadFromFileSystem();
         nl.loadFromFileSystem();
         cl.loadFromFileSystem();
+        
+        ucb.buildCache();
     }
     
 }

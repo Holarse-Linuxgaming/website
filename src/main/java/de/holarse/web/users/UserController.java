@@ -1,6 +1,6 @@
 package de.holarse.web.users;
 
-import de.holarse.backend.UserLoader;
+import de.holarse.backend.xml.UserLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

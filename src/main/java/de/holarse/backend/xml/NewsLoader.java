@@ -1,6 +1,5 @@
-package de.holarse.backend;
+package de.holarse.backend.xml;
 
-import de.holarse.entity.Article;
 import de.holarse.entity.Comment;
 import de.holarse.entity.News;
 import java.io.File;
@@ -15,20 +14,20 @@ import org.springframework.stereotype.Component;
  * @author comrad
  */
 @Component
-public class ArticleLoader extends GenericLoader<Article> {
+public class NewsLoader extends GenericLoader<News> {
 
-    private final static transient Logger log = LoggerFactory.getLogger(ArticleLoader.class);
+    private final static transient Logger log = LoggerFactory.getLogger(NewsLoader.class);
 
     @Value("${holarse.document.path}")
     private String directory;
 
     @Override
-    protected Class<Article> getEntityClass() {
-        return Article.class;
+    protected Class<News> getEntityClass() {
+        return News.class;
     }
 
     @Override
     protected File getEntityDirectory() {
-        return new File(directory, "articles");
+        return new File(directory, "news");
     }
 }

@@ -1,4 +1,4 @@
-package de.holarse.backend;
+package de.holarse.backend.xml;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -36,7 +36,11 @@ public abstract class GenericLoader<E> {
         log.debug("loading entities from " + entityDirectory);
 
         final long start = System.currentTimeMillis();
-        loadFiles(entityDirectory, entities);
+        if (entityDirectory.exists() && entityDirectory.isDirectory() && entityDirectory.canRead()) {        
+            loadFiles(entityDirectory, entities);
+        } else {
+            log.warn("Entity Directory " + entityDirectory + " cannot be read");
+        }
         final long duration = System.currentTimeMillis() - start;
         log.info("Loaded " + entities.size() + " entities after " + duration + " ms with " + this.getClass().getSimpleName());
     }
@@ -48,8 +52,10 @@ public abstract class GenericLoader<E> {
      * @param target 
      */
     protected void loadFiles(final File entityDirectory, final Collection<E> target) {
+        log.debug("LOAD FILES FROM " + entityDirectory);
         target.clear();
         for (File entityFile: entityDirectory.listFiles((dir, name) -> name.endsWith(".xml"))) {
+            log.debug("Loading " + entityFile);
             try {
                 target.add(load(entityFile));
             } catch (JAXBException je) {

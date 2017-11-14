@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.holarse.backend;
+package de.holarse.backend.xml;
 
+import de.holarse.backend.xml.CommentLoader;
 import de.holarse.entity.Comment;
 import java.io.File;
 import org.junit.Before;
