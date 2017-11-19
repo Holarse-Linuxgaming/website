@@ -37,7 +37,7 @@ public class PersistenceJPAConfig {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
-        dataSource.setUrl("jdbc:hsqldb:file:/tmp/holarse-cache/holarse");
+        dataSource.setUrl("jdbc:hsqldb:file:/tmp/holarse-cache/holarse;shutdown=true;ifexists=true");
         dataSource.setUsername("sa");
         dataSource.setPassword("");
         return dataSource;
@@ -58,8 +58,9 @@ public class PersistenceJPAConfig {
 
     Properties additionalProperties() {
         Properties properties = new Properties();
-        properties.setProperty("eclipselink.ddl-generation", "create-table");
-        properties.setProperty("eclipselink.ddl-generation.output-mode", "database");
+        properties.setProperty("eclipselink.target-database", "org.eclipse.persistence.platform.database.H2Platform");
+        properties.setProperty("javax.persistence.schema-generation.database.action", "create");
+        properties.setProperty("javax.persistence.schema-generation.create-source", "metadata");
         properties.setProperty("eclipselink.weaving", "false");
         return properties;
     }

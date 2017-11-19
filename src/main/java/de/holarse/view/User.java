@@ -13,10 +13,10 @@ import javax.persistence.Table;
 public class User implements Serializable {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long uid;
     
-    @Column(unique = true)
+    @Column(unique = true, length = 255)
     private String login;
 
     public Long getUid() {
