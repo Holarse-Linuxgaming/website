@@ -1,9 +1,10 @@
-package de.holarse.backend.cache;
+package de.holarse.backend.decorator;
 
+import de.holarse.backend.repository.UserRepository;
 import de.holarse.backend.xml.UserLoader;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import de.holarse.view.User;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,18 +17,14 @@ public class UserCacheBuilder implements CacheBuilder {
     
     @Autowired
     private UserLoader ul;
-
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("holarse-pu");
-    EntityManager eman = emf.createEntityManager();
+    
+    @Autowired
+    private UserRepository ur;
 
     @Override
     public void buildCache() {
-        eman.getTransaction().begin();
-        ul.getAll().forEach((u) -> {
-            log.debug("Saving " + u);
-            eman.persist(migrate(u));
-        });
-        eman.getTransaction().commit();
+        final List<User> users = ul.getAll().stream().map(u -> migrate(u)).collect(Collectors.toList());
+        ur.saveAll(users);
     }
 
     protected de.holarse.view.User migrate(final de.holarse.entity.User user) {

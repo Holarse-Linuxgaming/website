@@ -14,16 +14,16 @@ public class User implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long uid;
+    private Long uid;
     
     @Column(unique = true)
     private String login;
 
-    public long getUid() {
+    public Long getUid() {
         return uid;
     }
 
-    public void setUid(long uid) {
+    public void setUid(Long uid) {
         this.uid = uid;
     }
 

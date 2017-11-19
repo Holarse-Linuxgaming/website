@@ -11,7 +11,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.version>4.3.8.RELEASE</spring.version>
+        <spring.version>5.0.1.RELEASE</spring.version>
         <apache.tiles.version>3.0.7</apache.tiles.version>
         <slf4jVersion>1.6.1</slf4jVersion>
         <apache.camel.version>2.19.0</apache.camel.version>

@@ -1,9 +1,7 @@
 package de.holarse.backend.xml;
 
-import de.holarse.entity.Comment;
 import de.holarse.entity.News;
 import java.io.File;
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

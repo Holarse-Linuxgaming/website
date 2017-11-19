@@ -5,7 +5,7 @@
  */
 package de.holarse.boot;
 
-import de.holarse.backend.cache.UserCacheBuilder;
+import de.holarse.backend.decorator.UserCacheBuilder;
 import de.holarse.backend.xml.ArticleLoader;
 import de.holarse.backend.xml.CommentLoader;
 import de.holarse.backend.xml.NewsLoader;
