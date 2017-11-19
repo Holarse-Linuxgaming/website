@@ -1,8 +1,6 @@
 package de.holarse.backend.cache;
 
 import de.holarse.backend.xml.UserLoader;
-import de.holarse.entity.User;
-import de.holarse.view.UserView;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -32,8 +30,8 @@ public class UserCacheBuilder implements CacheBuilder {
         eman.getTransaction().commit();
     }
 
-    protected UserView migrate(final User user) {
-        final UserView uv = new UserView();
+    protected de.holarse.view.User migrate(final de.holarse.entity.User user) {
+        final de.holarse.view.User uv = new de.holarse.view.User();
         uv.setUid(user.getUid());
         uv.setLogin(user.getLogin());
 

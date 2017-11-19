@@ -114,7 +114,13 @@
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
             <version>2.4.0</version>
-        </dependency>        
+        </dependency>  
+        
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>2.0.1.RELEASE</version>
+        </dependency>                   
                 
         <!-- Apache Tiles -->
         <dependency>
@@ -214,7 +220,7 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
-                     <compilerArgument>-Xlint:unchecked</compilerArgument>
+                    <compilerArgument>-Xlint:unchecked</compilerArgument>
                 </configuration>
             </plugin>
             <plugin>
