@@ -14,15 +14,10 @@
         <spring.version>5.0.1.RELEASE</spring.version>
         <apache.tiles.version>3.0.7</apache.tiles.version>
         <slf4jVersion>1.6.1</slf4jVersion>
-        <apache.camel.version>2.19.0</apache.camel.version>
+        <!-- <apache.camel.version>2.19.0</apache.camel.version> -->
     </properties>
     
     <dependencies>
-        <dependency>
-            <groupId>org.scala-lang</groupId>
-            <artifactId>scala-library</artifactId>
-            <version>2.12.4</version>
-        </dependency>        
         <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -167,7 +162,7 @@
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
             <version>1.7.25</version>
-        </dependency>        
+        </dependency>  
         
         <!--         Apache Camel 
         <dependency>
@@ -188,30 +183,7 @@
     </dependencies>
 
     <build>
-        <plugins>
-            <!-- This plugin compiles Scala files -->
-            <plugin>
-                <groupId>net.alchim31.maven</groupId>
-                <artifactId>scala-maven-plugin</artifactId>
-                <version>3.3.1</version>
-                <executions>
-                    <execution>
-                        <id>scala-compile-first</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>add-source</goal>
-                            <goal>compile</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>scala-test-compile</id>
-                        <phase>process-test-resources</phase>
-                        <goals>
-                            <goal>testCompile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>            
+        <plugins> 
             <!-- Java Compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
