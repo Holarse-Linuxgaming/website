@@ -9,8 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="users")
-public class User implements Serializable, View {
+@Table(name="articles")
+public class Article implements Serializable, View {
     
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -18,8 +18,8 @@ public class User implements Serializable, View {
     
     private Long uid;
     
-    @Column(unique = true, length = 255)
-    private String login;
+    @Column(length = 1024)
+    private String title;
 
     public Long getId() {
         return id;
@@ -37,17 +37,17 @@ public class User implements Serializable, View {
         this.uid = uid;
     }
 
-    public String getLogin() {
-        return login;
+    public String getTitle() {
+        return title;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", uid=" + uid + ", login=" + login + '}';
+        return "Article{" + "id=" + id + ", uid=" + uid + ", title=" + title + '}';
     }
-    
+
 }

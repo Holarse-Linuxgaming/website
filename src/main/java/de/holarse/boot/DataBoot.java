@@ -5,6 +5,7 @@
  */
 package de.holarse.boot;
 
+import de.holarse.backend.decorator.ArticleCacheBuilder;
 import de.holarse.backend.decorator.UserCacheBuilder;
 import de.holarse.backend.xml.ArticleLoader;
 import de.holarse.backend.xml.CommentLoader;
@@ -23,6 +24,7 @@ public class DataBoot {
     @Autowired NewsLoader nl;
     
     @Autowired UserCacheBuilder ucb;
+    @Autowired ArticleCacheBuilder acb;
     
     @PostConstruct
     public void loadData() {
@@ -31,6 +33,7 @@ public class DataBoot {
         nl.loadFromFileSystem();
         cl.loadFromFileSystem();
         
+        ucb.buildCache();
         ucb.buildCache();
     }
     

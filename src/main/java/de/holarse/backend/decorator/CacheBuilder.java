@@ -1,16 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package de.holarse.backend.decorator;
 
 /**
  *
  * @author britter
+ * @param <E> Entity (XML)
+ * @param <V> View (DB)
  */
-public interface CacheBuilder {
+public interface CacheBuilder<E, V> {
     
     void buildCache();
-       
+    V migrate(E e);
+    
 }
