@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bindings xmlns="http://java.sun.com/xml/ns/jaxb"
+                xmlns:xsi="http://www.w3.org/2000/10/XMLSchema-instance"
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+                xsi:schemaLocation="http://java.sun.com/xml/ns/jaxb http://java.sun.com/xml/ns/jaxb/bindingschema_2_0.xsd
+                                    http://www.w3.org/2001/XMLSchema http://www.w3.org/2001/XMLSchema.xsd"
+                version="2.1">
+    <bindings schemaLocation="../xsd/holarse.xsd">
+        <schemaBindings>
+            <package name="de.holarse.entity" />
+        </schemaBindings>
+        <globalBindings>
+            <!-- <javaType name="java.util.Date" xmlType="xs:date" parseMethod="ch.frankel.blog.jaxb.JaxbConverter.parseDate" printMethod="ch.frankel.blog.jaxb.JaxbConverter.printDate" /> -->
+            <serializable uid="100" />
+            <!-- <xjc:superClass name="ch.frankel.blog.jaxb.AbstractSuperClass" /> -->
+        </globalBindings>
+    </bindings>
+</bindings>

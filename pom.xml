@@ -229,7 +229,7 @@
                 <configuration>
                     <locale>en</locale>
                 </configuration>                
-            </plugin>            
+            </plugin>
         </plugins>
     </build>
 
