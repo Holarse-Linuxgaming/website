@@ -1,6 +1,6 @@
 package de.holarse.backend.xml;
 
-import de.holarse.entity.News;
+import de.holarse.entity.importer.News;
 import java.io.File;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

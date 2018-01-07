@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserCacheBuilder implements CacheBuilder<de.holarse.entity.User, de.holarse.view.User> {
+public class UserCacheBuilder implements CacheBuilder<de.holarse.entity.importer.User, de.holarse.view.User> {
 
     Logger log = LoggerFactory.getLogger(UserCacheBuilder.class);
     
@@ -28,7 +28,7 @@ public class UserCacheBuilder implements CacheBuilder<de.holarse.entity.User, de
     }
 
     @Override
-    public de.holarse.view.User migrate(final de.holarse.entity.User user) {
+    public de.holarse.view.User migrate(final de.holarse.entity.importer.User user) {
         final de.holarse.view.User uv = new de.holarse.view.User();
         uv.setUid(user.getUid());
         uv.setLogin(user.getLogin());

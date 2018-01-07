@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-           xmlns:h="http://holarse.de/entity/sub/"  
-           xmlns:m="http://holarse.de/entity/"       
-           targetNamespace="http://holarse.de/entity/" 
+           xmlns:h="http://holarse.de/entity/importer/sub/"  
+           xmlns:m="http://holarse.de/entity/importer/"       
+           targetNamespace="http://holarse.de/entity/importer/" 
            version="1.0">
 
-    <xs:import namespace="http://holarse.de/entity/sub/" schemaLocation="basetypes.xsd"/>
+    <xs:import namespace="http://holarse.de/entity/importer/sub/" schemaLocation="basetypes.xsd"/>
 
     <xs:element name="user">
         <xs:complexType>

@@ -6,7 +6,7 @@
 package de.holarse.backend.xml;
 
 import de.holarse.backend.xml.UserLoader;
-import de.holarse.entity.User;
+import de.holarse.entity.importer.User;
 import java.io.File;
 import javax.xml.bind.JAXBException;
 import org.junit.After;

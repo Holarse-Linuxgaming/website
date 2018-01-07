@@ -1,8 +1,8 @@
 package de.holarse.backend.xml;
 
-import de.holarse.entity.Article;
-import de.holarse.entity.Comment;
-import de.holarse.entity.News;
+import de.holarse.entity.importer.Article;
+import de.holarse.entity.importer.Comment;
+import de.holarse.entity.importer.News;
 import java.io.File;
 import java.util.List;
 import org.slf4j.Logger;

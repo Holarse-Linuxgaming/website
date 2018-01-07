@@ -2,7 +2,7 @@ package de.holarse.backend.decorator;
 
 import de.holarse.backend.repository.ArticleRepository;
 import de.holarse.backend.xml.ArticleLoader;
-import de.holarse.entity.sub.Titletype;
+import de.holarse.entity.importer.sub.Titletype;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ArticleCacheBuilder implements CacheBuilder<de.holarse.entity.Article, de.holarse.view.Article> {
+public class ArticleCacheBuilder implements CacheBuilder<de.holarse.entity.importer.Article, de.holarse.view.Article> {
 
     Logger log = LoggerFactory.getLogger(ArticleCacheBuilder.class);
     
@@ -28,7 +28,7 @@ public class ArticleCacheBuilder implements CacheBuilder<de.holarse.entity.Artic
     }
 
     @Override
-    public de.holarse.view.Article migrate(final de.holarse.entity.Article entity) {
+    public de.holarse.view.Article migrate(final de.holarse.entity.importer.Article entity) {
         de.holarse.view.Article view = new de.holarse.view.Article();
         view.setUid(entity.getUid());
         view.setTitle(entity.getTitles().stream().filter(t -> Titletype.MAIN.equals(t.getTitleType())).collect(Collectors.toList()).get(0).getTitle());

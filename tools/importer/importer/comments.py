@@ -8,7 +8,7 @@ import importer.util as util
 def do_import(db, base_dir):
     COMMENTS_DIR = os.path.join(base_dir, "comments")
 
-    ET.register_namespace('holarse', "http://holarse.de/entity/")
+    ET.register_namespace('holarse', "http://holarse.de/entity/importer/")
 
     if not os.path.exists(COMMENTS_DIR):
         os.makedirs(COMMENTS_DIR)
@@ -32,7 +32,7 @@ def do_import(db, base_dir):
         
         print("-----------------------------------------%s,%s" % (uid, nid))
 
-        xml_comment = ET.Element('{http://holarse.de/entity/}comment')
+        xml_comment = ET.Element('{http://holarse.de/entity/importer/}comment')
         xml_comment.set('uid', uid)
         xml_comment.set('attached-to', nid)
 

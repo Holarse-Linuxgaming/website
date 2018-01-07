@@ -8,7 +8,7 @@ import importer.util as util
 def do_import(db, base_dir):
     ARTICLES_DIR = os.path.join(base_dir, "articles")
 
-    ET.register_namespace('holarse', "http://holarse.de/entity/")
+    ET.register_namespace('holarse', "http://holarse.de/entity/importer/")
 
     if not os.path.exists(ARTICLES_DIR):
         os.makedirs(ARTICLES_DIR)
@@ -31,7 +31,7 @@ def do_import(db, base_dir):
         
         print("-----------------------------------------%s,%s" % (uid, vid))
 
-        xml_article = ET.Element('{http://holarse.de/entity/}article')
+        xml_article = ET.Element('{http://holarse.de/entity/importer/}article')
         xml_article.set('uid', uid)
         xml_article.set('revision', vid)
     

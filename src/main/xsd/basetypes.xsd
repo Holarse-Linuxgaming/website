@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-           xmlns:h="http://holarse.de/entity/sub/"    
-           targetNamespace="http://holarse.de/entity/sub/" 
+           xmlns:h="http://holarse.de/entity/importer/sub/"    
+           targetNamespace="http://holarse.de/entity/importer/sub/" 
            version="1.0">
 
     <xs:simpleType name="titletype">

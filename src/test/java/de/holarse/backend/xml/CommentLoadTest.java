@@ -6,7 +6,7 @@
 package de.holarse.backend.xml;
 
 import de.holarse.backend.xml.CommentLoader;
-import de.holarse.entity.Comment;
+import de.holarse.entity.importer.Comment;
 import java.io.File;
 import org.junit.Before;
 import org.junit.Test;

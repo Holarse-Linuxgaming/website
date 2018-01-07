@@ -1,6 +1,6 @@
 package de.holarse.backend.xml;
 
-import de.holarse.entity.User;
+import de.holarse.entity.importer.User;
 import java.io.File;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
