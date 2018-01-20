@@ -1,14 +1,10 @@
-package de.holarse.backend.repository;
+package de.holarse.backend.db.repositories;
 
-import de.holarse.view.User;
+import de.holarse.backend.db.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-/**
- *
- * @author comrad
- */
 public interface UserRepository extends JpaRepository<User, Long> {
     
-    User findByLogin(String login);
+    public User findByLogin(final String login);
     
 }

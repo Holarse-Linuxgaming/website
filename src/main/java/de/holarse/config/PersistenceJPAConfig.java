@@ -7,40 +7,41 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = "de.holarse.backend.repository")
+@EnableJpaRepositories(basePackages = "de.holarse.backend.db.repositories")
 public class PersistenceJPAConfig {
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan(new String[]{"de.holarse.view"});
+        em.setPackagesToScan(new String[]{"de.holarse.backend.db"});
 
-        JpaVendorAdapter vendorAdapter = new EclipseLinkJpaVendorAdapter();
+        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        vendorAdapter.setDatabase(Database.POSTGRESQL);
+        vendorAdapter.setGenerateDdl(true);        
+        
         em.setJpaVendorAdapter(vendorAdapter);
         em.setJpaProperties(additionalProperties());
-
+        
         return em;
     }
 
     @Bean
     public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
-        dataSource.setUrl("jdbc:hsqldb:file:/tmp/holarse-cache/holarse;shutdown=true;create=true");
-        dataSource.setUsername("sa");
-        dataSource.setPassword("");
-        return dataSource;
+        JndiDataSourceLookup lookup = new JndiDataSourceLookup();
+        return lookup.getDataSource("jndi/holarse");        
     }
 
     @Bean
@@ -58,11 +59,8 @@ public class PersistenceJPAConfig {
 
     Properties additionalProperties() {
         Properties properties = new Properties();
-        properties.setProperty("eclipselink.target-database", "org.eclipse.persistence.platform.database.HSQLPlatform");
-        properties.setProperty("javax.persistence.schema-generation.database.action", "create");
-        properties.setProperty("javax.persistence.schema-generation.create-source", "metadata");
-        properties.setProperty("eclipselink.weaving", "false");
+        properties.setProperty("hibernate.hbm2ddl.auto", "update");
+        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");        
         return properties;
     }
-
 }

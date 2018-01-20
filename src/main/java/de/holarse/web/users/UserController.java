@@ -1,10 +1,7 @@
 package de.holarse.web.users;
 
-import de.holarse.backend.repository.UserRepository;
-import de.holarse.backend.xml.UserLoader;
-import de.holarse.view.User;
+import de.holarse.backend.db.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +23,7 @@ public class UserController {
 
     @RequestMapping("/{userId}")
     public String show(@PathVariable("userId") Long userId, ModelMap map) {
-        map.addAttribute("user", userRepository.findById(userId).orElseThrow(IllegalArgumentException::new));
+        map.addAttribute("user", userRepository.findById(userId));
         return "users/show";
     }
     
