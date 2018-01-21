@@ -15,14 +15,15 @@
             <div class="col-lg-5 g-bg-teal g-rounded-left-5--lg-up">
                 <div class="g-pa-50">
                     <!-- Form -->
-                    <form class="g-py-15">
+                    <form class="g-py-15" method="POST" action="/login">
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>	
                         <h2 class="h3 g-color-white mb-4">Login</h2>
                         <div class="mb-4">
                             <div class="input-group">
                                 <span class="input-group-addon g-width-45 g-brd-white g-color-white">
                                     <i class="icon-finance-067 u-line-icon-pro"></i>
                                 </span>
-                                <input class="form-control g-color-black g-brd-left-none g-brd-white g-bg-transparent g-color-white g-placeholder-white g-pl-0 g-pr-15 g-py-13" type="email" placeholder="Username">
+                                <input class="form-control g-color-black g-brd-left-none g-brd-white g-bg-transparent g-color-white g-placeholder-white g-pl-0 g-pr-15 g-py-13" name="username" type="text" placeholder="Benutzername oder Email-Adresse">
                             </div>
                         </div>
 
@@ -31,27 +32,18 @@
                                 <span class="input-group-addon g-width-45 g-brd-white g-color-white">
                                     <i class="icon-communication-062 u-line-icon-pro"></i>
                                 </span>
-                                <input class="form-control g-color-black g-brd-left-none g-brd-white g-bg-transparent g-color-white g-placeholder-white g-pl-0 g-pr-15 g-py-13" type="tel" placeholder="Password">
+                                <input class="form-control g-color-black g-brd-left-none g-brd-white g-bg-transparent g-color-white g-placeholder-white g-pl-0 g-pr-15 g-py-13" name="password" type="password" placeholder="Password">
                             </div>
                         </div>
 
                         <div class="g-mb-60">
-                            <button class="btn btn-md btn-block u-btn-primary rounded text-uppercase g-py-13" type="button">Login</button>
+                            <button class="btn btn-md btn-block u-btn-primary rounded text-uppercase g-py-13" type="submit">Login</button>
                         </div>
 
                         <div class="text-center g-pos-rel pb-2 g-mb-60">
                             <div class="d-inline-block w-100 g-height-1 g-bg-white"></div>
                             <span class="u-icon-v2 u-icon-size--lg g-brd-white g-color-white g-bg-teal g-font-size-default rounded-circle text-uppercase g-absolute-centered g-pa-24">OR</span>
                         </div>
-
-                        <button class="btn btn-block u-btn-facebook rounded text-uppercase g-py-13 g-mb-15" type="button">
-                            <i class="mr-3 fa fa-facebook"></i>
-                            <span class="g-hidden-xs-down">Login with</span> Facebook
-                        </button>
-                        <button class="btn btn-block u-btn-twitter rounded text-uppercase g-py-13" type="button">
-                            <i class="mr-3 fa fa-twitter"></i>
-                            <span class="g-hidden-xs-down">Login with</span> Twitter
-                        </button>
                     </form>
                     <!-- End Form -->
                 </div>
@@ -60,7 +52,7 @@
             <div class="col-lg-5 g-bg-white g-rounded-right-5--lg-up">
                 <div class="g-pa-50">
                     <!-- Form -->
-                    <form class="g-py-15">
+                    <form class="g-py-15" action="/login" method="POST">
                         <h2 class="h3 g-color-black mb-4">Signup</h2>
                         <p class="mb-4">Profitable contracts, invoices &amp; payments for the best cases!</p>
 
@@ -69,7 +61,7 @@
                                 <span class="input-group-addon g-width-45 g-brd-gray-light-v4 g-color-gray-dark-v5">
                                     <i class="icon-communication-128 u-line-icon-pro"></i>
                                 </span>
-                                <input class="form-control g-color-black g-brd-left-none g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-pl-0 g-pr-15 g-py-13" type="email" placeholder="Your name">
+                                <input class="form-control g-color-black g-brd-left-none g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-pl-0 g-pr-15 g-py-13" type="login" placeholder="Login/Benutzername">
                             </div>
                         </div>
 
@@ -96,7 +88,7 @@
                                 <span class="input-group-addon g-width-45 g-brd-gray-light-v4 g-color-gray-dark-v5">
                                     <i class="icon-media-094 u-line-icon-pro"></i>
                                 </span>
-                                <input class="form-control g-color-black g-brd-left-none g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-pl-0 g-pr-15 g-py-13" type="tel" placeholder="Password">
+                                <input class="form-control g-color-black g-brd-left-none g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-pl-0 g-pr-15 g-py-13" type="password" placeholder="Password">
                             </div>
                         </div>
 
@@ -110,17 +102,7 @@
                             </label>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-check-inline u-check g-color-gray-dark-v5 g-font-size-12 g-pl-25 mb-2">
-                                <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox">
-                                <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0">
-                                    <i class="fa" data-check-icon="&#xf00c"></i>
-                                </div>
-                                Subscribe to our newsletter
-                            </label>
-                        </div>
-
-                        <button class="btn btn-md btn-block u-btn-primary rounded text-uppercase g-py-13" type="button">Login</button>
+                        <button class="btn btn-md btn-block u-btn-primary rounded text-uppercase g-py-13" type="submit">Login</button>
                     </form>
                     <!-- End Form -->
                 </div>

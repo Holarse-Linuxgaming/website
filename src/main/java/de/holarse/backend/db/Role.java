@@ -13,7 +13,6 @@ public class Role implements Serializable {
     private Long id;
     
     private String code;
-    
     private String name;
 
     public Long getId() {
