@@ -1,6 +1,6 @@
 <!-- Header -->
-    <header id="js-header" class="u-header u-header--sticky-top u-header--toggle-section u-header--change-appearance" data-header-fix-moment="300">
-      <div class="u-header__section u-header__section--dark g-bg-primary g-transition-0_3 g-py-10" data-header-fix-moment-exclude="g-py-10" data-header-fix-moment-classes="g-py-0">
+    <header id="js-header" class="u-header u-header--change-appearance" data-header-fix-moment="500" data-header-fix-effect="slide">
+      <div class="u-header__section u-header__section--light g-bg-white g-transition-0_3 g-py-15" data-header-fix-moment-exclude="g-bg-white g-py-15" data-header-fix-moment-classes="g-bg-white-opacity-0_8 u-shadow-v18 g-py-5">
         <nav class="navbar navbar-expand-lg">
           <div class="container">
             <!-- Responsive Toggle Button -->
@@ -12,43 +12,44 @@
               </span>
             </button>
             <!-- End Responsive Toggle Button -->
+
             <!-- Logo -->
             <a href="/" class="navbar-brand">
-              <img src="assets/custom/img/logo.svg" alt="HOLARSE - Spielen unter Linux">
+              <img src="/assets/custom/img/logo.svg" alt="Image Description">
             </a>
             <!-- End Logo -->
 
             <!-- Navigation -->
             <div class="collapse navbar-collapse align-items-center flex-sm-row g-pt-10 g-pt-5--lg g-mr-40--sm" id="navBar">
-              <ul class="navbar-nav text-uppercase g-font-weight-600 ml-auto">
-                <li class="nav-item g-mx-20--lg">
+              <ul class="navbar-nav text-uppercase g-font-weight-600 mx-auto">
+                <li class="nav-item g-mx-25--lg">
                   <a href="#" class="nav-link px-0">Home
-
+                
               </a>
                 </li>
-                <li class="nav-item g-mx-20--lg">
+                <li class="nav-item g-mx-25--lg">
                   <a href="#" class="nav-link px-0">Features
-
+                
               </a>
                 </li>
-                <li class="nav-item g-mx-20--lg active">
+                <li class="nav-item g-mx-25--lg active">
                   <a href="#" class="nav-link px-0">Shortcodes
                 <span class="sr-only">(current)</span>
               </a>
                 </li>
-                <li class="nav-item g-mx-20--lg">
+                <li class="nav-item g-mx-25--lg">
                   <a href="#" class="nav-link px-0">Pages
-
+                
               </a>
                 </li>
-                <li class="nav-item g-mx-20--lg">
+                <li class="nav-item g-mx-25--lg">
                   <a href="#" class="nav-link px-0">Demos
-
+                
               </a>
                 </li>
-                <li class="nav-item g-ml-20--lg g-mr-0--lg">
+                <li class="nav-item g-mx-25--lg g-mr-0--lg">
                   <a href="#" class="nav-link px-0">What's New
-
+                
               </a>
                 </li>
               </ul>
@@ -63,7 +64,7 @@
               </a>
 
               <!-- Search Form -->
-              <form id="searchform-1" class="u-searchform-v1 u-dropdown--css-animation u-dropdown--hidden g-bg-white g-pa-10 g-mt-25--lg g-mt-15--lg--scrolling">
+              <form id="searchform-1" class="u-searchform-v1 u-dropdown--css-animation u-dropdown--hidden g-bg-white g-pa-10 g-mt-30--lg g-mt-20--lg--scrolling">
                 <div class="input-group g-brd-primary--focus">
                   <input class="form-control rounded-0 u-form-control" type="search" placeholder="Enter Your Search Here...">
 

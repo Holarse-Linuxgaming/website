@@ -21,8 +21,17 @@
     <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="assets/vendor/bootstrap/offcanvas.css">
 
+    <link rel="stylesheet" href="assets/vendor/icon-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/vendor/icon-line/css/simple-line-icons.css">
+    <link rel="stylesheet" href="assets/vendor/icon-etlinefont/style.css">
+    <link rel="stylesheet" href="assets/vendor/icon-line-pro/style.css">
+    <link rel="stylesheet" href="assets/vendor/icon-hs/style.css">    
+    
     <link rel="stylesheet" href="assets/vendor/animate.css">
 
+    <link rel="stylesheet" href="/assets/vendor/slick-carousel/slick/slick.css">
+    <link rel="stylesheet" href="/assets/vendor/fancybox/jquery.fancybox.css">
+    
     <!-- CSS Unify -->
     <link rel="stylesheet" href="assets/css/unify-core.css">
     <link rel="stylesheet" href="assets/css/unify-components.css">
@@ -51,11 +60,14 @@
     <script src="assets/vendor/popper.min.js"></script>
     <script src="assets/vendor/bootstrap/bootstrap.min.js"></script>
     <script src="assets/vendor/bootstrap/offcanvas.js"></script>
-
+    <script src="assets/vendor/slick-carousel/slick/slick.js"></script>
+    <script src="assets/vendor/fancybox/jquery.fancybox.min.js"></script>
+  
     <!-- JS Unify -->
     <script src="assets/js/hs.core.js"></script>
     <script src="assets/js/components/hs.header.js"></script>
     <script src="assets/js/helpers/hs.hamburgers.js"></script>
+    <script src="assets/js/components/hs.dropdown.js"></script>
     <script src="assets/js/components/hs.scrollbar.js"></script>
     <script src="assets/js/components/hs.popup.js"></script>
     <script src="assets/js/components/hs.carousel.js"></script>
@@ -87,7 +99,7 @@
       }], true);
 
       // initialization of HSDropdown component
-      $.HSCore.components.HSDropdown.init($('[data-dropdown-target]'), {
+      $.HSCore.components.HSDropdown.init( $('[data-dropdown-target]'), {
         afterOpen: function(){
           $(this).find('input[type="search"]').focus();
         }

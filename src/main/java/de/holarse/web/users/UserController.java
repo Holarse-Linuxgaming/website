@@ -32,5 +32,5 @@ public class UserController {
         map.addAttribute("user", userRepository.findByLogin(login));
         return "users/show";
     }
-
+    
 }
