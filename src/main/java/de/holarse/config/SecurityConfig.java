@@ -5,6 +5,7 @@
  */
 package de.holarse.config;
 
+import de.holarse.auth.HolarseAuthenticationProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     Logger log = LoggerFactory.getLogger(SecurityConfig.class);
     
     @Autowired
+    HolarseAuthenticationProvider authenticationProvider;
+    
+    @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .inMemoryAuthentication()
-                .withUser("user").password("password").roles("USER");
+        auth.authenticationProvider(authenticationProvider);
     }
 
     @Override
