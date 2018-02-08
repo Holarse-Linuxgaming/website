@@ -33,3 +33,4 @@ install/apache*
 install/wildfly*
 install/payara*
 install/mysql*
+/nbproject/

@@ -8,6 +8,8 @@ import importer.util as util
 def do_import(db, base_dir):
     NEWS_DIR = os.path.join(base_dir, "news")
 
+    ET.register_namespace('holarse', "http://holarse.de/entity/importer/")
+
     if not os.path.exists(NEWS_DIR):
         os.makedirs(NEWS_DIR)
     
@@ -28,15 +30,15 @@ def do_import(db, base_dir):
             continue
         
         print("-----------------------------------------%s,%s" % (uid, vid))
-        
-        xml_news = ET.Element('news')
+
+        xml_news = ET.Element('{http://holarse.de/entity/importer/}news')
         xml_news.set('uid', uid)
         xml_news.set('revision', vid)
     
         ET.SubElement(xml_news, 'title').text = a_result[4]
         xml_content = ET.SubElement(xml_news, 'content')
         xml_content.text = a_result[5]
-        xml_content.set('content-type', 'wiki')
+        xml_content.set('type', 'WIKI')
         ET.SubElement(xml_news, 'created_at').text = util.ts_to_utc(a_result[2])
 
         ET.ElementTree(xml_news).write(filepath, "UTF-8", True)

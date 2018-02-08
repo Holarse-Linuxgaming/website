@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+           xmlns:h="http://holarse.de/entity/importer/sub/"  
+           xmlns:m="http://holarse.de/entity/importer/"       
+           targetNamespace="http://holarse.de/entity/importer/" 
+           version="1.0">
+
+    <xs:import namespace="http://holarse.de/entity/importer/sub/" schemaLocation="basetypes.xsd"/>
+
+    <xs:element name="user">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="login" type="xs:string" />
+                <xs:element name="created" type="xs:dateTime" />
+                <xs:element name="signature" type="xs:string" minOccurs="0" />
+                <xs:element name="email" type="xs:string" />
+                <xs:element name="locked" type="xs:boolean" default="false" />
+                <xs:element name="avatar" type="xs:string" minOccurs="0" />
+                <xs:element name="password" type="h:password" />
+                <xs:group ref="h:roles" />                
+            </xs:sequence>
+            <xs:attribute name="uid" type="xs:long" />
+        </xs:complexType> 
+    </xs:element>
+    
+    <xs:element name="article">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="h:node">
+                    <xs:sequence>
+                        <xs:group ref="h:titles" />
+                        <xs:group ref="h:tags" />                
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="news">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="h:node">
+                    <xs:sequence>
+                        <xs:element name="title" type="xs:string" />
+                        <xs:element name="subtitle" type="xs:string" />
+                        <xs:element name="category" type="xs:string" />                        
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="comment">
+        <xs:complexType>    
+            <xs:complexContent>
+                <xs:extension base="h:node">
+                    <xs:sequence>
+                        <xs:element name="attachted-to" type="xs:long" />
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>    
+
+</xs:schema>          

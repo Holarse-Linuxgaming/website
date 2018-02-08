@@ -1,0 +1,13 @@
+#!/usr/bin/env python3
+import argparse
+
+def main():
+    print("hello")
+    parser = argparse.ArgumentParser(description='create index')
+    parser.add_argument('-t', nargs='?', help="type of document")
+
+    args = parser.parse_args()
+    print(args)
+
+if __name__ == "__main__":
+    main()

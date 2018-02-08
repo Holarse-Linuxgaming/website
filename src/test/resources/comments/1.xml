@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<holarse:comment xmlns:holarse="http://holarse.de/entity/importer/" uid="1">
+    <created>2008-05-13 19:07:34</created>
+    <author>comrad</author>
+    <revision></revision>
+    <state>published</state>
+    <content type="plain">
+        hallo welt!
+    </content>
+</holarse:comment>

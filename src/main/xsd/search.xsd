@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+           xmlns:s="http://holarse.de/entity/search/"
+           targetNamespace="http://holarse.de/entity/search/" 
+           version="1.0">
+
+    <xs:simpleType name="nodetype">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="ARTICLE" />
+            <xs:enumeration value="NEWS" />
+        </xs:restriction>
+    </xs:simpleType>    
+    
+    <xs:element name="leaf">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="title" type="xs:string" />
+                <xs:element name="subtitle" type="xs:string" />
+                <xs:element name="tags" type="xs:string" />
+                <xs:element name="content" type="xs:string" />
+                <xs:element name="nodeage" type="xs:dateTime" />
+                <xs:element name="uid" type="xs:long" />
+                <xs:element name="refid" type="xs:long" />
+                <xs:element name="type" type="s:nodetype" />
+            </xs:sequence>
+        </xs:complexType> 
+    </xs:element>    
+
+</xs:schema>      

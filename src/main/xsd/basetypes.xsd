@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+           xmlns:h="http://holarse.de/entity/importer/sub/"    
+           targetNamespace="http://holarse.de/entity/importer/sub/" 
+           version="1.0">
+
+    <xs:simpleType name="titletype">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="MAIN" />
+            <xs:enumeration value="ALTERNATIVE" />
+        </xs:restriction>
+    </xs:simpleType>     
+    
+    <xs:complexType name="title">
+        <xs:sequence>
+            <xs:element name="title" type="xs:string" />
+            <xs:element name="titleType" type="h:titletype" />
+        </xs:sequence>
+    </xs:complexType>      
+    
+    <xs:group name="titles">
+        <xs:sequence>
+            <xs:element name="titles" type="h:title" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:group>    
+
+    <xs:complexType name="tag">
+        <xs:simpleContent>
+            <xs:extension base="xs:string" />
+        </xs:simpleContent>
+    </xs:complexType>    
+    
+    <xs:group name="tags">
+        <xs:sequence>
+            <xs:element name="tags" type="h:tag" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:group>        
+
+    <xs:simpleType name="contenttype">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="PLAIN" />
+            <xs:enumeration value="MARKDOWN" />
+            <xs:enumeration value="WIKI" />
+        </xs:restriction>
+    </xs:simpleType>             
+
+    <xs:complexType name="content">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="type" type="h:contenttype" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    
+    <xs:simpleType name="role">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="ANONYMOUS" />
+            <xs:enumeration value="USER" />
+            <xs:enumeration value="ADMIN" />
+            <xs:enumeration value="MODERATOR" />
+            <xs:enumeration value="REPORTER" />
+        </xs:restriction>
+    </xs:simpleType>    
+    
+    <xs:group name="roles">
+        <xs:sequence>
+            <xs:element name="roles" type="h:role" minOccurs="1" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:group>     
+    
+    <xs:simpleType name="passwordtype">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="MD5" />
+            <xs:enumeration value="SHA512" />
+            <xs:enumeration value="BCRYPT" />
+        </xs:restriction>
+    </xs:simpleType>     
+    
+    <xs:complexType name="password">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="type" type="h:passwordtype" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>  
+    
+    <xs:complexType name="state">
+        <xs:sequence>
+            <xs:element name="locked" type="xs:boolean" default="false" />
+            <xs:element name="commentable" type="xs:boolean" default="true" />
+            <xs:element name="draft" type="xs:boolean" default="false" />
+            <xs:element name="published" type="xs:boolean" default="true" />
+            <xs:element name="deleted" type="xs:boolean" default="false" />
+            <xs:element name="archived" type="xs:boolean" default="false" />
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="revision">
+        <xs:sequence>
+            <xs:element name="revid" type="xs:long" />
+            <xs:element name="changelog" type="xs:string" minOccurs="0" />
+            <xs:element name="author" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>    
+    
+    <xs:complexType name="node" abstract="true">
+        <xs:sequence>
+            <xs:element name="created" type="xs:dateTime" />            
+            <xs:element name="author" type="xs:string" />
+            <xs:element name="revision" type="h:revision" />            
+            <xs:element name="state" type="h:state" />                
+            <xs:element name="content" type="h:content" />
+        </xs:sequence>
+        <xs:attribute name="uid" type="xs:long" />        
+    </xs:complexType>      
+    
+</xs:schema> 
+

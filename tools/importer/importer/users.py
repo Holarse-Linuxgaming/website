@@ -8,6 +8,8 @@ import importer.util as util
 def do_import(db, base_dir):
     USERS_DIR=os.path.join(base_dir, 'users')
 
+    ET.register_namespace('holarse', "http://holarse.de/entity/importer/")
+
     if not os.path.exists(USERS_DIR):
         os.makedirs(USERS_DIR)
     
@@ -29,7 +31,7 @@ def do_import(db, base_dir):
             continue
         
         # xml user
-        xml_user = ET.Element('user')
+        xml_user = ET.Element('{http://holarse.de/entity/importer/}user')
         xml_user.set('uid', str(uid))
         ET.SubElement(xml_user, 'created').text = util.ts_to_utc(u_result[5])
         ET.SubElement(xml_user, 'signature').text = u_result[4]

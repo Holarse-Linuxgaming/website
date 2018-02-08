@@ -5,7 +5,7 @@ import xml.etree.ElementTree as ET
 import os
 import configparser
 
-import importer.users, importer.articles, importer.news
+import importer.users, importer.articles, importer.news, importer.comments
 
 # read config
 config = configparser.ConfigParser()
@@ -27,8 +27,12 @@ print("imported %d articles" % count_a)
 count_n = importer.news.do_import(db, BASE_DIR)
 print("imported %d news" % count_n)
 
+# get all comments
+count_c = importer.comments.do_import(db, BASE_DIR)
+print("imported %d comments" % count_c)
+
 # get all forum posts
 
 db.close()
-
-print("export completed with %d objects to %s" % (count_u + count_a + count_n, BASE_DIR))
+#
+print("export completed with %d objects to %s" % (count_u + count_a + count_n + count_c, BASE_DIR))
