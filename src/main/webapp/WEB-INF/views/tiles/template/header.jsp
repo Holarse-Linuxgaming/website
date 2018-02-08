@@ -1,3 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/security/tags" %>
+
 <!-- Header -->
     <header id="js-header" class="u-header u-header--change-appearance" data-header-fix-moment="500" data-header-fix-effect="slide">
       <div class="u-header__section u-header__section--light g-bg-white g-transition-0_3 g-py-15" data-header-fix-moment-exclude="g-bg-white g-py-15" data-header-fix-moment-classes="g-bg-white-opacity-0_8 u-shadow-v18 g-py-5">
@@ -48,9 +51,12 @@
               </a>
                 </li>
                 <li class="nav-item g-mx-25--lg g-mr-0--lg">
-                  <a href="#" class="nav-link px-0">What's New
-                
-              </a>
+                    <s:authorize access="hasRole('ROLE_ANONYMOUS')">
+                        <a href="/login" class="nav-link px-0">Login</a>
+                    </s:authorize>
+                    <s:authorize access="hasRole('ROLE_USER')">
+                        <a href="<c:url value="/logout" />" class="nav-link px-0">Logout</a>
+                    </s:authorize>
                 </li>
               </ul>
             </div>

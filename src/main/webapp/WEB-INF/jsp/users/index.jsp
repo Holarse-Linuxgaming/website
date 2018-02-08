@@ -3,6 +3,6 @@
 Available Users:
 <ul>
     <c:forEach items="${users}" var="user">
-        <li><a href="/users/${user.uid}">${user.login}</a></li>
+        <li><a href="/users/${user.login}">${user.login}</a></li>
     </c:forEach>
 </ul>

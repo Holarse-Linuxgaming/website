@@ -1,5 +1,6 @@
 package de.holarse.web.users;
 
+import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,20 +18,22 @@ public class UserController {
     @RequestMapping("/")
     public String index(ModelMap map) {
         map.addAttribute("users", userRepository.findAll());
-
         return "users/index";
     }
 
-    @RequestMapping("/{userId}")
+    @RequestMapping("{userId:Long}")
     public String show(@PathVariable("userId") Long userId, ModelMap map) {
-        map.addAttribute("user", userRepository.findById(userId));
-        return "users/show";
+        return show(userRepository.getOne(userId), map);
     }
     
-    @RequestMapping("/{login}")
+    @RequestMapping("{login}")
     public String show(@PathVariable("login") String login, ModelMap map) {       
-        map.addAttribute("user", userRepository.findByLogin(login));
-        return "users/show";
+        return show(userRepository.findByLogin(login), map);
+    }
+    
+    protected String show(final User user, final ModelMap map) {
+        map.addAttribute("user", user);
+        return "users/show";        
     }
     
 }

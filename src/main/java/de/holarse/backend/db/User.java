@@ -1,39 +1,29 @@
 package de.holarse.backend.db;
 
-import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 @Entity(name = "users")
-public class User implements Serializable {
-    
-    @Id
-    @GeneratedValue
-    private Long id;
+public class User extends Base {
     
     @Column(unique = true)
     private String login;
     
-    private String password;
+    @Enumerated(EnumType.STRING)
+    private PasswordType passwordType;
+    
+    private String digest;
     
     @Column(columnDefinition = "boolean default false")
     private boolean locked;
     
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getLogin() {
         return login;
@@ -51,12 +41,20 @@ public class User implements Serializable {
         this.roles = roles;
     }
 
-    public String getPassword() {
-        return password;
+    public PasswordType getPasswordType() {
+        return passwordType;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPasswordType(PasswordType passwordType) {
+        this.passwordType = passwordType;
+    }
+
+    public String getDigest() {
+        return digest;
+    }
+
+    public void setDigest(String digest) {
+        this.digest = digest;
     }
 
     public boolean isLocked() {
@@ -69,8 +67,9 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", login=" + login + '}';
+        return "User{" + "login=" + login + ", passwordType=" + passwordType + ", digest=" + digest + ", locked=" + locked + ", roles=" + roles + '}';
     }
-   
+    
+    public boolean isGuest() { return false; }
     
 }

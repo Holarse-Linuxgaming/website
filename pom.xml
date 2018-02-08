@@ -12,6 +12,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.version>5.0.1.RELEASE</spring.version>
+        <spring.security.version>5.0.1.RELEASE</spring.security.version>
         <apache.tiles.version>3.0.7</apache.tiles.version>
         <slf4jVersion>1.6.1</slf4jVersion>
         <!-- <apache.camel.version>2.19.0</apache.camel.version> -->
@@ -50,13 +51,18 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
-            <version>4.2.3.RELEASE</version>
+            <version>${spring.security.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
-            <version>4.2.3.RELEASE</version>
-        </dependency>        
+            <version>${spring.security.version}</version>
+        </dependency>    
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>${spring.security.version}</version>
+        </dependency>            
  
         <!-- Servlet+JSP+JSTL -->
         <dependency>

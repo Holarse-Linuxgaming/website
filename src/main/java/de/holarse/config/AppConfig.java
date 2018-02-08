@@ -1,14 +1,15 @@
 package de.holarse.config;
  
+import de.holarse.interceptor.PagePopulationInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -22,6 +23,9 @@ import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 @PropertySource("classpath:application.properties")
 public class AppConfig implements WebMvcConfigurer {
  
+    @Autowired
+    PagePopulationInterceptor pagePopulationInterceptor;
+    
     /**
      * Configure TilesConfigurer.
      * @return 
@@ -58,5 +62,10 @@ public class AppConfig implements WebMvcConfigurer {
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
     }   
+    
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(pagePopulationInterceptor);
+    }
      
 }
