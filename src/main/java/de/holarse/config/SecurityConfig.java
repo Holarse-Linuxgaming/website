@@ -5,17 +5,25 @@
  */
 package de.holarse.config;
 
-import de.holarse.auth.HolarseAuthenticationProvider;
+import de.holarse.drupal.Drupal6PasswordEncoder;
+import de.holarse.auth.HolarseUserDetailsService;
+import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.Md4PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
@@ -24,11 +32,37 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     Logger log = LoggerFactory.getLogger(SecurityConfig.class);
     
     @Autowired
-    HolarseAuthenticationProvider authenticationProvider;
+    HolarseUserDetailsService userDetailsService;
     
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authenticationProvider);
+    @Bean
+    public DaoAuthenticationProvider drupal6AuthenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(drupalEncoder());
+        return authProvider;
+    }
+    
+    @Bean
+    public DaoAuthenticationProvider holaCms3AuthenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(bcryptEncoder());
+        return authProvider;
+    }    
+
+    @Bean
+    public PasswordEncoder bcryptEncoder() {
+        return new BCryptPasswordEncoder(11);
+    }
+    
+    @Bean
+    public PasswordEncoder drupalEncoder() {
+        return new Drupal6PasswordEncoder();
+    }
+    
+    @Override
+    public AuthenticationManager authenticationManager() {
+        return new ProviderManager(Arrays.asList(drupal6AuthenticationProvider(), holaCms3AuthenticationProvider()));
     }
 
     @Override
