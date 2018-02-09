@@ -27,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Autowired
     HolarseUserDetailsService userDetailsService;
-    
+     
     @Bean
     public DaoAuthenticationProvider drupal6AuthenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -44,12 +44,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return authProvider;
     }    
 
-    @Bean
+    @Bean(name = "bcryptEncoder")
     public PasswordEncoder bcryptEncoder() {
-        return new BCryptPasswordEncoder(11);
+        return new BCryptPasswordEncoder();
     }
     
-    @Bean
+    @Bean(name = "drupalEncoder")
     public PasswordEncoder drupalEncoder() {
         return new Drupal6PasswordEncoder();
     }
