@@ -55,7 +55,10 @@
                         <a href="/login" class="nav-link px-0">Login</a>
                     </s:authorize>
                     <s:authorize access="hasRole('ROLE_USER')">
-                        <a href="<c:url value="/logout" />" class="nav-link px-0">Logout</a>
+                        <form id="logout" action="/logout" method="POST" >
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                            <input type="submit" class="btn-link nav-link px-0" value="Logout"/>
+                        </form>
                     </s:authorize>
                 </li>
               </ul>
