@@ -1,17 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.holarse.backend.db;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.OffsetDateTime;
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @MappedSuperclass
 public abstract class Base implements Serializable {
@@ -20,11 +14,11 @@ public abstract class Base implements Serializable {
     @GeneratedValue    
     private Long id;
     
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date generated;
+    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE default CURRENT_TIMESTAMP")    
+    private OffsetDateTime created;
     
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updated;
+    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE default CURRENT_TIMESTAMP")    
+    private OffsetDateTime updated;
 
     public Long getId() {
         return id;
@@ -34,19 +28,19 @@ public abstract class Base implements Serializable {
         this.id = id;
     }
 
-    public Date getGenerated() {
-        return generated;
+    public OffsetDateTime getCreated() {
+        return created;
     }
 
-    public void setGenerated(Date generated) {
-        this.generated = generated;
+    public void setCreated(OffsetDateTime created) {
+        this.created = created;
     }
 
-    public Date getUpdated() {
+    public OffsetDateTime getUpdated() {
         return updated;
     }
 
-    public void setUpdated(Date updated) {
+    public void setUpdated(OffsetDateTime updated) {
         this.updated = updated;
     }
     

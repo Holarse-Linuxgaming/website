@@ -62,6 +62,7 @@ public class PersistenceJPAConfig {
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");       
         properties.setProperty("hibernate.current_session_context_class", "thread");
+        properties.setProperty("hibernate.jdbc.time_zone", "UTC");
         return properties;
     }
 }
