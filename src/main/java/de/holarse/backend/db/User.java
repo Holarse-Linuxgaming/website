@@ -19,6 +19,8 @@ public class User extends Base {
     
     private String digest;
     
+    private String email;
+    
     @Column(columnDefinition = "boolean default false")
     private boolean locked;
     
@@ -65,11 +67,17 @@ public class User extends Base {
         this.locked = locked;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public String toString() {
         return "User{" + "login=" + login + ", passwordType=" + passwordType + ", digest=" + digest + ", locked=" + locked + ", roles=" + roles + '}';
     }
-    
-    public boolean isGuest() { return false; }
     
 }

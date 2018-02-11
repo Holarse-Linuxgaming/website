@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <!-- Singup -->
 <section class="container g-py-100">
@@ -10,7 +11,7 @@
                 </header>
 
                 <!-- Form -->
-                <form class="g-py-15" action="/register" method="POST">
+                <form:form class="g-py-15" modelAttribute="createAccountCommand" action="${flowExecutionUrl}">
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>	
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 mb-0">
@@ -47,10 +48,10 @@
                             </label>
                         </div>
                         <div class="col-4 align-self-center text-right">
-                            <button class="btn btn-md u-btn-primary rounded g-py-13 g-px-25" type="submit">Konto registrieren</button>
+                            <button class="btn btn-md u-btn-primary rounded g-py-13 g-px-25" type="submit" name="_eventId_register">Konto registrieren</button>
                         </div>
                     </div>
-                </form>
+                </form:form>
                 <!-- End Form -->
 
                 <footer class="text-center">

@@ -8,13 +8,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
+import org.springframework.js.ajax.AjaxUrlBasedViewResolver;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
-import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
+import org.springframework.webflow.mvc.view.FlowAjaxTiles3View;
 
 @Configuration
 @EnableWebMvc
@@ -38,14 +39,23 @@ public class AppConfig implements WebMvcConfigurer {
         return tilesConfigurer;
     }
  
-    /**
-     * Configure ViewResolvers to deliver preferred views.
-     * @param registry
-     */
-    @Override
-    public void configureViewResolvers(ViewResolverRegistry registry) {
-        TilesViewResolver viewResolver = new TilesViewResolver();
-        registry.viewResolver(viewResolver);
+//    /**
+//     * Configure ViewResolvers to deliver preferred views.
+//     * @param registry
+//     */
+//    @Override
+//    public void configureViewResolvers(ViewResolverRegistry registry) {
+//
+//        registry.viewResolver(viewResolver);
+//    }
+    
+    @Bean
+    public ViewResolver viewResolver() {
+        AjaxUrlBasedViewResolver viewResolver = new AjaxUrlBasedViewResolver();
+        viewResolver.setViewClass(FlowAjaxTiles3View.class);
+        viewResolver.setOrder(-2);
+
+        return viewResolver;        
     }
      
     /**
@@ -67,5 +77,6 @@ public class AppConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(pagePopulationInterceptor);
     }
+
      
 }

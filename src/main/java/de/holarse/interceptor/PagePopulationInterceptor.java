@@ -7,7 +7,6 @@ package de.holarse.interceptor;
 
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.UserRepository;
-import de.holarse.web.users.GuestUser;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -40,9 +39,7 @@ public class PagePopulationInterceptor extends HandlerInterceptorAdapter {
             }
         }
         
-
-        
-        return new GuestUser();
+        return null;
     }
 
     @Override
