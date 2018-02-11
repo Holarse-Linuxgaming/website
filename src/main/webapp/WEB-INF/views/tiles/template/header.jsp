@@ -26,7 +26,7 @@
             <div class="collapse navbar-collapse align-items-center flex-sm-row g-pt-10 g-pt-5--lg g-mr-40--sm" id="navBar">
               <ul class="navbar-nav text-uppercase g-font-weight-600 mx-auto">
                 <li class="nav-item g-mx-25--lg">
-                  <a href="#" class="nav-link px-0">Home
+                  <a href="/" class="nav-link px-0">Home
                 
               </a>
                 </li>
@@ -50,17 +50,22 @@
                 
               </a>
                 </li>
-                <li class="nav-item g-mx-25--lg g-mr-0--lg">
                     <s:authorize access="hasRole('ROLE_ANONYMOUS')">
+                    <li class="nav-item g-mx-25--lg g-mr-0--lg">
                         <a href="/login" class="nav-link px-0">Login</a>
+                    </li>
+                    <li class="nav-item g-mx-25--lg g-mr-0--lg">
+                        <a href="/register" class="nav-link px-0">Registrieren</a>
+                    </li>                    
                     </s:authorize>
                     <s:authorize access="hasRole('ROLE_USER')">
+                    <li class="nav-item g-mx-25--lg g-mr-0--lg">                        
                         <form id="logout" action="/logout" method="POST" >
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                             <input type="submit" class="btn-link nav-link px-0" value="Logout"/>
                         </form>
+                    </li>                            
                     </s:authorize>
-                </li>
               </ul>
             </div>
             <!-- End Navigation -->
