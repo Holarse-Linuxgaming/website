@@ -105,28 +105,15 @@
         <!-- Copyright -->
         <div class="row align-items-center g-py-35">
             <div class="col-4">
-                <a class="g-text-underline--none--hover" href="index.html">
-                    <img class="g-width-70" src="../../../assets/img/logo/logo-1.png" alt="Image Description">
+                <a class="g-text-underline--none--hover" href="/">
+                    <img class="g-width-70" src="assets/custom/img/logo.svg" alt="Holarse - Spielen unter Linux Logo">
                 </a>
             </div>
             <div class="col-8 text-right">
-                <p class="g-font-size-13 mb-0">© 2017 Htmlstream. All Rights Reserved.</p>
+                <p class="g-font-size-13 mb-0">&copy; 2000 - 2018 Holarse - Spielen unter Linux. Alle Rechte vorbehalten.</p>
             </div>
         </div>
         <!-- End Copyright -->
     </footer>
     <!-- End Footer -->
-</div>
-
-<div class="shortcode-scripts">
-    <!-- JS Unify -->
-    <script  src="../../../assets/js/helpers/hs.focus-state.js"></script>
-
-    <!-- JS Plugins Init. -->
-    <script >
-        $(document).on('ready', function () {
-            // initialization of forms
-            $.HSCore.helpers.HSFocusState.init();
-        });
-    </script>
 </div>

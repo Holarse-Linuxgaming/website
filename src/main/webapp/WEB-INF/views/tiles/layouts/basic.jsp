@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="assets/vendor/icon-etlinefont/style.css">
     <link rel="stylesheet" href="assets/vendor/icon-line-pro/style.css">
     <link rel="stylesheet" href="assets/vendor/icon-hs/style.css">    
+    <link rel="stylesheet" href="assets/vendor/hs-megamenu/src/hs.megamenu.css">
     
     <link rel="stylesheet" href="assets/vendor/animate.css">
 
@@ -46,7 +47,7 @@
         <!-- Header -->
         <tiles:insertAttribute name="header" />
         <!-- Body -->
-        <div class="container">
+        <div class="container g-pt-150">
         <tiles:insertAttribute name="body" />
         </div>
         <!-- Footer -->
@@ -62,12 +63,15 @@
     <script src="assets/vendor/bootstrap/offcanvas.js"></script>
     <script src="assets/vendor/slick-carousel/slick/slick.js"></script>
     <script src="assets/vendor/fancybox/jquery.fancybox.min.js"></script>
-  
+    <script src="assets/vendor/hs-megamenu/src/hs.megamenu.js"></script>
+    
     <!-- JS Unify -->
     <script src="assets/js/hs.core.js"></script>
     <script src="assets/js/components/hs.header.js"></script>
     <script src="assets/js/helpers/hs.hamburgers.js"></script>
+    <script src="assets/js/helpers/hs.focus-state.js"></script>
     <script src="assets/js/components/hs.dropdown.js"></script>
+    <script src="assets/js/components/hs.tabs.js"></script>
     <script src="assets/js/components/hs.scrollbar.js"></script>
     <script src="assets/js/components/hs.popup.js"></script>
     <script src="assets/js/components/hs.carousel.js"></script>
@@ -80,6 +84,8 @@
 
     <script>
  $(document).on('ready', function () {
+     $.HSCore.helpers.HSFocusState.init();
+     
       // initialization of go to
       $.HSCore.components.HSGoTo.init('.js-go-to');
 
@@ -125,7 +131,20 @@
       // initialization of header
       $.HSCore.components.HSHeader.init($('#js-header'));
       $.HSCore.helpers.HSHamburgers.init('.hamburger');
+      
+      // initialization of HSMegaMenu component
+      $('.js-mega-menu').HSMegaMenu({
+        event: 'hover',
+        pageContainer: $('.container'),
+        breakpoint: 850
+      });      
     });
+    
+      $(window).on('resize', function () {
+        setTimeout(function () {
+          $.HSCore.components.HSTabs.init('[role="tablist"]');
+        }, 200);
+      });    
     </script>
   </body>
 </html>

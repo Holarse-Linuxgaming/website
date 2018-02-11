@@ -1,0 +1,19 @@
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+    http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+    <input name="verificationKey" />
+    
+    <action-state id="verify-user">
+        <evaluate expression="registerService.verifyAccount(verificationKey)" />
+        <transition on="verified" to="done" />
+        <transition on="verification-failed" to="verification-failed" />
+        <transition on="verification-expired" to="verification-expired" />  
+    </action-state>
+    
+    <end-state id="done" view="verify/done" />
+    <end-state id="verification-failed" view="verify/verification-failed" />
+    <end-state id="verification-expired" view="verify/verification-expired" />        
+    
+</flow>

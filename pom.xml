@@ -187,6 +187,12 @@
             <version>2.4.7.RELEASE</version>
         </dependency>        
         
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
+            <version>3.6.1</version>
+        </dependency>
+        
         <!--         Apache Camel 
         <dependency>
             <groupId>org.apache.camel</groupId>

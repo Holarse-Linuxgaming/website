@@ -10,7 +10,7 @@
     </view-state>
     
     <action-state id="create-account">
-        <evaluate expression="registerService.createAccount(registerCommand)" />
+        <evaluate expression="registerService.createAccount(registerCommand)" result="flowScope.user"/>
         <transition to="done" />
     </action-state>
     

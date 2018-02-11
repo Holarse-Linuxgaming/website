@@ -1,113 +1,115 @@
-<!-- Login & Signup -->
-<section class="u-bg-overlay g-bg-pos-top-center g-bg-img-hero g-bg-black-opacity-0_3--after g-py-100" style="background-image: url(../../assets/img-temp/1920x1080/img24.jpg);">
-    <div class="container u-bg-overlay__inner">
-        <div class="row justify-content-center text-center mb-5">
-            <div class="col-lg-8">
-                <!-- Heading -->
-                <h1 class="g-color-white text-uppercase mb-4">Login or register an account</h1>
-                <div class="d-inline-block g-width-35 g-height-2 g-bg-white mb-4"></div>
-                <p class="lead g-color-white">The time has come to bring those ideas and plans to life. This is where we really begin to visualize your napkin sketches and make them into beautiful pixels.</p>
-                <!-- End Heading -->
-            </div>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
+<!-- Login -->
+    <section class="container g-pt-100 g-pb-20">
+      <div class="row justify-content-between">
+        <div class="col-md-6 col-lg-5 flex-md-unordered g-mb-80">
+          <div class="g-brd-around g-brd-gray-light-v3 g-bg-white rounded g-px-30 g-py-50 mb-4">
+            <header class="text-center mb-4">
+              <h1 class="h3 g-color-black g-font-weight-300 text-capitalize">Login to your account</h1>
+            </header>
+
+            <!-- Form -->
+            <form:form action="POST" target="/login" class="g-py-15">
+              <div class="mb-4">
+                <div class="input-group g-brd-primary--focus">
+                  <span class="input-group-addon g-width-45 g-brd-gray-light-v3 g-color-gray-dark-v5">
+                      <i class="icon-finance-067 u-line-icon-pro"></i>
+                    </span>
+                  <input class="form-control g-color-black g-brd-gray-light-v3 g-py-15 g-px-15" type="login" placeholder="Login">
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <div class="input-group g-brd-primary--focus mb-4">
+                  <span class="input-group-addon g-width-45 g-brd-gray-light-v3 g-color-gray-dark-v5">
+                      <i class="icon-media-094 u-line-icon-pro"></i>
+                    </span>
+                  <input class="form-control g-color-black g-brd-gray-light-v3 g-py-15 g-px-15" type="password" placeholder="Password">
+                </div>
+              </div>
+
+              <div class="row justify-content-between mb-4">
+                <div class="col align-self-center">
+                  <label class="form-check-inline u-check g-color-gray-dark-v5 g-font-size-13 g-pl-25 mb-0">
+                    <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox">
+                    <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0">
+                      <i class="fa g-rounded-2" data-check-icon="&#xf00c"></i>
+                    </div>
+                    Keep signed in
+                  </label>
+                </div>
+                <div class="col align-self-center text-right">
+                  <a class="g-font-size-13" href="#">Passwort vergessen?</a>
+                </div>
+              </div>
+
+              <div class="mb-5">
+                <button class="btn btn-block u-btn-primary g-py-13" type="submit">Login</button>
+              </div>
+            </form:form>
+            <!-- End Form -->
+          </div>
+
+          <div class="text-center">
+            <p class="g-color-gray-dark-v5 mb-0">Noch kein Konto bei Holarse? <a class="g-font-weight-600" href="/register">Hier Konto erstellen</a>
+            </p>
+          </div>
         </div>
 
-        <div class="row justify-content-center align-items-center no-gutters">
-            <div class="col-lg-5 g-bg-teal g-rounded-left-5--lg-up">
-                <div class="g-pa-50">
-                    <!-- Form -->
-                    <form class="g-py-15" method="POST" action="/login">
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>	
-                        <h2 class="h3 g-color-white mb-4">Login</h2>
-                        <div class="mb-4">
-                            <div class="input-group">
-                                <span class="input-group-addon g-width-45 g-brd-white g-color-white">
-                                    <i class="icon-finance-067 u-line-icon-pro"></i>
-                                </span>
-                                <input class="form-control g-color-black g-brd-left-none g-brd-white g-bg-transparent g-color-white g-placeholder-white g-pl-0 g-pr-15 g-py-13" name="username" type="text" placeholder="Benutzername oder Email-Adresse">
-                            </div>
-                        </div>
+        <div class="col-md-6 flex-md-first g-mb-80">
+          <div class="mb-5">
+            <h2 class="h1 g-font-weight-300 mb-3">Vorteiles eines Holarse-Kontos</h2>
+            <p class="g-color-gray-dark-v5">Ein Konto bei Holarse eröffnet einige Linuxgamer-Dienste für dich.Was man mit seinem Holarse-Konto alles anstellen kann, stellen wir hier kurz vor:</p>
+          </div>
 
-                        <div class="g-mb-40">
-                            <div class="input-group rounded">
-                                <span class="input-group-addon g-width-45 g-brd-white g-color-white">
-                                    <i class="icon-communication-062 u-line-icon-pro"></i>
-                                </span>
-                                <input class="form-control g-color-black g-brd-left-none g-brd-white g-bg-transparent g-color-white g-placeholder-white g-pl-0 g-pr-15 g-py-13" name="password" type="password" placeholder="Password">
-                            </div>
-                        </div>
-
-                        <div class="g-mb-60">
-                            <button class="btn btn-md btn-block u-btn-primary rounded text-uppercase g-py-13" type="submit">Login</button>
-                        </div>
-
-                        <div class="text-center g-pos-rel pb-2 g-mb-60">
-                            <div class="d-inline-block w-100 g-height-1 g-bg-white"></div>
-                            <span class="u-icon-v2 u-icon-size--lg g-brd-white g-color-white g-bg-teal g-font-size-default rounded-circle text-uppercase g-absolute-centered g-pa-24">OR</span>
-                        </div>
-                    </form>
-                    <!-- End Form -->
+          <div class="row">
+            <div class="col-lg-9">
+              <!-- Icon Blocks -->
+              <div class="media mb-4">
+                <div class="d-flex mr-3">
+                  <span class="align-self-center u-icon-v1 u-icon-size--lg g-color-primary">
+                      <i class="icon-finance-168 u-line-icon-pro"></i>
+                    </span>
                 </div>
-            </div>
-
-            <div class="col-lg-5 g-bg-white g-rounded-right-5--lg-up">
-                <div class="g-pa-50">
-                    <!-- Form -->
-                    <form class="g-py-15" action="/login" method="POST">
-                        <h2 class="h3 g-color-black mb-4">Signup</h2>
-                        <p class="mb-4">Profitable contracts, invoices &amp; payments for the best cases!</p>
-
-                        <div class="mb-4">
-                            <div class="input-group rounded">
-                                <span class="input-group-addon g-width-45 g-brd-gray-light-v4 g-color-gray-dark-v5">
-                                    <i class="icon-communication-128 u-line-icon-pro"></i>
-                                </span>
-                                <input class="form-control g-color-black g-brd-left-none g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-pl-0 g-pr-15 g-py-13" type="login" placeholder="Login/Benutzername">
-                            </div>
-                        </div>
-
-                        <div class="mb-4">
-                            <div class="input-group rounded">
-                                <span class="input-group-addon g-width-45 g-brd-gray-light-v4 g-color-gray-dark-v5">
-                                    <i class="icon-finance-067 u-line-icon-pro"></i>
-                                </span>
-                                <input class="form-control g-color-black g-brd-left-none g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-pl-0 g-pr-15 g-py-13" type="email" placeholder="User name">
-                            </div>
-                        </div>
-
-                        <div class="mb-4">
-                            <div class="input-group rounded">
-                                <span class="input-group-addon g-width-45 g-brd-gray-light-v4 g-color-gray-dark-v5">
-                                    <i class="icon-communication-062 u-line-icon-pro"></i>
-                                </span>
-                                <input class="form-control g-color-black g-brd-left-none g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-pl-0 g-pr-15 g-py-13" type="email" placeholder="Your email">
-                            </div>
-                        </div>
-
-                        <div class="mb-4">
-                            <div class="input-group rounded">
-                                <span class="input-group-addon g-width-45 g-brd-gray-light-v4 g-color-gray-dark-v5">
-                                    <i class="icon-media-094 u-line-icon-pro"></i>
-                                </span>
-                                <input class="form-control g-color-black g-brd-left-none g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-pl-0 g-pr-15 g-py-13" type="password" placeholder="Password">
-                            </div>
-                        </div>
-
-                        <div class="mb-1">
-                            <label class="form-check-inline u-check g-color-gray-dark-v5 g-font-size-12 g-pl-25 mb-2">
-                                <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox">
-                                <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0">
-                                    <i class="fa" data-check-icon="&#xf00c"></i>
-                                </div>
-                                I accept the <a href="#">Terms and Conditions</a>
-                            </label>
-                        </div>
-
-                        <button class="btn btn-md btn-block u-btn-primary rounded text-uppercase g-py-13" type="submit">Login</button>
-                    </form>
-                    <!-- End Form -->
+                <div class="media-body align-self-center">
+                  <h3 class="h5">Mitgestalten und Schreiben</h3>
+                  <p class="g-color-gray-dark-v5 mb-0">Die Holarse-Artikel sind für jeden wie als Wiki bearbeitbar. So kannst du dich einfach beteiligen und auch Kommentare schreiben.</p>
                 </div>
+              </div>
+              <!-- End Icon Blocks -->
+
+              <!-- Icon Blocks -->
+              <div class="media mb-4">
+                <div class="d-flex mr-3">
+                  <span class="align-self-center u-icon-v1 u-icon-size--lg g-color-primary">
+                      <i class="icon-finance-193 u-line-icon-pro"></i>
+                    </span>
+                </div>
+                <div class="media-body align-self-center">
+                  <h3 class="h5">Mumble</h3>
+                  <p class="g-color-gray-dark-v5 mb-0">Dein Holarse-Konto ermöglicht dir automatisch auch auf den Mumble-Server zuzugreifen.</p>
+                </div>
+              </div>
+              <!-- End Icon Blocks -->
+
+              <!-- Icon Blocks -->
+              <div class="media">
+                <div class="d-flex mr-3">
+                  <span class="align-self-center u-icon-v1 u-icon-size--lg g-color-primary">
+                      <i class="icon-finance-122 u-line-icon-pro"></i>
+                    </span>
+                </div>
+                <div class="media-body align-self-center">
+                  <h3 class="h5">Jabber</h3>
+                  <p class="g-color-gray-dark-v5 mb-0">Wer noch nicht genug hat, kann mit dem Holarse-Konto direkt unseren Jabber-Server mitbenutzen.</p>
+                </div>
+              </div>
+              <!-- End Icon Blocks -->
             </div>
+          </div>
         </div>
-    </div>
-</section>
-<!-- End Login & Signup -->
+      </div>
+    </section>
+    <!-- End Login -->
+    

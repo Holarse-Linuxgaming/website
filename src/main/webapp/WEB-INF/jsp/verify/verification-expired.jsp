@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!-- Singup -->
 <section class="container g-py-100">
@@ -6,10 +7,8 @@
         <div class="col-sm-10 col-md-9 col-lg-6">
             <div class="g-brd-around g-brd-gray-light-v4 rounded g-py-40 g-px-30">
 
-                Registrierung abgeschlossen. Bitte aktivieren das Konto über den
-                Link in der Mail, die wir gerade an ${user.email} geschickt haben.
+                Der Verifikationssschlüssel ist abgelaufen. Bitte erneut starten.
                 
-                Debug Link: <a href="<c:url value="verify?verificationKey=${user.verificationKey}" />">Verifizierungslink</a></div>
             </div>
         </div>
     </div>

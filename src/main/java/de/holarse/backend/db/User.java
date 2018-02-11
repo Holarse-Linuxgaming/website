@@ -1,5 +1,6 @@
 package de.holarse.backend.db;
 
+import java.time.OffsetDateTime;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,9 +24,15 @@ public class User extends Base {
     
     @Column(columnDefinition = "boolean default false")
     private boolean locked;
+
+    @Column(columnDefinition = "boolean default false")
+    private boolean verified;
     
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
+    
+    private String verificationKey;
+    private OffsetDateTime verificationValidUntil;
 
     public String getLogin() {
         return login;
@@ -75,6 +82,30 @@ public class User extends Base {
         this.email = email;
     }
 
+    public boolean isVerified() {
+        return verified;
+    }
+
+    public void setVerified(boolean verified) {
+        this.verified = verified;
+    }
+
+    public String getVerificationKey() {
+        return verificationKey;
+    }
+
+    public void setVerificationKey(String verificationKey) {
+        this.verificationKey = verificationKey;
+    }
+
+    public OffsetDateTime getVerificationValidUntil() {
+        return verificationValidUntil;
+    }
+
+    public void setVerificationValidUntil(OffsetDateTime verificationValidUntil) {
+        this.verificationValidUntil = verificationValidUntil;
+    }
+    
     @Override
     public String toString() {
         return "User{" + "login=" + login + ", passwordType=" + passwordType + ", digest=" + digest + ", locked=" + locked + ", roles=" + roles + '}';

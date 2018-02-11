@@ -37,7 +37,7 @@ public class HolarsePrincipal implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return !user.isLocked();
     }
 
     @Override
@@ -47,12 +47,12 @@ public class HolarsePrincipal implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return user.isVerified();
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return user.isVerified();
     }
 
     
