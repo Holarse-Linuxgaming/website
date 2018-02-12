@@ -73,19 +73,19 @@
             <div class="col-auto g-px-15">
               <ul class="list-inline g-line-height-1 g-mt-minus-10 g-mx-minus-4 mb-0">
                 <li class="list-inline-item g-mx-4 g-mt-10">
-                    <s:authorize access="hasRole('ROLE_ANONYMOUS')">
+                    <s:authorize access="hasRole('ANONYMOUS')">
                         <a href="/login" class="g-color-white g-color-primary--hover g-text-underline--none--hover">Login</a>
                     </s:authorize>
-                    <s:authorize access="hasRole('ROLE_USER')">
-                        <a href="/login" class="g-color-white g-color-primary--hover g-text-underline--none--hover">${currentUser.login}</a>
+                    <s:authorize access="hasRole('USER')">
+                        <a href="/users/${currentUser.login}" class="g-color-white g-color-primary--hover g-text-underline--none--hover">${currentUser.login}</a>
                     </s:authorize>                        
                 </li>
                 <li class="list-inline-item g-mx-4 g-mt-10">|</li>
                 <li class="list-inline-item g-mx-4 g-mt-10">
-                    <s:authorize access="hasRole('ROLE_ANONYMOUS')">
+                    <s:authorize access="hasRole('ANONYMOUS')">
                         <a href="/register" class="g-color-white g-color-primary--hover g-text-underline--none--hover">Registrieren</a>
                     </s:authorize>
-                    <s:authorize access="hasRole('ROLE_USER')">
+                    <s:authorize access="hasRole('USER')">
                         <a href="/logout" class="g-color-white g-color-primary--hover g-text-underline--none--hover">Logout</a>
                     </s:authorize>                        
                 </li>

@@ -1,4 +1,4 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <!-- Login -->
     <section class="container g-pt-100 g-pb-20">
@@ -6,17 +6,17 @@
         <div class="col-md-6 col-lg-5 flex-md-unordered g-mb-80">
           <div class="g-brd-around g-brd-gray-light-v3 g-bg-white rounded g-px-30 g-py-50 mb-4">
             <header class="text-center mb-4">
-              <h1 class="h3 g-color-black g-font-weight-300 text-capitalize">Login to your account</h1>
+              <h1 class="h3 g-color-black g-font-weight-300 text-capitalize">An Holarse anmelden</h1>
             </header>
 
             <!-- Form -->
-            <form:form action="POST" target="/login" class="g-py-15">
+            <form:form name="loginform" action="/login" method="POST" class="g-py-15">
               <div class="mb-4">
                 <div class="input-group g-brd-primary--focus">
                   <span class="input-group-addon g-width-45 g-brd-gray-light-v3 g-color-gray-dark-v5">
                       <i class="icon-finance-067 u-line-icon-pro"></i>
                     </span>
-                  <input class="form-control g-color-black g-brd-gray-light-v3 g-py-15 g-px-15" type="login" placeholder="Login">
+                  <input class="form-control g-color-black g-brd-gray-light-v3 g-py-15 g-px-15" type="login" name="username" placeholder="Benutzername">
                 </div>
               </div>
 
@@ -25,7 +25,7 @@
                   <span class="input-group-addon g-width-45 g-brd-gray-light-v3 g-color-gray-dark-v5">
                       <i class="icon-media-094 u-line-icon-pro"></i>
                     </span>
-                  <input class="form-control g-color-black g-brd-gray-light-v3 g-py-15 g-px-15" type="password" placeholder="Password">
+                  <input class="form-control g-color-black g-brd-gray-light-v3 g-py-15 g-px-15" name="password" type="password">
                 </div>
               </div>
 
