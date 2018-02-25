@@ -144,7 +144,7 @@
               </a>
                 </li>
                 <li class="nav-item g-mx-20--lg">
-                  <a href="#" class="nav-link px-0">Artikel
+                  <a href="/articles/" class="nav-link px-0">Artikel
                 
               </a>
                 </li>
