@@ -22,7 +22,25 @@
         <xs:sequence>
             <xs:element name="titles" type="h:title" maxOccurs="unbounded" />
         </xs:sequence>
-    </xs:group>    
+    </xs:group>  
+    
+    <xs:group name="images">
+        <xs:sequence>
+            <xs:element name="images" type="h:image" maxOccurs="unbounded" />
+        </xs:sequence>        
+    </xs:group>  
+    
+    <xs:group name="videos">
+        <xs:sequence>
+            <xs:element name="videos" type="h:video" maxOccurs="unbounded" />
+        </xs:sequence>        
+    </xs:group>     
+    
+    <xs:group name="attachments">
+        <xs:sequence>
+            <xs:element name="attachments" type="h:attachment" maxOccurs="unbounded" />
+        </xs:sequence>        
+    </xs:group>           
 
     <xs:complexType name="tag">
         <xs:simpleContent>
@@ -110,9 +128,48 @@
             <xs:element name="revision" type="h:revision" />            
             <xs:element name="state" type="h:state" />                
             <xs:element name="content" type="h:content" />
+            <xs:group ref="h:images" />
+            <xs:group ref="h:videos" />
+            <xs:group ref="h:attachments" />
         </xs:sequence>
         <xs:attribute name="uid" type="xs:long" />        
+    </xs:complexType>
+
+    <xs:simpleType name="datatype">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="URI" />
+            <xs:enumeration value="BASE64" />
+        </xs:restriction>
+    </xs:simpleType>         
+
+    <xs:complexType name="image">
+        <xs:complexContent>
+            <xs:extension base="h:attachedData"></xs:extension>   
+        </xs:complexContent>
+    </xs:complexType>  
+    
+    <xs:complexType name="video">
+        <xs:complexContent>
+            <xs:extension base="h:attachedData"></xs:extension>   
+        </xs:complexContent>
     </xs:complexType>      
     
+    <xs:complexType name="attachment">
+        <xs:complexContent>
+            <xs:extension base="h:attachedData"></xs:extension>   
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <xs:complexType name="attachedData">
+        <xs:sequence>
+            <xs:element name="ordering" type="xs:long" />
+            <xs:element name="description" type="xs:string" />
+            <xs:element name="datatype" type="h:datatype" minOccurs="1" />
+            <xs:element name="data" type="xs:string" minOccurs="1" />
+        </xs:sequence>
+        <xs:attribute name="mimetype" type="xs:long" />          
+    </xs:complexType>
+                    
+                
 </xs:schema> 
 
