@@ -1,0 +1,43 @@
+#!/bin/bash
+
+HTEMP="/tmp/holarseweb"
+mkdir -p $HTEMP
+
+# Lädt Payara Micro nach $HTEMP herunter, falls noch nicht vorhanden. Dann wird Holarse-Web deployt und gestartet.
+PAYARA_MICRO_JAR="payara-micro-4.1.2.181.jar"
+PAYARA_DOWNLOAD_URL="https://info.payara.fish/cs/c/?cta_guid=21e00628-5d9e-400a-9805-1fc99fe0de87&placement_guid=0c1037e0-adaf-4401-b888-05088602db6a&portal_id=334594&redirect_url=APefjpHk5ZarY-jyJWeewr-aC04o2DTfTQ4Jw5fabqj82x-oQGcdEwnsw1EekoREwdGUiHhxlkGSUhPe5LTZxfcSaK_os90hKrGMkdw_hnWxg6Y7IyCoZn8&hsutk=c7a0000014e21dc71b2a0161ffe028ad&canon=https%3A%2F%2Fwww.payara.fish%2Fdownloads&click=6a538736-87a1-4b82-8e81-4e37f3f832ae&utm_referrer=https%3A%2F%2Fwww.payara.fish%2F"
+
+POSTGRESQL_JDBC_JAR="postgresql-42.2.1.jar"
+POSTGRESQL_JDBC_URL="https://jdbc.postgresql.org/download/$POSTGRESQL_JDBC_JAR"
+
+PAYARA_OPTS="--disablephonehome --nocluster"
+HOLARSE_WAR="target/HolarseWeb-1.0-SNAPSHOT.war"
+
+# payara herunterladen falls nötig
+echo "make sure application server is available..."
+if [[ ! -e "$HTEMP/$PAYARA_MICRO_JAR" ]]; then
+    wget "$PAYARA_DOWNLOAD_URL" -O "$HTEMP/$PAYARA_MICRO_JAR"
+fi
+
+# postgresql jdbc-treiber herunterladen falls nötig
+if [[ ! -e "$HTEMP/$POSTGRESQL_JDBC_JAR" ]]; then
+    wget "$POSTGRESQL_JDBC_URL" -O "$HTEMP/$POSTGRESQL_JDBC_JAR"
+fi
+
+# holarse bauen falls nötig
+echo "make sure holarse-web is built..."
+if [[ ! -e "$HOLARSE_WAR" ]]; then
+    mvn clean package
+fi
+
+echo "PAYARA_MICRO_JAR: $PAYARA_MICRO_JAR"
+echo "PAYARA_OPTS     : $PAYARA_OPTS"
+echo "HOLARE_WAR      : $HOLARSE_WAR"
+
+COMMAND="java -jar "$HTEMP/$PAYARA_MICRO_JAR" $PAYARA_OPTS --addjars "$HTEMP/$POSTGRESQL_JDBC_JAR" --deploy $HOLARSE_WAR --domainconfig holarse-domain.xml"
+$COMMAND
+
+
+
+
+

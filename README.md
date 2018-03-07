@@ -39,16 +39,13 @@ Der Dienst erwartet die vom Export-Tool erzeugten Dokumente unter ```/tmp/export
 in den jeweiligen Unterzeichnissen ```articles```, ```news```, ```users``` und
 ```comments```.
 
+### Datenbank
+Es muss eine PostgreSQL-Datenbank auf ```localhost``` vorliegen mit dem
+Datenbanknamen ```holarse```, Benutzer ```holarse``` und Passwort ```geheim```.
+
 ### Aufrufen
-Hierfür benötigt man einen Application Server. Der Payara-Micro-Server ist
-eine einfache Jar, die heruntergeladen werden kann und einen Application
-Server ohne Installation und Konfiguration bereitstellt.
+Dazu gibt es das praktische Script
 
-Den Payara Micro erhält man von https://www.payara.fish/downloads. 
-
-Er wird dann wie folgt ausgeführt (aus dem Verzeichnis, wo sich auch die
-pom.xml befindet):
-
-	java -jar payara-micro-4.1.2.173.jar --nocluster --disablephonehome --deploy target/HolarseWeb-1.0-SNAPSHOT.war
-
-Die Seite ist dann erreichbar unter ```http://localhost:8080```.
+	./run_micro
+	
+Es lädt den Application-Server und den JDBC-Treiber herunter und startet eine Micro-Instanz.

@@ -41,7 +41,7 @@ public class PersistenceJPAConfig {
     @Bean
     public DataSource dataSource() {
         JndiDataSourceLookup lookup = new JndiDataSourceLookup();
-        return lookup.getDataSource("jndi/holarse");        
+        return lookup.getDataSource("jdbc/holarse");        
     }
 
     @Bean
