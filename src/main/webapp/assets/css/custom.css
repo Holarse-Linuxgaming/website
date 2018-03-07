@@ -1,4 +1,49 @@
-/* Add here all your css styles (customizations) */
-.g-bg-holarse {
-    background-color: #e84d3c;
+@font-face {
+  font-family: 'Vollkorn';
+  src: url('/assets/fonts/vollkorn/Vollkorn-Regular.eot'); /* IE9+ Compat Modes */
+  src: url('/assets/fonts/vollkorn/Vollkorn-Regular.eot#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/assets/fonts/vollkorn/Vollkorn-Regular.woff2') format('woff2'), /* Super modern browsers */
+       url('/assets/fonts/vollkorn/Vollkorn-Regular.woff') format('woff'), /* Modern browsers */
+       url('/assets/fonts/vollkorn/Vollkorn-Regular.ttf')  format('truetype') /* Safari, Android, iOS */
+}
+
+body {
+    font-family: 'Vollkorn', serif;
+    font-size: 18px;
+}
+
+.holarse-topbar {
+    background-color: #e84d3c;    
+    padding: 0;
+    padding-left: 0.25%;
+}
+
+.holarse-topbar a, .btn-link, .navbar-text {
+    color: #eaeaea;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: lowercase;
+}
+
+.holarse-topbar a:hover, .btn-link:hover {
+    color: #eaeaea;
+    text-decoration: underline;
+}
+
+.holarse-menubar {
+    background-color: #eaeaea;       
+}
+
+.holarse-menubar a {
+    color: #222;
+}
+
+.holarse-menubar a:hover {
+    color: #e84d3c;
+    text-decoration: underline;
+}
+
+.content {
+    padding-top: 25px;
+    padding-bottom: 25px;
 }
