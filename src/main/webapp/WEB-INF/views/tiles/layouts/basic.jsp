@@ -17,6 +17,7 @@
 
         <!-- CSS Global Compulsory -->
         <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/vendor/fontawesome/fontawesome-all.min.css">
 
         <!-- CSS Customization -->
         <link rel="stylesheet" href="assets/css/custom.css">
@@ -26,11 +27,9 @@
         <!-- Header -->
         <tiles:insertAttribute name="header" />
 
-        <main class="content">
+        <main class="content container-fluid">
             <!-- Body -->
-            <div class="container-fluid">
-                <tiles:insertAttribute name="body" />
-            </div>
+            <tiles:insertAttribute name="body" />
         </main>
 
         <!-- Footer -->

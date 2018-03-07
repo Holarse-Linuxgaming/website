@@ -45,7 +45,7 @@
         </button>
 
         <a class="navbar-brand" href="/">
-            <img src="assets/img/logo.svg" />
+            <img src="assets/img/logo-with-text.png" height="60" />
         </a>           
                        
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -62,7 +62,7 @@
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Holarse durchsuchen" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Los!</button>
+                <button class="btn btn-primary my-2 my-sm-0 btn-search" type="submit">Los!</button>
             </form>
         </div>
     </nav>

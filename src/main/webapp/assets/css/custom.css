@@ -43,7 +43,30 @@ body {
     text-decoration: underline;
 }
 
+.holarse-menubar .btn-search {
+    background-color: #e84d3c;
+    border-color: #eaeaea;
+}
+
 .content {
     padding-top: 25px;
-    padding-bottom: 25px;
+    padding-bottom: 50px;
+}
+
+.holarse-tags {
+    color: #e84d3c;
+    font-weight: bold;
+    font-size: 0.8em;
+}
+
+.holarse-tags a {
+    color: #e84d3c;
+}
+
+.holarse-node-menu .navbar-text {
+    color: #495057;
+}
+
+.holarse-tags a:hover, .btn-link:hover {
+    text-decoration: underline;
 }
