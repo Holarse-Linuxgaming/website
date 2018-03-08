@@ -1,4 +1,6 @@
-# HolaCMS 2017 (In Development)
+# HolaCMS 3 (In Development)
+
+HolaCMS 3 wird die Basis für das neue HOLARSE 2018.
 
 ## Export-Tool
 
