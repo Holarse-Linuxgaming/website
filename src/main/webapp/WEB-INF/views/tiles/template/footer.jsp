@@ -1,5 +1,5 @@
 <footer>
-    <nav class="navbar navbar-light bg-light static-bottom navbar-expand-md">
+    <nav class="navbar navbar-light bg-light fixed-bottom navbar-expand-md holarse-footer">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
                 <a class="nav-link" href="#">Impressum</a>

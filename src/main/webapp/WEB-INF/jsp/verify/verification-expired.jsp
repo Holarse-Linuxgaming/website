@@ -1,16 +1,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<!-- Singup -->
-<section class="container g-py-100">
-    <div class="row justify-content-center">
-        <div class="col-sm-10 col-md-9 col-lg-6">
-            <div class="g-brd-around g-brd-gray-light-v4 rounded g-py-40 g-px-30">
+<section class="container">
 
-                Der Verifikationssschlüssel ist abgelaufen. Bitte erneut starten.
-                
-            </div>
+    <div class="card text-white bg-danger">
+        <div class="card-body">
+            <p class="card-text">Der Verifikationssschlüssel ist abgelaufen. Bitte erneut registrieren.</p>
+            <a href="/register" class="btn btn-primary">Zur Registrierung</a>
         </div>
     </div>
+
 </section>
-<!-- End Singup -->
+
