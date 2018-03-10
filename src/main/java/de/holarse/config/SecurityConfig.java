@@ -79,7 +79,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/logout").hasRole("USER")
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
-                .and().formLogin()
+                .and().formLogin().usernameParameter("login")
                 .successForwardUrl("/")
                 .loginPage("/login").permitAll();
                 

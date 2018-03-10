@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="s" uri="http://www.springframework.org/security/tags" %>
 
 <h1>
     ${article.title}
@@ -29,16 +30,24 @@
     </div>
     <div class="col-4">
         <nav class="nav holarse-node-menu">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Bearbeiten</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="/articles/${article.id}/edit">Bearbeiten</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Separated link</a>
-                </div>
-            </li>
+            <s:authorize access="hasRole('USER')">
+            <li class="nav-item">
+                <a class="nav-link" href="/wiki/${article.id}/edit">Bearbeiten</a>
+            </li>                    
+            </s:authorize>            
+            
+            <s:authorize access="hasAnyRole('MODERATOR', 'ADMIN')">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Bearbeiten</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/articles/${article.id}/edit">Bearbeiten</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Separated link</a>
+                        </div>
+                    </li>
+            </s:authorize>                        
             <span class="navbar-text">Letzte Änderung: vor 7 Tagen durch <a href="/users/comrad">comrad</a></span>
         </nav>
     </div>    

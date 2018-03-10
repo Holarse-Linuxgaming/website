@@ -5,6 +5,8 @@
  */
 package de.holarse.web.articles;
 
+import de.holarse.backend.db.ContentType;
+
 /**
  *
  * @author comrad
@@ -14,6 +16,15 @@ public class ArticleCommand {
     private String title;
     private String content;
     private String tags;
+    private ContentType contentType;
+
+    public ContentType getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(ContentType contentType) {
+        this.contentType = contentType;
+    }
 
     public String getTags() {
         return tags;
