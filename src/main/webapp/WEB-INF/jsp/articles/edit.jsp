@@ -12,7 +12,7 @@
     </fieldset>
     <fieldset>
         <form:label path="content">Inhalt</form:label>
-        <form:textarea path="content" class="form-control"></form:textarea>
+        <form:textarea path="content" class="form-control" rows="25"></form:textarea>
 
         <form:label path="contentType">Format des Inhalts</form:label>    
         <form:select path="contentType" items="${contentTypes}" class="form-control"></form:select>

@@ -8,8 +8,10 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
-@Entity(name = "users")
+@Table(name="users")
+@Entity
 public class User extends Base {
     
     @Column(unique = true)

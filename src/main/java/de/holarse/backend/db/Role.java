@@ -1,9 +1,11 @@
 package de.holarse.backend.db;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
 
-@Entity(name = "roles")
+@Table(name="users")
+@Entity
 public class Role extends Base implements GrantedAuthority {
    
     private String code;

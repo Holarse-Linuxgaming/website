@@ -1,8 +1,14 @@
 package de.holarse.backend.db;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
-@Entity(name = "articles")
+@Table(name="articles")
+@Entity
 public class Article extends CommentableNode {
     
     private String title;
@@ -10,6 +16,13 @@ public class Article extends CommentableNode {
     private String alternativeTitle2;
     private String alternativeTitle3;
 
+    @OneToMany(mappedBy = "nodeId")
+    private final List<Revision> revisions = new ArrayList<>();
+
+    public List<Revision> getRevisions() {
+        return revisions;
+    }
+    
     public String getTitle() {
         return title;
     }

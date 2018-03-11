@@ -15,7 +15,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Kommerziell</a>
-            
+
             </li>                
             <li class="nav-item">
                 <a class="nav-link" href="#">native</a>
@@ -30,25 +30,21 @@
     </div>
     <div class="col-4">
         <nav class="nav holarse-node-menu">
-            <s:authorize access="hasRole('USER')">
-            <li class="nav-item">
-                <a class="nav-link" href="/wiki/${article.id}/edit">Bearbeiten</a>
-            </li>                    
-            </s:authorize>            
-            
-            <s:authorize access="hasAnyRole('MODERATOR', 'ADMIN')">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Bearbeiten</a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="/articles/${article.id}/edit">Bearbeiten</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Separated link</a>
-                        </div>
-                    </li>
-            </s:authorize>                        
-            <span class="navbar-text">Letzte Änderung: vor 7 Tagen durch <a href="/users/comrad">comrad</a></span>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Artikelmenü</a>
+                    <div class="dropdown-menu">
+                        <s:authorize access="hasRole('USER')">                        
+                            <a class="nav-link" href="/wiki/${article.id}/edit">Bearbeiten</a>    
+                        </s:authorize>
+                        <s:authorize access="hasAnyRole('MODERATOR', 'ADMIN')">
+                            <a class="dropdown-item" href="/articles/${article.id}/delete">Löschen</a>
+                        </s:authorize>
+                    </div>            
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/wiki/${article.id}/revisions">Revisionen</a>    
+                </li>
+                <span class="navbar-text">Letzte Änderung: vor 7 Tagen durch <a href="/users/comrad">comrad</a></span>                
         </nav>
     </div>    
 </div>
@@ -100,3 +96,5 @@
         </div>
     </div>
 </div>
+
+

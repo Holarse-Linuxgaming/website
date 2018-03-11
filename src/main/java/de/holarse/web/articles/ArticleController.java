@@ -2,8 +2,13 @@ package de.holarse.web.articles;
 
 import de.holarse.backend.db.Article;
 import de.holarse.backend.db.ContentType;
+import de.holarse.backend.db.Revision;
 import de.holarse.backend.db.repositories.ArticleRepository;
+import de.holarse.backend.db.repositories.RevisionRepository;
 import java.time.OffsetDateTime;
+import javax.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,8 +24,13 @@ import org.springframework.web.servlet.view.RedirectView;
 @RequestMapping(path= {"wiki", "articles"})
 public class ArticleController {
     
+    Logger logger = LoggerFactory.getLogger(ArticleController.class);
+    
     @Autowired
     ArticleRepository articleRepository;
+    
+    @Autowired
+    RevisionRepository revisionRepository;
 
     // INDEX
     @GetMapping("/")
@@ -55,6 +65,7 @@ public class ArticleController {
     public String showById(@PathVariable final Long id, final Model map) {
         map.addAttribute("article", articleRepository.findById(id).get());
         
+        logger.debug("SHOW ID" + id);
         return "articles/show";
     }    
     
@@ -75,15 +86,24 @@ public class ArticleController {
     }       
     
     // UPDATE
+    @Transactional
     @PutMapping("/{id}")
     public RedirectView update(@PathVariable final Long id, final ArticleCommand command) {
         final Article article = articleRepository.findById(id).get();
+        // Artikel archivieren
+        final Revision revision = new Revision();
+        revision.setNodeId(article.getId());
+        revision.setContent(article.getContent()); // TODO durch die richtige XML-Ausgabe ersetzen
+        revisionRepository.saveAndFlush(revision);
+        
+        // Artikel aktualisieren
         article.setTitle(command.getTitle());
         article.setContent(command.getContent());
         article.setContentType(command.getContentType());       
         
-        article.setCreated(OffsetDateTime.now());
-        articleRepository.saveAndFlush(article);        
+        article.setUpdated(OffsetDateTime.now());
+        articleRepository.saveAndFlush(article);    
+        
         return new RedirectView("/articles/" + article.getId());
     }        
     

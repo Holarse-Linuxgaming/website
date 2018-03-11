@@ -2,8 +2,10 @@ package de.holarse.backend.db;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
-@Entity(name="comments")
+@Table(name="comments")
+@Entity
 public class Comment extends Node {
     
     @Column(name = "node_id")
