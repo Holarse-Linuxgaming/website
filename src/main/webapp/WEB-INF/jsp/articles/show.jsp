@@ -30,21 +30,24 @@
     </div>
     <div class="col-4">
         <nav class="nav holarse-node-menu">
+            <li class="nav-item">
+                <s:authorize access="hasRole('USER')">                        
+                    <a class="nav-link" href="/wiki/${article.id}/edit">Bearbeiten</a>    
+                </s:authorize>            
+            </li>
+            <s:authorize access="hasAnyRole('MODERATOR', 'ADMIN')">            
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Artikelmenü</a>
                     <div class="dropdown-menu">
-                        <s:authorize access="hasRole('USER')">                        
-                            <a class="nav-link" href="/wiki/${article.id}/edit">Bearbeiten</a>    
-                        </s:authorize>
-                        <s:authorize access="hasAnyRole('MODERATOR', 'ADMIN')">
-                            <a class="dropdown-item" href="/articles/${article.id}/delete">Löschen</a>
-                        </s:authorize>
+                        <a class="nav-link" href="/wiki/${article.id}/edit">Bearbeiten</a>    
+                        <a class="dropdown-item" href="/articles/${article.id}/delete">Löschen</a>
                     </div>            
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/wiki/${article.id}/revisions">Revisionen</a>    
-                </li>
-                <span class="navbar-text">Letzte Änderung: vor 7 Tagen durch <a href="/users/comrad">comrad</a></span>                
+            </s:authorize>            
+            <li class="nav-item">
+                <a class="nav-link" href="/wiki/${article.id}/revisions">Revisionen</a>    
+            </li>
+            <span class="navbar-text">Letzte Änderung: ${empty article.updated ? article.created : article.updated} durch ${empty article.author ? 'unbekannt' : article.author.login}</span>                
         </nav>
     </div>    
 </div>

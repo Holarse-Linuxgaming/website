@@ -3,8 +3,11 @@ package de.holarse.backend.db;
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Version;
 
 @MappedSuperclass
@@ -40,7 +43,7 @@ public class Node extends Base {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ContentType contentType;
-    
+        
     @Column(nullable = false, length = 32768)
     private String content;
     
@@ -49,6 +52,7 @@ public class Node extends Base {
     
     @Version
     private int version;
+
     
     public Boolean getDeleted() {
         return deleted;

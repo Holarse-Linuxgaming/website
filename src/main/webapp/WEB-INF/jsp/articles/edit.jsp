@@ -3,6 +3,7 @@
 
 <!-- Form -->
 <form:form modelAttribute="articleCommand" action="/wiki/${article.id}" method="PUT">
+    <form:button class="btn btn-primary">Speichern</form:button>
     <fieldset>
         <form:label path="title">Titel</form:label>
         <form:input path="title" class="form-control"></form:input>
@@ -17,8 +18,10 @@
         <form:label path="contentType">Format des Inhalts</form:label>    
         <form:select path="contentType" items="${contentTypes}" class="form-control"></form:select>
     </fieldset>
-    
-    <form:button class="form-control">Speichern</form:button>
+    <fieldset>
+        <form:label path="changelog">Changelog</form:label>
+        <form:textarea path="changelog" class="form-control"></form:textarea>
+    </fieldset>
 </form:form>
 <!-- End Form -->
 

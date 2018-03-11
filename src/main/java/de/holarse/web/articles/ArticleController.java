@@ -1,8 +1,10 @@
 package de.holarse.web.articles;
 
+import de.holarse.auth.HolarsePrincipal;
 import de.holarse.backend.db.Article;
 import de.holarse.backend.db.ContentType;
 import de.holarse.backend.db.Revision;
+import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.RevisionRepository;
 import java.time.OffsetDateTime;
@@ -10,6 +12,7 @@ import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,13 +52,14 @@ public class ArticleController {
     
     // CREATE
     @PostMapping("/")
-    public RedirectView create(@ModelAttribute final ArticleCommand command) {
+    public RedirectView create(@ModelAttribute final ArticleCommand command, final Authentication authentication) {
         final Article article = initNewArticle();
         article.setTitle(command.getTitle());
         article.setContent(command.getContent());
         article.setContentType(ContentType.PLAIN);       
         
-        article.setCreated(OffsetDateTime.now());
+        article.setAuthor( ((HolarsePrincipal) authentication.getPrincipal()).getUser() );
+        article.setCreated(OffsetDateTime.now());        
         articleRepository.saveAndFlush(article);        
         return new RedirectView("/articles/" + article.getId());
     }    
@@ -88,20 +92,32 @@ public class ArticleController {
     // UPDATE
     @Transactional
     @PutMapping("/{id}")
-    public RedirectView update(@PathVariable final Long id, final ArticleCommand command) {
+    public RedirectView update(@PathVariable final Long id, final ArticleCommand command, final Authentication authentication) {
+        final User currentUser = ((HolarsePrincipal) authentication.getPrincipal()).getUser();
+        
         final Article article = articleRepository.findById(id).get();
+        
         // Artikel archivieren
         final Revision revision = new Revision();
         revision.setNodeId(article.getId());
-        revision.setContent(article.getContent()); // TODO durch die richtige XML-Ausgabe ersetzen
+        // TODO durch die richtige XML-Ausgabe ersetzen
+        revision.setContent(article.getContent()); 
+        revision.setAuthor(article.getAuthor());
+        revision.setChangelog(article.getChangelog());
+        revision.setRevision(article.getRevision());
         revisionRepository.saveAndFlush(revision);
         
         // Artikel aktualisieren
         article.setTitle(command.getTitle());
         article.setContent(command.getContent());
-        article.setContentType(command.getContentType());       
-        
+        article.setContentType(command.getContentType());  
+
+        // Artikel-Metadaten aktualisieren
+        article.setAuthor( currentUser );        
+        article.setChangelog(command.getChangelog());
         article.setUpdated(OffsetDateTime.now());
+        article.setRevision(null);
+
         articleRepository.saveAndFlush(article);    
         
         return new RedirectView("/articles/" + article.getId());

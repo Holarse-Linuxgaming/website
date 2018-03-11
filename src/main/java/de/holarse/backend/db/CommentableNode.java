@@ -8,7 +8,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 
 @MappedSuperclass
-public class CommentableNode extends Node {
+public class CommentableNode extends RevisionableNode {
     
     /**
      * Kann kommentiert werden

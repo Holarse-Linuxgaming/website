@@ -24,6 +24,10 @@ public class HolarsePrincipal implements UserDetails {
         
         return roles;
     }
+    
+    public User getUser() {
+        return user;
+    }
 
     @Override
     public String getPassword() {

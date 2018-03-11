@@ -1,22 +1,23 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.holarse.web.articles;
 
 import de.holarse.backend.db.ContentType;
 
-/**
- *
- * @author comrad
- */
 public class ArticleCommand {
     
     private String title;
     private String content;
     private String tags;
     private ContentType contentType;
+    
+    private String changelog;
+
+    public String getChangelog() {
+        return changelog;
+    }
+
+    public void setChangelog(String changelog) {
+        this.changelog = changelog;
+    }
 
     public ContentType getContentType() {
         return contentType;
