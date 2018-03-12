@@ -5,11 +5,25 @@
 <header>
     <!-- Top bar -->
     <nav class="navbar navbar-expand-lg holarse-topbar">
-     
+
         <span class="navbar-text">
-          Eure deutschsprache Linuxspiele-Quelle
+            Eure deutschsprache Linuxspiele-Quelle
         </span>         
         <ul class="navbar-nav ml-auto p-2">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Erstellen
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/messages/new">Nachricht</a>
+                    <a class="dropdown-item" href="/hints/new">Hinweis</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/news/new">News erstellen</a>
+                    <a class="dropdown-item" href="/news/new">Artikel erstellen</a>
+                    <a class="dropdown-item" href="/forums/new">Forenbeitrag erstellen</a>
+                </div>
+            </li>         
+
             <!-- Login oder User -->
             <s:authorize access="hasRole('ANONYMOUS')">
                 <li class="nav-item">
@@ -47,7 +61,7 @@
         <a class="navbar-brand" href="/">
             <img src="assets/img/logo-with-text.png" height="60" />
         </a>           
-                       
+
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">

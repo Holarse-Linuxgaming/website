@@ -2,7 +2,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <!-- Form -->
-<form:form modelAttribute="articleCommand" action="/news/${news.id}" method="PUT">
+<form:form modelAttribute="newsCommand" action="/news/${node.id}" method="PUT">
     <form:button class="btn btn-primary">Speichern</form:button>
     <fieldset>
         <form:label path="title">Titel</form:label>
@@ -10,6 +10,9 @@
 
         <form:label path="subtitle">Untertitel</form:label>
         <form:input path="subtitle" class="form-control"></form:input>    
+        
+        <form:label path="category">Kategorie</form:label>    
+        <form:select path="category" items="${categories}" class="form-control"></form:select>           
     </fieldset>
     <fieldset>
         <form:label path="content">Inhalt</form:label>
