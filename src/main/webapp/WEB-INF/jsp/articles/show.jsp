@@ -31,9 +31,7 @@
     <div class="col-4">
         <nav class="nav holarse-node-menu">
             <li class="nav-item">
-                <s:authorize access="hasRole('USER')">                        
-                    <a class="nav-link" href="/wiki/${article.id}/edit">Bearbeiten</a>    
-                </s:authorize>            
+                <a class="nav-link" href="/wiki/${article.id}/edit">Bearbeiten</a>    
             </li>
             <s:authorize access="hasAnyRole('MODERATOR', 'ADMIN')">            
                 <li class="nav-item dropdown">
