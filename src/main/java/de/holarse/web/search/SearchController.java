@@ -24,14 +24,17 @@ public class SearchController {
     
     @GetMapping("/search/{query}")
     public String searchUrl(@PathVariable("query") final String query, final Model map) {
-        map.addAttribute("results", searchRepository.search(query));
-        
-        return "search/result";
+        return performSearch(query, map);
     }    
     
     @PostMapping("/search")
     public String searchResult(@ModelAttribute final SearchCommand command, final Model map) {
-        map.addAttribute("results", searchRepository.search(command.getQuery()));
+        return performSearch(command.getQuery(), map);
+    }
+    
+    protected String performSearch(final String query, final Model map) {
+        map.addAttribute("results", searchRepository.search(query));
+        map.addAttribute("query", query);
         return "search/result";
     }
     
