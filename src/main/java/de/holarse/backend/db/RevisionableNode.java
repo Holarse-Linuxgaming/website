@@ -10,7 +10,7 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public class RevisionableNode extends Node {
     
-    @Column(columnDefinition = "int default nextval('revision_seq')") // TODO füllt sich nicht automatisch beim nullen
+    @Column(columnDefinition = "int default nextval('revision_seq') not null") // TODO füllt sich nicht automatisch beim nullen
     private Long revision;    
     
     @Column(length = 1024)

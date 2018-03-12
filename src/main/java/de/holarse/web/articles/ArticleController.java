@@ -59,7 +59,9 @@ public class ArticleController {
         article.setContentType(ContentType.PLAIN);       
         
         article.setAuthor( ((HolarsePrincipal) authentication.getPrincipal()).getUser() );
-        article.setCreated(OffsetDateTime.now());        
+        article.setCreated(OffsetDateTime.now()); 
+        article.setRevision(revisionRepository.nextRevision());
+        
         articleRepository.saveAndFlush(article);        
         return new RedirectView("/articles/" + article.getId());
     }    
@@ -116,7 +118,7 @@ public class ArticleController {
         article.setAuthor( currentUser );        
         article.setChangelog(command.getChangelog());
         article.setUpdated(OffsetDateTime.now());
-        article.setRevision(null);
+        article.setRevision(revisionRepository.nextRevision());
 
         articleRepository.saveAndFlush(article);    
         

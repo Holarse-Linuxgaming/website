@@ -11,4 +11,6 @@ public interface RevisionRepository extends JpaRepository<Revision, Long> {
     @Query("select r from Revision r where nodeId = :nodeId")
     List<Revision> findByNodeId(@Param("nodeId") Long nodeId);
     
+    @Query(value = "select nextval('revision_seq')", nativeQuery = true)
+    Long nextRevision();
 }
