@@ -7,6 +7,7 @@ import de.holarse.backend.db.Revision;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.RevisionRepository;
+import de.holarse.backend.db.repositories.SearchRepository;
 import java.time.OffsetDateTime;
 import javax.transaction.Transactional;
 import org.slf4j.Logger;
@@ -35,6 +36,9 @@ public class ArticleController {
     @Autowired
     RevisionRepository revisionRepository;
 
+    @Autowired
+    SearchRepository searchRepository;
+    
     // INDEX
     @GetMapping("/")
     public String index(final Model map) {
@@ -54,15 +58,20 @@ public class ArticleController {
     @PostMapping("/")
     public RedirectView create(@ModelAttribute final ArticleCommand command, final Authentication authentication) {
         final Article article = initNewArticle();
+        // Artikelinhalt
         article.setTitle(command.getTitle());
         article.setContent(command.getContent());
         article.setContentType(ContentType.PLAIN);       
         
+        // Artikel-Metadaten
         article.setAuthor( ((HolarsePrincipal) authentication.getPrincipal()).getUser() );
         article.setCreated(OffsetDateTime.now()); 
         article.setRevision(revisionRepository.nextRevision());
         
-        articleRepository.saveAndFlush(article);        
+        articleRepository.save(article);        
+        
+        searchRepository.update();
+        
         return new RedirectView("/articles/" + article.getId());
     }    
     
@@ -119,8 +128,10 @@ public class ArticleController {
         article.setChangelog(command.getChangelog());
         article.setUpdated(OffsetDateTime.now());
         article.setRevision(revisionRepository.nextRevision());
-
-        articleRepository.saveAndFlush(article);    
+        
+        articleRepository.save(article);    
+        
+        searchRepository.update();
         
         return new RedirectView("/articles/" + article.getId());
     }        

@@ -23,7 +23,7 @@ public class UserController {
 
     @RequestMapping("{userId:Long}")
     public String show(@PathVariable("userId") Long userId, ModelMap map) {
-        return show(userRepository.getOne(userId), map);
+        return show(userRepository.findById(userId).get(), map);
     }
     
     @RequestMapping("{login}")

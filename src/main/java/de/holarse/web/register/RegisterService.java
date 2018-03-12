@@ -38,7 +38,7 @@ public class RegisterService {
         
         user.setDigest(passwordEncoder.encode(command.getPassword()));
         
-        userRepository.saveAndFlush(user);
+        userRepository.save(user);
         return user;        
     }
     
@@ -61,7 +61,7 @@ public class RegisterService {
         
         user.setVerified(true);
         user.setUpdated(OffsetDateTime.now());
-        userRepository.saveAndFlush(user);
+        userRepository.save(user);
         
         return "verified";
     }    

@@ -68,6 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/api/**").permitAll()
+                .antMatchers("/search/**").permitAll()
                 .antMatchers("/login", "/register", "/verify").hasRole("ANONYMOUS")
                 .antMatchers(HttpMethod.GET, "/users/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/articles/new", "/wiki/new").hasRole("USER")   
