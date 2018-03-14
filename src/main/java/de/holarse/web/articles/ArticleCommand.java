@@ -5,6 +5,7 @@ import de.holarse.backend.db.ContentType;
 public class ArticleCommand {
     
     private String title;
+    private String alternativeTitles;
     private String content;
     private String tags;
     private ContentType contentType;
@@ -33,6 +34,14 @@ public class ArticleCommand {
 
     public void setTags(String tags) {
         this.tags = tags;
+    }
+
+    public String getAlternativeTitles() {
+        return alternativeTitles;
+    }
+
+    public void setAlternativeTitles(String alternativeTitles) {
+        this.alternativeTitles = alternativeTitles;
     }
     
     public String getTitle() {

@@ -3,13 +3,15 @@
     <thead>
         <tr>
             <th>Titel</th>
+            <th>Untertitel</th>
             <th>Inhalt</th>
         </tr>
     </thead>
     <tbody>
         <c:forEach items="${results}" var="result">
             <tr>
-                <td><a href="/wiki/${result.id}">${result.title}</a></td>
+                <td><a href="/${result.nodeType}/${result.id}">${result.title}</a></td>
+                <td>${result.alternativeTitles}</td>
                 <td>${result.content}</td>
             </tr>
     </c:forEach>        

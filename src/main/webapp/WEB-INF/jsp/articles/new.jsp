@@ -7,8 +7,8 @@
         <form:label path="title">Titel</form:label>
         <form:input path="title" class="form-control"></form:input>
 
-        <form:label path="tags">Tags</form:label>
-        <form:input path="tags" class="form-control"></form:input>    
+        <form:label path="alternativeTitles">Weitere Titel</form:label>
+        <form:input path="alternativeTitles" class="form-control"></form:input>    
     </fieldset>
     <fieldset>
         <form:label path="content">Inhalt</form:label>

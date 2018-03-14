@@ -14,7 +14,13 @@ public interface SearchRepository extends JpaRepository<Node, Long> {
     @Query(value = "REFRESH MATERIALIZED VIEW search_index", nativeQuery = true)
     void update();
 
-    @Query(value = "select pid as id, ptitle as title, pcontent as content from search_index where search_index.document @@ to_tsquery('holarse_de', :query) order by ts_rank(search_index.document, to_tsquery('holarse_de', :query)) desc", nativeQuery = true)
+    @Query(value = "select pid as id, "
+                       + " ptitle as title, "
+                       + " pnodetype as nodeType, "
+                       + " palternativetitles as alternativeTitles, "
+                       + " pcontent as content " 
+                       + " from search_index where search_index.document @@ to_tsquery('holarse_de', :query) "
+                       + " order by ts_rank(search_index.document, to_tsquery('holarse_de', :query)) desc", nativeQuery = true)
     List<SearchResult> search(@Param("query") final String query);
     
 }

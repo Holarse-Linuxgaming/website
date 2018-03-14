@@ -10,6 +10,7 @@ import de.holarse.backend.db.repositories.RevisionRepository;
 import de.holarse.backend.db.repositories.SearchRepository;
 import de.holarse.services.NodeService;
 import java.time.OffsetDateTime;
+import java.util.concurrent.Callable;
 import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,121 +27,124 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-@RequestMapping(path= {"wiki", "articles"})
+@RequestMapping(path = {"wiki", "articles"})
 public class ArticleController {
-    
+
     Logger logger = LoggerFactory.getLogger(ArticleController.class);
-    
+
     @Autowired
     ArticleRepository articleRepository;
-    
+
     @Autowired
     RevisionRepository revisionRepository;
 
     @Autowired
     SearchRepository searchRepository;
-    
+
     @Autowired
     NodeService nodeService;
-    
+
     // INDEX
     @GetMapping("/")
     public String index(final Model map) {
         map.addAttribute("articles", articleRepository.findAll());
-        
+
         return "articles/index";
     }
-       
+
     // NEW
     @GetMapping("/new")
     public String newArticle(final Model map, final ArticleCommand command) {
         map.addAttribute("articleCommand", command);
         return "articles/new";
     }
-    
+
     // CREATE
     @Transactional
     @PostMapping("/")
     public RedirectView create(@ModelAttribute final ArticleCommand command, final Authentication authentication) throws Exception {
-        final Article node = nodeService.initNode(Article.class);
+        final Article article = nodeService.initNode(Article.class);
         // Artikelinhalt
-        node.setTitle(command.getTitle());
-        node.setContent(command.getContent());
-        node.setContentType(ContentType.PLAIN);       
-        
+        article.setTitle(command.getTitle());
+        article.setAlternativeTitles(command.getAlternativeTitles());
+        article.setContent(command.getContent());
+        article.setContentType(ContentType.PLAIN);
+
         // Artikel-Metadaten
-        node.setAuthor( ((HolarsePrincipal) authentication.getPrincipal()).getUser() );
-        node.setCreated(OffsetDateTime.now()); 
-        node.setRevision(revisionRepository.nextRevision());
-        
-        articleRepository.save(node);        
-        
+        article.setAuthor(((HolarsePrincipal) authentication.getPrincipal()).getUser());
+        article.setCreated(OffsetDateTime.now());
+        article.setRevision(revisionRepository.nextRevision());
+
+        articleRepository.save(article);
+
         searchRepository.update();
-        
-        return new RedirectView("/articles/" + node.getId());
-    }    
-    
+
+        return new RedirectView("/articles/" + article.getId());
+    }
+
     // SHOW by ID
     @GetMapping("/{id}")
     public String showById(@PathVariable final Long id, final Model map) {
-        map.addAttribute("node", articleRepository.findById(id).get());
-        
+        map.addAttribute("article", articleRepository.findById(id).get());
+
         logger.debug("SHOW ID" + id);
         return "articles/show";
-    }    
-    
+    }
+
     // EDIT
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable final Long id, final Model map, final ArticleCommand command) {
-        final Article node = articleRepository.findById(id).get();
-        map.addAttribute("node", node);
-        
-        command.setTitle(node.getTitle());
-        command.setContent(node.getContent());  
-        command.setContentType(node.getContentType());
-        
+        final Article article = articleRepository.findById(id).get();
+        map.addAttribute("article", article);
+
+        command.setTitle(article.getTitle());
+        command.setContent(article.getContent());
+        command.setContentType(article.getContentType());
+
         map.addAttribute("articleCommand", command);
         map.addAttribute("contentTypes", ContentType.values());
-        
+
         return "articles/edit";
-    }       
-    
+    }
+
     // UPDATE
     @Transactional
     @PutMapping("/{id}")
     public RedirectView update(@PathVariable final Long id, final ArticleCommand command, final Authentication authentication) {
         final User currentUser = ((HolarsePrincipal) authentication.getPrincipal()).getUser();
-        
+
         final Article node = articleRepository.findById(id).get();
-        
+
         // Artikel archivieren
         final Revision revision = new Revision();
         revision.setNodeId(node.getId());
         // TODO durch die richtige XML-Ausgabe ersetzen
-        revision.setContent(node.getContent()); 
+        revision.setContent(node.getContent());
         revision.setAuthor(node.getAuthor());
         revision.setChangelog(node.getChangelog());
         revision.setRevision(node.getRevision());
         revisionRepository.saveAndFlush(revision);
-        
+
         // Artikel aktualisieren
         node.setTitle(command.getTitle());
+        node.setAlternativeTitles(command.getAlternativeTitles());
         node.setContent(command.getContent());
-        node.setContentType(command.getContentType());  
+        node.setContentType(command.getContentType());
 
         // Artikel-Metadaten aktualisieren
-        node.setAuthor( currentUser );        
+        node.setAuthor(currentUser);
         node.setChangelog(command.getChangelog());
         node.setUpdated(OffsetDateTime.now());
         node.setRevision(revisionRepository.nextRevision());
-        
-        articleRepository.save(node);    
-        
-        searchRepository.update();
-        
-        return new RedirectView("/articles/" + node.getId());
-    }        
-    
-    // DELETE
 
+        articleRepository.save(node);
+
+        logger.debug("Starting update on search index");
+        searchRepository.update();
+        logger.debug("search index updated");
+
+        return new RedirectView("/articles/" + node.getId());
+    }
+
+    // DELETE
 }
