@@ -39,6 +39,11 @@ a:hover {
     font-variant: small-caps;
 }
 
+.holarse-topbar .dropdown-item, .holarse-topbar .dropdown-item:hover {
+    font-weight: normal;
+    color: #222;
+}
+
 .holarse-topbar a:hover, .holarse-topbar .btn-link:hover {
     color: #eaeaea;
     text-decoration: underline;

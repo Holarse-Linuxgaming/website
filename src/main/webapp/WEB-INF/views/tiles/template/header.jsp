@@ -15,11 +15,11 @@
                     Erstellen
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/messages/new">Nachricht</a>
-                    <a class="dropdown-item" href="/hints/new">Hinweis</a>
+                    <a class="dropdown-item" href="/messages/new">Nachricht an uns</a>
+                    <a class="dropdown-item" href="/hints/new">Hinweis abschicken</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="/news/new">News erstellen</a>
-                    <a class="dropdown-item" href="/news/new">Artikel erstellen</a>
+                    <a class="dropdown-item" href="/articles/new">Artikel erstellen</a>
                     <a class="dropdown-item" href="/forums/new">Forenbeitrag erstellen</a>
                 </div>
             </li>         
