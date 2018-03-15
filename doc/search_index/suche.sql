@@ -1,4 +1,6 @@
-Postgres FTS
+-- Holarse Postgres
+
+CREATE ROLE holarse NOSUPERUSER NOCREATEDB NOCREATEROLE INHERIT LOGIN NOREPLICATION;
 
 create extension unaccent;
 

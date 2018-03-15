@@ -90,7 +90,7 @@ POSTGRESQL_JDBC_DOWNLOAD_URL="https://jdbc.postgresql.org/download/$POSTGRESQL_J
 inspectFile "$HTEMP/$POSTGRESQL_JDBC_JAR" $POSTGRESQL_JDBC_DOWNLOAD_URL $POSTGRESQL_JDBC_SHA256
 
 
-PAYARA_OPTS="--disablephonehome --nocluster"
+PAYARA_OPTS="--disablephonehome --nocluster --rootDir /tmp/holarse-testing"
 HOLARSE_WAR="target/HolarseWeb-1.0-SNAPSHOT.war"
 # Compile Holarse-Web, if it is missing
 if ! checkFile "$HOLARSE_WAR"; then
@@ -98,10 +98,14 @@ if ! checkFile "$HOLARSE_WAR"; then
 #	mvn clean package
 fi
 
+JAVA_BIN=$JAVA_HOME/bin/java
+
 # Print variables
+echo "JAVA            : $JAVA_BIN"
+echo "JAVA_HOME              : $JAVA_HOME" 
 echo "PAYARA_MICRO_JAR: $PAYARA_MICRO_JAR"
 echo "PAYARA_OPTS     : $PAYARA_OPTS"
 echo "HOLARE_WAR      : $HOLARSE_WAR"
 
-COMMAND="java -jar "$HTEMP/$PAYARA_MICRO_JAR" $PAYARA_OPTS --addjars "$HTEMP/$POSTGRESQL_JDBC_JAR" --deploy $HOLARSE_WAR --domainconfig holarse-domain.xml"
+COMMAND="$JAVA_BIN -jar "$HTEMP/$PAYARA_MICRO_JAR" $PAYARA_OPTS --addjars "$HTEMP/$POSTGRESQL_JDBC_JAR" --deploy $HOLARSE_WAR --domainconfig holarse-domain.xml"
 $COMMAND
