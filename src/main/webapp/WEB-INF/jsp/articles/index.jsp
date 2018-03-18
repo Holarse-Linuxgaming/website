@@ -11,12 +11,12 @@ Available Articles:
         </tr>
     </thead>
     <tbody>
-        <c:forEach items="${articles}" var="article">    
+        <c:forEach items="${nodes}" var="node">    
             <tr>
-                <td>${article.id}</td>
-                <td><a href="/wiki/${article.id}/">${article.title}</a></td>
-                <td>${empty article.author.login ? "unbekannt" : article.author.login}</td>
-                <td>${empty article.updated ? article.created : article.updated}</td>
+                <td>${node.id}</td>
+                <td><a href="${node.url}">${node.title}</a></td>
+                <td>${empty node.author.login ? "unbekannt" : node.author.login}</td>
+                <td>${empty node.updated ? node.created : node.updated}</td>
             </tr>
         </c:forEach>
     </tbody>

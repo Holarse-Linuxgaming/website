@@ -8,7 +8,7 @@ import javax.persistence.MappedSuperclass;
  * @author comrad
  */
 @MappedSuperclass
-public class RevisionableNode extends Node {
+public abstract class RevisionableNode extends Node {
     
     @Column(columnDefinition = "int default nextval('revision_seq') not null") // TODO füllt sich nicht automatisch beim nullen
     private Long revision;    

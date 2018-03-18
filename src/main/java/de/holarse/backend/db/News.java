@@ -12,6 +12,11 @@ public class News extends CommentableNode {
     private NewsCategory category;
     private String source;
 
+    @Override
+    public String getUrl() {
+        return "/news/" + getId();
+    }
+    
     public String getTitle() {
         return title;
     }

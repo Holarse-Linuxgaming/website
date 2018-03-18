@@ -8,8 +8,14 @@
         <form:label path="title">Titel</form:label>
         <form:input path="title" class="form-control"></form:input>
 
-        <form:label path="alternativeTitles">Weitere Titel</form:label>
-        <form:input path="alternativeTitles" class="form-control"></form:input>
+        <form:label path="alternativeTitle1">Weiterer Titel</form:label>
+        <form:input path="alternativeTitle1" class="form-control"></form:input>    
+        
+        <form:label path="alternativeTitle2">Weiterer Titel</form:label>
+        <form:input path="alternativeTitle2" class="form-control"></form:input>    
+
+        <form:label path="alternativeTitle3">Weiterer Titel</form:label>
+        <form:input path="alternativeTitle3" class="form-control"></form:input>   
 
         </fieldset>
         <fieldset>

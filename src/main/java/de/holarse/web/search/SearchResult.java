@@ -9,7 +9,7 @@ public interface SearchResult {
     Long getId();
     String getTitle();
     String getNodeType();
-    String getAlternativeTitles();
+    String getAlternativeTitle();
     String getContent();
     
 }

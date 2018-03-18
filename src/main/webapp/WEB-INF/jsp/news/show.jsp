@@ -31,19 +31,19 @@
     <div class="col-4">
         <nav class="nav holarse-node-menu">
             <li class="nav-item">
-                <a class="nav-link" href="/news/${node.id}/edit">Bearbeiten</a>    
+                <a class="nav-link" href="${node.url}/edit">Bearbeiten</a>    
             </li>
             <s:authorize access="hasAnyRole('MODERATOR', 'ADMIN')">            
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Artikelmenü</a>
                     <div class="dropdown-menu">
-                        <a class="nav-link" href="/news/${node.id}/edit">Bearbeiten</a>    
-                        <a class="dropdown-item" href="/news/${node.id}/delete">Löschen</a>
+                        <a class="nav-link" href="${node.url}/edit">Bearbeiten</a>    
+                        <a class="dropdown-item" href="${node.url}/delete">Löschen</a>
                     </div>            
                 </li>
             </s:authorize>            
             <li class="nav-item">
-                <a class="nav-link" href="/news/${node.id}/revisions">Revisionen</a>    
+                <a class="nav-link" href="${node.url}/revisions">Revisionen</a>    
             </li>
             <span class="navbar-text">Letzte Änderung: ${empty node.updated ? node.created : node.updated} durch ${empty node.author ? 'unbekannt' : node.author.login}</span>                
         </nav>
@@ -99,3 +99,13 @@
 </div>
 
 
+<%@include file="/WEB-INF/jspf/comments/list.jspf" %>
+
+
+<div class="row">
+    <div class="col-md-12">
+
+        <%@include file="/WEB-INF/jspf/comments/form.jspf" %>
+
+    </div>
+</div>

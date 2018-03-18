@@ -8,7 +8,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 
 @MappedSuperclass
-public class Node extends Base {
+public abstract class Node extends Base {
     
     /**
      * Node gelöscht
@@ -50,6 +50,7 @@ public class Node extends Base {
     @Version
     private int version;
 
+    public abstract String getUrl();
     
     public Boolean getDeleted() {
         return deleted;

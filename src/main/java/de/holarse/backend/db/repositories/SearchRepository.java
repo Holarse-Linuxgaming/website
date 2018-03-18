@@ -17,7 +17,7 @@ public interface SearchRepository extends JpaRepository<Node, Long> {
     @Query(value = "select pid as id, "
                        + " ptitle as title, "
                        + " pnodetype as nodeType, "
-                       + " palternativetitles as alternativeTitles, "
+                       + " palternativetitle as alternativeTitle, "
                        + " pcontent as content " 
                        + " from search_index where search_index.document @@ to_tsquery('holarse_de', :query) "
                        + " order by ts_rank(search_index.document, to_tsquery('holarse_de', :query)) desc", nativeQuery = true)

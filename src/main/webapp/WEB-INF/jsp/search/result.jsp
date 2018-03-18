@@ -11,7 +11,7 @@
         <c:forEach items="${results}" var="result">
             <tr>
                 <td><a href="/${result.nodeType}/${result.id}">${result.title}</a></td>
-                <td>${result.alternativeTitles}</td>
+                <td>${result.alternativeTitle}</td>
                 <td>${result.content}</td>
             </tr>
     </c:forEach>        

@@ -1,0 +1,9 @@
+<c:forEach items="${node.comments}" var="comment">    
+    <div class="media">
+        <img class="align-self-start mr-3" src="https://placeimg.com/64/64/any" alt="Generic placeholder image">
+        <div class="media-body">
+            <h5 class="mt-0">${comment.author.login} <small>${comment.created}</small></h5>
+            <p>${comment.content}</p>
+        </div>
+    </div>        
+</c:forEach>

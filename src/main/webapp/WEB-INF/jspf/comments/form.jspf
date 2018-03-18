@@ -1,0 +1,11 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
+<!-- Form -->
+<form:form modelAttribute="commentCommand" action="${node.url}/comments/" method="POST">
+    <fieldset>
+        <form:label path="content"></form:label>
+        <form:textarea path="content" class="form-control" placeholder="Dein Kommentar..."></form:textarea>
+    </fieldset>
+    <form:button class="form-control">Anlegen</form:button>
+</form:form>
