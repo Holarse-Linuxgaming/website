@@ -3,7 +3,9 @@ package de.holarse.backend.db;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
+import javax.persistence.ConstraintMode;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
@@ -18,7 +20,7 @@ public abstract class CommentableNode extends RevisionableNode {
     private Boolean commentable;    
     
     @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "node_id")
+    @JoinColumn(name = "node_id", foreignKey = @ForeignKey(name="none", value = ConstraintMode.NO_CONSTRAINT))
     private List<Comment> comments = new ArrayList<>();
 
     public List<Comment> getComments() {

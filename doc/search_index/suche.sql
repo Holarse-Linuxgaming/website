@@ -52,3 +52,4 @@ ALTER TABLE public.search_index
 -- example search query
 select * from search_index where search_index.document @@ to_tsquery('holarse_de', 'Lorem') ORDER BY ts_rank(search_index.document, to_tsquery('holarse_de', 'Endangered & Species')) DESC;;
 
+insert into roles (id, code) values (nextval('hibernate_sequence'), 'ADMIN');
