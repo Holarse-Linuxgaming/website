@@ -78,9 +78,9 @@ HTEMP="/tmp/holarseweb"
 mkdir -p $HTEMP
 
 # Payara
-PAYARA_MICRO_JAR="payara-micro-4.1.2.181.jar"
-PAYARA_SHA256="ba2abcbfa49a56308470a55463472da5b5507c5de756ac53cca8925e799bbee7"
-PAYARA_DOWNLOAD_URL="https://s3-eu-west-1.amazonaws.com/payara.fish/Payara+Downloads/Payara+4.1.2.181/$PAYARA_MICRO_JAR"
+PAYARA_MICRO_JAR="payara-micro-5.181.jar"
+PAYARA_SHA256="d1b9fee97fa01df802dbdb169ecbdfc7f4dad59792daace81ec6f7573b01a8cc"
+PAYARA_DOWNLOAD_URL="https://s3-eu-west-1.amazonaws.com/payara.fish/Payara+Downloads/5.181/$PAYARA_MICRO_JAR"
 inspectFile "$HTEMP/$PAYARA_MICRO_JAR" $PAYARA_DOWNLOAD_URL $PAYARA_SHA256
 
 # Postgresql JDBC
@@ -91,6 +91,7 @@ inspectFile "$HTEMP/$POSTGRESQL_JDBC_JAR" $POSTGRESQL_JDBC_DOWNLOAD_URL $POSTGRE
 
 
 PAYARA_OPTS="--disablephonehome --nocluster --rootDir /tmp/holarse-testing"
+
 HOLARSE_WAR="target/HolarseWeb-1.0-SNAPSHOT.war"
 # Compile Holarse-Web, if it is missing
 if ! checkFile "$HOLARSE_WAR"; then
