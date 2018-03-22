@@ -10,6 +10,14 @@
             Eure deutschsprache Linuxspiele-Quelle
         </span>         
         <ul class="navbar-nav ml-auto p-2">
+            
+            <!-- Login oder User -->
+            <s:authorize access="hasRole('ADMIN')">
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/">Admin-Bereich</a>
+                </li>
+            </s:authorize>            
+            
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Erstellen
