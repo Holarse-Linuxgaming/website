@@ -1,7 +1,10 @@
 package de.holarse.backend.db;
 
+import java.util.StringJoiner;
 import javax.persistence.Entity;
+import javax.persistence.PostLoad;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Table(name="articles")
 @Entity
@@ -11,11 +14,33 @@ public class Article extends CommentableNode {
     private String alternativeTitle1;
     private String alternativeTitle2;
     private String alternativeTitle3;
+    
+    @Transient
+    private String alternativeTitles;
 
-    @Override
+    @Transient
+    private String url;
+
+
+    public String getAlternativeTitles() {
+        return alternativeTitles;
+    }
+    
+    @Override    
     public String getUrl() {
-        return "/wiki/" + getId();
+        return url;
     }    
+    
+    @PostLoad
+    private void articlePostLoad() {
+        final StringJoiner titles = new StringJoiner(", ");
+        if (alternativeTitle1 != null) { titles.add(alternativeTitle1); }
+        if (alternativeTitle2 != null) { titles.add(alternativeTitle2); }
+        if (alternativeTitle3 != null) { titles.add(alternativeTitle3); }
+        this.alternativeTitles = titles.toString();
+        
+        this.url = "/wiki/" + getId();
+    }
     
     public String getTitle() {
         return title;
@@ -48,5 +73,5 @@ public class Article extends CommentableNode {
     public void setAlternativeTitle3(String alternativeTitle3) {
         this.alternativeTitle3 = alternativeTitle3;
     }
-   
+  
 }

@@ -27,10 +27,10 @@
         <!-- Header -->
         <header>
             <!-- Top bar -->
-            <nav class="navbar navbar-expand-lg holarse-topbar">
+            <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
 
                 <span class="navbar-text">
-                    Eure deutschsprache Linuxspiele-Quelle
+                    HOLARSE ADMIN BEREICH
                 </span>         
                 <ul class="navbar-nav ml-auto p-2">
                     <li class="nav-item">

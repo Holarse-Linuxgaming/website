@@ -1,10 +1,13 @@
 package de.holarse.backend.db;
 
+import java.util.StringJoiner;
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PostLoad;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
 @MappedSuperclass
@@ -49,8 +52,21 @@ public abstract class Node extends Base {
     
     @Version
     private int version;
+    
+    @Transient
+    private int wordCount;
 
     public abstract String getUrl();
+    
+    public int getWordCount() {
+        return wordCount;
+    }
+
+    @PostLoad
+    private void nodePostLoad() {
+        this.wordCount = getContent().split(" ").length;
+    }    
+    
     
     public Boolean getDeleted() {
         return deleted;
