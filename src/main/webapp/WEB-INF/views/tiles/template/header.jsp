@@ -57,6 +57,10 @@
                     <button class="btn btn-link" type="submit">Ausloggen</button>
                 </form:form>
             </s:authorize>             
+                    
+            <li class="nav-item">                
+                <a class="nav-link" href="#" id="toggle-holarse-node-menu" title="Artikel-Tools anzeigen"><i class="fas fa-cogs"></i></a>
+            </li>                    
         </ul>
     </nav>
 

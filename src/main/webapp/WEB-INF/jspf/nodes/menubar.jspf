@@ -1,0 +1,43 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<nav class="nav nav-pills nav-justified holarse-node-menu" style="display: none">
+    <a class="nav-item nav-link" href="${node.url}/revisions" rel="nofollow" title="Revisionen"><i class="fas fa-history"></i></a>    
+    <a class="nav-item nav-link" href="${node.url}/edit" title="Bearbeiten" rel="nofollow"><i class="fas fa-edit"></i></a>    
+    <a class="nav-item nav-link" href="${node.url}/delete" title="Löschen" rel="nofollow"><i class="fas fa-trash"></i></a>    
+
+    <c:choose>
+        <c:when test="${node.commentable}">
+            <a class="nav-item nav-link" href="${node.url}/comments/lock" title="Kommentare sperren" rel="nofollow"><i class="fas fa-comments"></i></a>    
+        </c:when>
+        <c:otherwise>
+            <a class="nav-item nav-link" href="${node.url}/comments/unlock" title="Kommentare freigeben" rel="nofollow"><i class="far fa-comments"></i></a>                        
+        </c:otherwise>
+    </c:choose>
+
+    <c:choose>
+        <c:when test="${node.published}">
+            <a class="nav-item nav-link" href="${node.url}/unpublish" title="Artikelveröffentlichung zurücknehmen" rel="nofollow"><i class="fas fa-lock"></i></a>    
+        </c:when>
+        <c:otherwise>
+            <a class="nav-item nav-link" href="${node.url}/publish" title="Artikel veröffentlichten" rel="nofollow"><i class="fas fa-lock-open"></i></a>    
+        </c:otherwise>
+    </c:choose>                    
+
+    <c:choose>
+        <c:when test="${node.locked}">
+            <a class="nav-item nav-link" href="${node.url}/unlock" title="Artikel wieder freigeben" rel="nofollow"><i class="fas fa-lock"></i></a>    
+        </c:when>
+        <c:otherwise>
+            <a class="nav-item nav-link" href="${node.url}/lock" title="Artikel sperren" rel="nofollow"><i class="fas fa-lock-open"></i></a>    
+        </c:otherwise>
+    </c:choose>                                        
+
+    <c:choose>
+        <c:when test="${node.archived}">
+            <a class="nav-item nav-link" href="${node.url}/archivate" title="Artikel archivieren" rel="nofollow"><i class="fas fa-archive"></i></a>    
+        </c:when>
+        <c:otherwise>
+            <a class="nav-item nav-link" href="${node.url}/unarchivate" title="Artikel-Archivierung aufheben" rel="nofollow"><i class="fas fa-archive"></i></a>    
+        </c:otherwise>
+    </c:choose>                                                            
+</nav>

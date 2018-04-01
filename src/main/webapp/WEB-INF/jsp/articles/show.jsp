@@ -1,6 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="s" uri="http://www.springframework.org/security/tags" %>
 
+<%@include file="/WEB-INF/jspf/nodes/menubar.jspf" %>
+
 <h1>
     ${node.title}
     <p><small class="text-muted">${node.alternativeTitle1}</small></p>
@@ -30,27 +32,11 @@
             </li>    
         </nav>
     </div>
-    <div class="col-4">
-        <nav class="nav holarse-node-menu">
-            <li class="nav-item">
-                <a class="nav-link" href="${node.url}/edit">Bearbeiten</a>    
-            </li>
-            <s:authorize access="hasAnyRole('MODERATOR', 'ADMIN')">            
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Artikelmenü</a>
-                    <div class="dropdown-menu">
-                        <a class="nav-link" href="${node.url}/edit">Bearbeiten</a>    
-                        <a class="dropdown-item" href="${node.url}/delete">Löschen</a>
-                    </div>            
-                </li>
-            </s:authorize>            
-            <li class="nav-item">
-                <a class="nav-link" href="${node.url}/revisions">Revisionen</a>    
-            </li>
-            <span class="navbar-text">Letzte Änderung: ${empty node.updated ? node.created : node.updated} durch ${empty node.author ? 'unbekannt' : node.author.login}</span>                
-        </nav>
-    </div>    
+           
+<!--            <span class="navbar-text">Letzte Änderung: ${empty node.updated ? node.created : node.updated} durch ${empty node.author ? 'unbekannt' : node.author.login}</span>                 -->
+
 </div>
+
 
 
 <div class="row">
