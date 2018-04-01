@@ -93,3 +93,8 @@ a:hover {
 .holarse-footer {
     font-size: 0.75em;
 }
+
+.holarse-node-menu {
+    background: #eee;
+    padding: 10px;
+}
