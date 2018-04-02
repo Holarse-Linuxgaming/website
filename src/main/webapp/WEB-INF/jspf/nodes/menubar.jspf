@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<nav class="nav nav-pills nav-justified holarse-node-menu" style="display: none">
+<nav class="nav nav-pills nav-justified holarse-context-menu" style="display: none">
     <a class="nav-item nav-link" href="${node.url}/revisions" rel="nofollow" title="Revisionen"><i class="fas fa-history"></i></a>    
     <a class="nav-item nav-link" href="${node.url}/edit" title="Bearbeiten" rel="nofollow"><i class="fas fa-edit"></i></a>    
     <a class="nav-item nav-link" href="${node.url}/delete" title="Löschen" rel="nofollow"><i class="fas fa-trash"></i></a>    

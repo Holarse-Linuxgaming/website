@@ -1,6 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="s" uri="http://www.springframework.org/security/tags" %>
 
+<%@include file="/WEB-INF/jspf/nodes/menubar.jspf" %>
+
 <h1>
     ${node.title}
     <small class="text-muted">${node.subtitle}</small>
@@ -52,9 +54,9 @@
 
 
 <div class="row">
-    <div class="col-md-8">
+    <article class="col-md-8">
         ${node.content}    
-    </div>
+    </article>
     <div class="col-md-4">
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">

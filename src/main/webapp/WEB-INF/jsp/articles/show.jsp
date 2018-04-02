@@ -40,9 +40,9 @@
 
 
 <div class="row">
-    <div class="col-md-8">
+    <article class="col-md-8">
         ${node.content}    
-    </div>
+    </article>
     <div class="col-md-4">
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">

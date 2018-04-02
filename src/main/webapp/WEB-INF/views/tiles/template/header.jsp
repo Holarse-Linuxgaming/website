@@ -19,16 +19,16 @@
             </s:authorize>            
             
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Erstellen
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Neue Beiträge hinzufügen">
+                    <i class="fas fa-plus"></i>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/messages/new">Nachricht an uns</a>
-                    <a class="dropdown-item" href="/hints/new">Hinweis abschicken</a>
+                    <a class="dropdown-item" href="/messages/new"><i class="fas fa-envelope"></i> Nachricht an uns</a>
+                    <a class="dropdown-item" href="/hints/new"><i class="far fa-hand-point-right"></i> Schnellhinweis abgeben</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/news/new">News erstellen</a>
-                    <a class="dropdown-item" href="/articles/new">Artikel erstellen</a>
-                    <a class="dropdown-item" href="/forums/new">Forenbeitrag erstellen</a>
+                    <a class="dropdown-item" href="/news/new"><i class="far fa-newspaper"></i> News erstellen</a>
+                    <a class="dropdown-item" href="/articles/new"><i class="far fa-file-alt"></i> Artikel erstellen</a>
+                    <a class="dropdown-item" href="/forums/new"><i class="far fa-comments"></i> Forenbeitrag erstellen</a>
                 </div>
             </li>         
 
@@ -59,7 +59,7 @@
             </s:authorize>             
                     
             <li class="nav-item">                
-                <a class="nav-link" href="#" id="toggle-holarse-node-menu" title="Artikel-Tools anzeigen"><i class="fas fa-cogs"></i></a>
+                <a class="nav-link" href="#" id="toggle-holarse-context-menu" title="Aktionen anzeigen"><i class="fas fa-cogs"></i></a>
             </li>                    
         </ul>
     </nav>

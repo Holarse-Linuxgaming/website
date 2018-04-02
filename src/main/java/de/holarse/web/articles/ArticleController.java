@@ -11,12 +11,10 @@ import de.holarse.backend.db.repositories.SearchRepository;
 import de.holarse.services.NodeService;
 import de.holarse.web.comments.CommentCommand;
 import java.time.OffsetDateTime;
-import java.util.concurrent.Callable;
 import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.query.Jpa21Utils;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,7 +43,7 @@ public class ArticleController {
 
     @Autowired
     NodeService nodeService;
-
+    
     // INDEX
     @GetMapping("/")
     public String index(final Model map) {
