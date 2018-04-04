@@ -15,7 +15,16 @@ public class PageVisit extends Base {
     private String referer;
     @Column(length = 2083) // as per rfc
     private String url;
+    private String searchword;
 
+    public String getSearchword() {
+        return searchword;
+    }
+
+    public void setSearchword(String searchword) {
+        this.searchword = searchword;
+    }
+    
     public Long getNodeId() {
         return nodeId;
     }

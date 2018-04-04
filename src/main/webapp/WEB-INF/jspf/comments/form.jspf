@@ -1,7 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="s" uri="http://www.springframework.org/security/tags" %>
 
-<!-- Form -->
+<s:authorize access="hasRole('USER')">
 <form:form modelAttribute="commentCommand" action="${node.url}/comments/" method="POST">
     <fieldset>
         <form:label path="content"></form:label>
@@ -9,3 +10,8 @@
     </fieldset>
     <form:button class="form-control">Anlegen</form:button>
 </form:form>
+</s:authorize>
+    
+<s:authorize access="hasRole('ANONYMOUS')">
+    <a href="/login" class="btn btn-primary">Zum Kommentieren einloggen</a>
+</s:authorize>
