@@ -14,6 +14,9 @@ public class TrafficService {
     @Autowired
     PageVisitRepository pageVisitRepository;
     
+    final String[] campaignNames = new String[] {"pk_campaign", "piwik_campaign", "utm_campaign", "utm_source", "utm_medium"};
+    final String[] campaignKeywords = new String[] {"pk_kwd", "piwik_kwd", "pk_keyword", "utm_term"};
+    
     @Async
     public void saveRequest(final HttpServletRequest request) {
         saveRequest(request, null, null);
@@ -41,7 +44,32 @@ public class TrafficService {
         page.setVisitorId(request.getRequestedSessionId());
         page.setSearchword(search);
         
+        if (request.getParameterNames().hasMoreElements()) {
+            page.setCampaignName(extractCampaignName(request));
+            page.setCampaignKeyword(extractCampaignKeyword(request));
+        }
+        
         pageVisitRepository.save(page);
+    }
+    
+    protected String extractCampaignName(final HttpServletRequest req) {
+        for (final String campaignName : campaignNames) {
+            final String name = req.getParameter(campaignName);
+            if (name != null) {
+                return name;
+            }
+        }
+        return null;
+    }
+    
+    protected String extractCampaignKeyword(final HttpServletRequest req) {
+        for (final String campaignKeyword : campaignKeywords) {
+            final String keyword = req.getParameter(campaignKeyword);
+            if (keyword != null) {
+                return keyword;
+            }
+        }
+        return null;
     }
     
 }

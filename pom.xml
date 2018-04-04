@@ -116,6 +116,12 @@
             <version>2.0.1.RELEASE</version>
         </dependency>                   
                 
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-jpa</artifactId>
+            <version>4.2.1</version>
+        </dependency>                
+                
         <!-- Apache Tiles -->
         <dependency>
             <groupId>org.apache.tiles</groupId>

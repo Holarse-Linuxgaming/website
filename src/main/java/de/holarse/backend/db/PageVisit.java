@@ -16,6 +16,24 @@ public class PageVisit extends Base {
     @Column(length = 2083) // as per rfc
     private String url;
     private String searchword;
+    private String campaignName;
+    private String campaignKeyword;
+
+    public String getCampaignName() {
+        return campaignName;
+    }
+
+    public void setCampaignName(String campaignName) {
+        this.campaignName = campaignName;
+    }
+
+    public String getCampaignKeyword() {
+        return campaignKeyword;
+    }
+
+    public void setCampaignKeyword(String campaignKeyword) {
+        this.campaignKeyword = campaignKeyword;
+    }
 
     public String getSearchword() {
         return searchword;
