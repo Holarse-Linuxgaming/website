@@ -99,7 +99,12 @@ a:hover {
     padding-bottom: 5px;
 }
 
-.holarse-node-menu {
+.holarse-context-menu {
     background: #eee;
     padding: 10px;
+}
+
+.holarse-context-menu .nav-link:hover {
+    background: #e84d3c;
+    color: #fff;
 }
