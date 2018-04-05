@@ -10,7 +10,6 @@ import de.holarse.backend.db.repositories.NewsRepository;
 import de.holarse.backend.db.repositories.RevisionRepository;
 import de.holarse.backend.db.repositories.SearchRepository;
 import de.holarse.services.NodeService;
-import de.holarse.web.comments.CommentCommand;
 import java.time.OffsetDateTime;
 import javax.transaction.Transactional;
 import org.slf4j.Logger;
@@ -89,9 +88,8 @@ public class NewsController {
 
     // SHOW by ID
     @GetMapping("/{id}")
-    public String showById(@PathVariable final Long id, final Model map, final CommentCommand commentCommand) {       
+    public String showById(@PathVariable final Long id, final Model map) {       
         map.addAttribute("node", newsRepository.findById(id).get());
-        map.addAttribute("commentCommand", commentCommand);
 
         logger.debug("SHOW ID" + id);
         return "news/show";

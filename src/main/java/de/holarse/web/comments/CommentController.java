@@ -4,7 +4,6 @@ import de.holarse.auth.HolarsePrincipal;
 import de.holarse.backend.db.Comment;
 import de.holarse.backend.db.ContentType;
 import de.holarse.backend.db.repositories.CommentRepository;
-import de.holarse.services.NodeService;
 import java.time.OffsetDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

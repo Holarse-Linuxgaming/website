@@ -9,10 +9,7 @@ import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.RevisionRepository;
 import de.holarse.backend.db.repositories.SearchRepository;
 import de.holarse.services.NodeService;
-import de.holarse.services.TrafficService;
-import de.holarse.web.comments.CommentCommand;
 import java.time.OffsetDateTime;
-import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,10 +85,9 @@ public class ArticleController {
 
     // SHOW by ID
     @GetMapping("/{id}")
-    public String showById(@PathVariable final Long id, final Model map, final CommentCommand commentCommand) { 
+    public String showById(@PathVariable final Long id, final Model map) { 
         Article article = articleRepository.findById(id).get();
         map.addAttribute("node", article);
-        map.addAttribute("commentCommand", commentCommand);
         
         return "articles/show";
     }
