@@ -3,14 +3,13 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/security/tags" %>
 
 <s:authorize access="hasRole('USER')">
-<form action="${node.url}/comments/" method="POST">
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+<form:form action="${node.url}/comments/" method="POST">
     <fieldset>
         <label path="content"></label>
         <textarea name="content" class="form-control" placeholder="Dein Kommentar..."></textarea>
     </fieldset>
     <button class="form-control">Anlegen</button>
-</form>
+</form:form>
 </s:authorize>
     
 <s:authorize access="hasRole('ANONYMOUS')">
