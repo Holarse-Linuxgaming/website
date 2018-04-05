@@ -10,10 +10,8 @@ import de.holarse.backend.db.repositories.NewsRepository;
 import de.holarse.backend.db.repositories.RevisionRepository;
 import de.holarse.backend.db.repositories.SearchRepository;
 import de.holarse.services.NodeService;
-import de.holarse.services.TrafficService;
 import de.holarse.web.comments.CommentCommand;
 import java.time.OffsetDateTime;
-import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,9 +44,6 @@ public class NewsController {
 
     @Autowired
     NodeService nodeService;
-    
-    @Autowired
-    TrafficService trafficService;
 
     // INDEX
     @GetMapping("/")
@@ -94,9 +89,7 @@ public class NewsController {
 
     // SHOW by ID
     @GetMapping("/{id}")
-    public String showById(@PathVariable final Long id, final Model map, final CommentCommand commentCommand, final HttpServletRequest req) {
-        trafficService.saveRequest(req, id);
-        
+    public String showById(@PathVariable final Long id, final Model map, final CommentCommand commentCommand) {       
         map.addAttribute("node", newsRepository.findById(id).get());
         map.addAttribute("commentCommand", commentCommand);
 

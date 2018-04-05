@@ -46,9 +46,6 @@ public class ArticleController {
     @Autowired
     NodeService nodeService;
     
-    @Autowired
-    TrafficService trafficService;
-    
     // INDEX
     @GetMapping("/")
     public String index(final Model map) {
@@ -91,9 +88,7 @@ public class ArticleController {
 
     // SHOW by ID
     @GetMapping("/{id}")
-    public String showById(@PathVariable final Long id, final Model map, final CommentCommand commentCommand, final HttpServletRequest req) {
-        trafficService.saveRequest(req, id);
-        
+    public String showById(@PathVariable final Long id, final Model map, final CommentCommand commentCommand) { 
         Article article = articleRepository.findById(id).get();
         map.addAttribute("node", article);
         map.addAttribute("commentCommand", commentCommand);

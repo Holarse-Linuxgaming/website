@@ -7,6 +7,7 @@ package de.holarse.interceptor;
 
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.UserRepository;
+import de.holarse.services.TrafficService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -27,6 +28,9 @@ public class PagePopulationInterceptor extends HandlerInterceptorAdapter {
     @Autowired
     private UserRepository userRepository;
     
+    @Autowired
+    private TrafficService trafficService;
+    
     protected User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         
@@ -44,8 +48,8 @@ public class PagePopulationInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView mav) {
-        //service.savePageView(IPUtils.toLong(request.getRemoteAddr()), request.getRequestURI(), request.getHeader("User-Agent"));
-        //logger.debug("Request URI: " + request.getRequestURI());
+        trafficService.saveRequest(request, response);
+        
         if (mav != null) {
             mav.addObject("currentUser", getCurrentUser());
         }
