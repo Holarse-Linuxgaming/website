@@ -5,7 +5,7 @@ import javax.persistence.Table;
 
 @Table(name = "news")
 @Entity
-public class News extends CommentableNode {
+public class News extends SluggableNode {
     
     private String title;
     private String subtitle;

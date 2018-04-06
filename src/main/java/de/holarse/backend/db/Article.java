@@ -8,7 +8,7 @@ import javax.persistence.Transient;
 
 @Table(name="articles")
 @Entity
-public class Article extends CommentableNode {
+public class Article extends SluggableNode {
     
     private String title;
     private String alternativeTitle1;

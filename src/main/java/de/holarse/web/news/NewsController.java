@@ -4,6 +4,7 @@ import de.holarse.auth.HolarsePrincipal;
 import de.holarse.backend.db.ContentType;
 import de.holarse.backend.db.News;
 import de.holarse.backend.db.NewsCategory;
+import de.holarse.backend.db.NodeType;
 import de.holarse.backend.db.Revision;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.NewsRepository;
@@ -79,6 +80,9 @@ public class NewsController {
         node.setCreated(OffsetDateTime.now());
         node.setRevision(revisionRepository.nextRevision());
 
+        // Slug setzen
+        node.setSlug(nodeService.findNextSlug(node.getTitle(), NodeType.NEWS));        
+        
         newsRepository.save(node);
 
         searchRepository.update();
@@ -86,12 +90,10 @@ public class NewsController {
         return new RedirectView("/news/" + node.getId());
     }
 
-    // SHOW by ID
-    @GetMapping("/{id}")
-    public String showById(@PathVariable final Long id, final Model map) {       
-        map.addAttribute("node", newsRepository.findById(id).get());
-
-        logger.debug("SHOW ID" + id);
+    // SHOW by Slug
+    @GetMapping("/{slug}")
+    public String show(@PathVariable final String slug, final Model map) {       
+        map.addAttribute("node", nodeService.findNews(slug).get());
         return "news/show";
     }
 
@@ -120,36 +122,42 @@ public class NewsController {
     public RedirectView update(@PathVariable final Long id, final NewsCommand command, final Authentication authentication) {
         final User currentUser = ((HolarsePrincipal) authentication.getPrincipal()).getUser();
 
-        final News node = newsRepository.findById(id).get();
-
+        final News news = newsRepository.findById(id).get();
+        
         // Artikel archivieren
         final Revision revision = new Revision();
-        revision.setNodeId(node.getId());
+        revision.setNodeId(news.getId());
         // TODO durch die richtige XML-Ausgabe ersetzen
-        revision.setContent(node.getContent());
-        revision.setAuthor(node.getAuthor());
-        revision.setChangelog(node.getChangelog());
-        revision.setRevision(node.getRevision());
+        revision.setContent(news.getContent());
+        revision.setAuthor(news.getAuthor());
+        revision.setChangelog(news.getChangelog());
+        revision.setRevision(news.getRevision());
         revisionRepository.saveAndFlush(revision);
 
-        // Artikel aktualisieren
-        node.setTitle(command.getTitle());
-        node.setSubtitle(command.getSubtitle());
-        node.setContent(command.getContent());
-        node.setCategory(command.getCategory());
-        node.setContentType(command.getContentType());
+        // Slug ggf. archivieren
+        if (!news.getTitle().equalsIgnoreCase(command.getTitle())) {
+            nodeService.archivateSlug(news.getSlug(), news, NodeType.NEWS);
+            news.setSlug(nodeService.findNextSlug(command.getTitle(), NodeType.NEWS));
+        }           
+        
+        // News aktualisieren
+        news.setTitle(command.getTitle());
+        news.setSubtitle(command.getSubtitle());
+        news.setContent(command.getContent());
+        news.setCategory(command.getCategory());
+        news.setContentType(command.getContentType());
 
-        // Artikel-Metadaten aktualisieren
-        node.setAuthor(currentUser);
-        node.setChangelog(command.getChangelog());
-        node.setUpdated(OffsetDateTime.now());
-        node.setRevision(revisionRepository.nextRevision());
-
-        newsRepository.save(node);
+        // News-Metadaten aktualisieren
+        news.setAuthor(currentUser);
+        news.setChangelog(command.getChangelog());
+        news.setUpdated(OffsetDateTime.now());
+        news.setRevision(revisionRepository.nextRevision());
+        
+        newsRepository.save(news);
 
         searchRepository.update();
 
-        return new RedirectView("/news/" + node.getId());
+        return new RedirectView("/news/" + news.getId());
     }
 
     // DELETE

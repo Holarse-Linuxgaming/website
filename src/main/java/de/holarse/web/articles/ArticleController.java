@@ -3,6 +3,7 @@ package de.holarse.web.articles;
 import de.holarse.auth.HolarsePrincipal;
 import de.holarse.backend.db.Article;
 import de.holarse.backend.db.ContentType;
+import de.holarse.backend.db.NodeType;
 import de.holarse.backend.db.Revision;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.ArticleRepository;
@@ -11,7 +12,6 @@ import de.holarse.backend.db.repositories.SearchRepository;
 import de.holarse.exceptions.NodeNotFoundException;
 import de.holarse.services.NodeService;
 import java.time.OffsetDateTime;
-import java.util.Optional;
 import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,21 +78,23 @@ public class ArticleController {
         article.setCreated(OffsetDateTime.now());
         article.setRevision(revisionRepository.nextRevision());
 
+        // Slug setzen
+        article.setSlug(nodeService.findNextSlug(article.getTitle(), NodeType.ARTICLE));
+        
         articleRepository.save(article);
 
         searchRepository.update();
 
         return new RedirectView("/articles/" + article.getId());
     }
-
-    // SHOW by ID
-    @GetMapping("/{id}")
-    public String showById(@PathVariable final Long id, final Model map) { 
-        final Article article = articleRepository.findById(id).orElseThrow(() -> new NodeNotFoundException(id));
+   
+    // SHOW by Slug
+    @GetMapping("/{slug}")
+    public String showBySlug(@PathVariable final String slug, final Model map) { 
+        final Article article = nodeService.findArticle(slug).get();
         map.addAttribute("node", article);
-        
-        return "articles/show";
-    }
+        return "articles/show";         
+    }    
 
     // EDIT
     @GetMapping("/{id}/edit")
@@ -120,7 +122,7 @@ public class ArticleController {
         final User currentUser = ((HolarsePrincipal) authentication.getPrincipal()).getUser();
 
         final Article article = articleRepository.findById(id).orElseThrow(() -> new NodeNotFoundException(id));
-
+        
         // Artikel archivieren
         final Revision revision = new Revision();
         revision.setNodeId(article.getId());
@@ -131,6 +133,12 @@ public class ArticleController {
         revision.setRevision(article.getRevision());
         revisionRepository.saveAndFlush(revision);
 
+        // Slug ggf. archivieren
+        if (!article.getTitle().equalsIgnoreCase(command.getTitle())) {
+            nodeService.archivateSlug(article.getSlug(), article, NodeType.ARTICLE);
+            article.setSlug(nodeService.findNextSlug(command.getTitle(), NodeType.ARTICLE));
+        }        
+        
         // Artikel aktualisieren
         article.setTitle(command.getTitle());
         article.setAlternativeTitle1(command.getAlternativeTitle1());

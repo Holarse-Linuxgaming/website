@@ -1,21 +1,29 @@
 package de.holarse.backend.db;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
-@Table(name = "slugs")
+@Table(name = "slugs",
+        uniqueConstraints = { @UniqueConstraint(columnNames = 
+                                           { "nodeType", "slug" }) })
 @Entity
 public class Slug extends Base {
 
-    private String nodeType;
+    @Enumerated(EnumType.STRING)
+    private NodeType nodeType;
     private Long nodeId;
-    private String link;
+    @Column(unique = true)
+    private String slug;
 
-    public String getNodeType() {
+    public NodeType getNodeType() {
         return nodeType;
     }
 
-    public void setNodeType(String nodeType) {
+    public void setNodeType(NodeType nodeType) {
         this.nodeType = nodeType;
     }
 
@@ -27,12 +35,12 @@ public class Slug extends Base {
         this.nodeId = nodeId;
     }
 
-    public String getLink() {
-        return link;
+    public String getSlug() {
+        return slug;
     }
 
-    public void setLink(String link) {
-        this.link = link;
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
     
 }
