@@ -8,8 +8,10 @@ import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.RevisionRepository;
 import de.holarse.backend.db.repositories.SearchRepository;
+import de.holarse.exceptions.NodeNotFoundException;
 import de.holarse.services.NodeService;
 import java.time.OffsetDateTime;
+import java.util.Optional;
 import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,7 +88,7 @@ public class ArticleController {
     // SHOW by ID
     @GetMapping("/{id}")
     public String showById(@PathVariable final Long id, final Model map) { 
-        Article article = articleRepository.findById(id).get();
+        final Article article = articleRepository.findById(id).orElseThrow(() -> new NodeNotFoundException(id));
         map.addAttribute("node", article);
         
         return "articles/show";
@@ -117,7 +119,7 @@ public class ArticleController {
     public RedirectView update(@PathVariable final Long id, final ArticleCommand command, final Authentication authentication) {
         final User currentUser = ((HolarsePrincipal) authentication.getPrincipal()).getUser();
 
-        final Article article = articleRepository.findById(id).get();
+        final Article article = articleRepository.findById(id).orElseThrow(() -> new NodeNotFoundException(id));
 
         // Artikel archivieren
         final Revision revision = new Revision();

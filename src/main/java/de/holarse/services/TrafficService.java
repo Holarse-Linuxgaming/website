@@ -21,6 +21,8 @@ public class TrafficService {
     @Async
     public void saveRequest(final HttpServletRequest request, final HttpServletResponse response) {
         if (request.getRequestURI().startsWith("/assets")) { return; }
+        if (!request.getMethod().equalsIgnoreCase("GET")) { return; }
+        
         
         final PageVisit page = new PageVisit();
         page.setCreated(OffsetDateTime.now());
@@ -35,6 +37,8 @@ public class TrafficService {
             page.setCampaignName(extractCampaignName(request));
             page.setCampaignKeyword(extractCampaignKeyword(request));
         }
+        
+        page.setHttpStatus(response.getStatus());
         
         pageVisitRepository.save(page);
     }

@@ -18,7 +18,16 @@ public class PageVisit extends Base {
     private String searchword;
     private String campaignName;
     private String campaignKeyword;
+    private Integer httpStatus;
 
+    public Integer getHttpStatus() {
+        return httpStatus;
+    }
+
+    public void setHttpStatus(Integer httpStatus) {
+        this.httpStatus = httpStatus;
+    }
+    
     public String getCampaignName() {
         return campaignName;
     }
