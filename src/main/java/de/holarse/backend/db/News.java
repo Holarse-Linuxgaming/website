@@ -1,7 +1,9 @@
 package de.holarse.backend.db;
 
 import javax.persistence.Entity;
+import javax.persistence.PostLoad;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Table(name = "news")
 @Entity
@@ -12,10 +14,26 @@ public class News extends SluggableNode {
     private NewsCategory category;
     private String source;
 
-    @Override
+    @Transient
+    private String url;
+    
+    @Transient
+    private String urlid;    
+    
+    @Override    
     public String getUrl() {
-        return "/news/" + getId();
+        return url;
+    }    
+
+    public String getUrlid() {
+        return urlid;
     }
+    
+    @PostLoad
+    private void newsPostLoad() {
+        this.url = "/news/" + getSlug();
+        this.urlid = "/news/" + getId();
+    }    
     
     public String getTitle() {
         return title;

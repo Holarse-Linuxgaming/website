@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import org.apache.commons.lang3.StringUtils;
 
 @Table(name="articles")
 @Entity
@@ -20,7 +21,13 @@ public class Article extends SluggableNode {
 
     @Transient
     private String url;
+    
+    @Transient
+    private String urlid;
 
+    public String getUrlid() {
+        return urlid;
+    }
 
     public String getAlternativeTitles() {
         return alternativeTitles;
@@ -39,7 +46,8 @@ public class Article extends SluggableNode {
         if (alternativeTitle3 != null) { titles.add(alternativeTitle3); }
         this.alternativeTitles = titles.toString();
         
-        this.url = "/wiki/" + getId();
+        this.url = "/wiki/" + getSlug();
+        this.urlid = "/wiki/" + getId();
     }
     
     public String getTitle() {

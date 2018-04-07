@@ -10,6 +10,7 @@ import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.RevisionRepository;
 import de.holarse.backend.db.repositories.SearchRepository;
 import de.holarse.exceptions.NodeNotFoundException;
+import de.holarse.exceptions.RedirectException;
 import de.holarse.services.NodeService;
 import java.time.OffsetDateTime;
 import javax.transaction.Transactional;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
@@ -90,10 +92,14 @@ public class ArticleController {
    
     // SHOW by Slug
     @GetMapping("/{slug}")
-    public String showBySlug(@PathVariable final String slug, final Model map) { 
-        final Article article = nodeService.findArticle(slug).get();
-        map.addAttribute("node", article);
-        return "articles/show";         
+    public ModelAndView showBySlug(@PathVariable final String slug, final Model map) { 
+        try {
+            final Article article = nodeService.findArticle(slug).get();
+            map.addAttribute("node", article);
+            return new ModelAndView("articles/show", map.asMap());
+        } catch (RedirectException re) {
+            return new ModelAndView(re.getRedirect());
+        }
     }    
 
     // EDIT

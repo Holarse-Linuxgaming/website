@@ -6,12 +6,15 @@ import de.holarse.backend.db.News;
 import de.holarse.backend.db.Node;
 import de.holarse.backend.db.NodeType;
 import de.holarse.backend.db.Slug;
+import de.holarse.backend.db.SluggableNode;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.NewsRepository;
 import de.holarse.backend.db.repositories.SlugRepository;
 import de.holarse.exceptions.NodeNotFoundException;
+import de.holarse.exceptions.RedirectException;
 import java.time.OffsetDateTime;
 import java.util.Optional;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,55 +52,77 @@ public class NodeService {
     }
     
     /**
-     * TODO Eigentlich sollte man es immer anhand des aktuellen Slugs finden. Hier sollte
-     * beim Ident auf ID oder einem alten Slug ein Redirect auf das aktuelle Slug durchgeführt werden.
+     * TODO Schöner umsetzen
      * @param ident
      * @return 
+     * @throws de.holarse.exceptions.RedirectException 
      */
-    public Optional<Article> findArticle(final String ident) {
+    public Optional<Article> findArticle(final String ident) throws RedirectException {
         // Ist der Ident eine Zahl, dann nach ID suchen
         if (NumberUtils.isDigits(ident)) {
-            return articleRepository.findById(Long.parseLong(ident));
+            final Optional<Article> articleById = articleRepository.findById(Long.parseLong(ident));
+            if (articleById.isPresent()) {
+                throw new RedirectException(articleById.get().getUrl());
+            }
         }
         
+        // Anhand des Mainslugs (Hauptpfad) finden
         final Optional<Article> nodeByMainSlug = Optional.ofNullable(articleRepository.findBySlug(ident));
         if (nodeByMainSlug.isPresent()) {
             return nodeByMainSlug;
         }
         
+        // Anhand eines archivierten Slugs finden
         final Optional<Slug> slug = Optional.ofNullable(slugRepository.findBySlug(ident));
         if (slug.isPresent()) {
-            return articleRepository.findById(slug.get().getNodeId());
+            final Optional<Article> articleByArchivedSlug = articleRepository.findById(slug.get().getNodeId());
+            if (articleByArchivedSlug.isPresent()) {
+                final Article article = articleByArchivedSlug.get();
+                 if (StringUtils.isNotBlank(article.getSlug())) {
+                    throw new RedirectException(articleByArchivedSlug.get().getUrl());
+                 }
+            }
         }
         
         throw new NodeNotFoundException(ident);
     }
     
     /**
-     * TODO Eigentlich sollte man es immer anhand des aktuellen Slugs finden. Hier sollte
-     * beim Ident auf ID oder einem alten Slug ein Redirect auf das aktuelle Slug durchgeführt werden.
+     * TODO Schöner umsetzen
      * @param ident
      * @return 
+     * @throws de.holarse.exceptions.RedirectException 
      */    
-    public Optional<News> findNews(final String ident) {
+    public Optional<News> findNews(final String ident) throws RedirectException {
         // Ist der Ident eine Zahl, dann nach ID suchen
         if (NumberUtils.isDigits(ident)) {
-            return newsRepository.findById(Long.parseLong(ident));
+            final Optional<News> newsById = newsRepository.findById(Long.parseLong(ident));
+            if (newsById.isPresent()) {
+                throw new RedirectException(newsById.get().getUrl());
+            }
         }
         
+        // Anhand des Mainslugs (Hauptpfad) finden
         final Optional<News> nodeByMainSlug = Optional.ofNullable(newsRepository.findBySlug(ident));
         if (nodeByMainSlug.isPresent()) {
             return nodeByMainSlug;
         }
         
+        // Anhand eines archivierten Slugs finden
         final Optional<Slug> slug = Optional.ofNullable(slugRepository.findBySlug(ident));
         if (slug.isPresent()) {
-            return newsRepository.findById(slug.get().getNodeId());
+            final Optional<News> newsByArchivedSlug = newsRepository.findById(slug.get().getNodeId());
+            if (newsByArchivedSlug.isPresent()) {
+                final News news = newsByArchivedSlug.get();
+                 if (StringUtils.isNotBlank(news.getSlug())) {
+                    throw new RedirectException(newsByArchivedSlug.get().getUrl());
+                 }
+            }
         }
         
         throw new NodeNotFoundException(ident);
     }    
-    
+       
     public void archivateSlug(final String slugToArchivate, final Node node, final NodeType nodeType) {
         final Slug slug = new Slug();
         slug.setCreated(OffsetDateTime.now());
