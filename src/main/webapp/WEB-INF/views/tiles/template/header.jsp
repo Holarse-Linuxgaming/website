@@ -60,12 +60,6 @@
                     <button class="btn btn-link" type="submit">Ausloggen</button>
                 </form:form>
             </s:authorize>             
-                    
-            <s:authorize access="hasRole('USER')">                    
-                <li class="nav-item">                
-                    <a class="nav-link" href="#" id="toggle-holarse-context-menu" title="Aktionen anzeigen"><i class="fas fa-cogs"></i></a>
-                </li>                    
-            </s:authorize>
         </ul>
     </nav>
 

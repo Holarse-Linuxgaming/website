@@ -10,6 +10,7 @@ import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.NewsRepository;
 import de.holarse.backend.db.repositories.RevisionRepository;
 import de.holarse.backend.db.repositories.SearchRepository;
+import de.holarse.exceptions.RedirectException;
 import de.holarse.services.NodeService;
 import java.time.OffsetDateTime;
 import javax.transaction.Transactional;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
@@ -92,9 +94,13 @@ public class NewsController {
 
     // SHOW by Slug
     @GetMapping("/{slug}")
-    public String show(@PathVariable final String slug, final Model map) {       
-        map.addAttribute("node", nodeService.findNews(slug).get());
-        return "news/show";
+    public ModelAndView show(@PathVariable final String slug, final Model map) {  
+        try {
+            map.addAttribute("node", nodeService.findNews(slug).get());
+            return new ModelAndView("news/show");
+        } catch (RedirectException re) {
+            return new ModelAndView(re.getRedirect());
+        }
     }
 
     // EDIT

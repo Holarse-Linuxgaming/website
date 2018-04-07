@@ -15,7 +15,7 @@
 <s:authorize access="hasRole('ANONYMOUS')">
     <div class="row">
         <div class="col-md-12">
-            <a href="/login" class="btn btn-primary">Zum Kommentieren einloggen</a>            
+            <a href="${node.url}" class="btn btn-primary">Zum Kommentieren einloggen</a>            
         </div>
     </div>
     
