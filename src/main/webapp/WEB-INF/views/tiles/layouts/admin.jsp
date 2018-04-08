@@ -28,40 +28,43 @@
         <header>
             <!-- Top bar -->
             <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
+                <a class="navbar-brand" href="/admin/">HOLARSE ADMIN-Bereich</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>                
 
-                <span class="navbar-text">
-                    HOLARSE ADMIN BEREICH
-                </span>         
-                <ul class="navbar-nav ml-auto p-2">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin/users/">Benutzer</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin/wiki/">Wiki</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin/news/">News</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin/import/">Import</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Erstellen
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/messages/new">Nachricht an uns</a>
-                            <a class="dropdown-item" href="/hints/new">Hinweis abschicken</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/news/new">News erstellen</a>
-                            <a class="dropdown-item" href="/articles/new">Artikel erstellen</a>
-                            <a class="dropdown-item" href="/forums/new">Forenbeitrag erstellen</a>
-                        </div>
-                    </li>  
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">Zurück</a>
-                    </li>
-                </ul>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto p-2">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/users/">Benutzer</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/wiki/">Wiki</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/news/">News</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/import/">Import</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Erstellen
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/messages/new">Nachricht an uns</a>
+                                <a class="dropdown-item" href="/hints/new">Hinweis abschicken</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/news/new">News erstellen</a>
+                                <a class="dropdown-item" href="/articles/new">Artikel erstellen</a>
+                                <a class="dropdown-item" href="/forums/new">Forenbeitrag erstellen</a>
+                            </div>
+                        </li>  
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Zurück</a>
+                        </li>
+                    </ul>
+                </div>
             </nav>
         </header>
 

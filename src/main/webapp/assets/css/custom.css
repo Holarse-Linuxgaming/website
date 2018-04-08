@@ -107,3 +107,7 @@ a:hover {
     background: #e84d3c;
     color: #fff;
 }
+
+button .navbar-toggler .collapsed {
+    background: #eee;
+}
