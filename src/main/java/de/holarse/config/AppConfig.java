@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.js.ajax.AjaxUrlBasedViewResolver;
@@ -21,7 +22,7 @@ import org.springframework.webflow.mvc.view.FlowAjaxTiles3View;
 @EnableWebMvc
 @EnableSpringDataWebSupport
 @ComponentScan(basePackages = "de.holarse")
-@PropertySource("classpath:application.properties")
+@PropertySources({@PropertySource("classpath:application.properties"), @PropertySource("classpath:git.properties")})
 public class AppConfig implements WebMvcConfigurer {
  
     @Autowired

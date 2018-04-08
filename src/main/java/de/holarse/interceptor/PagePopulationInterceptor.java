@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,6 +31,12 @@ public class PagePopulationInterceptor extends HandlerInterceptorAdapter {
     
     @Autowired
     private TrafficService trafficService;
+    
+    @Value("${git.commit.id.describe}")
+    private String commitIdDescribe;
+    
+    @Value("${git.commit.id}")
+    private String commitId;    
     
     protected User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -52,6 +59,8 @@ public class PagePopulationInterceptor extends HandlerInterceptorAdapter {
         
         if (mav != null) {
             mav.addObject("currentUser", getCurrentUser());
+            mav.addObject("commitId", commitId);
+            mav.addObject("commitIdDescribe", commitIdDescribe);
         }
     }
     
