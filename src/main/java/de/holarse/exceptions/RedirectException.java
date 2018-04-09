@@ -12,7 +12,7 @@ public class RedirectException extends Exception {
     }
     
     public RedirectView getRedirect() {
-        final RedirectView r = new RedirectView(redirectTo);
+        final RedirectView r = new RedirectView(redirectTo, false, false, false);
         r.setStatusCode(HttpStatus.MOVED_PERMANENTLY);
         return r;
     }

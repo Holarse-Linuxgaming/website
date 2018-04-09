@@ -5,15 +5,22 @@ import de.holarse.backend.db.Article;
 import de.holarse.backend.db.ContentType;
 import de.holarse.backend.db.NodeType;
 import de.holarse.backend.db.Revision;
+import de.holarse.backend.db.Tag;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.RevisionRepository;
 import de.holarse.backend.db.repositories.SearchRepository;
+import de.holarse.backend.db.repositories.TagRepository;
 import de.holarse.exceptions.NodeNotFoundException;
 import de.holarse.exceptions.RedirectException;
 import de.holarse.services.NodeService;
 import java.time.OffsetDateTime;
+import java.util.Arrays;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import javax.transaction.Transactional;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +52,11 @@ public class ArticleController {
     SearchRepository searchRepository;
 
     @Autowired
+    TagRepository tagRepository;    
+    
+    @Autowired
     NodeService nodeService;
+
     
     // INDEX
     @GetMapping("/")
@@ -75,6 +86,11 @@ public class ArticleController {
         article.setContent(command.getContent());
         article.setContentType(ContentType.PLAIN);
 
+        // Tags anlegen
+        Set<Tag> tags = commandToTags(command.getTags());
+        tagRepository.saveAll(tags);
+        article.getTags().addAll(tags);
+        
         // Artikel-Metadaten
         article.setAuthor(((HolarsePrincipal) authentication.getPrincipal()).getUser());
         article.setCreated(OffsetDateTime.now());
@@ -91,10 +107,12 @@ public class ArticleController {
     }
    
     // SHOW by Slug
+    @Transactional
     @GetMapping("/{slug}")
     public ModelAndView showBySlug(@PathVariable final String slug, final Model map) { 
         try {
             final Article article = nodeService.findArticle(slug).get();
+            Hibernate.initialize(article.getTags());
             map.addAttribute("node", article);
             return new ModelAndView("articles/show", map.asMap());
         } catch (RedirectException re) {
@@ -103,9 +121,11 @@ public class ArticleController {
     }    
 
     // EDIT
+    @Transactional
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable final Long id, final Model map, final ArticleCommand command) {
         final Article article = articleRepository.findById(id).get();
+        Hibernate.initialize(article.getTags());        
         map.addAttribute("article", article);
 
         command.setTitle(article.getTitle());
@@ -114,6 +134,7 @@ public class ArticleController {
         command.setAlternativeTitle3(article.getAlternativeTitle3());        
         command.setContent(article.getContent());
         command.setContentType(article.getContentType());
+        command.setTags(article.getTags().stream().map(t -> t.getName()).collect(Collectors.joining(",")));
 
         map.addAttribute("articleCommand", command);
         map.addAttribute("contentTypes", ContentType.values());
@@ -152,6 +173,12 @@ public class ArticleController {
         article.setAlternativeTitle3(command.getAlternativeTitle3()); 
         article.setContent(command.getContent());
         article.setContentType(command.getContentType());
+        article.getTags().clear();
+        
+        // Tags anlegen
+        Set<Tag> tags = commandToTags(command.getTags());
+        tagRepository.saveAll(tags);
+        article.getTags().addAll(tags);
 
         // Artikel-Metadaten aktualisieren
         article.setAuthor(currentUser);
@@ -167,6 +194,16 @@ public class ArticleController {
 
         return new RedirectView("/articles/" + article.getId());
     }
+    
+    protected String tagsToCommand(final Set<Tag> tags) {
+        return tags.stream().map(t -> t.getName()).collect(Collectors.joining(","));
+    }
+    
+    protected Set<Tag> commandToTags(final String tags) {
+        return Arrays.asList(tags.split(",")).stream().map(createOrUpdateTag).collect(Collectors.toSet());
+    }
+    
+    protected Function<String, Tag> createOrUpdateTag =  s -> tagRepository.findByName(s.trim()).orElse(new Tag(s));
 
     // DELETE
 }

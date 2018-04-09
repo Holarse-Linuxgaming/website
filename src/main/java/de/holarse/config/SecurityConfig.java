@@ -70,6 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/sitemap.xml").permitAll()
                 .antMatchers("/api/**").permitAll()
+                .antMatchers("/tags/**", "/category/stichworte/**").permitAll()
                 .antMatchers("/search/**").permitAll()
                 .antMatchers("/login", "/register", "/verify").hasRole("ANONYMOUS")
                 .antMatchers("/admin/**").hasRole("ADMIN")

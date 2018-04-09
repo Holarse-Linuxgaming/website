@@ -16,22 +16,12 @@
     <div class="col-4">
         <nav class="nav holarse-tags">
 
-            <li class="nav-item">
-                <a class="nav-link" href="#" title="Klicken für weitere Artikel mit diesem Tag">Spiele</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Kommerziell</a>
+            <c:forEach items="${node.tags}" var="tag">
+                <li class="nav-item">
+                    <a class="nav-link" href="/tags/${tag.name}" title="Klicken für weitere Artikel mit diesem Tag">${tag.name}</a>
+                </li>                
+            </c:forEach>
 
-            </li>                
-            <li class="nav-item">
-                <a class="nav-link" href="#">native</a>
-            </li>                                
-            <li class="nav-item">
-                <a class="nav-link" href="#">Steam</a>
-            </li>                                
-            <li class="nav-item">
-                <a class="nav-link" href="#">Shooter</a>
-            </li>  
             <s:authorize access="hasRole('USER')">
                 <li class="nav-item nav-fill">
                     <a class="nav-link" href="#" id="toggle-holarse-context-menu" title="Aktionen anzeigen"><i class="fas fa-cogs"></i></a>

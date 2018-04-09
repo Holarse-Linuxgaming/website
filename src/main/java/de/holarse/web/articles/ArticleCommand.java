@@ -1,6 +1,7 @@
 package de.holarse.web.articles;
 
 import de.holarse.backend.db.ContentType;
+import java.util.Set;
 
 public class ArticleCommand {
     
@@ -30,16 +31,16 @@ public class ArticleCommand {
         this.contentType = contentType;
     }
 
+    public String getAlternativeTitle1() {
+        return alternativeTitle1;
+    }
+
     public String getTags() {
         return tags;
     }
 
     public void setTags(String tags) {
         this.tags = tags;
-    }
-
-    public String getAlternativeTitle1() {
-        return alternativeTitle1;
     }
 
     public void setAlternativeTitle1(String alternativeTitle1) {

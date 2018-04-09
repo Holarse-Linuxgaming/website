@@ -7,6 +7,9 @@
         <fieldset>
         <form:label path="title">Titel</form:label>
         <form:input path="title" class="form-control"></form:input>
+        
+        <form:label path="tags">Tags</form:label>
+        <form:input path="tags" class="form-control"></form:input>        
 
         <form:label path="alternativeTitle1">Weiterer Titel</form:label>
         <form:input path="alternativeTitle1" class="form-control"></form:input>    

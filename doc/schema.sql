@@ -1,15 +1,15 @@
--- Holarse Postgres
-
+-- login erzeugen
 CREATE ROLE holarse NOSUPERUSER NOCREATEDB NOCREATEROLE INHERIT LOGIN NOREPLICATION;
 
+-- fts 
 create extension unaccent;
+create extension pg_trgm;
 
 create text search configuration holarse_de ( COPY = german );
 ALTER TEXT SEARCH CONFIGURATION holarse_de ALTER MAPPING
 FOR hword, hword_part, word WITH unaccent, german_stem;
 
 -- Materialized View: public.search_index
-
 DROP MATERIALIZED VIEW public.search_index;
 
 CREATE MATERIALIZED VIEW public.search_index AS 
@@ -49,7 +49,5 @@ WITH DATA;
 ALTER TABLE public.search_index
   OWNER TO holarse;
 
--- example search query
-select * from search_index where search_index.document @@ to_tsquery('holarse_de', 'Lorem') ORDER BY ts_rank(search_index.document, to_tsquery('holarse_de', 'Endangered & Species')) DESC;;
-
+-- rollen anlegen
 insert into roles (id, code) values (nextval('hibernate_sequence'), 'ADMIN');

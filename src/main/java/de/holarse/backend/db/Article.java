@@ -1,11 +1,14 @@
 package de.holarse.backend.db;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.StringJoiner;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import org.apache.commons.lang3.StringUtils;
 
 @Table(name="articles")
 @Entity
@@ -24,6 +27,13 @@ public class Article extends SluggableNode {
     
     @Transient
     private String urlid;
+    
+    @ManyToMany
+    private final Set<Tag> tags = new HashSet<>();
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
 
     public String getUrlid() {
         return urlid;
