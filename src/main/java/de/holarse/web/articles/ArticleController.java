@@ -16,10 +16,12 @@ import de.holarse.exceptions.RedirectException;
 import de.holarse.services.NodeService;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -200,6 +202,9 @@ public class ArticleController {
     }
     
     protected Set<Tag> commandToTags(final String tags) {
+        if (StringUtils.isBlank(tags)) {
+            return new HashSet<>();
+        }
         return Arrays.asList(tags.split(",")).stream().map(createOrUpdateTag).collect(Collectors.toSet());
     }
     
