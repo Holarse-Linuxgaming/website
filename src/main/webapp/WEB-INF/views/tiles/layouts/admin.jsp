@@ -45,6 +45,9 @@
                             <a class="nav-link" href="/admin/news/">News</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="/admin/tags/">Tags</a>
+                        </li>                        
+                        <li class="nav-item">
                             <a class="nav-link" href="/admin/import/">Import</a>
                         </li>
                         <li class="nav-item dropdown">
