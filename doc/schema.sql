@@ -51,3 +51,9 @@ ALTER TABLE public.search_index
 
 -- rollen anlegen
 insert into roles (id, code) values (nextval('hibernate_sequence'), 'ADMIN');
+insert into roles (id, code) values (nextval('hibernate_sequence'), 'TRUSTED_USER');
+insert into roles (id, code) values (nextval('hibernate_sequence'), 'MODERATOR');
+insert into roles (id, code) values (nextval('hibernate_sequence'), 'REPORTER');
+
+insert into taggroups(id, name) values (nextval('hibernate_sequence'), 'LICENSE');
+insert into taggroups(id, name) values (nextval('hibernate_sequence'), 'GENRES');

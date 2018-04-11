@@ -1,10 +1,13 @@
 package de.holarse.web.admin.tags;
 
+import de.holarse.backend.db.Tag;
+import de.holarse.backend.db.TagGroup;
+
 public class TagCommand {
 
     private String name;
-    private Long aliasId;
-    private String tagGroup;
+    private Tag alias;
+    private TagGroup tagGroup;
 
     public String getName() {
         return name;
@@ -14,20 +17,19 @@ public class TagCommand {
         this.name = name;
     }
 
-    public Long getAliasId() {
-        return aliasId;
+    public Tag getAlias() {
+        return alias;
     }
 
-    public void setAliasId(Long aliasId) {
-        this.aliasId = aliasId;
+    public void setAlias(Tag alias) {
+        this.alias = alias;
     }
 
-    public String getTagGroup() {
+    public TagGroup getTagGroup() {
         return tagGroup;
     }
 
-    public void setTagGroup(String tagGroup) {
+    public void setTagGroup(TagGroup tagGroup) {
         this.tagGroup = tagGroup;
     }
-    
 }

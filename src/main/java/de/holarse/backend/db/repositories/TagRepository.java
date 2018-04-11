@@ -9,10 +9,6 @@ import de.holarse.backend.db.Tag;
 import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 
-/**
- *
- * @author comrad
- */
 public interface TagRepository extends CrudRepository<Tag, Long> {
     
     Optional<Tag> findByName(String name);

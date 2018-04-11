@@ -89,6 +89,13 @@ POSTGRESQL_JDBC_SHA256="d800ad754c7265b3bc06425d3ea0059a2a3226527226cecfd459f74b
 POSTGRESQL_JDBC_DOWNLOAD_URL="https://jdbc.postgresql.org/download/$POSTGRESQL_JDBC_JAR"
 inspectFile "$HTEMP/$POSTGRESQL_JDBC_JAR" $POSTGRESQL_JDBC_DOWNLOAD_URL $POSTGRESQL_JDBC_SHA256
 
+COMPILE_PROJECT="mvn clean package"
+
+# compile if argument is given
+if [ "$1" = "compile" ]; then
+    echo "kompiliere Projekt"
+    $COMPILE_PROJECT
+fi
 
 PAYARA_OPTS="--disablephonehome --nocluster --rootDir /tmp/holarse-testing"
 

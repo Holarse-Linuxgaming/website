@@ -1,10 +1,7 @@
 package de.holarse.backend.db;
 
 import java.time.OffsetDateTime;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Table(name = "tags")
 @Entity
@@ -17,8 +14,10 @@ public class Tag extends Base {
     
     @OneToOne
     private Tag alias;
-    
-    private String tagGroup;
+
+    @ManyToOne
+    private TagGroup tagGroup;
+
 
     public Tag() {
     }
@@ -37,11 +36,11 @@ public class Tag extends Base {
     }
 
 
-    public String getTagGroup() {
+    public TagGroup getTagGroup() {
         return tagGroup;
     }
 
-    public void setTagGroup(String tagGroup) {
+    public void setTagGroup(TagGroup tagGroup) {
         this.tagGroup = tagGroup;
     }
 
@@ -60,5 +59,14 @@ public class Tag extends Base {
     public void setName(String name) {
         this.name = name;
     }
-   
+
+    @Override
+    public String toString() {
+        return "Tag{" +
+                "name='" + name + '\'' +
+                ", legacyId=" + legacyId +
+                ", alias=" + alias +
+                ", tagGroup=" + tagGroup +
+                '}';
+    }
 }

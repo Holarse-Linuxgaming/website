@@ -1,8 +1,11 @@
 package de.holarse.web.admin.tags;
 
 import de.holarse.backend.db.Tag;
+import de.holarse.backend.db.repositories.TagGroupRepository;
 import de.holarse.backend.db.repositories.TagRepository;
 import de.holarse.web.admin.tags.TagCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,10 +20,13 @@ import org.springframework.web.servlet.view.RedirectView;
 @RequestMapping("/admin/tags")
 @Controller
 public class TagsAdminController {
-    
-    @Autowired
-    TagRepository tagRepository;
-    
+
+    Logger logger = LoggerFactory.getLogger(TagsAdminController.class);
+
+    @Autowired TagRepository tagRepository;
+
+    @Autowired TagGroupRepository tagGroupRepository;
+
     // INDEX
     @GetMapping("/")
     public String index(Model map) {
@@ -37,11 +43,12 @@ public class TagsAdminController {
         
         command.setName(tag.getName());
         command.setTagGroup(tag.getTagGroup());
-        command.setAliasId(tag.getAlias() != null ? tag.getAlias().getId() : null);
+        command.setAlias(tag.getAlias());
         
         map.addAttribute("tagCommand", command);
         
-        map.addAttribute("allTags", tagRepository.findAll());
+        map.addAttribute("tags", tagRepository.findAll());
+        map.addAttribute("tagGroups", tagGroupRepository.findAll());
         
         return "admin/tags/edit";
     }
@@ -50,10 +57,12 @@ public class TagsAdminController {
     @PutMapping("/{tagid}")
     public ModelAndView update(@PathVariable("tagid") Long tagId, @ModelAttribute TagCommand command) {
         final Tag tag = tagRepository.findById(tagId).get();
-        
+
+        logger.debug(command.getAlias().toString());
+
         tag.setName(command.getName());
         tag.setTagGroup(command.getTagGroup());
-        tag.setAlias(command.getAliasId() != null ? tagRepository.findById(command.getAliasId()).get() : null);
+        tag.setAlias(command.getAlias());
         
         tagRepository.save(tag);
         
