@@ -8,7 +8,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
                 <th scope="col">Gruppe</th>
-                <th scope="col">Alias für</th>
+                <th scope="col">Alias fï¿½r</th>
                 <th scope="col">Erstellt</th>
                 <th scope="col">Bearbeitet</th>
                 <th scope="col">Aktionen</th>
@@ -19,7 +19,7 @@
                 <tr>
                     <th scope="row">${tag.id}</th>
                     <td><a href="/tags/${tag.name}">${tag.name}</a></td>
-                    <td>${tag.tagGroup}</td>
+                    <td>${tag.tagGroup.name}</td>
                     <td>${tag.alias.name}</td>
                     <td>${node.created}</td>
                     <td>${node.updated}</td>

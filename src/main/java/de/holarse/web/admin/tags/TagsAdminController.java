@@ -61,8 +61,8 @@ public class TagsAdminController {
         logger.debug(command.getAlias().toString());
 
         tag.setName(command.getName());
-        tag.setTagGroup(command.getTagGroup());
-        tag.setAlias(command.getAlias());
+        tag.setTagGroup(command.getTagGroup().getId() != null ? command.getTagGroup() : null);
+        tag.setAlias(command.getAlias().getId() != null ? command.getAlias() : null);
         
         tagRepository.save(tag);
         
