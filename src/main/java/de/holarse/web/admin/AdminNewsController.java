@@ -19,5 +19,5 @@ public class AdminNewsController {
         map.addAttribute("nodes", newsRepository.findAll());
         return "admin/news/index";
     }
-    
+       
 }

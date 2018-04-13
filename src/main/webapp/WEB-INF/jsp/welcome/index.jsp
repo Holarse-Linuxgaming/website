@@ -21,3 +21,11 @@ Was hier noch so erscheinen soll:
     neue Videos oder ähnliches sein.
 </p>
 
+<p>
+<ul>
+    <c:forEach items="${items}" var="item">
+        <li><a href="${item.link}">${item.title}</a></li>
+    </c:forEach>
+</ul>
+</p>
+
