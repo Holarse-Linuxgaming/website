@@ -1,7 +1,10 @@
 package de.holarse.backend.db.repositories;
 
 import de.holarse.backend.db.FrontPageItem;
+import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
+import javax.persistence.Column;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -11,4 +14,6 @@ public interface FrontPageRepository extends CrudRepository<FrontPageItem, Long>
            nativeQuery = true)
     List<FrontPageItem> getFrontScreen();
     
+    Optional<FrontPageItem> findFirstByNodeIdOrderByCreatedDesc(Long nodeId);
+       
 }

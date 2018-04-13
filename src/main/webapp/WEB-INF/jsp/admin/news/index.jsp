@@ -14,6 +14,7 @@
                 <th scope="col">Erstellt</th>
                 <th scope="col">Bearbeitet</th>
                 <th scope="col">Revision</th>
+                <th scope="col">Aktionen</th>
             </tr>
         </thead>
         <tbody>
@@ -28,6 +29,9 @@
                     <td>${node.created}</td>
                     <td>${node.updated}</td>
                     <td>${node.revision}</td>
+                    <td>
+                        <a href="/admin/frontpage/post/NEWS/${node.id}" class="btn btn-danger">Auf die Frontpage</a>
+                    </td>
                 </tr>
             </c:forEach>
         </tbody>

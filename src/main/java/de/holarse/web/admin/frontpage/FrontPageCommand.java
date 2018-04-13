@@ -1,33 +1,37 @@
-package de.holarse.backend.db;
+package de.holarse.web.admin.frontpage;
 
 import java.time.OffsetDateTime;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 
-@Table(name = "fpitems")
-@Entity
-public class FrontPageItem extends Base {
+public class FrontPageCommand {
     
-    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE default CURRENT_TIMESTAMP")    
-    private OffsetDateTime publishFrom;
-    
-    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE default CURRENT_TIMESTAMP")    
-    private OffsetDateTime publishUntil;    
-    
-    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE default CURRENT_TIMESTAMP")    
-    private OffsetDateTime cooldownUntil;       
-    
+    private Long id;
     private String title;
     private String teaser;
-    
-    // Image
-    
     private String url;
-    
-    private boolean pinned;
-    
+
     private Long nodeId;
+    
+    private Boolean pinned;
+    
+    private OffsetDateTime publishFrom;
+    private OffsetDateTime publishUntil;
+    private OffsetDateTime cooldownUntil;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+    
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public OffsetDateTime getCooldownUntil() {
         return cooldownUntil;
@@ -35,6 +39,15 @@ public class FrontPageItem extends Base {
 
     public void setCooldownUntil(OffsetDateTime cooldownUntil) {
         this.cooldownUntil = cooldownUntil;
+    }
+    
+    
+    public Boolean getPinned() {
+        return pinned;
+    }
+
+    public void setPinned(Boolean pinned) {
+        this.pinned = pinned;
     }
 
     public OffsetDateTime getPublishFrom() {
@@ -69,22 +82,6 @@ public class FrontPageItem extends Base {
         this.teaser = teaser;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public boolean isPinned() {
-        return pinned;
-    }
-
-    public void setPinned(boolean pinned) {
-        this.pinned = pinned;
-    }
-
     public Long getNodeId() {
         return nodeId;
     }
@@ -92,5 +89,7 @@ public class FrontPageItem extends Base {
     public void setNodeId(Long nodeId) {
         this.nodeId = nodeId;
     }
+
+    
     
 }

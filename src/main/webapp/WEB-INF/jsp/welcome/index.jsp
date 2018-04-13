@@ -21,11 +21,17 @@ Was hier noch so erscheinen soll:
     neue Videos oder ähnliches sein.
 </p>
 
-<p>
-<ul>
-    <c:forEach items="${items}" var="item">
-        <li><a href="${item.link}">${item.title}</a></li>
-    </c:forEach>
-</ul>
-</p>
-
+<div class="container-fluid">
+    <div class="grid">
+        <div class="grid-sizer"></div>
+        <c:forEach items="${items}" var="item">
+            <div class="grid-item">
+                <div class="grid-item-content">
+                    <a href="${item.url}">
+                        <img src="https://placeimg.com/640/480/any" />
+                        ${item.title}</a>                    
+                </div>
+            </div>
+        </c:forEach>
+    </div>
+</div>

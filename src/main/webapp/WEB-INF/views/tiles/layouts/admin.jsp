@@ -18,6 +18,7 @@
         <!-- CSS Global Compulsory -->
         <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
         <link rel="stylesheet" href="assets/vendor/fontawesome/fontawesome-all.min.css">
+        <link rel="stylesheet" href="assets/vendor/jquery-ui/jquery-ui.min.css">
 
         <!-- CSS Customization -->
         <link rel="stylesheet" href="assets/css/admin.css">
@@ -79,7 +80,8 @@
         <!-- JS Global Compulsory -->
         <script src="assets/vendor/jquery/jquery-3.3.1.min.js"></script>
         <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
-
+        <script src="assets/vendor/jquery-ui/jquery-ui.min.js"></script>
+        
         <!-- JS Custom -->
         <script src="assets/js/admin.js"></script>
 
