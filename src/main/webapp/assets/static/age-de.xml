@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<age-declaration>
+  <ageblock-basic>
+    <age-issuer>www.jugendschutzprogramm.de</age-issuer>
+    <last-change>2016-02-15</last-change>
+    <country>de</country>
+    <label-version>1.0</label-version>
+    <revisit-after>7days</revisit-after>
+  </ageblock-basic>
+  <ageblock-labeltype>
+    <xmlfile>true</xmlfile>
+    <httpheader>false</httpheader>
+    <htmlmeta>false</htmlmeta>
+    <label-z>false</label-z>
+    <default-age>18</default-age>
+  </ageblock-labeltype>
+  <ageblock-labeltype-definition>
+    <labeltype-xmlfile>
+      <label class="default">
+	<min-age>0</min-age>
+	<default-age>18</default-age>
+      </label>
+      <label class="holarse-linuxgaming">
+	<age>18</age>
+	<min-age>0</min-age>
+	<default-age>18</default-age>
+	<scope>*.holarse-linuxgaming.de</scope>
+	<scope>*.holarse.de</scope>
+	<scope>holarse-linuxgaming.de</scope>
+      </label>
+    </labeltype-xmlfile>
+  </ageblock-labeltype-definition>
+</age-declaration>
