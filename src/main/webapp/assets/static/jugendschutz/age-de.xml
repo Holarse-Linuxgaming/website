@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- age classification (age-label.com) -->
+<!-- label generator: age-label.com -->
+  <age-declaration>
+    <ageblock-basic>
+      <age-issuer>Bernd Ritter</age-issuer>
+      <last-change>2018-04-14</last-change>
+      <country>de</country>
+      <label-version>1.0</label-version>
+      <revisit-after>1days</revisit-after>
+    </ageblock-basic>
+    <ageblock-labeltype>
+      <httpheader>false</httpheader>
+      <htmlmeta>false</htmlmeta>
+      <label-z>false</label-z>
+      <xmlfile>true</xmlfile>
+      <default-age>18</default-age>
+    </ageblock-labeltype>
+    <ageblock-labeltype-definition>        
+      <labeltype-xmlfile>
+      <label class="website">
+        <age>18</age>
+        <min-age>0</min-age>
+        <default-age>18</default-age>
+        <scope>*.holarse-linuxgaming.de</scope>
+        <scope>*.holarse.de</scope>
+        </label>
+      </labeltype-xmlfile>
+    </ageblock-labeltype-definition>
+  </age-declaration>

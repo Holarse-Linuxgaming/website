@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <label xmlns="http://www.miracle-label.eu/ns/2.0/">
+    <age-declaration>
+      <issuer>
+        <age-issuer>Bernd Ritter</age-issuer>
+        <last-change>2018-04-14</last-change>
+        <country>
+          <country-code>all</country-code>
+        </country>
+        <custom></custom>
+      </issuer>
+      <scope>
+        <scope-urls>
+          <scope-url class="web-url">*.holarse-linuxgaming.de/*</scope-url>
+          <scope-url class="web-url">*.holarse.de/*</scope-url>
+        </scope-urls>
+      </scope>
+      <rating>
+        <age>18</age>
+      </rating>
+      <content-descriptors>
+        <cd-sexuality>
+          <cd-sexuality-exist>true</cd-sexuality-exist>
+          <cd-sexuality-desc></cd-sexuality-desc>
+          <cd-sexuality-icon></cd-sexuality-icon>
+        </cd-sexuality>
+        <cd-violence>
+          <cd-violence-exist>true</cd-violence-exist>
+          <cd-violence-desc></cd-violence-desc>
+          <cd-violence-icon></cd-violence-icon>
+        </cd-violence>
+        <cd-cursing>
+          <cd-cursing-exist>true</cd-cursing-exist>
+          <cd-cursing-desc></cd-cursing-desc>
+          <cd-cursing-icon></cd-cursing-icon>
+        </cd-cursing>
+        <cd-drugs>
+          <cd-drugs-exist>true</cd-drugs-exist>
+          <cd-drugs-desc></cd-drugs-desc>
+          <cd-drugs-icon></cd-drugs-icon>
+        </cd-drugs>
+        <cd-fear>
+          <cd-fear-exist>true</cd-fear-exist>
+          <cd-fear-desc></cd-fear-desc>
+          <cd-fear-icon></cd-fear-icon>
+        </cd-fear>
+        <cd-other>
+        </cd-other>
+      </content-descriptors>
+      <feature-descriptors>
+        <fd-other>
+        </fd-other>
+      </feature-descriptors>
+    </age-declaration>
+  </label>
