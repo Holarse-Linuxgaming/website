@@ -1,8 +1,7 @@
 package de.holarse.web.admin.frontpage;
 
-import de.holarse.backend.db.Article;
 import de.holarse.backend.db.FrontPageItem;
-import de.holarse.backend.db.News;
+import de.holarse.backend.db.Frontpagable;
 import de.holarse.backend.db.NodeType;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.FrontPageRepository;
@@ -40,40 +39,57 @@ public class AdminFrontPageController {
         return null;        
     }
     
+    @GetMapping("")
+    public String index(final Model map) {
+        map.addAttribute("items", frontPageRepository.findAll());
+        return "admin/frontpage/index";
+    }
+    
     @GetMapping("post/{nodeType}/{nodeId}")
-    public String createOrUpdateFrontpagePost(@PathVariable("nodeType") final NodeType nodeType, @PathVariable("nodeId") final Long nodeId, final FrontPageCommand command, final Model map) {
+    public String createOrUpdateFrontpagePost(@PathVariable("nodeType") final NodeType nodeType, @PathVariable("nodeId") final Long nodeId, final Model map) {
         final Optional<FrontPageItem> item = frontPageRepository.findFirstByNodeIdOrderByCreatedDesc(nodeId);
         
-        // Ist der Cooldown schon vorbei, dann können wir ein neues posten
-        final FrontPageItem fpi = item.filter(f -> f.getCooldownUntil() != null && OffsetDateTime.now().isBefore(f.getCooldownUntil())).orElseGet(FrontPageItem::new);
-        
-        command.setId(fpi.getId());
-        command.setNodeId(fpi.getNodeId());
-        command.setTitle(fpi.getTitle());
-        command.setTeaser(fpi.getTeaser());
-        command.setPinned(fpi.isPinned());
-        command.setPublishFrom(fpi.getPublishFrom());
-        command.setPublishUntil(fpi.getPublishUntil());
-        command.setCooldownUntil(fpi.getCooldownUntil());
-        
+        // Ist der Cooldown schon vorbei oder nicht gesetzt (geht nie zuende), dann können wir ein neues posten
+        final FrontPageItem fpi = item.filter(f -> f.getCooldownUntil() == null || OffsetDateTime.now().isBefore(f.getCooldownUntil())).orElseGet(FrontPageItem::new);
+
+        final Frontpagable frontPagable;
         switch (nodeType) {
             case NEWS:
-                final News n = newsRepository.findById(nodeId).get();
-                map.addAttribute("node", n);
-                if (fpi.getUrl() == null) { 
-                    command.setUrl(n.getUrl());
-                }
+                frontPagable = newsRepository.findById(nodeId).get();
                 break;
             case ARTICLE:
-                final Article a = articleRepository.findById(nodeId).get();
-                map.addAttribute("node", a);
-                if (fpi.getUrl() == null) { 
-                    command.setUrl(a.getUrl());                
-                }
+                frontPagable = articleRepository.findById(nodeId).get();
                 break;
             default:
                 throw new IllegalStateException("Unbehandelter NodeType " + nodeType);
         }
+
+        // Command mit bestehenden oder neuen Daten füllen
+        final FrontPageCommand command;
+        
+        if (fpi.getId() != null) {
+            command = new FrontPageCommand();
+            command.setId(fpi.getId());
+            command.setNodeId(fpi.getNodeId());
+            command.setNodeType(fpi.getNodeType());            
+            command.setTitle(fpi.getTitle());
+            command.setTeaser(fpi.getTeaser());
+            command.setPinned(fpi.isPinned());
+            command.setPublishFrom(fpi.getPublishFrom());
+            command.setPublishUntil(fpi.getPublishUntil());
+            command.setCooldownUntil(fpi.getCooldownUntil());
+        } else {
+            command = new FrontPageCommand(frontPagable);
+            command.setNodeType(nodeType);                        
+        }
+        
+        map.addAttribute("node", frontPagable);
+        map.addAttribute("fpi", fpi);
+        if (fpi.getUrl() == null) {
+            command.setUrl(frontPagable.getUrl());
+        }        
+        
+        command.setRepostable(fpi.isRepostable());
         
         map.addAttribute("frontPageCommand", command);
         
@@ -84,6 +100,7 @@ public class AdminFrontPageController {
     public ModelAndView postFrontPage(@ModelAttribute final FrontPageCommand command) {
         final FrontPageItem fpi = command.getId() != null ? frontPageRepository.findById(command.getId()).get() : new FrontPageItem();
         fpi.setNodeId(command.getNodeId());
+        fpi.setNodeType(command.getNodeType());
         fpi.setTitle(command.getTitle());
         fpi.setTeaser(command.getTeaser());
         fpi.setUrl(command.getUrl());
@@ -96,7 +113,7 @@ public class AdminFrontPageController {
         
         frontPageRepository.save(fpi);
         
-        return new ModelAndView(new RedirectView("/admin/", false, false, true));
+        return new ModelAndView(new RedirectView("/admin/frontpage/", false, false, false));
     }
     
 }

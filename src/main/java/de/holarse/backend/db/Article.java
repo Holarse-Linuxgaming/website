@@ -5,14 +5,14 @@ import java.util.Set;
 import java.util.StringJoiner;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import org.apache.commons.lang3.StringUtils;
 
 @Table(name="articles")
 @Entity
-public class Article extends SluggableNode {
+public class Article extends SluggableNode implements Frontpagable {
     
     private String title;
     private String alternativeTitle1;
@@ -31,6 +31,12 @@ public class Article extends SluggableNode {
     @ManyToMany
     private final Set<Tag> tags = new HashSet<>();
 
+    @Transient
+    private String teaser;
+    
+    @Transient
+    private NodeType nodeType;    
+    
     public Set<Tag> getTags() {
         return tags;
     }
@@ -58,8 +64,11 @@ public class Article extends SluggableNode {
         
         this.url = "/wiki/" + getSlug();
         this.urlid = "/wiki/" + getId();
+        this.teaser = StringUtils.abbreviate(getContent(), 100);
+        this.nodeType = NodeType.ARTICLE;
     }
     
+    @Override
     public String getTitle() {
         return title;
     }
@@ -91,5 +100,20 @@ public class Article extends SluggableNode {
     public void setAlternativeTitle3(String alternativeTitle3) {
         this.alternativeTitle3 = alternativeTitle3;
     }
+
+    @Override
+    public Long getNodeId() {
+        return getId();
+    }
+
+    @Override
+    public String getTeaser() {
+        return teaser;
+    }
+
+    @Override
+    public NodeType getNodeType() {
+        return nodeType;
+    }    
   
 }

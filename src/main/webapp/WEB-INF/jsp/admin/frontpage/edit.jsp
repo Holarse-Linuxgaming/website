@@ -1,11 +1,23 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
+<c:choose>
+    <c:when test="${fpi.repostable}">
+        <div class="alert alert-danger" role="alert">
+            Beitrag wird beim Speichern erneut gepostet!
+        </div>
+    </c:when>
+    <c:otherwise>
+        This is OC!
+    </c:otherwise>
+</c:choose>
+
 <!-- Form -->
 <form:form modelAttribute="frontPageCommand" action="/admin/frontpage/post" method="POST">
     <form:button class="btn btn-primary">Speichern</form:button>
     <form:hidden path="id" />
     <form:hidden path="nodeId" />
+    <form:hidden path="nodeType" />
     <fieldset>
         <form:label path="title">Titel</form:label>
         <form:input path="title" class="form-control"></form:input>

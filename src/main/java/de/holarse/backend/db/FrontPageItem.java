@@ -3,11 +3,15 @@ package de.holarse.backend.db;
 import java.time.OffsetDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.PostLoad;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Table(name = "fpitems")
 @Entity
-public class FrontPageItem extends Base {
+public class FrontPageItem extends Base implements Frontpagable {
     
     @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE default CURRENT_TIMESTAMP")    
     private OffsetDateTime publishFrom;
@@ -28,7 +32,18 @@ public class FrontPageItem extends Base {
     private boolean pinned;
     
     private Long nodeId;
+    
+    @Enumerated(EnumType.STRING)
+    private NodeType nodeType;
+    
+    @Transient
+    private boolean repostable;
 
+    @PostLoad
+    private void fpiPostLoad() {
+        repostable = getCooldownUntil() != null && OffsetDateTime.now().isAfter(getCooldownUntil());
+    }    
+    
     public OffsetDateTime getCooldownUntil() {
         return cooldownUntil;
     }
@@ -53,6 +68,15 @@ public class FrontPageItem extends Base {
         this.publishUntil = publishUntil;
     }
 
+    public boolean isRepostable() {
+        return repostable;
+    }
+
+    public void setRepostable(boolean repostable) {
+        this.repostable = repostable;
+    }
+
+    @Override
     public String getTitle() {
         return title;
     }
@@ -61,6 +85,7 @@ public class FrontPageItem extends Base {
         this.title = title;
     }
 
+    @Override
     public String getTeaser() {
         return teaser;
     }
@@ -69,6 +94,7 @@ public class FrontPageItem extends Base {
         this.teaser = teaser;
     }
 
+    @Override
     public String getUrl() {
         return url;
     }
@@ -85,6 +111,7 @@ public class FrontPageItem extends Base {
         this.pinned = pinned;
     }
 
+    @Override
     public Long getNodeId() {
         return nodeId;
     }
@@ -92,5 +119,14 @@ public class FrontPageItem extends Base {
     public void setNodeId(Long nodeId) {
         this.nodeId = nodeId;
     }
-    
+
+    @Override
+    public NodeType getNodeType() {
+        return nodeType;
+    }
+
+    public void setNodeType(NodeType nodeType) {
+        this.nodeType = nodeType;
+    }
+
 }

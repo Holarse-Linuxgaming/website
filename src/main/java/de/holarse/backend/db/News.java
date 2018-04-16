@@ -4,10 +4,11 @@ import javax.persistence.Entity;
 import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import org.apache.commons.lang3.StringUtils;
 
 @Table(name = "news")
 @Entity
-public class News extends SluggableNode {
+public class News extends SluggableNode implements Frontpagable {
     
     private String title;
     private String subtitle;
@@ -18,7 +19,13 @@ public class News extends SluggableNode {
     private String url;
     
     @Transient
-    private String urlid;    
+    private String urlid;   
+    
+    @Transient
+    private String teaser;
+    
+    @Transient
+    private NodeType nodeType;
     
     @Override    
     public String getUrl() {
@@ -33,8 +40,11 @@ public class News extends SluggableNode {
     private void newsPostLoad() {
         this.url = "/news/" + getSlug();
         this.urlid = "/news/" + getId();
+        this.teaser = StringUtils.abbreviate(getContent(), 100);
+        this.nodeType = NodeType.NEWS;
     }    
     
+    @Override
     public String getTitle() {
         return title;
     }
@@ -65,6 +75,21 @@ public class News extends SluggableNode {
 
     public void setSource(String source) {
         this.source = source;
+    }
+
+    @Override
+    public Long getNodeId() {
+        return getId();
+    }
+
+    @Override
+    public String getTeaser() {
+        return teaser;
+    }
+
+    @Override
+    public NodeType getNodeType() {
+        return nodeType;
     }
     
 }

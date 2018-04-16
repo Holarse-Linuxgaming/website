@@ -1,5 +1,7 @@
 package de.holarse.web.admin.frontpage;
 
+import de.holarse.backend.db.Frontpagable;
+import de.holarse.backend.db.NodeType;
 import java.time.OffsetDateTime;
 
 public class FrontPageCommand {
@@ -10,18 +12,31 @@ public class FrontPageCommand {
     private String url;
 
     private Long nodeId;
+    private NodeType nodeType;
     
     private Boolean pinned;
     
     private OffsetDateTime publishFrom;
     private OffsetDateTime publishUntil;
     private OffsetDateTime cooldownUntil;
+    
+    private boolean repostable;
 
+    public FrontPageCommand() {
+    }
+
+    public FrontPageCommand(final Frontpagable frontpagable) {
+        setNodeId(frontpagable.getNodeId());
+        setTitle(frontpagable.getTitle());        
+        setTeaser(frontpagable.getTeaser());
+        setUrl(frontpagable.getUrl());
+    }
+    
     public String getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
+    public final void setUrl(String url) {
         this.url = url;
     }
     
@@ -70,7 +85,7 @@ public class FrontPageCommand {
         return title;
     }
 
-    public void setTitle(String title) {
+    public final void setTitle(String title) {
         this.title = title;
     }
 
@@ -78,7 +93,7 @@ public class FrontPageCommand {
         return teaser;
     }
 
-    public void setTeaser(String teaser) {
+    public final void setTeaser(String teaser) {
         this.teaser = teaser;
     }
 
@@ -86,10 +101,25 @@ public class FrontPageCommand {
         return nodeId;
     }
 
-    public void setNodeId(Long nodeId) {
+    public final void setNodeId(Long nodeId) {
         this.nodeId = nodeId;
     }
 
+    public NodeType getNodeType() {
+        return nodeType;
+    }
+
+    public void setNodeType(NodeType nodeType) {
+        this.nodeType = nodeType;
+    }
+
+    public boolean isRepostable() {
+        return repostable;
+    }
+
+    public void setRepostable(boolean repostable) {
+        this.repostable = repostable;
+    }  
     
     
 }

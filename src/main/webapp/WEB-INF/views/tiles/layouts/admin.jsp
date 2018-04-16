@@ -40,6 +40,9 @@
                             <a class="nav-link" href="/admin/users/">Benutzer</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="/admin/frontpage/">Frontpage</a>
+                        </li>                        
+                        <li class="nav-item">
                             <a class="nav-link" href="/admin/wiki/">Wiki</a>
                         </li>
                         <li class="nav-item">
