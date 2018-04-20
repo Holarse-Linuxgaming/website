@@ -14,7 +14,7 @@ config.read(os.path.join("config.ini"))
 BASE_DIR=config["export"]["base_dir"]
 ARTICLES_DIR=os.path.join(BASE_DIR, 'articles')
 
-db = pymysql.connect(unix_socket=config["database"]["unix_socket"], database=config["database"]["db"], user=config["database"]["user"], passwd=config["database"]["passwd"])
+db = pymysql.connect(host=config["database"]["host"], database=config["database"]["db"], user=config["database"]["user"], passwd=config["database"]["passwd"], charset='latin1')
 
 count_u = importer.users.do_import(db, BASE_DIR)
 print("imported %d users" % count_u)
