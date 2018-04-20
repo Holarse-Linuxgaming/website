@@ -27,6 +27,8 @@ public class AdminFrontPageController {
     @Autowired ArticleRepository articleRepository;
     @Autowired FrontPageRepository frontPageRepository;
     
+    @Autowired FrontPageService frontPageService;
+    
     @GetMapping("status")
     public FrontPageStatus getFrontPageStatus(@ModelAttribute final FrontPageStatus frontPageStatus) {
         final Optional<FrontPageItem> item = frontPageRepository.findFirstByNodeIdOrderByCreatedDesc(frontPageStatus.getNodeId());
@@ -47,11 +49,6 @@ public class AdminFrontPageController {
     
     @GetMapping("post/{nodeType}/{nodeId}")
     public String createOrUpdateFrontpagePost(@PathVariable("nodeType") final NodeType nodeType, @PathVariable("nodeId") final Long nodeId, final Model map) {
-        final Optional<FrontPageItem> item = frontPageRepository.findFirstByNodeIdOrderByCreatedDesc(nodeId);
-        
-        // Ist der Cooldown schon vorbei oder nicht gesetzt (geht nie zuende), dann können wir ein neues posten
-        final FrontPageItem fpi = item.filter(f -> f.getCooldownUntil() == null || OffsetDateTime.now().isBefore(f.getCooldownUntil())).orElseGet(FrontPageItem::new);
-
         final Frontpagable frontPagable;
         switch (nodeType) {
             case NEWS:
@@ -66,7 +63,8 @@ public class AdminFrontPageController {
 
         // Command mit bestehenden oder neuen Daten füllen
         final FrontPageCommand command;
-        
+
+        final FrontPageItem fpi = frontPageService.getOrUpdate(nodeId);
         if (fpi.getId() != null) {
             command = new FrontPageCommand();
             command.setId(fpi.getId());
@@ -99,18 +97,13 @@ public class AdminFrontPageController {
     @PostMapping("post")
     public ModelAndView postFrontPage(@ModelAttribute final FrontPageCommand command) {
         final FrontPageItem fpi = command.getId() != null ? frontPageRepository.findById(command.getId()).get() : new FrontPageItem();
-        fpi.setNodeId(command.getNodeId());
-        fpi.setNodeType(command.getNodeType());
-        fpi.setTitle(command.getTitle());
-        fpi.setTeaser(command.getTeaser());
-        fpi.setUrl(command.getUrl());
+
+        frontPageService.buildFrontPageItem(fpi, command);
+        
         fpi.setPinned(command.getPinned());
         fpi.setPublishFrom(command.getPublishFrom());
         fpi.setPublishUntil(command.getPublishUntil());
-        
-        // Standard-Cooldown von 2 Tagen
-        fpi.setCooldownUntil(OffsetDateTime.now().plusDays(2));
-        
+                
         frontPageRepository.save(fpi);
         
         return new ModelAndView(new RedirectView("/admin/frontpage/", false, false, false));

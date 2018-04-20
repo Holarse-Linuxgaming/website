@@ -4,7 +4,7 @@ import de.holarse.backend.db.Frontpagable;
 import de.holarse.backend.db.NodeType;
 import java.time.OffsetDateTime;
 
-public class FrontPageCommand {
+public class FrontPageCommand implements Frontpagable {
     
     private Long id;
     private String title;
@@ -32,6 +32,7 @@ public class FrontPageCommand {
         setUrl(frontpagable.getUrl());
     }
     
+    @Override
     public String getUrl() {
         return url;
     }
@@ -81,6 +82,7 @@ public class FrontPageCommand {
         this.publishUntil = publishUntil;
     }
 
+    @Override
     public String getTitle() {
         return title;
     }
@@ -89,6 +91,7 @@ public class FrontPageCommand {
         this.title = title;
     }
 
+    @Override
     public String getTeaser() {
         return teaser;
     }
@@ -97,6 +100,7 @@ public class FrontPageCommand {
         this.teaser = teaser;
     }
 
+    @Override
     public Long getNodeId() {
         return nodeId;
     }
@@ -105,6 +109,7 @@ public class FrontPageCommand {
         this.nodeId = nodeId;
     }
 
+    @Override
     public NodeType getNodeType() {
         return nodeType;
     }

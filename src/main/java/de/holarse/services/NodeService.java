@@ -38,9 +38,22 @@ public class NodeService {
      * @return
      * @throws Exception
      */
-    public <N extends CommentableNode> N initNode(Class<N> clazz) throws Exception {
-        final N node = clazz.newInstance();
+    public <N extends CommentableNode> N initCommentableNode(Class<N> clazz) throws Exception {
+        final N node = initNode(clazz);
         node.setCommentable(Boolean.TRUE);
+       
+        return node;
+    }
+    
+    /**
+     * Erzeugt die Grunddaten für eine neue Node
+     * @param <N>
+     * @param clazz
+     * @return
+     * @throws Exception
+     */
+    public <N extends Node> N initNode(Class<N> clazz) throws Exception {
+        final N node = clazz.newInstance();
         node.setArchived(Boolean.FALSE);
         node.setDeleted(Boolean.FALSE);
         node.setDraft(Boolean.FALSE);
@@ -49,7 +62,7 @@ public class NodeService {
         node.setPublished(Boolean.TRUE);
         
         return node;
-    }
+    }    
     
     /**
      * TODO Schöner umsetzen

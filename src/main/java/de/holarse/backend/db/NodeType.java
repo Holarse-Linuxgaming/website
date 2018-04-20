@@ -3,6 +3,9 @@ package de.holarse.backend.db;
 public enum NodeType {
  
     ARTICLE,
-    NEWS;
+    NEWS,
+    SHORTNEWS,
+    VIDEO,
+    STORY;
     
 }

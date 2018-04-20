@@ -69,7 +69,7 @@ public class NewsController {
     @Transactional    
     @PostMapping("/")   
     public RedirectView create(@ModelAttribute final NewsCommand command, final Authentication authentication) throws Exception {
-        final News node = nodeService.initNode(News.class);
+        final News node = nodeService.initCommentableNode(News.class);
         // Node-Inhalt
         node.setTitle(command.getTitle());
         node.setSubtitle(command.getSubtitle());

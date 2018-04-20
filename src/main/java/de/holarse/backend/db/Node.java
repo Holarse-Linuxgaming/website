@@ -1,6 +1,5 @@
 package de.holarse.backend.db;
 
-import java.util.StringJoiner;
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -11,7 +10,7 @@ import javax.persistence.Transient;
 import javax.persistence.Version;
 
 @MappedSuperclass
-public abstract class Node extends Base {
+public abstract class Node extends Base implements LegacyImport {
     
     /**
      * Node gelöscht
@@ -49,6 +48,8 @@ public abstract class Node extends Base {
     
     @ManyToOne
     private User author;
+
+    private Long oldId;
     
     @Version
     private int version;
@@ -57,6 +58,16 @@ public abstract class Node extends Base {
     private int wordCount;
 
     public abstract String getUrl();
+
+    @Override
+    public Long getOldId() {
+        return oldId;
+    }
+
+    @Override
+    public void setOldId(Long oldId) {
+        this.oldId = oldId;
+    }
     
     public int getWordCount() {
         return wordCount;

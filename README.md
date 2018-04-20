@@ -19,9 +19,16 @@ Für den Export benötigt man noch ein weiteres Python3-Paket:
 Dann kann man die Daten aus der Datenbank für den Import vorbereiten mit:
 
 	cd tools/importer/
-	./importer.py
+	PYTHONIOENCODING=utf8 ./importer.py
 
-Konfigurieren kann man das Tool über die config.ini.
+Konfigurieren kann man das Tool über die config.ini. Die alte Holarse-Datenbank ist latin1-kodiert.
+
+## Import
+
+Den Import der Dateien kann man über die REST-API durchführen. Beispiel:
+
+    curl -v -H "Accept: application/xml" -H "Content-Type:application/xml" -X POST -d @99.xml http://localhost:8080/api/import/articles/
+
 
 ## Webapp
 
@@ -36,11 +43,6 @@ Die installierbare WAR-Datei erhält man durch das Bauen mit
 	
 im Hauptverzeichnis, wo sich auch die pom.xml befindet.
 
-### Basisdaten
-Der Dienst erwartet die vom Export-Tool erzeugten Dokumente unter ```/tmp/export/```
-in den jeweiligen Unterzeichnissen ```articles```, ```news```, ```users``` und
-```comments```.
-
 ### Datenbank
 Es muss eine PostgreSQL-Datenbank auf ```localhost``` vorliegen mit dem
 Datenbanknamen ```holarse```, Benutzer ```holarse``` und Passwort ```geheim```.
@@ -50,4 +52,6 @@ Dazu gibt es das praktische Script
 
 	./run_micro
 	
-Es lädt den Application-Server und den JDBC-Treiber herunter und startet eine Micro-Instanz.
+Es lädt den Application-Server und den JDBC-Treiber herunter und startet eine Micro-Instanz. Möchte man die Webapplikation zuvor noch kompilieren startet man das Script mit
+
+        ./run_micro compile

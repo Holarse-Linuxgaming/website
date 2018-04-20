@@ -79,7 +79,7 @@ public class ArticleController {
     @Transactional
     @PostMapping("/")
     public RedirectView create(@ModelAttribute final ArticleCommand command, final Authentication authentication) throws Exception {
-        final Article article = nodeService.initNode(Article.class);
+        final Article article = nodeService.initCommentableNode(Article.class);
         // Artikelinhalt
         article.setTitle(command.getTitle());
         article.setAlternativeTitle1(command.getAlternativeTitle1());

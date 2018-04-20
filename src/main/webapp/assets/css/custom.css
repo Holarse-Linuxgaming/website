@@ -100,7 +100,7 @@ button .navbar-toggler .collapsed {
     background: #eee;
 }
 
-grid-sizer,
+.grid-sizer,
 .grid-item { width: 20%; }
 /* 2 columns */
 .grid-item--width2 { width: 40%; }

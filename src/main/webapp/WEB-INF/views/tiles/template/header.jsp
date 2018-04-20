@@ -31,6 +31,7 @@
                         <s:authorize access="hasRole('USER')">
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/news/new"><i class="far fa-newspaper"></i> News erstellen</a>
+                            <a class="dropdown-item" href="/shortnews/new"><i class="far fa-newspaper"></i> Kurznews erstellen</a>                            
                             <a class="dropdown-item" href="/articles/new"><i class="far fa-file-alt"></i> Artikel erstellen</a>
                             <a class="dropdown-item" href="/forums/new"><i class="far fa-comments"></i> Forenbeitrag erstellen</a>
                         </s:authorize>

@@ -1,14 +1,14 @@
 package de.holarse.rest;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Component
-@Path("version")
+@RestController
+@RequestMapping("/api/version")
 public class Version {
     
-    @GET
+    @GetMapping
     public String getVersion() {
         return "1.0";
     }
