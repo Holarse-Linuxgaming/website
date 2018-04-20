@@ -8,7 +8,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
                 <th scope="col">Gruppe</th>
-                <th scope="col">Alias fï¿½r</th>
+                <th scope="col">Alias für</th>
                 <th scope="col">Erstellt</th>
                 <th scope="col">Bearbeitet</th>
                 <th scope="col">Aktionen</th>

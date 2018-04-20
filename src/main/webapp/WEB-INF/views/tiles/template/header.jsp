@@ -80,10 +80,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">News</a>
+                    <a class="nav-link" href="/news/">News</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Spielefinder</a>
+                    <a class="nav-link" href="/finder/">Spielefinder</a>
                 </li>                
                 <li class="nav-item">
                     <a class="nav-link" href="#">Kategorien</a>
