@@ -38,7 +38,7 @@
 
 <div class="row">
     <article class="col-md-8">
-        ${node.content}    
+        ${rendererContent}    
     </article>
     <div class="col-md-4">
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">

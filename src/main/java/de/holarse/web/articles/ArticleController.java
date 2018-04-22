@@ -13,6 +13,7 @@ import de.holarse.backend.db.repositories.SearchRepository;
 import de.holarse.backend.db.repositories.TagRepository;
 import de.holarse.exceptions.NodeNotFoundException;
 import de.holarse.exceptions.RedirectException;
+import de.holarse.renderer.Renderer;
 import de.holarse.services.NodeService;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
@@ -26,6 +27,7 @@ import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,6 +61,9 @@ public class ArticleController {
     @Autowired
     NodeService nodeService;
 
+    @Qualifier("wikiRenderer")
+    @Autowired Renderer renderer;
+    
     
     // INDEX
     @GetMapping("/")
@@ -116,6 +121,7 @@ public class ArticleController {
             final Article article = nodeService.findArticle(slug).get();
             Hibernate.initialize(article.getTags());
             map.addAttribute("node", article);
+            map.addAttribute("rendererContent", renderer.render(article.getContent()));
             return new ModelAndView("articles/show", map.asMap());
         } catch (RedirectException re) {
             return new ModelAndView(re.getRedirect());
