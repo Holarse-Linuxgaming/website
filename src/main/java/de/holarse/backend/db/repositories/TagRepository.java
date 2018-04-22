@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface TagRepository extends CrudRepository<Tag, Long> {
     
-    Optional<Tag> findByName(String name);
+    Optional<Tag> findByNameIgnoreCase(String name);
     
     @Query("FROM Tag t WHERE t.tagGroup.name = :tagGroupName order by t.name")
     List<Tag> findByTagGroup(@Param("tagGroupName") final TagGroupType tagGroupType);

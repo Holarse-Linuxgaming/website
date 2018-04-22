@@ -5,13 +5,11 @@ import de.holarse.backend.db.TagGroupType;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.TagGroupRepository;
 import de.holarse.backend.db.repositories.TagRepository;
-import java.util.ArrayList;
+import de.holarse.services.TagService;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.StringJoiner;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import org.apache.commons.lang3.StringUtils;
@@ -37,6 +35,8 @@ public class GameFinderController {
     @Autowired TagRepository tagRepository;
     
     @Autowired ArticleRepository articleRepository;
+    
+    @Autowired TagService tagService;
     
     @Transactional
     @GetMapping
@@ -69,22 +69,18 @@ public class GameFinderController {
             chosenTags.add("Top-Titel");
         }
         
-        logger.debug("CHOSEN TAGS: " + chosenTags);        
-        
-        final String taglist = chosenTags.stream().collect(Collectors.joining(","));
+        final String taglist = tagService.createTagList(chosenTags);
         
         // Neues Tag hinzufügen und Seite neuladen
         if (redirectAfterNewTag) {
             return new ModelAndView(new RedirectView("/finder/?tags=" + taglist, false, false, false));
         }
         
-
-        
         // Ergebnisse anzeigen
         final List<Article> articles = articleRepository.findByTags(chosenTags);
         articles.forEach(a -> Hibernate.initialize(a.getTags()));
         map.addAttribute("nodes", articles);
-        map.addAttribute("tags", chosenTags.stream().map(ct -> tagRepository.findByName(ct)).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList()));
+        map.addAttribute("tags", chosenTags.stream().map(ct -> tagRepository.findByNameIgnoreCase(ct)).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList()));
         map.addAttribute("taglist", taglist);
         
         return new ModelAndView("finder/index");

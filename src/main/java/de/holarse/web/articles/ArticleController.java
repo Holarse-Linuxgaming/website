@@ -208,7 +208,7 @@ public class ArticleController {
         return Arrays.asList(tags.split(",")).stream().map(createOrUpdateTag).collect(Collectors.toSet());
     }
     
-    protected Function<String, Tag> createOrUpdateTag =  s -> tagRepository.findByName(s.trim()).orElse(new Tag(s));
+    protected Function<String, Tag> createOrUpdateTag =  s -> tagRepository.findByNameIgnoreCase(s.trim()).orElse(new Tag(s));
 
     // DELETE
 }

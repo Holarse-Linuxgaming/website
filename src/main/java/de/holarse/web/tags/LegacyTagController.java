@@ -15,28 +15,19 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-public class TagController {
+public class LegacyTagController {
 
     @Autowired
     ArticleRepository articleRepository;
     
     @GetMapping("/category/stichworte/{name}")
     public ModelAndView forwardSingleLegacyTag(final @PathVariable String name) {
-        return new ModelAndView(new RedirectView("/tags/" + name, false, false, true));
+        return new ModelAndView(new RedirectView("/finder/?tag=" + name, false, false, true));
     }
     
     @GetMapping("/category/stichworte/{tags}")    
     public ModelAndView forwardMultipleLegacyTags(final @PathVariable List<Long> tags) {
-        return new ModelAndView(new RedirectView("/tags/" + tags.stream().map(t -> String.valueOf(t)).collect(Collectors.joining(",")), false, false, true));
+        return new ModelAndView(new RedirectView("/finder/?tags=" + tags.stream().map(t -> String.valueOf(t)).collect(Collectors.joining(",")), false, false, true));
     }
-    
-    @Transactional
-    @GetMapping("/tags/{tags}")
-    public String index(final @PathVariable List<String> tags, final Model map) {
-        final List<Article> articles = articleRepository.findByTags(tags);
-        articles.forEach(a -> Hibernate.initialize(a.getTags()));
-        map.addAttribute("results", articles);
-        return "tags/result";
-    }
-    
+        
 }

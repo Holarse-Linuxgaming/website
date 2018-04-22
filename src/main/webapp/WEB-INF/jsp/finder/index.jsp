@@ -46,31 +46,17 @@
         <strong>Aktuell verwendete Tags</strong>
         <ul class="list-inline">
             <c:forEach items="${tags}" var="tag">
-                <li class="list-inline-item">${tag.name}</li>
+                <li class="list-inline-item">
+                    <spring:url value="/finder/" var="p">
+                        <spring:param name="tag" value="${tag.name}" />
+                        <spring:param name="tags" value="${taglist}" />                        
+                    </spring:url>                      
+                    <a href="${p}">${tag.name}</a>
+                </li>
                 </c:forEach>
         </ul>
 
-        Gefundene Spiele:
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Titel</th>
-                    <th>Teaser</th>
-                    <th>letzter Autor</th>
-                    <th>Zuletzt geändert am</th>
-                </tr>
-            </thead>
-            <tbody>
-                <c:forEach items="${nodes}" var="node">    
-                    <tr>
-                        <td><a href="${node.url}">${node.title}</a></td>
-                        <td>${node.teaser}</td>
-                        <td>${empty node.author.login ? "unbekannt" : node.author.login}</td>
-                        <td>${empty node.updated ? node.created : node.updated}</td>
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
+        <%@include file="/WEB-INF/jspf/nodes/nodelist.jspf" %>
 
 
     </div>

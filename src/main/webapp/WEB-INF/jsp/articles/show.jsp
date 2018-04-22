@@ -18,7 +18,7 @@
 
             <c:forEach items="${node.tags}" var="tag">
                 <li class="nav-item">
-                    <a class="nav-link" href="/tags/${tag.name}" title="Klicken für weitere Artikel mit diesem Tag">${tag.name}</a>
+                    <a class="nav-link" href="/finder/?tag=${tag.name}" title="Klicken für weitere Artikel mit diesem Tag">${tag.name}</a>
                 </li>                
             </c:forEach>
 
