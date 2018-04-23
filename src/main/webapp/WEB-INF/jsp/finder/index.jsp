@@ -28,6 +28,19 @@
                 </li>
             </c:forEach>
         </ul>
+        
+        <strong>Händler</strong>
+        <ul class="list-group">
+            <c:forEach items="${stores}" var="store">
+                <li class="list-group-item list-group-item-action">
+                    <spring:url value="/finder/" var="p">
+                        <spring:param name="tag" value="${store.name}" />
+                        <spring:param name="tags" value="${taglist}" />
+                    </spring:url>
+                    <a href="${p}">${store.name}</a>
+                </li>
+            </c:forEach>
+        </ul>        
 
         <strong>Freie Stichwörter</strong>        
         <ul class="list-group">

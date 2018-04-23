@@ -4,9 +4,13 @@
 <!-- Form -->
 <form:form modelAttribute="articleCommand" action="/wiki/" method="POST">
     <fieldset>
+        <form:button class="form-control btn btn-primary">Anlegen</form:button>
         <form:label path="title">Titel</form:label>
         <form:input path="title" class="form-control"></form:input>
 
+        <form:label path="tags">Tags</form:label>
+        <form:input path="tags" class="form-control"></form:input>            
+        
         <form:label path="alternativeTitle1">Weiterer Titel</form:label>
         <form:input path="alternativeTitle1" class="form-control"></form:input>    
         
@@ -24,7 +28,6 @@
         <form:label path="contentType">Format des Inhalts</form:label>    
         <form:select path="contentType" items="${contentTypes}" class="form-control"></form:select>
     </fieldset>
-    <form:button class="form-control">Anlegen</form:button>
 </form:form>
 <!-- End Form -->
 

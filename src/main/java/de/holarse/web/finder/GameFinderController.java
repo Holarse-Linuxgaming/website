@@ -1,7 +1,6 @@
 package de.holarse.web.finder;
 
 import de.holarse.backend.db.Article;
-import de.holarse.backend.db.TagGroupType;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.TagGroupRepository;
 import de.holarse.backend.db.repositories.TagRepository;
@@ -43,8 +42,9 @@ public class GameFinderController {
     public ModelAndView index(@RequestParam(value = "tags", required = false) final List<String> tags, 
                         @RequestParam(value = "tag",  required = false) final String newTag, 
                         final Model map) {
-        map.addAttribute("licenses", tagRepository.findByTagGroup(TagGroupType.LICENSE));
-        map.addAttribute("genres", tagRepository.findByTagGroup(TagGroupType.GENRE));
+        map.addAttribute("licenses", tagRepository.findByTagGroup("LICENSE"));
+        map.addAttribute("genres", tagRepository.findByTagGroup("GENRE"));
+        map.addAttribute("genres", tagRepository.findByTagGroup("STORE"));        
         map.addAttribute("freeTags", tagRepository.findFreeTags());
         
         // Bestehende Tags einfügen

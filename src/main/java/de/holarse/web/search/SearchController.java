@@ -32,8 +32,8 @@ public class SearchController {
     TrafficService trafficService;
 
     @PostMapping("/search")
-    public RedirectView searchResult(@ModelAttribute final SearchCommand command, final Model map, HttpServletRequest req) throws UnsupportedEncodingException {
-        return new RedirectView("/search?q=" + URLEncoder.encode(command.getQuery(), "ISO-8859-1"));
+    public RedirectView searchResult(@ModelAttribute final SearchCommand command, final Model map, final HttpServletRequest req) throws UnsupportedEncodingException {
+        return new RedirectView("/search?q=" + URLEncoder.encode(command.getQuery(), "ISO-8859-1"), false, false, false);
     }
     
     @GetMapping("/search")

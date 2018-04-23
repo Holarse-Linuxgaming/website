@@ -4,15 +4,12 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.Set;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 
 @Table(name = "taggroups")
 @Entity
 public class TagGroup extends Base {
 
-    @Enumerated(EnumType.STRING)
-    private TagGroupType name;
+    private String name;
 
     @OneToMany(mappedBy = "tagGroup")
     private Set<Tag> tags;
@@ -25,12 +22,12 @@ public class TagGroup extends Base {
         this.tags = tags;
     }
 
-    public TagGroupType getName() {
-
+    public String getName() {
         return name;
     }
 
-    public void setName(TagGroupType name) {
+    public void setName(String name) {
         this.name = name;
     }
+
 }

@@ -15,6 +15,8 @@ import de.holarse.exceptions.NodeNotFoundException;
 import de.holarse.exceptions.RedirectException;
 import de.holarse.renderer.Renderer;
 import de.holarse.services.NodeService;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -77,6 +79,7 @@ public class ArticleController {
     @GetMapping("/new")
     public String newArticle(final Model map, final ArticleCommand command) {
         map.addAttribute("articleCommand", command);
+        map.addAttribute("contentTypes", ContentType.values());
         return "articles/new";
     }
 
@@ -91,7 +94,7 @@ public class ArticleController {
         article.setAlternativeTitle2(command.getAlternativeTitle2());
         article.setAlternativeTitle3(command.getAlternativeTitle3());
         article.setContent(command.getContent());
-        article.setContentType(ContentType.PLAIN);
+        article.setContentType(command.getContentType());
 
         // Tags anlegen
         Set<Tag> tags = commandToTags(command.getTags());
@@ -110,7 +113,7 @@ public class ArticleController {
 
         searchRepository.update();
 
-        return new RedirectView("/articles/" + article.getId());
+        return new RedirectView("/wiki/" + URLEncoder.encode(article.getSlug(), "UTF-8"), true, false, false);
     }
    
     // SHOW by Slug
@@ -153,7 +156,7 @@ public class ArticleController {
     // UPDATE
     @Transactional
     @PutMapping("/{id}")
-    public RedirectView update(@PathVariable final Long id, final ArticleCommand command, final Authentication authentication) {
+    public RedirectView update(@PathVariable final Long id, final ArticleCommand command, final Authentication authentication) throws UnsupportedEncodingException {
         final User currentUser = ((HolarsePrincipal) authentication.getPrincipal()).getUser();
 
         final Article article = articleRepository.findById(id).orElseThrow(() -> new NodeNotFoundException(id));
@@ -200,7 +203,7 @@ public class ArticleController {
         searchRepository.update();
         logger.debug("search index updated");
 
-        return new RedirectView("/articles/" + article.getId());
+        return new RedirectView("/wiki/" + URLEncoder.encode(article.getSlug(), "UTF-8"), true, false, false);
     }
     
     protected String tagsToCommand(final Set<Tag> tags) {

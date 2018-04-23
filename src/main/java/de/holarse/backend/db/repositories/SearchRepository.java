@@ -16,6 +16,7 @@ public interface SearchRepository extends JpaRepository<Node, Long> {
 
     @Query(value = "select pid as id, "
                        + " ptitle as title, "
+                       + " purl as url, "
                        + " pnodetype as nodeType, "
                        + " palternativetitle as alternativeTitle, "
                        + " pcontent as content " 

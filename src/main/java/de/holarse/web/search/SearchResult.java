@@ -6,10 +6,11 @@ package de.holarse.web.search;
  */
 public interface SearchResult {
     
-    Long getId();
+    Long getId();    
     String getTitle();
+    String getAlternativeTitle();    
+    String getUrl();
     String getNodeType();
-    String getAlternativeTitle();
-    String getContent();
+    String getContent();    
     
 }
