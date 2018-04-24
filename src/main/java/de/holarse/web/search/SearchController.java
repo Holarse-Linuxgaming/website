@@ -5,20 +5,18 @@ import de.holarse.services.TrafficService;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
+import java.util.StringJoiner;
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
-import org.springframework.web.util.UriUtils;
 
 @Controller
 public class SearchController {
@@ -39,10 +37,24 @@ public class SearchController {
     @GetMapping("/search")
     public String searchUrl(@RequestParam("q") final String query, final Model map, final HttpServletRequest req) throws UnsupportedEncodingException {
         final String decodedQuery = URLDecoder.decode(query, "ISO-8859-1");
-        map.addAttribute("results", searchRepository.search(decodedQuery));
+        map.addAttribute("results", searchRepository.search(breakAndJoin(decodedQuery)));
         map.addAttribute("query", decodedQuery);
         return "search/result";
     }    
     
+    /**
+     * Bricht ein Query auseinander und verbindet es mit &
+     * @param query
+     * @return 
+     */
+    protected String breakAndJoin(final String query) {
+        final StringJoiner sj = new StringJoiner("&");
+        
+        for (final String q : query.split(" ")) {
+            sj.add(q);
+        }
+        
+        return sj.toString();
+    }
     
 }
