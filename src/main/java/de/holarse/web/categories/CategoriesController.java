@@ -32,7 +32,7 @@ public class CategoriesController {
             chosenTags.add("Top-Titel");
         }        
         
-        final List<Article> articles = articleRepository.findByTags(chosenTags);
+        final List<Article> articles = articleRepository.findByTags(chosenTags, chosenTags.size());
         articles.forEach(a -> Hibernate.initialize(a.getTags()));
         map.addAttribute("nodes", articles);        
        

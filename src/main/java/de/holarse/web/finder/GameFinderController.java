@@ -77,7 +77,7 @@ public class GameFinderController {
         }
         
         // Ergebnisse anzeigen
-        final List<Article> articles = articleRepository.findByTags(chosenTags);
+        final List<Article> articles = articleRepository.findByTags(chosenTags, chosenTags.size());
         articles.forEach(a -> Hibernate.initialize(a.getTags()));
         map.addAttribute("nodes", articles);
         map.addAttribute("tags", chosenTags.stream().map(ct -> tagRepository.findByNameIgnoreCase(ct)).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList()));
