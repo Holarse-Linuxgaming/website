@@ -11,6 +11,9 @@ public class Role extends Base implements GrantedAuthority {
    
     @Column(unique = true)
     private String code;
+    
+    @Column(nullable = false)
+    private Long clearanceLevel;
 
     public String getCode() {
         return code;
@@ -18,6 +21,14 @@ public class Role extends Base implements GrantedAuthority {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public Long getClearanceLevel() {
+        return clearanceLevel;
+    }
+
+    public void setClearanceLevel(Long clearanceLevel) {
+        this.clearanceLevel = clearanceLevel;
     }
 
     @Override

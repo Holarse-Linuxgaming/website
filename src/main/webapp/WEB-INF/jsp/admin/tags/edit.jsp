@@ -2,7 +2,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <!-- Form -->
-<form:form modelAttribute="tagCommand" action="/admin/tags/${tag.id}/" method="PUT">
+<form:form modelAttribute="tagCommand" action="/admin/tags/${tag.id}/" method="POST">
     <form:button class="btn btn-primary">Speichern</form:button>
         <fieldset>
             <form:label path="name">Name</form:label>

@@ -80,7 +80,7 @@ public class ArticleController {
     public String newArticle(final Model map, final ArticleCommand command) {
         map.addAttribute("articleCommand", command);
         map.addAttribute("contentTypes", ContentType.values());
-        return "articles/new";
+        return "articles/form";
     }
 
     // CREATE
@@ -150,12 +150,12 @@ public class ArticleController {
         map.addAttribute("articleCommand", command);
         map.addAttribute("contentTypes", ContentType.values());
 
-        return "articles/edit";
+        return "articles/form";
     }
 
     // UPDATE
     @Transactional
-    @PutMapping("/{id}")
+    @PostMapping("/{id}")
     public RedirectView update(@PathVariable final Long id, final ArticleCommand command, final Authentication authentication) throws UnsupportedEncodingException {
         final User currentUser = ((HolarsePrincipal) authentication.getPrincipal()).getUser();
 

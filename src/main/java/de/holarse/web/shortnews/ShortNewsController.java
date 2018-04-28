@@ -104,7 +104,7 @@ public class ShortNewsController {
 
     // UPDATE
     @Transactional
-    @PutMapping("/{id}")
+    @PostMapping("/{id}")
     public RedirectView update(@PathVariable final Long id, final ShortNewsCommand command, final Authentication authentication) {
         final User currentUser = ((HolarsePrincipal) authentication.getPrincipal()).getUser();
 

@@ -2,17 +2,24 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <!-- Form -->
-<form:form modelAttribute="newsCommand" action="${node.urlid}" method="PUT">
+<form:form modelAttribute="articleCommand" action="/wiki/${node.id}" method="POST">
     <form:button class="btn btn-primary">Speichern</form:button>
     <fieldset>
         <form:label path="title">Titel</form:label>
         <form:input path="title" class="form-control"></form:input>
 
-        <form:label path="subtitle">Untertitel</form:label>
-        <form:input path="subtitle" class="form-control"></form:input>    
+        <form:label path="tags">Tags</form:label>
+        <form:input path="tags" class="form-control"></form:input>            
         
-        <form:label path="category">Kategorie</form:label>    
-        <form:select path="category" items="${categories}" class="form-control"></form:select>           
+        <form:label path="alternativeTitle1">Weiterer Titel</form:label>
+        <form:input path="alternativeTitle1" class="form-control"></form:input>    
+        
+        <form:label path="alternativeTitle2">Weiterer Titel</form:label>
+        <form:input path="alternativeTitle2" class="form-control"></form:input>    
+
+        <form:label path="alternativeTitle3">Weiterer Titel</form:label>
+        <form:input path="alternativeTitle3" class="form-control"></form:input>    
+        
     </fieldset>
     <fieldset>
         <form:label path="content">Inhalt</form:label>

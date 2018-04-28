@@ -62,7 +62,7 @@ public class NewsController {
         map.addAttribute("categories", NewsCategory.values());
         map.addAttribute("contentTypes", ContentType.values());
         
-        return "news/new";
+        return "news/form";
     }
 
     // CREATE
@@ -119,12 +119,12 @@ public class NewsController {
         map.addAttribute("categories", NewsCategory.values());
         map.addAttribute("contentTypes", ContentType.values());
 
-        return "news/edit";
+        return "news/form";
     }
 
     // UPDATE
     @Transactional
-    @PutMapping("/{id}")
+    @PostMapping("/{id}")
     public RedirectView update(@PathVariable final Long id, final NewsCommand command, final Authentication authentication) {
         final User currentUser = ((HolarsePrincipal) authentication.getPrincipal()).getUser();
 

@@ -3,6 +3,7 @@
 
 <!-- Form -->
 <form:form modelAttribute="newsCommand" action="/news/" method="POST">
+    <form:button class="form-control">Speichern</form:button>    
     <fieldset>
         <form:label path="title">Titel</form:label>
         <form:input path="title" class="form-control"></form:input>
@@ -20,7 +21,7 @@
         <form:label path="contentType">Format des Inhalts</form:label>    
         <form:select path="contentType" items="${contentTypes}" class="form-control"></form:select>
     </fieldset>
-    <form:button class="form-control">Anlegen</form:button>
+
 </form:form>
 <!-- End Form -->
 

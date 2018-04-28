@@ -31,12 +31,12 @@ public class SearchController {
 
     @PostMapping("/search")
     public RedirectView searchResult(@ModelAttribute final SearchCommand command, final Model map, final HttpServletRequest req) throws UnsupportedEncodingException {
-        return new RedirectView("/search?q=" + URLEncoder.encode(command.getQuery(), "ISO-8859-1"), false, false, false);
+        return new RedirectView("/search?q=" + URLEncoder.encode(command.getQuery(), "UTF-8"), false, false, false);
     }
     
     @GetMapping("/search")
     public String searchUrl(@RequestParam("q") final String query, final Model map, final HttpServletRequest req) throws UnsupportedEncodingException {
-        final String decodedQuery = URLDecoder.decode(query, "ISO-8859-1");
+        final String decodedQuery = URLDecoder.decode(query, "UTF-8");
         map.addAttribute("results", searchRepository.search(breakAndJoin(decodedQuery)));
         map.addAttribute("query", decodedQuery);
         return "search/result";
