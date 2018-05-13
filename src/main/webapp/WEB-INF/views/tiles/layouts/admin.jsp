@@ -52,7 +52,7 @@
                             <a class="nav-link" href="/admin/tags/">Tags</a>
                         </li>                        
                         <li class="nav-item">
-                            <a class="nav-link" href="/admin/import/">Import</a>
+                            <a class="nav-link" href="/admin/imports/">Import</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
@@ -20,8 +21,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
+
 @Configuration
 @EnableWebSecurity
+@Order(2)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     Logger log = LoggerFactory.getLogger(SecurityConfig.class);
@@ -62,14 +65,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/assets/**");
+        web.ignoring().antMatchers("/assets/**").antMatchers("/favicon.ico");
     }
     
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        // WEB
         http.authorizeRequests()
                 .antMatchers("/sitemap.xml").permitAll()
-                .antMatchers("/api/**").permitAll()
                 .antMatchers("/tags/**", "/category/stichworte/**").permitAll()
                 .antMatchers("/search/**").permitAll()
                 .antMatchers("/login", "/register", "/verify").hasRole("ANONYMOUS")
@@ -77,16 +80,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/news/*", "/shortnews/", "/finder/", "/categories/*", "/wiki/*", "/articles/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/users/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/articles/new", "/wiki/new").hasRole("USER")   
-                .antMatchers(HttpMethod.GET, "/articles/*/edit", "/wiki/*/edit", "/shortnews/*/edit/").hasRole("USER")                   
-                .antMatchers(HttpMethod.PUT, "/articles/*", "/wiki/*", "/news/*", "/shortnews/*").hasRole("USER")                
+                .antMatchers(HttpMethod.GET, "/articles/*/edit", "/wiki/*/edit", "/shortnews/*/edit/").hasRole("USER")                             
                 .antMatchers(HttpMethod.POST, "/articles/*", "/wiki/*", "/news/*", "/shortnews/*").hasRole("USER")                
                 .antMatchers("/").permitAll()                                
                 .antMatchers("/**").hasRole("USER")
                 .antMatchers(HttpMethod.POST, "/logout").hasRole("USER")
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
-                .and().formLogin().usernameParameter("login").successHandler(new SavedRequestAwareAuthenticationSuccessHandler())
-                .loginPage("/login").permitAll();
+                .and()
+            .formLogin()
+                .usernameParameter("login")
+                .successHandler(new SavedRequestAwareAuthenticationSuccessHandler())
+                .loginPage("/login")
+                .permitAll().and()
+            .logout().permitAll();
                 
     }
 
