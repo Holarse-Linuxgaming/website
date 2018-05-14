@@ -51,6 +51,7 @@ public class Comment extends Base implements Searchable {
         this.contentType = contentType;
     }
 
+    @Override
     public String getContent() {
         return content;
     }
@@ -70,6 +71,11 @@ public class Comment extends Base implements Searchable {
     @Override
     public String getIndex() {
         return "comments";
+    }
+    
+    @Override
+    public String getTitle() {
+        return null;
     }
 
     

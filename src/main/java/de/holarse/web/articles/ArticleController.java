@@ -9,7 +9,6 @@ import de.holarse.backend.db.Tag;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.RevisionRepository;
-import de.holarse.backend.db.repositories.SearchRepository;
 import de.holarse.backend.db.repositories.TagRepository;
 import de.holarse.exceptions.NodeNotFoundException;
 import de.holarse.exceptions.RedirectException;
@@ -38,7 +37,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -56,6 +54,7 @@ public class ArticleController {
     RevisionRepository revisionRepository;
 
     @Autowired
+    @Qualifier("elasticsearch")             
     SearchEngine searchEngine;
 
     @Autowired

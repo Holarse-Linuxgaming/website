@@ -5,4 +5,7 @@ public interface Searchable {
     Long getId();
     String getIndex();
     
+    String getTitle();
+    String getContent();
+    
 }

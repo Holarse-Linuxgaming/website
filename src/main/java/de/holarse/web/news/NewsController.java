@@ -9,7 +9,6 @@ import de.holarse.backend.db.Revision;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.NewsRepository;
 import de.holarse.backend.db.repositories.RevisionRepository;
-import de.holarse.backend.db.repositories.SearchRepository;
 import de.holarse.exceptions.RedirectException;
 import de.holarse.search.SearchEngine;
 import de.holarse.services.NodeService;
@@ -18,6 +17,7 @@ import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -43,6 +42,7 @@ public class NewsController {
     RevisionRepository revisionRepository;
 
     @Autowired
+    @Qualifier("elasticsearch")                 
     SearchEngine searchEngine;
 
     @Autowired

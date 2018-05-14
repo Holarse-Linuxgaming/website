@@ -118,7 +118,7 @@ public class Article extends SluggableNode implements Frontpagable, Searchable {
     
     @Override
     public String getIndex() {
-        return getNodeType().toString();
+        return "articles";
     }
   
 }
