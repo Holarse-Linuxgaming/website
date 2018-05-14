@@ -11,6 +11,7 @@ import de.holarse.backend.db.repositories.NewsRepository;
 import de.holarse.backend.db.repositories.RevisionRepository;
 import de.holarse.backend.db.repositories.SearchRepository;
 import de.holarse.exceptions.RedirectException;
+import de.holarse.search.SearchEngine;
 import de.holarse.services.NodeService;
 import java.time.OffsetDateTime;
 import javax.transaction.Transactional;
@@ -42,7 +43,7 @@ public class NewsController {
     RevisionRepository revisionRepository;
 
     @Autowired
-    SearchRepository searchRepository;
+    SearchEngine searchEngine;
 
     @Autowired
     NodeService nodeService;
@@ -87,7 +88,7 @@ public class NewsController {
         
         newsRepository.save(node);
 
-        searchRepository.update();
+        searchEngine.update(node);
 
         return new RedirectView("/news/" + node.getId());
     }
@@ -161,7 +162,7 @@ public class NewsController {
         
         newsRepository.save(news);
 
-        searchRepository.update();
+        searchEngine.update(news);
 
         return new RedirectView("/news/" + news.getId());
     }

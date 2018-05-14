@@ -1,4 +1,4 @@
-package de.holarse.web.search;
+package de.holarse.search;
 
 /**
  * Projection result für suche über Repository

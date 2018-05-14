@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 @Table(name = "news")
 @Entity
-public class News extends SluggableNode implements Frontpagable {
+public class News extends SluggableNode implements Frontpagable, Searchable {
     
     private String title;
     private String subtitle;
@@ -90,6 +90,11 @@ public class News extends SluggableNode implements Frontpagable {
     @Override
     public NodeType getNodeType() {
         return nodeType;
+    }
+    
+    @Override
+    public String getIndex() {
+        return getNodeType().toString();
     }
     
 }

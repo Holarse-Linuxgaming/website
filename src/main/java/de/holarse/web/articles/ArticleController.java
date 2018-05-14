@@ -14,6 +14,7 @@ import de.holarse.backend.db.repositories.TagRepository;
 import de.holarse.exceptions.NodeNotFoundException;
 import de.holarse.exceptions.RedirectException;
 import de.holarse.renderer.Renderer;
+import de.holarse.search.SearchEngine;
 import de.holarse.services.NodeService;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -55,7 +56,7 @@ public class ArticleController {
     RevisionRepository revisionRepository;
 
     @Autowired
-    SearchRepository searchRepository;
+    SearchEngine searchEngine;
 
     @Autowired
     TagRepository tagRepository;    
@@ -111,7 +112,7 @@ public class ArticleController {
         
         articleRepository.save(article);
 
-        searchRepository.update();
+        searchEngine.update(article);
 
         return new RedirectView("/wiki/" + URLEncoder.encode(article.getSlug(), "UTF-8"), true, false, false);
     }
@@ -200,7 +201,7 @@ public class ArticleController {
         articleRepository.save(article);
 
         logger.debug("Starting update on search index");
-        searchRepository.update();
+        searchEngine.update(article);
         logger.debug("search index updated");
 
         return new RedirectView("/wiki/" + URLEncoder.encode(article.getSlug(), "UTF-8"), true, false, false);

@@ -1,17 +1,15 @@
 package de.holarse.backend.db;
 
 import javax.persistence.Column;
-import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.ForeignKey;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Table(name="comments")
 @Entity
-public class Comment extends Base {
+public class Comment extends Base implements Searchable {
     
     @Column(name = "node_id")
     private Long nodeId;
@@ -68,5 +66,11 @@ public class Comment extends Base {
     public void setAuthor(User author) {
         this.author = author;
     }
+    
+    @Override
+    public String getIndex() {
+        return "comments";
+    }
+
     
 }

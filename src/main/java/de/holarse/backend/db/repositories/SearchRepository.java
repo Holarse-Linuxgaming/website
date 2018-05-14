@@ -1,7 +1,7 @@
 package de.holarse.backend.db.repositories;
 
 import de.holarse.backend.db.Node;
-import de.holarse.web.search.SearchResult;
+import de.holarse.search.SearchResult;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
