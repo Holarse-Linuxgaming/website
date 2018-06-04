@@ -34,15 +34,19 @@ public class EsSearchEngine implements SearchEngine {
     
     @Override
     public List<SearchResult> search(final String query) {
-    
-        SearchRequest searchRequest = new SearchRequest("articles", "news", "comments");
-        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder(); 
-        sourceBuilder.query(QueryBuilders.boolQuery().must(QueryBuilders.multiMatchQuery(query, "title", "content")));
-        sourceBuilder.sort(new ScoreSortBuilder().order(SortOrder.DESC));
+        logger.debug("Searching for {}", query);
 
         final List<SearchResult> results = new ArrayList<>();        
         try (final RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(HTTPHOST))) { 
+            
+            final SearchRequest searchRequest = new SearchRequest("articles");
+            final SearchSourceBuilder sourceBuilder = new SearchSourceBuilder(); 
+            sourceBuilder.query(QueryBuilders.boolQuery().must(QueryBuilders.multiMatchQuery(query, "title", "content")));
+            sourceBuilder.sort(new ScoreSortBuilder().order(SortOrder.DESC));
+            searchRequest.source(sourceBuilder);
+            
             final SearchResponse searchResponse = client.search(searchRequest);
+            searchResponse.getHits().forEach(x -> logger.debug("{}", x.getSourceAsString()));
             searchResponse.getHits().forEach(sr -> results.add(EsSearchResultFactory.build(sr)));
         } catch (IOException ioex) {
             logger.debug("Fehler bei Suchanfrage", ioex);
@@ -58,8 +62,9 @@ public class EsSearchEngine implements SearchEngine {
         documentMap.put("title", searchable.getTitle());
         documentMap.put("content", searchable.getContent());
         documentMap.put("nodetype", searchable.getIndex());
+        documentMap.put("url", searchable.getUrl());
         
-        final UpdateRequest request = new UpdateRequest(searchable.getIndex(), "doc", searchable.getId().toString()).doc(documentMap).docAsUpsert(true);
+        final UpdateRequest request = new UpdateRequest("articles", "doc", searchable.getId().toString()).doc(documentMap).docAsUpsert(true);
         
         try (final RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(HTTPHOST))) { 
             final UpdateResponse resp = client.update(request);

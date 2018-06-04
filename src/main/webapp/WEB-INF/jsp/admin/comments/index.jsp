@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<h1>Wiki</h1>
+<h1>Kommentare</h1>
 
 <div class="table-responsive">
     <table class="table table-hover">
@@ -7,8 +7,9 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Title</th>
-                <th scope="col">Alternative Titles</th>
-                <th scope="col">Wörter</th>
+                <th scope="col">Typ</th>
+                <th scope="col">Autor</th>
+                <th scope="col">Inhalt</th>
                 <th scope="col">Gelöscht</th>
                 <th scope="col">Entwurf</th>
                 <th scope="col">Gesperrt</th>
@@ -16,17 +17,17 @@
                 <th scope="col">Archiviert</th>
                 <th scope="col">Erstellt</th>
                 <th scope="col">Bearbeitet</th>
-                <th scope="col">Revision</th>
                 <th scope="col">Aktion</th>
             </tr>
         </thead>
         <tbody>
-            <c:forEach items="${nodes}" var="node">
+            <c:forEach items="${comments}" var="node">
                 <tr>
                     <th scope="row"><a href="${node.url}">${node.id}</a></th>
-                    <td>${node.title}</td>
-                    <td>${node.alternativeTitles}</td>
-                    <td>${node.wordCount}</td>
+                    <td>TODO</td>
+                    <td>${node.nodeType}</td>
+                    <td>${node.author.login}</td>
+                    <td>${node.content}</td>
 
                     <td>
                         <c:choose>  
@@ -65,18 +66,6 @@
 
                     <td>${node.created}</td>
                     <td>${node.updated}</td>
-                    <td>${node.revision}</td>
-                    <td colspan="2">
-                        <a href="/admin/frontpage/post/ARTICLE/${node.id}" class="btn btn-danger">
-                            <i class="fas fa-arrow-alt-circle-up"></i>
-                            Auf die Frontpage
-                        </a>
-
-                        <a href="/admin/search/reindex/${node.nodeType}/${node.id}" class="btn btn-warning">
-                            <i class="fas fa-search-plus"></i>
-                            Reindex
-                        </a>
-                    </td>                                        
                 </tr>
             </c:forEach>
         </tbody>

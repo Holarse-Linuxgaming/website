@@ -8,4 +8,6 @@ public interface Searchable {
     String getTitle();
     String getContent();
     
+    String getUrl();
+    
 }

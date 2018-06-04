@@ -49,6 +49,9 @@
                             <a class="nav-link" href="/admin/news/">News</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="/admin/comments/">Kommentare</a>
+                        </li>                        
+                        <li class="nav-item">
                             <a class="nav-link" href="/admin/tags/">Tags</a>
                         </li>                        
                         <li class="nav-item">

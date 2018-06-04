@@ -7,7 +7,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PostLoad;
 import javax.persistence.Transient;
-import javax.persistence.Version;
 
 @MappedSuperclass
 public abstract class Node extends Base implements LegacyImport {
@@ -50,9 +49,6 @@ public abstract class Node extends Base implements LegacyImport {
     private User author;
 
     private Long oldId;
-    
-    @Version
-    private int version;
     
     @Transient
     private int wordCount;
@@ -141,14 +137,6 @@ public abstract class Node extends Base implements LegacyImport {
 
     public void setAuthor(User author) {
         this.author = author;
-    }
-
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
     }
     
 }

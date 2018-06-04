@@ -1,6 +1,8 @@
 -- login erzeugen
 CREATE ROLE holarse NOSUPERUSER NOCREATEDB NOCREATEROLE INHERIT LOGIN NOREPLICATION;
 
+create sequence revision_seq;
+
 -- fts 
 create extension unaccent;
 create extension pg_trgm;

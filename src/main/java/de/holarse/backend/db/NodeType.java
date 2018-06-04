@@ -2,10 +2,20 @@ package de.holarse.backend.db;
 
 public enum NodeType {
  
-    ARTICLE,
-    NEWS,
-    SHORTNEWS,
-    VIDEO,
-    STORY;
+    ARTICLE("/wiki/"),
+    NEWS("/news/"),
+    SHORTNEWS("/news/"),
+    VIDEO("/news/"),
+    STORY("/news/");
+    
+    private final String urlPrefix;
+    
+    NodeType(String urlPrefix) {
+        this.urlPrefix = urlPrefix;
+    }
+    
+    public String getUrlPrefix() {
+        return this.urlPrefix;
+    }
     
 }

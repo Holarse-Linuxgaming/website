@@ -3,6 +3,7 @@ package de.holarse.web.comments;
 import de.holarse.auth.HolarsePrincipal;
 import de.holarse.backend.db.Comment;
 import de.holarse.backend.db.ContentType;
+import de.holarse.backend.db.NodeType;
 import de.holarse.backend.db.Role;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.CommentRepository;
@@ -34,7 +35,7 @@ public class CommentController {
 
     @PostMapping("/{nodeType}/{nodeId}/comments/")
     public String newComment(
-            @PathVariable("nodeType") final String nodeType,
+            @PathVariable("nodeType") final NodeType nodeType,
             @PathVariable("nodeId") final Long nodeId,
             @ModelAttribute final CommentCommand command,
             final Authentication authentication) {
@@ -42,6 +43,7 @@ public class CommentController {
 
         final Comment comment = new Comment();
         comment.setNodeId(nodeId);
+        comment.setNodeType(nodeType);        
         comment.setContent(command.getContent());
         comment.setDeleted(Boolean.FALSE);
         comment.setCreated(OffsetDateTime.now());
@@ -54,7 +56,7 @@ public class CommentController {
     }
 
     @GetMapping("/{nodeType}/{nodeId}/comments/{commentId}/delete")    
-    public ResponseEntity<String> deleteComment(@PathVariable("nodeType") final String nodeType,
+    public ResponseEntity<String> deleteComment(@PathVariable("nodeType") final NodeType nodeType,
                                 @PathVariable("nodeId") final Long nodeId,
                                 @PathVariable("commentId") final Long commentId,
                                 final Authentication authentication) {

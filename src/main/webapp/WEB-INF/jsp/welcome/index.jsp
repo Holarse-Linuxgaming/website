@@ -25,7 +25,8 @@ Was hier noch so erscheinen soll:
         <div class="grid-sizer"></div>
         <c:forEach items="${items}" var="item">
             <div class="grid-item">
-                <a href="${item.url}"><img src="assets/img/testbild.png" />${item.title}</a> (${item.nodeType})
+                <a href="${item.url}"><img src="assets/img/testbild.png" />${item.title}</a>
+                <p>${item.teaser} <a href="${item.url}">weiter</a></p>
             </div>
         </c:forEach>
     </div>
