@@ -10,6 +10,7 @@ import org.springframework.context.annotation.PropertySources;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.js.ajax.AjaxUrlBasedViewResolver;
+import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
@@ -33,7 +34,7 @@ public class AppConfig implements WebMvcConfigurer {
     PagePopulationInterceptor pagePopulationInterceptor;
 
     @Bean
-    public StandardServletMultipartResolver multipartResolver() {
+    public MultipartResolver filterMultipartResolver() {
         return new StandardServletMultipartResolver();
     }
 

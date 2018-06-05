@@ -53,11 +53,11 @@
             <scope>test</scope>
         </dependency>    
     
-        <dependency>
+<!--        <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
-            <version>1.3.1</version>
-        </dependency>                
+            <version>1.3.3</version>
+        </dependency>                -->
     
         <!-- Spring Security -->
         <dependency>
@@ -232,11 +232,11 @@
         </dependency>
     
         <!-- ElasticSearch -->
-        <dependency>
+<!--        <dependency>
             <groupId>org.elasticsearch.client</groupId>
             <artifactId>elasticsearch-rest-high-level-client</artifactId>
             <version>6.2.4</version>
-        </dependency>  
+        </dependency>  -->
     
         <!-- JAXB -->
         <dependency>

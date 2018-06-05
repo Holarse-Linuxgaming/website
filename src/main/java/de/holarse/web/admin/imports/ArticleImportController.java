@@ -22,14 +22,16 @@ public class ArticleImportController {
     
     @GetMapping
     public String form(Model map, UploadCommand command) {
-        map.addAttribute("command", command);
+        map.addAttribute("uploadCommand", command);
         return "admin/imports/article-form";
     }
 
-    @PostMapping
-    public String submit(@ModelAttribute UploadCommand command, Model map) {
+    @PostMapping(headers = ("content-type=multipart/*"))
+    public String submit(@ModelAttribute UploadCommand command, final Model map) {
+        logger.debug("Command: {}", command);
+        logger.debug("Upload file: {}", command.getFile());
         
-        logger.debug("Upload file: " + command.getFile().getOriginalFilename());
+        map.addAttribute("msg", command.getFile());
         
         return "admin/imports/article-form";
     }

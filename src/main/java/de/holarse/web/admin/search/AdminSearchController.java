@@ -1,18 +1,14 @@
 package de.holarse.web.admin.search;
 
-import de.holarse.backend.db.FrontPageItem;
-import de.holarse.backend.db.Frontpagable;
 import de.holarse.backend.db.NodeType;
 import de.holarse.backend.db.Searchable;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.NewsRepository;
 import de.holarse.search.SearchEngine;
-import de.holarse.web.admin.frontpage.FrontPageCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -31,7 +27,7 @@ public class AdminSearchController {
     @Autowired ArticleRepository articleRepository;
     
     @Autowired
-    @Qualifier("elasticsearch")
+    @Qualifier("postgres")
     SearchEngine searchEngine;
 
     @GetMapping("reindex/{nodeType}/{nodeId}")

@@ -4,6 +4,7 @@ import de.holarse.backend.db.Searchable;
 import de.holarse.backend.db.repositories.SearchRepository;
 import de.holarse.search.SearchEngine;
 import de.holarse.search.SearchResult;
+import java.util.Collection;
 import java.util.List;
 import java.util.StringJoiner;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,11 @@ public class PostgresFtsSearchEngine implements SearchEngine {
     public void update(final Searchable searchable) {
         searchRepository.update();
     }
+    
+    @Override
+    public void update(final Collection<Searchable> searchables) {
+        searchRepository.update();
+    }    
 
     @Override
     public void delete(final Searchable searchable) {

@@ -36,7 +36,9 @@ public class Comment extends Node implements Searchable {
     
     @PostLoad
     private void nodePostLoad() {
-        this.url = nodeType.getUrlPrefix() + "" + nodeId;
+        final StringBuilder sb = new StringBuilder();
+        sb.append(nodeType.getUrlPrefix()).append(nodeId).append("#comment-").append(getId());
+        this.url = sb.toString();
     }      
 
     public void setNodeType(NodeType nodeType) {

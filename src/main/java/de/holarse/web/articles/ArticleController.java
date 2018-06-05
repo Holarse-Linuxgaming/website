@@ -54,7 +54,7 @@ public class ArticleController {
     RevisionRepository revisionRepository;
 
     @Autowired
-    @Qualifier("elasticsearch")             
+    @Qualifier("postgres")             
     SearchEngine searchEngine;
 
     @Autowired

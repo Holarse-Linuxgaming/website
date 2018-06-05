@@ -71,7 +71,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // WEB
-        http.authorizeRequests()
+        http.csrf().ignoringAntMatchers("/admin/imports/articles/")
+                .and().authorizeRequests()                
                 .antMatchers("/sitemap.xml").permitAll()
                 .antMatchers("/tags/**", "/category/stichworte/**").permitAll()
                 .antMatchers("/search/**").permitAll()

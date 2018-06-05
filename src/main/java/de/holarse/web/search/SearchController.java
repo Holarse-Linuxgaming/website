@@ -24,7 +24,7 @@ public class SearchController {
     Logger logger = LoggerFactory.getLogger(SearchController.class);
 
     @Autowired
-    @Qualifier("elasticsearch")            
+    @Qualifier("postgres")            
     SearchEngine searchEngine;
     
     @Autowired
