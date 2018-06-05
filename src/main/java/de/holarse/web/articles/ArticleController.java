@@ -95,6 +95,7 @@ public class ArticleController {
         article.setAlternativeTitle3(command.getAlternativeTitle3());
         article.setContent(command.getContent());
         article.setContentType(command.getContentType());
+        article.setBranch(StringUtils.isBlank(command.getBranch()) ? "master" : command.getBranch());
 
         // Tags anlegen
         Set<Tag> tags = commandToTags(command.getTags());
@@ -146,6 +147,7 @@ public class ArticleController {
         command.setContent(article.getContent());
         command.setContentType(article.getContentType());
         command.setTags(article.getTags().stream().map(t -> t.getName()).collect(Collectors.joining(",")));
+        command.setBranch(article.getBranch());
 
         map.addAttribute("articleCommand", command);
         map.addAttribute("contentTypes", ContentType.values());
@@ -169,6 +171,7 @@ public class ArticleController {
         revision.setAuthor(article.getAuthor());
         revision.setChangelog(article.getChangelog());
         revision.setRevision(article.getRevision());
+        revision.setBranch(article.getBranch());
         revisionRepository.saveAndFlush(revision);
 
         // Slug ggf. archivieren
@@ -184,6 +187,7 @@ public class ArticleController {
         article.setAlternativeTitle3(command.getAlternativeTitle3()); 
         article.setContent(command.getContent());
         article.setContentType(command.getContentType());
+        // Branch darf nicht gewechselt werden
         article.getTags().clear();
         
         // Tags anlegen

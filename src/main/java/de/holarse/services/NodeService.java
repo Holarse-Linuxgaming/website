@@ -6,14 +6,12 @@ import de.holarse.backend.db.News;
 import de.holarse.backend.db.Node;
 import de.holarse.backend.db.NodeType;
 import de.holarse.backend.db.Slug;
-import de.holarse.backend.db.SluggableNode;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.NewsRepository;
 import de.holarse.backend.db.repositories.SlugRepository;
 import de.holarse.exceptions.NodeNotFoundException;
 import de.holarse.exceptions.RedirectException;
 
-import java.lang.reflect.Constructor;
 import java.time.OffsetDateTime;
 import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
@@ -82,7 +80,7 @@ public class NodeService {
         }
         
         // Anhand des Mainslugs (Hauptpfad) finden
-        final Optional<Article> nodeByMainSlug = Optional.ofNullable(articleRepository.findBySlug(ident));
+        final Optional<Article> nodeByMainSlug = Optional.ofNullable(articleRepository.findBySlugAndBranch(ident, "master"));
         if (nodeByMainSlug.isPresent()) {
             return nodeByMainSlug;
         }
@@ -118,7 +116,7 @@ public class NodeService {
         }
         
         // Anhand des Mainslugs (Hauptpfad) finden
-        final Optional<News> nodeByMainSlug = Optional.ofNullable(newsRepository.findBySlug(ident));
+        final Optional<News> nodeByMainSlug = Optional.ofNullable(newsRepository.findBySlugAndBranch(ident, "master"));
         if (nodeByMainSlug.isPresent()) {
             return nodeByMainSlug;
         }
@@ -154,12 +152,12 @@ public class NodeService {
         // Prüfen, ob der MainSlug frei ist.
         switch (nodeType) {
             case ARTICLE:
-                if (articleRepository.countBySlug(slug) == 0) {
+                if (articleRepository.countBySlugAndBranch(slug, "master") == 0) {
                     return slug;
                 }
                 break;
             case NEWS:
-                if (newsRepository.countBySlug(slug) == 0) {
+                if (newsRepository.countBySlugAndBranch(slug, "master") == 0) {
                     return slug;
                 }
                 break;
@@ -182,7 +180,7 @@ public class NodeService {
         throw new IllegalStateException("Kein möglicher freier Slug gefunden");
     }
     
-    private final String[] removeWords = new String[]{"a","an","as","at","before","but","by","for","from","is","in","into","like","of","off","on","onto","per","since","than","the","this","that","to","up","via","with"};
+    //private final String[] removeWords = new String[]{"a","an","as","at","before","but","by","for","from","is","in","into","like","of","off","on","onto","per","since","than","the","this","that","to","up","via","with"};
     
     public String slugify(final String title) {
         return title.toLowerCase()

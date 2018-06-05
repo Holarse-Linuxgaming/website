@@ -11,6 +11,7 @@ public class ArticleCommand {
     private String content;
     private String tags;
     private ContentType contentType;
+    private String branch;
     
     private String changelog;
 
@@ -77,5 +78,13 @@ public class ArticleCommand {
     public void setContent(String content) {
         this.content = content;
     }
-    
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
+    }
+   
 }

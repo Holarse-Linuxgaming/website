@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 @Table(name = "news")
 @Entity
-public class News extends SluggableNode implements Frontpagable, Searchable {
+public class News extends BranchableNode implements Frontpagable, Searchable {
     
     private String title;
     private String subtitle;

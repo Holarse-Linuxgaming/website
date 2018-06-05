@@ -12,7 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 
 @Table(name="articles")
 @Entity
-public class Article extends SluggableNode implements Frontpagable, Searchable {
+public class Article extends BranchableNode implements Frontpagable, Searchable {
     
     private String title;
     private String alternativeTitle1;
@@ -36,7 +36,7 @@ public class Article extends SluggableNode implements Frontpagable, Searchable {
     
     @Transient
     private NodeType nodeType;    
-    
+
     public Set<Tag> getTags() {
         return tags;
     }

@@ -21,6 +21,13 @@
                     <a class="nav-link" href="/finder/?tag=${tag.name}" title="Klicken für weitere Artikel mit diesem Tag">${tag.name}</a>
                 </li>                
             </c:forEach>
+                
+            <li class="nav-item">
+                <a class="nav-link" href="${node.urlid}/branches" title="Branches anzeigen">
+                    <i class="fas fa-code-branch"></i>
+                    ${node.branch}
+                </a>
+            </li>                                
 
             <s:authorize access="hasRole('USER')">
                 <li class="nav-item nav-fill">
