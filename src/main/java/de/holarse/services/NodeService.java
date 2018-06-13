@@ -4,11 +4,15 @@ import de.holarse.backend.db.Article;
 import de.holarse.backend.db.CommentableNode;
 import de.holarse.backend.db.News;
 import de.holarse.backend.db.Node;
+import de.holarse.backend.db.NodeLock;
 import de.holarse.backend.db.NodeType;
 import de.holarse.backend.db.Slug;
+import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.NewsRepository;
+import de.holarse.backend.db.repositories.NodeLockRepository;
 import de.holarse.backend.db.repositories.SlugRepository;
+import de.holarse.exceptions.NodeLockException;
 import de.holarse.exceptions.NodeNotFoundException;
 import de.holarse.exceptions.RedirectException;
 
@@ -30,6 +34,9 @@ public class NodeService {
     
     @Autowired
     SlugRepository slugRepository;
+    
+    @Autowired
+    NodeLockRepository lockRepository;
     
     /**
      * Erzeugt die Grunddaten für eine neue Node
@@ -209,6 +216,44 @@ public class NodeService {
                 .trim()
                 .replaceAll(" ", "_")                
                 .replaceAll("_+", "_");
+    }
+    
+    /**
+     * Prüft, ob ein Lock für diese Node vorliegt
+     * @param node
+     * @param currentUser 
+     */
+    public void tryTolock(final Node node, final User currentUser) throws NodeLockException {
+        final Optional<NodeLock> lock = lockRepository.findLock(
+                node.getId(), 
+                OffsetDateTime.now(), 
+                currentUser);
+        
+        // Es gibt schon ein Lock von einem anderen Benutzer, Abbruch
+        if (lock.isPresent()) {
+            throw new NodeLockException(lock.get());
+        }
+        
+        lock(node, currentUser);
+    }
+    
+    /**
+     * Prüft, ob ein Lock für diese Node vorliegt
+     * @param node
+     * @param currentUser 
+     */
+    protected void lock(final Node node, final User currentUser) throws NodeLockException {
+        // Lock setzen
+        final NodeLock newLock = new NodeLock();
+        newLock.setNodeId(node.getId());
+        newLock.setUser(currentUser);
+        newLock.setLockUntil(OffsetDateTime.now().plusMinutes(120l)); // 2 Stunden Standardsperre
+        
+        lockRepository.save(newLock);
+    }    
+    
+    public void unlock(final Node node) {
+        lockRepository.deleteByNodeId(node.getId());
     }
    
 }

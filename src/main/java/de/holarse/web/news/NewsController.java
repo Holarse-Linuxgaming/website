@@ -106,15 +106,21 @@ public class NewsController {
 
     // EDIT
     @GetMapping("/{id}/edit")
-    public String edit(@PathVariable final Long id, final Model map, final NewsCommand command) {
-        final News node = newsRepository.findById(id).get();
-        map.addAttribute("node", node);
+    public String edit(@PathVariable final Long id, final Model map, final NewsCommand command, final Authentication authentication) {
+        final User currentUser = ((HolarsePrincipal) authentication.getPrincipal()).getUser();
+        
+        final News news = newsRepository.findById(id).get();
 
-        command.setTitle(node.getTitle());
-        command.setSubtitle(node.getSubtitle());
-        command.setContent(node.getContent());
-        command.setCategory(node.getCategory());
-        command.setContentType(node.getContentType());
+        // Versuchen die News zum Schreiben zu sperren
+        nodeService.tryTolock(news, currentUser);  
+        
+        map.addAttribute("node", news);
+
+        command.setTitle(news.getTitle());
+        command.setSubtitle(news.getSubtitle());
+        command.setContent(news.getContent());
+        command.setCategory(news.getCategory());
+        command.setContentType(news.getContentType());
 
         map.addAttribute("newsCommand", command);
         map.addAttribute("categories", NewsCategory.values());
@@ -130,7 +136,7 @@ public class NewsController {
         final User currentUser = ((HolarsePrincipal) authentication.getPrincipal()).getUser();
 
         final News news = newsRepository.findById(id).get();
-        
+      
         // Artikel archivieren
         final Revision revision = new Revision();
         revision.setNodeId(news.getId());
@@ -164,6 +170,8 @@ public class NewsController {
 
         searchEngine.update(news);
 
+        nodeService.unlock(news);
+        
         return new RedirectView("/news/" + news.getId());
     }
 

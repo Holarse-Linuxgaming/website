@@ -99,7 +99,7 @@ fi
 
 PAYARA_OPTS="--disablephonehome --nocluster --rootDir /tmp/holarse-testing"
 
-HOLARSE_WAR="target/HolarseWeb-1.0-SNAPSHOT.war"
+HOLARSE_WAR="target/HolarseWeb-3.0-alpha-1.war"
 # Compile Holarse-Web, if it is missing
 if ! checkFile "$HOLARSE_WAR"; then
 	echo "Holarse-Web will be compiled"

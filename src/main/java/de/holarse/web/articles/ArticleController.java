@@ -10,6 +10,7 @@ import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.RevisionRepository;
 import de.holarse.backend.db.repositories.TagRepository;
+import de.holarse.exceptions.NodeLockException;
 import de.holarse.exceptions.NodeNotFoundException;
 import de.holarse.exceptions.RedirectException;
 import de.holarse.renderer.Renderer;
@@ -135,10 +136,16 @@ public class ArticleController {
     // EDIT
     @Transactional
     @GetMapping("/{id}/edit")
-    public String edit(@PathVariable final Long id, final Model map, final ArticleCommand command) {
+    public String edit(@PathVariable final Long id, final Model map, final ArticleCommand command, final Authentication authentication) {
+        final User currentUser = ((HolarsePrincipal) authentication.getPrincipal()).getUser();
+        
         final Article article = articleRepository.findById(id).get();
+        
+        // Versuchen den Artikel zum Schreiben zu sperren
+        nodeService.tryTolock(article, currentUser);        
+        
         Hibernate.initialize(article.getTags());        
-        map.addAttribute("article", article);
+        map.addAttribute("node", article);
 
         command.setTitle(article.getTitle());
         command.setAlternativeTitle1(article.getAlternativeTitle1());
@@ -158,7 +165,10 @@ public class ArticleController {
     // UPDATE
     @Transactional
     @PostMapping("/{id}")
-    public RedirectView update(@PathVariable final Long id, final ArticleCommand command, final Authentication authentication) throws UnsupportedEncodingException {
+    public RedirectView update(
+            @PathVariable final Long id, 
+            final ArticleCommand command, 
+            final Authentication authentication) throws UnsupportedEncodingException, NodeLockException {
         final User currentUser = ((HolarsePrincipal) authentication.getPrincipal()).getUser();
 
         final Article article = articleRepository.findById(id).orElseThrow(() -> new NodeNotFoundException(id));
@@ -207,6 +217,9 @@ public class ArticleController {
         searchEngine.update(article);
         logger.debug("search index updated");
 
+        // Lock lösen
+        nodeService.unlock(article);
+        
         return new RedirectView("/wiki/" + URLEncoder.encode(article.getSlug(), "UTF-8"), true, false, false);
     }
     
