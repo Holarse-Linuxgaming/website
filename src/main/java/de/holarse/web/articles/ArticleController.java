@@ -10,6 +10,8 @@ import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.RevisionRepository;
 import de.holarse.backend.db.repositories.TagRepository;
+import de.holarse.exceptions.ErrorMode;
+import de.holarse.exceptions.FlashMessage;
 import de.holarse.exceptions.NodeLockException;
 import de.holarse.exceptions.NodeNotFoundException;
 import de.holarse.exceptions.RedirectException;
@@ -40,6 +42,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
@@ -136,13 +139,25 @@ public class ArticleController {
     // EDIT
     @Transactional
     @GetMapping("/{id}/edit")
-    public String edit(@PathVariable final Long id, final Model map, final ArticleCommand command, final Authentication authentication) {
+    public String edit(@PathVariable final Long id, final Model map, final ArticleCommand command, final Authentication authentication, final RedirectAttributes redirectAttributes) {
         final User currentUser = ((HolarsePrincipal) authentication.getPrincipal()).getUser();
         
         final Article article = articleRepository.findById(id).get();
         
         // Versuchen den Artikel zum Schreiben zu sperren
-        nodeService.tryTolock(article, currentUser);        
+        try {
+            nodeService.tryTolock(article, currentUser);        
+        } catch (NodeLockException nle) {
+            final FlashMessage msg = new FlashMessage();
+            msg.setThrowable(nle);
+            msg.setMode(ErrorMode.DANGER);
+            msg.setTitle("Artikel wird gerade berarbeitet");            
+            msg.setMessage("Der Artikel <em>" + article.getTitle() + "</em> wird seit " + nle.getNodeLock().getCreated() + " von " + nle.getNodeLock().getUser().getLogin() + " bearbeitet. Die Sperre gilt noch bis " + nle.getNodeLock().getLockUntil() + ".");
+            msg.setSolution("Notfalls warten bis Sperrzeit vorbeit ist, oder einem Moderator Bescheid geben.");
+            redirectAttributes.addFlashAttribute("flashMessage", msg);
+            
+            return "redirect:/wiki/" + article.getSlug();
+        }
         
         Hibernate.initialize(article.getTags());        
         map.addAttribute("node", article);

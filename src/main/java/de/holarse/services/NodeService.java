@@ -123,7 +123,7 @@ public class NodeService {
         }
         
         // Anhand des Mainslugs (Hauptpfad) finden
-        final Optional<News> nodeByMainSlug = Optional.ofNullable(newsRepository.findBySlugAndBranch(ident, "master"));
+        final Optional<News> nodeByMainSlug = Optional.ofNullable(newsRepository.findBySlugAndBranch(ident, null));
         if (nodeByMainSlug.isPresent()) {
             return nodeByMainSlug;
         }
@@ -224,7 +224,7 @@ public class NodeService {
      * @param currentUser 
      */
     public void tryTolock(final Node node, final User currentUser) throws NodeLockException {
-        final Optional<NodeLock> lock = lockRepository.findLock(
+        final Optional<NodeLock> lock = lockRepository.findFirstByNodeIdAndLockUntilAfterAndUserNot(
                 node.getId(), 
                 OffsetDateTime.now(), 
                 currentUser);
@@ -244,10 +244,13 @@ public class NodeService {
      */
     protected void lock(final Node node, final User currentUser) throws NodeLockException {
         // Lock setzen
+        OffsetDateTime now = OffsetDateTime.now();
+        
         final NodeLock newLock = new NodeLock();
         newLock.setNodeId(node.getId());
         newLock.setUser(currentUser);
-        newLock.setLockUntil(OffsetDateTime.now().plusMinutes(120l)); // 2 Stunden Standardsperre
+        newLock.setCreated(now);
+        newLock.setLockUntil(now.plusMinutes(120l)); // 2 Stunden Standardsperre
         
         lockRepository.save(newLock);
     }    

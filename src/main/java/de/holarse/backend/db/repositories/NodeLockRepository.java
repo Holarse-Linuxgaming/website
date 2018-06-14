@@ -18,8 +18,9 @@ public interface NodeLockRepository extends CrudRepository<NodeLock, Long> {
      * @param user
      * @return 
      */
-    @Query("from NodeLock n where n.nodeId = :nodeId and n.lockUntil >= :date and n.user != :user")
-    Optional<NodeLock> findLock(@Param("nodeId") final long nodeId, @Param("date") final OffsetDateTime date, @Param("user") final User user);
+//    @Query("from NodeLock n where n.nodeId = :nodeId and n.lockUntil >= :date and n.user != :user")
+//    Optional<NodeLock> findLock(@Param("nodeId") final long nodeId, @Param("date") final OffsetDateTime date, @Param("user") final User user);
+    Optional<NodeLock> findFirstByNodeIdAndLockUntilAfterAndUserNot(final long nodeId, final OffsetDateTime date, final User user);
     
     @Modifying
     void deleteByNodeId(final long nodeId);

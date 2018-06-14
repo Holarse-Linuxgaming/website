@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <!DOCTYPE html>
 <html lang="de">
@@ -28,6 +29,17 @@
         <tiles:insertAttribute name="header" />
 
         <main class="content container-fluid">
+            
+            <!-- Flash message verfügbar? -->
+            <c:if test="${flashMessage != null}">
+                <div class="alert alert-${flashMessage.cssMode}" role="alert">
+                  <h4 class="alert-heading">${flashMessage.title}</h4>
+                  <p>${flashMessage.message}</p>
+                  <hr>
+                  <p class="mb-0">${flashMessage.solution}</p>
+                </div>            
+            </c:if>            
+            
             <!-- Body -->
             <tiles:insertAttribute name="body" />
         </main>
