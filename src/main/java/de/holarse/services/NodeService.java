@@ -1,16 +1,20 @@
 package de.holarse.services;
 
 import de.holarse.backend.db.Article;
+import de.holarse.backend.db.BranchableNode;
 import de.holarse.backend.db.CommentableNode;
 import de.holarse.backend.db.News;
 import de.holarse.backend.db.Node;
 import de.holarse.backend.db.NodeLock;
 import de.holarse.backend.db.NodeType;
+import de.holarse.backend.db.Revision;
+import de.holarse.backend.db.RevisionableNode;
 import de.holarse.backend.db.Slug;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.NewsRepository;
 import de.holarse.backend.db.repositories.NodeLockRepository;
+import de.holarse.backend.db.repositories.RevisionRepository;
 import de.holarse.backend.db.repositories.SlugRepository;
 import de.holarse.exceptions.NodeLockException;
 import de.holarse.exceptions.NodeNotFoundException;
@@ -37,6 +41,9 @@ public class NodeService {
     
     @Autowired
     NodeLockRepository lockRepository;
+    
+    @Autowired
+    RevisionRepository revisionRepository;
     
     /**
      * Erzeugt die Grunddaten für eine neue Node
@@ -257,6 +264,24 @@ public class NodeService {
     
     public void unlock(final Node node) {
         lockRepository.deleteByNodeId(node.getId());
+    }
+    
+    /**
+     * Erzeugt eine Revision aus dem aktuellen Zustand der Node
+     * @param node 
+     */
+    public void createRevisionFromCurrent(final BranchableNode node) {
+        final Revision revision = new Revision();
+        revision.setCreated(OffsetDateTime.now());
+        revision.setNodeId(node.getId());
+        // TODO durch die richtige XML-Ausgabe ersetzen
+        revision.setContent(node.getContent());
+        revision.setAuthor(node.getAuthor());
+        revision.setChangelog(node.getChangelog());
+        revision.setRevision(node.getRevision());
+        revision.setBranch(node.getBranch());
+        
+        revisionRepository.saveAndFlush(revision);        
     }
    
 }

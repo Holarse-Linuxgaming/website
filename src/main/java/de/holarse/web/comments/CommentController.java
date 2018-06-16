@@ -10,6 +10,7 @@ import de.holarse.backend.db.repositories.CommentRepository;
 import de.holarse.backend.db.repositories.RoleRepository;
 import de.holarse.services.SecurityService;
 import java.time.OffsetDateTime;
+import java.util.Collection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,29 +34,35 @@ public class CommentController {
     
     @Autowired SecurityService securityService;
 
-    @PostMapping("/{nodeType}/{nodeId}/comments/")
-    public String newComment(
-            @PathVariable("nodeType") final NodeType nodeType,
+    @GetMapping(value = "/node/{nodeId}/comments", produces = "application/json")
+    public ResponseEntity<Collection<Comment>> comments(@PathVariable("nodeId") final Long nodeId) {
+        return new ResponseEntity<>(commentRepository.findByNodeIdOrderByCreated(nodeId), HttpStatus.OK);
+    }
+    
+    @PostMapping("/node/{nodeId}/comments/")
+    public ResponseEntity<String> newComment(
             @PathVariable("nodeId") final Long nodeId,
             @ModelAttribute final CommentCommand command,
             final Authentication authentication) {
-        logger.debug("Recieved comment for " + nodeType + " on " + nodeId);
 
         final Comment comment = new Comment();
         comment.setNodeId(nodeId);
-        comment.setNodeType(nodeType);        
         comment.setContent(command.getContent());
         comment.setDeleted(Boolean.FALSE);
         comment.setCreated(OffsetDateTime.now());
+        comment.setDraft(Boolean.FALSE);
+        comment.setLocked(Boolean.FALSE);
+        comment.setPublished(Boolean.TRUE);
+        comment.setArchived(Boolean.FALSE);
         comment.setContentType(ContentType.PLAIN); // TODO
         comment.setAuthor(((HolarsePrincipal) authentication.getPrincipal()).getUser());
 
         commentRepository.save(comment);
-
-        return "redirect:/" + nodeType + "/" + nodeId;
+        
+        return new ResponseEntity<>("OK", HttpStatus.CREATED);
     }
 
-    @GetMapping("/{nodeType}/{nodeId}/comments/{commentId}/delete")    
+    @PostMapping("/node/{nodeId}/comments/{commentId}/delete")    
     public ResponseEntity<String> deleteComment(@PathVariable("nodeType") final NodeType nodeType,
                                 @PathVariable("nodeId") final Long nodeId,
                                 @PathVariable("commentId") final Long commentId,

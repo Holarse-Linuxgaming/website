@@ -176,6 +176,18 @@ public class ArticleController {
 
         return "articles/form";
     }
+    
+    // ABORT EDIT
+    @Transactional
+    @GetMapping("/{id}/edit/abort")
+    public String editAbort(@PathVariable final Long id, final Authentication authentication) {
+        final Article article = articleRepository.findById(id).get();
+        
+        // Lock lösen
+        nodeService.unlock(article);
+        
+        return "redirect:" + article.getUrl();
+    }
 
     // UPDATE
     @Transactional
@@ -189,15 +201,7 @@ public class ArticleController {
         final Article article = articleRepository.findById(id).orElseThrow(() -> new NodeNotFoundException(id));
         
         // Artikel archivieren
-        final Revision revision = new Revision();
-        revision.setNodeId(article.getId());
-        // TODO durch die richtige XML-Ausgabe ersetzen
-        revision.setContent(article.getContent());
-        revision.setAuthor(article.getAuthor());
-        revision.setChangelog(article.getChangelog());
-        revision.setRevision(article.getRevision());
-        revision.setBranch(article.getBranch());
-        revisionRepository.saveAndFlush(revision);
+        nodeService.createRevisionFromCurrent(article);
 
         // Slug ggf. archivieren
         if (!article.getTitle().equalsIgnoreCase(command.getTitle())) {

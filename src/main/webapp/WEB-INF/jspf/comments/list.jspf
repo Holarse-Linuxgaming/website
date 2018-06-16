@@ -7,7 +7,7 @@
                 <small>${comment.created} 
                     <a name="comment-${comment.id}" href="${node.url}#comment-${comment.id}">#</a>
                     <c:if test="${currentUser.id == comment.author.id}">
-                        <a href="${node.nodeType}/${node.id}/comments/${comment.id}/delete"><i class="fas fa-trash-alt"></i></a>
+                        <a href="node/${node.id}/comments/${comment.id}/delete"><i class="fas fa-trash-alt"></i></a>
                     </c:if>                                  
                 </small>
             </h5>

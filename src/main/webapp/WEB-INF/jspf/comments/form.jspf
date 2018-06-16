@@ -3,7 +3,7 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/security/tags" %>
 
 <s:authorize access="hasRole('USER')">
-<form:form action="${node.urlid}/comments/" method="POST">
+<form:form id="commentForm" action="node/${node.id}/comments/" method="POST">
     <fieldset>
         <label path="content"></label>
         <textarea name="content" class="form-control" placeholder="Dein Kommentar..."></textarea>

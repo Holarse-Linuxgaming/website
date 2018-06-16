@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -16,7 +17,7 @@ public class WelcomeController {
     
     @Autowired FrontPageRepository frontPageRepository;
     
-    @RequestMapping({"", "index.html" })
+    @GetMapping({"", "index.html" })
     public String index(final ModelMap map) {
         map.addAttribute("welcomeMessage", "world");
         map.addAttribute("items", frontPageRepository.getFrontScreen());

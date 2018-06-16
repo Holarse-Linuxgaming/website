@@ -7,18 +7,18 @@
     <thead>
         <tr>
             <th>Revision</th>
-            <th>Inhalt</th>
+            <th>Version</th>
+            <th>Autor</th>            
             <th>Changelog</th>
-            <th>Autor</th>
         </tr>
     </thead>
     <tbody>
         <c:forEach items="${revisions}" var="revision">
             <tr>
                 <td>${revision.revision}</td>
-                <td>${revision.content}</td>
+                <td>${revision.created}</td>
+                <td>${revision.author.login}</td>                
                 <td>${revision.changelog}</td>
-                <td>${revision.author.login}</td>
             </tr>
     </c:forEach>        
 </tbody>

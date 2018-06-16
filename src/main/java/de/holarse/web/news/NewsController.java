@@ -137,15 +137,8 @@ public class NewsController {
 
         final News news = newsRepository.findById(id).get();
       
-        // Artikel archivieren
-        final Revision revision = new Revision();
-        revision.setNodeId(news.getId());
-        // TODO durch die richtige XML-Ausgabe ersetzen
-        revision.setContent(news.getContent());
-        revision.setAuthor(news.getAuthor());
-        revision.setChangelog(news.getChangelog());
-        revision.setRevision(news.getRevision());
-        revisionRepository.saveAndFlush(revision);
+        // News archivieren
+        nodeService.createRevisionFromCurrent(news);        
 
         // Slug ggf. archivieren
         if (!news.getTitle().equalsIgnoreCase(command.getTitle())) {
@@ -170,6 +163,7 @@ public class NewsController {
 
         searchEngine.update(news);
 
+        // Sperre lösen
         nodeService.unlock(news);
         
         return new RedirectView("/news/" + news.getId());
