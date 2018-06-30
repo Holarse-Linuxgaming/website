@@ -8,7 +8,9 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.persistence.PostLoad;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Table(name="users")
 @Entity
@@ -41,6 +43,13 @@ public class User extends Base {
     
     private String avatar;
 
+    @Transient
+    private String url;
+
+    public String getUrl() {
+        return url;
+    }
+   
     public String getSignature() {
         return signature;
     }
@@ -133,5 +142,10 @@ public class User extends Base {
     public String toString() {
         return "User{" + "login=" + login + ", passwordType=" + passwordType + ", digest=" + digest + ", locked=" + locked + ", roles=" + roles + '}';
     }
+    
+    @PostLoad
+    private void userPostLoad() {
+        this.url = "/users/" + getLogin();
+    }    
     
 }

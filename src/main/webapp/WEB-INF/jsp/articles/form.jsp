@@ -1,7 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<a href="/wiki/${node.id}/edit/abort" class="btn btn-outline-primary">Abbrechen und zurück</a>
+<c:if test="${not empty node.id}">
+    <a href="/wiki/${node.id}/edit/abort" class="btn btn-outline-primary">Abbrechen und zurück</a>
+</c:if>
 
 <!-- Form -->
 <form:form modelAttribute="articleCommand" action="/wiki/${node.id}" method="POST">
