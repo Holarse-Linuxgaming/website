@@ -232,11 +232,11 @@
         </dependency>
     
         <!-- ElasticSearch -->
-<!--        <dependency>
+        <dependency>
             <groupId>org.elasticsearch.client</groupId>
             <artifactId>elasticsearch-rest-high-level-client</artifactId>
             <version>6.2.4</version>
-        </dependency>  -->
+        </dependency>  
     
         <!-- JAXB -->
         <dependency>

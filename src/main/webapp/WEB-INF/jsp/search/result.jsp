@@ -11,7 +11,7 @@
         <c:forEach items="${results}" var="result">
             <tr>
                 <td><a href="${result.url}">${result.title}</a></td>
-                <td>${result.alternativeTitle}</td>
+                <td>${result.alternativeTitles}</td>
                 <td>${result.tags}</td>
                 <td>${result.content}</td>
             </tr>

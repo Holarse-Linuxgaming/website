@@ -24,7 +24,6 @@ public class SearchController {
     Logger logger = LoggerFactory.getLogger(SearchController.class);
 
     @Autowired
-    @Qualifier("postgres")            
     SearchEngine searchEngine;
     
     @Autowired

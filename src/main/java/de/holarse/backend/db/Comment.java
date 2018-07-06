@@ -1,5 +1,9 @@
 package de.holarse.backend.db;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -64,14 +68,23 @@ public class Comment extends Node implements Searchable {
     }
     
     @Override
-    public String getIndex() {
-        return "comments";
+    public String getType() {
+        return getClass().getSimpleName();
     }
     
     @Override
     public String getTitle() {
         return null;
     }
+    
+    @Override
+    public Set<String> getAlternativeTitles() {
+        return new HashSet<>();
+    }
 
+    @Override
+    public Set<Tag> getTags() {
+        return new HashSet<>();
+    }
     
 }

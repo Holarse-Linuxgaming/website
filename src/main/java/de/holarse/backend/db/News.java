@@ -1,5 +1,9 @@
 package de.holarse.backend.db;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.PostLoad;
 import javax.persistence.Table;
@@ -49,6 +53,16 @@ public class News extends BranchableNode implements Frontpagable, Searchable {
         return title;
     }
 
+    @Override
+    public Set<String> getAlternativeTitles() {
+        return new HashSet<>();
+    }
+
+    @Override
+    public Set<Tag> getTags() {
+        return new HashSet<>();
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -93,8 +107,8 @@ public class News extends BranchableNode implements Frontpagable, Searchable {
     }
     
     @Override
-    public String getIndex() {
-        return "news";
+    public String getType() {
+        return getClass().getSimpleName();
     }
     
 }

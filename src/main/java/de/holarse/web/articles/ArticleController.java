@@ -18,6 +18,7 @@ import de.holarse.exceptions.RedirectException;
 import de.holarse.renderer.Renderer;
 import de.holarse.search.SearchEngine;
 import de.holarse.services.NodeService;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.OffsetDateTime;
@@ -58,7 +59,6 @@ public class ArticleController {
     RevisionRepository revisionRepository;
 
     @Autowired
-    @Qualifier("postgres")             
     SearchEngine searchEngine;
 
     @Autowired
@@ -232,9 +232,11 @@ public class ArticleController {
 
         articleRepository.save(article);
 
-        logger.debug("Starting update on search index");
-        searchEngine.update(article);
-        logger.debug("search index updated");
+        try {
+            searchEngine.update(article);
+        } catch (IOException e) {
+            logger.warn("Aktualisieren des Suchindexes fehlgeschlagen", e);
+        }
 
         // Lock lösen
         nodeService.unlock(article);

@@ -12,6 +12,7 @@ import de.holarse.backend.db.repositories.RevisionRepository;
 import de.holarse.exceptions.RedirectException;
 import de.holarse.search.SearchEngine;
 import de.holarse.services.NodeService;
+import java.io.IOException;
 import java.time.OffsetDateTime;
 import javax.transaction.Transactional;
 import org.slf4j.Logger;
@@ -42,7 +43,6 @@ public class NewsController {
     RevisionRepository revisionRepository;
 
     @Autowired
-    @Qualifier("postgres")                 
     SearchEngine searchEngine;
 
     @Autowired
@@ -161,7 +161,11 @@ public class NewsController {
         
         newsRepository.save(news);
 
-        searchEngine.update(news);
+        try {
+            searchEngine.update(news);
+        } catch (IOException e) {
+            logger.warn("Aktualisieren des Suchindexes fehlgeschlagen", e);
+        }
 
         // Sperre lösen
         nodeService.unlock(news);

@@ -5,6 +5,7 @@ import de.holarse.backend.db.Searchable;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.NewsRepository;
 import de.holarse.search.SearchEngine;
+import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,6 @@ public class AdminSearchController {
     @Autowired ArticleRepository articleRepository;
     
     @Autowired
-    @Qualifier("postgres")
     SearchEngine searchEngine;
 
     @GetMapping("reindex/{nodeType}/{nodeId}")
@@ -44,7 +44,11 @@ public class AdminSearchController {
                 throw new IllegalStateException("Unbehandelter NodeType " + nodeType);
         }
 
-        searchEngine.update(searchable);
+        try {
+            searchEngine.update(searchable);
+        } catch (IOException e) {
+            logger.warn("Aktualisieren des Suchindexes fehlgeschlagen", e);
+        }
         
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }    

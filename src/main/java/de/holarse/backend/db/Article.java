@@ -1,5 +1,6 @@
 package de.holarse.backend.db;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.StringJoiner;
@@ -20,7 +21,7 @@ public class Article extends BranchableNode implements Frontpagable, Searchable 
     private String alternativeTitle3;
     
     @Transient
-    private String alternativeTitles;
+    private final Set<String> alternativeTitles = new HashSet<>();
 
     @Transient
     private String url;
@@ -37,6 +38,7 @@ public class Article extends BranchableNode implements Frontpagable, Searchable 
     @Transient
     private NodeType nodeType;    
 
+    @Override
     public Set<Tag> getTags() {
         return tags;
     }
@@ -45,7 +47,8 @@ public class Article extends BranchableNode implements Frontpagable, Searchable 
         return urlid;
     }
 
-    public String getAlternativeTitles() {
+    @Override
+    public Set<String> getAlternativeTitles() {
         return alternativeTitles;
     }
     
@@ -56,16 +59,14 @@ public class Article extends BranchableNode implements Frontpagable, Searchable 
     
     @PostLoad
     private void articlePostLoad() {
-        final StringJoiner titles = new StringJoiner(", ");
-        if (alternativeTitle1 != null) { titles.add(alternativeTitle1); }
-        if (alternativeTitle2 != null) { titles.add(alternativeTitle2); }
-        if (alternativeTitle3 != null) { titles.add(alternativeTitle3); }
-        this.alternativeTitles = titles.toString();
-        
         this.url = "/wiki/" + getSlug();
         this.urlid = "/wiki/" + getId();
         this.teaser = StringUtils.abbreviate(getContent(), 100);
         this.nodeType = NodeType.ARTICLE;
+        
+        if (alternativeTitle1 != null) alternativeTitles.add(alternativeTitle1);        
+        if (alternativeTitle2 != null) alternativeTitles.add(alternativeTitle2);        
+        if (alternativeTitle3 != null) alternativeTitles.add(alternativeTitle3);
     }
     
     @Override
@@ -117,8 +118,7 @@ public class Article extends BranchableNode implements Frontpagable, Searchable 
     }    
     
     @Override
-    public String getIndex() {
-        return "articles";
+    public String getType() {
+        return getClass().getSimpleName();
     }
-  
 }
