@@ -8,6 +8,7 @@ import de.holarse.backend.db.Role;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.CommentRepository;
 import de.holarse.backend.db.repositories.RoleRepository;
+import de.holarse.search.SearchEngine;
 import de.holarse.services.SecurityService;
 import java.time.OffsetDateTime;
 import java.util.Collection;
@@ -33,6 +34,8 @@ public class CommentController {
     @Autowired RoleRepository roleRepository;
     
     @Autowired SecurityService securityService;
+    
+    @Autowired SearchEngine searchEngine;
 
     @GetMapping(value = "/node/{nodeId}/comments", produces = "application/json")
     public ResponseEntity<Collection<Comment>> comments(@PathVariable("nodeId") final Long nodeId) {

@@ -1,11 +1,11 @@
 package de.holarse.search.es;
 
+import de.holarse.backend.db.Comment;
 import de.holarse.backend.db.Searchable;
 import de.holarse.search.SearchEngine;
 import de.holarse.search.SearchResult;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.http.HttpHost;
@@ -35,6 +35,7 @@ public class EsSearchEngine implements SearchEngine {
     private final static HttpHost HTTP_HOST = new HttpHost("localhost", 9200, "http");
 
     protected RestHighLevelClient getNewClient() {
+        logger.info("Getting new ES connection");
         return new RestHighLevelClient(RestClient.builder(HTTP_HOST));
     }
 
@@ -63,6 +64,8 @@ public class EsSearchEngine implements SearchEngine {
     }
 
     protected UpdateRequest createUpdateRequest(final Searchable searchable) throws IOException {
+        final List<Comment> comments = searchable.getComments();
+        
         final XContentBuilder builder = XContentFactory.jsonBuilder();
         builder.startObject()
                 .field("title", searchable.getTitle())
@@ -70,10 +73,26 @@ public class EsSearchEngine implements SearchEngine {
                 .field("tags", searchable.getTags().stream().map(t -> t.getName()).collect(Collectors.toSet()).toArray(new String[searchable.getTags().size()]))
                 .field("content", searchable.getContent())
                 .field("url", searchable.getUrl())
-                .field("type", searchable.getType())
+                .field("type", searchable.getType());
+        
+        builder.startArray("comments");
+        for (final Comment comment: comments) {
+            builder.startObject()
+                .field("url", searchable.getUrl() + "#comment-" + comment.getId())
+                .field("comment", comment.getContent())
+            .endObject();
+        }
+        builder.endArray()
         .endObject();
 
-        return new UpdateRequest("articles", searchable.getType(), searchable.getId().toString()).doc(builder).docAsUpsert(true);
+        logger.debug("UPDATE: {}", builder.string());
+        
+        final UpdateRequest updateReq = new UpdateRequest("documents", searchable.getType(), searchable.getId().toString())
+                                            .doc(builder)
+                                            .docAsUpsert(true);
+        
+        logger.debug("UpdateRequest: {} ", updateReq);
+        return updateReq;
     }
 
     @Override
@@ -84,19 +103,18 @@ public class EsSearchEngine implements SearchEngine {
     }
 
     @Override
-    public void update(final Collection<Searchable> searchables) throws IOException {
+    public void update(final Iterable<? extends Searchable> searchables) throws IOException {
         final BulkRequest bulkRequest = new BulkRequest();
+        
         for (final Searchable s: searchables) {
-            try {
-                bulkRequest.add(createUpdateRequest(s));
-            } catch (IOException ioex) {
-                logger.debug("Fehler bei Suchindexaktualisierung", ioex);
-            }
+            bulkRequest.add(createUpdateRequest(s));
         }
         
+        logger.info("Updating {} search items", bulkRequest.numberOfActions());
+
         try(final RestHighLevelClient client = getNewClient()) {
             client.bulk(bulkRequest);
-        }
+        } 
     }
 
     @Override

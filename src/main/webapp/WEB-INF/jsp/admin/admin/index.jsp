@@ -1,6 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <h1>Admin-Bereich</h1>
 
+<h2>Suchindex</h2>
+<a href="/admin/search/reindex" class="btn btn-primary">Komplette Reindizierung</a>
+
 <h2>Zugriffsstatistiken</h2>
 <div class="table-responsive">
     <table class="table table-hover">

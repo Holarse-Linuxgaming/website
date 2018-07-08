@@ -1,11 +1,14 @@
 package de.holarse.web.admin.search;
 
+import de.holarse.backend.db.News;
 import de.holarse.backend.db.NodeType;
 import de.holarse.backend.db.Searchable;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.NewsRepository;
 import de.holarse.search.SearchEngine;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +33,14 @@ public class AdminSearchController {
     @Autowired
     SearchEngine searchEngine;
 
+    @GetMapping("reindex")
+    public ResponseEntity<String> reindex() throws IOException {
+        final Iterable<News> news = newsRepository.findAll();
+        searchEngine.update(news);
+        
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    
     @GetMapping("reindex/{nodeType}/{nodeId}")
     public ResponseEntity<String> reindex(@PathVariable("nodeType") final NodeType nodeType, @PathVariable("nodeId") final Long nodeId, final Model map) {
         final Searchable searchable;
