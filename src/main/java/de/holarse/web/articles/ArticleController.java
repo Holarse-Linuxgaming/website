@@ -2,12 +2,16 @@ package de.holarse.web.articles;
 
 import de.holarse.auth.HolarsePrincipal;
 import de.holarse.backend.db.Article;
+import de.holarse.backend.db.Attachment;
+import de.holarse.backend.db.AttachmentType;
 import de.holarse.backend.db.ContentType;
 import de.holarse.backend.db.NodeType;
 import de.holarse.backend.db.Revision;
 import de.holarse.backend.db.Tag;
+import de.holarse.backend.db.AttachmentDataType;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.ArticleRepository;
+import de.holarse.backend.db.repositories.AttachmentRepository;
 import de.holarse.backend.db.repositories.RevisionRepository;
 import de.holarse.backend.db.repositories.TagRepository;
 import de.holarse.exceptions.ErrorMode;
@@ -17,13 +21,16 @@ import de.holarse.exceptions.NodeNotFoundException;
 import de.holarse.exceptions.RedirectException;
 import de.holarse.renderer.Renderer;
 import de.holarse.search.SearchEngine;
+import de.holarse.services.AttachmentRenderService;
 import de.holarse.services.NodeService;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -57,6 +64,9 @@ public class ArticleController {
 
     @Autowired
     RevisionRepository revisionRepository;
+    
+    @Autowired
+    AttachmentRepository attachmentRepository;
 
     @Autowired
     SearchEngine searchEngine;
@@ -69,6 +79,9 @@ public class ArticleController {
 
     @Qualifier("wikiRenderer")
     @Autowired Renderer renderer;
+    
+    @Autowired
+    AttachmentRenderService attachmentRenderService;
     
     
     // INDEX
@@ -127,8 +140,22 @@ public class ArticleController {
     public ModelAndView showBySlug(@PathVariable final String slug, final Model map) { 
         try {
             final Article article = nodeService.findArticle(slug).get();
+            
             Hibernate.initialize(article.getTags());
+            Hibernate.initialize(article.getAttachments());
+            
+            // TODO Attachment-Renderer
+            final List<String> renderedAttachments = new ArrayList<>();
+            for (final Attachment att : article.getAttachments()) {
+                try {
+                    renderedAttachments.add(attachmentRenderService.render(att));
+                } catch (Exception e) {
+                    logger.warn("Fehler während des Renders. Wird ignoriert", e);
+                }
+            }
+            
             map.addAttribute("node", article);
+            map.addAttribute("renderedAttachments", renderedAttachments);
             map.addAttribute("rendererContent", renderer.render(article.getContent()));
             return new ModelAndView("articles/show", map.asMap());
         } catch (RedirectException re) {
@@ -230,8 +257,30 @@ public class ArticleController {
         article.setUpdated(OffsetDateTime.now());
         article.setRevision(revisionRepository.nextRevision());
 
-        articleRepository.save(article);
+        articleRepository.save(article);        
+        
+        Attachment att = new Attachment();
+        att.setCreated(OffsetDateTime.now());
+        att.setNodeId(article.getId());
+        att.setDescription("Beispiel-Link");
+        att.setAttachmentDataType(AttachmentDataType.URI);        
+        att.setAttachmentData("https://www.startpage.com");
+        att.setAttachmentType(AttachmentType.LINK);        
+        att.setOrdering(1l);
 
+        attachmentRepository.save(att);
+        
+        Attachment att2 = new Attachment();
+        att2.setCreated(OffsetDateTime.now());
+        att2.setNodeId(article.getId());
+        att2.setDescription("Awesome Video");
+        att2.setAttachmentDataType(AttachmentDataType.URI);
+        att2.setAttachmentType(AttachmentType.YOUTUBE);
+        att2.setAttachmentData("https://www.youtube-nocookie.com/embed/zpOULjyy-n8");
+        att2.setOrdering(2l);
+        
+        attachmentRepository.save(att2);
+        
         try {
             searchEngine.update(article);
         } catch (IOException e) {

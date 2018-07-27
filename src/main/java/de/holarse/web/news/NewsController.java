@@ -5,7 +5,6 @@ import de.holarse.backend.db.ContentType;
 import de.holarse.backend.db.News;
 import de.holarse.backend.db.NewsCategory;
 import de.holarse.backend.db.NodeType;
-import de.holarse.backend.db.Revision;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.NewsRepository;
 import de.holarse.backend.db.repositories.RevisionRepository;
@@ -15,10 +14,10 @@ import de.holarse.services.NodeService;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import javax.transaction.Transactional;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -97,7 +96,13 @@ public class NewsController {
     @GetMapping("/{slug}")
     public ModelAndView show(@PathVariable final String slug, final Model map) {  
         try {
-            map.addAttribute("node", nodeService.findNews(slug).get());
+            final News node = nodeService.findNews(slug).get();
+            Hibernate.initialize(node.getComments());            
+            Hibernate.initialize(node.getAttachments());
+            
+            // TODO Attachment-Renderer
+            
+            map.addAttribute("node", node);
             return new ModelAndView("news/show");
         } catch (RedirectException re) {
             return new ModelAndView(re.getRedirect());

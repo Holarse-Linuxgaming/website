@@ -24,18 +24,6 @@
         </xs:sequence>
     </xs:group>  
     
-    <xs:group name="images">
-        <xs:sequence>
-            <xs:element name="images" type="h:image" maxOccurs="unbounded" />
-        </xs:sequence>        
-    </xs:group>  
-    
-    <xs:group name="videos">
-        <xs:sequence>
-            <xs:element name="videos" type="h:video" maxOccurs="unbounded" />
-        </xs:sequence>        
-    </xs:group>     
-    
     <xs:group name="attachments">
         <xs:sequence>
             <xs:element name="attachments" type="h:attachment" maxOccurs="unbounded" />
@@ -130,8 +118,6 @@
             <xs:element name="revision" type="h:revision" />            
             <xs:element name="state" type="h:state" />                
             <xs:element name="content" type="h:content" />
-            <xs:group ref="h:images" />
-            <xs:group ref="h:videos" />
             <xs:group ref="h:attachments" />
         </xs:sequence>
         <xs:attribute name="uid" type="xs:long" />        
@@ -155,19 +141,17 @@
             <xs:enumeration value="URI" />
             <xs:enumeration value="BASE64" />
         </xs:restriction>
-    </xs:simpleType>         
-
-    <xs:complexType name="image">
-        <xs:complexContent>
-            <xs:extension base="h:attachedData"></xs:extension>   
-        </xs:complexContent>
-    </xs:complexType>  
+    </xs:simpleType>       
     
-    <xs:complexType name="video">
-        <xs:complexContent>
-            <xs:extension base="h:attachedData"></xs:extension>   
-        </xs:complexContent>
-    </xs:complexType>      
+    <xs:simpleType name="attachmenttype">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="LINK" />
+            <xs:enumeration value="IMAGE" />
+            <xs:enumeration value="FILE" />
+            <xs:enumeration value="YOUTUBE" />
+            <xs:enumeration value="YTCHANNEL" />
+        </xs:restriction>
+    </xs:simpleType>             
     
     <xs:complexType name="attachment">
         <xs:complexContent>
@@ -179,10 +163,11 @@
         <xs:sequence>
             <xs:element name="ordering" type="xs:long" />
             <xs:element name="description" type="xs:string" />
-            <xs:element name="datatype" type="h:datatype" minOccurs="1" />
-            <xs:element name="data" type="xs:string" minOccurs="1" />
+            <xs:element name="datatype" type="h:datatype" maxOccurs="1" />
+            <xs:element name="data" type="xs:string" maxOccurs="1" />
         </xs:sequence>
-        <xs:attribute name="mimetype" type="xs:long" />          
+        <xs:attribute name="mimetype" type="xs:string" />          
+        <xs:attribute name="attacmenttype" type="h:attachmenttype" />          
     </xs:complexType>
                     
                 

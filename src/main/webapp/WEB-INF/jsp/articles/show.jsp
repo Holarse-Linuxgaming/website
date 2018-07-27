@@ -84,9 +84,18 @@
             </a>
         </div>        
 
-        <div class="embed-responsive embed-responsive-16by9">
-            <iframe class="embed-responsive-item" src="https://www.youtube-nocookie.com/embed/zpOULjyy-n8?rel=0" allowfullscreen></iframe>
-        </div>
+       
+        
+        <h1>Attachments</h1>
+        <ul>
+        <c:forEach items="${renderedAttachments}" var="renderedAttachment">
+            <li>
+                ${renderedAttachment}
+            </li>
+        </c:forEach>
+        </ul>
+        
+
     </div>
 </div>
 

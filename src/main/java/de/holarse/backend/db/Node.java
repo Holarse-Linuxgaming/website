@@ -1,12 +1,18 @@
 package de.holarse.backend.db;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.PostLoad;
 import javax.persistence.Transient;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @MappedSuperclass
 public abstract class Node extends Base implements LegacyImport {
@@ -48,10 +54,16 @@ public abstract class Node extends Base implements LegacyImport {
     @ManyToOne
     private User author;
 
+    // ID aus Drupal
     private Long oldId;
     
     @Transient
     private int wordCount;
+    
+    @OneToMany(mappedBy = "nodeId")
+    @OrderColumn(name = "ordering")
+    @Cascade({CascadeType.SAVE_UPDATE})    
+    private List<Attachment> attachments = new ArrayList<>();
 
     public abstract String getUrl();
 
@@ -137,6 +149,14 @@ public abstract class Node extends Base implements LegacyImport {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public List<Attachment> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(List<Attachment> attachments) {
+        this.attachments = attachments;
     }
     
 }
