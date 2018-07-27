@@ -36,6 +36,15 @@
         <form:label path="changelog">Changelog</form:label>
         <form:textarea path="changelog" class="form-control"></form:textarea>
     </fieldset>
+    <fieldset>
+        <legend>Links</legend>
+            <c:forEach var="attachment" items="${articleCommand.attachments}" varStatus="idx">
+                <p>                
+                    <form:input path="attachments[${idx.index}].description" />
+                    <form:input path="attachments[${idx.index}].attachmentData" />
+                </p>                
+            </c:forEach>
+    </fieldset>
 </form:form>
 <!-- End Form -->
 

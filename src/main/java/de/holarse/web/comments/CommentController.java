@@ -16,15 +16,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class CommentController {
 
     Logger logger = LoggerFactory.getLogger(CommentController.class);
@@ -37,7 +38,7 @@ public class CommentController {
     
     @Autowired SearchEngine searchEngine;
 
-    @GetMapping(value = "/node/{nodeId}/comments", produces = "application/json")
+    @GetMapping(value = "/node/{nodeId}/comments", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Collection<Comment>> comments(@PathVariable("nodeId") final Long nodeId) {
         return new ResponseEntity<>(commentRepository.findByNodeIdOrderByCreated(nodeId), HttpStatus.OK);
     }

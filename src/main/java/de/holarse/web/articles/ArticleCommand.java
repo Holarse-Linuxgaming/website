@@ -1,6 +1,7 @@
 package de.holarse.web.articles;
 
 import de.holarse.backend.db.ContentType;
+import java.util.List;
 
 public class ArticleCommand {
     
@@ -86,5 +87,5 @@ public class ArticleCommand {
     public void setBranch(String branch) {
         this.branch = branch;
     }
-   
+
 }

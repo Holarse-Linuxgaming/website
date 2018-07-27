@@ -6,7 +6,6 @@ import de.holarse.backend.db.Attachment;
 import de.holarse.backend.db.AttachmentType;
 import de.holarse.backend.db.ContentType;
 import de.holarse.backend.db.NodeType;
-import de.holarse.backend.db.Revision;
 import de.holarse.backend.db.Tag;
 import de.holarse.backend.db.AttachmentDataType;
 import de.holarse.backend.db.User;
@@ -171,6 +170,9 @@ public class ArticleController {
         
         final Article article = articleRepository.findById(id).get();
         
+        Hibernate.initialize(article.getTags());         
+        Hibernate.initialize(article.getAttachments());
+        
         // Versuchen den Artikel zum Schreiben zu sperren
         try {
             nodeService.tryTolock(article, currentUser);        
@@ -186,7 +188,6 @@ public class ArticleController {
             return "redirect:/wiki/" + article.getSlug();
         }
         
-        Hibernate.initialize(article.getTags());        
         map.addAttribute("node", article);
 
         command.setTitle(article.getTitle());
@@ -197,7 +198,7 @@ public class ArticleController {
         command.setContentType(article.getContentType());
         command.setTags(article.getTags().stream().map(t -> t.getName()).collect(Collectors.joining(",")));
         command.setBranch(article.getBranch());
-
+        
         map.addAttribute("articleCommand", command);
         map.addAttribute("contentTypes", ContentType.values());
 
