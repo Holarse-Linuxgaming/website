@@ -12,6 +12,9 @@ import de.holarse.search.SearchEngine;
 import de.holarse.services.SecurityService;
 import java.time.OffsetDateTime;
 import java.util.Collection;
+import javax.ejb.TransactionAttribute;
+import javax.transaction.Transactional;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +41,12 @@ public class CommentController {
     
     @Autowired SearchEngine searchEngine;
 
+    @Transactional
     @GetMapping(value = "/node/{nodeId}/comments", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Collection<Comment>> comments(@PathVariable("nodeId") final Long nodeId) {
-        return new ResponseEntity<>(commentRepository.findByNodeIdOrderByCreated(nodeId), HttpStatus.OK);
+        final Collection<Comment> comments = commentRepository.findByNodeIdOrderByCreated(nodeId);
+        comments.forEach(c -> Hibernate.initialize(c.getAttachments()));
+        return new ResponseEntity<>(comments, HttpStatus.OK);
     }
     
     @PostMapping("/node/{nodeId}/comments/")

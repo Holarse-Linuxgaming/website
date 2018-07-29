@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -28,6 +29,7 @@ public class Article extends BranchableNode implements Frontpagable, Searchable 
     private String urlid;
     
     @ManyToMany
+    @OrderBy(value = "name")
     private final Set<Tag> tags = new HashSet<>();
 
     @Transient

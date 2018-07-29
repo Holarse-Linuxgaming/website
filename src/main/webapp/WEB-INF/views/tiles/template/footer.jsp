@@ -61,7 +61,7 @@
 
     <div class="footer-copyright text-center">
         Alle hier verwendeten Marken- oder Firmennamen unterliegen ausschliesslich den Rechten der jeweiligen Inhaber.<br />
-        &copy 2000-2018 Holarse - Spielen unter Linux. Alle Rechte vorbehalten.
+        &copy; 2000-2018 Holarse - Spielen unter Linux. Alle Rechte vorbehalten.
     </div>
     <div class="footer-copyright text-center">
         <a href="/"><img src="/assets/img/icon.png" width="30" height="30" alt="Holarse Logo"></a>

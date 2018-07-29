@@ -30,6 +30,9 @@ GET  /categories
 GET  /node/{nodeId}/comments
 POST /node/{nodeId}/comments/
 POST /node/{nodeId}/comments/{commentId}/delete
+GET  /node/{nodeId}/attachments
+POST /node/{nodeId}/attachments/
+POST /node/{nodeId}/attachments/{attachmentId}/delete
 GET  /finder
 GET  /news/
 GET  /news/new

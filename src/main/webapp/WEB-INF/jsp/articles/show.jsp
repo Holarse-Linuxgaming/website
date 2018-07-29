@@ -1,10 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="s" uri="http://www.springframework.org/security/tags" %>
 
-
-
-
-
 <h1>
     ${node.title}
     <p><small class="text-muted">${node.alternativeTitle1}</small></p>
@@ -44,7 +40,7 @@
 <%@include file="/WEB-INF/jspf/nodes/menubar.jspf" %>
 
 <div class="row">
-    <article class="col-md-8">
+    <article class="col-md-8" data-nodeid="${node.id}">
         ${rendererContent}    
     </article>
     <div class="col-md-4">
@@ -98,9 +94,20 @@
 
     </div>
 </div>
-
-<%@include file="/WEB-INF/jspf/comments/list.jspf" %>
-
+    
+<div id="v-comments">
+    
+    <template v-for="comment in comments">
+        <div class="media">
+            <img class="align-self-start mr-3" src="https://placeimg.com/64/64/any" alt="Generic placeholder image">
+            <div class="media-body">
+                <h5 class="mt-0"><a href="#">{{comment.author.login}}</a> am {{comment.created}}</h5>
+                <p>{{comment.content}}</p>
+            </div>
+        </div>        
+    </template>
+                    
+</div>
 
 <div class="row">
     <div class="col-md-12">

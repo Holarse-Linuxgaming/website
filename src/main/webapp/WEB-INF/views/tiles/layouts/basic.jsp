@@ -54,9 +54,12 @@
         <script src="assets/vendor/jquery/jquery-3.3.1.min.js"></script>
         <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
         <script src="assets/vendor/masonry/masonry.pkgd.min.js"></script>
+        <script src="assets/vendor/vue/vue.js"></script>
         
         <!-- JS Custom -->
         <script src="assets/js/custom.js"></script>
+        
+        <script src="assets/js/holarsevue.js"></script>        
 
         <script>
             $(document).ready(function () {
