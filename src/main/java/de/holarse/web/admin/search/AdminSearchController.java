@@ -9,6 +9,8 @@ import de.holarse.search.SearchEngine;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import javax.transaction.Transactional;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +43,7 @@ public class AdminSearchController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     
+    @Transactional
     @GetMapping("reindex/{nodeType}/{nodeId}")
     public ResponseEntity<String> reindex(@PathVariable("nodeType") final NodeType nodeType, @PathVariable("nodeId") final Long nodeId, final Model map) {
         final Searchable searchable;
@@ -56,6 +59,8 @@ public class AdminSearchController {
         }
 
         try {
+            Hibernate.initialize(searchable.getComments());
+            Hibernate.initialize(searchable.getTags());
             searchEngine.update(searchable);
         } catch (IOException e) {
             logger.warn("Aktualisieren des Suchindexes fehlgeschlagen", e);

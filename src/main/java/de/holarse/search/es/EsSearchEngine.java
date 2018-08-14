@@ -45,9 +45,9 @@ public class EsSearchEngine implements SearchEngine {
 
         final List<SearchResult> results = new ArrayList<>();
 
-        final SearchRequest searchRequest = new SearchRequest("articles");
+        final SearchRequest searchRequest = new SearchRequest("documents");
         final SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
-        sourceBuilder.query(QueryBuilders.multiMatchQuery(query, "title", "content", "alternativeTitles", "tags").type(MultiMatchQueryBuilder.Type.BEST_FIELDS));
+        sourceBuilder.query(QueryBuilders.multiMatchQuery(query, "title", "alternativeTitles", "tags", "content", "comments").type(MultiMatchQueryBuilder.Type.BEST_FIELDS));
         sourceBuilder.sort(new ScoreSortBuilder().order(SortOrder.DESC));
         searchRequest.source(sourceBuilder);
 
@@ -64,8 +64,6 @@ public class EsSearchEngine implements SearchEngine {
     }
 
     protected UpdateRequest createUpdateRequest(final Searchable searchable) throws IOException {
-        final List<Comment> comments = searchable.getComments();
-        
         final XContentBuilder builder = XContentFactory.jsonBuilder();
         builder.startObject()
                 .field("title", searchable.getTitle())
@@ -73,21 +71,13 @@ public class EsSearchEngine implements SearchEngine {
                 .field("tags", searchable.getTags().stream().map(t -> t.getName()).collect(Collectors.toSet()).toArray(new String[searchable.getTags().size()]))
                 .field("content", searchable.getContent())
                 .field("url", searchable.getUrl())
-                .field("type", searchable.getType());
-        
-        builder.startArray("comments");
-        for (final Comment comment: comments) {
-            builder.startObject()
-                .field("url", searchable.getUrl() + "#comment-" + comment.getId())
-                .field("comment", comment.getContent())
-            .endObject();
-        }
-        builder.endArray()
+                .field("type", searchable.getType())
+                .field("comments", searchable.getComments().stream().map(c -> c.getContent()).collect(Collectors.toList()).toArray())
         .endObject();
 
         logger.debug("UPDATE: {}", builder.string());
         
-        final UpdateRequest updateReq = new UpdateRequest("documents", searchable.getType(), searchable.getId().toString())
+        final UpdateRequest updateReq = new UpdateRequest("documents", "docs", searchable.getId().toString())
                                             .doc(builder)
                                             .docAsUpsert(true);
         
@@ -104,17 +94,29 @@ public class EsSearchEngine implements SearchEngine {
 
     @Override
     public void update(final Iterable<? extends Searchable> searchables) throws IOException {
-        final BulkRequest bulkRequest = new BulkRequest();
+        final List<UpdateRequest> requests = new ArrayList<>(25);
+        
+        //final BulkRequest bulkRequest = new BulkRequest();
         
         for (final Searchable s: searchables) {
-            bulkRequest.add(createUpdateRequest(s));
+            logger.info("Adding {} to bluk updates", s.getTitle());
+            //bulkRequest.add(createUpdateRequest(s));
+            requests.add(createUpdateRequest(s));
         }
         
-        logger.info("Updating {} search items", bulkRequest.numberOfActions());
+        //logger.info("Updating {} search items", bulkRequest.numberOfActions());
 
         try(final RestHighLevelClient client = getNewClient()) {
-            client.bulk(bulkRequest);
-        } 
+            logger.info("Executing bulk request");
+            //client.bulk(bulkRequest);
+            for(final UpdateRequest r: requests) {
+                client.update(r);
+            }
+        } catch (IOException ioex) {
+            logger.error("Error while executing bulk requests", ioex);
+        } finally {
+            logger.info("Bulk done");
+        }
     }
 
     @Override
