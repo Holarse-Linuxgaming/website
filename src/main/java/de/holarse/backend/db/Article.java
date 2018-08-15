@@ -64,9 +64,9 @@ public class Article extends BranchableNode implements Frontpagable, Searchable 
         this.teaser = StringUtils.abbreviate(getContent(), 100);
         this.nodeType = NodeType.ARTICLE;
         
-        if (alternativeTitle1 != null) alternativeTitles.add(alternativeTitle1);        
-        if (alternativeTitle2 != null) alternativeTitles.add(alternativeTitle2);        
-        if (alternativeTitle3 != null) alternativeTitles.add(alternativeTitle3);
+        if (StringUtils.isNoneBlank(alternativeTitle1)) alternativeTitles.add(alternativeTitle1);        
+        if (StringUtils.isNoneBlank(alternativeTitle2)) alternativeTitles.add(alternativeTitle2);        
+        if (StringUtils.isNoneBlank(alternativeTitle3)) alternativeTitles.add(alternativeTitle3);
     }
     
     @Override
