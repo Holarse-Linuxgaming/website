@@ -14,7 +14,7 @@ def do_import(db, base_dir):
         os.makedirs(ARTICLES_DIR)
     
     cur = db.cursor()
-    cur.execute("select n.nid, n.title, n.created, n.changed, r.title, r.body, r.log, r.vid from node n inner join node_revisions r on r.vid = n.vid where n.type = 'page'")
+    cur.execute("select n.nid, n.title, n.created, n.changed, r.title, r.body, r.log, r.vid, n.status, n.comment from node n inner join node_revisions r on r.vid = n.vid where n.type = 'page'")
 
     counter = 0
     for a_result in cur.fetchall():
@@ -34,7 +34,14 @@ def do_import(db, base_dir):
         xml_article = ET.Element('{http://holarse.de/entity/importer/}article')
         xml_article.set('uid', uid)
         xml_article.set('revision', vid)
-    
+
+        state_tags = ET.SubElement(xml_article, 'state')
+        xml_published = ET.SubElement(state_tags, 'published')
+        xml_published.text = 'true' if a_result[8] == 1 else 'false'
+
+        xml_commentable = ET.SubElement(state_tags, 'commentable')
+        xml_commentable.text = 'true' if a_result[9] == 2 else 'false'
+        
         xml_titles = ET.SubElement(xml_article, 'titles')
 
         xml_title = ET.SubElement(xml_titles, 'title')
@@ -82,7 +89,26 @@ def do_import(db, base_dir):
                 xml_crossover = ET.SubElement(link_tags, 'link')
                 xml_crossover.text = w_result[1]
                 xml_crossover.set('type', 'CROSSOVERDB')
-            
+
+        # state
+        cur_sts = db.cursor()
+        cur_sts.execute("select field_ftpavail_value, field_ftpavail_tools_value, field_release_value from content_type_page where nid = %s and vid = %s" % (uid, vid))
+        for x_result in cur_sts.fetchall():
+            # ftp
+            if x_result[0]:
+                xml_ftp = ET.SubElement(state_tags, 'ftp')
+                xml_ftp.text = 'true' if x_result[0] == 1 else 'false'
+                
+            # ftptools
+            if x_result[1]:
+                xml_ftpt = ET.SubElement(state_tags, 'ftptools')
+                xml_ftpt.text = 'true' if x_result[1] == 1 else 'false'
+                
+            # releasedate
+            if x_result[2]:
+                xml_rel = ET.SubElement(state_tags, 'releasedate')
+                xml_rel.text = x_result[2]
+                
         # shops
         cur_shops = db.cursor()
         cur_shops.execute("select field_steam_value, field_humblestore_value, field_gog_value, field_ownshop_value, field_itchio_value from content_type_page where nid = %s and vid = %s" % (uid, vid))
