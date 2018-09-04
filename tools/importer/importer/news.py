@@ -50,7 +50,10 @@ def do_import(db, base_dir):
         xml_content = ET.SubElement(xml_news, 'content')
         xml_content.text = a_result[5]
         xml_content.set('type', 'WIKI')
+
         ET.SubElement(xml_news, 'created_at').text = util.ts_to_utc(a_result[2])
+        if a_result[3]:
+            ET.SubElement(xml_news, 'updated_at').text = util.ts_to_utc(a_result[3])
 
         # attachments
         att_tags = ET.SubElement(xml_news, 'attachments')

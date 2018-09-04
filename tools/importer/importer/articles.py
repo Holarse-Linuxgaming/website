@@ -54,8 +54,11 @@ def do_import(db, base_dir):
         xml_content = ET.SubElement(xml_article, 'content')
         xml_content.text = a_result[5]
         xml_content.set('type', 'WIKI')
-        ET.SubElement(xml_article, 'created_at').text = util.ts_to_utc(a_result[2])
 
+        ET.SubElement(xml_article, 'created_at').text = util.ts_to_utc(a_result[2])
+        if a_result[3]:
+            ET.SubElement(xml_article, 'updated_at').text = util.ts_to_utc(a_result[3])
+        
         att_tags = ET.SubElement(xml_article, 'attachments')
         
         cur_tags = db.cursor()
