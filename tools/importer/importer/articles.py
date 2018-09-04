@@ -56,11 +56,70 @@ def do_import(db, base_dir):
 
             xml_tag = ET.SubElement(xml_tags, 'tag')
             xml_tag.text = tag_str
-        
 
+        # homepage
+        cur_hp = db.cursor()
+        cur_hp.execute("select field_homepage_value from content_field_homepage where nid = %s and vid = %s" % (uid, vid))
+        link_tags = ET.SubElement(xml_article, 'links')
+        for l_result in cur_hp.fetchall():
+
+            xml_hp = ET.SubElement(link_tags, 'link')
+            xml_hp.text = l_result[0]
+            xml_hp.set('type', 'WEBSITE')
+
+        # wine/crossover
+        cur_wine = db.cursor()
+        cur_wine.execute("select field_winehq_value, field_crossoverdb_value from content_type_page where nid = %s and vid = %s" % (uid, vid))
+        for w_result in cur_wine.fetchall():
+            # winehq
+            if w_result[0]:
+                xml_winehq = ET.SubElement(link_tags, 'link')
+                xml_winehq.text = w_result[0]
+                xml_winehq.set('type', 'WINEHQ')
+
+            # crossover
+            if w_result[1]:
+                xml_crossover = ET.SubElement(link_tags, 'link')
+                xml_crossover.text = w_result[1]
+                xml_crossover.set('type', 'CROSSOVERDB')
+            
+        # shops
+        cur_shops = db.cursor()
+        cur_shops.execute("select field_steam_value, field_humblestore_value, field_gog_value, field_ownshop_value, field_itchio_value from content_type_page where nid = %s and vid = %s" % (uid, vid))
+        shop_tags = ET.SubElement(xml_article, 'shops')
+        for s_result in cur_shops.fetchall():
+
+            # steam
+            if s_result[0]:
+                xml_steam = ET.SubElement(shop_tags, 'shop')
+                xml_steam.text = s_result[0]
+                xml_steam.set('type', 'STEAM')
+
+            # humblestore
+            if s_result[1]:
+                xml_hs = ET.SubElement(shop_tags, 'shop')
+                xml_hs.text = s_result[1]
+                xml_hs.set('type', 'HUMBLESTORE')
+
+            # gog
+            if s_result[2]:
+                xml_gog = ET.SubElement(shop_tags, 'shop')
+                xml_gog.text = s_result[2]
+                xml_gog.set('type', 'GOG')
+
+            # ownshop
+            if s_result[3]:
+                xml_os = ET.SubElement(shop_tags, 'shop')
+                xml_os.text = s_result[3]
+                xml_os.set('type', 'OWNSHOP')
+
+            # itch
+            if s_result[4]:
+                xml_itch = ET.SubElement(shop_tags, 'shop')
+                xml_itch.text = s_result[4]
+                xml_itch.set('type', 'ITCH')
+                
         ET.ElementTree(xml_article).write(filepath, "UTF-8", True)
-        ET.dump(xml_article)
-
-        # content_type_page: enthält felder wie gog, humble store, steam
+        #ET.dump(xml_article)
 
     return counter

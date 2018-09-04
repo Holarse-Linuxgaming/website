@@ -42,6 +42,6 @@ def do_import(db, base_dir):
         ET.SubElement(xml_news, 'created_at').text = util.ts_to_utc(a_result[2])
 
         ET.ElementTree(xml_news).write(filepath, "UTF-8", True)
-        ET.dump(xml_news)
+        #ET.dump(xml_news)
 
     return counter

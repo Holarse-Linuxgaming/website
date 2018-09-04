@@ -56,7 +56,7 @@ def do_import(db, base_dir):
             xml_role.text = rolename
 
         ET.ElementTree(xml_user).write(filepath, "UTF-8", True)
-        ET.dump(xml_user)
+        #ET.dump(xml_user)
 
     # field_view mit den zusatzattributen wie rechner, ort usw fehlen hier noch
     return count
