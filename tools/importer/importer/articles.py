@@ -35,19 +35,22 @@ def do_import(db, base_dir):
         xml_article.set('uid', uid)
         xml_article.set('revision', vid)
 
+        # state
         state_tags = ET.SubElement(xml_article, 'state')
         xml_published = ET.SubElement(state_tags, 'published')
         xml_published.text = 'true' if a_result[8] == 1 else 'false'
 
         xml_commentable = ET.SubElement(state_tags, 'commentable')
         xml_commentable.text = 'true' if a_result[9] == 2 else 'false'
-        
+
+        # titles
         xml_titles = ET.SubElement(xml_article, 'titles')
 
         xml_title = ET.SubElement(xml_titles, 'title')
         xml_title.text = a_result[4]
         xml_title.set('type', 'MAIN')
 
+        # content
         xml_content = ET.SubElement(xml_article, 'content')
         xml_content.text = a_result[5]
         xml_content.set('type', 'WIKI')
@@ -68,13 +71,13 @@ def do_import(db, base_dir):
 
         # homepage
         cur_hp = db.cursor()
-        cur_hp.execute("select field_homepage_value from content_field_homepage where nid = %s and vid = %s" % (uid, vid))
+        cur_hp.execute("select field_homepage_value, delta from content_field_homepage where nid = %s and vid = %s" % (uid, vid))
         for l_result in cur_hp.fetchall():
 
             xml_hp = ET.SubElement(att_tags, 'attachment')
             xml_hp.text = l_result[0]
             xml_hp.set('type', 'LINK')
-            xml_hp.set('prio', '1')
+            xml_hp.set('prio', str(l_result[1]))
 
         # wine/crossover
         cur_wine = db.cursor()
