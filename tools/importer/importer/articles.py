@@ -53,6 +53,8 @@ def do_import(db, base_dir):
         xml_content.set('type', 'WIKI')
         ET.SubElement(xml_article, 'created_at').text = util.ts_to_utc(a_result[2])
 
+        att_tags = ET.SubElement(xml_article, 'attachments')
+        
         cur_tags = db.cursor()
         cur_tags.execute("select name, tid from term_data where tid in (select tid from term_node where nid = %s and vid = %s)" % (uid, vid))
 
@@ -67,12 +69,12 @@ def do_import(db, base_dir):
         # homepage
         cur_hp = db.cursor()
         cur_hp.execute("select field_homepage_value from content_field_homepage where nid = %s and vid = %s" % (uid, vid))
-        link_tags = ET.SubElement(xml_article, 'links')
         for l_result in cur_hp.fetchall():
 
-            xml_hp = ET.SubElement(link_tags, 'link')
+            xml_hp = ET.SubElement(att_tags, 'attachment')
             xml_hp.text = l_result[0]
-            xml_hp.set('type', 'WEBSITE')
+            xml_hp.set('type', 'LINK')
+            xml_hp.set('prio', '1')
 
         # wine/crossover
         cur_wine = db.cursor()
@@ -80,13 +82,13 @@ def do_import(db, base_dir):
         for w_result in cur_wine.fetchall():
             # winehq
             if w_result[0]:
-                xml_winehq = ET.SubElement(link_tags, 'link')
+                xml_winehq = ET.SubElement(att_tags, 'attachment')
                 xml_winehq.text = w_result[0]
-                xml_winehq.set('type', 'WINEHQ')
+                xml_winehq.set('group', 'WINEHQ')
 
             # crossover
             if w_result[1]:
-                xml_crossover = ET.SubElement(link_tags, 'link')
+                xml_crossover = ET.SubElement(att_tags, 'attachment')
                 xml_crossover.text = w_result[1]
                 xml_crossover.set('type', 'CROSSOVERDB')
 
@@ -144,7 +146,35 @@ def do_import(db, base_dir):
                 xml_itch = ET.SubElement(shop_tags, 'shop')
                 xml_itch.text = s_result[4]
                 xml_itch.set('type', 'ITCH')
-                
+
+        # videos
+        cur_videos = db.cursor()
+        cur_videos.execute("select field_videos_value from content_field_videos where nid = %s and vid = %s", (uid, vid))
+        for v_result in cur_videos.fetchall():
+
+            # steam
+            if v_result[0]:
+                xml_video = ET.SubElement(att_tags, 'attachment')
+                xml_video.text = s_result[0]
+                xml_video.set('type', 'YOUTUBE')
+
+        # screenshots
+        cur_ss = db.cursor()
+        cur_ss.execute("select filepath from content_field_screenshots cfs inner join files f on cfs.field_screenshots_fid = f.fid where nid = %s and vid = %s order by delta", (uid, vid))
+        for ss_result in cur_ss.fetchall():
+            xml_screenshot = ET.SubElement(att_tags, 'attachment')
+            xml_screenshot.text = ss_result[0]
+            xml_screenshot.set('type', 'IMAGE')
+
+        # file attachments
+        cur_fa = db.cursor()
+        cur_fa.execute("select filepath from content_field_attachments cfs inner join files f on cfs.field_attachments_fid = f.fid where nid = %s and vid = %s order by delta", (uid, vid))
+        for fa_result in cur_fa.fetchall():
+            xml_fa = ET.SubElement(att_tags, 'attachment')
+            xml_fa.text = fa_result[0]
+            xml_fa.set('type', 'FILE')
+            
+            
         ET.ElementTree(xml_article).write(filepath, "UTF-8", True)
         #ET.dump(xml_article)
 
