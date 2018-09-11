@@ -54,21 +54,19 @@ public class MultipleHttpSecurityConfig {
         return authProvider;
     }
     
-    @Bean
-    public AuthenticationProvider holarseApiAuthenticationProvider() {
-        AuthenticationProvider authProvider = new HolarseApiAuthenticationProvider();
-        return authProvider;
-    }    
-
     //
     // REST
     //
     @Configuration
     @Order(1)
-    public static class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
+    public class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
 
         Logger log = LoggerFactory.getLogger(ApiWebSecurityConfigurationAdapter.class);
 
+        @Override
+        public AuthenticationManager authenticationManager() {
+            return new ProviderManager(Arrays.asList(holaCms3AuthenticationProvider()));
+        }        
 
         @Override
         protected void configure(HttpSecurity http) throws Exception {
@@ -88,7 +86,7 @@ public class MultipleHttpSecurityConfig {
 
         @Override
         public AuthenticationManager authenticationManager() {
-            return new ProviderManager(Arrays.asList(holarseApiAuthenticationProvider(), drupal6AuthenticationProvider(), holaCms3AuthenticationProvider()));
+            return new ProviderManager(Arrays.asList(drupal6AuthenticationProvider(), holaCms3AuthenticationProvider()));
         }
 
         @Override
