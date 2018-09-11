@@ -1,4 +1,4 @@
-package de.holarse.auth;
+package de.holarse.auth.web;
 
 import de.holarse.backend.db.User;
 import java.util.Collection;

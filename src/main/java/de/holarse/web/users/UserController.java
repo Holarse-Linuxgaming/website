@@ -1,6 +1,6 @@
 package de.holarse.web.users;
 
-import de.holarse.auth.HolarsePrincipal;
+import de.holarse.auth.web.HolarsePrincipal;
 import de.holarse.backend.db.PasswordType;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.UserRepository;

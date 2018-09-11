@@ -1,6 +1,6 @@
 package de.holarse.web.comments;
 
-import de.holarse.auth.HolarsePrincipal;
+import de.holarse.auth.web.HolarsePrincipal;
 import de.holarse.backend.db.Comment;
 import de.holarse.backend.db.ContentType;
 import de.holarse.backend.db.NodeType;

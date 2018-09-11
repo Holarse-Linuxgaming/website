@@ -1,6 +1,6 @@
 package de.holarse.web.shortnews;
 
-import de.holarse.auth.HolarsePrincipal;
+import de.holarse.auth.web.HolarsePrincipal;
 import de.holarse.backend.db.ContentType;
 import de.holarse.backend.db.FrontPageItem;
 import de.holarse.backend.db.News;

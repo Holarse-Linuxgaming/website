@@ -1,32 +1,40 @@
 package de.holarse.config;
 
-import de.holarse.auth.HolarseApiAuthenticationProvider;
-import de.holarse.auth.HolarseUserDetailsService;
 import de.holarse.drupal.Drupal6PasswordEncoder;
+import de.holarse.rest.encoder.Sha256PasswordEncoder;
 import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
+@Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class MultipleHttpSecurityConfig {
 
     @Autowired
-    HolarseUserDetailsService userDetailsService;
+    @Qualifier("webUserDetailsService")            
+    UserDetailsService webUserDetailsService;
+    
+    @Autowired
+    @Qualifier("apiUserDetailsService")
+    UserDetailsService apiUserDetailsService;    
 
     @Bean(name = "bcryptEncoder")
     public PasswordEncoder bcryptEncoder() {
@@ -37,11 +45,16 @@ public class MultipleHttpSecurityConfig {
     public PasswordEncoder drupalEncoder() {
         return new Drupal6PasswordEncoder();
     }
+    
+    @Bean(name = "sha256Encoder")
+    public PasswordEncoder sha256Encoder() {
+        return new Sha256PasswordEncoder();
+    }    
 
     @Bean
     public DaoAuthenticationProvider drupal6AuthenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setUserDetailsService(webUserDetailsService);
         authProvider.setPasswordEncoder(drupalEncoder());
         return authProvider;
     }
@@ -49,10 +62,18 @@ public class MultipleHttpSecurityConfig {
     @Bean
     public DaoAuthenticationProvider holaCms3AuthenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setUserDetailsService(webUserDetailsService);
         authProvider.setPasswordEncoder(bcryptEncoder());
         return authProvider;
     }
+    
+    @Bean
+    public DaoAuthenticationProvider apiAuthenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(apiUserDetailsService);
+        authProvider.setPasswordEncoder(sha256Encoder());
+        return authProvider;
+    }    
     
     //
     // REST
@@ -65,7 +86,7 @@ public class MultipleHttpSecurityConfig {
 
         @Override
         public AuthenticationManager authenticationManager() {
-            return new ProviderManager(Arrays.asList(holaCms3AuthenticationProvider()));
+            return new ProviderManager(Arrays.asList(apiAuthenticationProvider()));
         }        
 
         @Override
@@ -80,6 +101,7 @@ public class MultipleHttpSecurityConfig {
     // HTTP-FORM
     //
     @Configuration
+    @Order(2)
     public class FormLoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
         Logger log = LoggerFactory.getLogger(FormLoginWebSecurityConfigurerAdapter.class);

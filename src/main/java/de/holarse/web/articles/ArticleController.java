@@ -1,6 +1,6 @@
 package de.holarse.web.articles;
 
-import de.holarse.auth.HolarsePrincipal;
+import de.holarse.auth.web.HolarsePrincipal;
 import de.holarse.backend.db.Article;
 import de.holarse.backend.db.Attachment;
 import de.holarse.backend.db.AttachmentType;

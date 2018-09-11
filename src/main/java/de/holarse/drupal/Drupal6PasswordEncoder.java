@@ -12,7 +12,7 @@ public class Drupal6PasswordEncoder implements PasswordEncoder {
 
     @Override
     public boolean matches(final CharSequence rawPassword, final String encodedPassword) {
-        return encodedPassword.equals(DigestUtils.md5Hex(rawPassword.toString()));
+        return encodedPassword.equalsIgnoreCase(DigestUtils.md5Hex(rawPassword.toString()));
     }
     
 }

@@ -70,7 +70,6 @@ insert into roles (id, code, clearancelevel) values (nextval('hibernate_sequence
 insert into roles (id, code, clearancelevel) values (nextval('hibernate_sequence'), 'MODERATOR', 100);
 insert into roles (id, code, clearancelevel) values (nextval('hibernate_sequence'), 'REPORTER', 250);
 insert into roles (id, code, clearancelevel) values (nextval('hibernate_sequence'), 'TRUSTED_USER', 500);
-insert into roles (id, code, clearancelevel) values (nextval('hibernate_sequence'), 'API', 0);
 
 insert into taggroups(id, name) values (nextval('hibernate_sequence'), 'LICENSE');
 insert into taggroups(id, name) values (nextval('hibernate_sequence'), 'GENRE');
@@ -91,4 +90,8 @@ create table "public".attachments
 	uri VARCHAR(4096),
 	uritype VARCHAR(255),
         nodeid bigint
-)
+);
+
+create extension pgcrypto;
+
+insert into apiusers (id, login, rolename, token) values (nextval('hibernate_sequence'), 'dummy', 'API_INTERNAL', 'ADDB0F5E7826C857D7376D1BD9BC33C0C544790A2EAC96144A8AF22B1298C940'); -- geheim
