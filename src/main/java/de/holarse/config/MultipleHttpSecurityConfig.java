@@ -1,7 +1,7 @@
 package de.holarse.config;
 
 import de.holarse.drupal.Drupal6PasswordEncoder;
-import de.holarse.rest.encoder.Sha256PasswordEncoder;
+import de.holarse.rest.encoder.NonePasswordEncoder;
 import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,9 +46,9 @@ public class MultipleHttpSecurityConfig {
         return new Drupal6PasswordEncoder();
     }
     
-    @Bean(name = "sha256Encoder")
-    public PasswordEncoder sha256Encoder() {
-        return new Sha256PasswordEncoder();
+    @Bean(name = "noneEncoder")
+    public PasswordEncoder noneEncoder() {
+        return new NonePasswordEncoder();
     }    
 
     @Bean
@@ -71,7 +71,7 @@ public class MultipleHttpSecurityConfig {
     public DaoAuthenticationProvider apiAuthenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(apiUserDetailsService);
-        authProvider.setPasswordEncoder(sha256Encoder());
+        authProvider.setPasswordEncoder(noneEncoder());
         return authProvider;
     }    
     
@@ -79,7 +79,7 @@ public class MultipleHttpSecurityConfig {
     // REST
     //
     @Configuration
-    @Order(1)
+    @Order(3)
     public class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
 
         Logger log = LoggerFactory.getLogger(ApiWebSecurityConfigurationAdapter.class);
@@ -96,12 +96,49 @@ public class MultipleHttpSecurityConfig {
         }
 
     }
+    
+    //
+    // Admin
+    //
+    @Configuration
+    @Order(2)
+    public class AdminSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
+
+        Logger log = LoggerFactory.getLogger(AdminSecurityConfigurationAdapter.class);
+
+        @Override
+        public AuthenticationManager authenticationManager() {
+            return new ProviderManager(Arrays.asList(holaCms3AuthenticationProvider()));
+        }        
+
+        @Override
+        public void configure(org.springframework.security.config.annotation.web.builders.WebSecurity web) throws Exception {
+            web.ignoring().antMatchers("/assets/**", "/favicon.ico", "/sitemap.xml");
+        }        
+        
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            // WEB (Admin)
+            http.csrf()
+                    .and().authorizeRequests()
+                    .antMatchers("/admin/**").hasRole("ADMIN")
+                    .anyRequest().authenticated()
+                    .and()
+                    .formLogin()
+                    .usernameParameter("login")
+                    .successHandler(new SavedRequestAwareAuthenticationSuccessHandler())
+                    .loginPage("/login")
+                    .permitAll().and()
+                    .logout().permitAll();
+        }
+
+    }    
 
     //
     // HTTP-FORM
     //
     @Configuration
-    @Order(2)
+    @Order(1)
     public class FormLoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
         Logger log = LoggerFactory.getLogger(FormLoginWebSecurityConfigurerAdapter.class);
@@ -113,19 +150,17 @@ public class MultipleHttpSecurityConfig {
 
         @Override
         public void configure(org.springframework.security.config.annotation.web.builders.WebSecurity web) throws Exception {
-            web.ignoring().antMatchers("/assets/**").antMatchers("/favicon.ico");
+            web.ignoring().antMatchers("/assets/**", "/favicon.ico", "/sitemap.xml");
         }
 
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             // WEB
-            http.csrf().ignoringAntMatchers("/admin/imports/articles/")
+            http.csrf()
                     .and().authorizeRequests()
-                    .antMatchers("/sitemap.xml").permitAll()
                     .antMatchers("/tags/**", "/category/stichworte/**").permitAll()
                     .antMatchers("/search/**").permitAll()
                     .antMatchers("/login", "/register", "/verify").hasRole("ANONYMOUS")
-                    .antMatchers("/admin/**").hasRole("ADMIN")
                     .antMatchers("/news/*", "/shortnews/", "/finder/", "/categories/*", "/wiki/*", "/articles/*", "/attachments/*").permitAll()
                     .antMatchers(HttpMethod.GET, "/users/*").permitAll()
                     .antMatchers(HttpMethod.GET, "/users/*/*").hasRole("USER")
@@ -135,7 +170,6 @@ public class MultipleHttpSecurityConfig {
                     .antMatchers("/").permitAll()
                     .antMatchers("/**").hasRole("USER")
                     .antMatchers(HttpMethod.POST, "/logout").hasRole("USER")
-                    .antMatchers("/admin/**").hasRole("ADMIN")
                     .anyRequest().authenticated()
                     .and()
                     .formLogin()
