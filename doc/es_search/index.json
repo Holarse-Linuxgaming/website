@@ -42,8 +42,8 @@ PUT /news
         "category":               { "type": "keyword" },
         "content":                { "type": "text" },
         "comments":               { "type": "text" },
-        "searchable":             { "type": "boolean" },
-        "url":                    { "type": "text", "index": false }
+        "url":                    { "type": "text", "index": false },                
+        "searchable":             { "type": "boolean" }
       }
     }
   }
@@ -57,6 +57,18 @@ PUT /tags
         "taggroup":               { "type": "keyword"  }, 
         "tags":                   { "type": "keyword"  }
       }
+    }
+  }
+}
+
+-- query
+    
+    GET articles,news/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "hallo mars",
+      "fields": ["title^10", "subtitles^7", "alternativeTitles^7", "tags", "content^5"]
     }
   }
 }

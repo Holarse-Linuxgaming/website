@@ -1,7 +1,9 @@
 package de.holarse.backend.db;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OrderBy;
@@ -9,6 +11,8 @@ import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import org.apache.commons.lang3.StringUtils;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.common.xcontent.XContentFactory;
 
 @Table(name="articles")
 @Entity
@@ -119,6 +123,22 @@ public class Article extends BranchableNode implements Frontpagable, Searchable 
     
     @Override
     public String getType() {
-        return getClass().getSimpleName();
+        return "articles";
+    }
+    
+    @Override
+    public XContentBuilder toJson() throws IOException {
+        final XContentBuilder builder = XContentFactory.jsonBuilder();
+        builder.startObject()
+                .field("title", getTitle())
+                .field("alternativeTitles", getAlternativeTitles().toArray(new String[getAlternativeTitles().size()]))
+                .field("tags", getTags().stream().map(t -> t.getName()).collect(Collectors.toSet()).toArray(new String[getTags().size()]))
+                .field("content", getContent())
+                .field("url", getUrl())
+                .field("comments", getComments().stream().map(c -> c.getContent()).collect(Collectors.toList()).toArray())
+                .field("searchable", !getDeleted() && !getDraft() && !getArchived() && getPublished() )
+        .endObject();        
+        
+        return builder;
     }
 }

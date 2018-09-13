@@ -25,7 +25,6 @@ import org.elasticsearch.search.sort.ScoreSortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -46,9 +45,17 @@ public class EsSearchEngine implements SearchEngine {
 
         final List<SearchResult> results = new ArrayList<>();
 
-        final SearchRequest searchRequest = new SearchRequest("documents");
+        final SearchRequest searchRequest = new SearchRequest("articles", "news");
         final SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
-        sourceBuilder.query(QueryBuilders.multiMatchQuery(query, "title", "alternativeTitles", "tags", "content", "comments").type(MultiMatchQueryBuilder.Type.BEST_FIELDS));
+        sourceBuilder.query(
+                QueryBuilders.multiMatchQuery(query)
+                        .field("title", 10.0f)
+                        .field("subtitles", 7.0f)
+                        .field("alternativeTitles", 7.0f)
+                        .field("tags", 15.0f)
+                        .field("content")
+                        .field("comments", 1.0f)
+                        .type(MultiMatchQueryBuilder.Type.BEST_FIELDS));
         sourceBuilder.sort(new ScoreSortBuilder().order(SortOrder.DESC));
         searchRequest.source(sourceBuilder);
 
@@ -65,20 +72,11 @@ public class EsSearchEngine implements SearchEngine {
     }
 
     protected UpdateRequest createUpdateRequest(final Searchable searchable) throws IOException {
-        final XContentBuilder builder = XContentFactory.jsonBuilder();
-        builder.startObject()
-                .field("title", searchable.getTitle())
-                .field("alternativeTitles", searchable.getAlternativeTitles().toArray(new String[searchable.getAlternativeTitles().size()]))
-                .field("tags", searchable.getTags().stream().map(t -> t.getName()).collect(Collectors.toSet()).toArray(new String[searchable.getTags().size()]))
-                .field("content", searchable.getContent())
-                .field("url", searchable.getUrl())
-                .field("type", searchable.getType())
-                .field("comments", searchable.getComments().stream().map(c -> c.getContent()).collect(Collectors.toList()).toArray())
-        .endObject();
+        final XContentBuilder builder = searchable.toJson();
 
         logger.debug("UPDATE: {}", builder.string());
         
-        final UpdateRequest updateReq = new UpdateRequest("documents", "docs", searchable.getId().toString())
+        final UpdateRequest updateReq = new UpdateRequest(searchable.getType(), "docs", searchable.getId().toString())
                                             .doc(builder)
                                             .docAsUpsert(true);
         

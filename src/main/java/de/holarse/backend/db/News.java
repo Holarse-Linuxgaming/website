@@ -1,12 +1,16 @@
 package de.holarse.backend.db;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.persistence.Entity;
 import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import org.apache.commons.lang3.StringUtils;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.common.xcontent.XContentFactory;
 
 @Table(name = "news")
 @Entity
@@ -106,7 +110,23 @@ public class News extends BranchableNode implements Frontpagable, Searchable {
     
     @Override
     public String getType() {
-        return getClass().getSimpleName();
+        return "news";
     }
+    
+    @Override
+    public XContentBuilder toJson() throws IOException {
+        final XContentBuilder builder = XContentFactory.jsonBuilder();
+        builder.startObject()
+                .field("title", getTitle())
+                .field("subtitle", getSubtitle())
+                .field("content", getContent())
+                .field("url", getUrl())
+                .field("category", getCategory() != null ? getCategory().toString() : "")
+                .field("comments", getComments().stream().map(c -> c.getContent()).collect(Collectors.toList()).toArray())
+                .field("searchable", !getDeleted() && !getDraft() && !getArchived() && getPublished() )
+        .endObject();        
+        
+        return builder;
+    }    
     
 }
