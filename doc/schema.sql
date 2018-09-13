@@ -77,6 +77,8 @@ insert into taggroups(id, name) values (nextval('hibernate_sequence'), 'MULTIPLA
 insert into taggroups(id, name) values (nextval('hibernate_sequence'), 'STORE');
 insert into taggroups(id, name) values (nextval('hibernate_sequence'), 'FRANCHISE');
 insert into taggroups(id, name) values (nextval('hibernate_sequence'), 'COMPANY');
+insert into taggroups(id, name) values (nextval('hibernate_sequence'), 'DEVELOPER');
+insert into taggroups(id, name) values (nextval('hibernate_sequence'), 'PUBLISHER');
 
 create table "public".attachments
 (

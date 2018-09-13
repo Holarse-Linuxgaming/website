@@ -79,7 +79,7 @@ public class MultipleHttpSecurityConfig {
     // REST
     //
     @Configuration
-    @Order(3)
+    @Order(1)
     public class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
 
         Logger log = LoggerFactory.getLogger(ApiWebSecurityConfigurationAdapter.class);
@@ -98,47 +98,10 @@ public class MultipleHttpSecurityConfig {
     }
     
     //
-    // Admin
-    //
-    @Configuration
-    @Order(2)
-    public class AdminSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
-
-        Logger log = LoggerFactory.getLogger(AdminSecurityConfigurationAdapter.class);
-
-        @Override
-        public AuthenticationManager authenticationManager() {
-            return new ProviderManager(Arrays.asList(holaCms3AuthenticationProvider()));
-        }        
-
-        @Override
-        public void configure(org.springframework.security.config.annotation.web.builders.WebSecurity web) throws Exception {
-            web.ignoring().antMatchers("/assets/**", "/favicon.ico", "/sitemap.xml");
-        }        
-        
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            // WEB (Admin)
-            http.csrf()
-                    .and().authorizeRequests()
-                    .antMatchers("/admin/**").hasRole("ADMIN")
-                    .anyRequest().authenticated()
-                    .and()
-                    .formLogin()
-                    .usernameParameter("login")
-                    .successHandler(new SavedRequestAwareAuthenticationSuccessHandler())
-                    .loginPage("/login")
-                    .permitAll().and()
-                    .logout().permitAll();
-        }
-
-    }    
-
-    //
     // HTTP-FORM
     //
     @Configuration
-    @Order(1)
+    @Order(2)
     public class FormLoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
         Logger log = LoggerFactory.getLogger(FormLoginWebSecurityConfigurerAdapter.class);
@@ -167,6 +130,7 @@ public class MultipleHttpSecurityConfig {
                     .antMatchers(HttpMethod.GET, "/articles/new", "/wiki/new").hasRole("USER")
                     .antMatchers(HttpMethod.GET, "/articles/*/edit", "/wiki/*/edit", "/shortnews/*/edit/").hasRole("USER")
                     .antMatchers(HttpMethod.POST, "/articles/*", "/wiki/*", "/news/*", "/shortnews/*").hasRole("USER")
+                    .antMatchers("/admin/**").hasRole("ADMIN")
                     .antMatchers("/").permitAll()
                     .antMatchers("/**").hasRole("USER")
                     .antMatchers(HttpMethod.POST, "/logout").hasRole("USER")
