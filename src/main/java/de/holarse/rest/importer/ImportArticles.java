@@ -1,4 +1,4 @@
-package de.holarse.rest;
+package de.holarse.rest.importer;
 
 import de.holarse.backend.db.repositories.ArticleRepository;
 import java.util.ArrayList;
