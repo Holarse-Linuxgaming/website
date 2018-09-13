@@ -9,8 +9,9 @@
                 <c:forEach items="${tagGroup.tags}" var="tag">
                 <li class="list-group-item list-group-item-action">
                     <spring:url value="/finder/" var="p">
-                            <spring:param name="tag" value="${tag.name}" />
+                        <spring:param name="tag" value="${tag.name}" />
                         <spring:param name="tags" value="${taglist}" />
+                        <spring:param name="q" value="${q}" />
                     </spring:url>
                         <a href="${p}">${tag.name}</a>
                 </li>
@@ -25,6 +26,7 @@
                     <spring:url value="/finder/" var="p">
                         <spring:param name="tag" value="${freeTag.name}" />
                         <spring:param name="tags" value="${taglist}" />                        
+                        <spring:param name="q" value="${q}" />
                     </spring:url>                  
                     <a href="${p}">${freeTag.name}</a>
                 </li>
@@ -39,12 +41,17 @@
                     <spring:url value="/finder/" var="p">
                         <spring:param name="tag" value="${tag.name}" />
                         <spring:param name="tags" value="${taglist}" />                        
+                        <spring:param name="q" value="${q}" />                          
                     </spring:url>                      
                     <a href="${p}">${tag.name}</a>
                 </li>
                 </c:forEach>
         </ul>
 
+        <p>
+            Query: ${q}
+        </p>
+        
         <%@include file="/WEB-INF/jspf/nodes/nodelist.jspf" %>
 
     </div>

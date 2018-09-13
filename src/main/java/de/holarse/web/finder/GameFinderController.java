@@ -1,10 +1,12 @@
 package de.holarse.web.finder;
 
 import de.holarse.backend.db.Article;
+import de.holarse.backend.db.Tag;
 import de.holarse.backend.db.TagGroup;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.TagGroupRepository;
 import de.holarse.backend.db.repositories.TagRepository;
+import de.holarse.search.SearchEngine;
 import de.holarse.services.TagService;
 import java.util.HashSet;
 import java.util.List;
@@ -38,10 +40,13 @@ public class GameFinderController {
     
     @Autowired TagService tagService;
     
+    @Autowired SearchEngine searchEngine;
+    
     @Transactional
     @GetMapping
     public ModelAndView index(@RequestParam(value = "tags", required = false) final List<String> tags, 
                         @RequestParam(value = "tag",  required = false) final String newTag, 
+                        @RequestParam(value = "q", required = false) final String q,
                         final Model map) {
         // Taggroups laden und lazy Tags holen
         final List<TagGroup> tagGroups = tagGroupRepository.findSortedTagGroups();
@@ -75,18 +80,23 @@ public class GameFinderController {
         }
         
         final String taglist = tagService.createTagList(chosenTags);
+        final List<Tag> validatedTags = chosenTags.stream().map(ct -> tagRepository.findByNameIgnoreCase(ct)).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList());
         
         // Neues Tag hinzufügen und Seite neuladen
         if (redirectAfterNewTag) {
-            return new ModelAndView(new RedirectView("/finder/?tags=" + taglist, false, false, false));
+            return new ModelAndView(new RedirectView("/finder/?tags=" + taglist + "&q=" + (q == null ? "" : q), false, false, false));
         }
         
         // Ergebnisse anzeigen
-        final List<Article> articles = articleRepository.findByTags(chosenTags, chosenTags.size());
+        final List<Article> articles = searchEngine.searchByTags(validatedTags, q).stream()
+                .map(result -> articleRepository.findById(result.getId()))
+                .filter(Optional::isPresent).map(Optional::get)
+                .collect(Collectors.toList());
         articles.forEach(a -> Hibernate.initialize(a.getTags()));
         map.addAttribute("nodes", articles);
-        map.addAttribute("tags", chosenTags.stream().map(ct -> tagRepository.findByNameIgnoreCase(ct)).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList()));
+        map.addAttribute("tags", validatedTags);
         map.addAttribute("taglist", taglist);
+        map.addAttribute("q", q);
         
         return new ModelAndView("finder/index");
     }

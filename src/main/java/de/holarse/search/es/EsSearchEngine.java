@@ -1,13 +1,16 @@
 package de.holarse.search.es;
 
 import de.holarse.backend.db.Searchable;
+import de.holarse.backend.db.Tag;
 import de.holarse.backend.db.TagGroup;
 import de.holarse.search.SearchEngine;
 import de.holarse.search.SearchResult;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.delete.DeleteRequest;
@@ -18,7 +21,9 @@ import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MultiMatchQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.ScoreSortBuilder;
@@ -40,6 +45,53 @@ public class EsSearchEngine implements SearchEngine {
     }
 
     @Override
+    public List<SearchResult> searchByTags(final Collection<Tag> tags, final String query) {
+        logger.debug("Searching for Tags {}", tags);
+
+        final List<SearchResult> results = new ArrayList<>();
+
+        final SearchRequest searchRequest = new SearchRequest("articles");
+
+        final BoolQueryBuilder qbq = QueryBuilders.boolQuery();
+        tags.forEach(t -> qbq.must(QueryBuilders.termQuery("tags", t.getName())));
+        
+        if (StringUtils.isNotBlank(query)) {
+            qbq.must(fieldMatches(query));
+        }
+        
+        qbq.filter(QueryBuilders.termQuery("searchable", true));
+        
+        final SearchSourceBuilder sourceBuilder = new SearchSourceBuilder().query(qbq);
+        
+        sourceBuilder.sort("views", SortOrder.DESC);
+        searchRequest.source(sourceBuilder);
+
+        logger.debug("Query: {}", searchRequest.source());
+        
+        try(final RestHighLevelClient client = getNewClient()) {
+            final SearchResponse searchResponse = client.search(searchRequest);
+            searchResponse.getHits().forEach(x -> logger.debug("{}", x.getSourceAsString()));
+            searchResponse.getHits().forEach(sr -> results.add(EsSearchResultFactory.build(sr)));
+            client.close();
+        } catch (IOException ioex) {
+            logger.debug("Fehler bei Suchanfrage", ioex);
+        }
+
+        return results;        
+    }
+    
+    protected QueryBuilder fieldMatches(final String query) {
+        return QueryBuilders.multiMatchQuery(query)
+                        .field("title", 10.0f)
+                        .field("subtitles", 7.0f)
+                        .field("alternativeTitles", 7.0f)
+                        .field("tags", 15.0f)
+                        .field("content")
+                        .field("comments", 1.0f)
+                        .type(MultiMatchQueryBuilder.Type.BEST_FIELDS);        
+    }
+    
+    @Override
     public List<SearchResult> search(final String query) {
         logger.debug("Searching for {}", query);
 
@@ -48,17 +100,15 @@ public class EsSearchEngine implements SearchEngine {
         final SearchRequest searchRequest = new SearchRequest("articles", "news");
         final SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         sourceBuilder.query(
-                QueryBuilders.multiMatchQuery(query)
-                        .field("title", 10.0f)
-                        .field("subtitles", 7.0f)
-                        .field("alternativeTitles", 7.0f)
-                        .field("tags", 15.0f)
-                        .field("content")
-                        .field("comments", 1.0f)
-                        .type(MultiMatchQueryBuilder.Type.BEST_FIELDS));
+                QueryBuilders.boolQuery()
+                .must(fieldMatches(query))
+                .filter(QueryBuilders.termQuery("searchable", true))
+        );
         sourceBuilder.sort(new ScoreSortBuilder().order(SortOrder.DESC));
         searchRequest.source(sourceBuilder);
 
+        logger.debug("Query: {}", searchRequest.source());        
+        
         try(final RestHighLevelClient client = getNewClient()) {
             final SearchResponse searchResponse = client.search(searchRequest);
             searchResponse.getHits().forEach(x -> logger.debug("{}", x.getSourceAsString()));
