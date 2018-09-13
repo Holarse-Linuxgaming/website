@@ -1,6 +1,7 @@
 package de.holarse.web.finder;
 
 import de.holarse.backend.db.Article;
+import de.holarse.backend.db.TagGroup;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.TagGroupRepository;
 import de.holarse.backend.db.repositories.TagRepository;
@@ -42,9 +43,13 @@ public class GameFinderController {
     public ModelAndView index(@RequestParam(value = "tags", required = false) final List<String> tags, 
                         @RequestParam(value = "tag",  required = false) final String newTag, 
                         final Model map) {
-        map.addAttribute("licenses", tagRepository.findByTagGroup("LICENSE"));
-        map.addAttribute("genres", tagRepository.findByTagGroup("GENRE"));
-        map.addAttribute("genres", tagRepository.findByTagGroup("STORE"));        
+        // Taggroups laden und lazy Tags holen
+        final List<TagGroup> tagGroups = tagGroupRepository.findSortedTagGroups();
+        tagGroups.forEach(tg -> Hibernate.initialize(tg.getTags()));
+        map.addAttribute("tagGroups", tagGroups);
+
+        // Restliche Unstrukturierte Tags laden 
+        // TODO später noch nach Häufigkeit sortieren
         map.addAttribute("freeTags", tagRepository.findFreeTags());
         
         // Bestehende Tags einfügen
@@ -54,7 +59,7 @@ public class GameFinderController {
         }
         
         // Neuen Tag einfügen oder entfernen falls bereits vorhanden
-        boolean redirectAfterNewTag = false;        
+        boolean redirectAfterNewTag = false;      
         if (StringUtils.isNotBlank(newTag)) {
             if (chosenTags.contains(newTag)) {
                 chosenTags.remove(newTag);

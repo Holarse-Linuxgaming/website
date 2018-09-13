@@ -11,6 +11,8 @@ public class Tag extends Base {
     private String name;
     
     private Long legacyId;
+
+    private Long weight;
     
     @OneToOne
     private Tag alias;
@@ -20,6 +22,14 @@ public class Tag extends Base {
 
 
     public Tag() {
+    }
+
+    public Long getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Long weight) {
+        this.weight = weight;
     }
 
     public Tag(String name) {

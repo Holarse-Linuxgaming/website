@@ -1,7 +1,7 @@
 package de.holarse.search.es;
 
-import de.holarse.backend.db.Comment;
 import de.holarse.backend.db.Searchable;
+import de.holarse.backend.db.TagGroup;
 import de.holarse.search.SearchEngine;
 import de.holarse.search.SearchResult;
 import java.io.IOException;
@@ -25,6 +25,7 @@ import org.elasticsearch.search.sort.ScoreSortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -93,30 +94,72 @@ public class EsSearchEngine implements SearchEngine {
     }
 
     @Override
+    public void updateEverything(final Iterable<? extends Searchable> searchables, final Iterable<TagGroup> tagGroups) throws IOException {
+        update(searchables);
+        updateTags(tagGroups);
+    }
+    
+    @Override
     public void update(final Iterable<? extends Searchable> searchables) throws IOException {
-        final List<UpdateRequest> requests = new ArrayList<>(25);
+        //final List<UpdateRequest> requests = new ArrayList<>(25);
         
-        //final BulkRequest bulkRequest = new BulkRequest();
+        final BulkRequest bulkRequest = new BulkRequest();
         
         for (final Searchable s: searchables) {
-            logger.info("Adding {} to bluk updates", s.getTitle());
-            //bulkRequest.add(createUpdateRequest(s));
-            requests.add(createUpdateRequest(s));
+            logger.info("Adding {} to bluk updates for documents", s.getTitle());
+            bulkRequest.add(createUpdateRequest(s));
+            //requests.add(createUpdateRequest(s));
         }
         
-        //logger.info("Updating {} search items", bulkRequest.numberOfActions());
+        logger.info("Updating {} search items in document bulk", bulkRequest.numberOfActions());
 
+        if (bulkRequest.numberOfActions() <= 0) {
+            return;
+        }        
+        
         try(final RestHighLevelClient client = getNewClient()) {
-            logger.info("Executing bulk request");
-            //client.bulk(bulkRequest);
-            for(final UpdateRequest r: requests) {
-                client.update(r);
-            }
+            logger.info("Executing bulk request for documents");
+            client.bulk(bulkRequest);
         } catch (IOException ioex) {
-            logger.error("Error while executing bulk requests", ioex);
+            logger.error("Error while executing bulk requests for documents", ioex);
         } finally {
-            logger.info("Bulk done");
+            logger.info("Bulk for documents done");
         }
+    }
+
+    @Override
+    public void updateTags(final Iterable<TagGroup> tagGroups) throws IOException {
+        final BulkRequest bulkRequest = new BulkRequest();
+        for (final TagGroup tagGroup : tagGroups) {
+            logger.info("Adding {} to bluk updates for documents", tagGroup.getName());            
+            final XContentBuilder builder = XContentFactory.jsonBuilder();
+            builder.startObject()
+                    .field("tagGroup", tagGroup.getName())
+                    .field("tags", tagGroup.getTags().stream().map(t -> t.getName()).collect(Collectors.toSet()).toArray())
+            .endObject();
+
+            logger.debug("UPDATE: {}", builder.string());
+        
+            final UpdateRequest updateReq = new UpdateRequest("tags", "docs", tagGroup.getId().toString())
+                                                .doc(builder)
+                                                .docAsUpsert(true);          
+                                                
+            bulkRequest.add(updateReq);
+        }
+        
+        logger.info("Updating {} search items in tag bulk", bulkRequest.numberOfActions());        
+        if (bulkRequest.numberOfActions() <= 0) {
+            return;
+        }
+        
+        try(final RestHighLevelClient client = getNewClient()) {
+            logger.info("Executing bulk request for tags");
+            client.bulk(bulkRequest);
+        } catch (IOException ioex) {
+            logger.error("Error while executing bulk requests for tags", ioex);
+        } finally {
+            logger.info("Bulk for tags done");
+        }        
     }
 
     @Override

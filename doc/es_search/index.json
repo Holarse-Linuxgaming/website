@@ -1,32 +1,12 @@
-PUT /documents
+PUT /articles
 {
   "settings": {
     "analysis": {
-      "filter": {
-        "german_stop": {
-          "type":       "stop",
-          "stopwords":  "_german_" 
-        },
-        "german_keywords": {
-          "type":       "keyword_marker",
-          "keywords":   [] 
-        },
-        "german_stemmer": {
-          "type":       "stemmer",
-          "language":   "light_german"
+        "analyzer" : {
+                "default": {
+                    "type" : "german"
+                }
         }
-      },
-      "analyzer": {
-        "folding": {
-          "tokenizer": "standard",
-          "filter":  [ 
-            "lowercase", 
-            "german_stop",
-            "german_keywords",
-            "german_normalization",
-            "german_stemmer" ]
-        }
-      }
     }
   },
   "mappings": {
@@ -37,7 +17,45 @@ PUT /documents
         "tags":                   { "type": "keyword" },  
         "content":                { "type": "text" },
         "url":                    { "type": "text", "index": false },
-        "type":                   { "type": "text", "index": false }
+        "searchable":             { "type": "boolean" }
+      }
+    }
+  }
+}
+
+PUT /news
+{
+  "settings": {
+    "analysis": {
+        "analyzer" : {
+                "default": {
+                    "type" : "german"
+                }
+        }
+    }
+  },
+  "mappings": {
+    "docs": { 
+      "properties": { 
+        "title":                  { "type": "text"  }, 
+        "subtitle":               { "type": "text"  }, 
+        "category":               { "type": "keyword" },
+        "content":                { "type": "text" },
+        "comments":               { "type": "text" },
+        "searchable":             { "type": "boolean" },
+        "url":                    { "type": "text", "index": false }
+      }
+    }
+  }
+}
+
+PUT /tags
+{
+  "mappings": {
+    "docs": { 
+      "properties": { 
+        "taggroup":               { "type": "keyword"  }, 
+        "tags":                   { "type": "keyword"  }
       }
     }
   }
