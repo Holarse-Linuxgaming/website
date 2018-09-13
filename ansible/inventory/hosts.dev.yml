@@ -1,0 +1,6 @@
+---
+all:
+  hosts:
+    holarse-data:
+      ansible_host: 192.168.122.152
+      ansible_user: root

@@ -1,0 +1,5 @@
+---
+- hosts: holarse-data
+  roles:
+    - java
+    - elasticsearch

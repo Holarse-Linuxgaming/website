@@ -1,0 +1,34 @@
+- name: have elastico key
+  apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    state: present
+    id: "46095ACC8548582C1A2699A9D27D666CD88E42B4"
+  when: elasticsearch
+- name: have apt-transport-https
+  apt:
+    name: apt-transport-https
+  when: elasticsearch    
+- name: have elastico repository
+  apt_repository:
+    repo: deb https://artifacts.elastic.co/packages/6.x/apt stable main
+    state: present
+  when: elasticsearch    
+- name: have elasticsearch
+  apt:
+    name: elasticsearch
+  when: elasticsearch    
+- name: elastic-config
+  template:
+    src: etc/elasticsearch/elasticsearch.yml.j2
+    dest: /etc/elasticsearch/elasticsearch.yml
+  when: elasticsearch
+- name: kibana
+  apt:
+    name: kibana
+  when: kibana
+- name: kibana-config
+  template:
+    src: etc/kibana/kibana.yml.j2
+    dest: /etc/kibana/kibana.yml  
+
+    
