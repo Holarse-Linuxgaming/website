@@ -27,7 +27,7 @@ public class ImportArticles {
     public List<String> all() {
         final List<String> data = new ArrayList<>();
         ar.findAll().forEach(a -> data.add(a.getTitle()));
-        
+
         return data;
     }
     

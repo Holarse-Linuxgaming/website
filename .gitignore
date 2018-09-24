@@ -37,3 +37,9 @@ install/wildfly*
 install/payara*
 install/mysql*
 /nbproject/
+
+# code
+.classpath
+.project
+.factorypath
+holarse-website.code-workspace

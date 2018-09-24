@@ -1,0 +1,21 @@
+- name: have postgres key
+  apt_key:
+    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+- name: have postgres repo
+  apt_repository:
+    repo: deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main
+    state: present
+- name: postgres-server
+  apt:
+    name: postgresql-10
+    state: present
+- name: postgres-instance
+  systemd:
+    name: postgresql
+    state: started
+    enabled: true
+- name: psycopg2
+  apt:
+    name: python-psycopg2
+    state: present    
+
