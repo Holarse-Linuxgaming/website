@@ -17,5 +17,14 @@
 - name: psycopg2
   apt:
     name: python-psycopg2
-    state: present    
+    state: present  
+- name: postgres config
+  template: 
+    src: etc/postgresql/10/main/{{item}}.j2
+    dest: /etc/postgresql/10/main/{{item}}
+    owner: postgres
+    group: postgres  
+  with_items:
+    - postgresql.conf
+    - pg_hba.conf
 
