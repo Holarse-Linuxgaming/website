@@ -32,6 +32,7 @@ public class Reindex {
      ArticleRepository articleRepository;
 
      @GetMapping
+     @Transactional(readOnly = true)     
      public void reindexAll() throws Exception {
          reindexTags();
          reindexNodes();

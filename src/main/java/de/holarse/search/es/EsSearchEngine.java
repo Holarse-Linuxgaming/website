@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.annotation.PostConstruct;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
 import org.elasticsearch.action.bulk.BulkRequest;
@@ -30,17 +31,26 @@ import org.elasticsearch.search.sort.ScoreSortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class EsSearchEngine implements SearchEngine {
 
     Logger logger = LoggerFactory.getLogger(EsSearchEngine.class);
+    
+    @Value("${es.host}")
+    private String esHost;
 
-    private final static HttpHost HTTP_HOST = new HttpHost("localhost", 9200, "http");
-
-    protected RestHighLevelClient getNewClient() {
-        logger.info("Getting new ES connection");
+    private static HttpHost HTTP_HOST;
+    
+    @PostConstruct
+    public void initEsHost() {
+        HTTP_HOST = new HttpHost(esHost, 9200, "http");        
+    }
+    
+    protected RestHighLevelClient getNewClient() {        
+        logger.info("Getting new ES connection to " + HTTP_HOST.toURI());
         return new RestHighLevelClient(RestClient.builder(HTTP_HOST));
     }
 

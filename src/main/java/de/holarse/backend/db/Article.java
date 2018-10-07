@@ -137,6 +137,7 @@ public class Article extends BranchableNode implements Frontpagable, Searchable 
                 .field("url", getUrl())
                 .field("comments", getComments().stream().map(c -> c.getContent()).collect(Collectors.toList()).toArray())
                 .field("searchable", !getDeleted() && !getDraft() && !getArchived() && getPublished() )
+                .field("views", 0)
         .endObject();        
         
         return builder;

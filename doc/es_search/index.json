@@ -17,7 +17,8 @@ PUT /articles
         "tags":                   { "type": "keyword" },  
         "content":                { "type": "text" },
         "url":                    { "type": "text", "index": false },
-        "searchable":             { "type": "boolean" }
+        "searchable":             { "type": "boolean" },
+        "views":                  { "type": "integer" }
       }
     }
   }
