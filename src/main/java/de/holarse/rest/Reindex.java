@@ -9,6 +9,8 @@ import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/reindex")
+@Secured("ROLE_API_INDEX")
 public class Reindex {
      Logger log = LoggerFactory.getLogger(Reindex.class);
      
@@ -27,7 +30,7 @@ public class Reindex {
      
      @Autowired
      ArticleRepository articleRepository;
-     
+
      @GetMapping
      public void reindexAll() throws Exception {
          reindexTags();

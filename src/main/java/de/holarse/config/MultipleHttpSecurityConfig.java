@@ -25,7 +25,7 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class MultipleHttpSecurityConfig {
 
     @Autowired
