@@ -1,6 +1,7 @@
 package de.holarse.web.comments;
 
 import de.holarse.auth.web.HolarsePrincipal;
+import de.holarse.backend.db.Article;
 import de.holarse.backend.db.Comment;
 import de.holarse.backend.db.ContentType;
 import de.holarse.backend.db.NodeType;
@@ -10,6 +11,7 @@ import de.holarse.backend.db.repositories.CommentRepository;
 import de.holarse.backend.db.repositories.RoleRepository;
 import de.holarse.search.SearchEngine;
 import de.holarse.services.SecurityService;
+import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.Collection;
 import javax.transaction.Transactional;

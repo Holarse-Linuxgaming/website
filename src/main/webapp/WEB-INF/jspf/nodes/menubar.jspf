@@ -7,10 +7,10 @@
 
     <c:choose>
         <c:when test="${node.commentable}">
-            <a class="nav-item nav-link" href="${node.urlid}/comments/lock" title="Klicken, um Kommentierung zu sperren" rel="nofollow"><i class="fas fa-comments"></i><br />Kommentare<br />erlaubt</a>    
+            <a class="nav-item nav-link" href="${node.urlid}/lock_commenting" title="Klicken, um Kommentierung zu sperren" rel="nofollow"><i class="fas fa-comments"></i><br />Kommentare<br />erlaubt</a>    
         </c:when>
         <c:otherwise>
-        <a class="nav-item nav-link" href="${node.urlid}/comments/unlock" title="Klicken, um Kommentare zu erlauben" rel="nofollow"><i class="far fa-comments"></i><br />Kommentare<br />gesperrt</a>                        
+        <a class="nav-item nav-link" href="${node.urlid}/unlock_commenting" title="Klicken, um Kommentare zu erlauben" rel="nofollow"><i class="far fa-comments"></i><br />Kommentare<br />gesperrt</a>                        
         </c:otherwise>
     </c:choose>
 

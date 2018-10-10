@@ -8,7 +8,6 @@ import de.holarse.backend.db.Node;
 import de.holarse.backend.db.NodeLock;
 import de.holarse.backend.db.NodeType;
 import de.holarse.backend.db.Revision;
-import de.holarse.backend.db.RevisionableNode;
 import de.holarse.backend.db.Slug;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.ArticleRepository;
@@ -245,7 +244,7 @@ public class NodeService {
     }
     
     /**
-     * Prüft, ob ein Lock für diese Node vorliegt
+     * Prüft, ob eine Bearbeitungssperre für diese Node vorliegt
      * @param node
      * @param currentUser 
      */
@@ -262,6 +261,7 @@ public class NodeService {
         lockRepository.save(newLock);
     }    
     
+    // Bearbeitungssperre aufheben
     public void unlock(final Node node) {
         lockRepository.deleteByNodeId(node.getId());
     }
@@ -283,5 +283,9 @@ public class NodeService {
         
         revisionRepository.saveAndFlush(revision);        
     }
+    
+    public boolean isEditable(final Node node) {
+        return (node != null && !node.getArchived() && !node.getDeleted() && !node.getLocked());
+    }    
    
 }
