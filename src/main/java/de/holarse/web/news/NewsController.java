@@ -18,6 +18,7 @@ import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,6 +57,7 @@ public class NewsController {
     }
 
     // NEW
+    @Secured({"ROLE_REPORTER", "ROLE_ADMIN"})           
     @GetMapping("/new")
     public String newArticle(final Model map, final NewsCommand command) {
         map.addAttribute("newsCommand", command);
@@ -66,6 +68,7 @@ public class NewsController {
     }
 
     // CREATE
+    @Secured({"ROLE_REPORTER", "ROLE_ADMIN"})            
     @Transactional    
     @PostMapping("/")   
     public RedirectView create(@ModelAttribute final NewsCommand command, final Authentication authentication) throws Exception {
@@ -110,6 +113,7 @@ public class NewsController {
     }
 
     // EDIT
+    @Secured({"ROLE_REPORTER", "ROLE_ADMIN"})           
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable final Long id, final Model map, final NewsCommand command, final Authentication authentication) {
         final User currentUser = ((HolarsePrincipal) authentication.getPrincipal()).getUser();
@@ -135,6 +139,7 @@ public class NewsController {
     }
 
     // UPDATE
+    @Secured({"ROLE_REPORTER", "ROLE_ADMIN"})          
     @Transactional
     @PostMapping("/{id}")
     public RedirectView update(@PathVariable final Long id, final NewsCommand command, final Authentication authentication) {

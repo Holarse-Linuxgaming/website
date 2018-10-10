@@ -15,6 +15,7 @@ import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +23,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -46,6 +46,7 @@ public class ShortNewsController {
     }
 
     // NEW
+    @Secured({"ROLE_REPORTER", "ROLE_ADMIN"})             
     @GetMapping("/new")
     public String newEntry(final Model map, final ShortNewsCommand command) {
         map.addAttribute("command", command);
@@ -60,6 +61,7 @@ public class ShortNewsController {
     }
 
     // CREATE
+    @Secured({"ROLE_REPORTER", "ROLE_ADMIN"})        
     @Transactional    
     @PostMapping("/")   
     public RedirectView create(@ModelAttribute final ShortNewsCommand command, final Authentication authentication) throws Exception {
@@ -87,6 +89,7 @@ public class ShortNewsController {
     }
 
     // EDIT
+    @Secured({"ROLE_REPORTER", "ROLE_ADMIN"})      
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable final Long id, final Model map, final ShortNewsCommand command) {
         final ShortNews node = shortNewsRepository.findById(id).get();
@@ -103,6 +106,7 @@ public class ShortNewsController {
     }
 
     // UPDATE
+    @Secured({"ROLE_REPORTER", "ROLE_ADMIN"})   
     @Transactional
     @PostMapping("/{id}")
     public RedirectView update(@PathVariable final Long id, final ShortNewsCommand command, final Authentication authentication) {

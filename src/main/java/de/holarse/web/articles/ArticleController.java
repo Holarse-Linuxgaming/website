@@ -40,6 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -92,6 +93,7 @@ public class ArticleController {
     }
 
     // NEW
+    @Secured("ROLE_USER")    
     @GetMapping("/new")
     public String newArticle(final Model map, final ArticleCommand command) {
         map.addAttribute("articleCommand", command);
@@ -100,6 +102,7 @@ public class ArticleController {
     }
 
     // CREATE
+    @Secured("ROLE_USER")        
     @Transactional
     @PostMapping("/")
     public RedirectView create(@ModelAttribute final ArticleCommand command, final Authentication authentication) throws Exception {
@@ -163,6 +166,7 @@ public class ArticleController {
     }    
 
     // EDIT
+    @Secured("ROLE_USER")        
     @Transactional
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable final Long id, final Model map, final ArticleCommand command, final Authentication authentication, final RedirectAttributes redirectAttributes) {
@@ -206,6 +210,7 @@ public class ArticleController {
     }
     
     // ABORT EDIT
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})        
     @Transactional
     @GetMapping("/{id}/edit/abort")
     public String editAbort(@PathVariable final Long id, final Authentication authentication) {
@@ -218,6 +223,7 @@ public class ArticleController {
     }
 
     // UPDATE
+    @Secured("ROLE_USER")        
     @Transactional
     @PostMapping("/{id}")
     public RedirectView update(

@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -50,7 +51,8 @@ public class UserController {
         map.addAttribute("user", user);
         return "users/show";        
     }
-    
+
+    @Secured("ROLE_USER")
     @GetMapping("{login}/edit")
     public String edit(@PathVariable("login")final String login, final UserCommand command, final Authentication authentication, final ModelMap map) {
         final User user = userRepository.findByLogin(login);        
@@ -71,6 +73,7 @@ public class UserController {
         return "users/form";
     }
     
+    @Secured("ROLE_USER")    
     @PostMapping("{login}")
     public String update(@PathVariable("login")final String login, @Valid @ModelAttribute final UserCommand command, final Authentication authentication, final ModelMap map) {
         final User user = userRepository.findByLogin(login);        

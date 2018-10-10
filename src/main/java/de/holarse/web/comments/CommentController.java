@@ -12,7 +12,6 @@ import de.holarse.search.SearchEngine;
 import de.holarse.services.SecurityService;
 import java.time.OffsetDateTime;
 import java.util.Collection;
-import javax.ejb.TransactionAttribute;
 import javax.transaction.Transactional;
 import org.hibernate.Hibernate;
 import org.slf4j.Logger;
@@ -21,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -49,6 +49,7 @@ public class CommentController {
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
     
+    @Secured("ROLE_USER")    
     @PostMapping("/node/{nodeId}/comments/")
     public ResponseEntity<String> newComment(
             @PathVariable("nodeId") final Long nodeId,
@@ -72,6 +73,7 @@ public class CommentController {
         return new ResponseEntity<>("OK", HttpStatus.CREATED);
     }
 
+    @Secured({"ROLE_USER", "ROLE_MODERATOR", "ROLE_ADMIN"})    
     @PostMapping("/node/{nodeId}/comments/{commentId}/delete")    
     public ResponseEntity<String> deleteComment(@PathVariable("nodeType") final NodeType nodeType,
                                 @PathVariable("nodeId") final Long nodeId,
