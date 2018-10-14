@@ -26,7 +26,7 @@
                         <i class="fas fa-plus"></i>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/messages/new"><i class="fas fa-envelope"></i> Nachricht an uns</a>
+                        <a class="dropdown-item" href="/contact"><i class="fas fa-envelope"></i> Nachricht an uns</a>
                         <a class="dropdown-item" href="/hints/new"><i class="far fa-hand-point-right"></i> Schnellhinweis abgeben</a>
                         <s:authorize access="hasRole('USER')">
                             <div class="dropdown-divider"></div>

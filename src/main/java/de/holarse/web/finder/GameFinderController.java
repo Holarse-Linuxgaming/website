@@ -47,6 +47,7 @@ public class GameFinderController {
     public ModelAndView index(@RequestParam(value = "tags", required = false) final List<String> tags, 
                         @RequestParam(value = "tag",  required = false) final String newTag, 
                         @RequestParam(value = "q", required = false) final String q,
+                        @RequestParam(value = "i", required = false, defaultValue = "0") final int i, // Indikator für Erstsuche, wo Top-Titel
                         final Model map) {
         // Taggroups laden und lazy Tags holen
         final List<TagGroup> tagGroups = tagGroupRepository.findSortedTagGroups();

@@ -1,3 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
 <div class="row">
     <div class="col-md-4">
         <ul>
@@ -89,6 +92,14 @@
         </ul>
     </div>
     <div class="col-md-8">
+        <h2>Einträge in der Kategorie</h2>
+        <ul class="nav nav-pills">
+        <c:forEach items="${tags}" var="tag">
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">${tag.name}</a>
+            </li>
+        </c:forEach>
+        </ul>
         <%@include file="/WEB-INF/jspf/nodes/nodelist.jspf" %>
     </div>
 </div>
