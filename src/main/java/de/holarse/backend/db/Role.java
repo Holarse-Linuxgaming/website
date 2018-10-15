@@ -1,7 +1,9 @@
 package de.holarse.backend.db;
 
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -14,6 +16,17 @@ public class Role extends Base implements GrantedAuthority {
     
     @Column(nullable = false)
     private Long clearanceLevel;
+    
+    @ManyToMany()
+    private Set<User> users;
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
 
     public String getCode() {
         return code;

@@ -7,6 +7,7 @@
         <h2>Kontakt aufnehmen/News melden</h2>
     </header>
     <form:form modelAttribute="contactCommand" action="/contact/send" method="POST">
+        <form:hidden path="userId" />
         <div class="form-group row">
             <label for="name" class="col-sm-2 col-form-label">Name</label>
             <div class="col-sm-10">

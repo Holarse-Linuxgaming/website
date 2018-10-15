@@ -1,6 +1,7 @@
 package de.holarse.backend.db;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,10 +43,24 @@ public class User extends Base {
     private String signature;
     
     private String avatar;
+    
+    @ManyToMany
+    private List<Message> messages;
 
     @Transient
     private String url;
+    
+    @Transient
+    private Boolean virtual = Boolean.FALSE;
 
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
+    
     public String getUrl() {
         return url;
     }
@@ -136,6 +151,14 @@ public class User extends Base {
 
     public void setVerificationValidUntil(OffsetDateTime verificationValidUntil) {
         this.verificationValidUntil = verificationValidUntil;
+    }
+
+    public Boolean getVirtual() {
+        return virtual;
+    }
+
+    public void setVirtual(Boolean virtual) {
+        this.virtual = virtual;
     }
     
     @Override

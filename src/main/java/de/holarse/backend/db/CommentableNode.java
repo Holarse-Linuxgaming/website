@@ -38,4 +38,5 @@ public abstract class CommentableNode extends RevisionableNode {
     public void setCommentable(Boolean commentable) {
         this.commentable = commentable;
     }
+   
 }

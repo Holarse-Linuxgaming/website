@@ -1,5 +1,6 @@
 -- rollen anlegen
 insert into web.roles (id, code, clearancelevel) values (nextval('hibernate_sequence'), 'ADMIN', 0);
+insert into web.roles (id, code, clearancelevel) values (nextval('hibernate_sequence'), 'HOLARSE-CORE', 10);
 insert into web.roles (id, code, clearancelevel) values (nextval('hibernate_sequence'), 'MODERATOR', 100);
 insert into web.roles (id, code, clearancelevel) values (nextval('hibernate_sequence'), 'REPORTER', 250);
 insert into web.roles (id, code, clearancelevel) values (nextval('hibernate_sequence'), 'TRUSTED_USER', 500);
