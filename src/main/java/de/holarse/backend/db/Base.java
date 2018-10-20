@@ -7,6 +7,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+/**
+ * Die Basis-Klasse für alle Datenbank-Entitäten. Sie enthält die ID und ein
+ * Erstell- sowie Aktualisierungsdatum.
+ * @author comrad
+ */
 @MappedSuperclass
 public abstract class Base implements Serializable {
     

@@ -15,7 +15,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 @MappedSuperclass
-public abstract class Node extends Base implements LegacyImport {
+public abstract class Node extends Base implements LegacyImport, LinkableNode {
     
     /**
      * Node gelöscht
@@ -64,8 +64,6 @@ public abstract class Node extends Base implements LegacyImport {
     @OrderColumn(name = "ordering")
     @Cascade({CascadeType.SAVE_UPDATE})    
     private List<Attachment> attachments = new ArrayList<>();
-
-    public abstract String getUrl();
 
     @Override
     public Long getOldId() {

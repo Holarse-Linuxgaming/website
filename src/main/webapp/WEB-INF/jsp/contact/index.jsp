@@ -16,17 +16,10 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="email" class="col-sm-2 col-form-label">Email</label>
+            <label for="content" class="col-sm-2 col-form-label">Deine Nachricht</label>
             <div class="col-sm-10">
-                <form:input path="email" type="email" class="form-control" placeholder="Email-Adresse eingeben" />
-                <small id="emailHelp" class="form-text text-muted">Deine E-Mail-Adresse für Rückfragen (wird nicht veröffentlicht)</small>
-            </div>
-        </div>        
-        <div class="form-group row">
-            <label for="message" class="col-sm-2 col-form-label">Deine Nachricht</label>
-            <div class="col-sm-10">
-                <form:textarea rows="25" path="message" class="form-control" placeholder="Deine Nachricht an uns" />
-                <small id="messageHelp" class="form-text text-muted">Deine Nachricht an uns</small>
+                <form:textarea rows="25" path="content" class="form-control" placeholder="Deine Nachricht an uns" />
+                <small id="contentHelp" class="form-text text-muted">Deine Nachricht an uns</small>
             </div>
         </div>   
                 
