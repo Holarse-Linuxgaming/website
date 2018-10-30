@@ -7,5 +7,6 @@ package de.holarse.backend.db;
 public interface LinkableNode {
     
     String getUrl();
+    String getUrlid();
     
 }

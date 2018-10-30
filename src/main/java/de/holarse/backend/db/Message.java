@@ -63,6 +63,9 @@ public class Message extends Base implements LinkableNode, Cloneable {
     @Column(columnDefinition = "boolean default false")    
     private boolean sent;
 
+    
+    public String getUrlid() { return null; }
+    
     @Override
     public String getUrl() {
         StringBuilder sb = new StringBuilder();

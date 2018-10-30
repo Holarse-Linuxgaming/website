@@ -4,15 +4,17 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public abstract class SluggableNode extends CommentableNode {
+public abstract class SluggableNode extends CommentableNode implements Sluggable, LinkableNode {
     
     @Column(unique = true)
     private String slug;
 
+    @Override
     public String getSlug() {
         return slug;
     }
 
+    @Override
     public void setSlug(String slug) {
         this.slug = slug;
     }

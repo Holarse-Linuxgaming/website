@@ -33,7 +33,7 @@
                             <a class="dropdown-item" href="/news/new"><i class="far fa-newspaper"></i> News erstellen</a>
                             <a class="dropdown-item" href="/shortnews/new"><i class="far fa-newspaper"></i> Kurznews erstellen</a>                            
                             <a class="dropdown-item" href="/articles/new"><i class="far fa-file-alt"></i> Artikel erstellen</a>
-                            <a class="dropdown-item" href="/forums/new"><i class="far fa-comments"></i> Forenbeitrag erstellen</a>
+                            <a class="dropdown-item" href="/forum/new"><i class="far fa-comments"></i> Forenbeitrag erstellen</a>
                         </s:authorize>
                     </div>
                 </li>         
@@ -86,8 +86,11 @@
                     <a class="nav-link" href="/finder/">Spielefinder</a>
                 </li>                
                 <li class="nav-item">
-                    <a class="nav-link" href="/categories/">Kategorien</a>
+                    <a class="nav-link" href="/categories/">Spiele nach Kategorien</a>
                 </li>                                
+                <li class="nav-item">
+                    <a class="nav-link" href="/forum/">Forum</a>
+                </li>                                                
             </ul>
             <form:form class="form-inline my-2 my-lg-0" method="POST" action="/search">
                 <input class="form-control mr-sm-2" type="text" name="query" placeholder="Holarse durchsuchen" aria-label="Search" value="${query}"></input>

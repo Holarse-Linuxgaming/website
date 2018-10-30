@@ -23,6 +23,11 @@ public class ShortNews extends Node implements Frontpagable {
     public String getUrl() {
         return "/shortnews/" + getId();
     }
+    
+    @Override
+    public String getUrlid() {
+        return getUrl();
+    }
 
     public String getLink() {
         return getContent();

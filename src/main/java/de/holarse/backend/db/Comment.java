@@ -8,6 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import org.hibernate.cfg.NotYetImplementedException;
 
 @Table(name="comments")
 @Entity
@@ -29,6 +30,9 @@ public class Comment extends Node {
     public String getUrl() {
         return url;
     }
+    
+    @Override
+    public String getUrlid() { return null; }
 
     public NodeType getNodeType() {
         return nodeType;

@@ -6,7 +6,8 @@ public enum NodeType {
     NEWS("/news/"),
     SHORTNEWS("/news/"),
     VIDEO("/news/"),
-    STORY("/news/");
+    STORY("/news/"),
+    THREAD("/forum/");
     
     private final String urlPrefix;
     

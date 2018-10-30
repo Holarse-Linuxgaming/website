@@ -47,6 +47,7 @@ public class Article extends BranchableNode implements Frontpagable, Searchable 
         return tags;
     }
 
+    @Override
     public String getUrlid() {
         return urlid;
     }

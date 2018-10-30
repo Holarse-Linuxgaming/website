@@ -1,7 +1,6 @@
 package de.holarse.web.articles;
 
 import de.holarse.backend.db.ContentType;
-import java.util.List;
 
 public class ArticleCommand {
     
