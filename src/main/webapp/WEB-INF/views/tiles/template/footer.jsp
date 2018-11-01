@@ -12,17 +12,39 @@
             </div>
 
             <div class="col-md-2">
-                <h5 class="text-uppercase">Top Links</h5>
+                <h5 class="text-uppercase">Soziale Netzwerke</h5>
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Gameserver</a>
+                        <a class="nav-link" href="https://www.youtube.com/holarsegaming">
+                            <i class="fab fa-youtube"></i>
+                            YouTube
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Downloads</a>
+                        <a class="nav-link" href="https://twitter.com/holarse">
+                            <i class="fab fa-twitter"></i>
+                            Twitter
+                        </a>
+                    </li>                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://discord.io/holarse">
+                            <i class="fab fa-discord"></i>
+                            Discord
+                        </a>
                     </li>                
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Spieleabend</a>
-                    </li>                                
+                        <a class="nav-link" href="https://mastodon.social/@holarse">
+                            <i class="fab fa-mastodon"></i>
+                            Mastodon
+                        </a>
+                    </li>    
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://store.steampowered.com/curator/4317648-Holarse-Linuxgaming">
+                            <i class="fab fa-steam"></i>
+                            Steam Curator
+                        </a>
+                    </li>                        
+                    
                 </ul>
             </div>            
 
@@ -30,19 +52,27 @@
                 <h5 class="text-uppercase">Holarse</h5>
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Impressum</a>
-                    </li>
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-file-contract"></i>
+                            Impressum
+                        </a>
+                    </li>                    
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Datenschutz</a>
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-user-secret"></i>
+                            Datenschutz
+                        </a>
                     </li>                
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Über uns</a>
+                        <a class="nav-link" href="#">
+                            Über Holarse
+                        </a>
                     </li>                                
                 </ul>
             </div>
             
             <div class="col-md-2">
-                <h5 class="text-uppercase">Links</h5>
+                <h5 class="text-uppercase">Verschiedenes</h5>
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="http://www.jugendschutzprogramm.de/download"><img src="/assets/img/jusprog-age-xml-18.png"></a>

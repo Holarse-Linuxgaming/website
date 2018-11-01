@@ -9,6 +9,7 @@ public class FrontPageCommand implements Frontpagable {
     private Long id;
     private String title;
     private String teaser;
+    private String teaserImage;
     private String url;
 
     private Long nodeId;
@@ -29,7 +30,17 @@ public class FrontPageCommand implements Frontpagable {
         setNodeId(frontpagable.getNodeId());
         setTitle(frontpagable.getTitle());        
         setTeaser(frontpagable.getTeaser());
+        setTeaserImage(frontpagable.getTeaserImage());
         setUrl(frontpagable.getUrl());
+    }
+
+    @Override
+    public String getTeaserImage() {
+        return teaserImage;
+    }
+
+    public final void setTeaserImage(String teaserImage) {
+        this.teaserImage = teaserImage;
     }
     
     @Override

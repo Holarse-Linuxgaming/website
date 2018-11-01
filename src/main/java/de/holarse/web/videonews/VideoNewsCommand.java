@@ -1,20 +1,11 @@
-package de.holarse.web.shortnews;
+package de.holarse.web.videonews;
 
-public class ShortNewsCommand {
+public class VideoNewsCommand {
     
     private String title;
     private String teaser;
     private String teaserImage;
     private String link;
-    private Boolean video;
-    
-    public Boolean getVideo() {
-        return video;
-    }
-
-    public void setVideo(Boolean video) {
-        this.video = video;
-    }
     
     public String getTitle() {
         return title;

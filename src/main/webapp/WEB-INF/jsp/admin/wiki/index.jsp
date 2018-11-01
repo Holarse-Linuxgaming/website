@@ -67,15 +67,20 @@
                     <td>${node.updated}</td>
                     <td>${node.revision}</td>
                     <td colspan="2">
-                        <a href="/admin/frontpage/post/ARTICLE/${node.id}" class="btn btn-danger">
-                            <i class="fas fa-arrow-alt-circle-up"></i>
-                            Auf die Frontpage
-                        </a>
-
-                        <a href="/admin/search/reindex/${node.nodeType}/${node.id}" class="btn btn-warning">
-                            <i class="fas fa-search-plus"></i>
-                            Reindex
-                        </a>
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Aktionen
+                          </button>
+                          <div class="dropdown-menu">
+                            <a href="/admin/frontpage/post/ARTICLE/${node.id}" class="dropdown-item">
+                                <i class="fas fa-arrow-alt-circle-up"></i>Auf die Frontpage
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="/admin/search/reindex/${node.nodeType}/${node.id}" class="dropdown-item">
+                                <i class="fas fa-search-plus"></i>Reindex
+                            </a>
+                          </div>
+                        </div>                         
                     </td>                                        
                 </tr>
             </c:forEach>

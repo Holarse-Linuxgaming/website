@@ -6,7 +6,7 @@ import de.holarse.backend.db.NodeType;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.FrontPageRepository;
 import de.holarse.backend.db.repositories.NewsRepository;
-import java.time.OffsetDateTime;
+import de.holarse.exceptions.HolarseException;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -107,6 +108,14 @@ public class AdminFrontPageController {
         frontPageRepository.save(fpi);
         
         return new ModelAndView(new RedirectView("/admin/frontpage/", false, false, false));
+    }
+    
+    @GetMapping("delete/{frontPageId}")
+    public @ResponseBody String deleteFrontPage(@PathVariable final Long frontPageId) throws Exception {
+        final FrontPageItem fpi = frontPageRepository.findById(frontPageId).orElseThrow(() -> new HolarseException("Keine gültige FrontpageId"));
+        frontPageRepository.delete(fpi);
+        
+        return "OK";
     }
     
 }

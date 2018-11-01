@@ -4,8 +4,8 @@ public enum NodeType {
  
     ARTICLE("/wiki/"),
     NEWS("/news/"),
-    SHORTNEWS("/news/"),
-    VIDEO("/news/"),
+    SHORTNEWS("/shortnews/"),
+    VIDEO("/videonews/"),
     STORY("/news/"),
     THREAD("/forum/");
     

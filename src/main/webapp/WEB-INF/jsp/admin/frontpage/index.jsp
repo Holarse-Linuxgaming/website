@@ -30,7 +30,12 @@
                     <td>${item.cooldownUntil}</td>
                     <td>${item.pinned}</td>
                     <td>
-                        <a href="/admin/frontpage/post/${item.nodeType}/${item.nodeId}" class="btn btn-danger">
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Aktionen
+                          </button>
+                          <div class="dropdown-menu">
+                            <a href="/admin/frontpage/post/${item.nodeType}/${item.nodeId}" class="dropdown-item">
                             <c:choose>
                                 <c:when test="${item.repostable}">
                                     Reposten
@@ -39,7 +44,11 @@
                                     Bearbeiten
                                 </c:otherwise>
                             </c:choose>
-                        </a>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="/admin/frontpage/delete/${item.id}" class="dropdown-item">Löschen</a>
+                          </div>
+                        </div>                        
                     </td>
                 </tr>
             </c:forEach>

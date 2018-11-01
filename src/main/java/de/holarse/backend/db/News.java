@@ -20,6 +20,7 @@ public class News extends BranchableNode implements Frontpagable, Searchable {
     private String subtitle;
     private NewsCategory category;
     private String source;
+    private String teaserImage;
 
     @Transient
     private String url;
@@ -32,12 +33,17 @@ public class News extends BranchableNode implements Frontpagable, Searchable {
     
     @Transient
     private NodeType nodeType;
+
+    public void setTeaserImage(String teaserImage) {
+        this.teaserImage = teaserImage;
+    }
     
     @Override    
     public String getUrl() {
         return url;
     }    
 
+    @Override
     public String getUrlid() {
         return urlid;
     }
@@ -128,5 +134,10 @@ public class News extends BranchableNode implements Frontpagable, Searchable {
         
         return builder;
     }    
+
+    @Override
+    public String getTeaserImage() {
+        return null;
+    }
     
 }

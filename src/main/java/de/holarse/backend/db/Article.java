@@ -143,4 +143,9 @@ public class Article extends BranchableNode implements Frontpagable, Searchable 
         
         return builder;
     }
+
+    @Override
+    public String getTeaserImage() {
+        return null;
+    }
 }

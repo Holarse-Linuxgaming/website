@@ -1,4 +1,4 @@
-package de.holarse.web.shortnews;
+package de.holarse.web.videonews;
 
 import de.holarse.auth.web.HolarsePrincipal;
 import de.holarse.backend.db.ContentType;
@@ -28,8 +28,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-@RequestMapping(path = {"shortnews"})
-public class ShortNewsController {
+@RequestMapping(path = {"videonews"})
+public class VideoNewsController {
 
     Logger logger = LoggerFactory.getLogger(News.class);
 
@@ -50,7 +50,7 @@ public class ShortNewsController {
     // NEW
     @Secured({"ROLE_REPORTER", "ROLE_ADMIN"})             
     @GetMapping("/new")
-    public String newEntry(final Model map, final ShortNewsCommand command) {
+    public String newEntry(final Model map, final VideoNewsCommand command) {
         map.addAttribute("command", command);
         return "shortnews/new";
     }
@@ -66,14 +66,16 @@ public class ShortNewsController {
     @Secured({"ROLE_REPORTER", "ROLE_ADMIN"})        
     @Transactional    
     @PostMapping("/")   
-    public RedirectView create(@ModelAttribute final ShortNewsCommand command, final Authentication authentication) throws Exception {
+    public RedirectView create(@ModelAttribute final VideoNewsCommand command, final Authentication authentication) throws Exception {
         final ShortNews node = nodeService.initNode(ShortNews.class);
+
+        final YoutubeVideo video = webUtilService.parseYoutubeLink(command.getLink());
         
         // Node-Inhalt
         node.setTitle(command.getTitle());
         node.setTeaser(command.getTeaser());
-        node.setTeaserImage(command.getTeaserImage());
-        node.setLink(command.getLink()); // Proxy für Content
+        node.setTeaserImage(video.getThumbnail());
+        node.setLink(video.getYoutubeUrl()); // Proxy für Content
         node.setContentType(ContentType.PLAIN);
         node.setAuthor(((HolarsePrincipal) authentication.getPrincipal()).getUser());
 
@@ -93,13 +95,17 @@ public class ShortNewsController {
     // EDIT
     @Secured({"ROLE_REPORTER", "ROLE_ADMIN"})      
     @GetMapping("/{id}/edit")
-    public String edit(@PathVariable final Long id, final Model map, final ShortNewsCommand command) throws Exception {
+    public String edit(@PathVariable final Long id, final Model map, final VideoNewsCommand command) throws Exception {
         final ShortNews node = shortNewsRepository.findById(id).get();
         
-        command.setTitle(node.getTitle());
-        command.setTeaser(node.getTeaser());
-        command.setTeaserImage(node.getTeaserImage());
-        command.setLink(node.getLink());
+        final YoutubeVideo video = webUtilService.parseYoutubeLink(command.getLink());
+        
+        // Node-Inhalt
+        node.setTitle(command.getTitle());
+        node.setTeaser(command.getTeaser());
+        node.setTeaserImage(video.getThumbnail());
+        node.setLink(video.getYoutubeUrl()); // Proxy für Content
+        node.setContentType(ContentType.PLAIN);
 
         map.addAttribute("node", node);        
         map.addAttribute("command", command);
@@ -111,18 +117,20 @@ public class ShortNewsController {
     @Secured({"ROLE_REPORTER", "ROLE_ADMIN"})   
     @Transactional
     @PostMapping("/{id}")
-    public RedirectView update(@PathVariable final Long id, final ShortNewsCommand command, final Authentication authentication) {
+    public RedirectView update(@PathVariable final Long id, final VideoNewsCommand command, final Authentication authentication) throws Exception {
         final User currentUser = ((HolarsePrincipal) authentication.getPrincipal()).getUser();
 
         final ShortNews node = shortNewsRepository.findById(id).get();
         
         // Node-Inhalt
+        final YoutubeVideo video = webUtilService.parseYoutubeLink(command.getLink());
+        
+        // Node-Inhalt
         node.setTitle(command.getTitle());
         node.setTeaser(command.getTeaser());
-        node.setTeaserImage(command.getTeaserImage());
-        node.setLink(command.getLink()); // Proxy für Content
+        node.setTeaserImage(video.getThumbnail());
+        node.setLink(video.getYoutubeUrl()); // Proxy für Content
         node.setContentType(ContentType.PLAIN);
-        node.setVideo(command.getVideo() != null ? command.getVideo() : false);
       
         // News-Metadaten aktualisieren
         node.setAuthor(currentUser);

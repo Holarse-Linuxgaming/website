@@ -1,5 +1,6 @@
 package de.holarse.backend.db;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -10,7 +11,17 @@ public class ShortNews extends Node implements Frontpagable {
     private String title;
     private String teaser;
     private String teaserImage;
+    @Column(columnDefinition = "boolean default false")
+    private Boolean video;
 
+    public Boolean getVideo() {
+        return video;
+    }
+
+    public void setVideo(Boolean video) {
+        this.video = video;
+    }
+    
     public String getTeaserImage() {
         return teaserImage;
     }

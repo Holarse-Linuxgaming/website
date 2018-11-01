@@ -1,6 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">Foren</li>
+  </ol>
+</nav>
+
 <div class="row">
     <div class="col-md-6 p-3 mb-2 bg-dark text-white">Forum</div>
     <div class="col-md-2 p-3 mb-2 bg-dark text-white">Themen</div>

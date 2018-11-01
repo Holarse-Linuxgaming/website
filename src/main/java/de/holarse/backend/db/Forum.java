@@ -1,7 +1,6 @@
 package de.holarse.backend.db;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -92,7 +91,7 @@ public class Forum extends Base implements Sluggable, LinkableNode {
     }   
     
     @PostLoad
-    private void articlePostLoad() {
+    private void forumPostLoad() {
         this.url = "/forum/" + getSlug();
         this.urlid = "/forum/" + getId();
     }    

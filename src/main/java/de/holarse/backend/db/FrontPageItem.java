@@ -9,7 +9,7 @@ import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-@Table(name = "fpitems")
+@Table(name = "frontpage")
 @Entity
 public class FrontPageItem extends Base implements Frontpagable {
     
@@ -26,6 +26,7 @@ public class FrontPageItem extends Base implements Frontpagable {
     private String teaser;
     
     // Image
+    private String teaserImage;
     
     private String url;
     
@@ -129,4 +130,12 @@ public class FrontPageItem extends Base implements Frontpagable {
         this.nodeType = nodeType;
     }
 
+    public String getTeaserImage() {
+        return teaserImage;
+    }
+
+    public void setTeaserImage(String teaserImage) {
+        this.teaserImage = teaserImage;
+    }
+    
 }

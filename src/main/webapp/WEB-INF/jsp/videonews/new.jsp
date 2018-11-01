@@ -1,14 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-
-
 <p>
-    Hier kann eine neue Kurznews angelegt werden. Kurznews erhalten automatisch ein Frontpage-Eintrag.
+    Hier kann eine neue Videonews angelegt werden. Videonews erhalten automatisch ein Frontpage-Eintrag.
 </p>
 
 <!-- Form -->
-<form:form modelAttribute="command" action="/shortnews/" method="POST">
+<form:form modelAttribute="command" action="/shortnews/" method="POST" data-name="shortnews-form">
     <fieldset>
         <form:label path="title">Titel</form:label>
         <form:input path="title" class="form-control" placeholder="Der Titel der Kurznews"></form:input>

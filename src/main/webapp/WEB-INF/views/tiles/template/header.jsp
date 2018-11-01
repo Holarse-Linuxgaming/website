@@ -73,23 +73,71 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <a class="navbar-brand" href="/">
+        <a class="navbar-brand" href="/" title="Frontpage">
             <img src="assets/img/logo-with-text.png" height="60" />
         </a>           
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/news/">News</a>
+                    <a class="nav-link" href="/news/" title="Neuigkeiten aus der Linuxspiele-Welt">
+                        <i class="fas fa-newspaper"></i>
+                        News
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/finder/">Spielefinder</a>
+                    <a class="nav-link" href="/hot-topics/" title="Aktuelle Beiträge aus der Linuxspiele-Welt">
+                        <i class="fab fa-hotjar"></i>
+                        Aktuelle Themen
+                    </a>
+                </li>                                                
+                <li class="nav-item">
+                    <a class="nav-link" href="/finder/" title="Spiele unter Linux; Windows-Spiele unter Linux">
+                        <i class="fas fa-gamepad"></i>
+                        Spiele finden
+                    </a>
                 </li>                
                 <li class="nav-item">
-                    <a class="nav-link" href="/categories/">Spiele nach Kategorien</a>
+                    <a class="nav-link" href="/categories/" title="Spiele-Datenbank nach Genre/Kategorien sortiert">
+                        <i class="fas fa-sitemap"></i>
+                        Kategorien
+                    </a>
                 </li>                                
                 <li class="nav-item">
-                    <a class="nav-link" href="/forum/">Forum</a>
+                    <a class="nav-link" href="/dedicated-servers/" title="Server für viele Spiele">
+                        <i class="fas fa-server"></i>
+                        Dedicated Servers
+                    </a>
+                </li>                                                
+                <li class="nav-item">
+                    <a class="nav-link" href="/emulators/" title="Playstation, Game Boy, GBA, SNES, Nintendo Wii">
+                        <i class="fab fa-windows"></i>
+                        Emulationen
+                    </a>
+                </li>                                                    
+                <li class="nav-item">
+                    <a class="nav-link" href="/hardware/" title="Gaming-Mäuse, Tasaturen, Grafikkarten, NVIDIA, AMD, Intel, Vulkan">
+                        <i class="fas fa-cogs"></i>
+                        Hardware &amp; Treiber
+                    </a>
+                </li>                      
+                <li class="nav-item">
+                    <a class="nav-link" href="/tools/" title="VOIP und Server-Browser">
+                        <i class="fas fa-headset"></i>
+                        Gaming Tools
+                    </a>
+                </li>                                      
+                <li class="nav-item">
+                    <a class="nav-link" href="/downloads/" title="Updates, Patches, Demos">
+                        <i class="fas fa-cloud-download-alt"></i>
+                        Downloads
+                    </a>
+                </li>                       
+                <li class="nav-item">
+                    <a class="nav-link" href="/forum/" title="Community, Fragen und Antworten">
+                        <i class="fas fa-comments"></i>
+                        Forum
+                    </a>
                 </li>                                                
             </ul>
             <form:form class="form-inline my-2 my-lg-0" method="POST" action="/search">
