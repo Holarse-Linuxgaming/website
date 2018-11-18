@@ -1,11 +1,15 @@
 package de.holarse.services;
 
-import de.holarse.backend.db.Tag;
 import de.holarse.backend.db.repositories.TagRepository;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,5 +58,21 @@ public class TagService {
                 // Zurück zum Set
                 .collect(Collectors.toSet());
     }
+    
+    public Set<de.holarse.backend.db.Tag> commandToTags(final String tags) {
+        if (StringUtils.isBlank(tags)) {
+            return new HashSet<>();
+        }
+        return Arrays.asList(tags.split(",")).stream().map(createOrUpdateTag).collect(Collectors.toSet());
+    }
+    
+    public Set<de.holarse.backend.db.Tag> listToTags(final List<de.holarse.backend.export.Tag> tags) {
+        if (tags == null || tags.isEmpty()) {
+            return new HashSet<>();
+        }
+        return tags.stream().map(t -> t.getValue()).map(createOrUpdateTag).collect(Collectors.toSet());
+    }
+
+    protected Function<String, de.holarse.backend.db.Tag> createOrUpdateTag = s -> tagRepository.findByNameIgnoreCase(s.trim()).orElse(new de.holarse.backend.db.Tag(s));    
     
 }

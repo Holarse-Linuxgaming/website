@@ -24,6 +24,7 @@ import de.holarse.renderer.Renderer;
 import de.holarse.search.SearchEngine;
 import de.holarse.services.AttachmentRenderService;
 import de.holarse.services.NodeService;
+import de.holarse.services.TagService;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -78,6 +79,9 @@ public class ArticleController {
 
     @Autowired
     TagRepository tagRepository;
+    
+    @Autowired
+    TagService tagService;
 
     @Autowired
     NodeService nodeService;
@@ -122,7 +126,7 @@ public class ArticleController {
         article.setBranch(StringUtils.isBlank(command.getBranch()) ? "master" : command.getBranch());
 
         // Tags anlegen
-        Set<Tag> tags = commandToTags(command.getTags());
+        Set<Tag> tags = tagService.commandToTags(command.getTags());
         tagRepository.saveAll(tags);
         article.getTags().addAll(tags);
 
@@ -263,7 +267,7 @@ public class ArticleController {
         article.getTags().clear();
 
         // Tags anlegen
-        Set<Tag> tags = commandToTags(command.getTags());
+        Set<Tag> tags = tagService.commandToTags(command.getTags());
         tagRepository.saveAll(tags);
         article.getTags().addAll(tags);
 
@@ -312,15 +316,6 @@ public class ArticleController {
     protected String tagsToCommand(final Set<Tag> tags) {
         return tags.stream().map(t -> t.getName()).collect(Collectors.joining(","));
     }
-
-    protected Set<Tag> commandToTags(final String tags) {
-        if (StringUtils.isBlank(tags)) {
-            return new HashSet<>();
-        }
-        return Arrays.asList(tags.split(",")).stream().map(createOrUpdateTag).collect(Collectors.toSet());
-    }
-
-    protected Function<String, Tag> createOrUpdateTag = s -> tagRepository.findByNameIgnoreCase(s.trim()).orElse(new Tag(s));
 
     // DELETE
     

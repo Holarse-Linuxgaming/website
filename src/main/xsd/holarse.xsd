@@ -1,67 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-           xmlns:h="http://holarse.de/entity/importer/sub/"  
-           xmlns:m="http://holarse.de/entity/importer/"       
-           targetNamespace="http://holarse.de/entity/importer/" 
-           version="1.0">
-
-    <xs:import namespace="http://holarse.de/entity/importer/sub/" schemaLocation="basetypes.xsd"/>
-
-    <xs:element name="user">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="login" type="xs:string" />
-                <xs:element name="created" type="xs:dateTime" />
-                <xs:element name="signature" type="xs:string" minOccurs="0" />
-                <xs:element name="email" type="xs:string" />
-                <xs:element name="locked" type="xs:boolean" default="false" />
-                <xs:element name="avatar" type="xs:string" minOccurs="0" />
-                <xs:element name="password" type="h:password" />
-                <xs:group ref="h:roles" />                
-            </xs:sequence>
-            <xs:attribute name="uid" type="xs:long" />
-        </xs:complexType> 
-    </xs:element>
+<xs:schema elementFormDefault="qualified" 
+           targetNamespace="http://holarse.de/export/v1/" 
+           version="1.0" 
+           xmlns="http://www.w3.org/2001/XMLSchema" 
+           xmlns:h="http://holarse.de/export/v1/" 
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
     
     <xs:element name="article">
         <xs:complexType>
-            <xs:complexContent>
-                <xs:extension base="h:node">
-                    <xs:sequence>
-                        <xs:group ref="h:titles" />
-                        <xs:group ref="h:tags" />                
-                    </xs:sequence>
-                </xs:extension>
-            </xs:complexContent>
+            <xs:sequence>
+                <xs:element name="revision" type="h:revision" minOccurs="1" maxOccurs="1" />
+                <xs:element name="state" type="h:state" maxOccurs="1" />
+                <xs:element name="titles" type="h:titles" maxOccurs="1" />
+                <xs:element name="tags" type="h:tags" maxOccurs="1" />
+                <xs:element name="content" type="h:content" maxOccurs="1" />
+                <xs:element name="attachments" type="h:attachments" maxOccurs="1" />
+            </xs:sequence>
+            <xs:attribute name="uid" type="xs:long" />
         </xs:complexType>
     </xs:element>
     
-    <xs:element name="news">
-        <xs:complexType>
-            <xs:complexContent>
-                <xs:extension base="h:node">
-                    <xs:sequence>
-                        <xs:element name="title" type="xs:string" />
-                        <xs:element name="subtitle" type="xs:string" />
-                        <xs:element name="category" type="xs:string" />                        
-                        <xs:element name="source" type="xs:string" />
-                        <xs:group ref="h:newsupdates" />                         
-                    </xs:sequence>
-                </xs:extension>
-            </xs:complexContent>
-        </xs:complexType>
-    </xs:element>
+    <xs:complexType name="revision">
+        <xs:all>
+            <xs:element name="created" type="xs:dateTime" minOccurs="1" maxOccurs="1" />
+            <xs:element name="author" type="xs:string" minOccurs="1" maxOccurs="1" />
+            <xs:element name="revisionid" type="xs:long" minOccurs="1" maxOccurs="1" />
+            <xs:element name="changelog" type="xs:string" minOccurs="0" maxOccurs="1" />                
+        </xs:all>
+    </xs:complexType>
     
-    <xs:element name="comment">
-        <xs:complexType>    
-            <xs:complexContent>
-                <xs:extension base="h:node">
-                    <xs:sequence>
-                        <xs:element name="nodeid" type="xs:long" />
-                    </xs:sequence>
-                </xs:extension>
-            </xs:complexContent>
-        </xs:complexType>
-    </xs:element>    
-
-</xs:schema>          
+    <xs:complexType name="state">
+        <xs:sequence>
+            <xs:element name="locked" type="xs:boolean" />
+            <xs:element name="commentable" type="xs:boolean" />
+            <xs:element name="draft" type="xs:boolean" />
+            <xs:element name="published" type="xs:boolean" />
+            <xs:element name="deleted" type="xs:boolean" />
+            <xs:element name="archived" type="xs:boolean" />
+            <xs:element name="ftp" type="xs:boolean" />
+            <xs:element name="ftptools" type="xs:boolean" />            
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="content">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="format" type="xs:string" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    
+    <xs:complexType name="attachments">
+        <xs:sequence>
+            <xs:element name="attachment" type="h:attachment" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="attachment">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="prio" type="xs:integer" />
+                <xs:attribute name="type" type="xs:string" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    
+    <xs:complexType name="titles">
+        <xs:sequence>
+            <xs:element name="title" type="h:title" minOccurs="1" maxOccurs="3" />
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="title">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="type" type="xs:string" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>   
+    
+    <xs:complexType name="tags">
+        <xs:sequence>
+            <xs:element name="tag" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+    
+</xs:schema>

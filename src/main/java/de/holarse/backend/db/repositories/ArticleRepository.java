@@ -1,15 +1,19 @@
 package de.holarse.backend.db.repositories;
 
 import de.holarse.backend.db.Article;
-import java.util.Collection;
-import java.util.List;
-import org.springframework.data.jpa.repository.Query;
+import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 
 public interface ArticleRepository extends CrudRepository<Article, Long>, SluggableRepository<Article>  {
     
     Article findByTitle(final String title);
+    
+    /**
+     * Sucht einen Artikel anhand seiner Drupal-Id
+     * @param oldid
+     * @return 
+     */
+    Optional<Article> findByOldId(final Long oldId);
 
 //    @Query(value = "select a.* from articles a where a.id in ( " +
 //           "select a.id from articles a " +
