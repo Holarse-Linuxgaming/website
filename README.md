@@ -48,6 +48,11 @@ Der Application Server (Payara.fish) muss eine JDBC-Resource zur Verfügung stel
 
 Vor dem Deployment müssen die Kommandos in ```doc/predeploy.sql``` ausgeführt werden.
 
+Nach dem Deployment müssen einige Tabellen noch gefüllt werden. Dazu dann ```doc/schema.sql``` ausführen.
+
 ### Application Server
 Wird Payara von Netbeans aus gestartet, muss in der domain1/domain.xml die Verweise auf grizzly-npn auskommentiert werden. Damit geht http/2 verloren, das benötigt man für die Entwicklung aber
 vorerst nicht.
+
+### Login
+Zuerst einen Benutzer anlegen und diesen dann per SQL zum Admin erheben.

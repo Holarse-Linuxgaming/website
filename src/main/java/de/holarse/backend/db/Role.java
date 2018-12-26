@@ -17,7 +17,7 @@ public class Role extends Base implements GrantedAuthority {
     @Column(nullable = false)
     private Long clearanceLevel;
     
-    @ManyToMany()
+    @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 
     public Set<User> getUsers() {
