@@ -1,6 +1,6 @@
 # HolaCMS 3 (In Development)
 
-HolaCMS 3 wird die Basis für das neue HOLARSE 2018.
+HolaCMS 3 wird die Basis für die neue Holarse-Webseite.
 
 ## Export-Tool
 
@@ -33,7 +33,7 @@ Den Import der Dateien kann man über die REST-API durchführen. Beispiel:
 ## Webapp
 
 ### Anforderungen
-* Java 8 JDK
+* Java 8 JDK (Payara kann derzeit noch kein Java 11)
 * Apache Maven
 
 ### Kompilieren
@@ -44,14 +44,10 @@ Die installierbare WAR-Datei erhält man durch das Bauen mit
 im Hauptverzeichnis, wo sich auch die pom.xml befindet.
 
 ### Datenbank
-Es muss eine PostgreSQL-Datenbank auf ```localhost``` vorliegen mit dem
-Datenbanknamen ```holarse```, Benutzer ```holarse``` und Passwort ```geheim```.
+Der Application Server (Payara.fish) muss eine JDBC-Resource zur Verfügung stellen mit dem Namen jdbc/holarse. Um diese zu Erstellen wird der JDBC-Treiber 4.2 von http://jdbc.postgresql.org benötigt.
 
-### Aufrufen
-Dazu gibt es das praktische Script
+Vor dem Deployment müssen die Kommandos in ```doc/predeploy.sql``` ausgeführt werden.
 
-	./run_micro
-	
-Es lädt den Application-Server und den JDBC-Treiber herunter und startet eine Micro-Instanz. Möchte man die Webapplikation zuvor noch kompilieren startet man das Script mit
-
-        ./run_micro compile
+### Application Server
+Wird Payara von Netbeans aus gestartet, muss in der domain1/domain.xml die Verweise auf grizzly-npn auskommentiert werden. Damit geht http/2 verloren, das benötigt man für die Entwicklung aber
+vorerst nicht.

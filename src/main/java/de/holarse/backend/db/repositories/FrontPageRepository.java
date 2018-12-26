@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface FrontPageRepository extends CrudRepository<FrontPageItem, Long> {
 
-    @Query(value = "SELECT f.* from fpitems f where (f.publishfrom is null or f.publishfrom <= now()) and (f.publishuntil is null or f.publishuntil >= now()) order by publishfrom, created, id asc", 
+    @Query(value = "SELECT f.* from Frontpage f where (f.publishfrom is null or f.publishfrom <= now()) and (f.publishuntil is null or f.publishuntil >= now()) order by publishfrom, created, id asc", 
            nativeQuery = true)
     List<FrontPageItem> getFrontScreen();
     

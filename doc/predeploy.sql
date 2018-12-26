@@ -4,13 +4,15 @@
 CREATE ROLE holarse NOSUPERUSER NOCREATEDB NOCREATEROLE INHERIT LOGIN NOREPLICATION;
 
 -- sequence und reihenfolge festlegen
-create schema web authorization holarse;
-set search_path to web,public;
+--create schema web authorization holarse;
+--set search_path to web,public;
 
 -- allgemeine hibernate sequence
-create sequence hibernate_sequence;
+create sequence hibernate_sequence start with 1;
 
 -- revision sequence
-create sequence revision_sequence;
+create sequence revision_sequence start with 1000;
 
 create extension pgcrypto;
+CREATE EXTENSION unaccent;
+CREATE EXTENSION pg_trgm;
