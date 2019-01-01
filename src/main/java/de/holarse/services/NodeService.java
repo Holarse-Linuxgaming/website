@@ -160,7 +160,7 @@ public class NodeService {
     }
     
     public String findNextSlug(final String title, final NodeType nodeType) {
-        final String slug = slugify(title);
+        final String slug = WebUtils.slugify(title);
         
         // Prüfen, ob der MainSlug frei ist.
         switch (nodeType) {
@@ -193,37 +193,7 @@ public class NodeService {
         throw new IllegalStateException("Kein möglicher freier Slug gefunden");
     }
     
-    //private final String[] removeWords = new String[]{"a","an","as","at","before","but","by","for","from","is","in","into","like","of","off","on","onto","per","since","than","the","this","that","to","up","via","with"};
-    
-    public String slugify(final String title) {
-        return title.toLowerCase()
-                .replaceAll(" of ", " ")
-                .replaceAll("^of ", " ")
-                .replaceAll(" the ", " ")
-                .replaceAll("^the ", " ")
-                .replaceAll(" to ", " ")
-                .replaceAll("^to ", " ")
-                .replaceAll(" this ", " ")
-                .replaceAll("^this ", " ")                
-                .replaceAll("_", " ")  
-                .trim()
-                .replaceAll(" ", "_")
-                .replaceAll("\\[", "")
-                .replaceAll("\\]", "")
-                .replaceAll("\\{", "")
-                .replaceAll("\\}", "")                
-                .replaceAll("-", " ")
-                .replaceAll("\\.", "")
-                .replaceAll("&", "")                
-                .replaceAll("!", "")                               
-                .replaceAll(":", "")
-                .replaceAll("'", "")
-                .replaceAll("\\+", "")
-                .trim()
-                .replaceAll(" ", "_")                
-                .replaceAll("_+", "_");
-    }
-    
+   
     /**
      * Prüft, ob ein Lock für diese Node vorliegt
      * @param node

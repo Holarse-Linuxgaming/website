@@ -21,9 +21,21 @@ public class WikiRenderer implements Renderer {
     }
     
     protected Mode selectMode(char cchar, String source, int i) {
+        if ((cchar == 'h' || cchar == 'H') && PureLinkMode.isStartMarker(getForwardChars(source, i, i+4))) {
+            return new PureLinkMode();
+        }
+        
+        if (cchar == '<' && BreakMode.isStartMarker(getForwardChars(source, i, i+12))) {
+            return new BreakMode();
+        } 
+               
         if (cchar == '[' && CodeMode.isStartMarker(getForwardChars(source, i, i+6))) {
             return new CodeMode();
         }
+        
+        if (cchar == '[' && WikiLinkMode.isStartMarker(cchar)) {
+            return new WikiLinkMode();
+        }                 
 
         if (TickMode.isStartMarker(cchar)) {
             return new TickMode();
@@ -55,6 +67,8 @@ public class WikiRenderer implements Renderer {
         {
             // Aktuelles Zeichen
             char cchar = source.charAt(i);
+            
+            //System.out.println("Current Char: " + cchar + ", mode: " + currentMode);
             
             // Modus wählen, wenn aktueller keiner aktiv ist
             if (currentMode == null) {

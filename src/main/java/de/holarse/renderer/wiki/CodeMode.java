@@ -5,7 +5,6 @@ public class CodeMode implements Mode {
     private final StringBuilder buffer = new StringBuilder(30);    
     
     public static boolean isStartMarker(String sequence) {
-        System.out.println("Sequence: " + sequence);
         return "[CODE]".equalsIgnoreCase(sequence);
     }
         

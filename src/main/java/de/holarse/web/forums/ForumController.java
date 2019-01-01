@@ -8,6 +8,7 @@ import de.holarse.backend.db.repositories.ForumRepository;
 import de.holarse.backend.db.repositories.ThreadRepository;
 import de.holarse.exceptions.HolarseException;
 import de.holarse.services.NodeService;
+import de.holarse.services.WebUtils;
 import java.time.OffsetDateTime;
 import java.util.List;
 import javax.transaction.Transactional;
@@ -102,7 +103,7 @@ public class ForumController {
         
         // TODO nochmal genauer prüfen, ob das so geht, wahrscheinlich reicht der Scope innerhalb eines Forums
         thread.setTitle(command.getTitle());
-        thread.setSlug(nodeService.slugify(thread.getTitle())); 
+        thread.setSlug(WebUtils.slugify(thread.getTitle())); 
         thread.setForum(forum);
         thread.setContent(command.getContent());
         thread.setContentType(command.getContentType() != null ? command.getContentType() : ContentType.PLAIN);

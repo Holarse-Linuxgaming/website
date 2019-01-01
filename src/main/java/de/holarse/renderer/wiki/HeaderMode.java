@@ -40,7 +40,7 @@ public class HeaderMode implements Mode {
     
     @Override
     public boolean isComplete() {
-        return depth == 0 && buffer.length() > 0;
+        return depth == depthOut && buffer.length() > 0;
     }
     
     // Eventuell um Speicher zu sparen
