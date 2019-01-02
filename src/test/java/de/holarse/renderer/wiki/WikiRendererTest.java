@@ -172,20 +172,20 @@ public class WikiRendererTest {
      * LISTS
      */
     
-//    @Test    
-//    public void testList() {
-//        assertEquals("Folgende Liste: <ul><li>eins</li><li>zwei</li><li>drei</li></ul>", renderer.render("Folgende Liste: \n* eins\n* zwei\n* drei\n"));
-//    }     
+    @Test    
+    public void testList() {
+        assertEquals("<ul><li>eins</li><li>zwei</li><li>drei</li></ul>", renderer.render("* eins\n* zwei\n* drei\n\n"));
+    }     
     
 //    @Test    
 //    public void testDeeperList() {
 //        assertEquals("Folgende Liste: <ul><li>eins</li><li>zwei<ul><li>zweieinhalb</li></ul></li><li>drei</li></ul>", renderer.render("Folgende Liste: \n* eins\n* zwei\n** zweieinhalb\n* drei\n"));
 //    }      
 
-//    @Test    
-//    public void testNumericList() {
-//        assertEquals("Folgende Liste: <ol><li>eins</li><li>zwei</li><li>drei</li></ol>", renderer.render("Folgende Liste: \n# eins\n# zwei\n# drei\n"));
-//    }     
+    @Test    
+    public void testNumericList() {
+        assertEquals("<ol><li>eins</li><li>zwei</li><li>drei</li></ol>", renderer.render("# eins\n# zwei\n# drei\n\n"));
+    }     
     
 //    @Test    
 //    public void testDeeperNumericList() {

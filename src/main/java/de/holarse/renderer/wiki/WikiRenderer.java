@@ -21,6 +21,14 @@ public class WikiRenderer implements Renderer {
     }
     
     protected Mode selectMode(char cchar, String source, int i) {
+        if (cchar == '*') {
+            return new UnorderedListMode();
+        }
+        
+        if (cchar == '#') {
+            return new NumberedListMode();
+        }        
+        
         if ((cchar == 'h' || cchar == 'H') && PureLinkMode.isStartMarker(getForwardChars(source, i, i+4))) {
             return new PureLinkMode();
         }
@@ -92,8 +100,6 @@ public class WikiRenderer implements Renderer {
         if (currentMode != null) {
             buffer.append(currentMode.render());
         }
-        
-        System.out.println("buffer: " + buffer.toString());
         
         return buffer.toString();      
     }
