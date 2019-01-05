@@ -1,10 +1,13 @@
 package de.holarse.web.search;
 
 import de.holarse.search.SearchEngine;
+import de.holarse.search.SearchResult;
 import de.holarse.services.TrafficService;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
@@ -37,8 +41,15 @@ public class SearchController {
     public String searchUrl(@RequestParam("q") final String query, final Model map, final HttpServletRequest req) throws UnsupportedEncodingException {
         final String decodedQuery = URLDecoder.decode(query, "UTF-8");
         map.addAttribute("results", searchEngine.search(decodedQuery));
-        map.addAttribute("query", decodedQuery);
+        map.addAttribute("q", decodedQuery);
         return "search/result";
-    }    
+    }
     
+    @GetMapping("/search.json")
+    public @ResponseBody List<Suggestion> suggestion(@RequestParam("term") final String query)
+    {
+        return searchEngine.search(query)
+                .stream().map(r -> new Suggestion(r.getUrl(), "", r.getTitle(), r.getContent(), "Artikel"))
+                .collect(Collectors.toList());
+    }
 }
