@@ -13,29 +13,32 @@ public abstract class AbstractListMode implements Mode {
     
     @Override
     public void handle(char ch) {
-        // Neues Element weil Zeilenende
+        // Element ist zuende
         if (ch == '\n') {
-            if (buffer.length() > 0) {
+            // Wenn es bereits etwas im Puffer gibt, dann gehört das zum
+            // vorherigen Element und muss gesichert werden
+            if (buffer.toString().trim().length() > 0) {
                 elements.add(buffer.toString());
                 buffer = new StringBuilder(30);
             }
             newlines++;
+            
+            if (newlines >= 2) {
+                complete = true;
+            }
+            
             return;
         }
-        
+
+        // Element-Zeichen gefunden
         if (ch == getItemChar()) {
             // Neues Element anlegen
             buffer = new StringBuilder(30);
             newlines = 0; // Doch noch weitere Zeile
             return;
         }
-        
-        if (newlines >= 2) {
-            complete = true;
-        }
-        
+
         buffer.append(ch);
-        newlines = 0;
     }
 
     @Override

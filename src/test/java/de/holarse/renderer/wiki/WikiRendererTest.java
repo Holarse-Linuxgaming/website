@@ -190,7 +190,27 @@ public class WikiRendererTest {
 //    @Test    
 //    public void testDeeperNumericList() {
 //        assertEquals("Folgende Liste: <ol><li>eins</li><li>zwei<ul><li>zweieinhalb</li></ol></li><li>drei</li></ol>", renderer.render("Folgende Liste: \n# eins\n# zwei\n## zweieinhalb\n# drei\n"));
-//    }          
+//    }     
+    
+    @Test
+    public void testListEnding() {
+        String input = "* das\n" +
+"* ist eine\n" +
+"* liste\n" +
+"* mit punkten\n" +
+"\n" +
+"\n" +
+"nun folgt etwas text:\n" +
+"\n" +
+"# eins\n" +
+"# zwei\n" +
+"#drei\n" +
+"# vier\n";
+        
+        String expected = "<ul><li>das</li><li>ist eine</li><li>liste</li><li>mit punkten</li></ul><br />nun folgt etwas text:<br /><br /><ol><li>eins</li><li>zwei</li><li>drei</li><li>vier</li></ol>";
+        
+        assertEquals(expected, renderer.render(input));
+    }
     
     /**
      * TEXT MODIFICATION
