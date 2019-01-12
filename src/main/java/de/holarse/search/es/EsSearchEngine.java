@@ -134,7 +134,7 @@ public class EsSearchEngine implements SearchEngine {
     protected UpdateRequest createUpdateRequest(final Searchable searchable) throws IOException {
         final XContentBuilder builder = searchable.toJson();
 
-        logger.debug("UPDATE: {}", builder.string());
+        logger.debug("UPDATE: {}", builder.toString());
         
         final UpdateRequest updateReq = new UpdateRequest(searchable.getType(), "docs", searchable.getId().toString())
                                             .doc(builder)
@@ -196,7 +196,7 @@ public class EsSearchEngine implements SearchEngine {
                     .field("tags", tagGroup.getTags().stream().map(t -> t.getName()).collect(Collectors.toSet()).toArray())
             .endObject();
 
-            logger.debug("UPDATE: {}", builder.string());
+            logger.debug("UPDATE: {}", builder.toString());
         
             final UpdateRequest updateReq = new UpdateRequest("tags", "docs", tagGroup.getId().toString())
                                                 .doc(builder)

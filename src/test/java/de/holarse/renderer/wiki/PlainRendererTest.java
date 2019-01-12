@@ -1,30 +1,31 @@
 package de.holarse.renderer.wiki;
 
 import de.holarse.renderer.Renderer;
+import de.holarse.renderer.plain.PlainRenderer;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 
-public class WikiRendererTest {
+public class PlainRendererTest {
 
     private Renderer renderer;
 
     @Before
     public void setUp() {
-        renderer = new WikiRenderer();
+        renderer = new PlainRenderer();
     }
 
-    @Test
+    //@Test
     public void testRendererOnNull() {
         assertEquals("", renderer.render(null));
     }
 
-    @Test
+    //@Test
     public void testRendererOnEmpty() {
         assertEquals("", renderer.render(""));
     }
 
-    @Test
+    //@Test
     public void testRendererOnBlank() {
         assertEquals("", renderer.render("           "));
     }
@@ -33,53 +34,53 @@ public class WikiRendererTest {
      * HEADER
      */
     
-    @Test
+    //@Test
     public void testHeader2() {
-        assertEquals("<h2>Test</h2>", renderer.render("== Test =="));
+        assertEquals("Test<br />", renderer.render("== Test =="));
     }
 
-    @Test    
+    //@Test    
     public void testHeader3() {
-        assertEquals("<h3>Test</h3>", renderer.render("=== Test ==="));
+        assertEquals("Test<br />", renderer.render("=== Test ==="));
     }
     
-    @Test    
+    //@Test    
     public void testHeader3WithText() {
-        assertEquals("<h3>Das Spiel</h3><br />CodeRED - Alien Arena ist ein kostenloser", renderer.render("===Das Spiel===\nCodeRED - Alien Arena ist ein kostenloser"));
+        assertEquals("Das Spiel<br />CodeRED - Alien Arena ist ein kostenloser", renderer.render("===Das Spiel===\nCodeRED - Alien Arena ist ein kostenloser"));
     }    
 
-    @Test    
+    //@Test    
     public void testHeader4() {
-        assertEquals("<h4>Test</h4>", renderer.render("==== Test ===="));
+        assertEquals("Test<br />", renderer.render("==== Test ===="));
     }
 
-    @Test    
+    //@Test    
     public void testHeader5() {
-        assertEquals("<h5>Test</h5>", renderer.render("===== Test ====="));
+        assertEquals("Test<br />", renderer.render("===== Test ====="));
     }
     
-    @Test
+    //@Test
     public void testHeader2Trimmed() {
-        assertEquals("<h2>Test</h2>", renderer.render("==Test=="));
+        assertEquals("Test<br />", renderer.render("==Test=="));
     }
 
-    @Test    
+    //@Test    
     public void testHeader3Trimmed() {
         assertEquals("<h3>Test</h3>", renderer.render("===Test==="));
     }
 
-    @Test    
+    //@Test    
     public void testHeader4Trimmed() {
-        assertEquals("<h4>Test</h4>", renderer.render("====Test===="));
+        assertEquals("Test<br />", renderer.render("====Test===="));
     }
 
-    @Test    
+    //@Test    
     public void testHeader5Trimmed() {
-        assertEquals("<h5>Test</h5>", renderer.render("=====Test====="));
+        assertEquals("Test<br />", renderer.render("=====Test====="));
     }    
 
 //    
-//    @Test    
+//    //@Test    
 //    public void testHeaderMixedWithLink() {
 //        assertEquals("<h3><a href=\"/wiki/lala\">Lala</a></h3>", renderer.render("===[[Lala]]==="));
 //    }    
@@ -88,110 +89,110 @@ public class WikiRendererTest {
      * LINKS
      */
     
-    @Test    
+    //@Test    
     public void testTwoInternalLinksWithTestBetween() {
         assertEquals(
-                    "Heute gehen wir von <a href=\"/wiki/alpha_centauri\">Alpha Centauri</a> nach <a href=\"/wiki/omega_golem\">Omega: Golem</a>"
-                +   " und <a href=\"/wiki/21_jump_street\">21 Jump Street</a> und noch viel weiter.", 
+                    "Heute gehen wir von Alpha Centauri nach Omega: Golem"
+                +   " und 21 Jump Street und noch viel weiter.", 
                 renderer.render("Heute gehen wir von [[Alpha Centauri]] nach [[Omega: Golem]] und [[21 Jump Street]] und noch viel weiter."));
     }        
     
-    @Test    
+    //@Test    
     public void testInternalLinkWithColon() {
-        assertEquals("<a href=\"/wiki/neverwinter_nights_enhanced_edition\">Neverwinter Nights: Enhanced Edition</a>", renderer.render("[[Neverwinter Nights: Enhanced Edition]]"));
+        assertEquals("Neverwinter Nights: Enhanced Edition", renderer.render("[[Neverwinter Nights: Enhanced Edition]]"));
     }    
     
     // Test für Workaround in Drupal
-    @Test    
+    //@Test    
     public void testInternalLinkWithColonWhitespaces() {
-        assertEquals("<a href=\"/wiki/neverwinter_nights_enhanced_edition\">Neverwinter Nights: Enhanced Edition</a>", renderer.render("[[ Neverwinter Nights: Enhanced Edition ]]"));
+        assertEquals("Neverwinter Nights: Enhanced Edition", renderer.render("[[ Neverwinter Nights: Enhanced Edition ]]"));
     }        
 
-    @Test    
+    //@Test    
     public void testExternalPlainLinkWithoutLabel() {
-        assertEquals("Hier geht es weiter: <a href=\"http://webseite.com\">http://webseite.com</a>", renderer.render("Hier geht es weiter: http://webseite.com"));
+        assertEquals("Hier geht es weiter: http://webseite.com", renderer.render("Hier geht es weiter: http://webseite.com"));
     }           
     
-    @Test    
+    //@Test    
     public void testExternalSslLinkWithoutLabel() {
-        assertEquals("Hier geht es weiter: <a href=\"https://startpage.com\">https://startpage.com</a>", renderer.render("Hier geht es weiter: https://startpage.com"));
+        assertEquals("Hier geht es weiter: https://startpage.com", renderer.render("Hier geht es weiter: https://startpage.com"));
     }     
     
-    @Test    
+    //@Test    
     public void testLinkAsImage() {
-        assertEquals("Hier geht es weiter: <img src=\"https://startpage.com/image.jpg\" />", renderer.render("Hier geht es weiter: https://startpage.com/image.jpg"));
+        assertEquals("Hier geht es weiter: https://startpage.com/image.jpg", renderer.render("Hier geht es weiter: https://startpage.com/image.jpg"));
     }         
 
-    @Test    
+    //@Test    
     public void testInternalLink() {
-        assertEquals("<a href=\"/wiki/hallowelt\">HalloWelt</a>", renderer.render("[[HalloWelt]]"));
+        assertEquals("HalloWelt", renderer.render("[[HalloWelt]]"));
     }          
     
-    @Test    
+    //@Test    
     public void testInternalLinkWithSpaces() {
-        assertEquals("<a href=\"/wiki/hallo_welt\">Hallo Welt</a>", renderer.render("[[Hallo Welt]]"));
+        assertEquals("Hallo Welt", renderer.render("[[Hallo Welt]]"));
     }      
     
-    @Test    
+    //@Test    
     public void testInternalLinkWithDifferentName() {
-        assertEquals("<a href=\"/wiki/hallo\">Welt</a>", renderer.render("[[Hallo|Welt]]"));
+        assertEquals("Welt", renderer.render("[[Hallo|Welt]]"));
     }    
 
-    @Test    
+    //@Test    
     public void testExternalLink() {
-        assertEquals("<a href=\"http://heise.de\">http://heise.de</a>", renderer.render("[http://heise.de]"));
+        assertEquals("http://heise.de", renderer.render("[http://heise.de]"));
     }       
     
-    @Test    
+    //@Test    
     public void testExternalSslLink() {
-        assertEquals("<a href=\"https://heise.de\">https://heise.de</a>", renderer.render("[https://heise.de]"));
+        assertEquals("https://heise.de", renderer.render("[https://heise.de]"));
     }          
     
-    @Test    
+    //@Test    
     public void testExternalLinkWithLabelWhitespace() {
-        assertEquals("<a href=\"http://heise.de\">Seite</a>", renderer.render("[http://heise.de Seite]"));
+        assertEquals("Seite", renderer.render("[http://heise.de Seite]"));
     }    
     
-    @Test    
+    //@Test    
     public void testExternalLinkWithLabelWhitespaces() {
-        assertEquals("<a href=\"http://heise.de\">Seite mit Leerzeichen</a>", renderer.render("[http://heise.de Seite mit Leerzeichen]"));
+        assertEquals("Seite mit Leerzeichen", renderer.render("[http://heise.de Seite mit Leerzeichen]"));
     }   
     
-    @Test    
+    //@Test    
     public void testExternalLinkWithLabelWhitespacesAndColon() {
-        assertEquals("<a href=\"http://heise.de\">Seite mit Leerzeichen: So gut</a>", renderer.render("[http://heise.de Seite mit Leerzeichen: So gut]"));
+        assertEquals("Seite mit Leerzeichen: So gut", renderer.render("[http://heise.de Seite mit Leerzeichen: So gut]"));
     }     
     
-    @Test    
+    //@Test    
     public void testExternalLinkWithLabelPipe() {
-        assertEquals("<a href=\"http://heise.de\">Seite</a>", renderer.render("[http://heise.de|Seite]"));
+        assertEquals("Seite", renderer.render("[http://heise.de|Seite]"));
     }    
     
     /**
      * LISTS
      */
     
-    @Test    
+    //@Test    
     public void testList() {
-        assertEquals("<ul><li>eins</li><li>zwei</li><li>drei</li></ul>", renderer.render("* eins\n* zwei\n* drei\n\n"));
+        assertEquals("eins, zwei, drei<br />", renderer.render("* eins\n* zwei\n* drei\n\n"));
     }     
     
-//    @Test    
+//    //@Test    
 //    public void testDeeperList() {
 //        assertEquals("Folgende Liste: <ul><li>eins</li><li>zwei<ul><li>zweieinhalb</li></ul></li><li>drei</li></ul>", renderer.render("Folgende Liste: \n* eins\n* zwei\n** zweieinhalb\n* drei\n"));
 //    }      
 
-    @Test    
+    //@Test    
     public void testNumericList() {
-        assertEquals("<ol><li>eins</li><li>zwei</li><li>drei</li></ol>", renderer.render("# eins\n# zwei\n# drei\n\n"));
+        assertEquals("eins, zwei, drei", renderer.render("# eins\n# zwei\n# drei\n\n"));
     }     
     
-//    @Test    
+//    //@Test    
 //    public void testDeeperNumericList() {
 //        assertEquals("Folgende Liste: <ol><li>eins</li><li>zwei<ul><li>zweieinhalb</li></ol></li><li>drei</li></ol>", renderer.render("Folgende Liste: \n# eins\n# zwei\n## zweieinhalb\n# drei\n"));
 //    }     
     
-    @Test
+    //@Test
     public void testListEnding() {
         String input = "* das\n" +
 "* ist eine\n" +
@@ -206,7 +207,7 @@ public class WikiRendererTest {
 "#drei\n" +
 "# vier\n";
         
-        String expected = "<ul><li>das</li><li>ist eine</li><li>liste</li><li>mit punkten</li></ul><br />nun folgt etwas text:<br /><br /><ol><li>eins</li><li>zwei</li><li>drei</li><li>vier</li></ol>";
+        String expected = "das</li><li>ist eine</li><li>liste</li><li>mit punkten</li></ul><br />nun folgt etwas text:<br /><br /><ol><li>eins</li><li>zwei</li><li>drei</li><li>vier</li></ol>";
         
         assertEquals(expected, renderer.render(input));
     }
@@ -215,22 +216,22 @@ public class WikiRendererTest {
      * TEXT MODIFICATION
      */
     
-    @Test
+    //@Test
     public void testTicks() {
         assertEquals("'hallo'", renderer.render("'hallo'"));
     }
     
-    @Test
+    //@Test
     public void testItalic() {
-        assertEquals("<i>hallo</i>", renderer.render("''hallo''"));
+        assertEquals("hallo", renderer.render("''hallo''"));
     }    
     
-    @Test
+    //@Test
     public void testBold() {
-        assertEquals("<b>hallo</b>", renderer.render("'''hallo'''"));
+        assertEquals("hallo", renderer.render("'''hallo'''"));
     }        
     
-//    @Test
+//    //@Test
 //    public void testBoldWithTicks() {
 //        assertEquals("<b>'hallo'</b>", renderer.render("''''hallo''''"));
 //    }            
@@ -238,12 +239,12 @@ public class WikiRendererTest {
     /**
      * Code
      */
-    @Test
+    //@Test
     public void testCodeInline() {
-        assertEquals("Das ist ein <pre>Codetext</pre>.", renderer.render("Das ist ein [code]Codetext[/code]."));
+        assertEquals("Das ist ein Codetext.", renderer.render("Das ist ein [code]Codetext[/code]."));
     }
     
-    @Test
+    //@Test
     public void testCodeBlock() {
         assertEquals("Und hier ein Codeblock: <br /><pre>\ncd $HOME\n./run\n</pre>.", renderer.render("Und hier ein Codeblock: \n[code]\ncd $HOME\n./run\n[/code]."));
     }    
@@ -252,12 +253,12 @@ public class WikiRendererTest {
      * OTHER
      */
     
-    @Test
+    //@Test
     public void testNewLine() {
         assertEquals("hallo<br />welt", renderer.render("hallo\nwelt"));
     }    
     
-    @Test
+    //@Test
     public void testBreak() {
         assertEquals("<br />", renderer.render("<!--break-->"));
     }

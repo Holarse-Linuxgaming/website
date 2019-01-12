@@ -1,16 +1,13 @@
 package de.holarse.renderer.wiki;
 
 import de.holarse.renderer.Renderer;
-import de.holarse.services.NodeService;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
 @Qualifier("wikiRenderer")
 public class WikiRenderer implements Renderer {
-    @Autowired NodeService nodeService;
 
     private String getForwardChars(String text, int start, int end) {
         try {
@@ -102,14 +99,6 @@ public class WikiRenderer implements Renderer {
         }
         
         return buffer.toString();      
-    }
-    
-    public NodeService getNodeService() {
-        return nodeService;
-    }
-
-    public void setNodeService(NodeService nodeService) {
-        this.nodeService = nodeService;
     }
 
 }
