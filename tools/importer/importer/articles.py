@@ -84,18 +84,29 @@ def do_import(db, base_dir):
 
         # wine/crossover
         cur_wine = db.cursor()
-        cur_wine.execute("select field_winehq_value, field_crossoverdb_value from content_type_page where nid = %s and vid = %s" % (uid, vid))
+        cur_wine.execute("select field_winehq_value, field_protondb_value, field_official_proton_value, field_crossoverdb_value from content_type_page where nid = %s and vid = %s" % (uid, vid))
         for w_result in cur_wine.fetchall():
             # winehq
             if w_result[0]:
                 xml_winehq = ET.SubElement(att_tags, 'attachment')
                 xml_winehq.text = w_result[0]
-                xml_winehq.set('group', 'WINEHQ')
+                xml_winehq.set('type', 'WINEHQ')
+
+            # protondb
+            if w_result[1]:
+                xml_protondb = ET.SubElement(att_tags, 'attachment')
+                xml_protondb.text = w_result[1]
+                xml_protondb.set('type', 'PROTONDB')
+
+            # proton official supported
+            xml_protonofficial = ET.SubElement(att_tags, 'attachment')
+            xml_protonofficial.text = 'true' if w_result[2] == 1 else 'false'
+            xml_protonofficial.set('type', 'PROTONOFFICAL')
 
             # crossover
-            if w_result[1]:
+            if w_result[3]:
                 xml_crossover = ET.SubElement(att_tags, 'attachment')
-                xml_crossover.text = w_result[1]
+                xml_crossover.text = w_result[3]
                 xml_crossover.set('type', 'CROSSOVERDB')
 
         # state
