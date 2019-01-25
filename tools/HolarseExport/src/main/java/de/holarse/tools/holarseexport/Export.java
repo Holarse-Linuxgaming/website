@@ -150,8 +150,8 @@ public final class Export {
                     final Attachment att = new Attachment();
                     att.setValue(result.getString("field_homepage_value"));
                     att.setType("LINK");
-                    att.setPrio(result.getInt("delta"));
-                    att.setGroup("LINKS");
+                    att.setPrio(result.getLong("delta"));
+                    att.setGroup("WEBSITE");
                     attachments.add(att);
                 }
             }
@@ -280,7 +280,7 @@ public final class Export {
             imagePs.setLong(1, article.getUid());
             imagePs.setLong(2, article.getVid());
             try (final ResultSet result = imagePs.executeQuery()) {
-                int prio = 1;
+                long prio = 1;
                 while (result.next()) {
                     final String image = result.getString("filepath");
                     if (StringUtils.isNotBlank(image)) {

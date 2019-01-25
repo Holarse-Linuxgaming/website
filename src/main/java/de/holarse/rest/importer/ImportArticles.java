@@ -1,14 +1,20 @@
 package de.holarse.rest.importer;
 
 import de.holarse.backend.db.Article;
+import de.holarse.backend.db.Attachment;
+import de.holarse.backend.db.types.AttachmentDataType;
 import de.holarse.backend.db.ContentType;
 import de.holarse.backend.db.NodeType;
 import de.holarse.backend.db.Tag;
 import de.holarse.backend.db.repositories.ArticleRepository;
+import de.holarse.backend.db.repositories.AttachmentRepository;
 import de.holarse.backend.db.repositories.TagRepository;
+import de.holarse.backend.db.types.AttachmentGroup;
+import de.holarse.backend.db.types.AttachmentType;
 import de.holarse.search.SearchEngine;
 import de.holarse.services.NodeService;
 import de.holarse.services.TagService;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -36,6 +42,9 @@ public class ImportArticles {
 
     @Autowired 
     TagRepository tr;
+    
+    @Autowired
+    AttachmentRepository attr;
     
     @Autowired 
     TagService tagService;
@@ -66,15 +75,18 @@ public class ImportArticles {
         article.setContentType(ContentType.WIKI);
         article.setOldId(importArticle.getUid());
         
-        article.setDeleted(Boolean.FALSE);
-        article.setDraft(Boolean.FALSE);
-        article.setArchived(Boolean.FALSE);
-        article.setLocked(Boolean.FALSE);
-        article.setPublished(Boolean.TRUE);
-        article.setCommentable(Boolean.TRUE);
+        de.holarse.backend.export.State importState = importArticle.getState();
+        
+        article.setDeleted(importState.getDeleted());
+        article.setDraft(importState.getDraft());
+        article.setArchived(importState.getArchived());
+        article.setLocked(importState.getLocked());
+        article.setPublished(importState.getPublished());
+        article.setCommentable(importState.getCommentable());
 
+        // Tags
         Set<Tag> tags = tagService.listToTags(importArticle.getTags());
-        tr.saveAll(tags);        
+        tr.saveAll(tags);
 
         article.getTags().clear();
         article.getTags().addAll(tags);
@@ -84,7 +96,23 @@ public class ImportArticles {
 
         ar.save(article);
         
-        // ES-Update
+        // Attachments
+        List<Attachment> attachments = new ArrayList<>();
+        for (de.holarse.backend.export.Attachment importAttachment : importArticle.getAttachments()) {
+            final Attachment attachment = new Attachment();
+            attachment.setNodeId(article.getNodeId());
+            attachment.setAttachmentGroup(AttachmentGroup.valueOf(importAttachment.getGroup()));
+            attachment.setAttachmentType(AttachmentType.lookup(importAttachment.getType(), importAttachment.getGroup()));
+            attachment.setAttachmentDataType(AttachmentDataType.URI);
+            attachment.setCreated(OffsetDateTime.now());
+            attachment.setOrdering(importAttachment.getPrio());
+            attachment.setAttachmentData(importAttachment.getValue());
+            
+            attachments.add(attachment);
+        }        
+        attr.saveAll(attachments);  // Über die NodeID sind die dann direkt verbunden
+        
+        // Such-Update
         searchEngine.update(article);        
         
         return new ResponseEntity<>("OK", HttpStatus.CREATED);

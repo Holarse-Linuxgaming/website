@@ -1,5 +1,8 @@
 package de.holarse.backend.db;
 
+import de.holarse.backend.db.types.AttachmentDataType;
+import de.holarse.backend.db.types.AttachmentGroup;
+import de.holarse.backend.db.types.AttachmentType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -16,18 +19,30 @@ public class Attachment extends Base {
     // Beschreibung des Eintrags
     private String description;
 
+    // Die Attachment-Gruppe
+    @Enumerated(EnumType.STRING)
+    private AttachmentGroup attachmentGroup;
+    
+    // Der Attachment-Typ
+    @Enumerated(EnumType.STRING)
+    private AttachmentType attachmentType;    
+    
+    // Der Attachment-Datentyp
     @Enumerated(EnumType.STRING)
     private AttachmentDataType attachmentDataType;
     
     @Column(length = 4096)
     private String attachmentData;
     
-    private String mimeType;
-    
-    @Enumerated(EnumType.STRING)
-    private AttachmentType attachmentType;
-
     private Long nodeId;
+
+    public AttachmentGroup getAttachmentGroup() {
+        return attachmentGroup;
+    }
+
+    public void setAttachmentGroup(AttachmentGroup attachmentGroup) {
+        this.attachmentGroup = attachmentGroup;
+    }
     
     public Long getOrdering() {
         return ordering;
@@ -51,14 +66,6 @@ public class Attachment extends Base {
 
     public void setAttachmentDataType(AttachmentDataType attachmentDataType) {
         this.attachmentDataType = attachmentDataType;
-    }
-
-    public String getMimeType() {
-        return mimeType;
-    }
-
-    public void setMimeType(String mimeType) {
-        this.mimeType = mimeType;
     }
 
     public String getAttachmentData() {

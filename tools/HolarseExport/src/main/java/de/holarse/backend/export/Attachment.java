@@ -8,7 +8,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 public class Attachment {
 
     @JacksonXmlProperty(isAttribute = true)
-    private int prio;
+    private Long prio;
     
     @JacksonXmlProperty(isAttribute = true)
     private String type;
@@ -19,11 +19,11 @@ public class Attachment {
     @JacksonXmlText
     private String value;
 
-    public int getPrio() {
+    public Long getPrio() {
         return prio;
     }
 
-    public void setPrio(int prio) {
+    public void setPrio(Long prio) {
         this.prio = prio;
     }
 

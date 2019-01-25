@@ -7,7 +7,7 @@ import de.holarse.backend.db.AttachmentType;
 import de.holarse.backend.db.ContentType;
 import de.holarse.backend.db.NodeType;
 import de.holarse.backend.db.Tag;
-import de.holarse.backend.db.AttachmentDataType;
+import de.holarse.backend.db.types.AttachmentDataType;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.AttachmentRepository;

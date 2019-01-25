@@ -107,6 +107,10 @@ public class Article extends BranchableNode implements Frontpagable, Searchable 
         this.alternativeTitle3 = alternativeTitle3;
     }
 
+    /**
+     * Einheitlicher Zugriff auf den Identifier. Ist die Id.
+     * @return 
+     */
     @Override
     public Long getNodeId() {
         return getId();

@@ -3,30 +3,27 @@ package de.holarse.backend.export;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttachmentRef;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlValue;
 
 @JacksonXmlRootElement(localName="attachment")
 public class Attachment {
 
     @JacksonXmlProperty(isAttribute = true)
-    private int prio;
+    private Long prio;
     
     @JacksonXmlProperty(isAttribute = true)
     private String type;
     
+    @JacksonXmlProperty(isAttribute = true)
+    private String group;    
+    
     @JacksonXmlText
     private String value;
 
-    public int getPrio() {
+    public Long getPrio() {
         return prio;
     }
 
-    public void setPrio(int prio) {
+    public void setPrio(Long prio) {
         this.prio = prio;
     }
 
@@ -44,6 +41,14 @@ public class Attachment {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
     
 }

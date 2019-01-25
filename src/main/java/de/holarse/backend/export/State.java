@@ -23,6 +23,37 @@ public class State {
     @JacksonXmlProperty  
     private Boolean archived;
 
+    @JacksonXmlProperty  
+    private Boolean ftp;
+    @JacksonXmlProperty      
+    private Boolean ftpTools;
+    @JacksonXmlProperty      
+    private String releaseDate;
+
+    public Boolean getFtp() {
+        return ftp;
+    }
+
+    public void setFtp(Boolean ftp) {
+        this.ftp = ftp;
+    }
+
+    public Boolean getFtpTools() {
+        return ftpTools;
+    }
+
+    public void setFtpTools(Boolean ftpTools) {
+        this.ftpTools = ftpTools;
+    }
+
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+    
     public Boolean getLocked() {
         return locked;
     }

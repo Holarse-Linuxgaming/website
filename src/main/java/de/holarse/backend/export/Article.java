@@ -1,23 +1,25 @@
 package de.holarse.backend.export;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @JacksonXmlRootElement(localName = "article")
 public class Article {
 
     @JacksonXmlProperty(localName="uid", isAttribute = true)
     private Long uid;
+    
+    @JsonIgnore
+    private Long vid;
 
+    @JacksonXmlProperty(localName="created")
+    private Date created;    
+    
     @JacksonXmlProperty(localName="revision")
     private Revision revision;
     
@@ -39,6 +41,13 @@ public class Article {
     @JacksonXmlElementWrapper(localName = "attachments")    
     private List<Attachment> attachments = new ArrayList<>();
 
+    public Long getVid() {
+        return vid;
+    }
+
+    public void setVid(Long vid) {
+        this.vid = vid;
+    }
 
     public Long getUid() {
         return uid;
@@ -48,6 +57,14 @@ public class Article {
         this.uid = uid;
     }
 
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+    
     public Revision getRevision() {
         return revision;
     }
