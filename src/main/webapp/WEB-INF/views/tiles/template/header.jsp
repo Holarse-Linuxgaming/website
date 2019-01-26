@@ -141,7 +141,7 @@
                 </li>                                                
             </ul>
             <form:form class="form-inline my-2 my-lg-0" method="POST" action="/search">
-                <input class="form-control mr-sm-2" type="text" name="query" id="searchField" placeholder="Holarse durchsuchen" aria-label="Search" value="${query}"></input>
+                <input class="form-control mr-sm-2" type="text" name="query" id="searchField" placeholder="Holarse durchsuchen" aria-label="Search" value="${q}"></input>
 <!--                <button class="btn btn-primary my-2 my-sm-0 btn-search" type="submit">Los!</button>-->
             </form:form>
         </div>

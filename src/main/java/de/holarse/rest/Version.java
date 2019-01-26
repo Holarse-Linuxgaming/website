@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/version")
-@Secured("ROLE_API_VERSION")
+@Secured({"ROLE_API_VERSION", "ROLE_API_ADMIN"})
 public class Version {
     
     @GetMapping

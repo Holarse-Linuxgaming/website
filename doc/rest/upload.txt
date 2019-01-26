@@ -1,3 +1,1 @@
-curl -u dummy:$TOKEN -X POST -H "Accept: application/xml" -H "Content-Type: application/xml" http://localhost:8080/api/import/articles -d "<xml></xml>"
-
 curl -u dummy:ADDB0F5E7826C857D7376D1BD9BC33C0C544790A2EAC96144A8AF22B1298C940 -X POST -H "Accept: application/xml" -H "Content-Type: application/xml" http://localhost:8080/api/import/articles -d @/home/comrad/Dokumente/Holarse/H2018/articles/181.xml

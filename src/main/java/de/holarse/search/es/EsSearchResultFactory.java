@@ -3,6 +3,7 @@ package de.holarse.search.es;
 import de.holarse.search.SearchResult;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.search.SearchHit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +43,7 @@ public class EsSearchResultFactory {
 
             @Override
             public String getContent() {
-                return (String) fields.get("content");
+                return StringUtils.abbreviate((String) fields.get("content"), 250);
             }
 
             @Override
