@@ -22,10 +22,10 @@ public final class Export {
 
     private final static String URL = "jdbc:mysql://192.168.122.53:3306/holarse?user=export&password=export";
 
-    private final static DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm a z");
+    private final static DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 
     
-    final static String ARTICLES_QUERY =  "select n.nid, n.title, n.created, n.changed, r.title, r.body, r.log, r.vid, n.status, n.comment, u.name "
+    final static String ARTICLES_QUERY =  "select n.nid, n.title, from_unixtime(n.created) as created, from_unixtime(n.changed) as changed, r.title, r.body, r.log, r.vid, n.status, n.comment, u.name "
     + "from node n "
     + "inner join node_revisions r on r.vid = n.vid "
     + "inner join users u on u.uid = r.uid "
@@ -74,7 +74,10 @@ public final class Export {
 
                 Article article = new Article();
                 article.setUid(result.getLong("nid"));
+                               
                 article.setCreated(new Date(result.getTimestamp("created").getTime()));
+                
+                log.info("Database date: " + result.getString("created") + " => " + article.getCreated());                
                 article.setVid(result.getLong("vid")); // Transient
 
                 // Revision

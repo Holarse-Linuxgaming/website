@@ -1,17 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.holarse.web.articles;
 
 import de.holarse.backend.db.Attachment;
-import de.holarse.backend.db.AttachmentType;
+import de.holarse.backend.db.types.AttachmentGroup;
+import de.holarse.backend.db.types.AttachmentType;
 
-/**
- *
- * @author comrad
- */
 public class AttachmentCommand {
     
     private Long id;
@@ -19,6 +11,15 @@ public class AttachmentCommand {
     private String description;
     private String attachmentData;
     private AttachmentType attachmentType;
+    private AttachmentGroup attachmentGroup;
+
+    public AttachmentGroup getAttachmentGroup() {
+        return attachmentGroup;
+    }
+
+    public void setAttachmentGroup(AttachmentGroup attachmentGroup) {
+        this.attachmentGroup = attachmentGroup;
+    }
 
     public Long getId() {
         return id;
@@ -65,8 +66,10 @@ public class AttachmentCommand {
         cmd.setId(attachment.getId());
         cmd.setOrdering(attachment.getOrdering());
         cmd.setDescription(attachment.getDescription());
+        cmd.setAttachmentGroup(attachment.getAttachmentGroup());
+        cmd.setAttachmentType(attachment.getAttachmentType());        
         cmd.setAttachmentData(attachment.getAttachmentData());
-        cmd.setAttachmentType(attachment.getAttachmentType());
+
         
         return cmd;
     }

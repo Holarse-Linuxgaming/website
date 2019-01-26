@@ -14,7 +14,10 @@ import de.holarse.backend.db.types.AttachmentType;
 import de.holarse.search.SearchEngine;
 import de.holarse.services.NodeService;
 import de.holarse.services.TagService;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -69,12 +72,15 @@ public class ImportArticles {
     public ResponseEntity<String> upload(@RequestBody final de.holarse.backend.export.Article importArticle) throws Exception {
         // Bstehenden Drupal-Import finden oder neuen anlegen
         final Article article = ar.findByOldId(importArticle.getUid()).orElseGet(() -> new Article());
-        // Im Drupal gab es noch keine multiplen Titel        
+        // Im Drupal gab es noch keine multiplen Titel       
+        article.setCreated(OffsetDateTime.ofInstant(importArticle.getCreated().toInstant(), ZoneOffset.UTC));
+        
         article.setTitle(importArticle.getTitles().get(0).getValue());
         article.setContent(importArticle.getContent().getValue());
         article.setContentType(ContentType.WIKI);
         article.setOldId(importArticle.getUid());
-        
+        article.setBranch("master");
+                
         de.holarse.backend.export.State importState = importArticle.getState();
         
         article.setDeleted(importState.getDeleted());
@@ -105,7 +111,7 @@ public class ImportArticles {
             attachment.setAttachmentType(AttachmentType.lookup(importAttachment.getType(), importAttachment.getGroup()));
             attachment.setAttachmentDataType(AttachmentDataType.URI);
             attachment.setCreated(OffsetDateTime.now());
-            attachment.setOrdering(importAttachment.getPrio());
+            attachment.setOrdering(importAttachment.getPrio() != null ? importAttachment.getPrio() : 0l );
             attachment.setAttachmentData(importAttachment.getValue());
             
             attachments.add(attachment);

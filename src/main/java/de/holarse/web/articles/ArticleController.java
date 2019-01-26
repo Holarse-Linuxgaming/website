@@ -3,7 +3,6 @@ package de.holarse.web.articles;
 import de.holarse.auth.web.HolarsePrincipal;
 import de.holarse.backend.db.Article;
 import de.holarse.backend.db.Attachment;
-import de.holarse.backend.db.AttachmentType;
 import de.holarse.backend.db.ContentType;
 import de.holarse.backend.db.NodeType;
 import de.holarse.backend.db.Tag;
@@ -273,28 +272,6 @@ public class ArticleController {
         article.setRevision(revisionRepository.nextRevision());
 
         articleRepository.save(article);
-
-        Attachment att = new Attachment();
-        att.setCreated(OffsetDateTime.now());
-        att.setNodeId(article.getId());
-        att.setDescription("Beispiel-Link");
-        att.setAttachmentDataType(AttachmentDataType.URI);
-        att.setAttachmentData("https://www.startpage.com");
-        att.setAttachmentType(AttachmentType.LINK);
-        att.setOrdering(1l);
-
-        attachmentRepository.save(att);
-
-        Attachment att2 = new Attachment();
-        att2.setCreated(OffsetDateTime.now());
-        att2.setNodeId(article.getId());
-        att2.setDescription("Awesome Video");
-        att2.setAttachmentDataType(AttachmentDataType.URI);
-        att2.setAttachmentType(AttachmentType.YOUTUBE);
-        att2.setAttachmentData("https://www.youtube-nocookie.com/embed/zpOULjyy-n8");
-        att2.setOrdering(2l);
-
-        attachmentRepository.save(att2);
 
         try {
             searchEngine.update(article);

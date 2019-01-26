@@ -1,7 +1,7 @@
 package de.holarse.web.renderer.attachments;
 
 import de.holarse.backend.db.Attachment;
-import de.holarse.backend.db.AttachmentType;
+import de.holarse.backend.db.types.AttachmentType;
 import de.holarse.web.renderer.attachments.engine.TemplateRenderEngine;
 import java.util.HashMap;
 import java.util.Map;
