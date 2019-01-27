@@ -17,8 +17,8 @@ public class Article {
     @JsonIgnore
     private Long vid;
 
-    @JacksonXmlProperty(localName="created")
-    private Date created;    
+    @JacksonXmlProperty(localName="created", isAttribute = true)
+    private Date created;     
     
     @JacksonXmlProperty(localName="revision")
     private Revision revision;

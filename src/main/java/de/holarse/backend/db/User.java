@@ -36,6 +36,8 @@ public class User extends Base {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
     
+    private Long oldId;
+    
     private String verificationKey;
     private OffsetDateTime verificationValidUntil;
 
@@ -49,10 +51,15 @@ public class User extends Base {
 
     @Transient
     private String url;
-    
-    @Transient
-    private Boolean virtual = Boolean.FALSE;
 
+    public Long getOldId() {
+        return oldId;
+    }
+
+    public void setOldId(Long oldId) {
+        this.oldId = oldId;
+    }
+    
     public List<Message> getMessages() {
         return messages;
     }
@@ -153,14 +160,6 @@ public class User extends Base {
         this.verificationValidUntil = verificationValidUntil;
     }
 
-    public Boolean getVirtual() {
-        return virtual;
-    }
-
-    public void setVirtual(Boolean virtual) {
-        this.virtual = virtual;
-    }
-    
     @Override
     public String toString() {
         return "User{" + "login=" + login + ", passwordType=" + passwordType + ", digest=" + digest + ", locked=" + locked + ", roles=" + roles + '}';

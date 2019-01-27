@@ -1,8 +1,8 @@
 package de.holarse.backend.export;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 import java.util.Date;
 
 @JacksonXmlRootElement(localName = "user")
@@ -18,6 +18,7 @@ public class User {
     private String login;
     
     @JacksonXmlProperty(localName="signature")    
+    @JacksonXmlCData     
     private String signature;
     
     @JacksonXmlProperty(localName="email")    

@@ -9,6 +9,7 @@ import de.holarse.backend.db.Tag;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.AttachmentRepository;
 import de.holarse.backend.db.repositories.TagRepository;
+import de.holarse.backend.db.repositories.UserRepository;
 import de.holarse.backend.db.types.AttachmentGroup;
 import de.holarse.backend.db.types.AttachmentType;
 import de.holarse.search.SearchEngine;
@@ -42,6 +43,9 @@ public class ImportArticles {
     
     @Autowired 
     ArticleRepository ar;
+    
+    @Autowired
+    UserRepository ur;
 
     @Autowired 
     TagRepository tr;
@@ -80,6 +84,8 @@ public class ImportArticles {
         article.setContentType(ContentType.WIKI);
         article.setOldId(importArticle.getUid());
         article.setBranch("master");
+        
+        article.setAuthor(ur.findByLogin(importArticle.getRevision().getAuthor()));
                 
         de.holarse.backend.export.State importState = importArticle.getState();
         
@@ -100,6 +106,7 @@ public class ImportArticles {
         // Slug-Erstellung
         article.setSlug(nodeService.findNextSlug(article.getTitle(), NodeType.ARTICLE));
 
+        article.getAttachments().clear();        
         ar.save(article);
         
         // Attachments

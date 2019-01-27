@@ -41,7 +41,7 @@ public final class Export {
     final static String IMAGE_QUERY = "select filepath from content_field_screenshots cfs inner join files f on cfs.field_screenshots_fid = f.fid where nid = ? and vid = ? order by delta";
     final static String FILE_QUERY = "select filepath from content_field_attachments cfs inner join files f on cfs.field_attachments_fid = f.fid where nid = ? and vid = ? order by delta";
     
-    final static String USERS_QUERY = "select u.uid, u.name, u.pass, u.mail, us.signature, from_unixtime(u.created) as created, u.login, u.status, u.picture from users u left join users_signature us on us.uid = u.uid";
+    final static String USERS_QUERY = "select u.uid, u.name, u.pass, u.mail, us.signature, from_unixtime(u.created) as created, u.login, u.status, u.picture from users u left join users_signature us on us.uid = u.uid where u.uid > 0";
     
     final XmlMapper mapper;
 
@@ -59,7 +59,7 @@ public final class Export {
         
         try (final Connection c = DriverManager.getConnection(URL)) {
             importUsers(c);            
-            //importArticles(c);
+            importArticles(c);
         }
     }
     
@@ -89,7 +89,7 @@ public final class Export {
                 password.setDigest(result.getString("pass"));
                 
                 user.setPassword(password);
-                
+               
                 writeXml(user, "user", user.getUid());
                 count++;
             }
@@ -126,6 +126,8 @@ public final class Export {
                 if (changed != null) {
                     revision.setCreated(new Date(changed.getTime())); // Wann die Revision erzeugt wurde
                 }
+                article.setRevision(revision);
+                
                 // Titles
                 final Title title = new Title();
                 title.setType("MAIN");
