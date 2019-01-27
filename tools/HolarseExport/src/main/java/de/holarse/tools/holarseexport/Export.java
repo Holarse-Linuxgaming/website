@@ -24,6 +24,7 @@ public final class Export {
 
     private final static DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 
+    final static Logger log = Logger.getLogger(Export.class.getName());    
     
     final static String ARTICLES_QUERY =  "select n.nid, n.title, from_unixtime(n.created) as created, from_unixtime(n.changed) as changed, r.title, r.body, r.log, r.vid, n.status, n.comment, u.name "
     + "from node n "
@@ -40,9 +41,13 @@ public final class Export {
     final static String IMAGE_QUERY = "select filepath from content_field_screenshots cfs inner join files f on cfs.field_screenshots_fid = f.fid where nid = ? and vid = ? order by delta";
     final static String FILE_QUERY = "select filepath from content_field_attachments cfs inner join files f on cfs.field_attachments_fid = f.fid where nid = ? and vid = ? order by delta";
     
+    final static String USERS_QUERY = "select u.uid, u.name, u.pass, u.mail, us.signature, from_unixtime(u.created) as created, u.login, u.status, u.picture from users u left join users_signature us on us.uid = u.uid";
+    
     final XmlMapper mapper;
 
     public static void main(String[] args) throws Exception {
+        log.setLevel(Level.INFO);
+        
         Export e = new Export();
     }
 
@@ -53,16 +58,49 @@ public final class Export {
         mapper.setDateFormat(DATE_FORMAT);         
         
         try (final Connection c = DriverManager.getConnection(URL)) {
-            importArticles(c);
+            importUsers(c);            
+            //importArticles(c);
         }
+    }
+    
+    protected void importUsers(Connection c) throws Exception {
+        long start = System.currentTimeMillis();
+        
+        final PreparedStatement p = c.prepareStatement(USERS_QUERY);
+        int count = 0;
+        try (final ResultSet result = p.executeQuery()) {
+            while(result.next()) {
+                String created = result.getString("created");
+                if (created.equals("0")) {
+                    continue;
+                }
+                
+                User user = new User();
+                user.setUid(result.getLong("uid"));
+                user.setLogin(result.getString("name"));
+                user.setEmail(result.getString("mail"));
+                user.setCreated(new Date(result.getTimestamp("created").getTime()));
+                user.setAvatar(result.getString("picture"));
+                user.setSignature(result.getString("signature"));
+                user.setLocked(!result.getBoolean("status"));
+                
+                Password password = new Password();
+                password.setType("MD5");
+                password.setDigest(result.getString("pass"));
+                
+                user.setPassword(password);
+                
+                writeXml(user, "user", user.getUid());
+                count++;
+            }
+        }
+        
+        log.log(Level.INFO, "Complete after {0} ms.", System.currentTimeMillis() - start);
     }
 
     protected void importArticles(Connection c) throws Exception {
         long start = System.currentTimeMillis();
-        
-        final Logger log = Logger.getLogger(Export.class.getName());
-        log.setLevel(Level.INFO);
-        
+
         final List<Article> articles = new ArrayList<>(10000);
         // Initial
 
@@ -335,16 +373,21 @@ public final class Export {
             article.setState(state);
 
 
-
-            String xml = mapper.writeValueAsString(article);
-            final StringBuffer buffer = new StringBuffer();
-            buffer.append("/tmp/export/").append("article").append("-").append(article.getUid()).append(".xml");
-            try (final BufferedWriter bw = new BufferedWriter(new FileWriter(buffer.toString()))) {
-                bw.append(xml);
-            }
+            writeXml(article, "article", article.getUid());
         }
         
         log.log(Level.INFO, "Complete after {0} ms.", System.currentTimeMillis() - start);
     }
+    
+    protected void writeXml(Object value, String type, Long uid) throws Exception {
+            String xml = mapper.writeValueAsString(value);
+            final StringBuffer buffer = new StringBuffer();
+            buffer.append("/tmp/export/").append(type).append("-").append(uid).append(".xml");
+            try (final BufferedWriter bw = new BufferedWriter(new FileWriter(buffer.toString()))) {
+                bw.append(xml);
+            }        
+    }
+    
+            
 
 }
