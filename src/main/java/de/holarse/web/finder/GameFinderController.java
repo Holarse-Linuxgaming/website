@@ -99,6 +99,8 @@ public class GameFinderController {
         map.addAttribute("taglist", taglist);
         map.addAttribute("q", q);
         
+        map.addAttribute("title", "Spielefinder für " + taglist);
+        
         return new ModelAndView("finder/index");
     }
     

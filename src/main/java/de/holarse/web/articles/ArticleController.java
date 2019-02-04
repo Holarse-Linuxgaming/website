@@ -6,12 +6,13 @@ import de.holarse.backend.db.Attachment;
 import de.holarse.backend.db.ContentType;
 import de.holarse.backend.db.NodeType;
 import de.holarse.backend.db.Tag;
-import de.holarse.backend.db.types.AttachmentDataType;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.AttachmentRepository;
 import de.holarse.backend.db.repositories.RevisionRepository;
 import de.holarse.backend.db.repositories.TagRepository;
+import de.holarse.backend.db.types.AttachmentGroup;
+import de.holarse.backend.views.ArticleView;
 import de.holarse.exceptions.ErrorMode;
 import de.holarse.exceptions.FlashMessage;
 import de.holarse.exceptions.HolarseException;
@@ -28,7 +29,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
@@ -44,6 +47,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -142,27 +146,36 @@ public class ArticleController {
     // SHOW by Slug
     @Transactional
     @GetMapping("/{slug}")
-    public ModelAndView showBySlug(@PathVariable final String slug, final Model map) {
+    public ModelAndView showBySlug(@PathVariable final String slug, final ModelMap map) {
         try {
             final Article article = nodeService.findArticle(slug).get();
 
             Hibernate.initialize(article.getTags());
             Hibernate.initialize(article.getAttachments());
 
-            // TODO Attachment-Renderer
-            final List<String> renderedAttachments = new ArrayList<>();
-            for (final Attachment att : article.getAttachments()) {
-                try {
-                    renderedAttachments.add(attachmentRenderService.render(att));
-                } catch (Exception e) {
-                    logger.warn("Fehler während des Renders. Wird ignoriert", e);
-                }
+            for(Attachment att : article.getAttachments()) {
+                System.out.println("att: (id=" + att.getId() + ") " + att.getAttachmentGroup() + ", " + att.getAttachmentData());
             }
-
-            map.addAttribute("node", article);
-            map.addAttribute("renderedAttachments", renderedAttachments);
-            map.addAttribute("rendererContent", renderer.render(article.getContent()));
-            return new ModelAndView("articles/show", map.asMap());
+            
+            final Map<AttachmentGroup, List<Attachment>> attachmentGroups = article.getAttachments()
+                    .stream()
+                    .filter(a -> StringUtils.isNotBlank(a.getAttachmentData()))
+                    .collect(Collectors.groupingBy(a -> a.getAttachmentGroup()));
+            
+            ArticleView view = new ArticleView();
+            view.setMainTitle(article.getTitle());
+            view.setAlternativeTitle1(article.getAlternativeTitle1());
+            view.setAlternativeTitle2(article.getAlternativeTitle2());
+            view.setAlternativeTitle3(article.getAlternativeTitle3());
+            view.setContent( renderer.render(article.getContent() ));
+            
+            view.getTags().addAll(article.getTags());
+            view.getAttachments().putAll(attachmentGroups);
+            
+            map.addAttribute("title", article.getTitle());
+            map.addAttribute("view", view);
+            
+            return new ModelAndView("articles/show", map);
         } catch (RedirectException re) {
             return new ModelAndView(re.getRedirect());
         }

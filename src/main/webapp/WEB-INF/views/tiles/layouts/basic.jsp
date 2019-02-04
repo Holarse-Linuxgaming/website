@@ -4,7 +4,7 @@
 <html lang="de">
     <head>
         <!-- Title -->
-        <title>Holarse - Spielen unter Linux</title>
+        <title>${title} | Holarse - Spielen unter Linux</title>
 
         <!-- Required Meta Tags Always Come First -->
         <meta charset="utf-8">

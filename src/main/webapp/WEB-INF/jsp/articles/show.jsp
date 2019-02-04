@@ -2,28 +2,28 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/security/tags" %>
 
 <h1>
-    ${node.title}
-    <p><small class="text-muted">${node.alternativeTitle1}</small></p>
-    <p><small class="text-muted">${node.alternativeTitle2}</small></p>
-    <p><small class="text-muted">${node.alternativeTitle3}</small></p>  
+    ${view.mainTitle}
+    <p><small class="text-muted">${view.alternativeTitle1}</small></p>
+    <p><small class="text-muted">${view.alternativeTitle2}</small></p>
+    <p><small class="text-muted">${view.alternativeTitle3}</small></p>  
 </h1>
 
 <div class="row justify-content-between">
     <div class="col-4">
         <nav class="nav holarse-tags">
 
-            <c:forEach items="${node.tags}" var="tag">
+            <c:forEach items="${view.tags}" var="tag">
                 <li class="nav-item">
                     <a class="nav-link" href="/finder/?tag=${tag.name}" title="Klicken für weitere Artikel mit diesem Tag">${tag.name}</a>
                 </li>                
             </c:forEach>
-                
-            <li class="nav-item">
-                <a class="nav-link" href="${node.urlid}/branches" title="Branches anzeigen">
-                    <i class="fas fa-code-branch"></i>
-                    ${node.branch}
-                </a>
-            </li>                                
+
+            <!--            <li class="nav-item">
+                            <a class="nav-link" href="${node.urlid}/branches" title="Branches anzeigen">
+                                <i class="fas fa-code-branch"></i>
+            ${node.branch}
+        </a>
+    </li>                                -->
 
             <s:authorize access="hasRole('USER')">
                 <li class="nav-item nav-fill">
@@ -32,16 +32,16 @@
             </s:authorize> 
         </nav>
     </div>
-           
+
 <!--            <span class="navbar-text">Letzte Änderung: ${empty node.updated ? node.created : node.updated} durch ${empty node.author ? 'unbekannt' : node.author.login}</span>                 -->
-    
+
 </div>
 
 <%@include file="/WEB-INF/jspf/nodes/menubar.jspf" %>
 
 <div class="row">
-    <article class="col-md-8" data-nodeid="${node.id}">
-        ${rendererContent}    
+    <article class="col-md-8">
+        ${view.content}    
     </article>
     <div class="col-md-4">
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -78,25 +78,25 @@
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="sr-only">Next</span>
             </a>
+        </div>  
+
+        <div class="list-group">
+            <c:forEach items="${view.links}" var="link">
+                <a href="${link.attachmentData}" class="list-group-item list-group-item-action">${link.description}</a>    
+            </c:forEach>
         </div>        
 
-       
-        
-        <h1>Attachments</h1>
-        <ul>
-        <c:forEach items="${renderedAttachments}" var="renderedAttachment">
-            <li>
-                ${renderedAttachment}
-            </li>
+        <c:forEach items="${view.videos}" var="video">
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="https://www.youtube-nocookie.com/embed/${video.attachmentData}" allowfullscreen></iframe>
+            </div>             
         </c:forEach>
-        </ul>
-        
 
     </div>
 </div>
-    
+
 <div id="v-comments">
-    
+
     <template v-for="comment in comments">
         <div class="media">
             <img class="align-self-start mr-3" src="https://placeimg.com/64/64/any" alt="Generic placeholder image">
@@ -106,7 +106,7 @@
             </div>
         </div>        
     </template>
-                    
+
 </div>
 
 <div class="row">

@@ -40,8 +40,16 @@ public class SearchController {
     @GetMapping("/search")
     public String searchUrl(@RequestParam("q") final String query, final Model map, final HttpServletRequest req) throws UnsupportedEncodingException {
         final String decodedQuery = URLDecoder.decode(query, "UTF-8");
-        map.addAttribute("results", searchEngine.search(decodedQuery));
+        
+        final List<SearchResult> results = searchEngine.search(decodedQuery);
+        
+        map.addAttribute("results", results);
         map.addAttribute("q", decodedQuery);
+        
+        final StringBuilder buffer = new StringBuilder();
+        buffer.append("Suche nach '").append(query).append("' mit ").append(results.size()).append(" Ergebnissen");
+        
+        map.addAttribute("title", buffer.toString() );
         return "search/result";
     }
     

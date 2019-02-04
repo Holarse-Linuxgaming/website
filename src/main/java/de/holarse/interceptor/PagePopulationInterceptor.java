@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.holarse.interceptor;
 
 import de.holarse.backend.db.User;
@@ -61,6 +56,9 @@ public class PagePopulationInterceptor extends HandlerInterceptorAdapter {
             mav.addObject("currentUser", getCurrentUser());
             mav.addObject("commitId", commitId);
             mav.addObject("commitIdDescribe", commitIdDescribe);
+            
+            // Standardtitel setzen
+            mav.getModel().computeIfAbsent("title", k -> "Eure deutschsprache Linuxspiele-Community");
         }
     }
     

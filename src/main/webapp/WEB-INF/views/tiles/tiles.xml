@@ -5,7 +5,6 @@
       
     <!-- Base Definition -->
     <definition name="base-definition" template="/WEB-INF/views/tiles/layouts/basic.jsp">  
-        <put-attribute name="title" value="" />  
         <put-attribute name="header" value="/WEB-INF/views/tiles/template/header.jsp" />  
         <put-attribute name="body" value="" />  
         <put-attribute name="footer" value="/WEB-INF/views/tiles/template/footer.jsp" />
