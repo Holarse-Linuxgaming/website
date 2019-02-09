@@ -10,21 +10,6 @@
 
 <div class="row justify-content-between">
     <div class="col-4">
-        <nav class="nav holarse-tags">
-
-            <c:forEach items="${view.tags}" var="tag">
-                <li class="nav-item">
-                    <a class="nav-link" href="/finder/?tag=${tag.name}" title="Klicken für weitere Artikel mit diesem Tag">${tag.name}</a>
-                </li>                
-            </c:forEach>
-
-            <!--            <li class="nav-item">
-                            <a class="nav-link" href="${node.urlid}/branches" title="Branches anzeigen">
-                                <i class="fas fa-code-branch"></i>
-            ${node.branch}
-        </a>
-    </li>                                -->
-
             <s:authorize access="hasRole('USER')">
                 <li class="nav-item nav-fill">
                     <a class="nav-link" href="#" id="toggle-holarse-context-menu" title="Aktionen anzeigen"><i class="fas fa-cogs"></i></a>
@@ -43,70 +28,94 @@
     <article class="col-md-8">
         ${view.content}    
     </article>
+    <!-- Tags -->
+    
+    <!-- Attachments -->
     <div class="col-md-4">
-        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <!-- Tags -->
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <c:forEach items="${view.tags}" var="tag">
+                <a class="btn btn-primary" href="/finder/?tag=${tag.name}" title="Klicken für weitere Artikel mit diesem Tag">${tag.name}</a>
+            </c:forEach>
+        </div>
+        <!-- Screenshots -->
+        <div id="carouselScreenshots" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
-                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                <c:forEach items="${view.screenshots}" var="screenshot" varStatus="c">
+                    <li data-target="#carouselScreenshots" data-slide-to="${c.index}" class="${c.first ? 'active' : ''}"></li>    
+                </c:forEach>
             </ol>
             <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img class="d-block w-100" src="https://placeimg.com/640/480/any" alt="First slide">
-                    <div class="carousel-caption d-none d-md-block">
-                        <p>Screenshot aus der Beta</p>
-                    </div>                    
-                </div>
-                <div class="carousel-item">
-                    <img class="d-block w-100" src="https://placeimg.com/640/480/any" alt="Second slide">
-                    <div class="carousel-caption d-none d-md-block">
-                        <p>Selbstgemachter Screenshot</p>
-                    </div>                    
-                </div>
-                <div class="carousel-item">
-                    <img class="d-block w-100" src="https://placeimg.com/640/480/any" alt="Third slide">
-                    <div class="carousel-caption d-none d-md-block">
-                        <p>Produktbild</p>
+                <c:forEach items="${view.screenshots}" var="screenshot" varStatus="c">
+                    <div class="carousel-item ${c.first ? 'active' : ''}">
+                        <img class="d-block w-100" src="https://www.holarse-linuxgaming.de/${screenshot.attachmentData}" alt="First slide">
+                        <div class="carousel-caption d-none d-md-block">
+                            <p>${screenshot.description}</p>
+                        </div>                    
                     </div>
-                </div>
+                </c:forEach>
             </div>
-            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <a class="carousel-control-prev" href="#carouselScreenshots" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="sr-only">Previous</span>
             </a>
-            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <a class="carousel-control-next" href="#carouselScreenshots" role="button" data-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="sr-only">Next</span>
             </a>
         </div>  
 
+        <!-- Videos -->
+        <div id="carouselVideos" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <c:forEach items="${view.videos}" var="video" varStatus="c">
+                    <li data-target="#carouselVideos" data-slide-to="${c.index}" class="${c.first ? 'active' : ''}"></li>    
+                </c:forEach>
+            </ol>
+            <div class="carousel-inner">
+                <c:forEach items="${view.videos}" var="video" varStatus="c">
+                    <div class="carousel-item ${c.first ? 'active' : ''}">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item" src="https://www.youtube-nocookie.com/embed/${video.attachmentData}" allowfullscreen></iframe>
+                        </div>                          
+                    </div>
+                </c:forEach>
+            </div>
+            <a class="carousel-control-prev" href="#carouselVideos" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselVideos" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>          
+
+        <!-- Websites -->
         <div class="list-group">
-            <c:forEach items="${view.links}" var="link">
-                <a href="${link.attachmentData}" class="list-group-item list-group-item-action">${link.description}</a>    
+            <c:forEach items="${view.websites}" var="website">
+                <a href="${website.attachmentData}" class="list-group-item list-group-item-action">${website.description}</a>    
             </c:forEach>
-        </div>        
-
-        <c:forEach items="${view.videos}" var="video">
-            <div class="embed-responsive embed-responsive-16by9">
-                <iframe class="embed-responsive-item" src="https://www.youtube-nocookie.com/embed/${video.attachmentData}" allowfullscreen></iframe>
-            </div>             
-        </c:forEach>
-
+        </div>               
+        
     </div>
 </div>
 
-<div id="v-comments">
-
-    <template v-for="comment in comments">
-        <div class="media">
-            <img class="align-self-start mr-3" src="https://placeimg.com/64/64/any" alt="Generic placeholder image">
-            <div class="media-body">
-                <h5 class="mt-0"><a href="#">{{comment.author.login}}</a> am {{comment.created}}</h5>
-                <p>{{comment.content}}</p>
-            </div>
-        </div>        
-    </template>
-
+<!-- Kommentare -->
+<div class="comments">
+    <c:forEach items="${view.comments}" var="comment">
+    <div class="row">
+        <div class="col-md-12">            
+            <div class="media">
+                <img class="align-self-start mr-3" src="https://placeimg.com/64/64/any" alt="Generic placeholder image">
+                <div class="media-body">
+                    <h5 class="mt-0"><a href="#">{{comment.author.login}}</a> am {{comment.created}}</h5>
+                    <p>{{comment.content}}</p>
+                </div>
+            </div>        
+        </div>
+    </div>            
+    </c:forEach>
 </div>
 
 <div class="row">

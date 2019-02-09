@@ -1,9 +1,12 @@
 package de.holarse.backend.export;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @JacksonXmlRootElement(localName = "user")
 public class User {
@@ -32,6 +35,18 @@ public class User {
 
     @JacksonXmlProperty(localName="password")    
     private Password password;
+    
+    @JacksonXmlProperty(localName="role")
+    @JacksonXmlElementWrapper(localName = "roles")
+    private List<Role> roles = new ArrayList<>();    
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
 
     public Password getPassword() {
         return password;

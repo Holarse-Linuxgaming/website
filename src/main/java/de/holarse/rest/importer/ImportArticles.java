@@ -79,6 +79,10 @@ public class ImportArticles {
         // Im Drupal gab es noch keine multiplen Titel       
         article.setCreated(OffsetDateTime.ofInstant(importArticle.getCreated().toInstant(), ZoneOffset.UTC));
         
+        System.out.println("Content START::::::::::::::::::::::::::::::::::::::::::::::::");
+        System.out.println(importArticle.getContent().getValue());
+        System.out.println("Content STOPP::::::::::::::::::::::::::::::::::::::::::::::::");
+        
         article.setTitle(importArticle.getTitles().get(0).getValue());
         article.setContent(importArticle.getContent().getValue());
         article.setContentType(ContentType.WIKI);
@@ -104,26 +108,30 @@ public class ImportArticles {
         article.getTags().addAll(tags);
 
         // Slug-Erstellung
-        article.setSlug(nodeService.findNextSlug(article.getTitle(), NodeType.ARTICLE));
+        if (article.getSlug() == null) {
+            article.setSlug(nodeService.findNextSlug(article.getTitle(), NodeType.ARTICLE));
+        }
 
         article.getAttachments().clear();        
         ar.save(article);
         
         // Attachments
-        List<Attachment> attachments = new ArrayList<>();
-        for (de.holarse.backend.export.Attachment importAttachment : importArticle.getAttachments()) {
-            final Attachment attachment = new Attachment();
-            attachment.setNodeId(article.getNodeId());
-            attachment.setAttachmentGroup(AttachmentGroup.valueOf(importAttachment.getGroup()));
-            attachment.setAttachmentType(AttachmentType.lookup(importAttachment.getType(), importAttachment.getGroup()));
-            attachment.setAttachmentDataType(AttachmentDataType.URI);
-            attachment.setCreated(OffsetDateTime.now());
-            attachment.setOrdering(importAttachment.getPrio() != null ? importAttachment.getPrio() : 0l );
-            attachment.setAttachmentData(importAttachment.getValue());
-            
-            attachments.add(attachment);
-        }        
-        attr.saveAll(attachments);  // Über die NodeID sind die dann direkt verbunden
+        if (importArticle.getAttachments() != null) {
+            List<Attachment> attachments = new ArrayList<>();
+            for (de.holarse.backend.export.Attachment importAttachment : importArticle.getAttachments()) {
+                final Attachment attachment = new Attachment();
+                attachment.setNodeId(article.getNodeId());
+                attachment.setAttachmentGroup(AttachmentGroup.valueOf(importAttachment.getGroup()));
+                attachment.setAttachmentType(AttachmentType.lookup(importAttachment.getType(), importAttachment.getGroup()));
+                attachment.setAttachmentDataType(AttachmentDataType.URI);
+                attachment.setCreated(OffsetDateTime.now());
+                attachment.setOrdering(importAttachment.getPrio() != null ? importAttachment.getPrio() : 0l );
+                attachment.setAttachmentData(importAttachment.getValue());
+
+                attachments.add(attachment);
+            }        
+            attr.saveAll(attachments);  // Über die NodeID sind die dann direkt verbunden
+        }
         
         // Such-Update
         searchEngine.update(article);        

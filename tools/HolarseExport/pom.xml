@@ -59,7 +59,7 @@
                             <archive>
                                 <manifest>
                                     <mainClass>
-                                        de.holarse.tools.holarseexport.Export
+                                        de.holarse.tools.holarseexport.ExportMain
                                     </mainClass>
                                 </manifest>
                             </archive>

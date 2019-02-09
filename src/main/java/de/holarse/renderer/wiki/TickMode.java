@@ -25,13 +25,10 @@ public class TickMode implements Mode {
         } else {
             buffer.append(ch);
         }
-        
-        System.out.println("handling: char: " + ch + ", depth: " + depth + ", buffer: " + buffer.toString() + " (" + buffer.length() + ")");
     }
 
     @Override
     public StringBuilder render() {
-        System.out.println("Rendering: depth: " + depth + ", depthOut: " + depthOut + ", buffer: " + buffer.toString() + " (" + buffer.length() + ")");
         final StringBuilder n = new StringBuilder(35);
         switch (depth)
         {

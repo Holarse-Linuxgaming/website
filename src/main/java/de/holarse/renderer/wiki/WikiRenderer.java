@@ -45,6 +45,10 @@ public class WikiRenderer implements Renderer {
         if (TickMode.isStartMarker(cchar)) {
             return new TickMode();
         } 
+        
+        if (cchar == '\n' && ParagraphMode.isStartMarker(getForwardChars(source, i, i+2))) {
+            return new ParagraphMode();
+        }
 
         if (NewLineMode.isStartMarker(cchar)) {
             return new NewLineMode();
@@ -54,9 +58,9 @@ public class WikiRenderer implements Renderer {
             return new HeaderMode();
         }     
         
-        return null;
+        return null; //new ParagraphMode();
     }
-            
+           
     
     @Override
     public String render(final String source) {

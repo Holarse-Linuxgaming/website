@@ -1,18 +1,18 @@
+<%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <!DOCTYPE html>
 <html lang="de">
     <head>
-        <!-- Title -->
-        <title>${title} | Holarse - Spielen unter Linux</title>
-
         <!-- Required Meta Tags Always Come First -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="_csrf" content="${_csrf.token}"/>
         <meta name="_csrf_header" content="${_csrf.headerName}"/>        
 
+        <!-- Title -->
+        <title>${title} | Holarse - Spielen unter Linux</title>        
+        
         <base href="/">
 
         <!-- Favicon -->
@@ -22,6 +22,7 @@
         <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
         <link rel="stylesheet" href="assets/vendor/fontawesome/fontawesome-all.min.css">
         <link rel="stylesheet" href="assets/vendor/jquery-ui/jquery-ui.min.css">
+        <link rel="stylesheet" href="assets/vendor/highlightjs/styles/hybrid.css">
 
         <!-- CSS Customization -->
         <link rel="stylesheet" href="assets/css/custom.css">
@@ -33,7 +34,7 @@
 
         <main class="content container-fluid">
             
-            <!-- Flash message verfügbar? -->
+            <!-- Flash message verfÃ¼gbar? -->
             <c:if test="${flashMessage != null}">
                 <div class="alert alert-${flashMessage.cssMode}" role="alert">
                   <h4 class="alert-heading">${flashMessage.title}</h4>
@@ -54,14 +55,11 @@
         <!-- JS Global Compulsory -->
         <script src="assets/vendor/jquery/jquery-3.3.1.min.js"></script>
         <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
-        <script src="assets/vendor/masonry/masonry.pkgd.min.js"></script>
-        <script src="assets/vendor/vue/vue.js"></script>
         <script src="assets/vendor/jquery-ui/jquery-ui.min.js"></script>
+        <script src="assets/vendor/highlightjs/highlight.pack.js"></script>
         
         <!-- JS Custom -->
         <script src="assets/js/custom.js"></script>
-        
-        <script src="assets/js/holarsevue.js"></script>        
 
         <script>
             $(document).ready(function () {

@@ -1,8 +1,13 @@
 package de.holarse.renderer.wiki;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public class HeaderMode implements Mode {
 
+    Logger logger = LoggerFactory.getLogger(HeaderMode.class);
+    
     private StringBuilder buffer = new StringBuilder(30);
     private int depth = 0;
     private int depthOut = 0;    
@@ -27,12 +32,11 @@ public class HeaderMode implements Mode {
             buffer.append(ch);
         }
         
-        System.out.println("handling: char: " + ch + ", depth: " + depth + ", buffer: " + buffer.toString() + " (" + buffer.length() + ")");
+        logger.debug("handling: char: {}, depth: {}, buffer: {} ({})", new Object[] { ch, depth, buffer.toString(), buffer.length()});
     }
 
     @Override
     public StringBuilder render() {
-        System.out.println("Rendering: depth: " + depth + ", depthOut: " + depthOut + ", buffer: " + buffer.toString() + " (" + buffer.length() + ")");
         final StringBuilder n = new StringBuilder(35);
         n.append("<h").append(depth).append(">").append(buffer.toString().trim()).append("</h").append(depth).append(">");
         return n;        

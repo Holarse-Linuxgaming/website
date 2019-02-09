@@ -89,8 +89,6 @@ public class WikiLinkMode implements Mode {
 //            }
             complete = true;
         }
-        
-        System.out.println("CurrentChar: " + ch + "(CC:" + count + ",DC:" + decount + ", CO: " + complete + "), Buffer: " + buffer.hashCode() + ", TargetBuffer: " + targetBuffer.toString() + ", LabelBuffer: " + labelBuffer.toString() + ", ext: " + externalLink + ", int: " + internalLink);
     }
 
     @Override

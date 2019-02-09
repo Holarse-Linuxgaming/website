@@ -78,12 +78,11 @@ public class WikiRendererTest {
         assertEquals("<h5>Test</h5>", renderer.render("=====Test====="));
     }    
 
-//    
-//    @Test    
-//    public void testHeaderMixedWithLink() {
-//        assertEquals("<h3><a href=\"/wiki/lala\">Lala</a></h3>", renderer.render("===[[Lala]]==="));
-//    }    
-//    
+    //@Test    
+    public void testHeaderMixedWithLink() {
+        assertEquals("<h3><a href=\"/wiki/lala\">Lala</a></h3>", renderer.render("===[[Lala]]==="));
+    }    
+    
     /**
      * LINKS
      */
@@ -176,6 +175,12 @@ public class WikiRendererTest {
         assertEquals("<ul><li>eins</li><li>zwei</li><li>drei</li></ul>", renderer.render("* eins\n* zwei\n* drei\n\n"));
     }     
     
+    //@Test
+    public void testIsNotAList() {
+        String text = "Der Editor läuft auf Windows, OS X, Linux, *BSD und Haiku.";
+        assertEquals(text, renderer.render(text));
+    }
+    
 //    @Test    
 //    public void testDeeperList() {
 //        assertEquals("Folgende Liste: <ul><li>eins</li><li>zwei<ul><li>zweieinhalb</li></ul></li><li>drei</li></ul>", renderer.render("Folgende Liste: \n* eins\n* zwei\n** zweieinhalb\n* drei\n"));
@@ -191,7 +196,7 @@ public class WikiRendererTest {
 //        assertEquals("Folgende Liste: <ol><li>eins</li><li>zwei<ul><li>zweieinhalb</li></ol></li><li>drei</li></ol>", renderer.render("Folgende Liste: \n# eins\n# zwei\n## zweieinhalb\n# drei\n"));
 //    }     
     
-    @Test
+    //@Test
     public void testListEnding() {
         String input = "* das\n" +
 "* ist eine\n" +
@@ -240,12 +245,12 @@ public class WikiRendererTest {
      */
     @Test
     public void testCodeInline() {
-        assertEquals("Das ist ein <pre>Codetext</pre>.", renderer.render("Das ist ein [code]Codetext[/code]."));
+        assertEquals("Das ist ein <pre><code>Codetext</code></pre>.", renderer.render("Das ist ein [code]Codetext[/code]."));
     }
     
     @Test
     public void testCodeBlock() {
-        assertEquals("Und hier ein Codeblock: <br /><pre>\ncd $HOME\n./run\n</pre>.", renderer.render("Und hier ein Codeblock: \n[code]\ncd $HOME\n./run\n[/code]."));
+        assertEquals("Und hier ein Codeblock: <br /><pre><code class=\"language-bash\">\ncd $HOME\n./run\n</code></pre>.", renderer.render("Und hier ein Codeblock: \n[code]\ncd $HOME\n./run\n[/code]."));
     }    
     
     /**
@@ -257,9 +262,23 @@ public class WikiRendererTest {
         assertEquals("hallo<br />welt", renderer.render("hallo\nwelt"));
     }    
     
+    // Two Newlines
+    //@Test
+    public void testParagraph() {
+        String text = "Ich bin ein Satz in einem\n\neigenen Absatz\n\nund hier gehts weiter.";
+        assertEquals("<p>Ich bin ein Satz in einem</p><p>eigenen Absatz</p><p>und hier gehts weiter.", renderer.render(text));
+    }
+    
     @Test
     public void testBreak() {
         assertEquals("<br />", renderer.render("<!--break-->"));
+    }
+    
+    //@Test
+    public void testEscapeScript() {
+        String text = "Hallo <script>alert(\"error\");</script> Welt";
+        String expc = "Hallo &lt;script&gt;alert(\"error\");&lt;/script&gt; Welt";
+        assertEquals(expc, renderer.render(text));
     }
 
 }

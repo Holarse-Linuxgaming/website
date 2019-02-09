@@ -2,9 +2,13 @@ package de.holarse.rest.importer;
 
 import de.holarse.backend.db.PasswordType;
 import de.holarse.backend.db.User;
+import de.holarse.backend.db.repositories.RoleRepository;
 import de.holarse.backend.db.repositories.UserRepository;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +32,9 @@ public class ImportUsers {
     @Autowired
     private UserRepository ur;
     
+    @Autowired
+    private RoleRepository rr;
+    
     @Transactional
     @PostMapping(consumes = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<String> upload(@RequestBody final de.holarse.backend.export.User importUser) throws Exception {
@@ -45,7 +52,19 @@ public class ImportUsers {
         user.setVerified(true); // Automatisch verifiziert durch den Import
         user.setLocked(importUser.isLocked());
         user.setOldId(importUser.getUid());
-
+        
+        if (user.getRoles() == null) {
+            user.setRoles(new HashSet<>());
+        } else {
+            user.getRoles().clear();    
+        }
+        
+        if (importUser.getRoles() != null) {
+            user.setRoles( importUser.getRoles().stream().map(r -> rr.findByCodeIgnoreCase(r.getValue()))
+                                                         .filter(Optional::isPresent)
+                                                         .map(Optional::get)
+                                                         .collect(Collectors.toSet()) );
+        }
         ur.save(user);
         
         return new ResponseEntity<>("OK", HttpStatus.CREATED);

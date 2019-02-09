@@ -28,8 +28,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -152,15 +150,19 @@ public class ArticleController {
 
             Hibernate.initialize(article.getTags());
             Hibernate.initialize(article.getAttachments());
+            Hibernate.initialize(article.getComments());
 
+            logger.debug("Attachments for Article (id: {}) - {}", new Object[] { article.getId(), article.getTitle() });
             for(Attachment att : article.getAttachments()) {
-                System.out.println("att: (id=" + att.getId() + ") " + att.getAttachmentGroup() + ", " + att.getAttachmentData());
+                logger.debug("att: id={}, group={}, data={}", new Object[] { att.getId(), att.getAttachmentGroup(), att.getAttachmentData()});
             }
             
             final Map<AttachmentGroup, List<Attachment>> attachmentGroups = article.getAttachments()
                     .stream()
                     .filter(a -> StringUtils.isNotBlank(a.getAttachmentData()))
                     .collect(Collectors.groupingBy(a -> a.getAttachmentGroup()));
+            
+            logger.debug("Content: {}", article.getContent());
             
             ArticleView view = new ArticleView();
             view.setMainTitle(article.getTitle());
@@ -171,6 +173,7 @@ public class ArticleController {
             
             view.getTags().addAll(article.getTags());
             view.getAttachments().putAll(attachmentGroups);
+            view.getComments().addAll(article.getComments());
             
             map.addAttribute("title", article.getTitle());
             map.addAttribute("view", view);

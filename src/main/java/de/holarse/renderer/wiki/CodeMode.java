@@ -1,11 +1,16 @@
 package de.holarse.renderer.wiki;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class CodeMode implements Mode {
 
+    Logger logger = LoggerFactory.getLogger(CodeMode.class);
+    
     private final StringBuilder buffer = new StringBuilder(30);    
     
     public static boolean isStartMarker(String sequence) {
-        return "[CODE]".equalsIgnoreCase(sequence);
+        return "[CODE]".equalsIgnoreCase(sequence) || "<CODE>".equalsIgnoreCase(sequence);
     }
         
     @Override
@@ -15,12 +20,13 @@ public class CodeMode implements Mode {
 
     @Override
     public StringBuilder render() {
-        System.out.println("Before: " + buffer.toString());
+        logger.debug("Before: " + buffer.toString());
         
-        final StringBuilder n = new StringBuilder(30);    
-        n.append( buffer.toString().replaceAll("\\[code\\]", "<pre>").replaceAll("\\[/code\\]", "</pre>") );
+        final StringBuilder n = new StringBuilder(250);    
+        n.append( buffer.toString().replaceAll("\\[code\\]", "<pre><code class=\"language-bash\">").replaceAll("\\[/code\\]", "</code></pre>") );
         
-        System.out.println("After: " + n.toString());
+        logger.debug("After: " + n.toString());
+        System.out.println(n.toString());
         return n;
     }
 

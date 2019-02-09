@@ -1,6 +1,7 @@
 package de.holarse.backend.views;
 
 import de.holarse.backend.db.Attachment;
+import de.holarse.backend.db.Comment;
 import de.holarse.backend.db.Tag;
 import de.holarse.backend.db.types.AttachmentGroup;
 import java.util.ArrayList;
@@ -23,7 +24,8 @@ public class ArticleView implements View {
     
     private final List<Tag> tags = new ArrayList<>(20);
     private final Map<AttachmentGroup, List<Attachment>> attachments = new HashMap<>();
-
+    private final List<Comment> comments = new ArrayList<>(10);
+    
     public String getMainTitle() {
         return mainTitle;
     }
@@ -76,8 +78,16 @@ public class ArticleView implements View {
         return getAttachments().get(AttachmentGroup.VIDEO);
     }
     
-    public List<Attachment> getLinks() {
+    public List<Attachment> getScreenshots() {
+        return getAttachments().get(AttachmentGroup.IMAGE);
+    }    
+    
+    public List<Attachment> getWebsites() {
         return getAttachments().get(AttachmentGroup.WEBSITE);
     }
+    
+    public List<Comment> getComments() {
+        return comments;
+    }    
     
 }

@@ -61,7 +61,6 @@ public abstract class Node extends Base implements LegacyImport, LinkableNode {
     private int wordCount;
     
     @OneToMany(mappedBy = "nodeId")
-    @OrderColumn(name = "ordering")
     @Cascade({CascadeType.SAVE_UPDATE})    
     private List<Attachment> attachments = new ArrayList<>();
 
