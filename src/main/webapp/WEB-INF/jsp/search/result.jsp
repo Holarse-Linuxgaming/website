@@ -8,12 +8,16 @@
         </tr>
     </thead>
     <tbody>
-        <c:forEach items="${results}" var="result">
+        <c:forEach items="${view.results}" var="result">
             <tr>
                 <td><a href="${result.url}">${result.title}</a></td>
                 <td>${result.alternativeTitles}</td>
-                <td>${result.tags}</td>
-                <td>${result.content}</td>
+                <td>
+                    <c:forEach items="${result.tags}" var="tag">
+                        <a href="/finder/?tag=${tag}" title="Klicken für weitere Artikel mit diesem Tag">${tag}</a>
+                    </c:forEach>
+                </td>
+                <td>${result.teaser}</td>
             </tr>
     </c:forEach>        
 </tbody>

@@ -7,9 +7,9 @@ public class ParagraphMode implements Mode {
     private boolean complete = false;
     
     public static boolean isStartMarker(String chs) {
-        for(char c : chs.toCharArray()) {
-            System.out.println((int) c);
-        }
+//        for(char c : chs.toCharArray()) {
+//            System.out.println((int) c);
+//        }
         boolean x= chs.equals("\n\n");
         return x;
     }    

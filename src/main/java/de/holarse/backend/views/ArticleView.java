@@ -13,7 +13,7 @@ import java.util.Map;
  * Viewmodel für Artikel
  * @author comrad
  */
-public class ArticleView implements View {
+public class ArticleView extends AbstractPageTitleView {
     
     private String mainTitle;
     private String alternativeTitle1;
@@ -89,5 +89,10 @@ public class ArticleView implements View {
     public List<Comment> getComments() {
         return comments;
     }    
+
+    @Override
+    public String getPageTitle() {
+        return getMainTitle();
+    }
     
 }

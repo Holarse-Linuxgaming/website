@@ -1,5 +1,7 @@
 package de.holarse.web.search;
 
+import de.holarse.backend.views.SearchResultView;
+import de.holarse.backend.views.SearchResultsView;
 import de.holarse.search.SearchEngine;
 import de.holarse.search.SearchResult;
 import de.holarse.services.TrafficService;
@@ -39,17 +41,15 @@ public class SearchController {
     
     @GetMapping("/search")
     public String searchUrl(@RequestParam("q") final String query, final Model map, final HttpServletRequest req) throws UnsupportedEncodingException {
+        final SearchResultsView view = new SearchResultsView(query);
+        
         final String decodedQuery = URLDecoder.decode(query, "UTF-8");
-        
-        final List<SearchResult> results = searchEngine.search(decodedQuery);
-        
-        map.addAttribute("results", results);
+        final List<SearchResultView> results = searchEngine.search(decodedQuery).stream().map(s -> new SearchResultView(s)).collect(Collectors.toList());
+        view.getResults().addAll(results);
+
         map.addAttribute("q", decodedQuery);
         
-        final StringBuilder buffer = new StringBuilder();
-        buffer.append("Suche nach '").append(query).append("' mit ").append(results.size()).append(" Ergebnissen");
-        
-        map.addAttribute("title", buffer.toString() );
+        map.addAttribute("view", view);
         return "search/result";
     }
     

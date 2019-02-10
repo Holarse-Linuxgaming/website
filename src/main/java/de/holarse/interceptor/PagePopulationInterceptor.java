@@ -2,6 +2,7 @@ package de.holarse.interceptor;
 
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.UserRepository;
+import de.holarse.backend.views.PageTitleView;
 import de.holarse.services.TrafficService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -58,7 +59,12 @@ public class PagePopulationInterceptor extends HandlerInterceptorAdapter {
             mav.addObject("commitIdDescribe", commitIdDescribe);
             
             // Standardtitel setzen
-            mav.getModel().computeIfAbsent("title", k -> "Eure deutschsprache Linuxspiele-Community");
+            if (mav.getModel().containsKey("view")) {
+                final PageTitleView ptv = (PageTitleView) mav.getModel().get("view");    
+                mav.getModel().computeIfAbsent("title", k -> ptv.getPageTitle());
+            } else {
+                mav.getModel().computeIfAbsent("title", k -> "Eure deutschsprache Linuxspiele-Community");
+            }
         }
     }
     

@@ -26,7 +26,7 @@ public class CodeMode implements Mode {
         n.append( buffer.toString().replaceAll("\\[code\\]", "<pre><code class=\"language-bash\">").replaceAll("\\[/code\\]", "</code></pre>") );
         
         logger.debug("After: " + n.toString());
-        System.out.println(n.toString());
+//        System.out.println(n.toString());
         return n;
     }
 
