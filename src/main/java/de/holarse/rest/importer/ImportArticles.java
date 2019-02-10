@@ -79,9 +79,9 @@ public class ImportArticles {
         // Im Drupal gab es noch keine multiplen Titel       
         article.setCreated(OffsetDateTime.ofInstant(importArticle.getCreated().toInstant(), ZoneOffset.UTC));
         
-        System.out.println("Content START::::::::::::::::::::::::::::::::::::::::::::::::");
-        System.out.println(importArticle.getContent().getValue());
-        System.out.println("Content STOPP::::::::::::::::::::::::::::::::::::::::::::::::");
+        //System.out.println("Content START::::::::::::::::::::::::::::::::::::::::::::::::");
+        //System.out.println(importArticle.getContent().getValue());
+        //System.out.println("Content STOPP::::::::::::::::::::::::::::::::::::::::::::::::");
         
         article.setTitle(importArticle.getTitles().get(0).getValue());
         article.setContent(importArticle.getContent().getValue());
@@ -112,10 +112,9 @@ public class ImportArticles {
             article.setSlug(nodeService.findNextSlug(article.getTitle(), NodeType.ARTICLE));
         }
 
-        article.getAttachments().clear();        
-        ar.save(article);
-        
         // Attachments
+        attr.deleteByNodeId(article.getNodeId());
+        
         if (importArticle.getAttachments() != null) {
             List<Attachment> attachments = new ArrayList<>();
             for (de.holarse.backend.export.Attachment importAttachment : importArticle.getAttachments()) {
@@ -126,12 +125,15 @@ public class ImportArticles {
                 attachment.setAttachmentDataType(AttachmentDataType.URI);
                 attachment.setCreated(OffsetDateTime.now());
                 attachment.setOrdering(importAttachment.getPrio() != null ? importAttachment.getPrio() : 0l );
-                attachment.setAttachmentData(importAttachment.getValue());
+                attachment.setAttachmentData(importAttachment.getContent());
+                attachment.setDescription(importAttachment.getDescription());
 
                 attachments.add(attachment);
-            }        
+            } 
+            //article.setAttachments(attachments);
             attr.saveAll(attachments);  // Über die NodeID sind die dann direkt verbunden
         }
+        ar.save(article);        
         
         // Such-Update
         searchEngine.update(article);        

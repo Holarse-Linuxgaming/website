@@ -245,7 +245,7 @@ public class WikiRendererTest {
      */
     @Test
     public void testCodeInline() {
-        assertEquals("Das ist ein <pre><code>Codetext</code></pre>.", renderer.render("Das ist ein [code]Codetext[/code]."));
+        assertEquals("Das ist ein <pre><code class=\"language-bash\">Codetext</code></pre>.", renderer.render("Das ist ein [code]Codetext[/code]."));
     }
     
     @Test

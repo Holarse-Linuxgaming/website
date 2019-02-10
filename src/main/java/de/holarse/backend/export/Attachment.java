@@ -2,7 +2,6 @@ package de.holarse.backend.export;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 
 @JacksonXmlRootElement(localName="attachment")
 public class Attachment {
@@ -16,8 +15,11 @@ public class Attachment {
     @JacksonXmlProperty(isAttribute = true)
     private String group;    
     
-    @JacksonXmlText
-    private String value;
+    @JacksonXmlProperty
+    private String content;
+
+    @JacksonXmlProperty
+    private String description;
 
     public Long getPrio() {
         return prio;
@@ -35,12 +37,20 @@ public class Attachment {
         this.type = type;
     }
 
-    public String getValue() {
-        return value;
+    public String getContent() {
+        return content;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getGroup() {

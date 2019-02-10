@@ -7,6 +7,7 @@ import de.holarse.backend.export.Revision;
 import de.holarse.backend.export.State;
 import de.holarse.backend.export.Tag;
 import de.holarse.backend.export.Title;
+import de.holarse.tools.helper.AttachmentHelper;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -134,11 +135,20 @@ public class ArticleExport implements Export {
             linkPs.setLong(2, article.getVid());            
             try (final ResultSet result = linkPs.executeQuery()) {
                 while (result.next()) {
-                    final Attachment att = new Attachment();
-                    att.setValue(result.getString("field_homepage_value"));
+                    log.log(Level.INFO, "att: {0} (sql: {1}, article: {2})", new Object[] { "", linkPs, article.getUid()});
+                    
+                    final String field = result.getString("field_homepage_value");
+                    if (StringUtils.isBlank(field)) { continue; }
+                    
+                    final Attachment att = new Attachment();                    
                     att.setType("LINK");
                     att.setPrio(result.getLong("delta"));
                     att.setGroup("WEBSITE");
+                    try {
+                        AttachmentHelper.extractInto(field, att);
+                    } catch (IllegalArgumentException iae) {
+                        continue;
+                    }
                     attachments.add(att);
                 }
             }
@@ -153,7 +163,7 @@ public class ArticleExport implements Export {
                     if (StringUtils.isNotBlank(wineHq)) {
                         final Attachment att = new Attachment();
                         att.setType("WINEHQ");
-                        att.setValue(wineHq);
+                        att.setContent(wineHq);
                         att.setGroup("WINE");
                         attachments.add(att);
                     } 
@@ -163,7 +173,7 @@ public class ArticleExport implements Export {
                     if (StringUtils.isNotBlank(protonDb)) {
                         final Attachment att = new Attachment();
                         att.setType("PROTONDB");
-                        att.setValue(protonDb);
+                        att.setContent(protonDb);
                         att.setGroup("WINE");
                         attachments.add(att);
                     }       
@@ -172,7 +182,7 @@ public class ArticleExport implements Export {
                     final Boolean protonOfficial = result.getBoolean("field_official_proton_value");
                     final Attachment att = new Attachment();
                     att.setType("PROTONOFFICIAL");
-                    att.setValue(protonOfficial.toString());
+                    att.setContent(protonOfficial.toString());
                     att.setGroup("WINE");
                     attachments.add(att);
                     
@@ -181,7 +191,7 @@ public class ArticleExport implements Export {
                     if (StringUtils.isNotBlank(crossoverDb)) {
                         final Attachment att2 = new Attachment();
                         att2.setType("CROSSOVERDB");
-                        att2.setValue(crossoverDb);
+                        att2.setContent(crossoverDb);
                         att2.setGroup("WINE");
                         
                         attachments.add(att2);
@@ -199,7 +209,7 @@ public class ArticleExport implements Export {
                         final Attachment att = new Attachment();
                         att.setType("STEAM");
                         att.setGroup("SHOP");
-                        att.setValue(steamUrl);
+                        att.setContent(steamUrl);
                         
                         attachments.add(att);                        
                     }
@@ -209,7 +219,7 @@ public class ArticleExport implements Export {
                         final Attachment att = new Attachment();
                         att.setType("HUMBLE");
                         att.setGroup("SHOP");
-                        att.setValue(humbleUrl);
+                        att.setContent(humbleUrl);
                         
                         attachments.add(att);                        
                     }                    
@@ -219,7 +229,7 @@ public class ArticleExport implements Export {
                         final Attachment att = new Attachment();
                         att.setType("GOG");
                         att.setGroup("SHOP");
-                        att.setValue(gogUrl);
+                        att.setContent(gogUrl);
                         
                         attachments.add(att);                        
                     }
@@ -229,7 +239,7 @@ public class ArticleExport implements Export {
                         final Attachment att = new Attachment();
                         att.setType("OWNSHOP");
                         att.setGroup("SHOP");
-                        att.setValue(ownshopUrl);
+                        att.setContent(ownshopUrl);
                         
                         attachments.add(att);                        
                     }
@@ -239,7 +249,7 @@ public class ArticleExport implements Export {
                         final Attachment att = new Attachment();
                         att.setType("ITCH");
                         att.setGroup("SHOP");
-                        att.setValue(itchUrl);
+                        att.setContent(itchUrl);
                         
                         attachments.add(att);
                     }                    
@@ -256,7 +266,7 @@ public class ArticleExport implements Export {
                         final Attachment att = new Attachment();
                         att.setType("YOUTUBE");
                         att.setGroup("VIDEO");
-                        att.setValue(video);
+                        att.setContent(video);
                         
                         attachments.add(att);                        
                     }
@@ -274,7 +284,7 @@ public class ArticleExport implements Export {
                         final Attachment att = new Attachment();
                         att.setType("SCREENSHOT");
                         att.setGroup("IMAGE");
-                        att.setValue(image);
+                        att.setContent(image);
                         att.setPrio(prio++);
                         
                         attachments.add(att);                        
@@ -292,7 +302,7 @@ public class ArticleExport implements Export {
                         final Attachment att = new Attachment();
                         att.setType("FILE");
                         att.setGroup("FILE");
-                        att.setValue(file);
+                        att.setContent(file);
                         
                         attachments.add(att);                        
                     }

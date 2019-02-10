@@ -61,7 +61,7 @@ public abstract class Node extends Base implements LegacyImport, LinkableNode {
     private int wordCount;
     
     @OneToMany(mappedBy = "nodeId")
-    @Cascade({CascadeType.SAVE_UPDATE})    
+    @Cascade({CascadeType.DELETE, CascadeType.SAVE_UPDATE})    
     private List<Attachment> attachments = new ArrayList<>();
 
     @Override

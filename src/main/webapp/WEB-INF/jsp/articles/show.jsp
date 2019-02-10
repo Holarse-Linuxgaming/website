@@ -94,7 +94,7 @@
         <!-- Websites -->
         <div class="list-group">
             <c:forEach items="${view.websites}" var="website">
-                <a href="${website.attachmentData}" class="list-group-item list-group-item-action">${website.description}</a>    
+                <a href="${website.attachmentData}" class="list-group-item list-group-item-action" title="${website.attachmentData}">${website.description}</a>    
             </c:forEach>
         </div>               
         
