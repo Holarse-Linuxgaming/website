@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.holarse</groupId>
@@ -16,6 +18,7 @@
         <apache.tiles.version>3.0.8</apache.tiles.version>
         <slf4jVersion>1.6.1</slf4jVersion>
         <!-- <apache.camel.version>2.19.0</apache.camel.version> -->
+        <java.version>1.8</java.version>
     </properties>
   
     <dependencies>
@@ -304,95 +307,28 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>3.8.0</version>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
-                    <compilerArgument>-Xlint:unchecked</compilerArgument>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <compilerArgs>
+                        <arg>-Xlint:unchecked</arg>
+                        <arg>-Xlint:deprecation</arg>
+                    </compilerArgs>
+<!--                    <outputDirectory>/home/comrad/Downloads/wlp/usr/servers/holarse/dropins</outputDirectory>-->
                 </configuration>
             </plugin>
             <!-- WAR-Datei erstellen -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.3</version>
+                <version>3.2.2</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
-            <!-- XJC - Create target dir -->
-            <!-- Create target dir -->
-<!--            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.4</version>
-                <executions>
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <configuration>
-                            <tasks>
-                                <echo message="Creating target/generated-sources/jaxb"/>
-                                <mkdir dir="./target/generated-sources/jaxb"/>
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>-->
-
-            <!-- Invoke xjc -->
-<!--            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.6.0</version>                    
-                <executions>
-                    <execution>
-                        <id>generate schema types</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <executable>xjc</executable>
-                    <arguments>
-                        <argument>-extension</argument>
-                        <argument>-target</argument>
-                        <argument>2.1</argument>
-                        <argument>-d</argument>
-                        <argument>target/generated-sources/jaxb/</argument>
-                        <argument>src/main/xsd/holarse.xsd</argument>
-                        <argument>-b</argument>
-                        <argument>src/main/xjb/bindings.xjb</argument>
-                    </arguments>
-                </configuration>
-            </plugin>-->
-
-            <!-- Add target dir to compilation -->
-<!--            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.0.0</version>
-                <executions>
-                    <execution>
-                        <id>add-source</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>add-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>target/generated-sources/jaxb</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>-->
-      
-            <plugin>
+            <!-- Git-Version -->
+             <plugin>
                 <groupId>pl.project13.maven</groupId>
                 <artifactId>git-commit-id-plugin</artifactId>
                 <version>2.2.4</version>

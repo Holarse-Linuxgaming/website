@@ -18,6 +18,7 @@ import de.holarse.backend.db.repositories.SlugRepository;
 import de.holarse.exceptions.NodeLockException;
 import de.holarse.exceptions.NodeNotFoundException;
 import de.holarse.exceptions.RedirectException;
+import java.lang.reflect.Constructor;
 
 import java.time.OffsetDateTime;
 import java.util.Optional;
@@ -66,7 +67,9 @@ public class NodeService {
      * @throws Exception
      */
     public <N extends Node> N initNode(Class<N> clazz) throws Exception {
-        final N node = clazz.newInstance();
+        final Constructor<N> constructor = clazz.getConstructor();
+        final N node = constructor.newInstance();
+        
         node.setArchived(Boolean.FALSE);
         node.setDeleted(Boolean.FALSE);
         node.setDraft(Boolean.FALSE);
