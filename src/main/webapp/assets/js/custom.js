@@ -19,7 +19,7 @@ $(document).ready(function () {
     $("#commentForm").submit(function(evt) {
         evt.preventDefault();
         var url = $(this).attr("action");
-        var content = $("#commentForm").find("textarea[name='content']").val();
+        var formData = $("#commentForm").serialize();
         
         var token = $("meta[name='_csrf']").attr("content");
         var header = $("meta[name='_csrf_header']").attr("content");
@@ -30,9 +30,10 @@ $(document).ready(function () {
                 // here it is
                 xhr.setRequestHeader(header, token);
             },            
-            data: { content: content },
+            data: formData,
             success: function(res) {
-                $("#commentForm").find("textarea[name='content']").val("");
+                vcomments.$mount();
+                $("#commentForm *").val("");
             }
         });
     });
@@ -50,6 +51,5 @@ $(document).ready(function () {
                 .append(item.title)
                 .appendTo(ul);
     };
-    
-    
+      
 });

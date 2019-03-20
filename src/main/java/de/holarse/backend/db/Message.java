@@ -64,6 +64,7 @@ public class Message extends Base implements LinkableNode, Cloneable {
     private boolean sent;
 
     
+    @Override
     public String getUrlid() { return null; }
     
     @Override

@@ -17,17 +17,6 @@ public class Role extends Base implements GrantedAuthority {
     @Column(nullable = false)
     private Long clearanceLevel;
     
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
-
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
-
     public String getCode() {
         return code;
     }

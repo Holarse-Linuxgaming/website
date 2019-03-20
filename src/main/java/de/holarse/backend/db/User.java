@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.PostLoad;
 import javax.persistence.Table;
@@ -33,7 +35,11 @@ public class User extends Base {
     @Column(columnDefinition = "boolean default false")
     private boolean verified;
     
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name="users_roles",
+        joinColumns = {@JoinColumn(name="users_id", referencedColumnName="id")},
+        inverseJoinColumns = {@JoinColumn(name="roles_id", referencedColumnName="id")}
+    )    
     private Set<Role> roles;
     
     private Long oldId;
@@ -46,7 +52,7 @@ public class User extends Base {
     
     private String avatar;
     
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Message> messages;
 
     @Transient

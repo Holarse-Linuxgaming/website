@@ -3,19 +3,20 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/security/tags" %>
 
 <s:authorize access="hasRole('USER')">
-<form:form id="commentForm" action="node/${node.id}/comments/" method="POST">
+<form id="commentForm" action="nodes/comments/" method="POST">
+    <input type="hidden" name="nodeId" value="${view.nodeId}" />
     <fieldset>
         <label path="content"></label>
         <textarea name="content" class="form-control" placeholder="Dein Kommentar..."></textarea>
     </fieldset>
     <button class="form-control">Anlegen</button>
-</form:form>
+</form>
 </s:authorize>
     
 <s:authorize access="hasRole('ANONYMOUS')">
     <div class="row">
         <div class="col-md-12">
-            <a href="/login/?" class="btn btn-primary">Zum Kommentieren einloggen</a>            
+            <a href="/login/?returnto=${requestScope['javax.servlet.forward.request_uri']}" class="btn btn-primary">Zum Kommentieren einloggen</a>            
         </div>
     </div>
     

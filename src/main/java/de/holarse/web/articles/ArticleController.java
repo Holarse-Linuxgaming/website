@@ -165,6 +165,7 @@ public class ArticleController {
             logger.debug("Content: {}", article.getContent());
             
             ArticleView view = new ArticleView();
+            view.setNodeId(article.getNodeId());
             view.setMainTitle(article.getTitle());
             view.setAlternativeTitle1(article.getAlternativeTitle1());
             view.setAlternativeTitle2(article.getAlternativeTitle2());

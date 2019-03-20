@@ -25,7 +25,7 @@
 <%@include file="/WEB-INF/jspf/nodes/menubar.jspf" %>
 
 <div class="row">
-    <article class="col-md-8">
+    <article class="col-md-8" data-nodeid="${view.nodeId}">
         ${view.content}    
     </article>
     <!-- Tags -->
@@ -94,7 +94,7 @@
         <!-- Websites -->
         <div class="list-group">
             <c:forEach items="${view.websites}" var="website">
-                <a href="${website.attachmentData}" class="list-group-item list-group-item-action" title="${website.attachmentData}">${website.description}</a>    
+                <a href="${website.attachmentData}" class="list-group-item list-group-item-action" title="${website.attachmentData}">${empty website.description ? website.attachmentData : website.description}</a>    
             </c:forEach>
         </div>               
         
@@ -102,21 +102,20 @@
 </div>
 
 <!-- Kommentare -->
-<div class="comments">
-    <c:forEach items="${view.comments}" var="comment">
-    <div class="row">
+<div id="v-comments-1">
+    <div class="row" v-for="comment in comments">
         <div class="col-md-12">            
             <div class="media">
                 <img class="align-self-start mr-3" src="https://placeimg.com/64/64/any" alt="Generic placeholder image">
                 <div class="media-body">
-                    <h5 class="mt-0"><a href="#">{{comment.author.login}}</a> am {{comment.created}}</h5>
+                    <h5 class="mt-0"><a v-bind:href="'/users/' + comment.author">{{comment.author}}</a> am {{comment.created}}</h5>
                     <p>{{comment.content}}</p>
                 </div>
             </div>        
         </div>
     </div>            
-    </c:forEach>
 </div>
+
 
 <div class="row">
     <div class="col-md-12">

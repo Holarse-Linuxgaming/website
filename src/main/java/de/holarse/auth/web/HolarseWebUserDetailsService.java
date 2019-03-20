@@ -3,6 +3,7 @@ package de.holarse.auth.web;
 import de.holarse.auth.api.HolarseApiUserDetailsService;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.UserRepository;
+import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ public class HolarseWebUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
+    @Transactional
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
         final User user = userRepository.findByLogin(username);

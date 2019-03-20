@@ -15,6 +15,7 @@ import java.util.Map;
  */
 public class ArticleView extends AbstractPageTitleView {
     
+    private Long nodeId;
     private String mainTitle;
     private String alternativeTitle1;
     private String alternativeTitle2;
@@ -25,6 +26,14 @@ public class ArticleView extends AbstractPageTitleView {
     private final List<Tag> tags = new ArrayList<>(20);
     private final Map<AttachmentGroup, List<Attachment>> attachments = new HashMap<>();
     private final List<Comment> comments = new ArrayList<>(10);
+
+    public Long getNodeId() {
+        return nodeId;
+    }
+
+    public void setNodeId(Long nodeId) {
+        this.nodeId = nodeId;
+    }
     
     public String getMainTitle() {
         return mainTitle;

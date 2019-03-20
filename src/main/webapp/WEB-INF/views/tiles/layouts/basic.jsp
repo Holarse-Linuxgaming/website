@@ -57,6 +57,9 @@
         <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
         <script src="assets/vendor/jquery-ui/jquery-ui.min.js"></script>
         <script src="assets/vendor/highlightjs/highlight.pack.js"></script>
+        <script src="assets/vendor/vue/vue.min.js"></script>
+        
+        <script src="assets/js/holarse-vue.js"></script>
         
         <!-- JS Custom -->
         <script src="assets/js/custom.js"></script>

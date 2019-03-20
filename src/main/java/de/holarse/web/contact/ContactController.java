@@ -56,9 +56,12 @@ public class ContactController {
     
     // TODO EDIT
     // TODO DELETE
-   
+
+
+    // TODO
     protected Set<User> getHolarseCoreUsers() {
-        return roleRepository.findByCodeIgnoreCase("HOLARSE-CORE").get().getUsers();
+        //return roleRepository.findByCodeIgnoreCase("HOLARSE-CORE").get().getUsers();
+        return null;
     }
     
     @Transactional
