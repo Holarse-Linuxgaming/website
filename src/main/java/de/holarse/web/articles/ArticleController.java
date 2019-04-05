@@ -13,6 +13,7 @@ import de.holarse.backend.db.repositories.RevisionRepository;
 import de.holarse.backend.db.repositories.TagRepository;
 import de.holarse.backend.db.types.AttachmentGroup;
 import de.holarse.backend.views.ArticleView;
+import de.holarse.cache.CachingService;
 import de.holarse.exceptions.ErrorMode;
 import de.holarse.exceptions.FlashMessage;
 import de.holarse.exceptions.HolarseException;
@@ -21,7 +22,6 @@ import de.holarse.exceptions.NodeNotFoundException;
 import de.holarse.exceptions.RedirectException;
 import de.holarse.renderer.Renderer;
 import de.holarse.search.SearchEngine;
-import de.holarse.services.AttachmentRenderService;
 import de.holarse.services.NodeService;
 import de.holarse.services.TagService;
 import java.io.IOException;
@@ -86,8 +86,9 @@ public class ArticleController {
     @Autowired
     Renderer renderer;
 
+    @Qualifier("memcached")
     @Autowired
-    AttachmentRenderService attachmentRenderService;
+    CachingService cache;
 
     // INDEX
     @GetMapping("/")
@@ -144,10 +145,16 @@ public class ArticleController {
     // SHOW by Slug
     @Transactional
     @GetMapping("/{slug}")
-    public ModelAndView showBySlug(@PathVariable final String slug, final ModelMap map) {
+    public ModelAndView showBySlug(@PathVariable final String slug, final ModelMap map) {             
         try {
+            // Prüfe erst den Cache.
+            Object cachedView = cache.get("article-" + slug); 
+            if (cachedView != null) {
+                map.addAttribute("view", cachedView);
+                return new ModelAndView("articles/show", map);            
+            }
+            
             final Article article = nodeService.findArticle(slug).get();
-
             Hibernate.initialize(article.getTags());
             Hibernate.initialize(article.getAttachments());
             Hibernate.initialize(article.getComments());
@@ -163,7 +170,7 @@ public class ArticleController {
                     .collect(Collectors.groupingBy(a -> a.getAttachmentGroup()));
             
             logger.debug("Content: {}", article.getContent());
-            
+                       
             ArticleView view = new ArticleView();
             view.setNodeId(article.getNodeId());
             view.setMainTitle(article.getTitle());
@@ -176,8 +183,10 @@ public class ArticleController {
             view.getAttachments().putAll(attachmentGroups);
             view.getComments().addAll(article.getComments());
             
-            map.addAttribute("title", article.getTitle());
+            map.addAttribute("title", view.getMainTitle());
             map.addAttribute("view", view);
+            
+            cache.put("article-" + article.getSlug(), view);
             
             return new ModelAndView("articles/show", map);
         } catch (RedirectException re) {
@@ -185,6 +194,36 @@ public class ArticleController {
         }
     }
 
+//    @Secured("ROLE_USER")
+//    @Transactional
+//    @GetMapping(value = "/{id}/edit.json", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)    
+//    public ResponseEntity<ArticleCommand> editAjax(@PathVariable final Long id, final ArticleCommand command, final Authentication authentication) {
+//        final User currentUser = ((HolarsePrincipal) authentication.getPrincipal()).getUser();
+//        
+//        final Article article = articleRepository.findById(id).get();
+//        
+//        if (!nodeService.isEditable(article)) {
+//            throw new HolarseException("Artikel kann derzeit nicht bearbeitet werden.");
+//        }        
+//        
+//        // Versuchen den Artikel zum Schreiben zu sperren
+//        nodeService.tryTolock(article, currentUser);
+//      
+//        Hibernate.initialize(article.getTags());
+//        Hibernate.initialize(article.getAttachments());        
+//
+//        command.setTitle(article.getTitle());
+//        command.setAlternativeTitle1(article.getAlternativeTitle1());
+//        command.setAlternativeTitle2(article.getAlternativeTitle2());
+//        command.setAlternativeTitle3(article.getAlternativeTitle3());
+//        command.setContent(article.getContent());
+//        command.setContentType(article.getContentType());
+//        command.setTags(article.getTags().stream().map(t -> t.getName()).collect(Collectors.joining(",")));
+//        command.setBranch(article.getBranch());  
+//        
+//        return new ResponseEntity(command, HttpStatus.OK);
+//    }
+    
     // EDIT
     @Secured("ROLE_USER")
     @Transactional
@@ -198,9 +237,6 @@ public class ArticleController {
             throw new HolarseException("Artikel kann derzeit nicht bearbeitet werden.");
         }
         
-        Hibernate.initialize(article.getTags());
-        Hibernate.initialize(article.getAttachments());
-
         // Versuchen den Artikel zum Schreiben zu sperren
         try {
             nodeService.tryTolock(article, currentUser);
@@ -216,6 +252,9 @@ public class ArticleController {
             return "redirect:/wiki/" + article.getSlug();
         }
 
+        Hibernate.initialize(article.getTags());
+        Hibernate.initialize(article.getAttachments());        
+        
         map.addAttribute("node", article);
 
         command.setTitle(article.getTitle());

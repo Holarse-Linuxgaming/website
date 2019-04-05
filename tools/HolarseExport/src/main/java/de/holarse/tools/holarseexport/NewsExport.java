@@ -54,7 +54,7 @@ public class NewsExport implements Export {
                                
                 news.setCreated(new Date(result.getTimestamp("created").getTime()));
                 
-                log.finest("Database date: " + result.getString("created") + " => " + news.getCreated());                
+                log.log(Level.FINEST, "Database date: {0} => {1}", new Object[]{result.getString("created"), news.getCreated()});                
                 news.setVid(result.getLong("vid")); // Transient
 
                 // Revision
@@ -70,6 +70,8 @@ public class NewsExport implements Export {
                 // Titles
                 news.setTitle(result.getString("title"));
 
+                news.setCategory("DEFAULT");
+                
                 // State
                 final State state = new State();
                 state.setArchived(false);

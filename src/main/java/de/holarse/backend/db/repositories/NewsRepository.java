@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-public interface NewsRepository extends CrudRepository<News, Long>, SluggableRepository<News> {
+public interface NewsRepository extends CrudRepository<News, Long>, SluggableRepository<News>, OldIdRepository<News>  {
  
     @Query("FROM News")
     List<News> findAllNodes();

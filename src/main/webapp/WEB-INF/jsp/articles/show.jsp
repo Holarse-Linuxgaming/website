@@ -1,5 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="s" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <h1>
     ${view.mainTitle}
@@ -113,16 +115,27 @@
                 </div>
             </div>        
         </div>
-    </div>            
-</div>
-
-
-<div class="row">
-    <div class="col-md-12">
-
-        <%@include file="/WEB-INF/jspf/comments/form.jspf" %>
-
     </div>
+    
+    <s:authorize access="hasRole('USER')">
+    <div class="row">
+        <div class="col-md-12">
+            <form id="commentForm" action="nodes/comments/" method="POST">
+                <input type="hidden" name="nodeId" value="${view.nodeId}" />
+                <fieldset>
+                    <label path="content"></label>
+                    <textarea name="content" class="form-control" placeholder="Dein Kommentar..."></textarea>
+                </fieldset>
+                <button class="form-control">Anlegen</button>
+            </form>        
+        </div>
+    </div>
+    </s:authorize>       
+    <s:authorize access="hasRole('ANONYMOUS')">
+    <div class="row">
+        <div class="col-md-12">
+            <a href="/login/?returnto=${requestScope['javax.servlet.forward.request_uri']}" class="btn btn-primary">Zum Kommentieren einloggen</a>            
+        </div>
+    </div>
+    </s:authorize>    
 </div>
-
-
