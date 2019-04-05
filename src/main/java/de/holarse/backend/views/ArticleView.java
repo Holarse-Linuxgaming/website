@@ -27,6 +27,7 @@ public class ArticleView extends AbstractPageTitleView {
     private final Map<AttachmentGroup, List<Attachment>> attachments = new HashMap<>();
     private final List<Comment> comments = new ArrayList<>(10);
 
+    @Override
     public Long getNodeId() {
         return nodeId;
     }

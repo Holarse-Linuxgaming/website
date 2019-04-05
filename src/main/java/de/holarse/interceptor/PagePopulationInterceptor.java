@@ -50,8 +50,8 @@ public class PagePopulationInterceptor extends HandlerInterceptorAdapter {
     }
 
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView mav) {
-        trafficService.saveRequest(request, response);
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView mav) {       
+        Long nodeId = null;
         
         if (mav != null) {
             mav.addObject("currentUser", getCurrentUser());
@@ -60,12 +60,17 @@ public class PagePopulationInterceptor extends HandlerInterceptorAdapter {
             
             // Standardtitel setzen
             if (mav.getModel().containsKey("view")) {
-                final PageTitleView ptv = (PageTitleView) mav.getModel().get("view");    
+                final PageTitleView ptv = (PageTitleView) mav.getModel().get("view");   
+                // NodeID setzen, wenn wirklich eine Node abgefragt wird
+                nodeId = ptv.getNodeId();
+                
                 mav.getModel().computeIfAbsent("title", k -> ptv.getPageTitle());
             } else {
                 mav.getModel().computeIfAbsent("title", k -> "Eure deutschsprache Linuxspiele-Community");
             }
         }
+        
+        trafficService.saveRequest(request, response, nodeId);
     }
     
 }
