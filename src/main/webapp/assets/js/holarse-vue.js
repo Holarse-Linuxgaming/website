@@ -13,3 +13,18 @@ var vcomments = new Vue({
         });
     }
 });
+
+var varticleeditor = new Vue({
+    el: "#article-editor",
+    data: {
+        node: {}
+    },
+    mounted: function () {
+        var nodeId = $("#article-editor").data("nodeid");
+        if (nodeId === undefined || nodeId === "") { return false; }
+        console.debug("Loading article data for nodeid " + nodeId);
+        $.getJSON("/wiki/" + nodeId + "/edit.json", function (data) {
+            varticleeditor.node = data;
+        });
+    }    
+});

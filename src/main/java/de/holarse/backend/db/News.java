@@ -1,5 +1,6 @@
 package de.holarse.backend.db;
 
+import de.holarse.backend.db.types.NewsCategory;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;

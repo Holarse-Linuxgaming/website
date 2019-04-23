@@ -1,7 +1,7 @@
 package de.holarse.web.news;
 
 import de.holarse.backend.db.ContentType;
-import de.holarse.backend.db.NewsCategory;
+import de.holarse.backend.db.types.NewsCategory;
 
 public class NewsCommand {
     

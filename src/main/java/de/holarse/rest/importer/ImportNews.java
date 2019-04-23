@@ -3,7 +3,7 @@ package de.holarse.rest.importer;
 import de.holarse.backend.db.Attachment;
 import de.holarse.backend.db.ContentType;
 import de.holarse.backend.db.News;
-import de.holarse.backend.db.NewsCategory;
+import de.holarse.backend.db.types.NewsCategory;
 import de.holarse.backend.db.NodeType;
 import de.holarse.backend.db.repositories.AttachmentRepository;
 import de.holarse.backend.db.repositories.NewsRepository;

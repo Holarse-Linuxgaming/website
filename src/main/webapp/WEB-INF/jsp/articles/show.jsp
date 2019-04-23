@@ -10,21 +10,11 @@
     <p><small class="text-muted">${view.alternativeTitle3}</small></p>  
 </h1>
 
-<div class="row justify-content-between">
-    <div class="col-4">
-            <s:authorize access="hasRole('USER')">
-                <li class="nav-item nav-fill">
-                    <a class="nav-link" href="#" id="toggle-holarse-context-menu" title="Aktionen anzeigen"><i class="fas fa-cogs"></i></a>
-                </li>            
-            </s:authorize> 
-        </nav>
+<div class="row">
+    <div class="col-md-12">
+        <a href="${view.editUrl}">Bearbeiten</a>
     </div>
-
-<!--            <span class="navbar-text">Letzte Änderung: ${empty node.updated ? node.created : node.updated} durch ${empty node.author ? 'unbekannt' : node.author.login}</span>                 -->
-
 </div>
-
-<%@include file="/WEB-INF/jspf/nodes/menubar.jspf" %>
 
 <div class="row">
     <article class="col-md-8" data-nodeid="${view.nodeId}">

@@ -40,6 +40,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
@@ -179,7 +180,7 @@ public class ArticleController {
             view.setAlternativeTitle3(article.getAlternativeTitle3());
             view.setContent( renderer.render(article.getContent() ));
             
-            view.getTags().addAll(article.getTags());
+            view.getTags().addAll(article.getTags().stream().map(t -> t.getName()).collect(Collectors.toList()));
             view.getAttachments().putAll(attachmentGroups);
             view.getComments().addAll(article.getComments());
             
@@ -194,35 +195,33 @@ public class ArticleController {
         }
     }
 
-//    @Secured("ROLE_USER")
-//    @Transactional
-//    @GetMapping(value = "/{id}/edit.json", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)    
-//    public ResponseEntity<ArticleCommand> editAjax(@PathVariable final Long id, final ArticleCommand command, final Authentication authentication) {
-//        final User currentUser = ((HolarsePrincipal) authentication.getPrincipal()).getUser();
-//        
-//        final Article article = articleRepository.findById(id).get();
-//        
+    @Secured("ROLE_USER")
+    @Transactional
+    @GetMapping(value = "/{id}/edit.json", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)    
+    public ResponseEntity<ArticleView> editAjax(@PathVariable final Long id, final ArticleView view, final Authentication authentication) {
+        final User currentUser = ((HolarsePrincipal) authentication.getPrincipal()).getUser();
+        
+        final Article article = articleRepository.findById(id).get();
+        
 //        if (!nodeService.isEditable(article)) {
 //            throw new HolarseException("Artikel kann derzeit nicht bearbeitet werden.");
-//        }        
-//        
-//        // Versuchen den Artikel zum Schreiben zu sperren
-//        nodeService.tryTolock(article, currentUser);
-//      
-//        Hibernate.initialize(article.getTags());
+        //}        
+        
+        // Versuchen den Artikel zum Schreiben zu sperren
+        //nodeService.tryTolock(article, currentUser);
+      
+  //      Hibernate.initialize(article.getTags());
 //        Hibernate.initialize(article.getAttachments());        
-//
-//        command.setTitle(article.getTitle());
-//        command.setAlternativeTitle1(article.getAlternativeTitle1());
-//        command.setAlternativeTitle2(article.getAlternativeTitle2());
-//        command.setAlternativeTitle3(article.getAlternativeTitle3());
-//        command.setContent(article.getContent());
-//        command.setContentType(article.getContentType());
-//        command.setTags(article.getTags().stream().map(t -> t.getName()).collect(Collectors.joining(",")));
-//        command.setBranch(article.getBranch());  
-//        
-//        return new ResponseEntity(command, HttpStatus.OK);
-//    }
+
+        view.setMainTitle(article.getTitle());
+        view.setNodeId(article.getNodeId());
+        view.setAlternativeTitle1(article.getAlternativeTitle1());
+        view.setAlternativeTitle2(article.getAlternativeTitle2());
+        view.setAlternativeTitle3(article.getAlternativeTitle3());
+        view.setContent(article.getContent());
+       
+        return new ResponseEntity(view, HttpStatus.OK);
+    }
     
     // EDIT
     @Secured("ROLE_USER")
@@ -252,22 +251,7 @@ public class ArticleController {
             return "redirect:/wiki/" + article.getSlug();
         }
 
-        Hibernate.initialize(article.getTags());
-        Hibernate.initialize(article.getAttachments());        
-        
-        map.addAttribute("node", article);
-
-        command.setTitle(article.getTitle());
-        command.setAlternativeTitle1(article.getAlternativeTitle1());
-        command.setAlternativeTitle2(article.getAlternativeTitle2());
-        command.setAlternativeTitle3(article.getAlternativeTitle3());
-        command.setContent(article.getContent());
-        command.setContentType(article.getContentType());
-        command.setTags(article.getTags().stream().map(t -> t.getName()).collect(Collectors.joining(",")));
-        command.setBranch(article.getBranch());
-
-        map.addAttribute("articleCommand", command);
-        map.addAttribute("contentTypes", ContentType.values());
+        map.addAttribute("nodeId", article.getNodeId());
 
         return "articles/form";
     }
