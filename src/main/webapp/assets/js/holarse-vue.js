@@ -1,3 +1,7 @@
+var holarse = {};
+holarse.csrf_token  = $("meta[name=_csrf]").attr("content");
+holarse.csrf_header = $("meta[name=_csrf_header]").attr("content");
+
 // Kommentarsektion
 var vcomments = new Vue({
     el: '#v-comments-1',
@@ -26,5 +30,22 @@ var varticleeditor = new Vue({
         $.getJSON("/wiki/" + nodeId + "/edit.json", function (data) {
             varticleeditor.node = data;
         });
-    }    
+    }, 
+    methods: {
+        submit: function(event) {
+            event.preventDefault();
+            $.ajax({
+                url: '/wiki/' + this.node.nodeId,
+                type: 'post',
+                data: this.node,
+                beforeSend: function(request) {
+                    request.setRequestHeader(holarse.csrf_header, holarse.csrf_token);
+                },
+                dataType: 'json',
+                success: function(result) {
+                    console.debug(result);
+                }
+            });
+        }
+    }
 });

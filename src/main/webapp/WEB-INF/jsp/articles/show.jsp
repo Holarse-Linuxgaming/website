@@ -27,7 +27,7 @@
         <!-- Tags -->
         <div class="btn-group" role="group" aria-label="Basic example">
             <c:forEach items="${view.tags}" var="tag">
-                <a class="btn btn-primary" href="/finder/?tag=${tag.name}" title="Klicken für weitere Artikel mit diesem Tag">${tag.name}</a>
+                <a class="btn btn-primary" href="/finder/?tag=${tag}" title="Klicken für weitere Artikel mit diesem Tag">${tag}</a>
             </c:forEach>
         </div>
         <!-- Screenshots -->

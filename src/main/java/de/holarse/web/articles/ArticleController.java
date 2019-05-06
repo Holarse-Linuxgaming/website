@@ -227,7 +227,7 @@ public class ArticleController {
     @Secured("ROLE_USER")
     @Transactional
     @GetMapping("/{id}/edit")
-    public String edit(@PathVariable final Long id, final Model map, final ArticleCommand command, final Authentication authentication, final RedirectAttributes redirectAttributes) {
+    public String edit(@PathVariable final Long id, final Model map, final Authentication authentication, final RedirectAttributes redirectAttributes) {
         final User currentUser = ((HolarsePrincipal) authentication.getPrincipal()).getUser();
 
         final Article article = articleRepository.findById(id).get();
@@ -275,7 +275,7 @@ public class ArticleController {
     @PostMapping("/{id}")
     public RedirectView update(
             @PathVariable final Long id,
-            final ArticleCommand command,
+            final ArticleView command,
             final Authentication authentication) throws UnsupportedEncodingException, NodeLockException {
         final User currentUser = ((HolarsePrincipal) authentication.getPrincipal()).getUser();
 
@@ -285,29 +285,29 @@ public class ArticleController {
         nodeService.createRevisionFromCurrent(article);
 
         // Slug ggf. archivieren
-        if (!article.getTitle().equalsIgnoreCase(command.getTitle())) {
+        if (!article.getTitle().equalsIgnoreCase(command.getMainTitle())) {
             nodeService.archivateSlug(article.getSlug(), article, NodeType.ARTICLE);
-            article.setSlug(nodeService.findNextSlug(command.getTitle(), NodeType.ARTICLE));
+            article.setSlug(nodeService.findNextSlug(command.getMainTitle(), NodeType.ARTICLE));
         }
 
         // Artikel aktualisieren
-        article.setTitle(command.getTitle());
+        article.setTitle(command.getMainTitle());
         article.setAlternativeTitle1(command.getAlternativeTitle1());
         article.setAlternativeTitle2(command.getAlternativeTitle2());
         article.setAlternativeTitle3(command.getAlternativeTitle3());
         article.setContent(command.getContent());
-        article.setContentType(command.getContentType());
+        //article.setContentType(command.getContentType());
         // Branch darf nicht gewechselt werden
         article.getTags().clear();
 
         // Tags anlegen
-        Set<Tag> tags = tagService.commandToTags(command.getTags());
-        tagRepository.saveAll(tags);
-        article.getTags().addAll(tags);
+//        Set<Tag> tags = tagService.commandToTags(command.getTags());
+//        tagRepository.saveAll(tags);
+//        article.getTags().addAll(tags);
 
         // Artikel-Metadaten aktualisieren
         article.setAuthor(currentUser);
-        article.setChangelog(command.getChangelog());
+//        article.setChangelog(command.getChangelog());
         article.setUpdated(OffsetDateTime.now());
         article.setRevision(revisionRepository.nextRevision());
 
