@@ -15,7 +15,7 @@ Den Import der Dateien kann man über die REST-API durchführen. Es gibt zwei Sc
 ## Webapp
 
 ### Anforderungen
-* Java 8 JDK (Payara kann derzeit noch kein Java 11)
+* Java 8 JDK, lieber Java 11
 * Apache Maven
 * PostgreSQL 11
 * ElasticSearch 6
@@ -24,28 +24,7 @@ Den Import der Dateien kann man über die REST-API durchführen. Es gibt zwei Sc
 TODO
 
 ### Application Server
-Payara kann kostenlos von https://www.payara.fish/software/downloads/ heruntergeladen werden. Das Archiv entpacken mit
-
-    unzip payara-5.191.zip
-
-Um den Zugriff auf die Datenbank zu ermöglichen, benötigt Payara noch die PostgreSQL-JDBC-Treiber. Diese können von https://jdbc.postgresql.org/download/postgresql-42.2.5.jar in das Glassfish-Verzeichnis ```glassfish/lib/``` 
-heruntergeladen werden. Wurde der Treiber nachträglich hinzugefügt, muss Payara neugestartet werden, damit der Treiber automatisch gefunden werden kann.
-
-Wenn die Datenbank bereits vorhanden ist, kann der Connection-Pool und die JNDI-Resource eingerichtet werden.
-
-Aus dem Payara-Verzeichnis heraus:
-
-    bin/asadmin create-jdbc-connection-pool --datasourceclassname org.postgresql.ds.PGConnectionPoolDataSource --restype javax.sql.DataSource --property serverName=holarse-data:user=holarse:password=geheim:port=5432:database=holarse holarsePool
-
-Die Verbindung kann geprüft werden mit:
-
-    bin/asadmin ping-connection-pool holarsePool
-
-Dann die JDNI-Resource anlegen:
-
-    bin/asadmin create-jdbc-resource --connectionpoolid holarsePool jdbc/holarse
-
-Fertig.
+Siehe ``doc/openliberty/README.md``
 
 ### Datenbank
 Die Datenbank per Repo einbinden, sofern das Betriebssystem schon PostgreSQL 11 hat. Ältere Versionen gehen jedoch auch.
@@ -62,9 +41,6 @@ Die installierbare WAR-Datei erhält man durch das Bauen mit
     mvn clean package
     
 im Hauptverzeichnis, wo sich auch die ```pom.xml``` befindet.
-
-Wird Payara von Netbeans aus gestartet, muss in der domain1/domain.xml die Verweise auf grizzly-npn auskommentiert werden. Damit geht http/2 verloren, das benötigt man für die Entwicklung aber
-vorerst nicht.
 
 ### Login
 Zuerst einen Benutzer anlegen und diesen dann per SQL zum Admin erheben, indem in die Tabelle ```users_roles``` ein Eintrag mit beiden Foreign-Keys angelegt wird.
