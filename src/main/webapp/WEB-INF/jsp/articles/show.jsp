@@ -106,26 +106,29 @@
             </div>        
         </div>
     </div>
+</div>
+
     
-    <s:authorize access="hasRole('USER')">
-    <div class="row">
-        <div class="col-md-12">
-            <form id="commentForm" action="nodes/comments/" method="POST">
-                <input type="hidden" name="nodeId" value="${view.nodeId}" />
+<s:authorize access="hasRole('USER')">
+<div class="row">
+    <div class="col-md-12">
+        <div id="v-comment-editor" data-nodeid="${view.nodeId}">
+            <form>
+                <input type="hidden" name="nodeId" v-model="newcomment.nodeId" />
                 <fieldset>
                     <label path="content"></label>
-                    <textarea name="content" class="form-control" placeholder="Dein Kommentar..."></textarea>
+                    <textarea name="content" class="form-control" placeholder="Dein Kommentar..." v-model="newcomment.content"></textarea>
                 </fieldset>
-                <button class="form-control">Anlegen</button>
+                <button class="btn btn-primary" v-on:click="submit">Kommentieren</button>
             </form>        
         </div>
     </div>
-    </s:authorize>       
-    <s:authorize access="hasRole('ANONYMOUS')">
-    <div class="row">
-        <div class="col-md-12">
-            <a href="/login/?returnto=${requestScope['javax.servlet.forward.request_uri']}" class="btn btn-primary">Zum Kommentieren einloggen</a>            
-        </div>
-    </div>
-    </s:authorize>    
 </div>
+</s:authorize>       
+<s:authorize access="hasRole('ANONYMOUS')">
+<div class="row">
+    <div class="col-md-12">
+        <a href="/login?returnto=${requestScope['javax.servlet.forward.request_uri']}" class="btn btn-primary">Zum Kommentieren einloggen</a>            
+    </div>
+</div>
+</s:authorize>   

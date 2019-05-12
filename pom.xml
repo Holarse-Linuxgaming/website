@@ -322,7 +322,6 @@
                         <arg>-Xlint:unchecked</arg>
                         <arg>-Xlint:deprecation</arg>
                     </compilerArgs>
-<!--                    <outputDirectory>/home/comrad/Downloads/wlp/usr/servers/holarse/dropins</outputDirectory>-->
                 </configuration>
             </plugin>
             <!-- WAR-Datei erstellen -->
@@ -332,6 +331,8 @@
                 <version>3.2.2</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <outputDirectory>/home/comrad/Downloads/wlp/usr/servers/holarse/dropins/</outputDirectory>                    
+                    <warName>holarseweb</warName>
                 </configuration>
             </plugin>
             <!-- Git-Version -->

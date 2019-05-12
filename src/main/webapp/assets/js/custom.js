@@ -16,27 +16,7 @@ $(document).ready(function () {
         $(".holarse-context-menu").slideToggle("slow");
     });
     
-    $("#commentForm").submit(function(evt) {
-        evt.preventDefault();
-        var url = $(this).attr("action");
-        var formData = $("#commentForm").serialize();
-        
-        var token = $("meta[name='_csrf']").attr("content");
-        var header = $("meta[name='_csrf_header']").attr("content");
-        
-        $.post({
-            url: url,
-            beforeSend: function(xhr) {
-                // here it is
-                xhr.setRequestHeader(header, token);
-            },            
-            data: formData,
-            success: function(res) {
-                vcomments.$mount();
-                $("#commentForm *").val("");
-            }
-        });
-    });
+
     
     $( "#searchField" ).autocomplete({
       source: "/search.json",

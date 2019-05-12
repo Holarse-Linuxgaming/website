@@ -51,7 +51,7 @@ public class CommentController {
     Renderer renderer;
     
     @Transactional
-    @GetMapping(value = "/nodes/comments/", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/nodes/comments", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Collection<CommentView>> comments(@RequestParam("nodeId") final Long nodeId) {
         final Collection<CommentView> comments = commentRepository.findNodeComments(nodeId).stream()
                                                                                            .map(CommentView::new)
@@ -60,7 +60,7 @@ public class CommentController {
     }
     
     @Secured("ROLE_USER")    
-    @PostMapping("/nodes/comments/")
+    @PostMapping("/nodes/comments")
     public ResponseEntity<String> newComment(
             @ModelAttribute final CommentCommand command,
             final Authentication authentication) {
