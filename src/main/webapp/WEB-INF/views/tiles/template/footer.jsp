@@ -1,103 +1,202 @@
-<footer class="page-footer pt-4 mt-4 holarse-footer">
-
-    <div class="container-fluid text-center text-md-left">
-        <div class="row">
-
-            <div class="col-md-6">
-                <h5 class="text-uppercase">HOLARSE - Spielen unter Linux - Linux als Spieleplattform</h5>
+      <!-- Footer -->
+      <footer class="g-bg-black-opacity-0_9 g-color-white-opacity-0_6 g-py-60">
+        <div class="container">
+          <div class="row">
+            <!-- Footer Content -->
+            <div class="col-lg-4 g-mb-50 g-mb-0--lg">
+              <h2 class="h6 g-color-white text-uppercase g-font-weight-700 g-mb-20">HOLARSE - Spielen unter Linux - Linux als Spieleplattform</h2>
+              <div class="g-mb-25">
                 <p>Holarse ist eine freie Plattform für Linuxspieler. Wir bieten neben haufenweise Informationen zu über tausend Spielen auch Nachrichten und Interviews und Einblicke in die Welt der Spiele. Natürlich beschäftigen wir uns nicht nur mit kommerziellen Spielen, sondern vornehmlich auch mit den freien Nachimplementationen oder innovativen quelloffenen Spielen. In letzter Zeit sind natürlich Steam und diverse andere digitale Vertriebsplattformen in den Vordergrund getreten.</p>
                 <p>Spielen unter Linux ist für jeden! In diesem Wiki kann jeder Linuxspieler Informationen zusammentragen und erweitern! Einfach anmelden und mitschreiben!</p>
-                <h5 class="text-uppercase">News statt Gerüchte</h5>
-                <p>Ihr werden eventuell auf Holarse die ein oder andere "News" vermissen, die auf diversen anderen Linuxspiele-Seiten herumgeistert. Wir veröffentlichten News nur, wenn wir sie bestätigen konnten. Gerüchte veröffentlichen wir nicht. Natürlich verfolgen wir, was dahintersteckt. Zusammengefasst: Wenn ihr etwas auf Holarse lest, dann hat das Hand und Fuss.</p>
+              </div>
+      
+              <ul class="list-inline mb-0">
+                <li class="list-inline-item">
+                  <a class="u-icon-v3 u-icon-size--sm g-font-size-default g-bg-white-opacity-0_1 g-bg-primary--hover g-color-white-opacity-0_8 rounded" href="#">
+                    <i class="fa fa-twitter"></i>
+                  </a>
+                </li>
+                <li class="list-inline-item g-mx-5">
+                  <a class="u-icon-v3 u-icon-size--sm g-font-size-default g-bg-white-opacity-0_1 g-bg-primary--hover g-color-white-opacity-0_8 rounded" href="#">
+                    <i class="fa fa-pinterest"></i>
+                  </a>
+                </li>
+                <li class="list-inline-item g-mx-5">
+                  <a class="u-icon-v3 u-icon-size--sm g-font-size-default g-bg-white-opacity-0_1 g-bg-primary--hover g-color-white-opacity-0_8 rounded" href="#">
+                    <i class="fa fa-facebook"></i>
+                  </a>
+                </li>
+                <li class="list-inline-item g-mx-5">
+                  <a class="u-icon-v3 u-icon-size--sm g-font-size-default g-bg-white-opacity-0_1 g-bg-primary--hover g-color-white-opacity-0_8 rounded" href="#">
+                    <i class="fa fa-instagram"></i>
+                  </a>
+                </li>
+              </ul>
             </div>
-
-            <div class="col-md-2">
-                <h5 class="text-uppercase">Soziale Netzwerke</h5>
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://www.youtube.com/holarsegaming">
-                            <i class="fab fa-youtube"></i>
-                            YouTube
-                        </a>
+            <!-- End Footer Content -->
+      
+            <!-- Footer Content -->
+            <div class="col-lg-4 g-mb-30 g-mb-0--lg">
+              <h2 class="h6 g-color-white text-uppercase g-font-weight-700 g-mb-20">Useful Links</h2>
+              <div class="row">
+                <div class="col-sm-6">
+                  <ul class="list-unstyled g-mb-30 g-mb-0--md">
+                    <li class="d-flex g-mb-12">
+                      <i class="fa fa-circle g-color-primary g-font-size-5 g-mt-10 g-mr-8"></i>
+                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="#">About Us</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://twitter.com/holarse">
-                            <i class="fab fa-twitter"></i>
-                            Twitter
-                        </a>
+                    <li class="d-flex g-mb-12">
+                      <i class="fa fa-circle g-color-primary g-font-size-5 g-mt-10 g-mr-8"></i>
+                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="#">Our Services</a>
+                    </li>
+                    <li class="d-flex g-mb-12">
+                      <i class="fa fa-circle g-color-primary g-font-size-5 g-mt-10 g-mr-8"></i>
+                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="#">Terms</a>
+                    </li>
+                    <li class="d-flex g-mb-12">
+                      <i class="fa fa-circle g-color-primary g-font-size-5 g-mt-10 g-mr-8"></i>
+                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="#">Privacy Policy</a>
+                    </li>
+                    <li class="d-flex g-mb-12">
+                      <i class="fa fa-circle g-color-primary g-font-size-5 g-mt-10 g-mr-8"></i>
+                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="#">Licenses</a>
+                    </li>
+                    <li class="d-flex g-mb-12">
+                      <i class="fa fa-circle g-color-primary g-font-size-5 g-mt-10 g-mr-8"></i>
+                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="#">Help Center</a>
+                    </li>
+                    <li class="d-flex">
+                      <i class="fa fa-circle g-color-primary g-font-size-5 g-mt-10 g-mr-8"></i>
+                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="#">FAQ</a>
+                    </li>
+                  </ul>
+                </div>
+      
+                <div class="col-sm-6">
+                  <ul class="list-unstyled mb-0">
+                    <li class="d-flex g-mb-12">
+                      <i class="fa fa-circle g-color-primary g-font-size-5 g-mt-10 g-mr-8"></i>
+                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="http://klaud.holarse-linuxgaming.de">Downloads</a>
+                    </li>
+                    <li class="d-flex g-mb-12">
+                      <i class="fa fa-circle g-color-primary g-font-size-5 g-mt-10 g-mr-8"></i>
+                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="https://www.youtube.com/holarsegaming">Youtube</a>
                     </li>                    
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://discord.io/holarse">
-                            <i class="fab fa-discord"></i>
-                            Discord
-                        </a>
-                    </li>                
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://mastodon.social/@holarse">
-                            <i class="fab fa-mastodon"></i>
-                            Mastodon
-                        </a>
-                    </li>    
-                    <li class="nav-item">
-                        <a class="nav-link" href="http://store.steampowered.com/curator/4317648-Holarse-Linuxgaming">
-                            <i class="fab fa-steam"></i>
-                            Steam Curator
-                        </a>
-                    </li>                        
-                    
-                </ul>
-            </div>            
-
-            <div class="col-md-2">
-                <h5 class="text-uppercase">Holarse</h5>
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-file-contract"></i>
-                            Impressum
-                        </a>
-                    </li>                    
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-user-secret"></i>
-                            Datenschutz
-                        </a>
-                    </li>                
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            Über Holarse
-                        </a>
-                    </li>                                
-                </ul>
+                    <li class="d-flex g-mb-12">
+                      <i class="fa fa-circle g-color-primary g-font-size-5 g-mt-10 g-mr-8"></i>
+                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="https://twitter.com/holarse">Twitter</a>
+                    </li>
+                    <li class="d-flex g-mb-12">
+                      <i class="fa fa-circle g-color-primary g-font-size-5 g-mt-10 g-mr-8"></i>
+                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="https://discord.io/holarse">Discord</a>
+                    </li>
+                    <li class="d-flex g-mb-12">
+                      <i class="fa fa-circle g-color-primary g-font-size-5 g-mt-10 g-mr-8"></i>
+                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="https://mastodon.social/@holarse">Mastodon</a>
+                    </li>
+                    <li class="d-flex g-mb-12">
+                      <i class="fa fa-circle g-color-primary g-font-size-5 g-mt-10 g-mr-8"></i>
+                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="https://store.steampowered.com/curator/4317648-Holarse-Linuxgaming">Steam Curator</a>
+                    </li>
+                    <li class="d-flex">
+                      <i class="fa fa-circle g-color-primary g-font-size-5 g-mt-10 g-mr-8"></i>
+                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="https://www.twitch.tv/holarse">Twitch</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
-            
-            <div class="col-md-2">
-                <h5 class="text-uppercase">Verschiedenes</h5>
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="http://www.jugendschutzprogramm.de/download"><img src="/assets/img/jusprog-age-xml-18.png"></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="/assets/img/cc-by-nc-sa-4.png"></a>
-                    </li>                
-                    <li class="nav-item">
-                        <a class="nav-link" href="http://ipv6-test.com/validate.php?url=referer'"><img src="/assets/img/button-ipv6-80x15.png"></a>
-                    </li>                                
-                </ul>
-            </div>            
-
+            <!-- End Footer Content -->
+      
+            <!-- Footer Content -->
+            <div class="col-lg-4">
+                <h2 class="h6 g-color-white text-uppercase g-font-weight-700 g-mb-20">News statt Gerüchte</h2>
+                <p>Ihr werden eventuell auf Holarse die ein oder andere "News" vermissen, die auf diversen anderen Linuxspiele-Seiten herumgeistert. Wir veröffentlichten News nur, wenn wir sie bestätigen konnten. Gerüchte veröffentlichen wir nicht. Natürlich verfolgen wir, was dahintersteckt. Zusammengefasst: Wenn ihr etwas auf Holarse lest, dann hat das Hand und Fuss.</p>                
+            </div>
+            <!-- End Footer Content -->
+          </div>
         </div>
-    </div>
+      </footer>
+      <!-- End Footer -->
 
-    <div class="footer-copyright text-center">
-        Alle hier verwendeten Marken- oder Firmennamen unterliegen ausschliesslich den Rechten der jeweiligen Inhaber.<br />
-        &copy; 2000-2019 Holarse - Spielen unter Linux. Alle Rechte vorbehalten.
-    </div>
-    <div class="footer-copyright text-center">
-        <a href="/"><img src="/assets/img/icon.png" width="30" height="30" alt="Holarse Logo"></a>
-    </div>
-    <div class="text-center">
-        Build <a href="https://git.holarse-linuxgaming.de/Holarse-Linuxgaming/website/commit/${commitId}">${commitIdDescribe}</a>
-    </div>
+    <!-- Copyright Footer -->
+    <footer class="g-bg-gray-dark-v1 g-color-white-opacity-0_8 g-py-20">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 text-center text-md-left g-mb-10 g-mb-0--md">
+            <div class="d-lg-flex">             
+              <ul class="u-list-inline">
+               <li class="list-inline-item">
+                    2000-2019 &copy; Bernd Ritter
+               </li>              
+                <li class="list-inline-item">
+                  <span>|</span>
+                </li>                    
+                <li class="list-inline-item">
+                    Build <a class="g-color-white-opacity-0_8 g-color-white--hover" href="https://git.holarse-linuxgaming.de/Holarse-Linuxgaming/website/commit/${commitId}">${commitIdDescribe}</a>
+                </li>
+                <li class="list-inline-item">
+                  <span>|</span>
+                </li>                
+                <li class="list-inline-item">
+                    <a class="g-color-white-opacity-0_8 g-color-white--hover" href="http://ipv6-test.com/validate.php?url=referer'"><img src="assets/img/button-ipv6-80x15.png"></a>
+                </li>
+                <li class="list-inline-item">
+                  <span>|</span>
+                </li>                
+                <li class="list-inline-item">
+                    <a class="g-color-white-opacity-0_8 g-color-white--hover" href="https://www.jugendschutzprogramm.de/download" style="width: 50%;"><img src="assets/img/jusprog-age-xml-18.png"></a>
+                </li>
+                <li class="list-inline-item">
+                  <span>|</span>
+                </li>                
+                <li class="list-inline-item">
+                    <a class="g-color-white-opacity-0_8 g-color-white--hover" href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="assets/img/cc-by-nc-sa-4.png"></a>
+                </li>                
+              </ul>
+            </div>
+          </div>
 
-</footer>
+          <div class="col-md-4 align-self-center">
+            <ul class="list-inline text-center text-md-right mb-0">
+              <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="Downloads">
+                <a href="http://klaud.holarse-linuxgaming.de" class="g-color-white-opacity-0_5 g-color-white--hover">
+                  <i class="fas fa-cloud-download-alt"></i>
+                </a>
+              </li>                
+              <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="Youtube">
+                <a href="https://www.youtube.com/holarsegaming" class="g-color-white-opacity-0_5 g-color-white--hover">
+                  <i class="fab fa-youtube"></i>
+                </a>
+              </li>
+              <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="Twitter">
+                <a href="https://twitter.com/holarse" class="g-color-white-opacity-0_5 g-color-white--hover">
+                  <i class="fab fa-twitter"></i>
+                </a>
+              </li>
+              <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="Discord">
+                <a href="https://discord.io/holarse" class="g-color-white-opacity-0_5 g-color-white--hover">
+                  <i class="fab fa-discord"></i>
+                </a>
+              </li>
+              <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="Mastodon">
+                <a href="https://mastodon.social/@holarse" class="g-color-white-opacity-0_5 g-color-white--hover">
+                  <i class="fab fa-mastodon"></i>
+                </a>
+              </li>
+              <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="Steam Curator">
+                <a href="https://store.steampowered.com/curator/4317648-Holarse-Linuxgaming" class="g-color-white-opacity-0_5 g-color-white--hover">
+                  <i class="fab fa-steam"></i>
+                </a>
+              </li>
+              <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="Twitch">
+                <a href="https://www.twitch.tv/holarse" class="g-color-white-opacity-0_5 g-color-white--hover">
+                  <i class="fab fa-twitch"></i>
+                </a>
+              </li>              
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- End Copyright Footer -->

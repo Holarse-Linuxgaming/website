@@ -2,148 +2,311 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<header>
-    <!-- Top bar -->
-    <nav class="navbar navbar-expand-lg holarse-topbar">
-        <a class="navbar-brand" href="/">Eure deutschsprache Linuxspiele-Quelle</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>  
+<!-- Header -->
+<header id="js-header" class="u-header u-header--static u-header--change-appearance" data-header-fix-moment="500" data-header-fix-effect="slide">
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto p-2">
-
-                <!-- Login oder User -->
-                <s:authorize access="hasRole('ADMIN')">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin/">Admin-Bereich</a>
-                    </li>
-                </s:authorize>            
+    <!-- Top Bar -->
+    <div class="u-header__section u-header__section--hidden u-header__section--dark g-bg-holarse g-py-10">
+        <div class="container">
+            <div class="row flex-column flex-md-row justify-content-between align-items-center text-uppercase g-font-weight-600 g-color-white">
+                <div class="col-auto g-px-15">
+                    Eure Linuxspiele-Quelle seit fast 20 Jahren!
+                </div>
 
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Neue Beiträge hinzufügen">
-                        <i class="fas fa-plus"></i>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/contact"><i class="fas fa-envelope"></i> Nachricht an uns</a>
-                        <a class="dropdown-item" href="/hints/new"><i class="far fa-hand-point-right"></i> Schnellhinweis abgeben</a>
-                        <s:authorize access="hasRole('USER')">
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/news/new"><i class="far fa-newspaper"></i> News erstellen</a>
-                            <a class="dropdown-item" href="/shortnews/new"><i class="far fa-newspaper"></i> Kurznews erstellen</a>                            
-                            <a class="dropdown-item" href="/articles/new"><i class="far fa-file-alt"></i> Artikel erstellen</a>
-                            <a class="dropdown-item" href="/forum/new"><i class="far fa-comments"></i> Forenbeitrag erstellen</a>
+                <div class="col-auto g-pos-rel g-px-15">
+                    <ul class="list-inline g-overflow-hidden g-font-size-12 g-mt-minus-10 g-mx-minus-4 mb-0">
+                        <!-- Login oder User -->
+                        <s:authorize access="hasRole('ADMIN')">
+                        <li class="list-inline-item g-mx-4 g-mt-10">
+                            <a href="admin" class="g-color-white g-color-primary--hover g-text-underline--none--hover">Admin-Bereich</a>
+                        </li>
+                        <li class="list-inline-item g-mx-4 g-mt-10">|</li>                        
+                        </s:authorize>                           
+                        <s:authorize access="hasRole('ANONYMOUS')">                        
+
+                        <li class="list-inline-item g-mx-4 g-mt-10">
+                            <a href="register" class="g-color-white g-color-primary--hover g-text-underline--none--hover">Registrieren</a>
+                        </li>
+                            <li class="list-inline-item g-mx-4 g-mt-10">|</li>
+                            <li class="list-inline-item g-mx-4 g-mt-10">
+                                <a href="login" class="g-color-white g-color-primary--hover g-text-underline--none--hover">Login</a>
+                            </li>
                         </s:authorize>
-                    </div>
-                </li>         
-
-                <!-- Login oder User -->
-                <s:authorize access="hasRole('ANONYMOUS')">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login">Login</a>
-                    </li>
-                </s:authorize>
-
-                <s:authorize access="hasRole('USER')">
-                    <li class="nav-item">                
-                        <a class="nav-link" href="/users/${currentUser.login}">${currentUser.login}</a>
-                    </li>
-                </s:authorize>       
-
-                <!-- Register oder Logout -->
-                <s:authorize access="hasRole('ANONYMOUS')">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/register">Registrieren</a>
-                    </li>
-                </s:authorize>
-
-                <s:authorize access="hasRole('USER')">
-                    <form:form class="form-inline" method="POST" action="/logout">
-                        <button class="btn btn-link" type="submit">Ausloggen</button>
-                    </form:form>
-                </s:authorize>             
-            </ul>
+                        <s:authorize access="hasRole('USER')">
+                            <li class="list-inline-item g-mx-4 g-mt-10">
+                                <a href="users/${currentUser.login}" class="g-color-white g-color-primary--hover g-text-underline--none--hover">${currentUser.login}</a>
+                            </li>                            
+                        </s:authorize>                            
+                    </ul>
+                </div>
+            </div>
         </div>
-    </nav>
+    </div>
+    <!-- End Top Bar -->
 
-    <!-- Menu bar -->
-    <nav class="navbar navbar-expand-lg holarse-menubar">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <!-- Header-Menu -->
+    <div class="u-header__section u-header__section--light g-brd-bottom holarse-box-shadow g-transition-0_3 g-py-10" data-header-fix-moment-exclude="u-header__section--light g-bg-white g-brd-bottom g-py-10" data-header-fix-moment-classes="g-bg-white-opacity-0_7 u-shadow-v18 g-py-0">
+        <nav class="js-mega-menu navbar navbar-expand-lg">
+            <div class="container"> 
+                <!-- Responsive Toggle Button -->
+                <button class="navbar-toggler navbar-toggler-right btn g-line-height-1 g-brd-none g-pa-0 g-pos-abs g-top-3 g-right-0" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navBar" data-toggle="collapse" data-target="#navBar">
+                    <span class="hamburger hamburger--slider">
+                        <span class="hamburger-box">
+                            <span class="hamburger-inner"></span>
+                        </span>
+                    </span>
+                </button>
+                <!-- End Responsive Toggle Button -->
 
-        <a class="navbar-brand" href="/" title="Frontpage">
-            <img src="assets/img/logo-with-text.png" height="60" />
-        </a>           
+                <!-- Logo -->
+                <a href="#" class="navbar-brand">
+                    <img src="assets/img/holarse_logo.svg" alt="Holarse - Spielen unter Linux" width="125%">
+                </a>
+                <!-- End Logo -->
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/news/" title="Neuigkeiten aus der Linuxspiele-Welt">
-                        <i class="fas fa-newspaper"></i>
-                        News
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/hot-topics/" title="Aktuelle Beiträge aus der Linuxspiele-Welt">
-                        <i class="fab fa-hotjar"></i>
-                        Aktuelle Themen
-                    </a>
-                </li>                                                
-                <li class="nav-item">
-                    <a class="nav-link" href="/finder/" title="Spiele unter Linux; Windows-Spiele unter Linux">
-                        <i class="fas fa-gamepad"></i>
-                        Spiele finden
-                    </a>
-                </li>                
-                <li class="nav-item">
-                    <a class="nav-link" href="/categories/" title="Spiele-Datenbank nach Genre/Kategorien sortiert">
-                        <i class="fas fa-sitemap"></i>
-                        Kategorien
-                    </a>
-                </li>                                
-                <li class="nav-item">
-                    <a class="nav-link" href="/dedicated-servers/" title="Server für viele Spiele">
-                        <i class="fas fa-server"></i>
-                        Dedicated Servers
-                    </a>
-                </li>                                                
-                <li class="nav-item">
-                    <a class="nav-link" href="/emulators/" title="Playstation, Game Boy, GBA, SNES, Nintendo Wii">
-                        <i class="fab fa-windows"></i>
-                        Emulationen
-                    </a>
-                </li>                                                    
-                <li class="nav-item">
-                    <a class="nav-link" href="/hardware/" title="Gaming-Mäuse, Tasaturen, Grafikkarten, NVIDIA, AMD, Intel, Vulkan">
-                        <i class="fas fa-cogs"></i>
-                        Hardware &amp; Treiber
-                    </a>
-                </li>                      
-                <li class="nav-item">
-                    <a class="nav-link" href="/tools/" title="VOIP und Server-Browser">
-                        <i class="fas fa-headset"></i>
-                        Gaming Tools
-                    </a>
-                </li>                                      
-                <li class="nav-item">
-                    <a class="nav-link" href="/downloads/" title="Updates, Patches, Demos">
-                        <i class="fas fa-cloud-download-alt"></i>
-                        Downloads
-                    </a>
-                </li>                       
-                <li class="nav-item">
-                    <a class="nav-link" href="/forum/" title="Community, Fragen und Antworten">
-                        <i class="fas fa-comments"></i>
-                        Forum
-                    </a>
-                </li>                                                
-            </ul>
-            <form:form class="form-inline my-2 my-lg-0" method="POST" action="/search">
-                <input class="form-control mr-sm-2" type="text" name="query" id="searchField" placeholder="Holarse durchsuchen" aria-label="Search" value="${q}"></input>
-<!--                <button class="btn btn-primary my-2 my-sm-0 btn-search" type="submit">Los!</button>-->
-            </form:form>
-        </div>
-    </nav>
+                <!-- Navigation -->
+                <div class="collapse navbar-collapse align-items-center flex-sm-row g-pt-10 g-pt-5--lg" id="navBar">
+                    <ul class="navbar-nav text-uppercase g-font-weight-600 ml-auto u-main-nav-v5">
+                        <li class="nav-item g-mx-20--lg">
+                            <a href="#" class="nav-link px-0">News</a>
+                        </li>
+                        <li class="nav-item g-mx-20--lg">
+                            <a href="#" class="nav-link px-0">Spielefinder</a>
+                        </li>
+                        <li class="nav-item g-mx-20--lg active">
+                            <a href="#" class="nav-link px-0">Server</a>
+                        </li>
+                        <li class="nav-item g-mx-20--lg">
+                            <a href="#" class="nav-link px-0">Community</a>
+                        </li>
+                        <!-- Mega Menu Item -->
+                        <li class="hs-has-mega-menu nav-item g-mx-20--lg" data-animation-in="fadeIn" data-animation-out="fadeOut" data-position="right">
+                            <a id="mega-menu-label-1" class="nav-link g-px-0" href="#" aria-haspopup="true" aria-expanded="false">Genres
+                                <i class="hs-icon hs-icon-arrow-bottom g-font-size-11 g-ml-7"></i>
+                            </a>
+
+                            <!-- Mega Menu -->
+                            <div class="hs-mega-menu u-shadow-v11 font-weight-normal g-text-transform-none g-brd-top g-brd-primary g-brd-top-2 g-mt-17 g-mt-7--lg--scrolling" aria-labelledby="mega-menu-label-1">
+                                <div class="row align-items-stretch">
+                                    <div class="col-lg-auto">
+                                        <section class="g-pa-20">
+                                            <ul class="list-unstyled">
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">General Typography</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Headings Options</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Dividers</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Blockquote Blocks</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Box Shadows</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Testimonials</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Tagline Boxes</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Grid Layouts</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link active g-px-0 g-color-primary--hover">Alerts &amp; Messages</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Labels &amp; Badges</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Audio/Videos &amp; Images</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Paginations</a>
+                                                </li>
+                                            </ul>
+                                        </section>
+                                    </div>
+
+                                    <div class="col-lg-auto g-brd-left--lg g-brd-gray-light-v5">
+                                        <section class="g-pa-20 g-pl-5--lg">
+                                            <ul class="list-unstyled">
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">General Buttons</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Brand &amp; Social Buttons</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Loading &amp; Hover Effects</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">General Icons</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Font Awesome Icons</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Line Icons</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Line Icons Pro</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Glyphicons Icons (Bootstrap)</a>
+                                                </li>
+                                            </ul>
+                                        </section>
+                                    </div>
+
+                                    <div class="col-lg-auto g-brd-left--lg g-brd-gray-light-v5">
+                                        <section class="g-pa-20 g-pl-5--lg">
+                                            <ul class="list-unstyled">
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">General Typography</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Headings Options</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Dividers</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Blockquote Blocks</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Box Shadows</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Testimonials</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Tagline Boxes</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Grid Layouts</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Alerts &amp; Messages</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Labels &amp; Badges</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Audio/Videos &amp; Images</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Paginations</a>
+                                                </li>
+                                            </ul>
+                                        </section>
+                                    </div>
+
+                                    <div class="col-lg-auto g-brd-left--lg g-brd-gray-light-v5">
+                                        <section class="g-pa-20 g-pl-5--lg">
+                                            <ul class="list-unstyled">
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">General Buttons</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Brand &amp; Social Buttons</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Loading &amp; Hover Effects</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">General Icons</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Font Awesome Icons</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Line Icons</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Line Icons Pro</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Glyphicons Icons (Bootstrap)</a>
+                                                </li>
+                                            </ul>
+                                        </section>
+                                    </div>
+
+                                    <div class="col-lg-auto g-brd-left--lg g-brd-gray-light-v5">
+                                        <section class="g-pa-20 g-pl-5--lg">
+                                            <ul class="list-unstyled">
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">General Typography</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Headings Options</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Dividers</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Blockquote Blocks</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Box Shadows</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Testimonials</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Tagline Boxes</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Grid Layouts</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Alerts &amp; Messages</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Labels &amp; Badges</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Audio/Videos &amp; Images</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="nav-link g-px-0 g-color-primary--hover">Paginations</a>
+                                                </li>
+                                            </ul>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Mega Menu -->
+                        </li>
+                        <!-- End Mega Menu Item -->
+
+                    </ul>
+                    <!-- Search -->
+                    <!-- Search Form -->
+                    <form id="searchform-1" class="u-searchform-v1" method="POST" action="/search">
+                        <div class="input-group g-brd-primary--focus">
+                            <input class="form-control rounded-0 u-form-control" type="search" placeholder="Linuxspiele finden...">
+                            <div class="input-group-addon p-0">
+                                <button class="btn rounded-0 btn-primary btn-md g-font-size-14 g-px-18" type="submit">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- End Search Form -->
+                    <!-- End Search -->               
+                </div>
+                <!-- End Navigation -->
+
+
+
+            </div> <!-- Ende Container -->
+        </nav>
+    </div>
 </header>
+<!-- End Header -->
