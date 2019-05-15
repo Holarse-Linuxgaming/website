@@ -5,10 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,15 +28,22 @@ public class WebUtilService {
             return null;
         }
         
+       
         final URI uri = new URL(youtubeUrl).toURI();
-        System.out.println(uri.getHost());
+        System.out.println("host:  " + uri.getHost());
+        System.out.println("query: " + uri.getQuery());
         switch (uri.getHost()) {
             case "www.youtube.com":
             case "www.youtube-nocookie.com":
                 // Nach v-Parameter prüfen
-                final Optional<NameValuePair> nvp = URLEncodedUtils.parse(uri, "UTF-8").stream().filter(nv -> nv.getName().equalsIgnoreCase("v")).findFirst();
-                if (nvp.isPresent()) {
-                    return nvp.get().getValue();
+                for (final String param : uri.getQuery().split("&")) {
+                    System.out.println("param: " + param);
+                    if (param.toLowerCase().startsWith("v=")) {
+                        final String[] value = param.split("=");
+                        if (value.length == 2) {
+                            return value[1];
+                        }
+                    }
                 }
                 break;
             case "youtu.be":

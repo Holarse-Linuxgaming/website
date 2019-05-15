@@ -56,7 +56,7 @@
             <scope>test</scope>
         </dependency>    
     
-<!--        <dependency>
+        <!--        <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
             <version>1.3.3</version>
@@ -186,11 +186,11 @@
             <version>1.7.25</version>
         </dependency>  
         
-<dependency>
-    <groupId>org.apache.logging.log4j</groupId>
-    <artifactId>log4j-core</artifactId>
-    <version>2.8.2</version>
-</dependency>        
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.8.2</version>
+        </dependency>        
     
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -209,7 +209,7 @@
           <artifactId>jackson-module-jaxb-annotations</artifactId>
           <version>2.9.7</version>
         </dependency>                        -->
-<!--
+        <!--
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
@@ -241,7 +241,7 @@
             <version>3.6.1</version>
         </dependency>
     
-<!--        <dependency>
+        <!--        <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-xml</artifactId>
             <version>2.9.5</version>
@@ -259,9 +259,9 @@
             <artifactId>elasticsearch-rest-high-level-client</artifactId>
             <version>6.5.4</version>
         </dependency>  
-    
+ 
         <!-- JAXB -->
-<!--        <dependency>
+        <!--        <dependency>
            <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
             <version>2.3.0</version>
@@ -281,9 +281,15 @@
             <groupId>com.whalin</groupId>
             <artifactId>Memcached-Java-Client</artifactId>
             <version>3.0.2</version>
-        </dependency>        
+        </dependency>   
         
-<!--        <dependency>
+        <dependency>
+            <groupId>com.rabbitmq</groupId>
+            <artifactId>amqp-client</artifactId>
+            <version>5.7.0</version>
+        </dependency>                
+        
+        <!--        <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
             <version>2.3.28</version>
@@ -331,12 +337,12 @@
                 <version>3.2.2</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <outputDirectory>/home/comrad/Downloads/wlp/usr/servers/holarse/dropins/</outputDirectory>                    
+                    <outputDirectory>/home/comrad/bin/wlp/usr/servers/holarse/dropins/</outputDirectory>                    
                     <warName>holarseweb</warName>
                 </configuration>
             </plugin>
             <!-- Git-Version -->
-             <plugin>
+            <plugin>
                 <groupId>pl.project13.maven</groupId>
                 <artifactId>git-commit-id-plugin</artifactId>
                 <version>2.2.4</version>
