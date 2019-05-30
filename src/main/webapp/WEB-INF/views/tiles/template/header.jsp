@@ -293,7 +293,7 @@
                             <input class="form-control rounded-0 u-form-control" type="search" placeholder="Linuxspiele finden..." id="searchField">
                             <div class="input-group-addon p-0">
                                 <button class="btn rounded-0 btn-primary btn-md g-font-size-14 g-px-18" type="submit">
-                                    <i class="fas fa-search"></i>
+                                    <i class="fa fa-search"></i>
                                 </button>
                             </div>
                         </div>

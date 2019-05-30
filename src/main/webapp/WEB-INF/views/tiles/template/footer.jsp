@@ -12,62 +12,67 @@
       
               <ul class="list-inline mb-0">
                 <li class="list-inline-item">
-                  <a class="u-icon-v3 u-icon-size--sm g-font-size-default g-bg-white-opacity-0_1 g-bg-primary--hover g-color-white-opacity-0_8 rounded" href="#">
+                  <a class="u-icon-v3 u-icon-size--sm g-font-size-default g-bg-white-opacity-0_1 g-bg-primary--hover g-color-white-opacity-0_8 rounded" href="http://klaud.holarse-linuxgaming.de">
+                    <i class="fa fa-download"></i>
+                  </a>
+                </li>
+                <li class="list-inline-item g-mx-5">
+                  <a class="u-icon-v3 u-icon-size--sm g-font-size-default g-bg-white-opacity-0_1 g-bg-primary--hover g-color-white-opacity-0_8 rounded" href="https://twitter.com/holarse">
                     <i class="fa fa-twitter"></i>
                   </a>
                 </li>
                 <li class="list-inline-item g-mx-5">
-                  <a class="u-icon-v3 u-icon-size--sm g-font-size-default g-bg-white-opacity-0_1 g-bg-primary--hover g-color-white-opacity-0_8 rounded" href="#">
-                    <i class="fa fa-pinterest"></i>
+                  <a class="u-icon-v3 u-icon-size--sm g-font-size-default g-bg-white-opacity-0_1 g-bg-primary--hover g-color-white-opacity-0_8 rounded" href="https://store.steampowered.com/curator/4317648-Holarse-Linuxgaming">
+                    <i class="fa fa-steam"></i>
                   </a>
                 </li>
                 <li class="list-inline-item g-mx-5">
-                  <a class="u-icon-v3 u-icon-size--sm g-font-size-default g-bg-white-opacity-0_1 g-bg-primary--hover g-color-white-opacity-0_8 rounded" href="#">
-                    <i class="fa fa-facebook"></i>
+                  <a class="u-icon-v3 u-icon-size--sm g-font-size-default g-bg-white-opacity-0_1 g-bg-primary--hover g-color-white-opacity-0_8 rounded" href="https://www.youtube.com/holarsegaming">
+                    <i class="fa fa-youtube-play"></i>
                   </a>
                 </li>
                 <li class="list-inline-item g-mx-5">
-                  <a class="u-icon-v3 u-icon-size--sm g-font-size-default g-bg-white-opacity-0_1 g-bg-primary--hover g-color-white-opacity-0_8 rounded" href="#">
-                    <i class="fa fa-instagram"></i>
+                  <a class="u-icon-v3 u-icon-size--sm g-font-size-default g-bg-white-opacity-0_1 g-bg-primary--hover g-color-white-opacity-0_8 rounded" href="https://www.twitch.tv/holarse">
+                    <i class="fa fa-twitch"></i>
                   </a>
-                </li>
+                </li>                
               </ul>
             </div>
             <!-- End Footer Content -->
       
             <!-- Footer Content -->
             <div class="col-lg-4 g-mb-30 g-mb-0--lg">
-              <h2 class="h6 g-color-white text-uppercase g-font-weight-700 g-mb-20">Useful Links</h2>
+              <h2 class="h6 g-color-white text-uppercase g-font-weight-700 g-mb-20">N&uuml;tzliche Seiten / Social Media</h2>
               <div class="row">
                 <div class="col-sm-6">
                   <ul class="list-unstyled g-mb-30 g-mb-0--md">
                     <li class="d-flex g-mb-12">
                       <i class="fa fa-circle g-color-primary g-font-size-5 g-mt-10 g-mr-8"></i>
-                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="#">About Us</a>
+                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="/wiki/über_holarse">&Uuml;ber Holarse</a>
                     </li>
                     <li class="d-flex g-mb-12">
                       <i class="fa fa-circle g-color-primary g-font-size-5 g-mt-10 g-mr-8"></i>
-                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="#">Our Services</a>
+                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="/wiki/holarse_services">Holarse Services</a>
                     </li>
                     <li class="d-flex g-mb-12">
                       <i class="fa fa-circle g-color-primary g-font-size-5 g-mt-10 g-mr-8"></i>
-                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="#">Terms</a>
+                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="/jugendschutz">Jugendschutz</a>
+                    </li>                    
+                    <li class="d-flex g-mb-12">
+                      <i class="fa fa-circle g-color-primary g-font-size-5 g-mt-10 g-mr-8"></i>
+                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="/lizenzen">Lizenzen / Rechtliches</a>
                     </li>
                     <li class="d-flex g-mb-12">
                       <i class="fa fa-circle g-color-primary g-font-size-5 g-mt-10 g-mr-8"></i>
-                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="#">Privacy Policy</a>
+                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="/datenschutz">Datenschutz</a>
                     </li>
                     <li class="d-flex g-mb-12">
                       <i class="fa fa-circle g-color-primary g-font-size-5 g-mt-10 g-mr-8"></i>
-                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="#">Licenses</a>
+                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="/impressum">Impressum</a>
                     </li>
                     <li class="d-flex g-mb-12">
                       <i class="fa fa-circle g-color-primary g-font-size-5 g-mt-10 g-mr-8"></i>
-                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="#">Help Center</a>
-                    </li>
-                    <li class="d-flex">
-                      <i class="fa fa-circle g-color-primary g-font-size-5 g-mt-10 g-mr-8"></i>
-                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="#">FAQ</a>
+                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="/hilfe">Hilfe und Kontakt</a>
                     </li>
                   </ul>
                 </div>
@@ -159,39 +164,44 @@
 
           <div class="col-md-4 align-self-center">
             <ul class="list-inline text-center text-md-right mb-0">
+              <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="Git">
+                <a href="https://git.holarse-linuxgaming.de" class="g-color-white-opacity-0_5 g-color-white--hover">
+                  <i class="fa fa-git"></i>
+                </a>
+              </li>                
               <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="Downloads">
                 <a href="http://klaud.holarse-linuxgaming.de" class="g-color-white-opacity-0_5 g-color-white--hover">
-                  <i class="fas fa-cloud-download-alt"></i>
+                  <i class="fa fa-download"></i>
                 </a>
               </li>                
               <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="Youtube">
                 <a href="https://www.youtube.com/holarsegaming" class="g-color-white-opacity-0_5 g-color-white--hover">
-                  <i class="fab fa-youtube"></i>
+                  <i class="fa fa-youtube-play"></i>
                 </a>
               </li>
               <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="Twitter">
                 <a href="https://twitter.com/holarse" class="g-color-white-opacity-0_5 g-color-white--hover">
-                  <i class="fab fa-twitter"></i>
+                  <i class="fa fa-twitter"></i>
                 </a>
               </li>
               <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="Discord">
                 <a href="https://discord.io/holarse" class="g-color-white-opacity-0_5 g-color-white--hover">
-                  <i class="fab fa-discord"></i>
+                  <i class="fa fa-users"></i>
                 </a>
               </li>
               <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="Mastodon">
                 <a href="https://mastodon.social/@holarse" class="g-color-white-opacity-0_5 g-color-white--hover">
-                  <i class="fab fa-mastodon"></i>
+                  <i class="fa fa-heart-o"></i>
                 </a>
               </li>
               <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="Steam Curator">
                 <a href="https://store.steampowered.com/curator/4317648-Holarse-Linuxgaming" class="g-color-white-opacity-0_5 g-color-white--hover">
-                  <i class="fab fa-steam"></i>
+                  <i class="fa fa-steam"></i>
                 </a>
               </li>
               <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="Twitch">
                 <a href="https://www.twitch.tv/holarse" class="g-color-white-opacity-0_5 g-color-white--hover">
-                  <i class="fab fa-twitch"></i>
+                  <i class="fa fa-twitch"></i>
                 </a>
               </li>              
             </ul>

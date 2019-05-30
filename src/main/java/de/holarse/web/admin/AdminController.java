@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping(value = "/admin")
 public class AdminController {
 
     @Autowired
     PageVisitRepository pageVisitRepository;
     
-    @GetMapping("/")
-    public String index(Model map) {
+    @GetMapping(value = "")
+    public String index(final Model map) {
         map.addAttribute("mainPageVisits", pageVisitRepository.getMainResults());
         map.addAttribute("searches", pageVisitRepository.getSearches());
         return "admin/admin/index";
