@@ -36,10 +36,10 @@ public class EsSearchResultFactory {
                 return (String) fields.get("url");        
             }
 
-            @Override
-            public String getNodeType() {
-                return (String) fields.get("type");  
-            }
+//            @Override
+//            public String getNodeType() {
+//                return (String) fields.get("type");  
+//            }
 
             @Override
             public String getContent() {

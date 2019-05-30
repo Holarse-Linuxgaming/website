@@ -12,6 +12,7 @@ import de.holarse.backend.db.repositories.UserRepository;
 import de.holarse.backend.db.types.AttachmentDataType;
 import de.holarse.backend.db.types.AttachmentGroup;
 import de.holarse.backend.db.types.AttachmentType;
+import de.holarse.backend.db.types.NewsType;
 import de.holarse.search.SearchEngine;
 import de.holarse.services.NodeService;
 import de.holarse.services.TagService;
@@ -23,6 +24,7 @@ import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -58,6 +60,7 @@ public class ImportNews {
     NodeService nodeService;
     
     @Autowired
+    @Qualifier("es")            
     SearchEngine searchEngine;     
     
     @Transactional
@@ -74,6 +77,7 @@ public class ImportNews {
         node.setOldId(importNews.getUid());
         node.setBranch("master");
         node.setCategory(NewsCategory.valueOf(importNews.getCategory()));
+        node.setNewsType(NewsType.valueOf(importNews.getNewsType()));
         
         node.setAuthor(ur.findByLogin(importNews.getRevision().getAuthor()));
                 

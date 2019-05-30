@@ -1,6 +1,5 @@
 package de.holarse.services;
 
-import de.holarse.web.videonews.YoutubeVideo;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -10,19 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class WebUtilService {
-
-    public YoutubeVideo parseYoutubeLink(final String link) throws Exception {
-        final String youtubeId = extractYoutubeId(link);
-        
-        final YoutubeVideo video = new YoutubeVideo();
-        video.setUrl(link);
-        video.setYoutubeId(youtubeId);
-        video.setYoutubeUrl(buildYoutubeUrl(youtubeId));
-        video.setThumbnail(getYoutubeThumbnail(youtubeId));
-        
-        return video;
-    }
-    
+   
     protected String extractYoutubeId(final String youtubeUrl) throws MalformedURLException, URISyntaxException {
         if (StringUtils.isBlank(youtubeUrl)) {
             return null;
