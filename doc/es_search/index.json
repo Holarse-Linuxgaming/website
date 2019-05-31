@@ -10,7 +10,6 @@ PUT /articles
     }
   },
   "mappings": {
-    "docs": { 
       "properties": { 
         "title":                  { "type": "text"  }, 
         "alternativeTitles":      { "type": "text"  }, 
@@ -20,7 +19,6 @@ PUT /articles
         "searchable":             { "type": "boolean" },
         "views":                  { "type": "integer" }
       }
-    }
   }
 }
 
@@ -36,7 +34,6 @@ PUT /news
     }
   },
   "mappings": {
-    "docs": { 
       "properties": { 
         "title":                  { "type": "text"  }, 
         "subtitle":               { "type": "text"  }, 
@@ -46,19 +43,16 @@ PUT /news
         "url":                    { "type": "text", "index": false },                
         "searchable":             { "type": "boolean" }
       }
-    }
   }
 }
 
 PUT /tags
 {
   "mappings": {
-    "docs": { 
       "properties": { 
         "taggroup":               { "type": "keyword"  }, 
         "tags":                   { "type": "keyword"  }
       }
-    }
   }
 }
 
@@ -73,3 +67,20 @@ PUT /tags
     }
   }
 }
+
+-- Result von query:
+{"took":1,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":2,"relation":"eq"},"max_score":4.0129576,"hits":[{"_index":"articles","_type":"_doc","_id":"1","_score":4.0129576,"_source":{
+  "title": "Zod Engine",
+  "alternativeTitles": ["Zod", "Z"],
+  "tags": ["Echtzeitstrategie", "Spiele", "Kommerziell"],
+  "content": "Ein Spiel",
+  "searchable": "true"
+}
+},{"_index":"articles","_type":"_doc","_id":"2","_score":0.25069216,"_source":{
+  "title": "Command & Conquer",
+  "alternativeTitles": ["C&C", "C&C1", "Command & Conquer: Tiberium Dawn", "Command & Conquer: Der Tiberiumkonflikt"],
+  "tags": ["Echtzeitstrategie", "Spiele", "Kommerziell"],
+  "content": "Westwood yay",
+  "searchable": "true"
+}
+}]}}
