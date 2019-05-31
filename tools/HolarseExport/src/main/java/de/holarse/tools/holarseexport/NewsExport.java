@@ -20,7 +20,7 @@ public class NewsExport implements Export {
     
     final static Logger log = Logger.getLogger(NewsExport.class.getName());      
     
-    final static String NEWS_QUERY =  "select n.nid, n.title, from_unixtime(n.created) as created, from_unixtime(n.changed) as changed, r.title, r.body, r.log, r.vid, n.status, n.comment, u.name "
+    final static String NEWS_QUERY =  "select n.nid, n.title, n.type, from_unixtime(n.created) as created, from_unixtime(n.changed) as changed, r.title, r.body, r.log, r.vid, n.status, n.comment, u.name "
     + "from node n "
     + "inner join node_revisions r on r.vid = n.vid "
     + "inner join users u on u.uid = r.uid "
@@ -71,6 +71,18 @@ public class NewsExport implements Export {
                 news.setTitle(result.getString("title"));
 
                 news.setCategory("DEFAULT");
+                
+                // Newstype (Normale, oder Kurznews)
+                switch(result.getString("type")) {
+                    case "story": 
+                        news.setNewsType("REPORT");
+                        break;
+                    case "shortnews":
+                        news.setNewsType("SHORT");
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Unbekannter Node-Type " + result.getString("type"));
+                }
                 
                 // State
                 final State state = new State();

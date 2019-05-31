@@ -26,7 +26,7 @@
   <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="assets/vendor/bootstrap/offcanvas.css">
   <!-- CSS Global Icons -->
-  <link rel="stylesheet" href="assets/vendor/fontawesome/fontawesome.min.css">
+  <link rel="stylesheet" href="assets/vendor/icon-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="assets/vendor/icon-line/css/simple-line-icons.css">
   <link rel="stylesheet" href="assets/vendor/icon-etlinefont/style.css">
   <link rel="stylesheet" href="assets/vendor/icon-line-pro/style.css">
@@ -110,7 +110,6 @@
   <script src="assets/vendor/jquery-ui/jquery-ui.min.js"></script>
 
   <script src="assets/vendor/bootstrap/offcanvas.js"></script>
-  <script src="assets/vendor/fontawesome/fontawesome.min.js"></script>
   
   <!-- JS Implementing Plugins -->
   <script src="assets/vendor/hs-megamenu/src/hs.megamenu.js"></script>  

@@ -72,6 +72,7 @@ public class ArticleController {
     AttachmentRepository attachmentRepository;
 
     @Autowired
+    @Qualifier("es")            
     SearchEngine searchEngine;
 
     @Autowired

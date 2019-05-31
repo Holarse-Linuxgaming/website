@@ -24,10 +24,6 @@ a g-color-primary--hover {
     max-width: 85%;
 }
 
-body {
-    font-family: Lucida;
-}
-
 .g-brd-primary {
     border-color: #e84d3c !important;    
 }

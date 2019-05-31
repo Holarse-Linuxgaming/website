@@ -31,10 +31,12 @@ import org.elasticsearch.search.sort.ScoreSortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
+@Qualifier("es")
 public class EsSearchEngine implements SearchEngine {
 
     Logger logger = LoggerFactory.getLogger(EsSearchEngine.class);

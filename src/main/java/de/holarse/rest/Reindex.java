@@ -9,6 +9,7 @@ import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,7 @@ public class Reindex {
      Logger log = LoggerFactory.getLogger(Reindex.class);
      
      @Autowired
+     @Qualifier("es")
      SearchEngine searchEngine;
      
      @Autowired

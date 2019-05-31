@@ -8,12 +8,11 @@ import java.util.List;
  */
 public interface SearchResult {
     
-    Long getId();    
+    Long getId();
     String getTitle();
     List<String> getAlternativeTitles();    
     List<String> getTags();
     String getUrl();
-    String getNodeType();
     String getContent();    
     
 }

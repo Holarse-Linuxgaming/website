@@ -44,7 +44,9 @@ public class CommentController {
     
     @Autowired SecurityService securityService;
     
-    @Autowired SearchEngine searchEngine;
+    @Autowired 
+    @Qualifier("es")            
+    SearchEngine searchEngine;
 
     @Qualifier("wikiRenderer")
     @Autowired 

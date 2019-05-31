@@ -42,6 +42,17 @@ public class News {
     @JacksonXmlElementWrapper(localName = "attachments")    
     private List<Attachment> attachments = new ArrayList<>();
 
+    @JacksonXmlProperty(localName="newstype", isAttribute = true)
+    private String newsType;
+
+    public String getNewsType() {
+        return newsType;
+    }
+
+    public void setNewsType(String newsType) {
+        this.newsType = newsType;
+    }
+    
     public String getCategory() {
         return category;
     }

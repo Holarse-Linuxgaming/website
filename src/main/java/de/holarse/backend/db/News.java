@@ -1,11 +1,13 @@
 package de.holarse.backend.db;
 
 import de.holarse.backend.db.types.NewsCategory;
+import de.holarse.backend.db.types.NewsType;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -22,6 +24,7 @@ public class News extends BranchableNode implements Frontpagable, Searchable {
     private NewsCategory category;
     private String source;
     private String teaserImage;
+    private NewsType newsType;
 
     @Transient
     private String url;
@@ -118,6 +121,14 @@ public class News extends BranchableNode implements Frontpagable, Searchable {
     @Override
     public String getType() {
         return "news";
+    }
+
+    public NewsType getNewsType() {
+        return newsType;
+    }
+
+    public void setNewsType(NewsType newsType) {
+        this.newsType = newsType;
     }
     
     @Override
