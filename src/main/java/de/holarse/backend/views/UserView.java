@@ -9,7 +9,7 @@ public class UserView implements View {
     private String login;
     private String email;
     private final List<String> roles = new ArrayList<>();
-
+    
     public Long getId() {
         return id;
     }

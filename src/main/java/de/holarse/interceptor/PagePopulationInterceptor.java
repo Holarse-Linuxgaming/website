@@ -3,6 +3,7 @@ package de.holarse.interceptor;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.UserRepository;
 import de.holarse.backend.views.PageTitleView;
+import de.holarse.backend.views.View;
 import de.holarse.services.TrafficService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -59,11 +60,11 @@ public class PagePopulationInterceptor extends HandlerInterceptorAdapter {
             mav.addObject("commitIdDescribe", commitIdDescribe);
             
             // Standardtitel setzen
-            if (mav.getModel().containsKey("view")) {
+            if (mav.getModel().containsKey("view") && mav.getModel().get("view") instanceof View) {
                 final PageTitleView ptv = (PageTitleView) mav.getModel().get("view");   
                 // NodeID setzen, wenn wirklich eine Node abgefragt wird
                 nodeId = ptv.getNodeId();
-                
+
                 mav.getModel().computeIfAbsent("title", k -> ptv.getPageTitle());
             } else {
                 mav.getModel().computeIfAbsent("title", k -> "Eure deutschsprache Linuxspiele-Community");

@@ -84,7 +84,7 @@
             </thead>
 
             <tbody>
-                <c:forEach items="${users}" var="user">
+                <c:forEach items="${view.content}" var="user">
 
                     <tr class="g-bg-gray-light-v8--opacity-0_4--checked">
                         <td class="g-hidden-xs-up">1</td>
@@ -157,36 +157,4 @@
 </div>
 <!-- Body Ende -->
 
-<!-- Pagination -->
-<div class="media justify-content-left g-mb-45">
-    <nav id="datatablePagination2" class="d-flex" aria-label="Page Navigation">
-        <ul class="list-inline text-right mb-0">				
-            <li class="list-inline-item">
-                <c:url var="previousPage" value="">
-                    <c:param name="page" value="${page.previousOrFirst().pageNumber}" />                    
-                    <c:param name="sort" value="${page.previousOrFirst().sort}" />
-                    <c:param name="size" value="${page.previousOrFirst().pageSize}" />
-                </c:url>
-                <a id="datatablePagination2Prev" class="u-pagination-v1__item u-pagination-v1-2 g-brd-gray-light-v7 g-brd-secondary--hover g-rounded-4 g-py-8 g-px-12" href="${previousPage}" aria-label="Previous">
-                    <span class="g-line-height-1 g-valign-middle" aria-hidden="true"><i class="hs-admin-angle-left"></i></span><span class="sr-only">Prev</span>
-                </a>				
-            </li>
-            <li class="list-inline-item g-hidden-sm-down"><a id="#" class="u-pagination-v1__item u-pagination-v1-2 g-bg-secondary--active g-color-white--active g-brd-gray-light-v7 g-brd-secondary--hover g-brd-secondary--active g-rounded-4 g-py-8 g-px-15 active" href="#!" data-dt-page-to="0">1</a></li>
-            <li class="list-inline-item g-hidden-sm-down"><a id="#" class="u-pagination-v1__item u-pagination-v1-2 g-bg-secondary--active g-color-white--active g-brd-gray-light-v7 g-brd-secondary--hover g-brd-secondary--active g-rounded-4 g-py-8 g-px-15" href="#!" data-dt-page-to="1">2</a></li>
-            <li class="list-inline-item g-hidden-sm-down"><a id="#" class="u-pagination-v1__item u-pagination-v1-2 g-bg-secondary--active g-color-white--active g-brd-gray-light-v7 g-brd-secondary--hover g-brd-secondary--active g-rounded-4 g-py-8 g-px-15" href="#!" data-dt-page-to="2">3</a></li>
-            <li class="list-inline-item g-hidden-sm-down"><a id="#" class="u-pagination-v1__item u-pagination-v1-2 g-bg-secondary--active g-color-white--active g-brd-gray-light-v7 g-brd-secondary--hover g-brd-secondary--active g-rounded-4 g-py-8 g-px-15" href="#!" data-dt-page-to="3">4</a></li>
-            <li class="list-inline-item g-hidden-sm-down"><a id="#" class="u-pagination-v1__item u-pagination-v1-2 g-bg-secondary--active g-color-white--active g-brd-gray-light-v7 g-brd-secondary--hover g-brd-secondary--active g-rounded-4 g-py-8 g-px-15" href="#!" data-dt-page-to="4">5</a></li>
-            <li class="list-inline-item">
-                <c:url var="nextPage" value="">
-                    <c:param name="page" value="${page.next().pageNumber}" />                    
-                    <c:param name="sort" value="${page.next().sort}" />
-                    <c:param name="size" value="${page.next().pageSize}" />
-                </c:url>                
-                <a id="datatablePagination2Next" class="u-pagination-v1__item u-pagination-v1-2 g-brd-gray-light-v7 g-brd-secondary--hover g-rounded-4 g-py-8 g-px-12" href="${nextPage}" aria-label="Next">
-                    <span class="g-line-height-1 g-valign-middle" aria-hidden="true"><i class="hs-admin-angle-right"></i></span>
-                    <span class="sr-only">Next</span></a>				
-            </li>				
-        </ul>
-    </nav>
-</div>
-<!-- Pagination Ende -->
+<%@include file="/WEB-INF/jspf/pagination.jspf" %>
