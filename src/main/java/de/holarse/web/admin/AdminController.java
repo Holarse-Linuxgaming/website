@@ -15,10 +15,10 @@ public class AdminController {
     PageVisitRepository pageVisitRepository;
     
     @GetMapping(value = "")
-    public String index(final Model map) {
+    public String dashboard(final Model map) {
         map.addAttribute("mainPageVisits", pageVisitRepository.getMainResults());
         map.addAttribute("searches", pageVisitRepository.getSearches());
-        return "admin/admin/index";
+        return "admin/dashboard/index";
     }
     
 }
