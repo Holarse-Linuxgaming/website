@@ -26,17 +26,16 @@ public class TrafficService {
         saveRequest(request, response, null);
     }
     
-    @Async
     public void saveRequest(final HttpServletRequest request, final HttpServletResponse response, final Long nodeId) {
-        // Ignorierte URLs nicht protokollieren
-        if (IGNORED_URLS.stream().anyMatch(u -> request.getRequestURI().startsWith(u))) { return; }
-
         // Nur GETs protokollieren
         if (!request.getMethod().equalsIgnoreCase("GET")) { return; }
         
+        // Ignorierte URLs nicht protokollieren
+        if (IGNORED_URLS.stream().anyMatch(u -> request.getRequestURI().startsWith(u))) { return; }
+       
         final PageVisit page = new PageVisit();
         page.setNodeId(nodeId);
-        page.setCreated(OffsetDateTime.now());
+        page.setAccessed(OffsetDateTime.now());
         page.setIpaddress(request.getRemoteAddr());
         page.setUrl(request.getRequestURI());
         page.setUserAgent(request.getHeader("User-Agent"));

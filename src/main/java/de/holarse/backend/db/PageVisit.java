@@ -1,13 +1,28 @@
 package de.holarse.backend.db;
 
+import java.io.Serializable;
+import java.time.OffsetDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Table(name="pagevisits")
+@Table(name="accesslog")
 @Entity
-public class PageVisit extends Base {
+public class PageVisit implements Serializable {
 
+    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE default CURRENT_TIMESTAMP")    
+    private OffsetDateTime accessed;
+    
+    /**
+     * JPA Entities benötigen eine Id, die aber nicht unbedingt der realen Tabelle entsprechen muss
+     */
+    @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    private long id;
+    
     private Long nodeId;
     private String visitorId; // sessionid hashed
     private String ipaddress; // anonymized 
@@ -19,7 +34,15 @@ public class PageVisit extends Base {
     private String campaignName;
     private String campaignKeyword;
     private Integer httpStatus;
+   
+    public OffsetDateTime getAccessed() {
+        return accessed;
+    }
 
+    public void setAccessed(OffsetDateTime accessed) {
+        this.accessed = accessed;
+    }
+    
     public Integer getHttpStatus() {
         return httpStatus;
     }
