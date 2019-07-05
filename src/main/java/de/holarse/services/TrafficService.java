@@ -12,9 +12,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,7 +23,7 @@ public class TrafficService {
     final static List<String> CAMPAIGN_NAMES = Arrays.asList("pk_campaign", "piwik_campaign", "utm_campaign", "utm_source", "utm_medium");
     final static List<String> CAMPAIGN_KEYWORDS = Arrays.asList("pk_kwd", "piwik_kwd", "pk_keyword", "utm_term");
     
-    final static List<String> IGNORED_URLS = Arrays.asList("/login", "/assets", "/nodes/");
+    final static List<String> IGNORED_URLS = Arrays.asList("/login", "/assets", "/nodes/", "/webapi/", "/api/");
     
     public void saveRequest(final HttpServletRequest request, final HttpServletResponse response) {
         saveRequest(request, response, null);

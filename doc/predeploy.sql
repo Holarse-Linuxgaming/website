@@ -23,6 +23,7 @@ create table accesslog (id bigserial, nodeid bigint, visitorid varchar(255), cam
                         accessed timestamp with time zone not null default current_timestamp) partition by range(accessed);
 
 create index on accesslog (accessed);
+create index on accesslog(nodeid, accessed);
 
 create table accesslog_2018 partition of accesslog for values from ('2018-01-01') to ('2019-01-01');
 create table accesslog_2019 partition of accesslog for values from ('2019-01-01') to ('2020-01-01');

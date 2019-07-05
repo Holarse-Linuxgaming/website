@@ -92,7 +92,8 @@ public class MultipleHttpSecurityConfig {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             // API
-            http.csrf().disable().antMatcher("/api/**").authorizeRequests().anyRequest().hasRole("API").and().httpBasic();
+            http.csrf().disable()
+                    .antMatcher("/api/**").authorizeRequests().anyRequest().hasRole("API").and().httpBasic();
         }
 
     }
@@ -113,7 +114,8 @@ public class MultipleHttpSecurityConfig {
 
         @Override
         public void configure(org.springframework.security.config.annotation.web.builders.WebSecurity web) throws Exception {
-            web.ignoring().antMatchers("/assets/**", "/favicon.ico", "/sitemap.xml");
+            web.ignoring()
+                    .antMatchers("/assets/**", "/favicon.ico", "/sitemap.xml", "/webapi/**");
         }
 
         @Override

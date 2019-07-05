@@ -4,6 +4,7 @@ import de.holarse.renderer.Renderer;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import org.junit.Ignore;
 
 public class WikiRendererTest {
 
@@ -78,7 +79,8 @@ public class WikiRendererTest {
         assertEquals("<h5>Test</h5>", renderer.render("=====Test====="));
     }    
 
-    //@Test    
+    @Ignore
+    @Test    
     public void testHeaderMixedWithLink() {
         assertEquals("<h3><a href=\"/wiki/lala\">Lala</a></h3>", renderer.render("===[[Lala]]==="));
     }    
@@ -175,26 +177,29 @@ public class WikiRendererTest {
         assertEquals("<ul><li>eins</li><li>zwei</li><li>drei</li></ul>", renderer.render("* eins\n* zwei\n* drei\n\n"));
     }     
     
-    //@Test
+    @Ignore
+    @Test
     public void testIsNotAList() {
         String text = "Der Editor läuft auf Windows, OS X, Linux, *BSD und Haiku.";
         assertEquals(text, renderer.render(text));
     }
-    
-//    @Test    
-//    public void testDeeperList() {
-//        assertEquals("Folgende Liste: <ul><li>eins</li><li>zwei<ul><li>zweieinhalb</li></ul></li><li>drei</li></ul>", renderer.render("Folgende Liste: \n* eins\n* zwei\n** zweieinhalb\n* drei\n"));
-//    }      
+
+    @Ignore    
+    @Test    
+    public void testDeeperList() {
+        assertEquals("Folgende Liste: <ul><li>eins</li><li>zwei<ul><li>zweieinhalb</li></ul></li><li>drei</li></ul>", renderer.render("Folgende Liste: \n* eins\n* zwei\n** zweieinhalb\n* drei\n"));
+    }      
 
     @Test    
     public void testNumericList() {
         assertEquals("<ol><li>eins</li><li>zwei</li><li>drei</li></ol>", renderer.render("# eins\n# zwei\n# drei\n\n"));
     }     
     
-//    @Test    
-//    public void testDeeperNumericList() {
-//        assertEquals("Folgende Liste: <ol><li>eins</li><li>zwei<ul><li>zweieinhalb</li></ol></li><li>drei</li></ol>", renderer.render("Folgende Liste: \n# eins\n# zwei\n## zweieinhalb\n# drei\n"));
-//    }     
+    @Ignore
+    @Test    
+    public void testDeeperNumericList() {
+        assertEquals("Folgende Liste: <ol><li>eins</li><li>zwei<ul><li>zweieinhalb</li></ol></li><li>drei</li></ol>", renderer.render("Folgende Liste: \n# eins\n# zwei\n## zweieinhalb\n# drei\n"));
+    }     
     
     //@Test
     public void testListEnding() {
@@ -235,10 +240,11 @@ public class WikiRendererTest {
         assertEquals("<b>hallo</b>", renderer.render("'''hallo'''"));
     }        
     
-//    @Test
-//    public void testBoldWithTicks() {
-//        assertEquals("<b>'hallo'</b>", renderer.render("''''hallo''''"));
-//    }            
+    @Ignore
+    @Test
+    public void testBoldWithTicks() {
+        assertEquals("<b>'hallo'</b>", renderer.render("''''hallo''''"));
+    }            
     
     /**
      * Code
@@ -263,7 +269,8 @@ public class WikiRendererTest {
     }    
     
     // Two Newlines
-    //@Test
+    @Ignore
+    @Test
     public void testParagraph() {
         String text = "Ich bin ein Satz in einem\n\neigenen Absatz\n\nund hier gehts weiter.";
         assertEquals("<p>Ich bin ein Satz in einem</p><p>eigenen Absatz</p><p>und hier gehts weiter.", renderer.render(text));
@@ -274,11 +281,27 @@ public class WikiRendererTest {
         assertEquals("<br />", renderer.render("<!--break-->"));
     }
     
-    //@Test
+    @Ignore
+    @Test
     public void testEscapeScript() {
         String text = "Hallo <script>alert(\"error\");</script> Welt";
         String expc = "Hallo &lt;script&gt;alert(\"error\");&lt;/script&gt; Welt";
         assertEquals(expc, renderer.render(text));
     }
+    
+    /*** ERROR CASES ***/
+    
+    /**
+     * Issue #106
+     * Nach dem Beginn eines Fettdrucks bleibt dieser bestehen.
+     */
+    @Ignore
+    @Test
+    public void testBug106() {
+        String text = "Um nun \"zod\" und den \"zod_launcher\" selbst bauen zu können, muss man zuvor die Datei '''zod_launcherFrm.cpp''' im Ordner \"zod_launcher_src\" anpassen.";
+        String expc = "Um nun \"zod\" und den \"zod_launcher\" selbst bauen zu können, muss man zuvor die Datei <b>zod_launcherFrm.cpp</b> im Ordner \"zod_launcher_src\" anpassen.";
+        
+        assertEquals(expc, renderer.render(text));        
+    } 
 
 }

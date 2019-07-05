@@ -13,7 +13,6 @@ import de.holarse.backend.db.repositories.RevisionRepository;
 import de.holarse.backend.db.repositories.TagRepository;
 import de.holarse.backend.db.types.AttachmentGroup;
 import de.holarse.backend.views.ArticleView;
-import de.holarse.cache.CachingService;
 import de.holarse.exceptions.ErrorMode;
 import de.holarse.exceptions.FlashMessage;
 import de.holarse.exceptions.HolarseException;
@@ -88,10 +87,6 @@ public class ArticleController {
     @Autowired
     Renderer renderer;
 
-    @Qualifier("memcached")
-    @Autowired
-    CachingService cache;
-
     // INDEX
     @GetMapping("/")
     public String index(final Model map) {
@@ -149,13 +144,6 @@ public class ArticleController {
     @GetMapping("/{slug}")
     public ModelAndView showBySlug(@PathVariable final String slug, final ModelMap map) {             
         try {
-            // Prüfe erst den Cache.
-            Object cachedView = cache.get("article-" + slug); 
-            if (cachedView != null) {
-                map.addAttribute("view", cachedView);
-                return new ModelAndView("articles/show", map);            
-            }
-            
             final Article article = nodeService.findArticle(slug).get();
             Hibernate.initialize(article.getTags());
             Hibernate.initialize(article.getAttachments());
@@ -187,8 +175,6 @@ public class ArticleController {
             
             map.addAttribute("title", view.getMainTitle());
             map.addAttribute("view", view);
-            
-            cache.put("article-" + article.getSlug(), view);
             
             return new ModelAndView("articles/show", map);
         } catch (RedirectException re) {

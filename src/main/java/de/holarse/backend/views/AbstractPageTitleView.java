@@ -6,10 +6,5 @@ public abstract class AbstractPageTitleView implements PageTitleView {
     public String getPageTitle() {
         return "Eure deutschsprache Linuxspiele-Community";
     }
-    
-    @Override
-    public Long getNodeId() {
-        return null;
-    };
-    
+       
 }

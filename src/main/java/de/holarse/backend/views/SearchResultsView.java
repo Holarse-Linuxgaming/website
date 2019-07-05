@@ -11,6 +11,11 @@ public class SearchResultsView extends AbstractPageTitleView {
     public SearchResultsView(String searchTerm) {
         this.searchTerm = searchTerm;
     }
+
+    @Override
+    public Long getNodeId() {
+        return null;
+    }
     
     @Override
     public String getPageTitle() {

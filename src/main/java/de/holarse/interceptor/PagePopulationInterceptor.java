@@ -55,10 +55,6 @@ public class PagePopulationInterceptor extends HandlerInterceptorAdapter {
         Long nodeId = null;
         
         if (mav != null) {
-            mav.addObject("currentUser", getCurrentUser());
-            mav.addObject("commitId", commitId);
-            mav.addObject("commitIdDescribe", commitIdDescribe);
-            
             // Standardtitel setzen
             if (mav.getModel().containsKey("view") && mav.getModel().get("view") instanceof View) {
                 final PageTitleView ptv = (PageTitleView) mav.getModel().get("view");   
