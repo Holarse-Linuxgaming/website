@@ -2,12 +2,18 @@ package de.holarse.services;
 
 import de.holarse.backend.db.PageVisit;
 import de.holarse.backend.db.repositories.PageVisitRepository;
+import de.holarse.backend.views.PageVisitResult;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -71,6 +77,16 @@ public class TrafficService {
             }
         }
         return null;
+    }
+    
+    public List<PageVisitResult> getPageVisits(final Long nodeId, final Date fromDate, final Date untilDate) {
+        LocalDateTime start, end;
+        start = LocalDateTime.ofInstant(fromDate.toInstant(), ZoneId.systemDefault());
+        
+        // Entweder gesetzt oder jetzt
+        end = untilDate == null ? LocalDateTime.now() : LocalDateTime.ofInstant(untilDate.toInstant(), ZoneId.systemDefault());
+            
+        return pageVisitRepository.getNodeVists(nodeId, start, end);        
     }
     
 }

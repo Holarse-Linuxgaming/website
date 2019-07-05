@@ -18,7 +18,7 @@ public interface PageVisitRepository extends CrudRepository<PageVisit, Long> {
     @Query(value = "select searchword, count(searchword) as count from pagevisits group by searchword order by count(searchword) desc", nativeQuery = true)
     List<StatisticSearchResult> getSearches();    
     
-    @Query(value = "select cast(cast(accessed as date) as varchar) as date, count(id) as visits from pagevisits where nodeid = :nodeId and accessed between :fromDate and :untilDate group by cast(accessed as date) order by date", nativeQuery = true)    
+    @Query(value = "select cast(cast(accessed as date) as varchar) as date, count(id) as visits from accesslog where nodeid = :nodeId and accessed between :fromDate and :untilDate group by cast(accessed as date) order by date", nativeQuery = true)    
     List<PageVisitResult> getNodeVists(@Param("nodeId") final Long nodeId, @Param("fromDate") final LocalDateTime fromDate, @Param("untilDate") LocalDateTime untilDate);
     
 }
