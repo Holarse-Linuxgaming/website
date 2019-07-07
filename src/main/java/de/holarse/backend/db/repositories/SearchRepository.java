@@ -11,18 +11,21 @@ import org.springframework.data.repository.query.Param;
 public interface SearchRepository extends JpaRepository<Node, Long> {
 
     @Modifying
-    @Query(value = "REFRESH MATERIALIZED VIEW search_index", nativeQuery = true)
+    @Query(value = "REFRESH MATERIALIZED VIEW mv_searchindex", nativeQuery = true)
     void update();
 
-    @Query(value = "select pid as id, "
-                       + " ptitle as title, "
-                       + " purl as url, "
-                       + " ptags as tags, "
-                       + " pnodetype as nodeType, "
-                       + " palternativetitle as alternativeTitle, "
-                       + " pcontent as content " 
-                       + " from search_index where search_index.document @@ to_tsquery('holarse_de', :query) "
-                       + " order by ts_rank(search_index.document, to_tsquery('holarse_de', :query)) desc", nativeQuery = true)
+    @Query(value = "select pid, ptitle from mv_searchindex " +
+                   "where document @@ to_tsquery('german', ':query') " +
+                   "ORDER BY ts_rank(document, to_tsquery('german', ':query')) DESC", nativeQuery = true)
     List<SearchResult> search(@Param("query") final String query);
+    
+    @Query(value = "select pid, ptitle from mv_searchindex where document @@ to_tsquery(':query') " +
+            "and tags @> array[:tags] " +
+            "ORDER BY ts_rank(document, to_tsquery('german', ':query')) DESC"
+            , nativeQuery = true)
+    List<SearchResult> search(@Param("query") final String query, @Param("tags") final String tags);
+    
+    @Query(value = "select pid, ptitle from mv_searchindex where tags @> array[:tags]", nativeQuery = true)
+    List<SearchResult> searchTags(@Param("tags") final String tags);    
     
 }
