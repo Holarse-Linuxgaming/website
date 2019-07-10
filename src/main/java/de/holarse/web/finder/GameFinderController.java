@@ -29,7 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-@RequestMapping("/finder/")
+@RequestMapping("/finder")
 public class GameFinderController {
 
     Logger logger = LoggerFactory.getLogger(GameFinderController.class);

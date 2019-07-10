@@ -27,7 +27,7 @@ public class PagePopulationInterceptor extends HandlerInterceptorAdapter {
     private UserRepository userRepository;
     
     @Autowired
-    private TrafficService trafficService;
+    private TrafficService trafficService;     
     
     @Value("${git.commit.id.describe}")
     private String commitIdDescribe;
@@ -52,22 +52,18 @@ public class PagePopulationInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView mav) {       
-        Long nodeId = null;
-        
         if (mav != null) {
             // Standardtitel setzen
             if (mav.getModel().containsKey("view") && mav.getModel().get("view") instanceof View) {
                 final PageTitleView ptv = (PageTitleView) mav.getModel().get("view");   
-                // NodeID setzen, wenn wirklich eine Node abgefragt wird
-                nodeId = ptv.getNodeId();
-
                 mav.getModel().computeIfAbsent("title", k -> ptv.getPageTitle());
             } else {
                 mav.getModel().computeIfAbsent("title", k -> "Eure deutschsprache Linuxspiele-Community");
             }
+            
+            final Long nodeId = (Long) mav.getModel().getOrDefault("nodeId", 0L);
+            trafficService.saveRequest(request, response, nodeId);
         }
-        
-        trafficService.saveRequest(request, response, nodeId);
     }
     
 }

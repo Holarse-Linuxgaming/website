@@ -97,3 +97,20 @@ ORDER BY ts_rank(document, to_tsquery('german', 'Echtzeit')) DESC;
 
 -- tagbasierte Suche
 select * from mv_Searchindex where tags @> array['Spiele'::varchar, 'Horror'::varchar];
+
+-- suchwort-vorschläge
+create materialized view mv_suggestions as 
+select 
+    to_tsvector('english', a.title) ||
+    to_tsvector('english', coalesce(a.alternativetitle1, '')) ||
+    to_tsvector('english', coalesce(a.alternativetitle2, '')) ||
+    to_tsvector('english', coalesce(a.alternativetitle3, '')) as word
+from articles a
+
+union
+
+select
+    to_tsvector('simple', coalesce(t.name, '')) as word
+from tags t;
+
+create index suggestions_idx on mv_suggestions using gin(word);

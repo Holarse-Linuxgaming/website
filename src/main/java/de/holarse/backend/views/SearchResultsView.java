@@ -3,7 +3,7 @@ package de.holarse.backend.views;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchResultsView extends AbstractPageTitleView {
+public class SearchResultsView implements PageTitleView {
 
     private final List<SearchResultView> results = new ArrayList<>(250);
     private String searchTerm;
@@ -12,11 +12,6 @@ public class SearchResultsView extends AbstractPageTitleView {
         this.searchTerm = searchTerm;
     }
 
-    @Override
-    public Long getNodeId() {
-        return null;
-    }
-    
     @Override
     public String getPageTitle() {
         final StringBuilder buffer = new StringBuilder();

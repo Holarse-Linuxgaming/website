@@ -45,6 +45,8 @@ public class NodeService {
     @Autowired
     RevisionRepository revisionRepository;
     
+    private final static String MASTER_BRANCH = "master";
+    
     /**
      * Erzeugt die Grunddaten für eine neue Node
      * @param <N>
@@ -96,7 +98,7 @@ public class NodeService {
         }
         
         // Anhand des Mainslugs (Hauptpfad) finden
-        final Optional<Article> nodeByMainSlug = Optional.ofNullable(articleRepository.findBySlugAndBranch(ident, "master"));
+        final Optional<Article> nodeByMainSlug = Optional.ofNullable(articleRepository.findBySlugAndBranch(ident, MASTER_BRANCH));
         if (nodeByMainSlug.isPresent()) {
             return nodeByMainSlug;
         }
@@ -132,7 +134,7 @@ public class NodeService {
         }
         
         // Anhand des Mainslugs (Hauptpfad) finden
-        final Optional<News> nodeByMainSlug = Optional.ofNullable(newsRepository.findBySlugAndBranch(ident, null));
+        final Optional<News> nodeByMainSlug = Optional.ofNullable(newsRepository.findBySlugAndBranch(ident, MASTER_BRANCH));
         if (nodeByMainSlug.isPresent()) {
             return nodeByMainSlug;
         }
@@ -168,12 +170,12 @@ public class NodeService {
         // Prüfen, ob der MainSlug frei ist.
         switch (nodeType) {
             case ARTICLE:
-                if (articleRepository.countBySlugAndBranch(slug, "master") == 0) {
+                if (articleRepository.countBySlugAndBranch(slug, MASTER_BRANCH) == 0) {
                     return slug;
                 }
                 break;
             case NEWS:
-                if (newsRepository.countBySlugAndBranch(slug, "master") == 0) {
+                if (newsRepository.countBySlugAndBranch(slug, MASTER_BRANCH) == 0) {
                     return slug;
                 }
                 break;

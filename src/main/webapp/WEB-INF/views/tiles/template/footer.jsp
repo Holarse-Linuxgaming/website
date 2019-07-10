@@ -144,19 +144,19 @@
                   <span>|</span>
                 </li>                
                 <li class="list-inline-item">
-                    <a class="g-color-white-opacity-0_8 g-color-white--hover" href="http://ipv6-test.com/validate.php?url=referer'"><img src="assets/img/button-ipv6-80x15.png"></a>
+                    <a class="g-color-white-opacity-0_8 g-color-white--hover" href="http://ipv6-test.com/validate.php?url=referer'"><img src="/assets/img/button-ipv6-80x15.png"></a>
                 </li>
                 <li class="list-inline-item">
                   <span>|</span>
                 </li>                
                 <li class="list-inline-item">
-                    <a class="g-color-white-opacity-0_8 g-color-white--hover" href="https://www.jugendschutzprogramm.de/download" style="width: 50%;"><img src="assets/img/jusprog-age-xml-18.png"></a>
+                    <a class="g-color-white-opacity-0_8 g-color-white--hover" href="https://www.jugendschutzprogramm.de/download" style="width: 50%;"><img src="/assets/img/jusprog-age-xml-18.png"></a>
                 </li>
                 <li class="list-inline-item">
                   <span>|</span>
                 </li>                
                 <li class="list-inline-item">
-                    <a class="g-color-white-opacity-0_8 g-color-white--hover" href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="assets/img/cc-by-nc-sa-4.png"></a>
+                    <a class="g-color-white-opacity-0_8 g-color-white--hover" href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="/assets/img/cc-by-nc-sa-4.png"></a>
                 </li>                
               </ul>
             </div>

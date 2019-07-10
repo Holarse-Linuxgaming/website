@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(value = "/admin/users")
+@RequestMapping("/admin/users")
 public class AdminUsersController {
     
     @Autowired
@@ -36,7 +36,7 @@ public class AdminUsersController {
     };
     
     @Transactional
-    @GetMapping(value = "")
+    @GetMapping
     public String index(final ModelMap map, @PageableDefault(size=10, sort="login") final Pageable pageable, final HttpServletRequest request) {
         final Page<UserView> view = userRepository.findAll(pageable).map(mapToView);
         map.addAttribute("view", view);

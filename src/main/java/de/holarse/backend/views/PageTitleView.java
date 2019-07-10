@@ -1,8 +1,8 @@
 package de.holarse.backend.views;
 
 public interface PageTitleView extends View {
-
-    String getPageTitle();
-    Long getNodeId();
     
+    default String getPageTitle() {
+        return "Eure deutschsprachige Linuxspiele-Community";
+    }
 }

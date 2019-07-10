@@ -12,7 +12,7 @@ import java.util.Map;
  * Viewmodel für Artikel
  * @author comrad
  */
-public class ArticleView extends AbstractPageTitleView {
+public class ArticleView implements PageTitleView {
     
     private Long nodeId;
     private String mainTitle;
@@ -29,12 +29,11 @@ public class ArticleView extends AbstractPageTitleView {
     public String getEditUrl() {
         return "/wiki/" + nodeId + "/edit";
     }
-    
-    @Override
+
     public Long getNodeId() {
         return nodeId;
     }
-
+    
     public void setNodeId(Long nodeId) {
         this.nodeId = nodeId;
     }

@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(value = "/admin")
+@RequestMapping("/admin")
 public class AdminController {
 
     @Autowired
     PageVisitRepository pageVisitRepository;
     
-    @GetMapping(value = "")
+    @GetMapping
     public String dashboard(final Model map) {
         map.addAttribute("mainPageVisits", pageVisitRepository.getMainResults());
         map.addAttribute("searches", pageVisitRepository.getSearches());

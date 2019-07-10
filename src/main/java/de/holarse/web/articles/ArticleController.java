@@ -56,7 +56,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-@RequestMapping(path = {"wiki", "articles"})
+@RequestMapping(value = {"/wiki", "/articles"})
 public class ArticleController {
 
     Logger logger = LoggerFactory.getLogger(ArticleController.class);
@@ -88,7 +88,7 @@ public class ArticleController {
     Renderer renderer;
 
     // INDEX
-    @GetMapping("/")
+    @GetMapping
     public String index(final Model map) {
         map.addAttribute("nodes", articleRepository.findAll());
 
@@ -97,7 +97,7 @@ public class ArticleController {
 
     // NEW
     @Secured("ROLE_USER")
-    @GetMapping("/new")
+    @GetMapping("new")
     public String newArticle(final Model map, final ArticleCommand command) {
         map.addAttribute("articleCommand", command);
         map.addAttribute("contentTypes", ContentType.values());
@@ -107,7 +107,7 @@ public class ArticleController {
     // CREATE
     @Secured("ROLE_USER")
     @Transactional
-    @PostMapping("/")
+    @PostMapping
     public RedirectView create(@ModelAttribute final ArticleCommand command, final Authentication authentication) throws Exception {
         final Article article = nodeService.initCommentableNode(Article.class);
         // Artikelinhalt
@@ -141,7 +141,7 @@ public class ArticleController {
 
     // SHOW by Slug
     @Transactional
-    @GetMapping("/{slug}")
+    @GetMapping("{slug}")
     public ModelAndView showBySlug(@PathVariable final String slug, final ModelMap map) {             
         try {
             final Article article = nodeService.findArticle(slug).get();
@@ -173,8 +173,12 @@ public class ArticleController {
             view.getAttachments().putAll(attachmentGroups);
             view.getComments().addAll(article.getComments());
             
+            // Eigenen Titel setzen
             map.addAttribute("title", view.getMainTitle());
+            // Das View-Objekt
             map.addAttribute("view", view);
+            // NodeId für die Statistik setzen
+            map.addAttribute("nodeId", article.getId());
             
             return new ModelAndView("articles/show", map);
         } catch (RedirectException re) {
@@ -184,7 +188,7 @@ public class ArticleController {
 
     @Secured("ROLE_USER")
     @Transactional
-    @GetMapping(value = "/{id}/edit.json", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)    
+    @GetMapping(value = "{id}/edit.json", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)    
     public ResponseEntity<ArticleView> editAjax(@PathVariable final Long id, final ArticleView view, final Authentication authentication) {
         final User currentUser = ((HolarsePrincipal) authentication.getPrincipal()).getUser();
         
@@ -213,7 +217,7 @@ public class ArticleController {
     // EDIT
     @Secured("ROLE_USER")
     @Transactional
-    @GetMapping("/{id}/edit")
+    @GetMapping("{id}/edit")
     public String edit(@PathVariable final Long id, final Model map, final Authentication authentication, final RedirectAttributes redirectAttributes) {
         final User currentUser = ((HolarsePrincipal) authentication.getPrincipal()).getUser();
 
@@ -246,7 +250,7 @@ public class ArticleController {
     // ABORT EDIT
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @Transactional
-    @GetMapping("/{id}/edit/abort")
+    @GetMapping("{id}/edit/abort")
     public String editAbort(@PathVariable final Long id, final Authentication authentication) {
         final Article article = articleRepository.findById(id).get();
 
@@ -259,7 +263,7 @@ public class ArticleController {
     // UPDATE
     @Secured("ROLE_USER")
     @Transactional
-    @PostMapping("/{id}")
+    @PostMapping("{id}")
     public RedirectView update(
             @PathVariable final Long id,
             final ArticleView command,
@@ -321,7 +325,7 @@ public class ArticleController {
     // unpublish
     @Secured({"ROLE_USER", "ROLE_MODERATOR", "ROLE_ADMIN"})
     @Transactional
-    @GetMapping("/{id}/unpublish")
+    @GetMapping("{id}/unpublish")
     public ResponseEntity unpublish(@PathVariable("id") Long id) throws IOException {
         final Article article = articleRepository.findById(id).get();
         article.setPublished(false);
@@ -337,7 +341,7 @@ public class ArticleController {
     // publish
     @Secured({"ROLE_USER", "ROLE_MODERATOR", "ROLE_ADMIN"})
     @Transactional
-    @GetMapping("/{id}/publish")
+    @GetMapping("{id}/publish")
     public ResponseEntity publish(@PathVariable("id") Long id) throws IOException {
         final Article article = articleRepository.findById(id).get();
         article.setPublished(true);
@@ -353,7 +357,7 @@ public class ArticleController {
     // lock commenting
     @Secured({"ROLE_MODERATOR", "ROLE_ADMIN"})
     @Transactional
-    @GetMapping("/{id}/lock_commenting")
+    @GetMapping("{id}/lock_commenting")
     public ResponseEntity lockCommenting(@PathVariable("id") Long id) throws IOException {
         final Article article = articleRepository.findById(id).get();
         article.setCommentable(false);
@@ -365,7 +369,7 @@ public class ArticleController {
     // unlock commenting
     @Secured({"ROLE_MODERATOR", "ROLE_ADMIN"})
     @Transactional
-    @GetMapping("/{id}/unlock_commenting")
+    @GetMapping("{id}/unlock_commenting")
     public ResponseEntity openCommenting(@PathVariable("id") Long id) throws IOException {
         final Article article = articleRepository.findById(id).get();
         article.setCommentable(true);
@@ -377,7 +381,7 @@ public class ArticleController {
     // lock
     @Secured({"ROLE_MODERATOR", "ROLE_ADMIN"})
     @Transactional
-    @GetMapping("/{id}/lock")
+    @GetMapping("{id}/lock")
     public ResponseEntity lock(@PathVariable("id") Long id) throws IOException {
         final Article article = articleRepository.findById(id).get();
         article.setLocked(true);
@@ -389,7 +393,7 @@ public class ArticleController {
     // unlock
     @Secured({"ROLE_MODERATOR", "ROLE_ADMIN"})
     @Transactional
-    @GetMapping("/{id}/unlock")
+    @GetMapping("{id}/unlock")
     public ResponseEntity unlock(@PathVariable("id") Long id) throws IOException {
         final Article article = articleRepository.findById(id).get();
         article.setLocked(false);
@@ -401,7 +405,7 @@ public class ArticleController {
     // unlock
     @Secured({"ROLE_MODERATOR", "ROLE_ADMIN"})
     @Transactional
-    @GetMapping("/{id}/archivate")
+    @GetMapping("{id}/archivate")
     public ResponseEntity archivate(@PathVariable("id") Long id) throws IOException {
         final Article article = articleRepository.findById(id).get();
         article.setArchived(Boolean.TRUE);
@@ -413,7 +417,7 @@ public class ArticleController {
     // unarchivate
     @Secured({"ROLE_MODERATOR", "ROLE_ADMIN"})
     @Transactional
-    @GetMapping("/{id}/unarchivate")
+    @GetMapping("{id}/unarchivate")
     public ResponseEntity unarchivate(@PathVariable("id") Long id) throws IOException {
         final Article article = articleRepository.findById(id).get();
         article.setArchived(Boolean.FALSE);

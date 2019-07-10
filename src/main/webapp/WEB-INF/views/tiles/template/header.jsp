@@ -60,8 +60,8 @@
                 <!-- End Responsive Toggle Button -->
 
                 <!-- Logo -->
-                <a href="#" class="navbar-brand">
-                    <img src="assets/img/holarse_logo.svg" alt="Holarse - Spielen unter Linux" width="125%">
+                <a href="/" class="navbar-brand">
+                    <img src="/assets/img/holarse_logo.svg" alt="Holarse - Spielen unter Linux" width="125%">
                 </a>
                 <!-- End Logo -->
 
@@ -69,16 +69,16 @@
                 <div class="collapse navbar-collapse align-items-center flex-sm-row g-pt-10 g-pt-5--lg" id="navBar">
                     <ul class="navbar-nav text-uppercase g-font-weight-600 ml-auto u-main-nav-v5">
                         <li class="nav-item g-mx-20--lg">
-                            <a href="#" class="nav-link px-0">News</a>
+                            <a href="/news" class="nav-link px-0">News</a>
                         </li>
                         <li class="nav-item g-mx-20--lg">
-                            <a href="#" class="nav-link px-0">Spielefinder</a>
+                            <a href="/finder" class="nav-link px-0">Spielefinder</a>
                         </li>
                         <li class="nav-item g-mx-20--lg active">
-                            <a href="#" class="nav-link px-0">Server</a>
+                            <a href="/server" class="nav-link px-0">Server</a>
                         </li>
                         <li class="nav-item g-mx-20--lg">
-                            <a href="#" class="nav-link px-0">Community</a>
+                            <a href="/community" class="nav-link px-0">Community</a>
                         </li>
                         <!-- Mega Menu Item -->
                         <li class="hs-has-mega-menu nav-item g-mx-20--lg" data-animation-in="fadeIn" data-animation-out="fadeOut" data-position="right">
