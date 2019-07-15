@@ -19,23 +19,23 @@
                         <!-- Login oder User -->
                         <s:authorize access="hasRole('ADMIN')">
                         <li class="list-inline-item g-mx-4 g-mt-10">
-                            <a href="admin" class="g-color-white g-color-primary--hover g-text-underline--none--hover">Admin-Bereich</a>
+                            <a href="/admin" class="g-color-white g-color-primary--hover g-text-underline--none--hover">Admin-Bereich</a>
                         </li>
                         <li class="list-inline-item g-mx-4 g-mt-10">|</li>                        
                         </s:authorize>                           
                         <s:authorize access="hasRole('ANONYMOUS')">                        
 
                         <li class="list-inline-item g-mx-4 g-mt-10">
-                            <a href="register" class="g-color-white g-color-primary--hover g-text-underline--none--hover">Registrieren</a>
+                            <a href="/register" class="g-color-white g-color-primary--hover g-text-underline--none--hover">Registrieren</a>
                         </li>
                             <li class="list-inline-item g-mx-4 g-mt-10">|</li>
                             <li class="list-inline-item g-mx-4 g-mt-10">
-                                <a href="login" class="g-color-white g-color-primary--hover g-text-underline--none--hover">Login</a>
+                                <a href="/login" class="g-color-white g-color-primary--hover g-text-underline--none--hover">Login</a>
                             </li>
                         </s:authorize>
                         <s:authorize access="hasRole('USER')">
                             <li class="list-inline-item g-mx-4 g-mt-10">
-                                <a href="users/${currentUser.login}" class="g-color-white g-color-primary--hover g-text-underline--none--hover">${currentUser.login}</a>
+                                <a href="/users/${currentUser.login}" class="g-color-white g-color-primary--hover g-text-underline--none--hover">${currentUser.login}</a>
                             </li>                            
                         </s:authorize>                            
                     </ul>

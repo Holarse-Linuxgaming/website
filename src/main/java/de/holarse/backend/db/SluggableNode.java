@@ -6,7 +6,7 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public abstract class SluggableNode extends CommentableNode implements Sluggable, LinkableNode {
     
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String slug;
 
     @Override

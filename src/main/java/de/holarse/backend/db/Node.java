@@ -45,7 +45,7 @@ public abstract class Node extends Base implements LegacyImport, LinkableNode {
     private Boolean archived;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "varchar(255) default 'WIKI'")
     private ContentType contentType;
         
     @Column(nullable = false, length = 32768)

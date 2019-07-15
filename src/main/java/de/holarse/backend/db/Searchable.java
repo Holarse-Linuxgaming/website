@@ -1,12 +1,9 @@
 package de.holarse.backend.db;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Set;
-import org.elasticsearch.common.xcontent.XContentBuilder;
 
 public interface Searchable {
- 
     Long getId();
     String getType();
     
@@ -18,7 +15,4 @@ public interface Searchable {
     List<Comment> getComments();
     
     String getUrl();
-    
-    XContentBuilder toJson() throws IOException;
-    
 }

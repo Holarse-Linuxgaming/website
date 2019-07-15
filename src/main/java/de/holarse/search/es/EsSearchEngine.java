@@ -1,8 +1,6 @@
 package de.holarse.search.es;
 
-import de.holarse.backend.db.Searchable;
-import de.holarse.backend.db.Tag;
-import de.holarse.backend.db.TagGroup;
+import de.holarse.backend.db.*;
 import de.holarse.search.SearchEngine;
 import de.holarse.search.SearchResult;
 import java.io.IOException;
@@ -134,7 +132,13 @@ public class EsSearchEngine implements SearchEngine {
     }
 
     protected UpdateRequest createUpdateRequest(final Searchable searchable) throws IOException {
-        final XContentBuilder builder = searchable.toJson();
+        final XContentBuilder builder;
+        if (searchable instanceof Article)
+            builder = EsDocumentFactory.toJson((Article) searchable);
+        else if (searchable instanceof News)
+            builder = EsDocumentFactory.toJson((News) searchable);
+        else
+            throw new IllegalArgumentException("Searchable is not covered by EsDocumentFactory");
 
         logger.debug("UPDATE: {}", builder.toString());
         

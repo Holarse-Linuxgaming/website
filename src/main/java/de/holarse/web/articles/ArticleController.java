@@ -211,7 +211,7 @@ public class ArticleController {
         view.setAlternativeTitle3(article.getAlternativeTitle3());
         view.setContent(article.getContent());
        
-        return new ResponseEntity(view, HttpStatus.OK);
+        return new ResponseEntity<>(view, HttpStatus.OK);
     }
     
     // EDIT

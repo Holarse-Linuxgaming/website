@@ -64,6 +64,7 @@
 -- Suchindex anlegen:
 --drop materialized view mv_searchindex;
 create materialized view mv_searchindex as (
+    -- articles
     select  
         a.id as pid,
         a.title as ptitle,
@@ -76,15 +77,35 @@ create materialized view mv_searchindex as (
         setweight(to_tsvector('english', coalesce(unaccent(a.alternativetitle2), '')), 'C') || 
         setweight(to_tsvector('english', coalesce(unaccent(a.alternativetitle3), '')), 'C') ||
         setweight(to_tsvector('german', coalesce(a.content, '')), 'B') ||
-        setweight(to_tsvector('simple', string_agg(tags.name, ' ')), 'C')
-    as document        
-    from public.articles a
-    join articles_tags on articles_tags.article_id = a.id
-    join tags on tags.id = articles_tags.tags_id
+        setweight(to_tsvector('simple', string_agg(tags.name, ' ')), 'C') as document
+    from articles a
+    left join articles_tags on articles_tags.article_id = a.id
+    left join tags on tags.id = articles_tags.tags_id
     left join attachments att on att.id = (
         select id from attachments where nodeid = a.id and attachmenttype = 'SCREENSHOT' and attachmentgroup = 'IMAGE' order by id limit 1
     )
+	where not draft and not deleted and published
     group by a.id, att.attachmentdata
+
+	union
+
+    -- news
+    select
+        n.id as pid,
+        n.title as ptitle,
+        n.slug as purl,
+        n.content as content,
+        att.attachmentdata as image,
+        '' as tags,
+        setweight(to_tsvector('german', unaccent(n.title)), 'A') ||
+        setweight(to_tsvector('german', coalesce(unaccent(n.subtitle), '')), 'C') ||
+        setweight(to_tsvector('german', coalesce(n.content, '')), 'B')  as document
+    from news n
+    left join attachments att on att.id = (
+        select id from attachments where nodeid = n.id and attachmenttype = 'SCREENSHOT' and attachmentgroup = 'IMAGE' order by id limit 1
+    )
+	where not deleted and not draft and published
+    group by n.id, att.attachmentdata
 );
 
 create index idx_fts_search on mv_searchindex using gin(document);

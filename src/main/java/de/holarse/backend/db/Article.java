@@ -132,23 +132,6 @@ public class Article extends BranchableNode implements Frontpagable, Searchable 
     }
     
     @Override
-    public XContentBuilder toJson() throws IOException {
-        final XContentBuilder builder = XContentFactory.jsonBuilder();
-        builder.startObject()
-                .field("title", getTitle())
-                .field("alternativeTitles", getAlternativeTitles().toArray(new String[getAlternativeTitles().size()]))
-                .field("tags", getTags().stream().map(t -> t.getName()).collect(Collectors.toSet()).toArray(new String[getTags().size()]))
-                .field("content", getContent())
-                .field("url", getUrl())
-                .field("comments", getComments().stream().map(c -> c.getContent()).collect(Collectors.toList()).toArray())
-                .field("searchable", !getDeleted() && !getDraft() && !getArchived() && getPublished() )
-                .field("views", 0)
-        .endObject();        
-        
-        return builder;
-    }
-
-    @Override
     public String getTeaserImage() {
         return null;
     }

@@ -6,11 +6,8 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.PostLoad;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
+
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
@@ -21,9 +18,10 @@ public class News extends BranchableNode implements Frontpagable, Searchable {
     
     private String title;
     private String subtitle;
+    @Enumerated(EnumType.STRING)
     private NewsCategory category;
     private String source;
-    private String teaserImage;
+    @Enumerated(EnumType.STRING)
     private NewsType newsType;
 
     @Transient
@@ -38,11 +36,7 @@ public class News extends BranchableNode implements Frontpagable, Searchable {
     @Transient
     private NodeType nodeType;
 
-    public void setTeaserImage(String teaserImage) {
-        this.teaserImage = teaserImage;
-    }
-    
-    @Override    
+    @Override
     public String getUrl() {
         return url;
     }    
@@ -130,22 +124,7 @@ public class News extends BranchableNode implements Frontpagable, Searchable {
     public void setNewsType(NewsType newsType) {
         this.newsType = newsType;
     }
-    
-    @Override
-    public XContentBuilder toJson() throws IOException {
-        final XContentBuilder builder = XContentFactory.jsonBuilder();
-        builder.startObject()
-                .field("title", getTitle())
-                .field("subtitle", getSubtitle())
-                .field("content", getContent())
-                .field("url", getUrl())
-                .field("category", getCategory() != null ? getCategory().toString() : "")
-                .field("comments", getComments().stream().map(c -> c.getContent()).collect(Collectors.toList()).toArray())
-                .field("searchable", !getDeleted() && !getDraft() && !getArchived() && getPublished() )
-        .endObject();        
-        
-        return builder;
-    }    
+
 
     @Override
     public String getTeaserImage() {
