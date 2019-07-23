@@ -13,11 +13,8 @@ import org.springframework.js.ajax.AjaxUrlBasedViewResolver;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.webflow.mvc.view.FlowAjaxTiles3View;
 
@@ -49,6 +46,11 @@ public class AppConfig implements WebMvcConfigurer {
         tilesConfigurer.setDefinitions(new String[]{"/WEB-INF/views/tiles/tiles.xml"});
         tilesConfigurer.setCheckRefresh(true);
         return tilesConfigurer;
+    }
+
+    //@Override
+    public void configurePathMatch(final PathMatchConfigurer configurer) {
+        configurer.setUseTrailingSlashMatch(true);
     }
 
 //    /**
@@ -90,13 +92,6 @@ public class AppConfig implements WebMvcConfigurer {
         registry.addInterceptor(pagePopulationInterceptor);
     }
     
-    /**
-     * Damit URLs mit / und ohne auf denselben Controller gemappt werden
-     * @param configurer 
-     */
-    @Override
-    public void configurePathMatch(final PathMatchConfigurer configurer) {
-        configurer.setUseTrailingSlashMatch(true);
-    }    
+
 
 }

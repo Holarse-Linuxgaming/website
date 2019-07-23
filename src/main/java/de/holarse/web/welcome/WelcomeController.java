@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/welcome")
+@RequestMapping("/")
 public class WelcomeController {
 
     final Logger log = LoggerFactory.getLogger(WelcomeController.class);
     
     @Autowired FrontPageRepository frontPageRepository;
     
-    @GetMapping("index")
+    @GetMapping
     public String index(final ModelMap map) {
         map.addAttribute("welcomeMessage", "world");
         map.addAttribute("items", frontPageRepository.getFrontScreen());

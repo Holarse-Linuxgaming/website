@@ -13,22 +13,21 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 public class AppInit extends AbstractAnnotationConfigDispatcherServletInitializer {
 
-    private final String TMP_FOLDER = "/tmp";
-    private final int MAX_UPLOAD_SIZE = 5 * 1024 * 1024;
-
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{AppConfig.class};
-    }
-
-    @Override
-    protected Class<?>[] getServletConfigClasses() {
         return null;
     }
 
     @Override
+    protected Class<?>[] getServletConfigClasses() {
+        return new Class[] {
+                AppConfig.class
+        };
+    }
+
+    @Override
     protected String[] getServletMappings() {
-        return new String[]{"/"};
+        return new String[]{"/*"};
     }
 
     @Override
@@ -37,17 +36,4 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
             new CharacterEncodingFilter("UTF-8")
         };
     }
-
-    @Override
-    public void onStartup(ServletContext sc) throws ServletException {
-        super.onStartup(sc);
-        ServletRegistration.Dynamic appServlet = sc.addServlet("mvc", new DispatcherServlet(new GenericWebApplicationContext()));
-        appServlet.setLoadOnStartup(1);
-
-        MultipartConfigElement multipartConfigElement = new MultipartConfigElement(TMP_FOLDER, MAX_UPLOAD_SIZE, MAX_UPLOAD_SIZE * 2, MAX_UPLOAD_SIZE / 2);
-        appServlet.setMultipartConfig(multipartConfigElement);
-        
-        sc.addListener(new HttpSessionEventPublisher());
-    }
-
 }
