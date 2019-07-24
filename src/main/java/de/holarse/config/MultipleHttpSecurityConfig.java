@@ -1,5 +1,6 @@
 package de.holarse.config;
 
+import de.holarse.auth.web.SecureAccountFailureHandler;
 import de.holarse.drupal.Drupal6PasswordEncoder;
 import de.holarse.rest.encoder.NonePasswordEncoder;
 import java.util.Arrays;
@@ -16,11 +17,14 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
 @Configuration
@@ -73,8 +77,18 @@ public class MultipleHttpSecurityConfig {
         authProvider.setUserDetailsService(apiUserDetailsService);
         authProvider.setPasswordEncoder(noneEncoder());
         return authProvider;
-    }    
-    
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler successHandler() {
+        return new SavedRequestAwareAuthenticationSuccessHandler();
+    }
+
+    @Bean
+    public AuthenticationFailureHandler failureHandler() {
+        return new SecureAccountFailureHandler();
+    }
+
     //
     // REST
     //
@@ -90,10 +104,10 @@ public class MultipleHttpSecurityConfig {
         }        
 
         @Override
-        protected void configure(HttpSecurity http) throws Exception {
+        protected void configure(final HttpSecurity http) throws Exception {
             // API
             http.csrf().disable()
-                    .antMatcher("/api/**").authorizeRequests().anyRequest().hasRole("API").and().httpBasic();
+                    .mvcMatcher("/api/**").authorizeRequests().anyRequest().hasRole("API").and().httpBasic();
         }
 
     }
@@ -113,9 +127,13 @@ public class MultipleHttpSecurityConfig {
         }
 
         @Override
-        public void configure(org.springframework.security.config.annotation.web.builders.WebSecurity web) throws Exception {
+        public void configure(final WebSecurity web) throws Exception {
             web.ignoring()
-                    .antMatchers("/assets/**", "/favicon.ico", "/sitemap.xml", "/webapi/**");
+                    .mvcMatchers(
+                            "/assets/**",
+                            "/favicon.ico",
+                            "/sitemap.xml",
+                            "/webapi/**");
         }
 
         @Override
@@ -125,26 +143,26 @@ public class MultipleHttpSecurityConfig {
                     .and().authorizeRequests()
 //                    .antMatchers("/tags/**", "/category/stichworte/**").permitAll()
 //                    .antMatchers("/search/**").permitAll()
-                    .antMatchers("/login", "/register", "/verify").hasRole("ANONYMOUS")
+                    .mvcMatchers("/login", "/register", "/verify").hasRole("ANONYMOUS")
 //                    .antMatchers("/news/*", "/shortnews/", "/finder/", "/categories/*", "/wiki/*", "/wiki/*/branches/*", "/articles/*", "/attachments/*").permitAll()
 //                    .antMatchers(HttpMethod.GET, "/users/*").permitAll()
 //                    .antMatchers(HttpMethod.GET, "/users/*/*").hasRole("USER")
 //                    .antMatchers(HttpMethod.GET, "/articles/new", "/wiki/new").hasRole("USER")
 //                    .antMatchers(HttpMethod.GET, "/articles/*/edit", "/wiki/*/edit", "/shortnews/*/edit/").hasRole("USER")
 //                    .antMatchers(HttpMethod.POST, "/articles/*", "/wiki/*", "/news/*", "/shortnews/*").hasRole("USER")
-                    .antMatchers("/admin/**").hasRole("ADMIN")
+                    .mvcMatchers("/admin/**").hasRole("ADMIN")
 //                    .antMatchers("/").permitAll()
-                    .antMatchers("/**").permitAll()
-                    .antMatchers(HttpMethod.POST, "/logout").hasRole("USER")
+                    .mvcMatchers("/**").permitAll()
+                    .mvcMatchers(HttpMethod.POST, "/logout").hasRole("USER")
                     .anyRequest().authenticated()
                     .and()
                     .formLogin()
                     .usernameParameter("login")
-                    .successHandler(new SavedRequestAwareAuthenticationSuccessHandler())
+                    .successHandler(successHandler())
+                    .failureHandler(failureHandler())
                     .loginPage("/login")
                     .permitAll().and()
                     .logout().permitAll();
-
         }
 
     }

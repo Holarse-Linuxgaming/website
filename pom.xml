@@ -337,37 +337,37 @@
                 <version>3.2.2</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <outputDirectory>c:/holarse/openliberty-19.0.0.6/wlp/usr/servers/holarse/dropins/</outputDirectory>
+                    <outputDirectory>c:/users/comrad/downloads/openliberty-19.0.0.5/wlp/usr/servers/holarse/dropins/</outputDirectory>
                     <warName>holarseweb</warName>
                 </configuration>
             </plugin>
             <!-- Git-Version -->
-<!--            <plugin>-->
-<!--                <groupId>pl.project13.maven</groupId>-->
-<!--                <artifactId>git-commit-id-plugin</artifactId>-->
-<!--                <version>2.2.4</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>get-the-git-infos</id>-->
-<!--                        <goals>-->
-<!--                            <goal>revision</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--                <configuration>-->
-<!--                    <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>-->
-<!--                    <prefix>git</prefix>-->
-<!--                    <verbose>false</verbose>-->
-<!--                    <generateGitPropertiesFile>true</generateGitPropertiesFile>-->
-<!--                    <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>-->
-<!--                    <format>properties</format>-->
-<!--                    <gitDescribe>-->
-<!--                        <skip>false</skip>-->
-<!--                        <always>false</always>-->
-<!--                        <dirty>-dirty</dirty>-->
-<!--                    </gitDescribe>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
+            <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <version>2.2.4</version>
+                <executions>
+                    <execution>
+                        <id>get-the-git-infos</id>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+                    <prefix>git</prefix>
+                    <verbose>false</verbose>
+                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                    <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+                    <format>properties</format>
+                    <gitDescribe>
+                        <skip>false</skip>
+                        <always>false</always>
+                        <dirty>-dirty</dirty>
+                    </gitDescribe>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
