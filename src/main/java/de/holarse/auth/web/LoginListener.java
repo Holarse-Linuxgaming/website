@@ -47,7 +47,7 @@ public class LoginListener {
         // TODO Ist der Benutzer noch auf dem Drupal-Stand, muss er auf BCrypt migriert werden.
         final User user = loginUser.getUser();
         if (user != null) {
-            if (user.getDigest().startsWith("$")) {
+            if (!user.getDigest().startsWith("$")) {
                 // Migrieren
                 user.setDigest(encoder.encode(loginUser.getPassword()));
                 userRepository.saveAndFlush(user);

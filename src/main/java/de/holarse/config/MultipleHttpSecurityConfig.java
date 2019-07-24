@@ -40,9 +40,6 @@ public class MultipleHttpSecurityConfig {
     @Qualifier("apiUserDetailsService")
     UserDetailsService apiUserDetailsService;    
 
-    @Autowired
-    AuthenticationFailureHandler failureHandler;
-
     @Bean(name = "bcryptEncoder")
     public PasswordEncoder bcryptEncoder() {
         return new BCryptPasswordEncoder();
@@ -82,9 +79,14 @@ public class MultipleHttpSecurityConfig {
         return authProvider;
     }
 
-    //@Bean
+    @Bean
     public AuthenticationSuccessHandler successHandler() {
         return new SavedRequestAwareAuthenticationSuccessHandler();
+    }
+
+    @Bean
+    public AuthenticationFailureHandler failureHandler() {
+        return new SecureAccountFailureHandler();
     }
 
     //
@@ -157,7 +159,7 @@ public class MultipleHttpSecurityConfig {
                     .formLogin()
                     .usernameParameter("login")
                     .successHandler(successHandler())
-                    .failureHandler(failureHandler)
+                    .failureHandler(failureHandler())
                     .loginPage("/login")
                     .permitAll().and()
                     .logout().permitAll();
