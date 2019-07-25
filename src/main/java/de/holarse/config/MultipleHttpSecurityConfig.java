@@ -136,24 +136,17 @@ public class MultipleHttpSecurityConfig {
                             "/webapi/**");
         }
 
+        /**
+         * Detail-Berechtigungen werden auf Methoden-Ebene definiert
+         */
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             // WEB
             http.csrf()
                     .and().authorizeRequests()
-//                    .antMatchers("/tags/**", "/category/stichworte/**").permitAll()
-//                    .antMatchers("/search/**").permitAll()
                     .mvcMatchers("/login", "/register", "/verify").hasRole("ANONYMOUS")
-//                    .antMatchers("/news/*", "/shortnews/", "/finder/", "/categories/*", "/wiki/*", "/wiki/*/branches/*", "/articles/*", "/attachments/*").permitAll()
-//                    .antMatchers(HttpMethod.GET, "/users/*").permitAll()
-//                    .antMatchers(HttpMethod.GET, "/users/*/*").hasRole("USER")
-//                    .antMatchers(HttpMethod.GET, "/articles/new", "/wiki/new").hasRole("USER")
-//                    .antMatchers(HttpMethod.GET, "/articles/*/edit", "/wiki/*/edit", "/shortnews/*/edit/").hasRole("USER")
-//                    .antMatchers(HttpMethod.POST, "/articles/*", "/wiki/*", "/news/*", "/shortnews/*").hasRole("USER")
                     .mvcMatchers("/admin/**").hasRole("ADMIN")
-//                    .antMatchers("/").permitAll()
                     .mvcMatchers("/**").permitAll()
-                    .mvcMatchers(HttpMethod.POST, "/logout").hasRole("USER")
                     .anyRequest().authenticated()
                     .and()
                     .formLogin()
@@ -162,7 +155,7 @@ public class MultipleHttpSecurityConfig {
                     .failureHandler(failureHandler())
                     .loginPage("/login")
                     .permitAll().and()
-                    .logout().permitAll();
+                    .logout().logoutUrl("/logout").logoutSuccessUrl("/login?logout=true");
         }
 
     }

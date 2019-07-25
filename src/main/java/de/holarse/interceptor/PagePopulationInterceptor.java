@@ -53,6 +53,9 @@ public class PagePopulationInterceptor extends HandlerInterceptorAdapter {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView mav) {       
         if (mav != null) {
+            // Aktuellen Benutzer einfügen
+            mav.getModel().putIfAbsent("currentUser", getCurrentUser());
+
             // Standardtitel setzen
             if (mav.getModel().containsKey("view") && mav.getModel().get("view") instanceof View) {
                 final PageTitleView ptv = (PageTitleView) mav.getModel().get("view");   

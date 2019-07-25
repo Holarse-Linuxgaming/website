@@ -8,20 +8,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
-import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
-import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.time.OffsetDateTime;
-import java.util.Optional;
 
 @Component
 public class LoginListener {
@@ -44,7 +37,9 @@ public class LoginListener {
         HolarsePrincipal loginUser = (HolarsePrincipal) evt.getAuthentication().getPrincipal();
         log.debug("User " + loginUser.getUsername() + " hat sich eingeloggt.");
 
-        // TODO Ist der Benutzer noch auf dem Drupal-Stand, muss er auf BCrypt migriert werden.
+        // Benutzer auf BCrypt migrieren, falls er noch nicht dieses Verfahren verwendet.
+        // Die Authentifizierung ist hier dann bereits schon gelaufen, das Passwort
+        // ist also schon mit dem alten Drupal-Verfahren verifiziert worden.
         final User user = loginUser.getUser();
         if (user != null) {
             if (!user.getDigest().startsWith("$")) {

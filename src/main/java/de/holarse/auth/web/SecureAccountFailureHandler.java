@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.OffsetDateTime;
-import java.time.ZoneId;
 
 /**
  * Der SecureAccountFailureHandler merkt sich bei einem bekannten Benutzerkonto die

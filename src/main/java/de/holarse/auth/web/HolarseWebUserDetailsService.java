@@ -1,9 +1,10 @@
 package de.holarse.auth.web;
 
-import de.holarse.auth.api.HolarseApiUserDetailsService;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.UserRepository;
 import javax.transaction.Transactional;
+
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class HolarseWebUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
 
-        log.debug("LOADED WEB USER " + user);        
+        Hibernate.initialize(user.getRoles());
         
         return new HolarsePrincipal(user);
     }

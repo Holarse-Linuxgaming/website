@@ -3,7 +3,6 @@ package de.holarse.web.search;
 import de.holarse.backend.views.SearchResultView;
 import de.holarse.backend.views.SearchResultsView;
 import de.holarse.search.SearchEngine;
-import de.holarse.search.SearchResult;
 import de.holarse.services.TrafficService;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;

@@ -3,12 +3,18 @@ package de.holarse.backend.views;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.holarse.services.WebUtils;
+
 public class UserView implements View {
 
     private Long id;
     private String login;
     private String email;
     private final List<String> roles = new ArrayList<>();
+
+    public String getUrl() {
+        return "/users/" + WebUtils.slugify(login);
+    }
     
     public Long getId() {
         return id;

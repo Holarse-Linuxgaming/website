@@ -36,7 +36,10 @@
                         <s:authorize access="hasRole('USER')">
                             <li class="list-inline-item g-mx-4 g-mt-10">
                                 <a href="/users/${currentUser.login}" class="g-color-white g-color-primary--hover g-text-underline--none--hover">${currentUser.login}</a>
-                            </li>                            
+                            </li>      
+                            <li class="list-inline-item g-mx-4 g-mt-10">
+                                <a href="/logout" class="g-color-white g-color-primary--hover g-text-underline--none--hover">Logout</a>
+                            </li>                         
                         </s:authorize>                            
                     </ul>
                 </div>

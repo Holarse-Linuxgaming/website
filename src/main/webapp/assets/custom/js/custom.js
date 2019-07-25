@@ -31,5 +31,5 @@ $(document).ready(function () {
                 .append(item.title)
                 .appendTo(ul);
     };
-      
+     
 });
