@@ -56,7 +56,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-@RequestMapping(value = {"/wiki", "/articles"})
+@RequestMapping(value = {"/html", "/articles"})
 public class ArticleController {
 
     Logger logger = LoggerFactory.getLogger(ArticleController.class);
@@ -83,7 +83,7 @@ public class ArticleController {
     @Autowired
     NodeService nodeService;
 
-    @Qualifier("wikiRenderer")
+    @Qualifier("htmlRenderer")
     @Autowired
     Renderer renderer;
 
@@ -136,7 +136,7 @@ public class ArticleController {
 
         searchEngine.update(article);
 
-        return new RedirectView("/wiki/" + URLEncoder.encode(article.getSlug(), "UTF-8"), true, false, false);
+        return new RedirectView("/html/" + URLEncoder.encode(article.getSlug(), "UTF-8"), true, false, false);
     }
 
     // SHOW by Slug
@@ -239,7 +239,7 @@ public class ArticleController {
             msg.setSolution("Notfalls warten bis Sperrzeit vorbeit ist, oder einem Moderator Bescheid geben.");
             redirectAttributes.addFlashAttribute("flashMessage", msg);
 
-            return "redirect:/wiki/" + article.getSlug();
+            return "redirect:/html/" + article.getSlug();
         }
 
         map.addAttribute("nodeId", article.getNodeId());
@@ -313,7 +313,7 @@ public class ArticleController {
         // Lock lösen
         nodeService.unlock(article);
 
-        return new RedirectView("/wiki/" + URLEncoder.encode(article.getSlug(), "UTF-8"), true, false, false);
+        return new RedirectView("/html/" + URLEncoder.encode(article.getSlug(), "UTF-8"), true, false, false);
     }
 
     protected String tagsToCommand(final Set<Tag> tags) {

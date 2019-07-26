@@ -1,8 +1,8 @@
-package de.holarse.renderer.wiki;
+package de.holarse.renderer.html;
 
 import de.holarse.renderer.Renderer;
 import de.holarse.renderer.plain.PlainRenderer;
-import org.junit.Test;
+
 import static org.junit.Assert.*;
 import org.junit.Before;
 
@@ -82,7 +82,7 @@ public class PlainRendererTest {
 //    
 //    //@Test    
 //    public void testHeaderMixedWithLink() {
-//        assertEquals("<h3><a href=\"/wiki/lala\">Lala</a></h3>", renderer.render("===[[Lala]]==="));
+//        assertEquals("<h3><a href=\"/html/lala\">Lala</a></h3>", renderer.render("===[[Lala]]==="));
 //    }    
 //    
     /**

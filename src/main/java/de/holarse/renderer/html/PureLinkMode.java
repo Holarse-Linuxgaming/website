@@ -1,14 +1,12 @@
-package de.holarse.renderer.wiki;
+package de.holarse.renderer.html;
+
+import de.holarse.renderer.Mode;
 
 public class PureLinkMode implements Mode {
 
     private final StringBuilder buffer = new StringBuilder(100);
     private boolean complete = false;
-    
-    public static boolean isStartMarker(String text) {
-        return text.toUpperCase().startsWith("HTTP");
-    }        
-    
+
     @Override
     public void handle(char ch) {
         if (ch == ' ' || ch == '\r') { 

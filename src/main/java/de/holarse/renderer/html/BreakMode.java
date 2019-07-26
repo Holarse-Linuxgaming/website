@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.holarse.renderer.wiki;
+package de.holarse.renderer.html;
+
+import de.holarse.renderer.Mode;
 
 /**
  *
@@ -12,11 +14,7 @@ package de.holarse.renderer.wiki;
 public class BreakMode implements Mode {
 
     private char lastChar = 0;
-    
-    public static boolean isStartMarker(String sequence) {
-        return "<!--break-->".equalsIgnoreCase(sequence);
-    }    
-    
+
     @Override
     public void handle(char ch) {
         lastChar = ch;

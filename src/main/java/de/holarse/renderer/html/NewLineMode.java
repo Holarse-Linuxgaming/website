@@ -1,11 +1,9 @@
-package de.holarse.renderer.wiki;
+package de.holarse.renderer.html;
+
+import de.holarse.renderer.Mode;
 
 public class NewLineMode implements Mode {
 
-    public static boolean isStartMarker(char ch) {
-        return '\n' == ch;
-    }
-    
     @Override
     public void handle(char ch) {
         // Nix

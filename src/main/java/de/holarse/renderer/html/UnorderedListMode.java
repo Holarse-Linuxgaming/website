@@ -1,5 +1,5 @@
 
-package de.holarse.renderer.wiki;
+package de.holarse.renderer.html;
 
 public class UnorderedListMode extends AbstractListMode {
 

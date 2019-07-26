@@ -1,18 +1,17 @@
-package de.holarse.renderer.wiki;
+package de.holarse.renderer.html;
+
+import de.holarse.renderer.Mode;
+import de.holarse.renderer.input.element.TickElement;
 
 public class TickMode implements Mode {
 
     private StringBuilder buffer = new StringBuilder(30);
     private int depth = 0;
     private int depthOut = 0;
-    
-    public static boolean isStartMarker(final char ch) {
-        return ch == '\'';
-    }
 
     @Override
     public void handle(final char ch) {
-        if (isStartMarker(ch)) {
+        if (TickElement.matches(ch)) {
             if (buffer.length() == 0) {
                 depth++;
             } else {

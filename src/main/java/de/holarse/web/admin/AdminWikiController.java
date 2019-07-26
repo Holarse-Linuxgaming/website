@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/admin/wiki")
+@RequestMapping("/admin/html")
 public class AdminWikiController {
 
     @Autowired
@@ -17,7 +17,7 @@ public class AdminWikiController {
     @GetMapping("/")
     public String index(final ModelMap map) {
         map.addAttribute("nodes", articleRepository.findAll());
-        return "admin/wiki/index";
+        return "admin/html/index";
     }
     
 }

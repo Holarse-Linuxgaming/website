@@ -1,4 +1,6 @@
-package de.holarse.renderer.wiki;
+package de.holarse.renderer.html;
+
+import de.holarse.renderer.Mode;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -64,8 +64,8 @@ public class Article extends BranchableNode implements Frontpagable, Searchable 
     
     @PostLoad
     private void articlePostLoad() {
-        this.url = "/wiki/" + getSlug();
-        this.urlid = "/wiki/" + getId();
+        this.url = "/html/" + getSlug();
+        this.urlid = "/html/" + getId();
         this.teaser = StringUtils.abbreviate(getContent(), 100);
         this.nodeType = NodeType.ARTICLE;
         

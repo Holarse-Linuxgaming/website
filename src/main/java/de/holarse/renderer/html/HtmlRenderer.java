@@ -1,60 +1,54 @@
-package de.holarse.renderer.wiki;
+package de.holarse.renderer.html;
 
+import de.holarse.renderer.Mode;
 import de.holarse.renderer.Renderer;
+import de.holarse.renderer.input.element.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
 @Qualifier("wikiRenderer")
-public class WikiRenderer implements Renderer {
+public class HtmlRenderer implements Renderer {
 
-    private String getForwardChars(String text, int start, int end) {
-        try {
-            return text.substring(start, end);
-        } catch (ArrayIndexOutOfBoundsException aioobe) {
-            return "";
-        }
-    }
-    
     protected Mode selectMode(char cchar, String source, int i) {
-        if (cchar == '*') {
+        if (UnorderedListElement.matches(cchar)) {
             return new UnorderedListMode();
         }
         
-        if (cchar == '#') {
+        if (NumberedListElement.matches(cchar)) {
             return new NumberedListMode();
         }        
         
-        if ((cchar == 'h' || cchar == 'H') && PureLinkMode.isStartMarker(getForwardChars(source, i, i+4))) {
+        if (PureLinkElement.matches(cchar, source, i)) {
             return new PureLinkMode();
         }
-        
-        if (cchar == '<' && BreakMode.isStartMarker(getForwardChars(source, i, i+12))) {
+
+        if (BreakElement.matches(cchar, source, i)) {
             return new BreakMode();
         } 
                
-        if (cchar == '[' && CodeMode.isStartMarker(getForwardChars(source, i, i+6))) {
+        if (CodeElement.matches(cchar, source, i)) {
             return new CodeMode();
         }
         
-        if (cchar == '[' && WikiLinkMode.isStartMarker(cchar)) {
+        if (WikiLinkElement.matches(cchar)) {
             return new WikiLinkMode();
         }                 
 
-        if (TickMode.isStartMarker(cchar)) {
+        if (TickElement.matches(cchar)) {
             return new TickMode();
         } 
         
-        if (cchar == '\n' && ParagraphMode.isStartMarker(getForwardChars(source, i, i+2))) {
+        if (ParagraphElement.matches(cchar, source, i)) {
             return new ParagraphMode();
         }
 
-        if (NewLineMode.isStartMarker(cchar)) {
+        if (NewLineElement.matches(cchar)) {
             return new NewLineMode();
         } 
 
-        if (HeaderMode.isStartMarker(cchar)) {
+        if (HeaderElement.matches(cchar)) {
             return new HeaderMode();
         }     
         

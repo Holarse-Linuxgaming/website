@@ -1,4 +1,4 @@
-package de.holarse.renderer.wiki;
+package de.holarse.renderer;
 
 public interface Mode {
 

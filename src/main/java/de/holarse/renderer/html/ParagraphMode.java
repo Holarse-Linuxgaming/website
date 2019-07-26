@@ -1,19 +1,13 @@
-package de.holarse.renderer.wiki;
+package de.holarse.renderer.html;
+
+import de.holarse.renderer.Mode;
 
 public class ParagraphMode implements Mode {
 
     private final StringBuilder buffer = new StringBuilder(1024);
     private int newlines = 0;
     private boolean complete = false;
-    
-    public static boolean isStartMarker(String chs) {
-//        for(char c : chs.toCharArray()) {
-//            System.out.println((int) c);
-//        }
-        boolean x= chs.equals("\n\n");
-        return x;
-    }    
-    
+
     @Override
     public void handle(char ch) {
         if ('\n' == ch) {

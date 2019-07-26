@@ -1,11 +1,9 @@
 package de.holarse.web.api;
 
-import de.holarse.backend.db.repositories.PageVisitRepository;
 import de.holarse.backend.views.PageVisitResult;
-import de.holarse.renderer.wiki.WikiRenderer;
+import de.holarse.renderer.html.HtmlRenderer;
 import de.holarse.services.TrafficService;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+
 import java.util.Date;
 import java.util.List;
 import org.slf4j.Logger;
@@ -29,7 +27,7 @@ public class WebApiController {
     Logger logger = LoggerFactory.getLogger(WebApiController.class);    
     
     @Autowired
-    private WikiRenderer wikiRenderer;
+    private HtmlRenderer wikiRenderer;
     
     @Autowired
     private TrafficService trafficService;

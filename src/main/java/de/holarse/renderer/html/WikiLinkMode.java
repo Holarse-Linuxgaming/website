@@ -1,5 +1,6 @@
-package de.holarse.renderer.wiki;
+package de.holarse.renderer.html;
 
+import de.holarse.renderer.Mode;
 import de.holarse.services.WebUtils;
 
 public class WikiLinkMode implements Mode {
@@ -20,10 +21,6 @@ public class WikiLinkMode implements Mode {
     public WikiLinkMode() {
         buffer = targetBuffer; // Zuerst immer alles als Target sehen
     }
-    
-    public static boolean isStartMarker(char ch) {
-        return '[' == ch;
-    }    
     
     @Override
     public void handle(char ch) {
@@ -97,7 +94,7 @@ public class WikiLinkMode implements Mode {
         String target = targetBuffer.toString();
     
         if (!target.toUpperCase().startsWith("HTTP")) {
-            targetResult.append("/wiki/").append(WebUtils.slugify(target));
+            targetResult.append("/html/").append(WebUtils.slugify(target));
         } else {
             targetResult.append(target);
         }

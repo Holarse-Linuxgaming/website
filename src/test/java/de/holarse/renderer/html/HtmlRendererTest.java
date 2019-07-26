@@ -1,4 +1,4 @@
-package de.holarse.renderer.wiki;
+package de.holarse.renderer.html;
 
 import de.holarse.renderer.Renderer;
 import org.junit.Test;
@@ -6,13 +6,13 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Ignore;
 
-public class WikiRendererTest {
+public class HtmlRendererTest {
 
     private Renderer renderer;
 
     @Before
     public void setUp() {
-        renderer = new WikiRenderer();
+        renderer = new HtmlRenderer();
     }
 
     @Test
@@ -82,7 +82,7 @@ public class WikiRendererTest {
     @Ignore
     @Test    
     public void testHeaderMixedWithLink() {
-        assertEquals("<h3><a href=\"/wiki/lala\">Lala</a></h3>", renderer.render("===[[Lala]]==="));
+        assertEquals("<h3><a href=\"/html/lala\">Lala</a></h3>", renderer.render("===[[Lala]]==="));
     }    
     
     /**
@@ -92,20 +92,20 @@ public class WikiRendererTest {
     @Test    
     public void testTwoInternalLinksWithTestBetween() {
         assertEquals(
-                    "Heute gehen wir von <a href=\"/wiki/alpha_centauri\">Alpha Centauri</a> nach <a href=\"/wiki/omega_golem\">Omega: Golem</a>"
-                +   " und <a href=\"/wiki/21_jump_street\">21 Jump Street</a> und noch viel weiter.", 
+                    "Heute gehen wir von <a href=\"/html/alpha_centauri\">Alpha Centauri</a> nach <a href=\"/html/omega_golem\">Omega: Golem</a>"
+                +   " und <a href=\"/html/21_jump_street\">21 Jump Street</a> und noch viel weiter.",
                 renderer.render("Heute gehen wir von [[Alpha Centauri]] nach [[Omega: Golem]] und [[21 Jump Street]] und noch viel weiter."));
     }        
     
     @Test    
     public void testInternalLinkWithColon() {
-        assertEquals("<a href=\"/wiki/neverwinter_nights_enhanced_edition\">Neverwinter Nights: Enhanced Edition</a>", renderer.render("[[Neverwinter Nights: Enhanced Edition]]"));
+        assertEquals("<a href=\"/html/neverwinter_nights_enhanced_edition\">Neverwinter Nights: Enhanced Edition</a>", renderer.render("[[Neverwinter Nights: Enhanced Edition]]"));
     }    
     
     // Test für Workaround in Drupal
     @Test    
     public void testInternalLinkWithColonWhitespaces() {
-        assertEquals("<a href=\"/wiki/neverwinter_nights_enhanced_edition\">Neverwinter Nights: Enhanced Edition</a>", renderer.render("[[ Neverwinter Nights: Enhanced Edition ]]"));
+        assertEquals("<a href=\"/html/neverwinter_nights_enhanced_edition\">Neverwinter Nights: Enhanced Edition</a>", renderer.render("[[ Neverwinter Nights: Enhanced Edition ]]"));
     }        
 
     @Test    
@@ -125,17 +125,17 @@ public class WikiRendererTest {
 
     @Test    
     public void testInternalLink() {
-        assertEquals("<a href=\"/wiki/hallowelt\">HalloWelt</a>", renderer.render("[[HalloWelt]]"));
+        assertEquals("<a href=\"/html/hallowelt\">HalloWelt</a>", renderer.render("[[HalloWelt]]"));
     }          
     
     @Test    
     public void testInternalLinkWithSpaces() {
-        assertEquals("<a href=\"/wiki/hallo_welt\">Hallo Welt</a>", renderer.render("[[Hallo Welt]]"));
+        assertEquals("<a href=\"/html/hallo_welt\">Hallo Welt</a>", renderer.render("[[Hallo Welt]]"));
     }      
     
     @Test    
     public void testInternalLinkWithDifferentName() {
-        assertEquals("<a href=\"/wiki/hallo\">Welt</a>", renderer.render("[[Hallo|Welt]]"));
+        assertEquals("<a href=\"/html/hallo\">Welt</a>", renderer.render("[[Hallo|Welt]]"));
     }    
 
     @Test    

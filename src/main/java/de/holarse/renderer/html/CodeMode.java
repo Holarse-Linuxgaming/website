@@ -1,5 +1,6 @@
-package de.holarse.renderer.wiki;
+package de.holarse.renderer.html;
 
+import de.holarse.renderer.Mode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,11 +9,7 @@ public class CodeMode implements Mode {
     Logger logger = LoggerFactory.getLogger(CodeMode.class);
     
     private final StringBuilder buffer = new StringBuilder(30);    
-    
-    public static boolean isStartMarker(String sequence) {
-        return "[CODE]".equalsIgnoreCase(sequence) || "<CODE>".equalsIgnoreCase(sequence);
-    }
-        
+
     @Override
     public void handle(char ch) {
         buffer.append(ch);

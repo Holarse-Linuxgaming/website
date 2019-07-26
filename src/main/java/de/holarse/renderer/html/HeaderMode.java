@@ -1,5 +1,7 @@
-package de.holarse.renderer.wiki;
+package de.holarse.renderer.html;
 
+import de.holarse.renderer.Mode;
+import de.holarse.renderer.input.element.HeaderElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,15 +12,11 @@ public class HeaderMode implements Mode {
     
     private StringBuilder buffer = new StringBuilder(30);
     private int depth = 0;
-    private int depthOut = 0;    
-    
-    public static boolean isStartMarker(final char ch) {
-        return ch == '=';
-    }    
+    private int depthOut = 0;
     
     @Override
     public void handle(final char ch) {
-        if (isStartMarker(ch)) {
+        if (HeaderElement.matches(ch)) {
             if (buffer.length() == 0) {
                 depth++;
             } else {
