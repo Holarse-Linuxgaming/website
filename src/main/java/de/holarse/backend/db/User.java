@@ -34,6 +34,8 @@ public class User extends Base {
 
     @Column(columnDefinition = "boolean default false")
     private boolean verified;
+
+    private String slug;
     
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name="users_roles",
@@ -55,9 +57,6 @@ public class User extends Base {
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Message> messages;
 
-    @Transient
-    private String url;
-
     public Long getOldId() {
         return oldId;
     }
@@ -74,10 +73,6 @@ public class User extends Base {
         this.messages = messages;
     }
     
-    public String getUrl() {
-        return url;
-    }
-   
     public String getSignature() {
         return signature;
     }
@@ -166,14 +161,17 @@ public class User extends Base {
         this.verificationValidUntil = verificationValidUntil;
     }
 
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+
     @Override
     public String toString() {
         return "User{" + "login=" + login + ", passwordType=" + passwordType + ", digest=" + digest + ", locked=" + locked + ", roles=" + roles + '}';
     }
-    
-    @PostLoad
-    private void userPostLoad() {
-        this.url = "/users/" + getLogin();
-    }    
-    
+
 }

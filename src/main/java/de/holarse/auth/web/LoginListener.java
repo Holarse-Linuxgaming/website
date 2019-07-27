@@ -45,7 +45,7 @@ public class LoginListener {
             if (!user.getDigest().startsWith("$")) {
                 // Migrieren
                 user.setDigest(encoder.encode(loginUser.getPassword()));
-                userRepository.saveAndFlush(user);
+                userRepository.save(user);
             }
 
             // Letztes Login hinterlegen und Fehlercounter zurücksetzen
