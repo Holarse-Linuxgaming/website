@@ -16,7 +16,6 @@ import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
-import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +47,7 @@ public class CommentController {
     @Qualifier("es")            
     SearchEngine searchEngine;
 
-    @Qualifier("wikiRenderer")
+    @Qualifier("htmlRenderer")
     @Autowired 
     Renderer renderer;
     
