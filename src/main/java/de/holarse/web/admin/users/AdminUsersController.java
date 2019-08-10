@@ -2,7 +2,6 @@ package de.holarse.web.admin.users;
 
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.UserRepository;
-import de.holarse.backend.views.PaginationView;
 import de.holarse.backend.views.UserView;
 import java.util.function.Function;
 import java.util.stream.Collectors;

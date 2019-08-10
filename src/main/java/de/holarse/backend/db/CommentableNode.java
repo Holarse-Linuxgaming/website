@@ -31,10 +31,12 @@ public abstract class CommentableNode extends RevisionableNode {
         this.comments = comments;
     }
 
+    @Override
     public Boolean getCommentable() {
         return commentable;
     }
 
+    @Override
     public void setCommentable(Boolean commentable) {
         this.commentable = commentable;
     }
