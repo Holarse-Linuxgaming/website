@@ -69,6 +69,8 @@ var varticleeditor = new Vue({
         
             $.getJSON("/wiki/" + nodeId + "/edit.json", function (data) {
                 varticleeditor.node = data;
+            }).done(function() {
+                $(".additional-titles").hide();
             });            
         },
         submit: function(event) {
@@ -85,6 +87,10 @@ var varticleeditor = new Vue({
                     console.debug(result);
                 }
             });
+        },
+        toggleAlternativeTitles: function(event) {
+            event.preventDefault();
+            $(".additional-titles").toggle("slow");
         }
     }
 });

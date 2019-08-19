@@ -56,7 +56,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-@RequestMapping(value = {"/html", "/articles"})
+@RequestMapping(value = {"/wiki", "/articles"})
 public class ArticleController {
 
     Logger logger = LoggerFactory.getLogger(ArticleController.class);
@@ -136,7 +136,7 @@ public class ArticleController {
 
         searchEngine.update(article);
 
-        return new RedirectView("/html/" + URLEncoder.encode(article.getSlug(), "UTF-8"), true, false, false);
+        return new RedirectView("/wiki/" + URLEncoder.encode(article.getSlug(), "UTF-8"), true, false, false);
     }
 
     // SHOW by Slug
@@ -239,7 +239,7 @@ public class ArticleController {
             msg.setSolution("Notfalls warten bis Sperrzeit vorbeit ist, oder einem Moderator Bescheid geben.");
             redirectAttributes.addFlashAttribute("flashMessage", msg);
 
-            return "redirect:/html/" + article.getSlug();
+            return "redirect:/wiki/" + article.getSlug();
         }
 
         map.addAttribute("nodeId", article.getNodeId());
@@ -313,118 +313,13 @@ public class ArticleController {
         // Lock lösen
         nodeService.unlock(article);
 
-        return new RedirectView("/html/" + URLEncoder.encode(article.getSlug(), "UTF-8"), true, false, false);
+        return new RedirectView("/wiki/" + URLEncoder.encode(article.getSlug(), "UTF-8"), true, false, false);
     }
 
     protected String tagsToCommand(final Set<Tag> tags) {
         return tags.stream().map(t -> t.getName()).collect(Collectors.joining(","));
     }
 
-    // DELETE
-    
-    // unpublish
-    @Secured({"ROLE_USER", "ROLE_MODERATOR", "ROLE_ADMIN"})
-    @Transactional
-    @GetMapping("{id}/unpublish")
-    public ResponseEntity unpublish(@PathVariable("id") Long id) throws IOException {
-        final Article article = articleRepository.findById(id).get();
-        article.setPublished(false);
-
-        articleRepository.save(article);
-
-        // Suchindex aktualisieren, da nicht veröffentlichte Artikel da auch nicht auftauchen.
-        searchEngine.update(article);
-        
-        return ResponseEntity.ok(HttpStatus.OK);
-    }
-    
-    // publish
-    @Secured({"ROLE_USER", "ROLE_MODERATOR", "ROLE_ADMIN"})
-    @Transactional
-    @GetMapping("{id}/publish")
-    public ResponseEntity publish(@PathVariable("id") Long id) throws IOException {
-        final Article article = articleRepository.findById(id).get();
-        article.setPublished(true);
-
-        articleRepository.save(article);
-
-        // Suchindex aktualisieren, da veröffentlichte Artikel da auch auftauchen.
-        searchEngine.update(article);
-        
-        return ResponseEntity.ok(HttpStatus.OK);
-    }    
-    
-    // lock commenting
-    @Secured({"ROLE_MODERATOR", "ROLE_ADMIN"})
-    @Transactional
-    @GetMapping("{id}/lock_commenting")
-    public ResponseEntity lockCommenting(@PathVariable("id") Long id) throws IOException {
-        final Article article = articleRepository.findById(id).get();
-        article.setCommentable(false);
-        articleRepository.save(article);
-        
-        return ResponseEntity.ok(HttpStatus.OK);
-    }        
-
-    // unlock commenting
-    @Secured({"ROLE_MODERATOR", "ROLE_ADMIN"})
-    @Transactional
-    @GetMapping("{id}/unlock_commenting")
-    public ResponseEntity openCommenting(@PathVariable("id") Long id) throws IOException {
-        final Article article = articleRepository.findById(id).get();
-        article.setCommentable(true);
-        articleRepository.save(article);
-        
-        return ResponseEntity.ok(HttpStatus.OK);
-    }     
-    
-    // lock
-    @Secured({"ROLE_MODERATOR", "ROLE_ADMIN"})
-    @Transactional
-    @GetMapping("{id}/lock")
-    public ResponseEntity lock(@PathVariable("id") Long id) throws IOException {
-        final Article article = articleRepository.findById(id).get();
-        article.setLocked(true);
-        articleRepository.save(article);
-        
-        return ResponseEntity.ok(HttpStatus.OK);
-    }        
-
-    // unlock
-    @Secured({"ROLE_MODERATOR", "ROLE_ADMIN"})
-    @Transactional
-    @GetMapping("{id}/unlock")
-    public ResponseEntity unlock(@PathVariable("id") Long id) throws IOException {
-        final Article article = articleRepository.findById(id).get();
-        article.setLocked(false);
-        articleRepository.save(article);
-        
-        return ResponseEntity.ok(HttpStatus.OK);
-    } 
-    
-    // unlock
-    @Secured({"ROLE_MODERATOR", "ROLE_ADMIN"})
-    @Transactional
-    @GetMapping("{id}/archivate")
-    public ResponseEntity archivate(@PathVariable("id") Long id) throws IOException {
-        final Article article = articleRepository.findById(id).get();
-        article.setArchived(Boolean.TRUE);
-        articleRepository.save(article);
-        
-        return ResponseEntity.ok(HttpStatus.OK);
-    }     
-    
-    // unarchivate
-    @Secured({"ROLE_MODERATOR", "ROLE_ADMIN"})
-    @Transactional
-    @GetMapping("{id}/unarchivate")
-    public ResponseEntity unarchivate(@PathVariable("id") Long id) throws IOException {
-        final Article article = articleRepository.findById(id).get();
-        article.setArchived(Boolean.FALSE);
-        articleRepository.save(article);
-        
-        return ResponseEntity.ok(HttpStatus.OK);
-    }    
-    
+    // TODO DELETE
     
 }
