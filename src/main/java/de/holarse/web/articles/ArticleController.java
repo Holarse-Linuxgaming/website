@@ -320,6 +320,6 @@ public class ArticleController {
         return tags.stream().map(t -> t.getName()).collect(Collectors.joining(","));
     }
 
-    // TODO DELETE
+    // DELETE
     
 }

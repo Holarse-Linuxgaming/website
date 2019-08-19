@@ -1,9 +1,7 @@
 package de.holarse.backend.db;
 
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -33,6 +31,9 @@ public class Role extends Base implements GrantedAuthority {
         this.clearanceLevel = clearanceLevel;
     }
 
+    /**
+     * Gibt die Rolle als Spring Security-Authority zurück
+     */
     @Override
     public String getAuthority() {
         return "ROLE_" + getCode().toUpperCase();

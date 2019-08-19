@@ -2,6 +2,10 @@ package de.holarse.web.articles;
 
 import de.holarse.backend.db.ContentType;
 
+@Deprecated
+/**
+ * DEprecated, wird eigentlich durch den ModelView abgelöst.
+ */
 public class ArticleCommand {
     
     private String title;

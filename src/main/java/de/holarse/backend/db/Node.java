@@ -8,14 +8,13 @@ import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
 import javax.persistence.PostLoad;
 import javax.persistence.Transient;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 @MappedSuperclass
-public abstract class Node extends Base implements LegacyImport, LinkableNode {
+public abstract class Node extends Base implements LegacyImport, LinkableNode, NodeState {
     
     /**
      * Node gelöscht
@@ -100,26 +99,32 @@ public abstract class Node extends Base implements LegacyImport, LinkableNode {
         this.draft = draft;
     }
 
+    @Override
     public Boolean getLocked() {
         return locked;
     }
 
+    @Override    
     public void setLocked(Boolean locked) {
         this.locked = locked;
     }
 
+    @Override    
     public Boolean getPublished() {
         return published;
     }
 
+    @Override    
     public void setPublished(Boolean published) {
         this.published = published;
     }
 
+    @Override    
     public Boolean getArchived() {
         return archived;
     }
 
+    @Override    
     public void setArchived(Boolean archived) {
         this.archived = archived;
     }

@@ -2,15 +2,11 @@ package de.holarse.backend.db;
 
 import de.holarse.backend.db.types.NewsCategory;
 import de.holarse.backend.db.types.NewsType;
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 import javax.persistence.*;
 
 import org.apache.commons.lang3.StringUtils;
-import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.common.xcontent.XContentFactory;
 
 @Table(name = "news")
 @Entity

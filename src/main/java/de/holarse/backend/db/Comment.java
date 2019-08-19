@@ -66,5 +66,15 @@ public class Comment extends Node {
     public void setAuthor(User author) {
         this.author = author;
     }
+
+    @Override
+    public void setCommentable(final Boolean commentable) {
+        // Zur Erfüllung des Node-Interfaces
+    }
+
+    @Override
+    public Boolean getCommentable() {
+        return false;
+    }
     
 }

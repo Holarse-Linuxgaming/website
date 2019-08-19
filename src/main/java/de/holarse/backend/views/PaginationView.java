@@ -1,11 +1,8 @@
 package de.holarse.backend.views;
 
-import java.net.http.HttpRequest;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
@@ -36,7 +33,7 @@ public class PaginationView<T> {
     
     public String getPreviousUrl() {
         final Pageable previousPage = page.previousPageable();
-        
+        // TODO Url korrigieren, sie müssen die Parameter enthalten
         final UriComponentsBuilder builder = UriComponentsBuilder.fromPath(url);
         
         return builder.build().toUriString();
