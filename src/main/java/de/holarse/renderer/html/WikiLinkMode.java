@@ -94,7 +94,7 @@ public class WikiLinkMode implements Mode {
         String target = targetBuffer.toString();
     
         if (!target.toUpperCase().startsWith("HTTP")) {
-            targetResult.append("/html/").append(WebUtils.slugify(target));
+            targetResult.append("/wiki/").append(WebUtils.slugify(target));
         } else {
             targetResult.append(target);
         }

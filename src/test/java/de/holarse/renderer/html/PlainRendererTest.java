@@ -82,7 +82,7 @@ public class PlainRendererTest {
 //    
 //    //@Test    
 //    public void testHeaderMixedWithLink() {
-//        assertEquals("<h3><a href=\"/html/lala\">Lala</a></h3>", renderer.render("===[[Lala]]==="));
+//        assertEquals("<h3><a href=\"/wiki/lala\">Lala</a></h3>", renderer.render("===[[Lala]]==="));
 //    }    
 //    
     /**

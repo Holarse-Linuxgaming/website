@@ -11,7 +11,6 @@ import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.AttachmentRepository;
 import de.holarse.backend.db.repositories.RevisionRepository;
 import de.holarse.backend.db.repositories.TagRepository;
-import de.holarse.backend.db.types.AttachmentGroup;
 import de.holarse.backend.views.ArticleView;
 import de.holarse.exceptions.ErrorMode;
 import de.holarse.exceptions.FlashMessage;
@@ -23,12 +22,12 @@ import de.holarse.renderer.Renderer;
 import de.holarse.search.SearchEngine;
 import de.holarse.services.NodeService;
 import de.holarse.services.TagService;
+import de.holarse.services.views.ViewConverter;
+import de.holarse.services.views.ConverterOptions;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.OffsetDateTime;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
@@ -86,6 +85,9 @@ public class ArticleController {
     @Qualifier("htmlRenderer")
     @Autowired
     Renderer renderer;
+    
+    @Autowired
+    ViewConverter viewConverter;
 
     // INDEX
     @GetMapping
@@ -142,36 +144,21 @@ public class ArticleController {
     // SHOW by Slug
     @Transactional
     @GetMapping("{slug}")
-    public ModelAndView showBySlug(@PathVariable final String slug, final ModelMap map) {             
+    public ModelAndView showBySlug(@PathVariable("slug") final String slug, final ModelMap map) {             
         try {
             final Article article = nodeService.findArticle(slug).get();
             Hibernate.initialize(article.getTags());
             Hibernate.initialize(article.getAttachments());
             Hibernate.initialize(article.getComments());
 
-            logger.debug("Attachments for Article (id: {}) - {}", new Object[] { article.getId(), article.getTitle() });
-            for(Attachment att : article.getAttachments()) {
-                logger.debug("att: id={}, group={}, data={}", new Object[] { att.getId(), att.getAttachmentGroup(), att.getAttachmentData()});
+            if (logger.isDebugEnabled()) {
+                logger.debug("Attachments for Article (id: {}) - {}", new Object[] { article.getId(), article.getTitle() });
+                for(Attachment att : article.getAttachments()) {
+                    logger.debug("att: id={}, group={}, data={}", new Object[] { att.getId(), att.getAttachmentGroup(), att.getAttachmentData()});
+                }
             }
             
-            final Map<AttachmentGroup, List<Attachment>> attachmentGroups = article.getAttachments()
-                    .stream()
-                    .filter(a -> StringUtils.isNotBlank(a.getAttachmentData()))
-                    .collect(Collectors.groupingBy(a -> a.getAttachmentGroup()));
-            
-            logger.debug("Content: {}", article.getContent());
-                       
-            ArticleView view = new ArticleView();
-            view.setNodeId(article.getNodeId());
-            view.setMainTitle(article.getTitle());
-            view.setAlternativeTitle1(article.getAlternativeTitle1());
-            view.setAlternativeTitle2(article.getAlternativeTitle2());
-            view.setAlternativeTitle3(article.getAlternativeTitle3());
-            view.setContent( renderer.render(article.getContent() ));
-            
-            view.getTags().addAll(article.getTags().stream().map(t -> t.getName()).collect(Collectors.toList()));
-            view.getAttachments().putAll(attachmentGroups);
-            view.getComments().addAll(article.getComments());
+            ArticleView view = viewConverter.convert(article);
             
             // Eigenen Titel setzen
             map.addAttribute("title", view.getMainTitle());
@@ -186,39 +173,25 @@ public class ArticleController {
         }
     }
 
+    // Edit Data
     @Secured("ROLE_USER")
     @Transactional
     @GetMapping(value = "{id}/edit.json", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)    
-    public ResponseEntity<ArticleView> editAjax(@PathVariable final Long id, final ArticleView view, final Authentication authentication) {
-        final User currentUser = ((HolarsePrincipal) authentication.getPrincipal()).getUser();
-        
+    public ResponseEntity<ArticleView> editAjax(@PathVariable("id") final Long id, final ArticleView view, final Authentication authentication) {
         final Article article = articleRepository.findById(id).get();
-        
-//        if (!nodeService.isEditable(article)) {
-//            throw new HolarseException("Artikel kann derzeit nicht bearbeitet werden.");
-        //}        
-        
-        // Versuchen den Artikel zum Schreiben zu sperren
-        //nodeService.tryTolock(article, currentUser);
-      
-  //      Hibernate.initialize(article.getTags());
-//        Hibernate.initialize(article.getAttachments());        
+        Hibernate.initialize(article.getTags());
+        Hibernate.initialize(article.getAttachments());
+        Hibernate.initialize(article.getComments());      
 
-        view.setMainTitle(article.getTitle());
-        view.setNodeId(article.getNodeId());
-        view.setAlternativeTitle1(article.getAlternativeTitle1());
-        view.setAlternativeTitle2(article.getAlternativeTitle2());
-        view.setAlternativeTitle3(article.getAlternativeTitle3());
-        view.setContent(article.getContent());
-       
+        viewConverter.convert(article, view, ConverterOptions.WITHOUT_RENDERER);
         return new ResponseEntity<>(view, HttpStatus.OK);
     }
     
-    // EDIT
+    // EDIT Page
     @Secured("ROLE_USER")
     @Transactional
     @GetMapping("{id}/edit")
-    public String edit(@PathVariable final Long id, final Model map, final Authentication authentication, final RedirectAttributes redirectAttributes) {
+    public String edit(@PathVariable("id") final Long id, final Model map, final Authentication authentication, final RedirectAttributes redirectAttributes) {
         final User currentUser = ((HolarsePrincipal) authentication.getPrincipal()).getUser();
 
         final Article article = articleRepository.findById(id).get();
@@ -250,14 +223,14 @@ public class ArticleController {
     // ABORT EDIT
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @Transactional
-    @GetMapping("{id}/edit/abort")
-    public String editAbort(@PathVariable final Long id, final Authentication authentication) {
+    @GetMapping(value = "{id}/abortEdit.json", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<String> abortEdit(@PathVariable("id") final Long id, final Authentication authentication) {
         final Article article = articleRepository.findById(id).get();
 
         // Lock lösen
         nodeService.unlock(article);
 
-        return "redirect:" + article.getUrl();
+        return new ResponseEntity<>(article.getUrl(), HttpStatus.ACCEPTED);
     }
 
     // UPDATE
@@ -265,28 +238,32 @@ public class ArticleController {
     @Transactional
     @PostMapping("{id}")
     public RedirectView update(
-            @PathVariable final Long id,
-            final ArticleView command,
+            @PathVariable("id") final Long id,
+            final ArticleView articleView,
             final Authentication authentication) throws UnsupportedEncodingException, NodeLockException {
         final User currentUser = ((HolarsePrincipal) authentication.getPrincipal()).getUser();
 
         final Article article = articleRepository.findById(id).orElseThrow(() -> new NodeNotFoundException(id));
 
+        // Sperre prüfen
+        nodeService.checkForLock(article, currentUser);
+        
         // Artikel archivieren
         nodeService.createRevisionFromCurrent(article);
 
         // Slug ggf. archivieren
-        if (!article.getTitle().equalsIgnoreCase(command.getMainTitle())) {
+        if (!article.getTitle().equalsIgnoreCase(articleView.getMainTitle())) {
             nodeService.archivateSlug(article.getSlug(), article, NodeType.ARTICLE);
-            article.setSlug(nodeService.findNextSlug(command.getMainTitle(), NodeType.ARTICLE));
+            // Slug aktualisieren
+            article.setSlug(nodeService.findNextSlug(articleView.getMainTitle(), NodeType.ARTICLE));
         }
 
         // Artikel aktualisieren
-        article.setTitle(command.getMainTitle());
-        article.setAlternativeTitle1(command.getAlternativeTitle1());
-        article.setAlternativeTitle2(command.getAlternativeTitle2());
-        article.setAlternativeTitle3(command.getAlternativeTitle3());
-        article.setContent(command.getContent());
+        article.setTitle(articleView.getMainTitle());
+        article.setAlternativeTitle1(articleView.getAlternativeTitle1());
+        article.setAlternativeTitle2(articleView.getAlternativeTitle2());
+        article.setAlternativeTitle3(articleView.getAlternativeTitle3());
+        article.setContent(articleView.getContent());
         //article.setContentType(command.getContentType());
         // Branch darf nicht gewechselt werden
         article.getTags().clear();

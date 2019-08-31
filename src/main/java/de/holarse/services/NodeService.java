@@ -198,6 +198,14 @@ public class NodeService {
         throw new IllegalStateException("Kein möglicher freier Slug gefunden");
     }
     
+    public void checkForLock(final Node node, final User currentUser) throws NodeLockException {
+        final Optional<NodeLock> lock = getLock(node, currentUser);
+        
+        // Es gibt schon ein Lock von einem anderen Benutzer, Abbruch
+        if (lock.isPresent()) {
+            throw new NodeLockException(lock.get());
+        }        
+    }
    
     /**
      * Prüft, ob ein Lock für diese Node vorliegt
@@ -205,10 +213,7 @@ public class NodeService {
      * @param currentUser 
      */
     public void tryTolock(final Node node, final User currentUser) throws NodeLockException {
-        final Optional<NodeLock> lock = lockRepository.findFirstByNodeIdAndLockUntilAfterAndUserNot(
-                node.getId(), 
-                OffsetDateTime.now(), 
-                currentUser);
+        final Optional<NodeLock> lock = getLock(node, currentUser);
         
         // Es gibt schon ein Lock von einem anderen Benutzer, Abbruch
         if (lock.isPresent()) {
@@ -216,6 +221,16 @@ public class NodeService {
         }
         
         lock(node, currentUser);
+    }
+    
+    /**
+     * Gibt zurück, ob ein gültiges Lock von jemand anderem auf diese Node gesetzt ist.
+     * @param node
+     * @param currentUser
+     * @return 
+     */
+    public Optional<NodeLock> getLock(final Node node, final User currentUser) {
+        return lockRepository.findFirstByNodeIdAndLockUntilAfterAndUserNot(node.getId(),OffsetDateTime.now(), currentUser);        
     }
     
     /**

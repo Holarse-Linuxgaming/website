@@ -27,7 +27,7 @@ public class ArticleView implements PageTitleView {
     private final List<Comment> comments = new ArrayList<>(10);
    
     public String getEditUrl() {
-        return "/html/" + nodeId + "/edit";
+        return "/wiki/" + nodeId + "/edit";
     }
 
     public Long getNodeId() {

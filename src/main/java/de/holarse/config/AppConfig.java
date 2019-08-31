@@ -47,7 +47,7 @@ public class AppConfig implements WebMvcConfigurer {
         return tilesConfigurer;
     }
 
-    //@Override
+    @Override
     public void configurePathMatch(final PathMatchConfigurer configurer) {
         configurer.setUseTrailingSlashMatch(true);
     }

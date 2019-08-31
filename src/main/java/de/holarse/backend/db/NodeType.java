@@ -2,7 +2,7 @@ package de.holarse.backend.db;
 
 public enum NodeType {
  
-    ARTICLE("/html/"),
+    ARTICLE("/wiki/"),
     NEWS("/news/"),
     SHORTNEWS("/shortnews/"),
     VIDEO("/videonews/"),

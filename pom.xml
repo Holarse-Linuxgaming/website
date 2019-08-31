@@ -328,6 +328,7 @@
                         <arg>-Xlint:unchecked</arg>
                         <arg>-Xlint:deprecation</arg>
                     </compilerArgs>
+                    <debug>false</debug>
                 </configuration>
             </plugin>
             <!-- WAR-Datei erstellen -->
@@ -337,7 +338,7 @@
                 <version>3.2.2</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <!-- <outputDirectory>c:/users/comrad/downloads/openliberty-19.0.0.5/wlp/usr/servers/holarse/dropins/</outputDirectory> -->
+                    <outputDirectory>c:/holarse/openliberty-19.0.0.6/wlp/usr/servers/holarse/dropins/</outputDirectory>
                     <warName>holarseweb</warName>
                 </configuration>
             </plugin>

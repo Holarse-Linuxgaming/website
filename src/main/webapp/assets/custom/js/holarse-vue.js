@@ -91,6 +91,17 @@ var varticleeditor = new Vue({
         toggleAlternativeTitles: function(event) {
             event.preventDefault();
             $(".additional-titles").toggle("slow");
+        },
+        abortEdit: function(event) {
+            event.preventDefault();
+            
+            var nodeId = $("#v-article-editor").data("nodeid");
+            if (nodeId === undefined || nodeId === "") { return false; }            
+            $.getJSON("/wiki/" + nodeId + "/abortEdit.json", function (data) {
+                varticleeditor.node = {};
+                console.debug(data);
+                window.location = data;  
+            });            
         }
     }
 });
