@@ -24,6 +24,8 @@ import de.holarse.services.NodeService;
 import de.holarse.services.TagService;
 import de.holarse.services.views.ViewConverter;
 import de.holarse.services.views.ConverterOptions;
+import de.holarse.services.views.UpdateState;
+import de.holarse.services.views.ViewUpdate;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -31,7 +33,6 @@ import java.time.OffsetDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
-import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,7 +53,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 @RequestMapping(value = {"/wiki", "/articles"})
@@ -100,29 +100,27 @@ public class ArticleController {
     // NEW
     @Secured("ROLE_USER")
     @GetMapping("new")
-    public String newArticle(final Model map, final ArticleCommand command) {
-        map.addAttribute("articleCommand", command);
-        map.addAttribute("contentTypes", ContentType.values());
+    public String newArticle(final Model map, final ArticleView command) {
         return "articles/form";
     }
 
     // CREATE
     @Secured("ROLE_USER")
     @Transactional
-    @PostMapping
-    public RedirectView create(@ModelAttribute final ArticleCommand command, final Authentication authentication) throws Exception {
+    @PostMapping(value = "create", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<ViewUpdate> create(@ModelAttribute final ArticleView command, final Authentication authentication) throws Exception {
         final Article article = nodeService.initCommentableNode(Article.class);
         // Artikelinhalt
-        article.setTitle(command.getTitle());
+        article.setTitle(command.getMainTitle());
         article.setAlternativeTitle1(command.getAlternativeTitle1());
         article.setAlternativeTitle2(command.getAlternativeTitle2());
         article.setAlternativeTitle3(command.getAlternativeTitle3());
         article.setContent(command.getContent());
-        article.setContentType(command.getContentType());
-        article.setBranch(StringUtils.isBlank(command.getBranch()) ? "master" : command.getBranch());
+        article.setContentType(ContentType.WIKI);
+        article.setBranch("master");
 
         // Tags anlegen
-        Set<Tag> tags = tagService.commandToTags(command.getTags());
+        Set<Tag> tags = tagService.commandToTags(command.getTagLine());
         tagRepository.saveAll(tags);
         article.getTags().addAll(tags);
 
@@ -137,8 +135,8 @@ public class ArticleController {
         articleRepository.save(article);
 
         searchEngine.update(article);
-
-        return new RedirectView("/wiki/" + URLEncoder.encode(article.getSlug(), "UTF-8"), true, false, false);
+        
+        return new ResponseEntity<>(new ViewUpdate("/wiki/" + URLEncoder.encode(article.getSlug(), "UTF-8"), "Artikel erstellt", UpdateState.SUCCESS), HttpStatus.CREATED);
     }
 
     // SHOW by Slug
@@ -224,20 +222,20 @@ public class ArticleController {
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @Transactional
     @GetMapping(value = "{id}/abortEdit.json", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<String> abortEdit(@PathVariable("id") final Long id, final Authentication authentication) {
+    public ResponseEntity<ViewUpdate> abortEdit(@PathVariable("id") final Long id, final Authentication authentication) {
         final Article article = articleRepository.findById(id).get();
 
         // Lock lösen
         nodeService.unlock(article);
 
-        return new ResponseEntity<>(article.getUrl(), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(new ViewUpdate(article.getUrl(), "Bearbeitung abgebrochen", UpdateState.ABORT), HttpStatus.ACCEPTED);
     }
 
     // UPDATE
     @Secured("ROLE_USER")
     @Transactional
-    @PostMapping("{id}")
-    public RedirectView update(
+    @PostMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<ViewUpdate> update(
             @PathVariable("id") final Long id,
             final ArticleView articleView,
             final Authentication authentication) throws UnsupportedEncodingException, NodeLockException {
@@ -290,7 +288,7 @@ public class ArticleController {
         // Lock lösen
         nodeService.unlock(article);
 
-        return new RedirectView("/wiki/" + URLEncoder.encode(article.getSlug(), "UTF-8"), true, false, false);
+        return new ResponseEntity<>(new ViewUpdate(article.getUrl(), "Bearbeitung erfolgreich"), HttpStatus.ACCEPTED);
     }
 
     protected String tagsToCommand(final Set<Tag> tags) {

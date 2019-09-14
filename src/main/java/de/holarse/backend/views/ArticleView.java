@@ -22,6 +22,7 @@ public class ArticleView implements PageTitleView {
     
     private String content;
     
+    private String tagLine; // Representation der Eingabezeile für Tags
     private final List<String> tags = new ArrayList<>(20);
     private final Map<AttachmentGroup, List<Attachment>> attachments = new HashMap<>();
     private final List<Comment> comments = new ArrayList<>(10);
@@ -82,6 +83,14 @@ public class ArticleView implements PageTitleView {
         return tags;
     }
 
+    public String getTagLine() {
+        return tagLine;
+    }
+
+    public void setTagLine(String tagLine) {
+        this.tagLine = tagLine;
+    }
+    
     public Map<AttachmentGroup, List<Attachment>> getAttachments() {
         return attachments;
     }
