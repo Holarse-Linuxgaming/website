@@ -60,7 +60,7 @@ public class ImportNews {
     NodeService nodeService;
     
     @Autowired
-    @Qualifier("es")            
+    @Qualifier("pgsql")            
     SearchEngine searchEngine;     
     
     @Transactional
