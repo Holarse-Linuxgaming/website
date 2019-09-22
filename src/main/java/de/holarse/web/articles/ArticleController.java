@@ -70,7 +70,7 @@ public class ArticleController {
     AttachmentRepository attachmentRepository;
 
     @Autowired
-    @Qualifier("es")            
+    @Qualifier("pgsql")            
     SearchEngine searchEngine;
 
     @Autowired

@@ -10,6 +10,7 @@ import java.net.URLEncoder;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,28 +20,32 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.view.RedirectView;
 
+@RequestMapping("/search")
 @Controller
 public class SearchController {
     
     Logger logger = LoggerFactory.getLogger(SearchController.class);
 
     @Autowired
-    @Qualifier("es")            
+    @Qualifier("pgsql")            
     SearchEngine searchEngine;
     
     @Autowired
     TrafficService trafficService;
 
-    @PostMapping("/search")
-    public RedirectView searchResult(@ModelAttribute final SearchCommand command, final Model map, final HttpServletRequest req) throws UnsupportedEncodingException {
+    // Suchanfrage entgegennehmen
+    @PostMapping
+    public RedirectView searchResult(@ModelAttribute @Valid final SearchCommand command, final Model map, final HttpServletRequest req) throws UnsupportedEncodingException {
         return new RedirectView("/search?q=" + URLEncoder.encode(command.getQuery(), "UTF-8"), false, false, false);
     }
     
-    @GetMapping("/search")
+    // Als Get verlinkbar machen
+    @GetMapping
     public String searchUrl(@RequestParam("q") final String query, final Model map, final HttpServletRequest req) throws UnsupportedEncodingException {
         final SearchResultsView view = new SearchResultsView(query);
         
@@ -54,7 +59,7 @@ public class SearchController {
         return "search/result";
     }
     
-    @GetMapping("/search.json")
+    @GetMapping("suggest.json")
     public @ResponseBody List<Suggestion> suggestion(@RequestParam("term") final String query)
     {
         return searchEngine.search(query)

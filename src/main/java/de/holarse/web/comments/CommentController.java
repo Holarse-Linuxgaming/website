@@ -44,7 +44,7 @@ public class CommentController {
     @Autowired SecurityService securityService;
     
     @Autowired 
-    @Qualifier("es")            
+    @Qualifier("pgsql")            
     SearchEngine searchEngine;
 
     @Qualifier("htmlRenderer")

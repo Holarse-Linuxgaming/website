@@ -22,6 +22,9 @@ public class SearchResultView {
     }
     
     public String getAlternativeTitles() {
+        if (result.getAlternativeTitles() == null)
+            return "";
+        
         return result.getAlternativeTitles().stream().collect(Collectors.joining(","));
     }
     

@@ -61,7 +61,7 @@ public class ImportArticles {
     NodeService nodeService;
     
     @Autowired
-    @Qualifier("es")            
+    @Qualifier("pgsql")            
     SearchEngine searchEngine;   
 
     

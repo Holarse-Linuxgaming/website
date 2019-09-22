@@ -37,7 +37,7 @@ public class CategoriesController {
     @Autowired
     TagService tagService;
     @Autowired
-    @Qualifier("es")            
+    @Qualifier("pgsql")            
     SearchEngine searchEngine;
 
     @GetMapping

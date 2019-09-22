@@ -47,7 +47,7 @@ public class NewsController {
     RevisionRepository revisionRepository;
 
     @Autowired
-    @Qualifier("es")            
+    @Qualifier("pgsql")            
     SearchEngine searchEngine;
 
     @Autowired

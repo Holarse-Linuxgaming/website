@@ -13,8 +13,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.version>5.1.4.RELEASE</spring.version>
-        <spring.security.version>5.1.3.RELEASE</spring.security.version>
+        <spring.version>5.1.9.RELEASE</spring.version>
+        <spring.security.version>5.1.6.RELEASE</spring.security.version>
         <apache.tiles.version>3.0.8</apache.tiles.version>
         <slf4jVersion>1.6.1</slf4jVersion>
         <!-- <apache.camel.version>2.19.0</apache.camel.version> -->
@@ -44,6 +44,11 @@
                 </exclusion>
             </exclusions>            
         </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.0.17.Final</version>
+        </dependency>        
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
@@ -254,11 +259,11 @@
         </dependency>
     
         <!-- ElasticSearch -->
-        <dependency>
+<!--        <dependency>
             <groupId>org.elasticsearch.client</groupId>
             <artifactId>elasticsearch-rest-high-level-client</artifactId>
             <version>6.5.4</version>
-        </dependency>  
+        </dependency>  -->
  
         <!-- JAXB -->
         <!--        <dependency>
@@ -338,7 +343,7 @@
                 <version>3.2.2</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <outputDirectory>c:/holarse/openliberty-19.0.0.6/wlp/usr/servers/holarse/dropins/</outputDirectory>
+<!--                    <outputDirectory>c:/holarse/openliberty-19.0.0.6/wlp/usr/servers/holarse/dropins/</outputDirectory>-->
                     <warName>holarseweb</warName>
                 </configuration>
             </plugin>

@@ -23,7 +23,7 @@ public class Reindex {
      Logger log = LoggerFactory.getLogger(Reindex.class);
      
      @Autowired
-     @Qualifier("es")
+     @Qualifier("pgsql")
      SearchEngine searchEngine;
      
      @Autowired

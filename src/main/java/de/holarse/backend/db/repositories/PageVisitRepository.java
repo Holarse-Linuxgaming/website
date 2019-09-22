@@ -12,13 +12,13 @@ import org.springframework.data.repository.query.Param;
 
 public interface PageVisitRepository extends CrudRepository<PageVisit, Long> {
 
-    @Query(value = "select url, count(url) as count from accesslog group by url order by count(url) desc", nativeQuery = true)
+    @Query(value = "select url, count(url) as count from logging.accesslog group by url order by count(url) desc", nativeQuery = true)
     List<PageVisitMainResult> getMainResults();
 
-    @Query(value = "select searchword, count(searchword) as count from accesslog group by searchword order by count(searchword) desc", nativeQuery = true)
+    @Query(value = "select searchword, count(searchword) as count from logging.accesslog group by searchword order by count(searchword) desc", nativeQuery = true)
     List<StatisticSearchResult> getSearches();    
     
-    @Query(value = "select cast(cast(accessed as date) as varchar) as date, count(id) as visits from accesslog where nodeid = :nodeId and accessed between :fromDate and :untilDate group by cast(accessed as date) order by date", nativeQuery = true)    
+    @Query(value = "select cast(cast(accessed as date) as varchar) as date, count(id) as visits from logging.accesslog where nodeid = :nodeId and accessed between :fromDate and :untilDate group by cast(accessed as date) order by date", nativeQuery = true)    
     List<PageVisitResult> getNodeVists(@Param("nodeId") final Long nodeId, @Param("fromDate") final LocalDateTime fromDate, @Param("untilDate") LocalDateTime untilDate);
     
 }

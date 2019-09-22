@@ -31,7 +31,7 @@ public class AdminSearchController {
     @Autowired ArticleRepository articleRepository;
     
     @Autowired
-    @Qualifier("es")            
+    @Qualifier("pgsql")            
     SearchEngine searchEngine;
 
     @GetMapping("reindex")

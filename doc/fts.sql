@@ -63,7 +63,7 @@
 
 -- Suchindex anlegen:
 --drop materialized view mv_searchindex;
-create materialized view mv_searchindex as (
+create materialized view search.mv_searchindex as (
     -- articles
     select  
         a.id as pid,
@@ -108,19 +108,19 @@ create materialized view mv_searchindex as (
     group by n.id, att.attachmentdata
 );
 
-create index idx_fts_search on mv_searchindex using gin(document);
-create index on mv_searchindex using gin(tags);
+create index idx_fts_search on search.mv_searchindex using gin(document);
+create index on search.mv_searchindex using gin(tags);
 
 -- Abfrage:
-select pid, ptitle, purl, content, image from mv_searchindex
+select pid, ptitle, purl, content, image from search.mv_searchindex
 where document @@ to_tsquery('german', 'Echtzeit')
 ORDER BY ts_rank(document, to_tsquery('german', 'Echtzeit')) DESC;
 
 -- tagbasierte Suche
-select * from mv_Searchindex where tags @> array['Spiele'::varchar, 'Horror'::varchar];
+select * from search.mv_Searchindex where tags @> array['Spiele'::varchar, 'Horror'::varchar];
 
 -- suchwort-vorschläge
-create materialized view mv_suggestions as 
+create materialized view search.mv_suggestions as 
 select 
     to_tsvector('english', a.title) ||
     to_tsvector('english', coalesce(a.alternativetitle1, '')) ||
@@ -134,4 +134,4 @@ select
     to_tsvector('simple', coalesce(t.name, '')) as word
 from tags t;
 
-create index suggestions_idx on mv_suggestions using gin(word);
+create index suggestions_idx on search.mv_suggestions using gin(word);

@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Table(name="accesslog")
+@Table(schema="logging", name="accesslog")
 @Entity
 public class PageVisit implements Serializable {
 

@@ -42,7 +42,7 @@ public class GameFinderController {
     @Autowired TagService tagService;
     
     @Autowired 
-    @Qualifier("es")            
+    @Qualifier("pgsql")            
     SearchEngine searchEngine;
     
     @Transactional

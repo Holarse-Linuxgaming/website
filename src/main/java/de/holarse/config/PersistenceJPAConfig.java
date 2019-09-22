@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -36,10 +37,16 @@ public class PersistenceJPAConfig {
         return em;
     }
 
-    @Bean
+    @Bean(name="dataSource", destroyMethod = "")
     public DataSource dataSource() {
-        JndiDataSourceLookup lookup = new JndiDataSourceLookup();
-        return lookup.getDataSource("jdbc/holarse");        
+        DriverManagerDataSource ds = new DriverManagerDataSource();
+        ds.setDriverClassName("org.postgresql.Driver");
+        ds.setUrl("jdbc:postgresql://holarse-data:5432/holarse?user=holarse&password=geheim");
+        
+        return ds;
+//        
+//        JndiDataSourceLookup lookup = new JndiDataSourceLookup();
+//        return lookup.getDataSource("jdbc/holarse");        
     }
 
     @Bean
