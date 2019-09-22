@@ -1,12 +1,18 @@
 package de.holarse.web.register;
 
 import java.io.Serializable;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 public class RegisterCommand implements Serializable {
 
+    @NotEmpty
     private String login;
+    @NotEmpty @Email
     private String email;
+    @NotEmpty    
     private String password;
+    @NotEmpty    
     private String passwordConfirmation;
 
     public String getLogin() {

@@ -9,13 +9,12 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
-import org.springframework.js.ajax.AjaxUrlBasedViewResolver;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
-import org.springframework.webflow.mvc.view.FlowAjaxTiles3View;
+import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
 @Configuration
 @EnableWebMvc
@@ -63,11 +62,7 @@ public class AppConfig implements WebMvcConfigurer {
 //    }
     @Bean
     public ViewResolver viewResolver() {
-        AjaxUrlBasedViewResolver viewResolver = new AjaxUrlBasedViewResolver();
-        viewResolver.setViewClass(FlowAjaxTiles3View.class);
-        viewResolver.setOrder(-2);
-
-        return viewResolver;
+        return new TilesViewResolver();
     }
 
     /**

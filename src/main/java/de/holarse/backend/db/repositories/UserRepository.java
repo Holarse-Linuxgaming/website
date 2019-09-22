@@ -9,5 +9,6 @@ public interface UserRepository extends
         OldIdRepository<User> {
 
     User findByLogin(final String login);
+    boolean existsByLoginOrEmail(final String login, final String email);
     User findByVerificationKey(final String verificationKey);
 }
