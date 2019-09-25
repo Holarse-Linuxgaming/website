@@ -4,8 +4,9 @@ import de.holarse.auth.web.HolarsePrincipal;
 import de.holarse.backend.db.PasswordType;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.UserRepository;
+import de.holarse.exceptions.HolarseException;
+import de.holarse.exceptions.NodeNotFoundException;
 import de.holarse.services.SecurityService;
-import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 import de.holarse.services.WebUtils;
@@ -15,7 +16,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -45,9 +45,9 @@ public class UserController {
         return "users/index";
     }
     
-    @GetMapping("{login}")
-    public String show(@PathVariable("login") String login, ModelMap map) {       
-        return show(userRepository.findBySlug(login).orElseThrow(() -> new UsernameNotFoundException("Login not found")), map);
+    @GetMapping("{username}")
+    public String show(@PathVariable("username") final String username, final ModelMap map) {       
+        return show(userRepository.findBySlug(username).orElseThrow(() -> new NodeNotFoundException("Username not found")), map);
     }
 
     protected String show(final User user, final ModelMap map) {
@@ -58,7 +58,7 @@ public class UserController {
     @Secured("ROLE_USER")
     @GetMapping("{login}/edit")
     public String edit(@PathVariable("login")final String login, final UserCommand command, final Authentication authentication, final ModelMap map) {
-        final User user = userRepository.findBySlug(login).orElseThrow(() -> new UsernameNotFoundException("Login not found"));
+        final User user = userRepository.findBySlug(login).orElseThrow(() -> new NodeNotFoundException("Login not found"));
 
         if (!securityService.hasEditPermissions(user, ((HolarsePrincipal) authentication.getPrincipal()).getUser())) {
             throw new AccessDeniedException("Unzureichende Rechte für diese Aktion. Der Vorfall wird protokolliert.");
@@ -76,7 +76,7 @@ public class UserController {
     @Secured("ROLE_USER")    
     @PostMapping("{login}")
     public String update(@PathVariable("login")final String login, @Valid @ModelAttribute final UserCommand command, final Authentication authentication, final ModelMap map) {
-        final User user = userRepository.findBySlug(login).orElseThrow(() -> new UsernameNotFoundException("Login not found"));
+        final User user = userRepository.findBySlug(login).orElseThrow(() -> new NodeNotFoundException("Login not found"));
         
         if (!securityService.hasEditPermissions(user, ((HolarsePrincipal) authentication.getPrincipal()).getUser())) {
             throw new AccessDeniedException("Unzureichende Rechte für diese Aktion. Der Vorfall wird protokolliert.");

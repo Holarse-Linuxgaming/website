@@ -39,7 +39,7 @@ public class LoginListener {
     protected boolean hasDrupalLegacyPassword(final User user) {
         if (user == null) return false;
         
-        return PasswordType.MD5.equals(user.getPasswordType()) || user.getDigest().startsWith("$");
+        return PasswordType.MD5.equals(user.getPasswordType()) || !user.getDigest().startsWith("$");
     }
     
     @EventListener
@@ -48,7 +48,7 @@ public class LoginListener {
         final Authentication auth = evt.getAuthentication();        
         
         final HolarsePrincipal loginUser = (HolarsePrincipal) auth.getPrincipal();
-        log.debug("User " + loginUser.getUsername() + " hat sich eingeloggt.");
+        log.debug("User " + loginUser.getUsername() + " hat sich erfolgreich eingeloggt.");
                 
         // Benutzer auf BCrypt migrieren, falls er noch nicht dieses Verfahren verwendet.
         // Die Authentifizierung ist hier dann bereits schon gelaufen, das Passwort
@@ -57,6 +57,8 @@ public class LoginListener {
         if (user != null) {
             OffsetDateTime migrated = null;
             if (hasDrupalLegacyPassword(user)) {
+                log.warn("Passwort von Benutzer '" + user.getLogin() + " muss migriert werden.");
+                
                 CharSequence originalPassword = (CharSequence) auth.getCredentials();
                 if (originalPassword == null) {
                     throw new HolarseException("Passwort-Migrierung nicht möglich");
@@ -72,9 +74,9 @@ public class LoginListener {
             }
 
             // Migriert oder nicht, wir brauchen das eingegebene Passwort hier nicht mehr
-            if (auth instanceof UsernamePasswordAuthenticationToken) {
-                ((UsernamePasswordAuthenticationToken) auth).eraseCredentials();
-            }            
+//            if (auth instanceof UsernamePasswordAuthenticationToken) {
+//                ((UsernamePasswordAuthenticationToken) auth).eraseCredentials();
+//            }            
 
             // Letztes Login hinterlegen und Fehlercounter zurücksetzen
             final UserStat userStat = userStatRepository.findByUser(user).orElseGet(() -> {

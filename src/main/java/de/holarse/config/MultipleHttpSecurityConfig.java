@@ -132,6 +132,12 @@ public class MultipleHttpSecurityConfig {
             return man;
         }
 
+        /**
+         * Definiert die URLs die nicht von der Sicherheit geprüft werden
+         * müssen
+         * @param web
+         * @throws Exception 
+         */
         @Override
         public void configure(final WebSecurity web) throws Exception {
             web.ignoring()
@@ -148,22 +154,23 @@ public class MultipleHttpSecurityConfig {
          * @throws java.lang.Exception
          */
         @Override
-        protected void configure(HttpSecurity http) throws Exception {
+        protected void configure(final HttpSecurity http) throws Exception {
             // WEB
             http.csrf()
                     .and().authorizeRequests()
-                    .mvcMatchers("/login", "/register", "/verify").hasRole("ANONYMOUS")
-                    .mvcMatchers("/admin/**").hasRole("ADMIN")
-                    .mvcMatchers("/**").permitAll()
-                    .anyRequest().authenticated()
+                        .mvcMatchers("/login", "/register", "/verify").anonymous()
+                        .mvcMatchers("/admin/**").hasRole("ADMIN")
+                        .mvcMatchers("/**").permitAll()
+//                    .and().authorizeRequests()
+//                        .anyRequest().authenticated()
                     .and()
                     .formLogin()
-                    .usernameParameter("login")
-                    .successHandler(successHandler())
-                    .failureHandler(failureHandler())
-                    .loginPage("/login")
-                    .permitAll().and()
-                    .logout().logoutUrl("/logout").logoutSuccessUrl("/login?logout=true");
+                        .usernameParameter("login")
+                        .successHandler(successHandler())
+                        .failureHandler(failureHandler())
+                        .loginPage("/login")
+                    .and()
+                        .logout().logoutUrl("/logout").logoutSuccessUrl("/login?logout=true");
         }
 
     }

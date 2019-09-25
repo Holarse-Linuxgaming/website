@@ -1,5 +1,6 @@
 package de.holarse.interceptor;
 
+import de.holarse.auth.web.HolarsePrincipal;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.UserRepository;
 import de.holarse.backend.views.PageTitleView;
@@ -36,14 +37,15 @@ public class PagePopulationInterceptor extends HandlerInterceptorAdapter {
     private String commitId;    
     
     protected User getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         
         if (authentication != null) {
-            logger.debug("Roles: " + authentication.getAuthorities());
-         
-            if (!(authentication instanceof AnonymousAuthenticationToken)) {
-                String currentUserName = authentication.getName();
-                return userRepository.findByLogin(currentUserName);
+            if (authentication instanceof AnonymousAuthenticationToken) {
+                // Gast
+            } else {
+                final HolarsePrincipal hp = (HolarsePrincipal) authentication.getPrincipal();
+                logger.debug("User: " + hp.getUsername() + ", Roles: " + hp.getAuthorities());
+                return hp.getUser();
             }
         }
         
