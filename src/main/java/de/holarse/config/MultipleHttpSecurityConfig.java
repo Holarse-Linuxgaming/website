@@ -83,6 +83,11 @@ public class MultipleHttpSecurityConfig {
         return new SavedRequestAwareAuthenticationSuccessHandler();
     }
 
+    /**
+     * Erhöht den Zähler für die fehlgeschlagenen Logins und sperrt
+     * ggf. auch das Konto.
+     * @return 
+     */
     @Bean
     public AuthenticationFailureHandler failureHandler() {
         return new SecureAccountFailureHandler();
@@ -122,7 +127,9 @@ public class MultipleHttpSecurityConfig {
 
         @Override
         public AuthenticationManager authenticationManager() {
-            return new ProviderManager(Arrays.asList(drupal6AuthenticationProvider(), holaCms3AuthenticationProvider()));
+            final ProviderManager man = new ProviderManager(Arrays.asList(drupal6AuthenticationProvider(), holaCms3AuthenticationProvider()));
+            man.setEraseCredentialsAfterAuthentication(false); // Sonst haben wir keine Chance das unsichere Drupal-Passwort zu migrieren
+            return man;
         }
 
         @Override

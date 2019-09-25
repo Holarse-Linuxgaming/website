@@ -61,6 +61,7 @@ public class RegisterService {
         
         user.setVerified(true);
         user.setUpdated(OffsetDateTime.now());
+        user.setVerificationKey(null);
         userRepository.save(user);
         
         return "verified";

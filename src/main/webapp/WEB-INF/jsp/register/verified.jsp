@@ -7,7 +7,7 @@
             Registrierung abgeschlossen
         </div>
         <div class="card-body">
-            Verifiziert. Viel Spaﬂ!
+            Verifiziert. Viel Spaﬂ! <a href="/login" class="btn btn-primary">Jetzt einloggen</a>.
         </div>
     </div>
 

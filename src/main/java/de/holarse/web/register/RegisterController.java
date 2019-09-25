@@ -11,6 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -58,7 +59,8 @@ public class RegisterController {
         return "register/done";
     }
     
-    public String verify(@RequestParam final String verificationKey, final ModelMap map) {
+    @GetMapping("/verify/{verificationKey}")
+    public String verify(@PathVariable("verificationKey") final String verificationKey, final ModelMap map) {
         return "register/" + registerService.verifyAccount(verificationKey);
     }
 

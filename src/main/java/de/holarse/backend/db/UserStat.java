@@ -17,6 +17,9 @@ public class UserStat extends Base {
 
     @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private OffsetDateTime lastAction;
+    
+    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private OffsetDateTime migrated;    
 
     @Column(columnDefinition = "INT DEFAULT 0")
     private int failedLogins;
@@ -52,4 +55,13 @@ public class UserStat extends Base {
     public void setLastLogin(OffsetDateTime lastLogin) {
         this.lastLogin = lastLogin;
     }
+
+    public OffsetDateTime getMigrated() {
+        return migrated;
+    }
+
+    public void setMigrated(OffsetDateTime migrated) {
+        this.migrated = migrated;
+    }
+    
 }
