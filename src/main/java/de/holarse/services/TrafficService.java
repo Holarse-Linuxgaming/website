@@ -23,7 +23,7 @@ public class TrafficService {
     final static List<String> CAMPAIGN_NAMES = Arrays.asList("pk_campaign", "piwik_campaign", "utm_campaign", "utm_source", "utm_medium");
     final static List<String> CAMPAIGN_KEYWORDS = Arrays.asList("pk_kwd", "piwik_kwd", "pk_keyword", "utm_term");
     
-    final static List<String> IGNORED_URLS = Arrays.asList("/login", "/assets", "/nodes/", "/webapi/", "/api/");
+    final static List<String> IGNORED_URLS = Arrays.asList("/login", "/assets", "/nodes/", "/webapi/", "/api/", "/admin/");
     
     public void saveRequest(final HttpServletRequest request, final HttpServletResponse response) {
         saveRequest(request, response, null);
