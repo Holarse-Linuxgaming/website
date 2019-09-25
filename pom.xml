@@ -18,7 +18,10 @@
         <apache.tiles.version>3.0.8</apache.tiles.version>
         <slf4jVersion>1.6.1</slf4jVersion>
         <!-- <apache.camel.version>2.19.0</apache.camel.version> -->
-        <java.version>11</java.version>
+        <jackson.version>2.9.9</jackson.version>
+        
+        <maven.compiler.release>11</maven.compiler.release>
+        <maven.compiler.source>11</maven.compiler.source>        
     </properties>
   
     <dependencies>
@@ -200,13 +203,13 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>2.9.9</version>
+            <version>${jackson.version}</version>
         </dependency>
         
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-xml</artifactId>
-            <version>2.9.9</version>
+            <version>${jackson.version}</version>
         </dependency><!--
         
         <dependency>
@@ -218,7 +221,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.9.9</version>
+            <version>${jackson.version}</version>
         </dependency>      
     
         <dependency>
