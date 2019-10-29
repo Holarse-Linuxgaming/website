@@ -24,7 +24,6 @@ $(document).ready(function () {
       select: function( event, ui ) {
         console.debug( "Selected: " + ui.item.url );
         window.location.replace(ui.item.url);
-        
       }
     }).autocomplete("instance")._renderItem = function(ul, item) {
         return $( "<li>" ).attr("data-value", item.url)

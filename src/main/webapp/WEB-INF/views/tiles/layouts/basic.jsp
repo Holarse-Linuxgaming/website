@@ -48,6 +48,8 @@
   <link rel="stylesheet" href="/assets/vendor/unify/unify-components.css">
   <link rel="stylesheet" href="/assets/vendor/unify/unify-globals.css">
 
+  <link rel="stylesheet" href="/assets/vendor/jquery-tagsinput/jquery-tagsinput.min.css">
+  
   <!-- CSS Customization -->
   <link rel="stylesheet" href="/assets/custom/css/custom.css">
 </head>
@@ -109,6 +111,7 @@
 
   <script src="/assets/vendor/highlightjs/highlight.pack.js"></script>  
   <script src="/assets/vendor/vuejs/vue.min.js"></script>
+  <script src="/assets/vendor/jquery-tagsinput/jquery-tagsinput.min.js"></script>
   <!-- JS Custom -->
   <script src="/assets/custom/js/holarse-vue.js"></script>  
   <script src="/assets/custom/js/custom.js"></script>
