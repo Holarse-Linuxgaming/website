@@ -1,5 +1,3 @@
-create schema search;
-
 -- Suchindex anlegen:
 --drop materialized view mv_searchindex;
 create materialized view search.mv_searchindex as (
@@ -11,10 +9,10 @@ create materialized view search.mv_searchindex as (
         a.content as content,
         att.attachmentdata as image,
         string_agg(tags.name, ';') as tags,
-        setweight(to_tsvector('english', unaccent(a.title)), 'A') || 
-        setweight(to_tsvector('english', coalesce(unaccent(a.alternativetitle1), '')), 'C') || 
-        setweight(to_tsvector('english', coalesce(unaccent(a.alternativetitle2), '')), 'C') || 
-        setweight(to_tsvector('english', coalesce(unaccent(a.alternativetitle3), '')), 'C') ||
+        setweight(to_tsvector('english', search.unaccent(a.title)), 'A') || 
+        setweight(to_tsvector('english', coalesce(search.unaccent(a.alternativetitle1), '')), 'C') || 
+        setweight(to_tsvector('english', coalesce(search.unaccent(a.alternativetitle2), '')), 'C') || 
+        setweight(to_tsvector('english', coalesce(search.unaccent(a.alternativetitle3), '')), 'C') ||
         setweight(to_tsvector('german', coalesce(a.content, '')), 'B') ||
         setweight(to_tsvector('simple', string_agg(tags.name, ' ')), 'C') as document
     from articles a
@@ -36,8 +34,8 @@ create materialized view search.mv_searchindex as (
         n.content as content,
         att.attachmentdata as image,
         '' as tags,
-        setweight(to_tsvector('german', unaccent(n.title)), 'A') ||
-        setweight(to_tsvector('german', coalesce(unaccent(n.subtitle), '')), 'C') ||
+        setweight(to_tsvector('german', search.unaccent(n.title)), 'A') ||
+        setweight(to_tsvector('german', coalesce(search.unaccent(n.subtitle), '')), 'C') ||
         setweight(to_tsvector('german', coalesce(n.content, '')), 'B')  as document
     from news n
     left join attachments att on att.id = (
@@ -48,15 +46,6 @@ create materialized view search.mv_searchindex as (
 );
 
 create index idx_fts_search on search.mv_searchindex using gin(document);
-create index on search.mv_searchindex using gin(tags);
-
--- Abfrage:
-select pid, ptitle, purl, content, image from search.mv_searchindex
-where document @@ to_tsquery('german', 'Echtzeit')
-ORDER BY ts_rank(document, to_tsquery('german', 'Echtzeit')) DESC;
-
--- tagbasierte Suche
-select * from search.mv_Searchindex where tags @> array['Spiele'::varchar, 'Horror'::varchar];
 
 -- suchwort-vorschläge
 create materialized view search.mv_suggestions as 
@@ -78,9 +67,4 @@ select
 from tags t;
 
 -- suchindex für vorschläge (tags- und titel-autovervollständigung)
-create extension btree_gin;
 create index idx_suggestions on search.mv_suggestions using gin(word, wtype);
-
--- suchbeispiel für teilwort und tag
-select * from search.mv_suggestions
-where word @@ to_tsquery('simple', 'kr:*') and wtype = 2;

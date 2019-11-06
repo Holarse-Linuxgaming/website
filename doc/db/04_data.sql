@@ -27,6 +27,3 @@ insert into forums(id, title, description, slug) values
 (nextval('hibernate_sequence'), 'Windows/Wine etc', 'Rund um Windows-Spiele, Spielen mit Wine, Codeweavers oder Proton','windows-wine-etc'), 
 (nextval('hibernate_sequence'), 'Open Source', 'Fragen rund um FOSS','open-source'), 
 (nextval('hibernate_sequence'), 'Off-Topic', 'Was sonst irgendwo passt', 'off-topic');
-
--- benutzer müssen vorhanden sein für dieses statement
-insert into users_roles(users_id, roles_id) values ((select id from users where login = 'comrad' limit 1), (select id from roles where code = 'ADMIN' limit 1));
