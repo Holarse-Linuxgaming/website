@@ -1,6 +1,3 @@
--- login erzeugen
-CREATE ROLE holarse NOSUPERUSER NOCREATEDB NOCREATEROLE INHERIT LOGIN NOREPLICATION;
-
 create schema search authorization holarse;
 create schema logging authorization holarse;
 

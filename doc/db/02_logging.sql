@@ -1,3 +1,5 @@
+-- also holarse-user
+
 -- partitioned table für zugriffsstatistiken
 create table logging.accesslog (id bigserial, nodeid bigint, visitorid varchar(255), campaignkeyword varchar(255), campaignname varchar(255), httpstatus int, ipaddress varchar(255), 
                         referer varchar(255), searchword varchar(255), url varchar(2083), useragent varchar(255), bot boolean default false, 

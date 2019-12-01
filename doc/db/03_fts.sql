@@ -1,3 +1,5 @@
+-- als holarse user:
+
 -- Suchindex anlegen:
 --drop materialized view mv_searchindex;
 create materialized view search.mv_searchindex as (

@@ -3,6 +3,7 @@ package de.holarse.web.register;
 import de.holarse.backend.db.PasswordType;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.UserRepository;
+import de.holarse.services.WebUtils;
 import java.time.OffsetDateTime;
 import org.apache.commons.math3.random.RandomDataGenerator;
 import org.slf4j.Logger;
@@ -30,6 +31,8 @@ public class RegisterService {
         user.setPasswordType(PasswordType.BCRYPT);
         user.setEmail(command.getEmail());
         user.setCreated(OffsetDateTime.now());
+        
+        user.setSlug(WebUtils.slugify(command.getLogin()));
 
         // Verifizierung auf 12h setzen
         user.setVerified(false);

@@ -1,0 +1,23 @@
+# Vorraussetzung: frisch installierte PostgreSQL 10 oder höher. Die Anleitung wurde mit PostgreSQL 11 gemacht.
+
+Als System-User postgres:
+
+    createuser -W holarse
+
+Als Passwort 'geheim' vergeben.
+
+Datenbank holarse mit Eigentümer holarse erstellen:
+
+    createdb -O holarse holarse
+
+Möglicherweise ist das Passwort über diese Kommando dann nicht im richtigen
+Format gespeichert. Eingeloggt als Superuser kann das über folgendes Kommando
+korrigiert werden:
+
+    alter user holarse with encrypted password 'geheim';
+
+Dann die SQL-Scripte ausführen. Wichtig beim Ausführen mit dem postgres-Benutzer 
+für 01_as_postgres.sql unbedingt auf die Holarse-Datenbank verbinden. Sonst 
+landen die Schemata in der postgres-Datenbank.
+
+    
