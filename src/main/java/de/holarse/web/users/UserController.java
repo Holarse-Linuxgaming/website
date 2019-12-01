@@ -4,12 +4,16 @@ import de.holarse.auth.web.HolarsePrincipal;
 import de.holarse.backend.db.PasswordType;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.UserRepository;
+import de.holarse.backend.views.UserView;
+import de.holarse.backend.views.ViewHelper;
 import de.holarse.exceptions.HolarseException;
 import de.holarse.exceptions.NodeNotFoundException;
 import de.holarse.services.SecurityService;
 import javax.validation.Valid;
 
 import de.holarse.services.WebUtils;
+import java.util.stream.Collectors;
+import javax.transaction.Transactional;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -40,8 +44,9 @@ public class UserController {
     PasswordEncoder passwordEncoder;    
 
     @GetMapping
+    @Transactional
     public String index(ModelMap map) {
-        map.addAttribute("users", userRepository.findAll());
+        map.addAttribute("users", userRepository.findAll().stream().map(ViewHelper.MapToViewFn).collect(Collectors.toList()));
         return "users/index";
     }
     

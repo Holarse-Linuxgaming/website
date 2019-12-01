@@ -3,6 +3,7 @@ package de.holarse.web.admin.users;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.UserRepository;
 import de.holarse.backend.views.UserView;
+import de.holarse.backend.views.ViewHelper;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
@@ -23,21 +24,10 @@ public class AdminUsersController {
     @Autowired
     UserRepository userRepository;
     
-    private final Function<User, UserView> mapToView = u -> {
-        UserView view = new UserView();
-        view.setId(u.getId());
-        view.setEmail(u.getEmail());
-        view.setLogin(u.getLogin());
-        
-        view.getRoles().addAll( u.getRoles().stream().map(r -> r.getCode()).collect(Collectors.toList()) );
-        
-        return view;
-    };
-    
     @Transactional
     @GetMapping
     public String index(final ModelMap map, @PageableDefault(size=10, sort="login") final Pageable pageable, final HttpServletRequest request) {
-        final Page<UserView> view = userRepository.findAll(pageable).map(mapToView);
+        final Page<UserView> view = userRepository.findAll(pageable).map(ViewHelper.MapToViewFn);
         map.addAttribute("view", view);
        
         return "admin/users/index";
