@@ -1,3 +1,10 @@
+create user holarse with encrypted password 'holarse';
+create database holarse with owner holarse;
+
+-- Wichtig beim Ausführen mit dem postgres-Benutzer 
+-- für dieses Script ist unbedingt auf die Holarse-Datenbank verbinden. Sonst 
+-- landen die Schemata in der postgres-Datenbank.
+
 create schema search authorization holarse;
 create schema logging authorization holarse;
 
