@@ -21,7 +21,7 @@ public class AttachmentHelper {
         }
         
         // Wiki-Syntax, Klammern weg und das erste Leerzeichen ist der Trenner
-        if (field.startsWith("[")) {
+        if (field.startsWith("[") && field.length() -1 > 1) {
             // Klammern weg
             String result = field.substring(1, field.length() - 1);
 
