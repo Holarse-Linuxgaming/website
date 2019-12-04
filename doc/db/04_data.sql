@@ -15,7 +15,7 @@ insert into taggroups(id, name) values (nextval('hibernate_sequence'), 'DEVELOPE
 insert into taggroups(id, name) values (nextval('hibernate_sequence'), 'PUBLISHER');
 
 -- dummy apiuser, Passwort geheim
-insert into apiusers (id, login, rolename, token) values (nextval('hibernate_sequence'), 'dummy', 'API_INTERNAL', 'ADDB0F5E7826C857D7376D1BD9BC33C0C544790A2EAC96144A8AF22B1298C940'); -- geheim
+insert into apiusers (id, login, rolename, token) values (nextval('hibernate_sequence'), 'dummy', 'API_IMPORT', 'ADDB0F5E7826C857D7376D1BD9BC33C0C544790A2EAC96144A8AF22B1298C940'); -- geheim
 
 -- foren
 insert into forums(id, title, description, slug) values 

@@ -4,6 +4,7 @@ import de.holarse.backend.db.PasswordType;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.RoleRepository;
 import de.holarse.backend.db.repositories.UserRepository;
+import de.holarse.services.WebUtils;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.HashSet;
@@ -52,6 +53,7 @@ public class ImportUsers {
         user.setVerified(true); // Automatisch verifiziert durch den Import
         user.setLocked(importUser.isLocked());
         user.setOldId(importUser.getUid());
+        user.setSlug(WebUtils.slugify(importUser.getLogin()));
         
         if (user.getRoles() == null) {
             user.setRoles(new HashSet<>());

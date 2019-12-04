@@ -8,7 +8,6 @@ import de.holarse.backend.db.repositories.NewsRepository;
 import de.holarse.backend.views.PageVisitResult;
 import de.holarse.renderer.html.HtmlRenderer;
 import de.holarse.services.TrafficService;
-import de.holarse.web.api.NodeStateCommand;
 
 import java.util.Date;
 import java.util.List;
