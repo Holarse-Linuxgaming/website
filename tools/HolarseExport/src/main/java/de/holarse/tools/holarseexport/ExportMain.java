@@ -19,8 +19,8 @@ public final class ExportMain {
     public ExportMain() throws Exception {
         // Finally export
         final List<Export> exports = new ArrayList<>();
-        //exports.add(new UserExport());
-        //exports.add(new ArticleExport());
+        exports.add(new UserExport());
+        exports.add(new ArticleExport());
         exports.add(new NewsExport());
         
         try (final Connection c = ExportConnection.Connect()) {

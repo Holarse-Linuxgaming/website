@@ -1,0 +1,6 @@
+# Synonyme für Tags
+
+Hier werden Synonyme für verschiedene Gruppierungen aufgelistet. An erster Stelle steht immer das Hauptwort, welches die Basis für die Varianten bildet. Es wird bei den Tags von den Alternativen verlinkt.
+
+Echtzeitstrategie, RTS, Real Time Strategy, Echtzeit-Strategie,
+Rennspiele, Racing

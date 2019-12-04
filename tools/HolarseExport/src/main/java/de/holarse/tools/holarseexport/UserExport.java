@@ -20,7 +20,8 @@ public class UserExport implements Export {
 
     final static Logger log = Logger.getLogger(UserExport.class.getName());          
 
-    final static String USERS_QUERY = "select u.uid, u.name, u.pass, u.mail, us.signature, from_unixtime(u.created) as created, u.login, u.status, u.picture from users u left join users_signature us on us.uid = u.uid where u.uid > 0";        
+    // nur user, die sich schonmal eingeloggt haben
+    final static String USERS_QUERY = "select u.uid, u.name, u.pass, u.mail, us.signature, from_unixtime(u.created) as created, u.login, u.status, u.picture from users u left join users_signature us on us.uid = u.uid where u.uid > 0 and u.login <> 0 and u.access <> 0";        
     
     final static String ROLES_QUERY = "select u.name as username, r.name as rolename from users_roles ur inner join users u on u.uid = ur.uid inner join role r on r.rid = ur.rid";
     
