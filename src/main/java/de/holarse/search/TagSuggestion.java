@@ -6,6 +6,6 @@ package de.holarse.search;
  */
 public interface TagSuggestion {
     
-    public String getName();
+    public String getValue();
    
 }

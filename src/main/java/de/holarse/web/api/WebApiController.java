@@ -74,7 +74,7 @@ public class WebApiController {
      */
     @GetMapping(value = "/autocomplete/tags")
     public ResponseEntity<List<TagSuggestion>> tagAutocomplete(@RequestParam("term") final String term) {
-        return new ResponseEntity<>(searchRepository.suggestTag(term + ":*", PageRequest.of(0, 10)), HttpStatus.OK);
+        return new ResponseEntity<>(searchRepository.suggestTag(term + ":*"), HttpStatus.OK);
     }
 
     @Transactional

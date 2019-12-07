@@ -54,10 +54,10 @@ public interface SearchRepository extends JpaRepository<Node, Long> {
      * @param pageable
      * @return 
      */
-    @Query(value        = "select wlabel as name from search.mv_suggestions where word @@ to_tsquery('simple', :tag) and wtype = 2--#pageable\\n", 
+    @Query(value        = "select wlabel as value from search.mv_suggestions where word @@ to_tsquery('simple', :tag) and wtype = 2 limit 10", 
             countQuery  = "select count(*) from search.mv_suggestions where word @@ to_tsquery('simple', :tag) and wtype = 2",
             nativeQuery = true)
-    List<TagSuggestion> suggestTag(@Param("tag") final String tag, final Pageable pageable);
+    List<TagSuggestion> suggestTag(@Param("tag") final String tag);
     
     /**
      * Durchsucht Artikeltitel in der Autovervollständigung
