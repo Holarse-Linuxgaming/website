@@ -18,7 +18,7 @@ $(document).ready(function () {
     
 
     
-    $( "#searchField" ).autocomplete({
+    $("#query").autocomplete({
       source: "/search.json",
       minLength: 2,
       select: function( event, ui ) {

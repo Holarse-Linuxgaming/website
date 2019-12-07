@@ -1,6 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="s" uri="http://www.springframework.org/security/tags" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <h1>
@@ -94,20 +93,9 @@
 </div>
 
 <!-- Kommentare -->
-<div id="v-comments-1">
-    <div class="row" v-for="comment in comments">
-        <div class="col-md-12">            
-            <div class="media">
-                <img class="align-self-start mr-3" src="https://placeimg.com/64/64/any" alt="Generic placeholder image">
-                <div class="media-body">
-                    <h5 class="mt-0"><a v-bind:href="'/users/' + comment.author">{{comment.author}}</a> am {{comment.created}}</h5>
-                    <p>{{comment.content}}</p>
-                </div>
-            </div>        
-        </div>
-    </div>
+<div id="v-comments">
+    <comment v-for="comment in comments" v-bind:comment="comment"></comment>
 </div>
-
     
 <s:authorize access="hasRole('USER')">
 <div class="row">

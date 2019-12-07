@@ -1,10 +1,15 @@
 var holarse = {};
 holarse.csrf_token  = $("meta[name=_csrf]").attr("content");
 holarse.csrf_header = $("meta[name=_csrf_header]").attr("content");
+    
+Vue.component('comment', {
+    props: ['comment'],
+    template: '#comment-template'
+});
 
 // Kommentarsektion
 var vcomments = new Vue({
-    el: '#v-comments-1',
+    el: '#v-comments',
     data: {
         comments: []
     },
@@ -56,6 +61,10 @@ var vcommenteditor = new Vue({
 var varticleeditor = new Vue({
     el: "#v-article-editor",
     data: {
+        ctrl: {
+            show_additional_titles: false,
+            is_new: true
+        },
         node: {}
     },
     mounted: function () {
@@ -69,14 +78,15 @@ var varticleeditor = new Vue({
         
             $.getJSON("/wiki/" + nodeId + "/edit.json", function (data) {
                 varticleeditor.node = data;
+                varticleeditor.ctrl.is_new = false;
             }).done(function() {
-                $(".additional-titles").hide();
+                varticleeditor.ctrl.show_additional_titles = false;
             });            
         },
         submit: function(event) {
             event.preventDefault();
             $.ajax({
-                url: '/wiki/' + this.node.nodeId,
+                url: '/wiki/' + (varticleeditor.ctrl.is_new ? 'create' : this.node.nodeId),
                 type: 'post',
                 data: this.node,
                 beforeSend: function(request) {
@@ -85,12 +95,9 @@ var varticleeditor = new Vue({
                 dataType: 'json',
                 success: function(result) {
                     console.debug(result);
+                    window.location = result.followUrl;
                 }
             });
-        },
-        toggleAlternativeTitles: function(event) {
-            event.preventDefault();
-            $(".additional-titles").toggle("slow");
         },
         abortEdit: function(event) {
             event.preventDefault();

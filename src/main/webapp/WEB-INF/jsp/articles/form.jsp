@@ -28,7 +28,7 @@
         </div>
 
         <div class="col-md-2">
-            <a href="#" class="btn u-btn-primary btn-block g-mr-10 g-mb-15">
+            <a href="#" v-on:click="submit" class="btn u-btn-primary btn-block g-mr-10 g-mb-15" >
                 <i class="fa fa-save g-mr-5"></i>
                 Speichern
               </a>
@@ -114,16 +114,18 @@
                                             <input id="mainTitle" v-model="node.mainTitle" class="form-control form-control-md rounded-0" placeholder="Titel des Artikels">
                                         </div>
                                         <div class="col-md-2">
-                                            <a href="#" v-on:click="toggleAlternativeTitles" class="btn btn-md u-btn-primary g-mr-10 g-mb-15" title="Klicken f¸r zus‰tzliche Titel">
+                                            <a href="#" v-on:click="ctrl.show_additional_titles = !ctrl.show_additional_titles" class="btn btn-md u-btn-primary g-mr-10 g-mb-15" title="Klicken f¸r zus‰tzliche Titel">
                                                 <i class="fa fa-database"></i>
+                                                <i class="fa fa-plus" v-if='!ctrl.show_additional_titles'></i>
+                                                <i class="fa fa-minus" v-if='ctrl.show_additional_titles'></i>
                                             </a>
                                         </div>
                                 </div>                            
                                 <small class="form-text text-muted g-font-size-default g-mt-10">Der Haupttitel dieses Artikels</small>                            
                    </div>
 
-                   <!-- Zus√§tzliche Titel -->
-                   <div class="additional-titles">
+                   <!-- Zus‰tzliche Titel -->
+                   <div class="additional-titles" v-if="ctrl.show_additional_titles">
                         <div class="form-group g-mb-20">
                             <label class="g-mb-10" for="alternativeTitle1">Alternativtitel 1</label>
                             <input id="alternativeTitle1" v-model="node.alternativeTitle1" class="form-control form-control-md rounded-0" placeholder="Alternativtitel 1">
@@ -145,8 +147,8 @@
 
                    <div class="form-group g-mb-20">
                         <label class="g-mb-10" for="tags">Tags</label>
-                         <input id="tags" v-model="node.tags" class="form-control form-control-md rounded-0" placeholder="Tags eingeben mit Autovervollst√§ndigung">
-                         <small class="form-text text-muted g-font-size-default g-mt-10">Tags, die den Artikel eingruppieren und katalogisieren. Nutzt die Autovervollst√§ndigung, um Tags zu finden</small>
+                         <input id="tags" v-model="node.tags" class="form-control form-control-md rounded-0" placeholder="Tags eingeben mit Autovervollst‰ndigung">
+                         <small class="form-text text-muted g-font-size-default g-mt-10">Tags, die den Artikel eingruppieren und katalogisieren. Nutzt die Autovervollst‰ndigung, um Tags zu finden</small>
                     </div>               
 
                    <div class="form-group g-mb-20">
