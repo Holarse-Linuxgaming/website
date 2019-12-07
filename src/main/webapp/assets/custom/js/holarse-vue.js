@@ -77,6 +77,7 @@ var varticleeditor = new Vue({
         console.debug("Loading article data for nodeid " + nodeId);
         
             $.getJSON("/wiki/" + nodeId + "/edit.json", function (data) {
+                console.debug(data);
                 varticleeditor.node = data;
                 varticleeditor.ctrl.is_new = false;
             }).done(function() {

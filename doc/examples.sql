@@ -6,6 +6,9 @@ ORDER BY ts_rank(document, to_tsquery('german', 'Echtzeit')) DESC;
 -- tagbasierte Suche
 select * from search.mv_Searchindex where tags @> array['Spiele'::varchar, 'Horror'::varchar];
 
+-- suchbeispiel für teilwort und titel
+select * from search.mv_suggestions where word @@ to_tsquery('simple', 'kr:*') and wtype = 1;
+
 -- suchbeispiel für teilwort und tag
 select * from search.mv_suggestions where word @@ to_tsquery('simple', 'kr:*') and wtype = 2;
 

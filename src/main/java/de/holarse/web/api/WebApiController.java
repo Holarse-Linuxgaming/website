@@ -5,8 +5,11 @@ import de.holarse.backend.db.News;
 import de.holarse.backend.db.NodeState;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.NewsRepository;
+import de.holarse.backend.db.repositories.SearchRepository;
 import de.holarse.backend.views.PageVisitResult;
+import de.holarse.search.TagSuggestion;
 import de.holarse.renderer.html.HtmlRenderer;
+import de.holarse.search.SuggestionResult;
 import de.holarse.services.TrafficService;
 
 import java.util.Date;
@@ -18,6 +21,7 @@ import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -46,6 +50,9 @@ public class WebApiController {
 
     @Autowired
     private NewsRepository newsRepo;
+    
+    @Autowired
+    private SearchRepository searchRepository;
        
     @Secured("ROLE_USER")
     @PostMapping("/render/preview")
@@ -58,6 +65,16 @@ public class WebApiController {
             @RequestParam("fromDate") @DateTimeFormat(pattern="yyyy-MM-dd") final Date fromDate, 
             @RequestParam(required = false, name = "untilDate") @DateTimeFormat(pattern="yyyy-MM-dd") final Date untilDate) {
         return new ResponseEntity<>(trafficService.getPageVisits(nodeId, fromDate, untilDate), HttpStatus.OK);
+    }
+    
+    /**
+     * Autovervollständigung von Tag-Eingaben
+     * @param term
+     * @return 
+     */
+    @GetMapping(value = "/autocomplete/tags")
+    public ResponseEntity<List<TagSuggestion>> tagAutocomplete(@RequestParam("term") final String term) {
+        return new ResponseEntity<>(searchRepository.suggestTag(term + ":*", PageRequest.of(0, 10)), HttpStatus.OK);
     }
 
     @Transactional

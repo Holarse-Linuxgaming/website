@@ -1,7 +1,6 @@
 package de.holarse.backend.views;
 
 import de.holarse.backend.db.Attachment;
-import de.holarse.backend.db.Comment;
 import de.holarse.backend.db.types.AttachmentGroup;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +13,7 @@ import java.util.Map;
  */
 public class ArticleView implements PageTitleView {
     
-    private Long nodeId;
+private Long nodeId;
     private String mainTitle;
     private String alternativeTitle1;
     private String alternativeTitle2;
@@ -25,7 +24,6 @@ public class ArticleView implements PageTitleView {
     private String tagLine; // Representation der Eingabezeile für Tags
     private final List<String> tags = new ArrayList<>(20);
     private final Map<AttachmentGroup, List<Attachment>> attachments = new HashMap<>();
-    private final List<Comment> comments = new ArrayList<>(10);
    
     public String getEditUrl() {
         return "/wiki/" + nodeId + "/edit";
@@ -106,14 +104,10 @@ public class ArticleView implements PageTitleView {
     public List<Attachment> getWebsites() {
         return getAttachments().get(AttachmentGroup.WEBSITE);
     }
-    
-    public List<Comment> getComments() {
-        return comments;
-    }    
 
     @Override
     public String getPageTitle() {
         return getMainTitle();
-    }
+    }      
     
 }

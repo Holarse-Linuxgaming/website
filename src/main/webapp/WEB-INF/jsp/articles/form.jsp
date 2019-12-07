@@ -81,7 +81,7 @@
                 <span class="u-nav-v8__icon u-icon-v3 u-icon-size--lg g-rounded-50x g-brd-around g-brd-4 g-brd-white">
                   <i class="fa fa-file-archive-o"></i>
                 </span>
-                <strong class="text-uppercase u-nav-v8__title">Anh√§nge</strong>
+                <strong class="text-uppercase u-nav-v8__title">Anh‰nge</strong>
                 <em class="u-nav-v8__description">Patches, Konfigurationen, usw.</em>
               </a>
             </li>

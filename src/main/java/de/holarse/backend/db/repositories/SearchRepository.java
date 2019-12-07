@@ -3,7 +3,9 @@ package de.holarse.backend.db.repositories;
 import de.holarse.backend.db.Node;
 import de.holarse.search.SearchResult;
 import de.holarse.search.SuggestionResult;
+import de.holarse.search.TagSuggestion;
 import java.util.List;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -48,18 +50,21 @@ public interface SearchRepository extends JpaRepository<Node, Long> {
     /**
      * Durchsucht Tags in der Autovervollständigung,
      * für die Eingabe der Tags beim Artikelbearbeiten
-     * @param tag
+     * @param tag Wird mit :* für die Vervollständigung übergeben
+     * @param pageable
      * @return 
      */
-    @Query(value = "select wlabel from search.mv_suggestions where word @@ to_tsquery('simple', ':tag:*') and wtype = 2", nativeQuery = true)
-    List<SuggestionResult> suggestTag(@Param("tag") final String tag);
+    @Query(value        = "select wlabel as name from search.mv_suggestions where word @@ to_tsquery('simple', :tag) and wtype = 2--#pageable\\n", 
+            countQuery  = "select count(*) from search.mv_suggestions where word @@ to_tsquery('simple', :tag) and wtype = 2",
+            nativeQuery = true)
+    List<TagSuggestion> suggestTag(@Param("tag") final String tag, final Pageable pageable);
     
     /**
      * Durchsucht Artikeltitel in der Autovervollständigung
      * @param title
      * @return 
      */
-    @Query(value = "select wlabel from search.mv_suggestions where word @@ to_tsquery('simple', ':title:*') and wtype = 1", nativeQuery = true)
+    @Query(value = "select wtype, wlabel from search.mv_suggestions where word @@ to_tsquery('simple', '?1:*') and wtype = 1", nativeQuery = true)
     List<SuggestionResult> suggestTitle(@Param("title") final String title);
     
     /**
@@ -67,7 +72,7 @@ public interface SearchRepository extends JpaRepository<Node, Long> {
      * @param qry
      * @return 
      */
-    @Query(value = "select wlabel from search.mv_suggestions where word @@ to_tsquery('simple', ':qry:*')", nativeQuery = true)
+    @Query(value = "select wtype, wlabel from search.mv_suggestions where word @@ to_tsquery('simple', ':qry:*')", nativeQuery = true)
     List<SuggestionResult> suggestAnything(@Param("qry") final String qry);
         
     

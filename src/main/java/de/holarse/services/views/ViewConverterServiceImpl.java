@@ -77,7 +77,6 @@ public class ViewConverterServiceImpl implements ViewConverter {
         
         view.getTags().addAll(article.getTags().stream().map(t -> t.getName()).collect(Collectors.toList()));
         view.getAttachments().putAll(attachmentGroups);
-        view.getComments().addAll(article.getComments());    
         
         return view;
     }
