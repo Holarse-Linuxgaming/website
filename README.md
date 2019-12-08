@@ -42,5 +42,39 @@ Die installierbare WAR-Datei erhält man durch das Bauen mit
     
 im Hauptverzeichnis, wo sich auch die ```pom.xml``` befindet.
 
+
+### Dev-Mode
+
+1.) Tomcat und Postgres installieren
+
+Siehe /doc/tomcat/README.txt
+
+2.) Tomcat anpassen
+
+Dazu im Tomcat-Ordner in `conf/context.xml` einfügen, im "Context"-Block:
+
+`<Context>` wird zu `<Context reloadable="true">`
+
+Damit lädt Tomcat die Anwendung neu, wenn sie gebaut wurde.
+
+Nun wird noch ein Symlink in *webapps* erstellt.
+Falls der Ordner `ROOT` in webapps existiert, wird dieser dann gelöscht.
+
+Danach wird der target Ordner von diesen Repository verlinkt, damit wir darüber
+dann "live" arbeiten können.
+
+`ln -s ~/website/target/holarseweb/ tomcat/webapps/ROOT`
+
+Dann nur noch tomcat starten (`/bin/catalina.sh run`) und man ist zum Arbeiten bereit.
+
+Kleiner Hinweis noch:
+
+Wenn man am Source Code (Keine Template-/HTML-Dateien) arbeitet, muss man mittels *mvn compile*
+diese bauen, damit tomcat die dann "nachlädt".
+
+Template-/HTML-Dateien können in target/holarseweb/ bearbeitet werden (und direkt nachgeladen werden)
+aber werden beim bauen wieder **sofort überschrieben**.
+
+
 ### Login
 Zuerst einen Benutzer anlegen und diesen dann per SQL zum Admin erheben, indem in die Tabelle ```users_roles``` ein Eintrag mit beiden Foreign-Keys angelegt wird.
