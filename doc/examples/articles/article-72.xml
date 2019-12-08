@@ -1,0 +1,169 @@
+<article uid="72" created="2008-05-15T23:07:28+0200">
+    <revision>
+        <created>2016-07-26T10:04:27+0200</created>
+        <author>comrad</author>
+        <revisionId>0</revisionId>
+        <changelog>2</changelog>
+    </revision>
+    <state>
+        <locked>false</locked>
+        <commentable>true</commentable>
+        <draft>false</draft>
+        <published>true</published>
+        <deleted>false</deleted>
+        <archived>false</archived>
+        <ftp>true</ftp>
+        <ftpTools>true</ftpTools>
+        <releaseDate/>
+    </state>
+    <content format="WIKI">
+        <![CDATA[
+        <!--break-->
+===Das Spiel===
+Pingus ist ein Klon des Klassikers Lemmings. Ziel von Pingus ist es, eine Horde von extrem dummen, selbstmörderischen, kleinen Pinguinen in einer vorgeschriebenen Zeit von einem Punkt des Bildschirmes in den Ausgang zu führen. Was sich auf den ersten Anschein sehr leicht anhört, stellt sich in der Praxis teilweise sehr schwer dar und bringt den passionierten Retter oft zur Verzweiflung.
+
+===Grafik & Sound===
+Es gibt Sound und Musik. Die Grafik ist stimmig.
+
+===Installation===
+Pingus ist bei den meisten Distributionen schon im Repository dabei. Wer dennoch die Sourcen benutzen will geht so vor:
+
+====Abhängigkeiten installieren====
+Benötigte Tools/Libs:
+* g++
+* SDL 
+* SDL_mixer
+* SDL_image
+* boost
+* boost-signals
+* libpng
+* scons
+
+Befehl für Ubuntu:
+[code]
+sudo apt-get install scons g++ libpng12-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl1.2-dev libboost-signals-dev libboost-dev
+[/code]
+
+====Spiel kompilieren====
+Entpackt die Sourcen:
+[code]
+tar jxf pingus-0.7.3.tar.bz2
+[/code]
+Wechselt in das Verzeichnis 
+[code]
+cd pingus-0.7.3/
+[/code]
+und führt
+[code]
+scons
+[/code]
+aus.
+
+Das Spiel kann nun wie folgt gestartet werden:
+[code]
+./pingus
+[/code]
+
+Wer möchte kann das Spiel auch noch in einen Zielordner installieren:
+[code]
+./install.sh DIR # DIR gegen den Zielordner austauschen!
+[/code]
+
+===Startparameter===
+Hier einige nützliche Startparameter:
+[code]
+./pingus --list-languages #Verfügbare Sprachen abfragen
+./pingus --language de #Pingus auf deutsch starten
+./pingus --fullscreen
+./pingus -g 1024x768 # Auflösung festlegen
+./pingus -g 640x480 --frame-skip 3 # Für langsame Computer
+[/code]
+===Level installieren===
+Ihr müsst zuerst rausfinden wo ihr Pingus installiert habt.
+
+Bei mir (Debian) ist das:
+
+/usr/share/games/pingus
+
+nun extrahiert ihr die Level:
+[code]
+tar jxf pingus-0.6.0-level-ok.tar.bz2
+[/code]
+Kopiert nun die Level nach /usr/share/games/pingus/levels
+[code]
+cd pingus-0.6.0-binary-linux-i386/share/games/pingus/
+levels/
+sudo cp -rf ok /usr/share/games/pingus/
+[/code]
+
+Jetzt habt ihr die Level installiert.
+
+===Level starten===
+Um sie zu starten benötigt ihr das pingus-0.6.0-util.tar.bz2 Script.
+Entpackt es:
+[code]
+tar jxf pingus-0.6.0-util.tar.bz2
+[/code]
+es liegt jetzt in pingus-0.6.0-binary-linux-i386/games/ 
+Das Script benötigt zenity um zu funktionieren.
+
+Da das Script davon ausgeht, dass ihr Pingus in eurem Homeverzeichniss installiert habt müssen wir es anpassen.
+
+Nachfolgend meine Anpassung für ein Debian System. Bei anderen Distributionen sind vielleicht ein paar Modifikationen nötig.
+[code]
+#!/bin/sh
+
+PINGUS_DIR=/usr/share
+
+[ -x $PINGUS_DIR/games/pingus ] || PINGUS_DIR=$(pwd)/$(dirname $0)/.. [ -x $PINGUS_DIR/games/pingus ] || PINGUS_DIR=$(dirname $0)/.. [ -f /$(type -P zenity) ] || echo zenity not found cd $PINGUS_DIR/games/pingus/levels/ok exec >/dev/null 2>&1 f=1 while [ "$f" != "" ] do f="$(zenity --title="Last Level: $(cat ~/.pingus.last)" --file-selection)" [ "$f" != "" ] && echo $(basename $f) > ~/.pingus.last cd $PINGUS_DIR/games/pingus if grep -q "<pingus-demo>" $f /dev/null then pingus -r "" -p $f "$@" else pingus $f "$@" fi cd $(dirname $f) done
+[/code]
+Nun kopiert ihr noch das Skript nach /usr/local/bin und macht es ausführbar.
+[code]
+sudo cp pingus_level /usr/local/bin
+chmod +x /usr/local/bin/pingus_level
+[/code]
+Fertig!]]>
+    </content>
+    <titles>
+        <title type="MAIN">Pingus</title>
+    </titles>
+    <tags>
+        <tag>Lemmings</tag>
+        <tag>Clone</tag>
+        <tag>Strategie</tag>
+        <tag>Spiele</tag>
+        <tag>Open Source</tag>
+        <tag>native</tag>
+        <tag>Kinder</tag>
+    </tags>
+    <attachments>
+        <attachment prio="0" type="LINK" group="WEBSITE">
+            <content>http://pingus.seul.org/</content>
+            <description>Webseite</description>
+        </attachment>
+        <attachment type="PROTONOFFICIAL" group="WINE">
+            <content>false</content>
+            <description/>
+        </attachment>
+        <attachment type="YOUTUBE" group="VIDEO">
+            <content>OO_kKpFasZs</content>
+            <description/>
+        </attachment>
+        <attachment type="YOUTUBE" group="VIDEO">
+            <content>ZpUveKvGmj0</content>
+            <description/>
+        </attachment>
+        <attachment prio="1" type="SCREENSHOT" group="IMAGE">
+            <content>sites/default/files/8/pingus-193554.jpg</content>
+            <description/>
+        </attachment>
+        <attachment prio="2" type="SCREENSHOT" group="IMAGE">
+            <content>sites/default/files/8/pingus-193541.jpg</content>
+            <description/>
+        </attachment>
+        <attachment prio="3" type="SCREENSHOT" group="IMAGE">
+            <content>sites/default/files/8/pingus-193630.jpg</content>
+            <description/>
+        </attachment>
+    </attachments>
+</article>
