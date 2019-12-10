@@ -92,11 +92,16 @@ public class WikiLinkMode implements Mode {
     public StringBuilder render() {
         StringBuilder targetResult = new StringBuilder(100);
         String target = targetBuffer.toString();
+        String cssClass = null;
     
         if (!target.toUpperCase().startsWith("HTTP")) {
+            // internal link
             targetResult.append("/wiki/").append(WebUtils.slugify(target));
+            cssClass = "internal-link";
         } else {
+            // external link
             targetResult.append(target);
+            cssClass = "external-link";
         }
         
         if (labelBuffer.length() == 0) {
@@ -105,7 +110,7 @@ public class WikiLinkMode implements Mode {
         String label = labelBuffer.toString().trim();        
         
         final StringBuilder result = new StringBuilder(100);
-        result.append("<a href=\"").append(targetResult).append("\">").append(label).append("</a>");
+        result.append("<a href=\"").append(targetResult).append("\" class=\"").append(cssClass).append("\">").append(label).append("</a>");
         return result;
     }
 
