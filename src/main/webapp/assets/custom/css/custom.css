@@ -98,3 +98,7 @@ button.u-btn-primary:hover, button.u-btn-primary.active {
 a .u-nav-v8__title {
     color: #fff !important;
 }
+
+a.external-link:after {
+  font-family: 'FontAwesome'; content: " \f08e";
+}
