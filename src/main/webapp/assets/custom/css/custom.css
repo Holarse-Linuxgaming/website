@@ -99,6 +99,6 @@ a .u-nav-v8__title {
     color: #fff !important;
 }
 
-a.external-link:after {
+a.external-link::after {
   font-family: 'FontAwesome'; content: " \f08e";
 }
