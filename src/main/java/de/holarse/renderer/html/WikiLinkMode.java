@@ -14,7 +14,12 @@ public class WikiLinkMode implements Mode {
     
     private boolean complete = false;
     
-    private boolean internalLink, externalLink = false;
+    private enum LinkType {
+        internal,
+        external
+    }
+    
+    private LinkType linkType = LinkType.internal;
     
     private boolean labelMode = false;
 
@@ -34,44 +39,48 @@ public class WikiLinkMode implements Mode {
         }
         
         if (count == 2) {
-            externalLink = false;
-            internalLink = true;
+            linkType = LinkType.internal;
         } else if (count == 1) {
-            internalLink = false;
-            externalLink = true;
+            linkType = LinkType.external;
         }
 
         // Zeichen hinzufügen, mit Sonderzeichenunterstützung
         if (ch != '[' && ch != ']') {
-            if (internalLink) {
-                if (ch == '|') {
-                    buffer = labelBuffer; // Wechseln
-                    labelMode = true;
-                } else {
-                    buffer.append(ch);
-                }
-            } else if (externalLink) {
-                switch(ch) {
-                    case ' ':
-                        // Wechseln, wenn noch im Targetmodus
-                        if (!labelMode) {
-                            buffer = labelBuffer;
-                            labelMode = true;
-                        } else {
-                            buffer.append(ch);
-                        }
-                        break;                        
-                    case '|':
-                        // Wechseln, wenn noch im Targetmodus
-                        if (!labelMode) {
-                            buffer = labelBuffer;
-                            labelMode = true;
-                        }                        
-                        break;
-                    default:
-                        // In den Buffer eintragen
+            switch (linkType) {
+                case internal:
+                    if (ch == '|') {
+                        buffer = labelBuffer; // Wechseln
+                        labelMode = true;
+                    } else {
                         buffer.append(ch);
-                }
+                    }                    
+                    break;
+                case external:
+                    switch(ch) {
+                        case ' ':
+                            // Wechseln, wenn noch im Targetmodus
+                            if (!labelMode) {
+                                buffer = labelBuffer;
+                                labelMode = true;
+                            } else {
+                                buffer.append(ch);
+                            }
+                            break;                        
+                        case '|':
+                            // Wechseln, wenn noch im Targetmodus
+                            if (!labelMode) {
+                                buffer = labelBuffer;
+                                labelMode = true;
+                            }                        
+                            break;
+                        default:
+                            // In den Buffer eintragen
+                            buffer.append(ch);
+                    }                    
+                    break;
+                default:
+                    throw new IllegalStateException("Unbehandelter Linkmodus: " + linkType);
+                    
             }
         }
         
@@ -90,21 +99,21 @@ public class WikiLinkMode implements Mode {
 
     @Override
     public StringBuilder render() {
+        
+        
         StringBuilder targetResult = new StringBuilder(100);
         String linkTarget = targetBuffer.toString();
         String targetMode = null;
         String cssClass = null;
     
-        if (!linkTarget.toUpperCase().startsWith("HTTP")) {
-            // internal link
-            targetResult.append("/wiki/").append(WebUtils.slugify(linkTarget));
-            targetMode = "_self";
-            cssClass = "internal-link";
-        } else {
+        if (LinkType.external.equals(linkType) && linkTarget.toUpperCase().startsWith("HTTP")) { 
             // external link
             targetResult.append(linkTarget);
             targetMode = "_blank";
             cssClass = "external-link";
+        } else {
+            // internal link
+            targetResult.append("/wiki/").append(WebUtils.slugify(linkTarget));
         }
         
         if (labelBuffer.length() == 0) {
@@ -114,10 +123,19 @@ public class WikiLinkMode implements Mode {
         
         final StringBuilder result = new StringBuilder(100);
         result.append("<a").append(" href=\"").append(targetResult).append("\"");
-                           .append(" target=\"").append(targetMode).append("\"");
-                           .append(" class=\"").append(cssClass).append("\">")
-                           .append(label)
-                           .append("</a>");
+
+        // CSS-Klasse setzen
+        if (cssClass != null) {
+            result.append(" class=\"") .append(cssClass).append("\"");        
+        }        
+        
+        // Target-Modus setzen        
+        if (targetMode != null) {        
+            result.append(" target=\"").append(targetMode)     .append("\"");
+        }
+        
+        result.append(">").append(label).append("</a>");
+
         return result;
     }
 

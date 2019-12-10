@@ -140,32 +140,32 @@ public class HtmlRendererTest {
 
     @Test    
     public void testExternalLink() {
-        assertEquals("<a href=\"http://heise.de\">http://heise.de</a>", renderer.render("[http://heise.de]"));
+        assertEquals("<a href=\"http://heise.de\" class=\"external-link\" target=\"_blank\">http://heise.de</a>", renderer.render("[http://heise.de]"));
     }       
     
     @Test    
     public void testExternalSslLink() {
-        assertEquals("<a href=\"https://heise.de\">https://heise.de</a>", renderer.render("[https://heise.de]"));
+        assertEquals("<a href=\"https://heise.de\" class=\"external-link\" target=\"_blank\">https://heise.de</a>", renderer.render("[https://heise.de]"));
     }          
     
     @Test    
     public void testExternalLinkWithLabelWhitespace() {
-        assertEquals("<a href=\"http://heise.de\">Seite</a>", renderer.render("[http://heise.de Seite]"));
+        assertEquals("<a href=\"http://heise.de\" class=\"external-link\" target=\"_blank\">Seite</a>", renderer.render("[http://heise.de Seite]"));
     }    
     
     @Test    
     public void testExternalLinkWithLabelWhitespaces() {
-        assertEquals("<a href=\"http://heise.de\">Seite mit Leerzeichen</a>", renderer.render("[http://heise.de Seite mit Leerzeichen]"));
+        assertEquals("<a href=\"http://heise.de\" class=\"external-link\" target=\"_blank\">Seite mit Leerzeichen</a>", renderer.render("[http://heise.de Seite mit Leerzeichen]"));
     }   
     
     @Test    
     public void testExternalLinkWithLabelWhitespacesAndColon() {
-        assertEquals("<a href=\"http://heise.de\">Seite mit Leerzeichen: So gut</a>", renderer.render("[http://heise.de Seite mit Leerzeichen: So gut]"));
+        assertEquals("<a href=\"http://heise.de\" class=\"external-link\" target=\"_blank\">Seite mit Leerzeichen: So gut</a>", renderer.render("[http://heise.de Seite mit Leerzeichen: So gut]"));
     }     
     
     @Test    
     public void testExternalLinkWithLabelPipe() {
-        assertEquals("<a href=\"http://heise.de\">Seite</a>", renderer.render("[http://heise.de|Seite]"));
+        assertEquals("<a href=\"http://heise.de\" class=\"external-link\" target=\"_blank\">Seite</a>", renderer.render("[http://heise.de|Seite]"));
     }    
     
     /**
