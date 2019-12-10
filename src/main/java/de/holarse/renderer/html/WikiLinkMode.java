@@ -91,16 +91,19 @@ public class WikiLinkMode implements Mode {
     @Override
     public StringBuilder render() {
         StringBuilder targetResult = new StringBuilder(100);
-        String target = targetBuffer.toString();
+        String linkTarget = targetBuffer.toString();
+        String targetMode = null;
         String cssClass = null;
     
-        if (!target.toUpperCase().startsWith("HTTP")) {
+        if (!linkTarget.toUpperCase().startsWith("HTTP")) {
             // internal link
-            targetResult.append("/wiki/").append(WebUtils.slugify(target));
+            targetResult.append("/wiki/").append(WebUtils.slugify(linkTarget));
+            targetMode = "_self";
             cssClass = "internal-link";
         } else {
             // external link
-            targetResult.append(target);
+            targetResult.append(linkTarget);
+            targetMode = "_blank";
             cssClass = "external-link";
         }
         
@@ -110,7 +113,11 @@ public class WikiLinkMode implements Mode {
         String label = labelBuffer.toString().trim();        
         
         final StringBuilder result = new StringBuilder(100);
-        result.append("<a href=\"").append(targetResult).append("\" class=\"").append(cssClass).append("\">").append(label).append("</a>");
+        result.append("<a").append(" href=\"").append(targetResult).append("\"");
+                           .append(" target=\"").append(targetMode).append("\"");
+                           .append(" class=\"").append(cssClass).append("\">")
+                           .append(label)
+                           .append("</a>");
         return result;
     }
 
