@@ -1,15 +1,18 @@
 package de.holarse.web.search;
 
+import javax.validation.constraints.Size;
+
 public class SearchCommand {
 
-    private String query;
+    @Size(min = 3, max=30)
+    private String term;
 
-    public String getQuery() {
-        return query;
+    public String getTerm() {
+        return term;
     }
 
-    public void setQuery(String query) {
-        this.query = query;
+    public void setTerm(String term) {
+        this.term = term;
     }
     
 }

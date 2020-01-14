@@ -294,7 +294,7 @@
                     <form id="searchform-1" class="u-searchform-v1" method="POST" action="/search">
                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         <div class="input-group g-brd-primary--focus">
-                            <input class="form-control rounded-0 u-form-control" type="search" placeholder="Linuxspiele finden..." id="query" name="query">
+                            <input class="form-control rounded-0 u-form-control" type="search" placeholder="Linuxspiele finden..." id="query" name="term" value="${term}">
                             <div class="input-group-addon p-0">
                                 <button class="btn rounded-0 btn-primary btn-md g-font-size-14 g-px-18" type="submit">
                                     <i class="fa fa-search"></i>

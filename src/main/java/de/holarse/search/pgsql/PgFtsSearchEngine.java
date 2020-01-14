@@ -30,7 +30,7 @@ public class PgFtsSearchEngine implements SearchEngine {
     @Override
     public List<SearchResult> searchByTags(final Collection<Tag> tags, final String query) {
         // Tags in das von Postgres nötige Format bringen
-        var _tags = tags.stream().map(t -> "'" + t.getName() + "'::character varying").collect(Collectors.joining(","));
+        String _tags = tags.stream().map(t -> t.getName()).collect(Collectors.joining(";"));
         
         if (StringUtils.isBlank(query)) 
             return searchRepository.searchTags(_tags);

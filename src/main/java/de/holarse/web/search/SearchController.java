@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,20 +41,24 @@ public class SearchController {
 
     // Suchanfrage entgegennehmen
     @PostMapping
-    public RedirectView searchResult(@ModelAttribute @Valid final SearchCommand command, final Model map, final HttpServletRequest req) throws UnsupportedEncodingException {
-        return new RedirectView("/search?q=" + URLEncoder.encode(command.getQuery(), "UTF-8"), false, false, false);
+    public RedirectView searchResult(@ModelAttribute @Valid final SearchCommand command, final BindingResult result, final Model map, final HttpServletRequest req) throws UnsupportedEncodingException {
+        logger.debug("Term: " + command.getTerm());
+        if (result.hasErrors())
+            return new RedirectView("error");
+        
+        return new RedirectView("/search?term=" + URLEncoder.encode(command.getTerm(), "UTF-8"), false, false, false);
     }
     
     // Als Get verlinkbar machen
     @GetMapping
-    public String searchUrl(@RequestParam("q") final String query, final Model map, final HttpServletRequest req) throws UnsupportedEncodingException {
+    public String searchUrl(@RequestParam("term") final String query, final Model map, final HttpServletRequest req) throws UnsupportedEncodingException {
         final SearchResultsView view = new SearchResultsView(query);
         
         final String decodedQuery = URLDecoder.decode(query, "UTF-8");
         final List<SearchResultView> results = searchEngine.search(decodedQuery).stream().map(s -> new SearchResultView(s)).collect(Collectors.toList());
         view.getResults().addAll(results);
 
-        map.addAttribute("q", decodedQuery);
+        map.addAttribute("term", decodedQuery);
         
         map.addAttribute("view", view);
         return "search/result";
