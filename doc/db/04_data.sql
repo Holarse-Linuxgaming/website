@@ -5,6 +5,7 @@ insert into roles (id, code, clearancelevel) values (nextval('hibernate_sequence
 insert into roles (id, code, clearancelevel) values (nextval('hibernate_sequence'), 'REPORTER', 250);
 insert into roles (id, code, clearancelevel) values (nextval('hibernate_sequence'), 'TRUSTED_USER', 500);
 
+-- Taggruppen
 insert into taggroups(id, name) values (nextval('hibernate_sequence'), 'LICENSE');
 insert into taggroups(id, name) values (nextval('hibernate_sequence'), 'GENRE');
 insert into taggroups(id, name) values (nextval('hibernate_sequence'), 'MULTIPLAYER');
@@ -13,6 +14,10 @@ insert into taggroups(id, name) values (nextval('hibernate_sequence'), 'FRANCHIS
 insert into taggroups(id, name) values (nextval('hibernate_sequence'), 'COMPANY');
 insert into taggroups(id, name) values (nextval('hibernate_sequence'), 'DEVELOPER');
 insert into taggroups(id, name) values (nextval('hibernate_sequence'), 'PUBLISHER');
+insert into taggroups(id, name) values (nextval('hibernate_sequence'), 'PORTER');
+insert into taggroups(id, name) values (nextval('hibernate_sequence'), 'PLATFORM');
+insert into taggroups(id, name) values (nextval('hibernate_sequence'), 'TECHNICAL');
+insert into taggroups(id, name) values (nextval('hibernate_sequence'), 'ENGINE');
 
 -- dummy apiuser, Passwort geheim
 insert into apiusers (id, login, rolename, token) values (nextval('hibernate_sequence'), 'dummy', 'API_IMPORT', 'ADDB0F5E7826C857D7376D1BD9BC33C0C544790A2EAC96144A8AF22B1298C940'); -- geheim

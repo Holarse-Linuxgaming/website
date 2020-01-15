@@ -1,0 +1,26 @@
+update tags set taggroup_id = (select id from taggroups where name = 'FRANCHISE')
+where name in (
+    'Anno',
+    'assasin',
+    'Caesar',
+    'Command & Conquer',
+    'Descent',
+    'Doom',
+    'Elite',
+    'Final Fantasy',
+    'GTA',
+    'Lemmings',
+    'quake3',
+    'SAGE',
+    'Sauerbraten',
+    'Siedler',
+    'spring',
+    'Star Trek',
+    'star wars',
+    'Tomb Raider',
+    'Total War',
+    'Tropico',
+    'Warhammer 40k',
+    'Wolfenstein',
+    'X-Universum'
+);
