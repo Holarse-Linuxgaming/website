@@ -78,10 +78,10 @@
                             <a href="/finder" class="nav-link px-0">Spielefinder</a>
                         </li>
                         <li class="nav-item g-mx-20--lg active">
-                            <a href="/server" class="nav-link px-0">Server</a>
+                            <a href="/finder/?tags=dedicated%20server" class="nav-link px-0">Server</a>
                         </li>
                         <li class="nav-item g-mx-20--lg">
-                            <a href="/community" class="nav-link px-0">Community</a>
+                            <a href="/forum" class="nav-link px-0">Community</a>
                         </li>
                         <!-- Mega Menu Item -->
                         <li class="hs-has-mega-menu nav-item g-mx-20--lg" data-animation-in="fadeIn" data-animation-out="fadeOut" data-position="right">
