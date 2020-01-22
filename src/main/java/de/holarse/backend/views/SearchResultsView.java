@@ -13,6 +13,17 @@ public class SearchResultsView implements PageTitleView {
     }
 
     @Override
+    public String getUrl() {
+        return String.format("/search?term=%s", searchTerm);
+    }
+
+    @Override
+    public String getEditUrl() {
+        throw new UnsupportedOperationException("Not supported yet."); // Wird nicht verwendet
+    }
+    
+
+    @Override
     public String getPageTitle() {
         final StringBuilder buffer = new StringBuilder();
         buffer.append("Suche nach '").append(searchTerm).append("' mit ").append(count()).append(" Ergebnissen");        
@@ -33,6 +44,16 @@ public class SearchResultsView implements PageTitleView {
 
     public List<SearchResultView> getResults() {
         return results;
+    }
+
+    @Override
+    public String getFormattedContent() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getPlainContent() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

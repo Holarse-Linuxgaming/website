@@ -11,12 +11,12 @@ Available Articles:
         </tr>
     </thead>
     <tbody>
-        <c:forEach items="${nodes}" var="node">    
+        <c:forEach items="${views}" var="view">    
             <tr>
-                <td>${node.id}</td>
-                <td><a href="${node.url}">${node.title}</a></td>
-                <td>${empty node.author.login ? "unbekannt" : node.author.login}</td>
-                <td>${empty node.updated ? node.created : node.updated}</td>
+                <td>${view.nodeId}</td>
+                <td><a href="${view.url}">${view.mainTitle}</a></td>
+                <td></td>
+                <td></td>
             </tr>
         </c:forEach>
     </tbody>

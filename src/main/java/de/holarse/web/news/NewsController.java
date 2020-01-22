@@ -10,8 +10,11 @@ import de.holarse.backend.db.repositories.NewsRepository;
 import de.holarse.backend.db.repositories.RevisionRepository;
 import de.holarse.backend.views.NewsView;
 import de.holarse.exceptions.RedirectException;
+import de.holarse.exceptions.HolarseException;
 import de.holarse.search.SearchEngine;
 import de.holarse.services.NodeService;
+import de.holarse.services.views.ConverterOptions;
+import de.holarse.services.views.ViewConverter;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.stream.Collectors;
@@ -21,6 +24,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
@@ -31,6 +36,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -52,11 +58,24 @@ public class NewsController {
 
     @Autowired
     NodeService nodeService;
+    
+    @Autowired
+    ViewConverter viewConverter;    
 
     // INDEX
+    @Transactional
     @GetMapping
-    public String index(final Model map) {
-        map.addAttribute("views", newsRepository.findAll(Sort.by(Sort.Direction.DESC, "updated", "created")).stream().map(n -> new NewsView(n)).collect(Collectors.toList()));
+    public String index(@RequestParam(name= "page", defaultValue = "0") final int page, @RequestParam(name = "pageSize", defaultValue = "30") final int pageSize, final Model map) {
+        map.addAttribute("views", newsRepository.findAll(PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, "updated", "created")))
+                .stream()
+                .map(n -> {
+                        Hibernate.initialize(n.getComments());            
+                        Hibernate.initialize(n.getAttachments());
+                        
+                        return n;
+                })
+                .map(n -> viewConverter.convert(n, new NewsView(), ConverterOptions.WITH_RENDERER))
+                .collect(Collectors.toList()));
 
         return "news/index";
     }
@@ -103,14 +122,17 @@ public class NewsController {
     // SHOW by Slug
     @Transactional
     @GetMapping("{slug}")
-    public ModelAndView show(@PathVariable final String slug, final Model map) {  
+    public ModelAndView show(@PathVariable("slug") final String slug, final Model map) {  
         try {
             final News node = nodeService.findNews(slug).get();
             Hibernate.initialize(node.getComments());            
             Hibernate.initialize(node.getAttachments());
             
+            if (!nodeService.isPublicViewable(node))
+                throw new HolarseException("News nicht mehr verfügbar");
+            
             // View-Objekt erzeugen
-            NewsView view = new NewsView(node);
+            NewsView view = viewConverter.convert(node, new NewsView(), ConverterOptions.WITH_RENDERER);
             
             // View übergeben
             map.addAttribute("view", view);

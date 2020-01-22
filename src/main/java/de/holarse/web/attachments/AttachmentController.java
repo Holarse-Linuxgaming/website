@@ -21,12 +21,12 @@ public class AttachmentController {
     @Autowired
     private AttachmentRepository ar; 
     
-    @GetMapping(value = "/node/{nodeId}/attachments", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/node/{nodeId}/attachments", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Attachment>> index(@PathVariable("nodeId") final Long nodeId) {
         return new ResponseEntity<>(ar.findByNodeId(nodeId), HttpStatus.OK);
     }
     
-    @GetMapping(value = "/node/{nodeId}/attachments/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/node/{nodeId}/attachments/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Attachment> show(@PathVariable("nodeId") final Long nodeId, @PathVariable("id") final Long id) {
         return new ResponseEntity<>(ar.findById(id).get(), HttpStatus.OK);
     }

@@ -32,3 +32,7 @@ insert into forums(id, title, description, slug) values
 (nextval('hibernate_sequence'), 'Windows/Wine etc', 'Rund um Windows-Spiele, Spielen mit Wine, Codeweavers oder Proton','windows-wine-etc'), 
 (nextval('hibernate_sequence'), 'Open Source', 'Fragen rund um FOSS','open-source'), 
 (nextval('hibernate_sequence'), 'Off-Topic', 'Was sonst irgendwo passt', 'off-topic');
+
+-- tags erweitern
+alter table tags add column use_count bigint default 0;
+update tags set use_count = (select count(1) from articles_tags where tags_id = id);

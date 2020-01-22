@@ -3,6 +3,8 @@ package de.holarse.interceptor;
 import de.holarse.auth.web.HolarsePrincipal;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.UserRepository;
+import de.holarse.backend.db.repositories.TagRepository;
+import de.holarse.backend.views.MainMenuView;
 import de.holarse.backend.views.PageTitleView;
 import de.holarse.backend.views.View;
 import de.holarse.services.TrafficService;
@@ -28,7 +30,10 @@ public class PagePopulationInterceptor extends HandlerInterceptorAdapter {
     private UserRepository userRepository;
     
     @Autowired
-    private TrafficService trafficService;     
+    private TrafficService trafficService;  
+    
+    @Autowired
+    private TagRepository tagRepository;
     
     @Value("${git.commit.id.describe}")
     private String commitIdDescribe;
@@ -68,7 +73,14 @@ public class PagePopulationInterceptor extends HandlerInterceptorAdapter {
             
             final Long nodeId = (Long) mav.getModel().getOrDefault("nodeId", 0L);
             trafficService.saveRequest(request, response, nodeId);
+            
+            // Menü erstellen
+            mav.getModel().putIfAbsent("mainMenu", createMenuView());
         }
+    }
+    
+    protected MainMenuView createMenuView() {
+        return new MainMenuView();
     }
     
 }

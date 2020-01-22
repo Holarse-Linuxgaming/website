@@ -274,8 +274,22 @@ public class NodeService {
         revisionRepository.saveAndFlush(revision);        
     }
     
+    /**
+     * Prüft ob eine Node grundsätzlich bearbeitet werden kann
+     * @param node
+     * @return 
+     */
     public boolean isEditable(final Node node) {
         return (node != null && !node.getArchived() && !node.getDeleted() && !node.getLocked());
     }    
+    
+    /**
+     * Gibt an, ob eine Node grundsätzlich öffentlich einsehbar ist
+     * @param node
+     * @return 
+     */
+    public boolean isPublicViewable(final Node node) {
+        return (node != null && !node.getDraft() && node.getPublished() && !node.getDeleted());
+    }
    
 }

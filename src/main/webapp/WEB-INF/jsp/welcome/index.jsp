@@ -2,7 +2,8 @@
 
 <ul>
     <li>See a list of all users: <a href="users/">All users</a>.</li>
-    <li>See a list of all users: <a href="wiki/">All articles</a>.</li>
+    <li>See a list of all articles: <a href="wiki/">All articles</a>.</li>
+    <li>See a list of all news: <a href="news/">All news</a>.</li>
 </ul>
 
 Was hier noch so erscheinen soll:

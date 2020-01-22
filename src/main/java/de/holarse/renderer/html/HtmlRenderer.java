@@ -1,9 +1,12 @@
 package de.holarse.renderer.html;
 
+import de.holarse.drupal.Drupal6PasswordEncoder;
 import de.holarse.renderer.Mode;
 import de.holarse.renderer.Renderer;
 import de.holarse.renderer.input.element.*;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +14,8 @@ import org.springframework.stereotype.Component;
 @Qualifier("wikiRenderer")
 public class HtmlRenderer implements Renderer {
 
+    Logger log = LoggerFactory.getLogger(Drupal6PasswordEncoder.class);
+    
     protected Mode selectMode(char cchar, String source, int i) {
         if (UnorderedListElement.matches(cchar)) {
             return new UnorderedListMode();
@@ -55,7 +60,6 @@ public class HtmlRenderer implements Renderer {
         return null; //new ParagraphMode();
     }
            
-    
     @Override
     public String render(final String source) {
         if (StringUtils.isBlank(source)) {

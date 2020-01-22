@@ -17,11 +17,12 @@
 package de.holarse.services.views;
 
 import de.holarse.backend.db.Article;
+import de.holarse.backend.db.News;
 import de.holarse.backend.db.Attachment;
 import de.holarse.backend.db.types.AttachmentGroup;
 import de.holarse.backend.views.ArticleView;
+import de.holarse.backend.views.NewsView;
 import de.holarse.renderer.Renderer;
-import de.holarse.web.articles.ArticleController;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -56,7 +57,8 @@ public class ViewConverterServiceImpl implements ViewConverter {
                 .stream()
                 .filter(a -> StringUtils.isNotBlank(a.getAttachmentData()))
                 .collect(Collectors.groupingBy(a -> a.getAttachmentGroup()));
-
+        view.getAttachments().putAll(attachmentGroups);
+        
         logger.debug("Content: {}", article.getContent());
 
         view.setNodeId(article.getNodeId());
@@ -64,21 +66,67 @@ public class ViewConverterServiceImpl implements ViewConverter {
         view.setAlternativeTitle1(article.getAlternativeTitle1());
         view.setAlternativeTitle2(article.getAlternativeTitle2());
         view.setAlternativeTitle3(article.getAlternativeTitle3());
+        view.setSlug(article.getSlug());
+        
         switch (options) {
             case WITHOUT_RENDERER:
                 view.setContent(article.getContent());
                 break;
             case WITH_RENDERER:
-                view.setContent( renderer.render(article.getContent() ));
+                try {
+                    view.setContent( renderer.render(article.getContent() ));
+                } catch (Exception e) {
+                    logger.warn("Fehler beim Rendern in Article Id=" + article.getId(), e);
+                    view.setContent("");
+                }
                 break;
             default:
                 throw new IllegalArgumentException("Unbehandelte ConverterOption " + options);
         }
         
         view.getTags().addAll(article.getTags().stream().map(t -> t.getName()).collect(Collectors.toList()));
-        view.getAttachments().putAll(attachmentGroups);
         
         return view;
     }
+    
+    @Override
+    public NewsView convert(final News news, final NewsView view, final ConverterOptions options) {
+        if (view == null) {
+            throw new IllegalArgumentException("NewsView was not prepared");
+        }
+        
+        final Map<AttachmentGroup, List<Attachment>> attachmentGroups = news.getAttachments()
+                .stream()
+                .filter(a -> StringUtils.isNotBlank(a.getAttachmentData()))
+                .collect(Collectors.groupingBy(a -> a.getAttachmentGroup()));
+        view.getAttachments().putAll(attachmentGroups);
+        
+        logger.debug("Content: {}", news.getContent());
+
+        view.setNodeId(news.getNodeId());
+        view.setTitle(news.getTitle());
+        view.setSubtitle(news.getSubtitle());
+        view.setSlug(news.getSlug());
+        
+        switch (options) {
+            case WITHOUT_RENDERER:
+                view.setContent(news.getContent());
+                break;
+            case WITH_RENDERER:
+                try {
+                    view.setContent( renderer.render(news.getContent() ));
+                } catch (Exception e) {
+                    logger.warn("Fehler beim Rendern in News Id=" + news.getId(), e);
+                    view.setContent("");
+                }
+                break;
+            default:
+                throw new IllegalArgumentException("Unbehandelte ConverterOption " + options);
+        }
+        
+
+        
+        return view;
+    }    
     
 }

@@ -17,12 +17,16 @@
 package de.holarse.services.views;
 
 import de.holarse.backend.db.Article;
+import de.holarse.backend.db.News;
 import de.holarse.backend.views.ArticleView;
+import de.holarse.backend.views.NewsView;
 
 public interface ViewConverter {
     
     
     ArticleView convert(Article article);
     ArticleView convert(Article article, ArticleView view, ConverterOptions options);
+    
+    NewsView convert(News news, NewsView view, ConverterOptions options);
     
 }

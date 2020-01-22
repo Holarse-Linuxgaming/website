@@ -14,6 +14,9 @@ public class Tag extends Base {
 
     private Long weight;
     
+    @Column(name = "use_count")
+    private Long useCount;
+    
     @OneToOne
     private Tag alias;
 
@@ -70,6 +73,14 @@ public class Tag extends Base {
         this.name = name;
     }
 
+    public Long getUseCount() {
+        return useCount;
+    }
+
+    public void setUseCount(Long useCount) {
+        this.useCount = useCount;
+    }
+
     @Override
     public String toString() {
         return "Tag{" +
@@ -77,6 +88,7 @@ public class Tag extends Base {
                 ", legacyId=" + legacyId +
                 ", alias=" + alias +
                 ", tagGroup=" + tagGroup +
+                ", useCount=" + useCount +
                 '}';
     }
 }

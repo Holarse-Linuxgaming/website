@@ -52,7 +52,7 @@ public class CommentController {
     Renderer renderer;
     
     @Transactional
-    @GetMapping(value = "/nodes/comments", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/nodes/comments", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Collection<CommentView>> comments(@RequestParam("nodeId") final Long nodeId) {
         final Collection<CommentView> comments = commentRepository.findNodeComments(nodeId).stream()
                                                                                            .map(CommentView::new)

@@ -66,7 +66,8 @@ create materialized view search.mv_suggestions as
         to_tsvector('english', coalesce(a.alternativetitle2, '')) ||
         to_tsvector('english', coalesce(a.alternativetitle3, '')) as word,
         a.title as wlabel,
-        'title'::suggestiontype as wtype
+        'title'::suggestiontype as wtype,
+        0 as use_count
     from articles a
 
     union
@@ -75,7 +76,8 @@ create materialized view search.mv_suggestions as
     select
         to_tsvector('simple', coalesce(t.name, '')) as word,
         t.name as wlabel,
-        'tag'::suggestiontype as wtype
+        'tag'::suggestiontype as wtype,
+        (select count(1) from articles_tags at where at.tags_id = t.id)
     from tags t;
 
 -- suchindex für vorschläge (tags- und titel-autovervollständigung)

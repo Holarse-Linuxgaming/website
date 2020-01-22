@@ -50,7 +50,7 @@ public class ForumController {
     
     @Transactional
     @GetMapping("{slug}")
-    public String showForum(@PathVariable final String slug, final ModelMap map) {
+    public String showForum(@PathVariable("slug") final String slug, final ModelMap map) {
         final Forum forum = forumRepository.findBySlug(slug).orElseThrow(() -> new HolarseException("Forum '" + slug + "' nicht gefunden"));
         final List<ForumThread> threads = forum.getForumThreads();
         
@@ -62,7 +62,7 @@ public class ForumController {
     }
     
     @GetMapping("{slug}/{postSlug}")
-    public String showThread(@PathVariable final String slug, @PathVariable final String postSlug, final ModelMap map) throws Exception {
+    public String showThread(@PathVariable("slug") final String slug, @PathVariable("postSlug") final String postSlug, final ModelMap map) throws Exception {
         final Forum forum = forumRepository.findBySlug(slug).orElseThrow(() -> new HolarseException("Forum '" + slug + "' nicht gefunden"));
 
         final ForumThread thread = threadRepository.findBySlugAndForum(postSlug, forum).orElseThrow(() -> new HolarseException("Thread nicht gefunden"));
@@ -74,9 +74,9 @@ public class ForumController {
     
     @Secured("ROLE_USER")    
     @Transactional
-    @GetMapping("{forumId}/new")
-    public String newPost(@PathVariable final Long forumId, final ModelMap map, final ThreadCommand command) {
-        final Forum forum = forumRepository.findById(forumId).orElseThrow(() -> new HolarseException("Forum mit der ID " + forumId + " unbekannt."));
+    @GetMapping("{slug}/new")
+    public String newPost(@PathVariable("slug") final String slug, final ModelMap map, final ThreadCommand command) {
+        final Forum forum = forumRepository.findBySlug(slug).orElseThrow(() -> new HolarseException("Forum '" + slug + "' nicht gefunden"));        
         command.setForum(forum);
         
         map.addAttribute("forum", forum);
@@ -88,9 +88,9 @@ public class ForumController {
     
     @Secured("ROLE_USER")
     @Transactional
-    @PostMapping("{forumId}")
-    public String createPost(@PathVariable final Long forumId, final ModelMap map, @ModelAttribute @Valid final ThreadCommand command, final Authentication authentication) throws Exception {
-        final Forum forum = forumRepository.findById(forumId).orElseThrow(() -> new HolarseException("Forum mit der ID " + forumId + " unbekannt."));
+    @PostMapping("{slug}")
+    public String createPost(@PathVariable("slug") final String slug, final ModelMap map, @ModelAttribute @Valid final ThreadCommand command, final Authentication authentication) throws Exception {
+        final Forum forum = forumRepository.findBySlug(slug).orElseThrow(() -> new HolarseException("Forum '" + slug + "' nicht gefunden"));        
 
         // Stimmt die ForumID mit der aus dem Command überein?
         if (!forum.getId().equals(command.getForum().getId())) {

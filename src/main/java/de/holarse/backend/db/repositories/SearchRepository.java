@@ -43,7 +43,7 @@ public interface SearchRepository extends JpaRepository<Node, Long> {
      * @param tags Der formatierte Tag-String, als 'meinTag;nocheiner'
      * @return 
      */
-    @Query(value = "select pid as id, ptitle as title from search.mv_searchindex where string_to_array(tags, ';') @> string_to_array(:tags, ';')", nativeQuery = true)
+    @Query(value = "select pid as id, ptitle as title from search.mv_searchindex where string_to_array(tags, ';') @> string_to_array(:tags, ';') order by use_count", nativeQuery = true)
     List<SearchResult> searchTags(@Param("tags") final String tags); 
     
     /**
@@ -52,7 +52,7 @@ public interface SearchRepository extends JpaRepository<Node, Long> {
      * @param tag Wird mit :* für die Vervollständigung übergeben
      * @return 
      */
-    @Query(value        = "select wlabel as value from search.mv_suggestions where word @@ to_tsquery('simple', '?1:*') and wtype = 'tag' limit 10", 
+    @Query(value        = "select wlabel as value from search.mv_suggestions where word @@ to_tsquery('simple', '?1:*') and wtype = 'tag' order by use_count limit 10", 
             countQuery  = "select count(*) from search.mv_suggestions where word @@ to_tsquery('simple', '?1:*') and wtype = 'tag'",
             nativeQuery = true)
     List<TagSuggestion> suggestTag(@Param("tag") final String tag);

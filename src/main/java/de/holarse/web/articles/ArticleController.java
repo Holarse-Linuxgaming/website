@@ -12,6 +12,7 @@ import de.holarse.backend.db.repositories.AttachmentRepository;
 import de.holarse.backend.db.repositories.RevisionRepository;
 import de.holarse.backend.db.repositories.TagRepository;
 import de.holarse.backend.views.ArticleView;
+import de.holarse.backend.views.NewsView;
 import de.holarse.exceptions.ErrorMode;
 import de.holarse.exceptions.FlashMessage;
 import de.holarse.exceptions.HolarseException;
@@ -38,6 +39,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -51,6 +54,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -90,9 +94,19 @@ public class ArticleController {
     ViewConverter viewConverter;
 
     // INDEX
+    @Transactional
     @GetMapping
-    public String index(final Model map) {
-        map.addAttribute("nodes", articleRepository.findAll());
+    public String index(@RequestParam(name= "page", defaultValue = "0") final int page, @RequestParam(name = "pageSize", defaultValue = "30") final int pageSize, final Model map) {
+        map.addAttribute("views", articleRepository.findAll(PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, "updated", "created")))
+                .stream()
+                .map(n -> {
+                        Hibernate.initialize(n.getComments());            
+                        Hibernate.initialize(n.getAttachments());
+                        
+                        return n;
+                })
+                .map(n -> viewConverter.convert(n, new ArticleView(), ConverterOptions.WITH_RENDERER))
+                .collect(Collectors.toList()));
 
         return "articles/index";
     }
@@ -107,7 +121,7 @@ public class ArticleController {
     // CREATE
     @Secured("ROLE_USER")
     @Transactional
-    @PostMapping(value = "create", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "create", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ViewUpdate> create(@ModelAttribute final ArticleView command, final Authentication authentication) throws Exception {
         final Article article = nodeService.initCommentableNode(Article.class);
         // Artikelinhalt
@@ -174,7 +188,7 @@ public class ArticleController {
     // Edit Data
     @Secured("ROLE_USER")
     @Transactional
-    @GetMapping(value = "{id}/edit.json", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)    
+    @GetMapping(value = "{id}/edit.json", produces = MediaType.APPLICATION_JSON_VALUE)    
     public ResponseEntity<ArticleView> editAjax(@PathVariable("id") final Long id, final ArticleView view, final Authentication authentication) {
         final Article article = articleRepository.findById(id).get();
         Hibernate.initialize(article.getTags());
@@ -221,7 +235,7 @@ public class ArticleController {
     // ABORT EDIT
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @Transactional
-    @GetMapping(value = "{id}/abortEdit.json", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "{id}/abortEdit.json", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ViewUpdate> abortEdit(@PathVariable("id") final Long id, final Authentication authentication) {
         final Article article = articleRepository.findById(id).get();
 
@@ -234,7 +248,7 @@ public class ArticleController {
     // UPDATE
     @Secured("ROLE_USER")
     @Transactional
-    @PostMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ViewUpdate> update(
             @PathVariable("id") final Long id,
             final ArticleView articleView,

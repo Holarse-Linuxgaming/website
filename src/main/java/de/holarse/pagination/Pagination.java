@@ -3,6 +3,11 @@ package de.holarse.pagination;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Wirklich notwendig, wenn wir denn eigentlich Pagable von Spring Data haben?
+ * @author comrad
+ */
+@Deprecated
 public class Pagination {
 
     private final int currentPage;
