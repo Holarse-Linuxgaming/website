@@ -2,6 +2,7 @@ package de.holarse.web.search;
 
 import de.holarse.backend.views.SearchResultView;
 import de.holarse.backend.views.SearchResultsView;
+import de.holarse.backend.views.PaginationView;
 import de.holarse.search.SearchEngine;
 import de.holarse.services.TrafficService;
 import java.io.UnsupportedEncodingException;
@@ -15,6 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -51,23 +54,35 @@ public class SearchController {
     
     // Als Get verlinkbar machen
     @GetMapping
-    public String searchUrl(@RequestParam("term") final String query, final Model map, final HttpServletRequest req) throws UnsupportedEncodingException {
+    public String searchUrl(@RequestParam("term") final String query, 
+                            @RequestParam(name= "page", defaultValue = "1") final int page, 
+                            @RequestParam(name = "pageSize", defaultValue = "30") final int pageSize, 
+                            final Model map, final HttpServletRequest req) throws UnsupportedEncodingException {
         final SearchResultsView view = new SearchResultsView(query);
         
+        
         final String decodedQuery = URLDecoder.decode(query, "UTF-8");
-        final List<SearchResultView> results = searchEngine.search(decodedQuery).stream().map(s -> new SearchResultView(s)).collect(Collectors.toList());
+        
+        var pagination = new PaginationView("/search?term=" + URLEncoder.encode(query, "UTF-8"), page, searchEngine.searchCount(query), pageSize);
+        
+        final List<SearchResultView> results = searchEngine.search(decodedQuery, 
+                                                                   PageRequest.of(pagination.getPageRequestPage(), pagination.getPageSize()))
+                                                            .stream()
+                                                            .map(s -> new SearchResultView(s))
+                                                            .collect(Collectors.toList());
         view.getResults().addAll(results);
 
+        map.addAttribute("pagination", pagination);
         map.addAttribute("term", decodedQuery);
-        
         map.addAttribute("view", view);
+        
         return "search/result";
     }
     
     @GetMapping("suggest.json")
     public @ResponseBody List<Suggestion> suggestion(@RequestParam("term") final String query)
     {
-        return searchEngine.search(query)
+        return searchEngine.search(query, PageRequest.of(0, 15))
                 .stream().map(r -> new Suggestion(r.getUrl(), "", r.getTitle(), r.getContent(), "Artikel"))
                 .collect(Collectors.toList());
     }

@@ -26,7 +26,7 @@
       </a>
     </li>
     <li class="list-inline-item float-right">
-      <span class="u-pagination-v1__item-info g-pa-7-14">Seite ${pagination.currentPage} von ${pagination.maxPage} je ${pagination.pageSize}</span>
+        <span class="u-pagination-v1__item-info g-pa-7-14">Seite ${pagination.currentPage} von ${pagination.maxPage} je ${pagination.pageSize} Eintr&auml;ge von ${pagination.maxItems}</span>
     </li>
   </ul>
 </nav>

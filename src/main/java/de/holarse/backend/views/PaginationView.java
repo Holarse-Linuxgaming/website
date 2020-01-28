@@ -13,15 +13,15 @@ public class PaginationView {
 
     private final String baseUrl;
     private final int currentPage;
+    private final long maxItems;
     private final long maxPage;
     
     private final static String PAGE_PARAM = "page";
     private final static String PAGESIZE_PARAM = "pageSize";
-
+    
     private final static int PAGESIZE_MIN = 5;
     private final static int PAGESIZE_MAX = 100;
-    private final static int PAGESIZE_DEFAULT = 30;
-    
+        
     private final int pageSize;
 
     /**
@@ -35,35 +35,43 @@ public class PaginationView {
      * 
      * @param baseUrl BasisURL des Links, z.B. /news
      * @param currentPage Die aktuelle Seitenzahl
-     * @param maxPage Beschreibt die maximale Seitenzahl
+     * @param maxItems Beschreibt die maximale Ergebnismenge
      * @param pageSize Beschreibt die Anzahl der Elemente auf einer Seite
      */
-    public PaginationView(final String baseUrl, final int currentPage, final long maxPage, final int pageSize) {
+    public PaginationView(final String baseUrl, final int currentPage, final long maxItems, final int pageSize) {
         this.baseUrl = baseUrl;
         this.currentPage = currentPage;
-        this.maxPage = maxPage;
+        this.maxItems = maxItems;
+        this.maxPage = (long) Math.ceil(maxItems / (float) pageSize);
         this.pageSize = getBoundedPageSize(pageSize); // Einmal berechnen am Anfang reicht
         
         renderBar();
     }
     
+    private String buildUrl(final long page) {
+        if (baseUrl.contains("?"))
+            return String.format("%s&%s=%d&%s=%d", baseUrl, PAGE_PARAM, page, PAGESIZE_PARAM, pageSize);
+        
+        return String.format("%s?%s=%d&%s=%d", baseUrl, PAGE_PARAM, page, PAGESIZE_PARAM, pageSize);
+    }
+    
     private void renderBar() {
         // Linke Zurück-Navigation
-        backButton = new PaginationItemView("Zurück", String.format("%s?%s=%d&%s=%d", baseUrl, PAGE_PARAM, getPreviousPage(), PAGESIZE_PARAM, pageSize), true, canGoBack());
+        backButton = new PaginationItemView("Zurück", buildUrl(getPreviousPage()), true, canGoBack());
 
         // Den Anfang hinten rausschieben
         int lowerMissing = (currentPage - 3 < 0 ? Math.abs(currentPage - 3) : 0);
         // Seiten hinzufügen
         IntStream.rangeClosed(currentPage - 2, currentPage + 2 + lowerMissing).forEach(i -> {
             
-            if (i > 0 && i < maxPage) {
-                paginationBar.add(new PaginationItemView(String.valueOf(i), String.format("%s?page=%d&pageSize=%d", baseUrl, i, pageSize), false, i == currentPage));
+            if (i > 0 && i <= maxPage) {
+                paginationBar.add(new PaginationItemView(String.valueOf(i), buildUrl(i), false, i == currentPage));
             }
             
         });
                 
         // Rechte Weiter-Navigation
-        nextButton = new PaginationItemView("Weiter", String.format("%s?%s=%d&%s=%d", baseUrl, PAGE_PARAM, getNextPage(), PAGESIZE_PARAM, pageSize), true, canGoFurther());
+        nextButton = new PaginationItemView("Weiter", buildUrl(getNextPage()) , true, canGoFurther());
     }
     
     /**
@@ -88,7 +96,7 @@ public class PaginationView {
         return getNextPage() > currentPage;
     }
     
-    private int getPreviousPage() {
+    private long getPreviousPage() {
         if (currentPage - 1 <= 0)
             return 1;
         
@@ -136,6 +144,14 @@ public class PaginationView {
      */
     public long getMaxPage() {
         return maxPage;
+    }
+
+    /**
+     * Maximale Elementanzahl
+     * @return 
+     */
+    public long getMaxItems() {
+        return maxItems;
     }
     
     /**

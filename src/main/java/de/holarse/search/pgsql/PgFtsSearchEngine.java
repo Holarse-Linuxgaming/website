@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,8 +24,13 @@ public class PgFtsSearchEngine implements SearchEngine {
     private SearchRepository searchRepository;
     
     @Override
-    public List<SearchResult> search(final String query) {
-        return searchRepository.search(query);
+    public List<SearchResult> search(final String query, final Pageable pageable) {
+        return searchRepository.search(query, pageable.getOffset(), pageable.getPageSize());
+    }
+    
+    @Override
+    public long searchCount(final String query) {
+        return searchRepository.searchCount(query);
     }
 
     @Override

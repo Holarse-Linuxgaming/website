@@ -19,12 +19,19 @@ public interface SearchRepository extends JpaRepository<Node, Long> {
     /**
      * Durchsucht den Suchindex anhand von einem Suchbegriff
      * @param query
+     * @param offset
+     * @param pageSize
      * @return 
      */
     @Query(value = "select pid as id, ptitle as title, purl as url, content, tags from search.mv_searchindex " +
                    "where document @@ to_tsquery('german', :query) " +
-                   "ORDER BY ts_rank(document, to_tsquery('german', :query)) DESC", nativeQuery = true)
-    List<SearchResult> search(@Param("query") final String query);
+                   "ORDER BY ts_rank(document, to_tsquery('german', :query)) DESC " +
+                   "OFFSET :offset ROWS FETCH NEXT :pageSize ROWS ONLY",
+           nativeQuery = true)
+    List<SearchResult> search(@Param("query") final String query, @Param("offset") final long offset, @Param("pageSize") final int pageSize);
+    
+    @Query(value = "select count(*) from search.mv_searchindex where document @@ to_tsquery('german', :query)", nativeQuery = true)
+    long searchCount(@Param("query") final String query);
     
     /**
      * Durchsucht den Suchindex nach einem Text in Kombination mit einem oder mehreren Tags

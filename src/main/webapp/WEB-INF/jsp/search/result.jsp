@@ -22,3 +22,5 @@
     </c:forEach>        
 </tbody>
 </table>
+
+<%@include file="/WEB-INF/jspf/pagination.jspf" %>
