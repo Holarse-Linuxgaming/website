@@ -1,42 +1,157 @@
 package de.holarse.backend.views;
 
+import java.util.ArrayList;
 import java.util.List;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.web.util.UriComponentsBuilder;
+import java.util.stream.IntStream;
 
 /**
- * View für die Erstellung einer Pagination
+ * View für die Erstellung einer Pagination. Liefert eine Liste mit "Knöpfen",
+ * die zum Aufbau der Paginationbar geeignet sind.
  * @author comrad
  */
-public class PaginationView<T> {
+public class PaginationView {
 
-    private final Page<T> page;
-    private final String url;
+    private final String baseUrl;
+    private final int currentPage;
+    private final long maxPage;
     
-    public PaginationView(final Page<T> page, final String url) {
-        this.page = page;
-        this.url = url;
-    }
+    private final static String PAGE_PARAM = "page";
+    private final static String PAGESIZE_PARAM = "pageSize";
+
+    private final static int PAGESIZE_MIN = 5;
+    private final static int PAGESIZE_MAX = 100;
+    private final static int PAGESIZE_DEFAULT = 30;
     
-    public boolean hasPrevious() {
-        return page.hasPrevious();
-    }
+    private final int pageSize;
+
+    /**
+     * Dieses Element wird an den View übergeben.
+     */
+    private PaginationItemView backButton;
+    private final List<PaginationItemView> paginationBar = new ArrayList<>(5);
+    private PaginationItemView nextButton;
     
-    public boolean hasNext() {
-        return page.hasNext();
-    }
-    
-    public List<T> getContent() {
-        return page.getContent();
-    }
-    
-    public String getPreviousUrl() {
-        final Pageable previousPage = page.previousPageable();
-        // TODO Url korrigieren, sie müssen die Parameter enthalten
-        final UriComponentsBuilder builder = UriComponentsBuilder.fromPath(url);
+    /**
+     * 
+     * @param baseUrl BasisURL des Links, z.B. /news
+     * @param currentPage Die aktuelle Seitenzahl
+     * @param maxPage Beschreibt die maximale Seitenzahl
+     * @param pageSize Beschreibt die Anzahl der Elemente auf einer Seite
+     */
+    public PaginationView(final String baseUrl, final int currentPage, final long maxPage, final int pageSize) {
+        this.baseUrl = baseUrl;
+        this.currentPage = currentPage;
+        this.maxPage = maxPage;
+        this.pageSize = getBoundedPageSize(pageSize); // Einmal berechnen am Anfang reicht
         
-        return builder.build().toUriString();
+        renderBar();
+    }
+    
+    private void renderBar() {
+        // Linke Zurück-Navigation
+        backButton = new PaginationItemView("Zurück", String.format("%s?%s=%d&%s=%d", baseUrl, PAGE_PARAM, getPreviousPage(), PAGESIZE_PARAM, pageSize), true, canGoBack());
+
+        // Den Anfang hinten rausschieben
+        int lowerMissing = (currentPage - 3 < 0 ? Math.abs(currentPage - 3) : 0);
+        // Seiten hinzufügen
+        IntStream.rangeClosed(currentPage - 2, currentPage + 2 + lowerMissing).forEach(i -> {
+            
+            if (i > 0 && i < maxPage) {
+                paginationBar.add(new PaginationItemView(String.valueOf(i), String.format("%s?page=%d&pageSize=%d", baseUrl, i, pageSize), false, i == currentPage));
+            }
+            
+        });
+                
+        // Rechte Weiter-Navigation
+        nextButton = new PaginationItemView("Weiter", String.format("%s?%s=%d&%s=%d", baseUrl, PAGE_PARAM, getNextPage(), PAGESIZE_PARAM, pageSize), true, canGoFurther());
+    }
+    
+    /**
+     * Gibt die Pagesize innerhalb der erlaubten Grenzen zurück
+     * @return 
+     */
+    private int getBoundedPageSize(final int psize) {
+        if (psize < PAGESIZE_MIN)
+            return PAGESIZE_MIN;
+        
+        if (psize > PAGESIZE_MAX)
+            return PAGESIZE_MAX;
+        
+        return psize;
+    }
+    
+    private boolean canGoBack() {
+        return getPreviousPage() < currentPage;
+    }
+    
+    private boolean canGoFurther() {
+        return getNextPage() > currentPage;
+    }
+    
+    private int getPreviousPage() {
+        if (currentPage - 1 <= 0)
+            return 1;
+        
+        return currentPage - 1;
+    }
+    
+    /**
+     * Die Seite für das Spring Data-Pageable-System, das bei 0 beginnt.
+     * @return Die aktuelle Seite ab 0
+     */
+    public int getPageRequestPage() {
+        return (currentPage - 1 < 0 ? 0 : currentPage - 1);
+    }
+    
+    /**
+     * Ermittelt die nächste Seite
+     * @return 
+     */
+    private long getNextPage() {
+        if (currentPage + 1 > maxPage)
+            return maxPage;
+        
+        return currentPage + 1;
+    }
+
+    /**
+     * Die Liste der Seitenbuttons
+     * @return 
+     */
+    public List<PaginationItemView> getPaginationBar() {
+        return paginationBar;
+    }
+
+    /**
+     * Aktuelle Seite bei Zählweise ab 1
+     * @return 
+     */
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    /**
+     * Höchste Seitenzahl
+     * @return 
+     */
+    public long getMaxPage() {
+        return maxPage;
+    }
+    
+    /**
+     * Ermittelte Ergebnismenge je Seite, bereits boundsbereinigt
+     * @return 
+     */
+    public int getPageSize() {
+        return pageSize;
+    }
+    
+    public PaginationItemView getBackButton() {
+        return backButton;
+    }
+    
+    public PaginationItemView getNextButton() {
+        return nextButton;
     }
     
     

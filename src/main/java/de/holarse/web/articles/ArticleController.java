@@ -12,7 +12,7 @@ import de.holarse.backend.db.repositories.AttachmentRepository;
 import de.holarse.backend.db.repositories.RevisionRepository;
 import de.holarse.backend.db.repositories.TagRepository;
 import de.holarse.backend.views.ArticleView;
-import de.holarse.backend.views.NewsView;
+import de.holarse.backend.views.PaginationView;
 import de.holarse.exceptions.ErrorMode;
 import de.holarse.exceptions.FlashMessage;
 import de.holarse.exceptions.HolarseException;
@@ -96,8 +96,10 @@ public class ArticleController {
     // INDEX
     @Transactional
     @GetMapping
-    public String index(@RequestParam(name= "page", defaultValue = "0") final int page, @RequestParam(name = "pageSize", defaultValue = "30") final int pageSize, final Model map) {
-        map.addAttribute("views", articleRepository.findAll(PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, "updated", "created")))
+    public String index(@RequestParam(name= "page", defaultValue = "1") final int page, @RequestParam(name = "pageSize", defaultValue = "30") final int pageSize, final Model map) {
+        var pagination = new PaginationView("/wiki", page, articleRepository.count(), pageSize);
+        
+        var data = articleRepository.findAll(PageRequest.of(pagination.getPageRequestPage(), pagination.getPageSize(), Sort.by(Sort.Direction.DESC, "updated", "created")))
                 .stream()
                 .map(n -> {
                         Hibernate.initialize(n.getComments());            
@@ -106,7 +108,10 @@ public class ArticleController {
                         return n;
                 })
                 .map(n -> viewConverter.convert(n, new ArticleView(), ConverterOptions.WITH_RENDERER))
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList());
+        
+        map.addAttribute("views", data);
+        map.addAttribute("pagination", pagination);
 
         return "articles/index";
     }

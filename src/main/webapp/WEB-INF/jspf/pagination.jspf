@@ -1,34 +1,33 @@
+<%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!-- Pagination -->
-<div class="media justify-content-left g-mb-45">
-    <nav id="datatablePagination2" class="d-flex" aria-label="Page Navigation">
-        <ul class="list-inline text-right mb-0">				
-            <c:if test="${view.hasPrevious()}">
-            <li class="list-inline-item">
-                <c:url var="previousPage" value="">
-                    <c:param name="page" value="${view.previousPageable().pageNumber}" />                    
-                    <c:param name="sort" value="${view.previousPageable().sort}" />
-                    <c:param name="size" value="${view.previousPageable().pageSize}" />
-                </c:url>
-                <a id="datatablePagination2Prev" class="u-pagination-v1__item u-pagination-v1-2 g-brd-gray-light-v7 g-brd-secondary--hover g-rounded-4 g-py-8 g-px-12" href="${previousPage}" aria-label="Previous">
-                    <span class="g-line-height-1 g-valign-middle" aria-hidden="true"><i class="hs-admin-angle-left"></i></span><span class="sr-only">Prev</span>
-                </a>				
-            </li>
-            </c:if>
 
-            <c:if test="${view.hasNext()}">
-                <li class="list-inline-item">
-                    <c:url var="nextPage" value="">
-                        <c:param name="page" value="${view.nextPageable().pageNumber}" />                    
-                        <c:param name="sort" value="${view.nextPageable().sort}" />
-                        <c:param name="size" value="${view.nextPageable().pageSize}" />
-                    </c:url>                
-                    <a id="datatablePagination2Next" class="u-pagination-v1__item u-pagination-v1-2 g-brd-gray-light-v7 g-brd-secondary--hover g-rounded-4 g-py-8 g-px-12" href="${nextPage}" aria-label="Next">
-                        <span class="g-line-height-1 g-valign-middle" aria-hidden="true"><i class="hs-admin-angle-right"></i></span>
-                        <span class="sr-only">Next</span></a>				
-                </li>				
-            </c:if>
-        </ul>
-    </nav>
-</div>
-<!-- Pagination Ende -->
+<!-- Pagination #02 -->
+<nav aria-label="Page Navigation">
+  <ul class="list-inline">
+    <li class="list-inline-item">
+      <a class="u-pagination-v1__item u-pagination-v1-2 g-pa-7-16" href="${pagination.backButton.url}" aria-label="Previous">
+        <span aria-hidden="true">
+          <i class="fa fa-angle-left"></i>
+        </span>
+        <span class="sr-only">${pagination.backButton.label}</span>
+      </a>
+    </li>
+    <c:forEach items="${pagination.paginationBar}" var="page">
+        <li class="list-inline-item g-hidden-sm-down">
+            <a class="u-pagination-v1__item u-pagination-v1-2 <c:if test="${page.active}">u-pagination-v1-2--active</c:if> g-pa-7-14" href="${page.url}">${page.label}</a>
+        </li>
+    </c:forEach>
+    <li class="list-inline-item">
+      <a class="u-pagination-v1__item u-pagination-v1-2 g-pa-7-16" href="${pagination.nextButton.url}" aria-label="Next">
+        <span aria-hidden="true">
+          <i class="fa fa-angle-right"></i>
+        </span>
+        <span class="sr-only">${pagination.nextButton.label}</span>
+      </a>
+    </li>
+    <li class="list-inline-item float-right">
+      <span class="u-pagination-v1__item-info g-pa-7-14">Seite ${pagination.currentPage} von ${pagination.maxPage} je ${pagination.pageSize}</span>
+    </li>
+  </ul>
+</nav>
+<!-- End Pagination #02 -->

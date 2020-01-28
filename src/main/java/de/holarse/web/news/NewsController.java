@@ -9,6 +9,7 @@ import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.NewsRepository;
 import de.holarse.backend.db.repositories.RevisionRepository;
 import de.holarse.backend.views.NewsView;
+import de.holarse.backend.views.PaginationView;
 import de.holarse.exceptions.RedirectException;
 import de.holarse.exceptions.HolarseException;
 import de.holarse.search.SearchEngine;
@@ -65,8 +66,10 @@ public class NewsController {
     // INDEX
     @Transactional
     @GetMapping
-    public String index(@RequestParam(name= "page", defaultValue = "0") final int page, @RequestParam(name = "pageSize", defaultValue = "30") final int pageSize, final Model map) {
-        map.addAttribute("views", newsRepository.findAll(PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, "updated", "created")))
+    public String index(@RequestParam(name= "page", defaultValue = "1") final int page, @RequestParam(name = "pageSize", defaultValue = "30") final int pageSize, final Model map) {
+        var pagination = new PaginationView("/news", page, newsRepository.count(), pageSize);
+        
+        var data = newsRepository.findAll(PageRequest.of(pagination.getPageRequestPage(), pagination.getPageSize(), Sort.by(Sort.Direction.DESC, "updated", "created")))
                 .stream()
                 .map(n -> {
                         Hibernate.initialize(n.getComments());            
@@ -75,7 +78,11 @@ public class NewsController {
                         return n;
                 })
                 .map(n -> viewConverter.convert(n, new NewsView(), ConverterOptions.WITH_RENDERER))
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList());
+        
+        
+        map.addAttribute("views", data);
+        map.addAttribute("pagination", pagination);
 
         return "news/index";
     }

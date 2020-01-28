@@ -132,7 +132,7 @@
             <div class="d-lg-flex">             
               <ul class="u-list-inline">
                <li class="list-inline-item">
-                    2000-2019 &copy; Bernd Ritter
+                    2000-2020 &copy; Bernd Ritter
                </li>              
                 <li class="list-inline-item">
                   <span>|</span>
