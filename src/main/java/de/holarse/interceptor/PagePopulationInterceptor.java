@@ -7,7 +7,9 @@ import de.holarse.backend.db.repositories.TagRepository;
 import de.holarse.backend.views.MainMenuView;
 import de.holarse.backend.views.PageTitleView;
 import de.holarse.backend.views.View;
+import de.holarse.services.MenuService;
 import de.holarse.services.TrafficService;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -26,14 +28,17 @@ public class PagePopulationInterceptor extends HandlerInterceptorAdapter {
 
     Logger logger = LoggerFactory.getLogger(PagePopulationInterceptor.class);
     
-    @Autowired
-    private UserRepository userRepository;
+    //@Autowired
+    //private UserRepository userRepository;
     
     @Autowired
     private TrafficService trafficService;  
     
+    //@Autowired
+    //private TagRepository tagRepository;
+    
     @Autowired
-    private TagRepository tagRepository;
+    private MenuService menuService;
     
     @Value("${git.commit.id.describe}")
     private String commitIdDescribe;
@@ -75,12 +80,8 @@ public class PagePopulationInterceptor extends HandlerInterceptorAdapter {
             trafficService.saveRequest(request, response, nodeId);
             
             // Menü erstellen
-            mav.getModel().putIfAbsent("mainMenu", createMenuView());
+            mav.getModel().putIfAbsent("menuitems", menuService.buildMainMenu());
         }
     }
-    
-    protected MainMenuView createMenuView() {
-        return new MainMenuView();
-    }
-    
+   
 }

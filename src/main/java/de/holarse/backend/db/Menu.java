@@ -1,5 +1,6 @@
 package de.holarse.backend.db;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,6 +22,20 @@ public class Menu extends Base {
     private String url;
     @Column(columnDefinition = "int default 0")
     private int weight;
+    
+    @Column(length = 2048)
+    private String description;
+    
+    private String image;
+    
+    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")    
+    private OffsetDateTime validFrom;
+    
+    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")    
+    private OffsetDateTime validUntil;    
+    
+    @Column(nullable = false, columnDefinition = "boolean default true")     
+    private boolean active;
     
     @ManyToOne
     private Menu parent;
@@ -67,7 +82,45 @@ public class Menu extends Base {
     public void setChildren(List<Menu> children) {
         this.children = children;
     }
-    
-    
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public OffsetDateTime getValidFrom() {
+        return validFrom;
+    }
+
+    public void setValidFrom(OffsetDateTime validFrom) {
+        this.validFrom = validFrom;
+    }
+
+    public OffsetDateTime getValidUntil() {
+        return validUntil;
+    }
+
+    public void setValidUntil(OffsetDateTime validUntil) {
+        this.validUntil = validUntil;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
     
 }

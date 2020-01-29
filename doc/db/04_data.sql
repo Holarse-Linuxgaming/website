@@ -36,3 +36,14 @@ insert into forums(id, title, description, slug) values
 -- tags erweitern
 alter table tags add column use_count bigint default 0;
 update tags set use_count = (select count(1) from articles_tags where tags_id = id);
+
+-- menüeinträge erzeugen
+insert into menuitems(id, created, label, url, weight, parent_id)
+values 
+(nextval('hibernate_sequence'), now(), 'News', '/news', 0, null),
+(nextval('hibernate_sequence'), now(), 'Spielefinder', '/finder', 1, null),
+(nextval('hibernate_sequence'), now(), 'Server', '/finder?tags=dedicated%20server', 2, null),
+(nextval('hibernate_sequence'), now(), 'Community', '/forum', 3, null),
+(nextval('hibernate_sequence'), now(), 'Kategorien', '#', 4, null);
+
+-- todo die gruppierungen für die Kategorien hier noch hinterlegen

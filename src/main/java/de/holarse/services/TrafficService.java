@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +45,7 @@ public class TrafficService {
         page.setUserAgent(request.getHeader("User-Agent"));
         page.setReferer(request.getHeader("referer"));
         page.setVisitorId(request.getRequestedSessionId());
-        page.setSearchword(request.getParameter("q"));
+        page.setSearchword(request.getParameter("term"));
         
         if (request.getParameterNames().hasMoreElements()) {
             page.setCampaignName(extractCampaignName(request));
