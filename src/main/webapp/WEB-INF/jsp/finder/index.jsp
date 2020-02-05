@@ -4,56 +4,89 @@
 <div class="row">
     <div class="col-md-2">
         <c:forEach items="${tagGroups}" var="tagGroup">
-            <strong>${tagGroup.name}</strong>
-        <ul class="list-group">
-                <c:forEach items="${tagGroup.tags}" var="tag">
-                <li class="list-group-item list-group-item-action">
-                    <spring:url value="/finder/" var="p">
-                        <spring:param name="tag" value="${tag.name}" />
-                        <spring:param name="tags" value="${taglist}" />
-                        <spring:param name="q" value="${q}" />
-                    </spring:url>
-                        <a href="${p}">${tag.name}</a>
-                </li>
-            </c:forEach>
-        </ul>
-            </c:forEach>
-
-        <strong>Freie Stichw&ouml;rter</strong>        
-        <ul class="list-group">
-            <c:forEach items="${freeTags}" var="freeTag">
-                <li class="list-group-item list-group-item-action">
-                    <spring:url value="/finder/" var="p">
-                        <spring:param name="tag" value="${freeTag.name}" />
-                        <spring:param name="tags" value="${taglist}" />                        
-                        <spring:param name="q" value="${q}" />
-                    </spring:url>                  
-                    <a href="${p}">${freeTag.name}</a>
-                </li>
-            </c:forEach>
-        </ul>
+            <strong>${tagGroup.label}</strong> (${tagGroup.groupedUseCount})
+            <ul class="list-group">
+                    <c:forEach items="${tagGroup.tags}" var="tag">
+                    <li class="list-group-item list-group-item-action">
+                        <spring:url value="/finder/" var="p">
+                            <spring:param name="tag" value="${tag.label}" />
+                            <spring:param name="tags" value="${taglist}" />
+                            <spring:param name="q" value="${q}" />
+                        </spring:url>
+                            <a href="${p}" title="${tag.useCount} Artikel">${tag.name}</a>
+                    </li>
+                </c:forEach>
+            </ul>
+        </c:forEach>
     </div>
     <div class="col-md-10">
-        <strong>Aktuell verwendete Tags</strong>
-        <ul class="list-inline">
-            <c:forEach items="${tags}" var="tag">
-                <li class="list-inline-item">
-                    <spring:url value="/finder/" var="p">
-                        <spring:param name="tag" value="${tag.name}" />
-                        <spring:param name="tags" value="${taglist}" />                        
-                        <spring:param name="q" value="${q}" />                          
-                    </spring:url>                      
-                    <a href="${p}">${tag.name}</a>
-                </li>
-                </c:forEach>
-        </ul>
+        <!-- Tags -->
+        <div class="row">
+            <div class="col-md-8">
+                <strong>Aktuell verwendete Tags</strong>
+                <ul class="list-inline">
+                    <c:forEach items="${tags}" var="tag">
+                        <li class="list-inline-item">
+                            <spring:url value="/finder/" var="p">
+                                <spring:param name="tag" value="${tag.name}" />
+                                <spring:param name="tags" value="${taglist}" />                        
+                                <spring:param name="q" value="${q}" />                          
+                            </spring:url>                      
+                            <a href="${p}" title="Klicken zum Entfernen">${tag.name}</a>
+                        </li>
+                        </c:forEach>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <form class="form-control-md" method="GET">
+                    <input type="hidden" name="tags" value="${taglist}" />
+                    <div class="form-group g-mb-20">
+                        <label class="g-mb-10">Zusätzlicher Suchbegriff</label>
+                        <div class="input-group g-brd-primary--focus">
+                          <input class="form-control form-control-md rounded-0 pr-0" type="search" placeholder="Suchergebnisse nach Text filtern" id="query" name="q" value="${q}">
+                            <div class="input-group-addon p-0">
+                                <button class="btn rounded-0 btn-primary btn-md g-font-size-18 g-px-18" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>                          
+                        </div>
+                    </div>
+                </form>                
+            </div>
+        </div>
 
-        <p>
-            Query: ${q}
-        </p>
-        
-        <%@include file="/WEB-INF/jspf/nodes/nodelist.jspf" %>
-
+        <div class="row">
+            <div class="col-md-2">
+                ${searchResults.size()} Ergebnis(se) in ${duration} ms.
+            </div>
+        </div>
+                           
+        <div class="row">
+            <ul class="list-unstyled">
+            <c:forEach items="${searchResults}" var="view">                    
+              <li class="media g-brd-around g-brd-gray-light-v4 g-brd-left-3 g-brd-blue-left g-rounded-3 g-pa-20 g-mb-7">
+                <div class="d-flex g-mt-2 g-mr-15">
+                  <img class="img" src="https://via.placeholder.com/100" alt="Image Description">
+                </div>
+                <div class="media-body">
+                  <div class="d-flex justify-content-between">
+                    <h5 class="h6 g-font-weight-600 g-color-black">${view.title}</h5>
+                    <span class="small text-nowrap g-color-blue">2 min ago</span>
+                  </div>
+                  <p>${view.teaser}</p>
+                    <c:forEach items="${view.tags}" var="tag" varStatus="x">
+                        <spring:url value="/finder/" var="pt">
+                            <spring:param name="tag" value="${tag}" />
+                            <spring:param name="tags" value="${taglist}" />  
+                            <spring:param name="q" value="${q}" />
+                        </spring:url>                      
+                        <a class="u-label u-label--sm g-bg-transparent--hover g-px-10" href="${pt}">${tag}</a>
+                    </c:forEach>                  
+                </div>
+              </li>
+            </c:forEach>
+            </ul>
+        </div>
     </div>
 </div>
 

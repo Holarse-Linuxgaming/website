@@ -21,15 +21,18 @@ public class SearchResultView {
         return result.getTitle();
     }
     
-    public String getAlternativeTitles() {
-        if (result.getAlternativeTitles() == null)
-            return "";
+    public List<String> getAlternativeTitles() {
+        if (StringUtils.isBlank(result.getAlternativeTitles()))
+            return List.of("");
         
-        return result.getAlternativeTitles().stream().collect(Collectors.joining(","));
+        return List.of(result.getAlternativeTitles().split(";"));
     }
     
     public List<String> getTags() {
-        return result.getTags();
+        if (StringUtils.isBlank(result.getTags()))
+            return List.of("");
+        
+        return List.of(result.getTags().split(";"));
     }
     
     public String getTeaser() {

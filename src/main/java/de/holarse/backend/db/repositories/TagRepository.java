@@ -11,10 +11,10 @@ public interface TagRepository extends CrudRepository<Tag, Long> {
     
     Optional<Tag> findByNameIgnoreCase(String name);
     
-    @Query("FROM Tag t WHERE t.tagGroup.name = :tagGroupName order by t.name, t.useCount")
+    @Query("FROM Tag t WHERE t.tagGroup.name = :tagGroupName order by t.useCount desc, t.name")
     List<Tag> findByTagGroup(@Param("tagGroupName") final String tagGroupName);
     
-    @Query("FROM Tag t WHERE t.tagGroup is null order by name")
+    @Query("FROM Tag t WHERE t.tagGroup is null order by t.useCount desc, t.name")
     List<Tag> findFreeTags();
     
 }

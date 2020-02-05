@@ -68,7 +68,7 @@ public class SearchController {
         final List<SearchResultView> results = searchEngine.search(decodedQuery, 
                                                                    PageRequest.of(pagination.getPageRequestPage(), pagination.getPageSize()))
                                                             .stream()
-                                                            .map(s -> new SearchResultView(s))
+                                                            .map(SearchResultView::new)
                                                             .collect(Collectors.toList());
         view.getResults().addAll(results);
 
