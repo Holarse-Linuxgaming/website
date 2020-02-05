@@ -23,7 +23,7 @@ public interface SearchRepository extends JpaRepository<Node, Long> {
      * @param pageSize
      * @return 
      */
-    @Query(value = "select pid as id, ptitle as title, purl as url, content, tags from search.mv_searchindex " +
+    @Query(value = "select pid as id, ptitle as title, psubtitles as subtitles, purl as url, content, tags from search.mv_searchindex " +
                    "where document @@ to_tsquery('german', :query) " +
                    "ORDER BY ts_rank(document, to_tsquery('german', :query)) DESC " +
                    "OFFSET :offset ROWS FETCH NEXT :pageSize ROWS ONLY",
@@ -39,7 +39,7 @@ public interface SearchRepository extends JpaRepository<Node, Long> {
      * @param tags
      * @return 
      */
-    @Query(value = "select pid as id, ptitle as title, content, tags from search.mv_searchindex where document @@ to_tsquery(:query) " +
+    @Query(value = "select pid as id, ptitle as title, psubtitles as subtitles, purl as url, content, tags from search.mv_searchindex where document @@ to_tsquery(:query) " +
             "and string_to_array(tags, ';') @> string_to_array(:tags, ';') " +
             "ORDER BY ts_rank(document, to_tsquery('german', :query)) DESC"
             , nativeQuery = true)
@@ -50,7 +50,7 @@ public interface SearchRepository extends JpaRepository<Node, Long> {
      * @param tags Der formatierte Tag-String, als 'meinTag;nocheiner'
      * @return 
      */
-    @Query(value = "select pid as id, ptitle as title, content, tags from search.mv_searchindex where string_to_array(tags, ';') @> string_to_array(:tags, ';')", nativeQuery = true)
+    @Query(value = "select pid as id, ptitle as title, psubtitles as subtitles, purl as url, content, tags from search.mv_searchindex where string_to_array(tags, ';') @> string_to_array(:tags, ';')", nativeQuery = true)
     List<SearchResult> searchTags(@Param("tags") final String tags); 
     
     /**

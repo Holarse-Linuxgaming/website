@@ -5,12 +5,14 @@
 
 CREATE TYPE nodetype AS ENUM ('article', 'news');
 
+
 create materialized view search.mv_searchindex as (
     -- articles
     select  
         a.id as pid,
         a.title as ptitle,
-        a.slug as purl,
+        concat_ws(';', a.alternativetitle1, a.alternativetitle2, a.alternativetitle3) as psubtitles,
+        concat('/wiki/', a.slug) as purl,
         a.content as content,
         att.attachmentdata as image,
         string_agg(tags.name, ';') as tags,
@@ -36,7 +38,8 @@ create materialized view search.mv_searchindex as (
     select
         n.id as pid,
         n.title as ptitle,
-        n.slug as purl,
+        n.subtitle as psubtitles,
+        concat('/news/', n.slug) as purl,
         n.content as content,
         att.attachmentdata as image,
         '' as tags,

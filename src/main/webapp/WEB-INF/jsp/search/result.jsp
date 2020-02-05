@@ -11,7 +11,11 @@
         <c:forEach items="${view.results}" var="result">
             <tr>
                 <td><a href="${result.url}">${result.title}</a></td>
-                <td>${result.alternativeTitles}</td>
+                <td>                    
+                    <c:forEach items="${result.subtitles}" var="subtitle">
+                        ${subtitle}
+                    </c:forEach>
+                </td>
                 <td>
                     <c:forEach items="${result.tags}" var="tag">
                         <a href="/finder/?tag=${tag}" title="Klicken für weitere Artikel mit diesem Tag">${tag}</a>

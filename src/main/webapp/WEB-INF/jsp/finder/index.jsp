@@ -66,11 +66,18 @@
             <c:forEach items="${searchResults}" var="view">                    
               <li class="media g-brd-around g-brd-gray-light-v4 g-brd-left-3 g-brd-blue-left g-rounded-3 g-pa-20 g-mb-7">
                 <div class="d-flex g-mt-2 g-mr-15">
-                  <img class="img" src="https://via.placeholder.com/100" alt="Image Description">
+                    <a href="${view.url}">
+                        <img class="img" src="https://via.placeholder.com/100" alt="Image Description">
+                    </a>
                 </div>
                 <div class="media-body">
                   <div class="d-flex justify-content-between">
-                    <h5 class="h6 g-font-weight-600 g-color-black">${view.title}</h5>
+                    <h5 class="h6 g-font-weight-600 g-color-black"><a href="${view.url}">${view.title}</a></h5>
+                    <h6>
+                    <c:forEach items="${view.subtitles}" var="subtitle">
+                        <span class="u-label u-label--sm g-bg-lightred-v2 g-color-black g-rounded-3 g-px-10">${subtitle}</span>
+                    </c:forEach>
+                        </h6>
                     <span class="small text-nowrap g-color-blue">2 min ago</span>
                   </div>
                   <p>${view.teaser}</p>

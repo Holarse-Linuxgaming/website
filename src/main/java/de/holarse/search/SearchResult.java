@@ -8,7 +8,7 @@ public interface SearchResult {
     
     Long getId();
     String getTitle();
-    String getAlternativeTitles();    
+    String getSubtitles();    
     String getTags();
     String getUrl();
     String getContent();    

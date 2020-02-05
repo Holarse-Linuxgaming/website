@@ -2,8 +2,9 @@ package de.holarse.backend.views;
 
 import de.holarse.search.SearchResult;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SearchResultView {
 
@@ -21,11 +22,11 @@ public class SearchResultView {
         return result.getTitle();
     }
     
-    public List<String> getAlternativeTitles() {
-        if (StringUtils.isBlank(result.getAlternativeTitles()))
+    public List<String> getSubtitles() {
+        if (StringUtils.isBlank(result.getSubtitles()))
             return List.of("");
         
-        return List.of(result.getAlternativeTitles().split(";"));
+        return List.of(result.getSubtitles().split(";"));
     }
     
     public List<String> getTags() {
