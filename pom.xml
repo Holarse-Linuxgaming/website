@@ -18,7 +18,7 @@
         <apache.tiles.version>3.0.8</apache.tiles.version>
         <slf4jVersion>1.6.1</slf4jVersion>
         <!-- <apache.camel.version>2.19.0</apache.camel.version> -->
-        <jackson.version>2.9.9</jackson.version>
+        <jackson.version>2.10.2</jackson.version>
         
         <maven.compiler.release>11</maven.compiler.release>
     </properties>
