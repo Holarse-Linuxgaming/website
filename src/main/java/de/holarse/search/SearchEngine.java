@@ -13,7 +13,8 @@ public interface SearchEngine {
     List<SearchResult> search(String query, Pageable pageable);
     long searchCount(String query);
     
-    List<SearchResult> searchByTags(Collection<Tag> tags, String query);
+    List<SearchResult> searchByTags(Collection<Tag> tags, String query, Pageable pageable);
+    long searchCount(Collection<Tag> tags, String query);        
     
     void update(Searchable searchable) throws IOException;
     void update(Iterable<? extends Searchable> searchables) throws IOException;

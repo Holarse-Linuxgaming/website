@@ -34,17 +34,26 @@ public class PgFtsSearchEngine implements SearchEngine {
     }
 
     @Override
-    public List<SearchResult> searchByTags(final Collection<Tag> tags, final String query) {
+    public List<SearchResult> searchByTags(final Collection<Tag> tags, final String query, final Pageable pageable) {
         // Tags in das von Postgres nötige Format bringen
         String _tags = tags.stream().map(t -> t.getName()).collect(Collectors.joining(";"));
                
         if (StringUtils.isBlank(query)) 
-            return searchRepository.searchTags(_tags);
+            return searchRepository.searchTags(_tags, pageable.getOffset(), pageable.getPageSize());
 
-        // Leerzeichen im Query als "und" verbinden
-        final String _query = StringUtils.join(query.trim().split(" "), " & ");      
-        return searchRepository.search(_query, _tags);
+        return searchRepository.search(query, _tags, pageable.getOffset(), pageable.getPageSize());
     }
+    
+    @Override
+    public long searchCount(final Collection<Tag> tags, final String query) {
+        // Tags in das von Postgres nötige Format bringen
+        String _tags = tags.stream().map(t -> t.getName()).collect(Collectors.joining(";"));  
+        
+        if (StringUtils.isBlank(query)) 
+            return searchRepository.searchCountTags(_tags);        
+        
+        return searchRepository.searchCount(_tags, query);
+    }    
 
     @Override
     public void update(final Searchable searchable) throws IOException {

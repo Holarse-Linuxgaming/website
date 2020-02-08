@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -65,8 +64,7 @@ public class SearchController {
         
         var pagination = new PaginationView("/search?term=" + URLEncoder.encode(query, "UTF-8"), page, searchEngine.searchCount(query), pageSize);
         
-        final List<SearchResultView> results = searchEngine.search(decodedQuery, 
-                                                                   PageRequest.of(pagination.getPageRequestPage(), pagination.getPageSize()))
+        final List<SearchResultView> results = searchEngine.search(decodedQuery, pagination.getPagable())
                                                             .stream()
                                                             .map(SearchResultView::new)
                                                             .collect(Collectors.toList());

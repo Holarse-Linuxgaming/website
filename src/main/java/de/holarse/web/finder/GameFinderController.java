@@ -5,12 +5,15 @@ import de.holarse.backend.db.TagGroup;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.TagGroupRepository;
 import de.holarse.backend.db.repositories.TagRepository;
+import de.holarse.backend.views.PaginationView;
 import de.holarse.backend.views.SearchResultView;
 import de.holarse.backend.views.TagGroupView;
 import de.holarse.backend.views.TagView;
 import de.holarse.search.SearchEngine;
 import de.holarse.services.TagService;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,6 +57,8 @@ public class GameFinderController {
                         @RequestParam(value = "tag",  required = false) final String newTag, 
                         @RequestParam(value = "q", required = false) final String q,
                         @RequestParam(value = "i", required = false, defaultValue = "0") final int i, // Indikator für Erstsuche, wo Top-Titel
+                        @RequestParam(name= "page", defaultValue = "1") final int page, 
+                        @RequestParam(name = "pageSize", defaultValue = "30") final int pageSize,                        
                         final Model map) {
         long timer_start = System.currentTimeMillis();
         
@@ -103,30 +109,41 @@ public class GameFinderController {
             chosenTags.add("Top-Titel");
         }
         
+        final String qry = (q == null ? "" : q);
+
+        
         // Aus den ausgewählten Tags die korrekten Tags ermitteln und 
         // diese über ihre Aliasse normalisieren
-        final List<Tag> validatedTags = chosenTags.stream().map(tagRepository::findByNameIgnoreCase)
+        final Collection<Tag> validatedTags = chosenTags.stream().map(tagRepository::findByNameIgnoreCase)
                                                            .filter(Optional::isPresent)
                                                            .map(Optional::get)
                                                            .collect(Collectors.toList());
         
         // Tagliste für die Url erzeugen
-        final String taglistForUrl = tagService.createTagList(chosenTags);        
-        // Neues Tag hinzufügen und Seite neuladen
+        final String taglistForUrl = validatedTags.stream().map(t -> t.getName()).collect(Collectors.joining(","));        
+        final String newUrl = String.format("/finder/?tags=%s&q=%s", taglistForUrl, qry);
+        
+        // Neues Tag hinzufügen und Seite neuladen bevor wir die unnötige Suche ausführen
         if (redirectAfterNewTag) {
-            return new ModelAndView(new RedirectView("/finder/?tags=" + taglistForUrl + "&q=" + (q == null ? "" : q), false, false, false));
+            return new ModelAndView(new RedirectView(newUrl, false, false, false));
         }
+
+        var pagination = new PaginationView(newUrl, page, searchEngine.searchCount(validatedTags, q), pageSize);                
         
         // Ergebnisse ermitteln
-        final List<SearchResultView> searchResults = searchEngine.searchByTags(validatedTags, q).stream()
-                                                                                                .map(SearchResultView::new)
-                                                                                                .collect(Collectors.toList());
+        final List<SearchResultView> searchResults = searchEngine.searchByTags(validatedTags, q, pagination.getPagable())
+                                                                 .stream()
+                                                                 .map(SearchResultView::new)
+                                                                 .collect(Collectors.toList());
+        
+
         
         // Ergebnisse anzeigen
         map.addAttribute("searchResults", searchResults);
         map.addAttribute("tags", validatedTags);
         map.addAttribute("taglist", taglistForUrl);
         map.addAttribute("q", q);
+        map.addAttribute("pagination", pagination);        
         
         String title = "Alle Linux-Spiele auf Holarse mit " + taglistForUrl;
         if (StringUtils.isNotBlank(q))

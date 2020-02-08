@@ -57,7 +57,7 @@
 
         <div class="row">
             <div class="col-md-2">
-                ${searchResults.size()} Ergebnis(se) in ${duration} ms.
+                ${pagination.maxItems} Ergebnis(se) in ${duration} ms.
             </div>
         </div>
                            
@@ -93,6 +93,9 @@
               </li>
             </c:forEach>
             </ul>
+        </div>
+        <div class="row">
+            <%@include file="/WEB-INF/jspf/pagination.jspf" %>
         </div>
     </div>
 </div>

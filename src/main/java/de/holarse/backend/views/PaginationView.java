@@ -3,6 +3,7 @@ package de.holarse.backend.views;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
+import org.springframework.data.domain.PageRequest;
 
 /**
  * View für die Erstellung einer Pagination. Liefert eine Liste mit "Knöpfen",
@@ -46,6 +47,10 @@ public class PaginationView {
         this.pageSize = getBoundedPageSize(pageSize); // Einmal berechnen am Anfang reicht
         
         renderBar();
+    }
+    
+    public PageRequest getPagable() {
+        return PageRequest.of(getPageRequestPage(), pageSize);
     }
     
     private String buildUrl(final long page) {
