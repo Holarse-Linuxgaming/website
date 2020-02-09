@@ -14,7 +14,7 @@ public class Tag extends Base {
 
     private Long weight;
     
-    @Column(name = "use_count")
+    @Column(name = "use_count", nullable = false, columnDefinition = "bigint default 0")
     private Long useCount;
     
     @OneToOne
