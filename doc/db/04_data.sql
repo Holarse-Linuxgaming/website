@@ -34,8 +34,18 @@ insert into forums(id, title, description, slug) values
 (nextval('hibernate_sequence'), 'Off-Topic', 'Was sonst irgendwo passt', 'off-topic');
 
 -- tags erweitern
-alter table tags add column use_count bigint default 0;
 update tags set use_count = (select count(1) from articles_tags where tags_id = id);
+
+-- triggerfunktion zum autom. aktualisieren der use_counts
+CREATE OR REPLACE FUNCTION update_tag_use_count() RETURNS TRIGGER AS $trg_tag_usecount$
+   BEGIN
+      update tags set use_count = (select count(1) from articles_tags where tags_id = new.tags_id) where id = new.tags_id;
+      RETURN NEW;
+   END;
+$trg_tag_usecount$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_tag_usecount AFTER INSERT OR DELETE ON articles_tags
+FOR EACH ROW EXECUTE PROCEDURE update_tag_use_count();
 
 -- menüeinträge erzeugen
 insert into menuitems(id, created, label, url, weight, parent_id)
