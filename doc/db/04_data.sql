@@ -18,6 +18,7 @@ insert into taggroups(id, name) values (nextval('hibernate_sequence'), 'PORTER')
 insert into taggroups(id, name) values (nextval('hibernate_sequence'), 'PLATFORM');
 insert into taggroups(id, name) values (nextval('hibernate_sequence'), 'TECHNICAL');
 insert into taggroups(id, name) values (nextval('hibernate_sequence'), 'ENGINE');
+insert into taggroups(id, name) values (nextval('hibernate_sequence'), 'PACKAGEMANAGER');
 
 -- dummy apiuser, Passwort geheim
 insert into apiusers (id, login, rolename, token) values (nextval('hibernate_sequence'), 'dummy', 'API_IMPORT', 'ADDB0F5E7826C857D7376D1BD9BC33C0C544790A2EAC96144A8AF22B1298C940'); -- geheim
