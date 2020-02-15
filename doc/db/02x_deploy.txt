@@ -1,2 +1,0 @@
-Hier Holarse im Application Server deployen. Dabei legt Hibernate die nötigen 
-Tabellen automatisch an.
