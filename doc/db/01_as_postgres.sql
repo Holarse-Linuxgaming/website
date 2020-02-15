@@ -4,29 +4,10 @@
 --------
 
 -- Variables for the script
-\set dbName holarse
 \set dbUser holarse
-\set dbPassword geheim
 
 
--- 1. Create DB and user
---- Drop database and user
-\echo '-- Pre-Cleaning - Delete database and user if exists --'
-DROP DATABASE IF EXISTS :dbName;
-DROP ROLE IF EXISTS :dbUser;
-
-
---- Create User and DB
-\echo '-- Create database' :'dbName' 'with user' :'dbUser' 'and password:' :'dbPassword' '--'
-CREATE USER :dbUser WITH ENCRYPTED PASSWORD :'dbPassword';
-CREATE DATABASE :dbName WITH OWNER :dbUser;
-
-
---- Use the DB now
-\connect -reuse-previous=on :dbName;
-
-
--- 2. Schema creation and extensions
+-- 1. Schema creation and extensions
 --- Schema
 \echo '-- Create schemas and extensions --'
 CREATE SCHEMA search AUTHORIZATION :dbUser;
@@ -38,7 +19,7 @@ CREATE EXTENSION btree_gin schema search;
 CREATE EXTENSION pgcrypto;
 
 
--- 3. Sequence Generation
+-- 2. Sequence Generation
 \echo '-- Create sequences for hibernate --'
 --- hibernate_sequence
 CREATE SEQUENCE hibernate_sequence START WITH 1;
@@ -48,7 +29,7 @@ CREATE SEQUENCE revision_sequence START WITH 1000;
 GRANT SELECT, UPDATE ON sequence revision_sequence TO :dbUser;
 
 
--- 4. Table Generation
+-- 3. Table Generation
 \echo '-- Generating basic tables --'
 --- Logging
 CREATE TABLE IF NOT EXISTS logging.accesslog (

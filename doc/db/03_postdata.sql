@@ -6,18 +6,13 @@
 --------
 
 -- Variables for the script
-\set dbName holarse
 \set dbUser holarse
 \set apiUser dummy
 --- API Password: geheim
 \set apiPassword ADDB0F5E7826C857D7376D1BD9BC33C0C544790A2EAC96144A8AF22B1298C940
 
 
--- 1. Set the DB to holarse
-\connect -reuse-previous=on :dbName;
-
-
--- 2. Roles
+-- 1. Roles
 \echo '-- Insert roles --'
 INSERT INTO roles (id, code, clearancelevel) VALUES (nextval('hibernate_sequence'), 'ADMIN', 0);
 INSERT INTO roles (id, code, clearancelevel) VALUES (nextval('hibernate_sequence'), 'HOLARSE-CORE', 10);
@@ -25,7 +20,7 @@ INSERT INTO roles (id, code, clearancelevel) VALUES (nextval('hibernate_sequence
 INSERT INTO roles (id, code, clearancelevel) VALUES (nextval('hibernate_sequence'), 'REPORTER', 250);
 INSERT INTO roles (id, code, clearancelevel) VALUES (nextval('hibernate_sequence'), 'TRUSTED_USER', 500);
 
--- 3. Tag groups
+-- 2. Tag groups
 \echo '-- Insert tag groups --'
 INSERT INTO taggroups(id, name) VALUES (nextval('hibernate_sequence'), 'LICENSE');
 INSERT INTO taggroups(id, name) VALUES (nextval('hibernate_sequence'), 'GENRE');
@@ -42,7 +37,7 @@ INSERT INTO taggroups(id, name) VALUES (nextval('hibernate_sequence'), 'ENGINE')
 INSERT INTO taggroups(id, name) VALUES (nextval('hibernate_sequence'), 'PACKAGEMANAGER');
 
 
--- 4. Forums
+-- 3. Forums
 \echo '-- Insert forums --'
 INSERT INTO forums(id, title, description, slug)
 VALUES 
@@ -56,7 +51,7 @@ VALUES
     (nextval('hibernate_sequence'), 'Off-Topic', 'Was sonst irgendwo passt', 'off-topic');
 
 
--- 5. Menu
+-- 4. Menu
 \echo '-- Insert menu --'
 INSERT INTO menuitems(id, created, label, url, weight, parent_id)
 VALUES
@@ -67,7 +62,7 @@ VALUES
     (nextval('hibernate_sequence'), now(), 'Kategorien', '#', 4, null);
 
 
--- 6. APIUser
+-- 5. APIUser
 \echo '-- Create API user into DB --'
 INSERT INTO apiusers (id, login, rolename, token)
 VALUES

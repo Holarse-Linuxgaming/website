@@ -5,18 +5,13 @@
 --------
 
 -- Variables for the script
-\SET dbName holarse
-\SET dbUser holarse
-\SET apiUser dummy
+\set dbUser holarse
+\set apiUser dummy
 --- API Password: geheim
-\SET apiPassword ADDB0F5E7826C857D7376D1BD9BC33C0C544790A2EAC96144A8AF22B1298C940
+\set apiPassword ADDB0F5E7826C857D7376D1BD9BC33C0C544790A2EAC96144A8AF22B1298C940
 
 
--- 1. Set the DB to holarse
-\connect -reuse-previous=on :dbName;
-
-
--- 2. Engine tags
+-- 1. Engine tags
 \echo '-- Update engine tags --'
 UPDATE tags SET taggroup_id = (SELECT id FROm taggroups WHERE name = 'ENGINE')
 WHERE name IN (
@@ -65,7 +60,7 @@ WHERE name IN (
 );
 
 
--- 3. Franchise tags
+-- 2. Franchise tags
 \echo '-- Update franchise tags --'
 UPDATE tags SET taggroup_id = (SELECT id FROM taggroups WHERE name = 'FRANCHISE')
 WHERE name IN (
@@ -95,7 +90,7 @@ WHERE name IN (
 );
 
 
--- 4. Licence tags
+-- 3. Licence tags
 \echo '-- Update licence tags --'
 UPDATE tags SET taggroup_id = (SELECT id FROM taggroups WHERE name = 'LICENSE')
 WHERE name IN (
@@ -119,7 +114,7 @@ WHERE name IN (
 );
 
 
--- 5. Multiplayer tags (with more multiplayer!)
+-- 4. Multiplayer tags (with more multiplayer!)
 \echo '-- Update multiplayer tags --'
 UPDATE tags SET taggroup_id = (SELECT id FROM taggroups WHERE name = 'MULTIPLAYER')
 WHERE name IN (
@@ -197,7 +192,7 @@ WHERE name IN (
 );
 
 
--- 6. Platform tags
+-- 5. Platform tags
 \echo '-- Update plattform tags --'
 UPDATE tags SET taggroup_id = (SELECT id FROM taggroups WHERE name = 'PLATFORM')
 WHERE name IN (
@@ -230,7 +225,7 @@ WHERE name IN (
 );
 
 
--- 7. Store tags
+-- 6. Store tags
 \echo '-- Update store tags --'
 UPDATE tags SET taggroup_id = (SELECT id FROM taggroups WHERE name = 'STORE')
 WHERE name IN (
@@ -244,7 +239,7 @@ WHERE name IN (
 );
 
 
--- 8. Genre tags
+-- 7. Genre tags
 \echo '-- Update genre tags --'
 UPDATE tags SET taggroup_id = (SELECT id FROM taggroups WHERE name = 'GENRE')
 WHERE name IN (
@@ -469,7 +464,7 @@ WHERE name IN (
 );
 
 
--- 9. Porter tags
+-- 8. Porter tags
 \echo '-- Update porter tags --'
 UPDATE tags SET taggroup_id = (SELECT id FROM taggroups WHERE name = 'PORTER')
 WHERE name IN (
@@ -484,7 +479,7 @@ WHERE name IN (
 );
 
 
--- 10. Package Manager tags
+-- 9. Package Manager tags
 \echo '-- Update package manager tags --'
 UPDATE tags SET taggroup_id = (SELECT id FROM taggroups WHERE name = 'PACKAGEMANAGER')
 WHERE name IN (
@@ -496,7 +491,7 @@ WHERE name IN (
 
 
 
--- 11. Adjustments for the articles and tags (must be run as last instruction!)
+-- 10. Adjustments for the articles and tags (must be run as last instruction!)
 \echo '-- Adjustments for articles and tags --'
 --- Rename tags
 UPDATE articles_tags

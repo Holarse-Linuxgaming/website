@@ -5,14 +5,10 @@
 --------
 
 -- Variables for the script
-\set dbName holarse
 \set dbUser holarse
 
 
--- 1. Set the DB to holarse
-\connect -reuse-previous=on :dbName;
-
--- 3. Table generation
+-- 1. Table generation
 --- Search index
 \echo '-- Create tables --'
 CREATE MATERIALIZED VIEW IF NOT EXISTS search.mv_searchindex AS (
@@ -99,7 +95,7 @@ ALTER MATERIALIZED VIEW search.mv_suggestions OWNER TO :dbUser;
 CREATE INDEX IF NOT EXISTS idx_suggestions ON search.mv_suggestions USING gin(word, wtype);
 
 
--- 4. Triggers and functions
+-- 2. Triggers and functions
 \echo '-- Create triggers and functions --'
 CREATE OR REPLACE FUNCTION update_tag_use_count() RETURNS TRIGGER AS $trg_tag_usecount$
    BEGIN
