@@ -79,7 +79,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS search.mv_suggestions AS (
         a.title AS wlabel,
         'title'::suggestiontype AS wtype,
         0 AS use_count
-    FROm articles a
+    FROM articles a
 
     UNION
 
