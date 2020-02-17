@@ -18,7 +18,10 @@ public enum AttachmentType {
     YOUTUBECHANNEL  (AttachmentGroup.VIDEO),    
     TWITCH          (AttachmentGroup.VIDEO),        
     SCREENSHOT      (AttachmentGroup.IMAGE),
-    FILE            (AttachmentGroup.FILE);
+    FILE            (AttachmentGroup.FILE),
+    APPIMAGE        (AttachmentGroup.REPO),
+    FLATPAK         (AttachmentGroup.REPO),
+    SNAP            (AttachmentGroup.REPO);
     
     private final AttachmentGroup group;
     

@@ -25,6 +25,10 @@ public enum AttachmentGroup {
     /**
      * Medien-, Text oder Konfigurationsdateien
      */
-    FILE
+    FILE,
+    /**
+     * Repository wie Flatpak, AppImage oder Snap
+     */
+    REPO
     
 }
