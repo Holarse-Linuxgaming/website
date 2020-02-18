@@ -7,11 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Viewmodel für Artikel
  * @author comrad
  */
-public class ArticleView implements PageTitleView {
+public class ArticleView implements ContentView {
     
     private Long nodeId;
     private String mainTitle;
@@ -22,6 +24,7 @@ public class ArticleView implements PageTitleView {
     private String content = "";
     private String formattedContent = "";
     private String plainContent = "";
+    private String teaser = "";
     
     private String slug;
     
@@ -79,6 +82,7 @@ public class ArticleView implements PageTitleView {
         this.alternativeTitle3 = alternativeTitle3;
     }
 
+    @Override
     public String getContent() {
         return content;
     }
@@ -141,6 +145,20 @@ public class ArticleView implements PageTitleView {
         return getAttachments().get(AttachmentGroup.WEBSITE);
     }
 
+    /**
+     * Noch unklar, wie wir das benutzen wollen. Eigentlich
+     * müssten wir das Teaserergebnis
+     * @param teaser
+     */
+    @Deprecated
+    public void setTeaser(String teaser) {
+        this.teaser = teaser;
+    }
+
+    @Override
+    public String getTeaser() {
+        return StringUtils.abbreviate(content, 200);
+    }
 
     @Override
     public String getPageTitle() {

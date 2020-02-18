@@ -19,12 +19,11 @@ import de.holarse.exceptions.HolarseException;
 import de.holarse.exceptions.NodeLockException;
 import de.holarse.exceptions.NodeNotFoundException;
 import de.holarse.exceptions.RedirectException;
+import de.holarse.factories.ViewFactory;
 import de.holarse.renderer.Renderer;
 import de.holarse.search.SearchEngine;
 import de.holarse.services.NodeService;
 import de.holarse.services.TagService;
-import de.holarse.services.views.ViewConverter;
-import de.holarse.services.views.ConverterOptions;
 import de.holarse.services.views.UpdateState;
 import de.holarse.services.views.ViewUpdate;
 import java.io.IOException;
@@ -91,7 +90,7 @@ public class ArticleController {
     Renderer renderer;
     
     @Autowired
-    ViewConverter viewConverter;
+    ViewFactory viewFactory;
 
     // INDEX
     @Transactional
@@ -107,7 +106,7 @@ public class ArticleController {
                         
                         return n;
                 })
-                .map(n -> viewConverter.convert(n, new ArticleView(), ConverterOptions.WITH_RENDERER))
+                .map(viewFactory::fromArticle)
                 .collect(Collectors.toList());
         
         map.addAttribute("views", data);
@@ -117,6 +116,7 @@ public class ArticleController {
     }
 
     // NEW
+    @Deprecated
     @Secured("ROLE_USER")
     @GetMapping("new")
     public String newArticle(final Model map, final ArticleView command) {
@@ -175,10 +175,8 @@ public class ArticleController {
                 }
             }
             
-            ArticleView view = viewConverter.convert(article);
+            ArticleView view = viewFactory.fromArticle(article);
             
-            // Eigenen Titel setzen
-            map.addAttribute("title", view.getMainTitle());
             // Das View-Objekt
             map.addAttribute("view", view);
             // NodeId für die Statistik setzen
@@ -194,13 +192,13 @@ public class ArticleController {
     @Secured("ROLE_USER")
     @Transactional
     @GetMapping(value = "{id}/edit.json", produces = MediaType.APPLICATION_JSON_VALUE)    
-    public ResponseEntity<ArticleView> editAjax(@PathVariable("id") final Long id, final ArticleView view, final Authentication authentication) {
+    public ResponseEntity<ArticleView> editAjax(@PathVariable("id") final Long id, final Authentication authentication) {
         final Article article = articleRepository.findById(id).get();
         Hibernate.initialize(article.getTags());
         Hibernate.initialize(article.getAttachments());
         Hibernate.initialize(article.getComments());      
 
-        viewConverter.convert(article, view, ConverterOptions.WITHOUT_RENDERER);
+        ArticleView view = viewFactory.fromArticle(article);
         return new ResponseEntity<>(view, HttpStatus.OK);
     }
     

@@ -7,8 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 
-public class NewsView implements PageTitleView {
+
+public class NewsView implements ContentView {
 
     private Long nodeId;
     private String title;
@@ -17,6 +19,7 @@ public class NewsView implements PageTitleView {
     private String content;
     private String formattedContent;
     private String plainContent;
+    private String teaser;
     
     private OffsetDateTime created;
     private OffsetDateTime updated;
@@ -59,6 +62,7 @@ public class NewsView implements PageTitleView {
         this.subtitle = subtitle;
     }
 
+    @Override
     public String getContent() {
         return content;
     }
@@ -108,6 +112,21 @@ public class NewsView implements PageTitleView {
     public void setUpdated(OffsetDateTime updated) {
         this.updated = updated;
     }
+
+    /**
+     * Noch unklar, wie wir das benutzen wollen. Eigentlich
+     * müssten wir das Teaserergebnis
+     * @param teaser
+     */    
+    @Deprecated
+    public void setTeaser(String teaser) {
+        this.teaser = teaser;
+    }
+
+    @Override
+    public String getTeaser() {
+        return StringUtils.abbreviate(content, 200);
+    }    
 
     @Override
     public String getPageTitle() {

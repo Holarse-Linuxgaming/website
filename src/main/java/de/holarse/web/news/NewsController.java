@@ -11,11 +11,10 @@ import de.holarse.backend.db.repositories.RevisionRepository;
 import de.holarse.backend.views.NewsView;
 import de.holarse.backend.views.PaginationView;
 import de.holarse.exceptions.RedirectException;
+import de.holarse.factories.ViewFactory;
 import de.holarse.exceptions.HolarseException;
 import de.holarse.search.SearchEngine;
 import de.holarse.services.NodeService;
-import de.holarse.services.views.ConverterOptions;
-import de.holarse.services.views.ViewConverter;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.stream.Collectors;
@@ -26,7 +25,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
@@ -61,7 +59,7 @@ public class NewsController {
     NodeService nodeService;
     
     @Autowired
-    ViewConverter viewConverter;    
+    ViewFactory viewFactory;    
 
     // INDEX
     @Transactional
@@ -77,7 +75,7 @@ public class NewsController {
                         
                         return n;
                 })
-                .map(n -> viewConverter.convert(n, new NewsView(), ConverterOptions.WITH_RENDERER))
+                .map(viewFactory::fromNews)
                 .collect(Collectors.toList());
         
         
@@ -88,6 +86,7 @@ public class NewsController {
     }
 
     // NEW
+    @Deprecated
     @Secured({"ROLE_REPORTER", "ROLE_ADMIN"})           
     @GetMapping("new")
     public String newArticle(final Model map, final NewsCommand command) {
@@ -99,6 +98,7 @@ public class NewsController {
     }
 
     // CREATE
+    @Deprecated
     @Secured({"ROLE_REPORTER", "ROLE_ADMIN"})            
     @Transactional    
     @PostMapping  
@@ -139,7 +139,7 @@ public class NewsController {
                 throw new HolarseException("News nicht mehr verfügbar");
             
             // View-Objekt erzeugen
-            NewsView view = viewConverter.convert(node, new NewsView(), ConverterOptions.WITH_RENDERER);
+            NewsView view = viewFactory.fromNews(node);
             
             // View übergeben
             map.addAttribute("view", view);

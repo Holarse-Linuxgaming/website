@@ -22,7 +22,6 @@ public class SearchResultsView implements PageTitleView {
         throw new UnsupportedOperationException("Not supported yet."); // Wird nicht verwendet
     }
     
-
     @Override
     public String getPageTitle() {
         final StringBuilder buffer = new StringBuilder();
@@ -44,16 +43,6 @@ public class SearchResultsView implements PageTitleView {
 
     public List<SearchResultView> getResults() {
         return results;
-    }
-
-    @Override
-    public String getFormattedContent() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String getPlainContent() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

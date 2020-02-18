@@ -17,7 +17,7 @@
 
 <div class="row">
     <article class="col-md-8" data-nodeid="${view.nodeId}">
-        ${view.content}    
+        ${view.formattedContent}    
     </article>
     <!-- Tags -->
     
@@ -26,7 +26,7 @@
         <!-- Tags -->
         <div class="btn-group" role="group" aria-label="Basic example">
             <c:forEach items="${view.tags}" var="tag">
-                <a class="btn btn-primary" href="/finder/?tag=${tag}" title="Klicken für weitere Artikel mit diesem Tag">${tag}</a>
+                <a class="btn btn-primary" href="/finder/?tag=${tag}" title="Klicken fï¿½r weitere Artikel mit diesem Tag">${tag}</a>
             </c:forEach>
         </div>
         <!-- Screenshots -->

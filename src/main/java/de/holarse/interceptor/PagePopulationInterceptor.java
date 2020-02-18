@@ -2,14 +2,10 @@ package de.holarse.interceptor;
 
 import de.holarse.auth.web.HolarsePrincipal;
 import de.holarse.backend.db.User;
-import de.holarse.backend.db.repositories.UserRepository;
-import de.holarse.backend.db.repositories.TagRepository;
-import de.holarse.backend.views.MainMenuView;
 import de.holarse.backend.views.PageTitleView;
 import de.holarse.backend.views.View;
 import de.holarse.services.MenuService;
 import de.holarse.services.TrafficService;
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;

@@ -3,8 +3,9 @@
 
 <h1>
     ${view.title}
+    <small>${view.subtitle}</small>
 </h1>
 
 <p>
-    ${view.content}
+    ${view.formattedContent}
 </p>

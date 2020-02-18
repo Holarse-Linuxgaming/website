@@ -9,6 +9,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -65,13 +66,47 @@ public class WebUtilsTest {
     
     @Test
     public void testSlugifyRemoveComma() {
-        assertEquals("command_and_conquer_tiberian_sun", WebUtils.slugify("Command and Conquer - Tiberian Sun"));
+        assertEquals("linux_windows_macosx", WebUtils.slugify("Linux, Windows, MacOSX"));
     }   
     
     @Test
     public void testSlugifyRemovePeriod() {
         assertEquals("linux_version_von_aspyrs_neustem_horrortitel_observer_kommt_am_2410", WebUtils.slugify("Linux-Version von Aspyr's neustem Horrortitel observer_ kommt am 24.10."));
     }     
+
+    @Test
+    public void testSlugifyRemoveHashtag() {
+        assertEquals("ich_bin_ohne_hashtag", WebUtils.slugify("Ich bin ohne #Hashtag"));
+    }        
+
+    @Ignore
+    @Test
+    public void testSlugifyRemoveHashtagAndStrip1() {    
+        assertEquals("holarse_wochenend_rückblick_2020_06_drückblick_besiege_verlässt_early_access_luna_shadow_dust", WebUtils.slugify("Holarse Wochenend-Rückblick 2020-06 #Drückblick - Besiege verlässt Early Access, LUNA The Shadow Dust veröffentlicht, neuer Simutrans-Release, Humble Bundle jetzt auf deutsch, mal wieder ein Indie-Pick uvm."));
+    }        
+
+    @Ignore
+    @Test
+    public void testSlugifyRemoveHashtagAndStrip2() {    
+        assertEquals("holarse_wochenend_rückblick_2020_05_drückblick_avorion_bald_10_empires_ruins_verspricht_linux", WebUtils.slugify("Holarse Wochenend-Rückblick 2020-05 #Drückblick - Avorion bald 1.0, Empires in Ruins verspricht Linux, Starcom: Nexus hat Linux, Universim nun in Beta und UnityStation Public Alpha für SpaceStation13-Fans, Icculus aktualisiert Descent uvm."));
+    }        
+    
+    @Test
+    public void testSlugifyRemoveHashtagAndStrip3() {    
+        assertEquals("holarse_wochenend_rückblick_2020_04_drückblick_daedalic_mit_zwei_neuen_spielen_für_linux_little", WebUtils.slugify("Holarse Wochenend-Rückblick 2020-04 #Drückblick - Daedalic mit zwei neuen Spielen für Linux, Little Racers STREET erhält spontanen Port dank FNA - Godot Engine 3.2 - NVIDIA stampft Treiber für ältere Karten ein"));
+    }        
+    
+    @Ignore    
+    @Test
+    public void testSlugifyRemoveHashtagAndStrip4() {    
+        assertEquals("holarse_wochenend_rückblick_3_im_januar_2020_drückblick_ärger_um_rocket_league_half_life_serie", WebUtils.slugify("Holarse Wochenend-Rückblick 3 im Januar 2020 #Drückblick - Ärger um Rocket League - Half-Life-Serie bis Alyx-Release kostenlos spielbar - Wine 5 und der Lunar Sale startet"));
+    }        
+
+    @Ignore    
+    @Test
+    public void testSlugifyRemoveHashtagAndStrip5() {
+        assertEquals("holarse_wochenend_rückblick_51_im_januar_2020_drückblick_der_erste_und_beste_drückblick_des", WebUtils.slugify("Holarse Wochenend-Rückblick 51 im Januar 2020 #Drückblick - Der erste und beste Drückblick des Jahres - Open Source-Update-Fest"));
+    }
     
     @Test
     public void testSlugifyRemoveExclamationMark() {
