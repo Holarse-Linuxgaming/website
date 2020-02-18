@@ -121,10 +121,8 @@ public class News extends BranchableNode implements Frontpagable, Searchable {
         this.newsType = newsType;
     }
 
-
     @Override
     public String getTeaserImage() {
         return null;
-    }
-    
+    }   
 }

@@ -107,6 +107,8 @@ public class ViewConverterServiceImpl implements ViewConverter {
         view.setTitle(news.getTitle());
         view.setSubtitle(news.getSubtitle());
         view.setSlug(news.getSlug());
+        view.setCreated(news.getCreated());
+        view.setUpdated(news.getUpdated());
         
         switch (options) {
             case WITHOUT_RENDERER:
