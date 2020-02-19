@@ -1,3 +1,4 @@
+<%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 Available Articles:
@@ -7,7 +8,7 @@ Available Articles:
             <th>ID</th>
             <th>Titel</th>
             <th>letzter Autor</th>
-            <th>Zuletzt ge‰ndert am</th>
+            <th>Zuletzt ge√§ndert am</th>
         </tr>
     </thead>
     <tbody>

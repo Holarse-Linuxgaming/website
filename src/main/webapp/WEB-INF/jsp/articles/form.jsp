@@ -1,3 +1,4 @@
+<%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <div id="v-article-editor" data-nodeid="${nodeId}">
@@ -19,8 +20,8 @@
 
         <div class="col-md-4">
             <div class="input-group g-brd-primary--focus g-mb-10">
-                <input class="form-control form-control-md border-right-0 rounded-0 pr-0" type="text" placeholder="Deine Änderungsnotiz">
-                <b class="tooltip tooltip-top-right u-tooltip--v1">Kurze Notiz über die Änderung</b>
+                <input class="form-control form-control-md border-right-0 rounded-0 pr-0" type="text" placeholder="Deine ï¿½nderungsnotiz">
+                <b class="tooltip tooltip-top-right u-tooltip--v1">Kurze Notiz ï¿½ber die ï¿½nderung</b>
                 <div class="input-group-append">
                   <span class="input-group-text rounded-0 g-color-gray-dark-v5"><i class="icon-info"></i></span>
                 </div>
@@ -81,7 +82,7 @@
                 <span class="u-nav-v8__icon u-icon-v3 u-icon-size--lg g-rounded-50x g-brd-around g-brd-4 g-brd-white">
                   <i class="fa fa-file-archive-o"></i>
                 </span>
-                <strong class="text-uppercase u-nav-v8__title">Anhänge</strong>
+                <strong class="text-uppercase u-nav-v8__title">Anhï¿½nge</strong>
                 <em class="u-nav-v8__description">Patches, Konfigurationen, usw.</em>
               </a>
             </li>
@@ -114,7 +115,7 @@
                                             <input id="mainTitle" v-model="node.mainTitle" class="form-control form-control-md rounded-0" placeholder="Titel des Artikels">
                                         </div>
                                         <div class="col-md-2">
-                                            <a href="#" v-on:click="ctrl.show_additional_titles = !ctrl.show_additional_titles" class="btn btn-md u-btn-primary g-mr-10 g-mb-15" title="Klicken für zusätzliche Titel">
+                                            <a href="#" v-on:click="ctrl.show_additional_titles = !ctrl.show_additional_titles" class="btn btn-md u-btn-primary g-mr-10 g-mb-15" title="Klicken fï¿½r zusï¿½tzliche Titel">
                                                 <i class="fa fa-database"></i>
                                                 <i class="fa fa-plus" v-if='!ctrl.show_additional_titles'></i>
                                                 <i class="fa fa-minus" v-if='ctrl.show_additional_titles'></i>
@@ -124,7 +125,7 @@
                                 <small class="form-text text-muted g-font-size-default g-mt-10">Der Haupttitel dieses Artikels</small>                            
                    </div>
 
-                   <!-- Zusätzliche Titel -->
+                   <!-- Zusï¿½tzliche Titel -->
                    <div class="additional-titles" v-if="ctrl.show_additional_titles">
                         <div class="form-group g-mb-20">
                             <label class="g-mb-10" for="alternativeTitle1">Alternativtitel 1</label>
@@ -147,8 +148,8 @@
 
                    <div class="form-group g-mb-20">
                         <label class="g-mb-10" for="tags">Tags</label>
-                         <input id="tags" v-model="node.tags" class="form-control form-control-md rounded-0" placeholder="Tags eingeben mit Autovervollständigung">
-                         <small class="form-text text-muted g-font-size-default g-mt-10">Tags, die den Artikel eingruppieren und katalogisieren. Nutzt die Autovervollständigung, um Tags zu finden</small>
+                         <input id="tags" v-model="node.tags" class="form-control form-control-md rounded-0" placeholder="Tags eingeben mit Autovervollstï¿½ndigung">
+                         <small class="form-text text-muted g-font-size-default g-mt-10">Tags, die den Artikel eingruppieren und katalogisieren. Nutzt die Autovervollstï¿½ndigung, um Tags zu finden</small>
                     </div>               
 
                    <div class="form-group g-mb-20">

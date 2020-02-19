@@ -28,7 +28,7 @@ public class ArticleView implements ContentView {
     private String slug;
     
     private String tagLine; // Representation der Eingabezeile für Tags
-    private List<String> tags = new ArrayList<>(20);
+    private List<TagView> tags = new ArrayList<>(20);
     private final Map<AttachmentGroup, List<AttachmentView>> attachments = new HashMap<>();
    
     @Override
@@ -116,7 +116,7 @@ public class ArticleView implements ContentView {
         this.slug = slug;
     }
     
-    public List<String> getTags() {
+    public List<TagView> getTags() {
         return tags;
     }
 

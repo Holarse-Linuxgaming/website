@@ -1,3 +1,4 @@
+<%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="s" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -26,7 +27,7 @@
         <!-- Tags -->
         <div class="btn-group" role="group" aria-label="Basic example">
             <c:forEach items="${view.tags}" var="tag">
-                <a class="btn btn-primary" href="/finder/?tag=${tag}" title="Klicken f�r weitere Artikel mit diesem Tag">${tag}</a>
+                <a class="btn btn-primary" href="/finder/?tag=${tag.name}" title="Klicken für weitere Artikel mit diesem Tag">${tag.name}</a>
             </c:forEach>
         </div>
         <!-- Screenshots -->
@@ -85,7 +86,7 @@
         <!-- Websites -->
         <div class="list-group">
             <c:forEach items="${view.websites}" var="website">
-                <a href="${website.attachmentData}" class="list-group-item list-group-item-action" title="${website.attachmentData}">${empty website.description ? website.attachmentData : website.description}</a>    
+                <a href="${website.data}" class="list-group-item list-group-item-action" title="${website.data}">${empty website.description ? website.data : website.description}</a>    
             </c:forEach>
         </div>               
         

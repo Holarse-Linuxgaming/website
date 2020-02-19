@@ -45,11 +45,10 @@ public class ViewFactory
                 .map(this::fromAttachment)
                 .collect(Collectors.groupingBy(a -> a.getGroup()));
         
-        // TODO In AttachmentViews umwandeln
         view.getAttachments().putAll(attachmentGroups);
 
         // TODO In Tag-Views umwandeln
-        view.getTags().addAll(article.getTags().stream().map(t -> t.getName()).collect(Collectors.toList()));        
+        view.getTags().addAll(article.getTags().stream().map(this::fromTag).collect(Collectors.toList()));        
         
         logger.debug("Content: {}", article.getContent());
 
