@@ -9,9 +9,9 @@ import de.holarse.backend.views.PaginationView;
 import de.holarse.backend.views.SearchResultView;
 import de.holarse.backend.views.TagGroupView;
 import de.holarse.backend.views.TagView;
+import de.holarse.factories.ViewFactory;
 import de.holarse.search.SearchEngine;
 import de.holarse.services.TagService;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -25,7 +25,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,6 +45,8 @@ public class GameFinderController {
     @Autowired ArticleRepository articleRepository;
     
     @Autowired TagService tagService;
+
+    @Autowired ViewFactory viewFactory;
     
     @Autowired 
     @Qualifier("pgsql")            
@@ -54,12 +55,12 @@ public class GameFinderController {
     @Transactional
     @GetMapping
     public ModelAndView index(@RequestParam(value = "tags", required = false) final List<String> tags, 
-                        @RequestParam(value = "tag",  required = false) final String newTag, 
-                        @RequestParam(value = "q", required = false) final String q,
-                        @RequestParam(value = "i", required = false, defaultValue = "0") final int i, // Indikator für Erstsuche, wo Top-Titel
-                        @RequestParam(name= "page", defaultValue = "1") final int page, 
-                        @RequestParam(name = "pageSize", defaultValue = "30") final int pageSize,                        
-                        final Model map) {
+                              @RequestParam(value = "tag",  required = false) final String newTag, 
+                              @RequestParam(value = "q", required = false) final String q,
+                              @RequestParam(value = "i", required = false, defaultValue = "0") final int i, // Indikator für Erstsuche, wo Top-Titel
+                              @RequestParam(value = "page", defaultValue = "1") final int page, 
+                              @RequestParam(value = "pageSize", defaultValue = "30") final int pageSize,                        
+                              final Model map) {
         long timer_start = System.currentTimeMillis();
         
         final List<TagGroupView> views = new ArrayList<>(100);
@@ -72,7 +73,7 @@ public class GameFinderController {
             // Summe der zugehörigen Artikel zählen
             final long groupedSum = assocTags.stream().mapToLong(t -> t.getUseCount()).sum();
             // TagViews erstellen
-            final List<TagView> tagViews = assocTags.stream().map(t -> new TagView(t.getName(), t.getName(), t.getUseCount())).collect(Collectors.toList());
+            final List<TagView> tagViews = assocTags.stream().map(viewFactory::fromTag).collect(Collectors.toList());
             // TagGroupView erstellen
             final TagGroupView tgv = new TagGroupView(tg.getName(), tagViews, groupedSum);
             views.add(tgv);
@@ -80,7 +81,7 @@ public class GameFinderController {
         
         // Freie Tags noch einfügen
         final List<Tag> freeTags = tagRepository.findFreeTags();
-        final List<TagView> freeTagViews = freeTags.stream().map(ft -> new TagView(ft.getName(), ft.getName(), ft.getUseCount())).collect(Collectors.toList());
+        final List<TagView> freeTagViews = freeTags.stream().map(viewFactory::fromTag).collect(Collectors.toList());
         final long freeTagGroupSum = freeTags.stream().mapToLong(t -> t.getUseCount()).sum();
         final TagGroupView tgvFree = new TagGroupView("Freie Stichworte", freeTagViews, freeTagGroupSum);
         views.add(tgvFree);

@@ -1,6 +1,5 @@
 package de.holarse.backend.views;
 
-import de.holarse.backend.db.Attachment;
 import de.holarse.backend.db.types.AttachmentGroup;
 import java.time.OffsetDateTime;
 import java.util.HashMap;
@@ -8,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-
 
 public class NewsView implements ContentView {
 
@@ -25,9 +23,8 @@ public class NewsView implements ContentView {
     private OffsetDateTime updated;
     private String slug;
     
-    private final Map<AttachmentGroup, List<Attachment>> attachments = new HashMap<>();    
+    private final Map<AttachmentGroup, List<AttachmentView>> attachments = new HashMap<>();    
     
-   
     @Override
     public String getUrl() {
         return String.format("/news/%s", slug);
@@ -133,8 +130,20 @@ public class NewsView implements ContentView {
         return String.format("%s", title);
     }
 
-    public Map<AttachmentGroup, List<Attachment>> getAttachments() {
+    public Map<AttachmentGroup, List<AttachmentView>> getAttachments() {
         return attachments;
     }
+    
+    public List<AttachmentView> getVideos() {
+        return getAttachments().get(AttachmentGroup.VIDEO);
+    }
+    
+    public List<AttachmentView> getScreenshots() {
+        return getAttachments().get(AttachmentGroup.IMAGE);
+    }    
+    
+    public List<AttachmentView> getWebsites() {
+        return getAttachments().get(AttachmentGroup.WEBSITE);
+    }    
     
 }

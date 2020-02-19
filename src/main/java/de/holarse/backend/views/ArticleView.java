@@ -1,6 +1,5 @@
 package de.holarse.backend.views;
 
-import de.holarse.backend.db.Attachment;
 import de.holarse.backend.db.types.AttachmentGroup;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +29,7 @@ public class ArticleView implements ContentView {
     
     private String tagLine; // Representation der Eingabezeile für Tags
     private List<String> tags = new ArrayList<>(20);
-    private final Map<AttachmentGroup, List<Attachment>> attachments = new HashMap<>();
+    private final Map<AttachmentGroup, List<AttachmentView>> attachments = new HashMap<>();
    
     @Override
     public String getUrl() {
@@ -129,19 +128,19 @@ public class ArticleView implements ContentView {
         this.tagLine = tagLine;
     }
         
-    public Map<AttachmentGroup, List<Attachment>> getAttachments() {
+    public Map<AttachmentGroup, List<AttachmentView>> getAttachments() {
         return attachments;
     }
     
-    public List<Attachment> getVideos() {
+    public List<AttachmentView> getVideos() {
         return getAttachments().get(AttachmentGroup.VIDEO);
     }
     
-    public List<Attachment> getScreenshots() {
+    public List<AttachmentView> getScreenshots() {
         return getAttachments().get(AttachmentGroup.IMAGE);
     }    
     
-    public List<Attachment> getWebsites() {
+    public List<AttachmentView> getWebsites() {
         return getAttachments().get(AttachmentGroup.WEBSITE);
     }
 

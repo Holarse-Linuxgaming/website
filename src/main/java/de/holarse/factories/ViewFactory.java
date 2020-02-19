@@ -12,11 +12,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import de.holarse.backend.db.News;
+import de.holarse.backend.db.Tag;
 import de.holarse.backend.db.Article;
 import de.holarse.backend.db.Attachment;
 import de.holarse.backend.db.types.AttachmentGroup;
 import de.holarse.backend.views.ArticleView;
+import de.holarse.backend.views.AttachmentView;
 import de.holarse.backend.views.NewsView;
+import de.holarse.backend.views.TagView;
 import de.holarse.renderer.Renderer;
 
 @Component
@@ -36,10 +39,11 @@ public class ViewFactory
     public ArticleView fromArticle(final Article article) {
         final ArticleView view = new ArticleView();
                 
-        final Map<AttachmentGroup, List<Attachment>> attachmentGroups = article.getAttachments()
+        final Map<AttachmentGroup, List<AttachmentView>> attachmentGroups = article.getAttachments()
                 .stream()
                 .filter(a -> StringUtils.isNotBlank(a.getAttachmentData()))
-                .collect(Collectors.groupingBy(a -> a.getAttachmentGroup()));
+                .map(this::fromAttachment)
+                .collect(Collectors.groupingBy(a -> a.getGroup()));
         
         // TODO In AttachmentViews umwandeln
         view.getAttachments().putAll(attachmentGroups);
@@ -76,12 +80,12 @@ public class ViewFactory
     public NewsView fromNews(final News news) {
         NewsView view = new NewsView();
         
-        final Map<AttachmentGroup, List<Attachment>> attachmentGroups = news.getAttachments()
+        final Map<AttachmentGroup, List<AttachmentView>> attachmentGroups = news.getAttachments()
                 .stream()
                 .filter(a -> StringUtils.isNotBlank(a.getAttachmentData()))
-                .collect(Collectors.groupingBy(a -> a.getAttachmentGroup()));
+                .map(this::fromAttachment)
+                .collect(Collectors.groupingBy(a -> a.getGroup()));
 
-        // TODO In Attachment-Views umwandeln
         view.getAttachments().putAll(attachmentGroups);
         
         logger.debug("Content: {}", news.getContent());
@@ -103,7 +107,26 @@ public class ViewFactory
         }        
         
         return view;
-    }      
+    } 
+    
+    public AttachmentView fromAttachment(final Attachment attachment) {
+        final AttachmentView view = new AttachmentView();
+        view.setData(attachment.getAttachmentData());
+        view.setDescription(attachment.getDescription());
+
+        view.setOrdering(attachment.getOrdering());
+
+        view.setType(attachment.getAttachmentType());
+        view.setGroup(attachment.getAttachmentGroup());        
+        view.setDatatype(attachment.getAttachmentDataType());
+        
+        return view;
+    }
+
+    public TagView fromTag(final Tag tag) {
+        final TagView view = new TagView(tag.getName(), tag.getName(), tag.getUseCount());
+        return view;
+    }
 
 
 }
