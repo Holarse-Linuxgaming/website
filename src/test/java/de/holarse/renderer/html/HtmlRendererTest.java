@@ -288,6 +288,13 @@ public class HtmlRendererTest {
         String expc = "Hallo &lt;script&gt;alert(\"error\");&lt;/script&gt; Welt";
         assertEquals(expc, renderer.render(text));
     }
+
+    @Test
+    public void testVersionShouldNotBeALink() {
+	String text = "Das ist Version 1.2.3 des Projekts.";
+	String expected = "Das ist Version 1.2.3 des Projekts.";
+	assertEquals(expected, renderer.render(text));
+    }
     
     /*** ERROR CASES ***/
     
