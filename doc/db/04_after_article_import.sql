@@ -264,7 +264,7 @@ WHERE name IN (
     'Simulation',
     'Tower Defense',
     'FPS',
-    'Landwirtschaft', 
+    'Landwirtschaft',
     'Wikinger',
     'Musik',
     'Fußball',
@@ -364,7 +364,7 @@ WHERE name IN (
     'Ausmalen',
     'D&D',
     'Third Person',
-    'Interactive Tale', 
+    'Interactive Tale',
     'Western',
     'Permadeath',
     'Blöcke',
@@ -378,7 +378,7 @@ WHERE name IN (
     'Steampunk',
     'Sportsimulation',
     'Racing',
-    'Warhammer', 
+    'Warhammer',
     'Noir',
     'Mythologie',
     'Godlike',
@@ -430,37 +430,37 @@ WHERE name IN (
     'Raumstation',
     'Vietnam',
     'Krankenhaus',
-    'Zeitreisen', 
+    'Zeitreisen',
     'Züge',
     'First Person',
-	'historisch', 
-	'Rennspiele',
-	'Sportspiele',
-	'Weltraumshooter',
-	'Kinder',
-	'Fussball Manager',
-	'Skating',
-	'Social',
-	'infinte runner',
-	'boxen',
-	'isometrisch',
-	'Exploration',
-	'Rom',
-	'Schwer',
-	'generierter Inhalt',
-	'Wuselfaktor',
-	'text-basiert',
-	'Mech', 
-	'Meditation',
-	'MMO',
-	'Procedural Generated',
-	'Programmierung',
-	'Psycho',
-	'RPG',
-	'Stategie',
-	'terminal',
-	'Pixelart',
-	'pixelgrafik'
+    'historisch',
+	  'Rennspiele',
+    'Sportspiele',
+    'Weltraumshooter',
+    'Kinder',
+    'Fussball Manager',
+    'Skating',
+    'Social',
+    'infinte runner',
+    'boxen',
+    'isometrisch',
+    'Exploration',
+    'Rom',
+    'Schwer',
+    'generierter Inhalt',
+    'Wuselfaktor',
+    'text-basiert',
+    'Mech',
+    'Meditation',
+    'MMO',
+    'Procedural Generated',
+    'Programmierung',
+    'Psycho',
+    'RPG',
+    'Stategie',
+    'terminal',
+    'Pixelart',
+    'pixelgrafik'
 );
 
 
@@ -469,13 +469,13 @@ WHERE name IN (
 UPDATE tags SET taggroup_id = (SELECT id FROM taggroups WHERE name = 'PORTER')
 WHERE name IN (
     'Asypr',
-	'Feral Interactive',
-	'flibitijibibo',
-	'icculus',
-	'Loki',
-	'Virtual Programming',
-	'Hyperion Entertainment',
-	'Runesoft'
+    'Feral Interactive',
+    'flibitijibibo',
+    'icculus',
+    'Loki',
+    'Virtual Programming',
+    'Hyperion Entertainment',
+    'Runesoft'
 );
 
 
@@ -484,9 +484,9 @@ WHERE name IN (
 UPDATE tags SET taggroup_id = (SELECT id FROM taggroups WHERE name = 'PACKAGEMANAGER')
 WHERE name IN (
     'PPA',
-	'SNAP',
-	'Flatpak',
-	'AppImage',
+    'SNAP',
+    'Flatpak',
+    'AppImage',
 );
 
 
@@ -495,117 +495,139 @@ WHERE name IN (
 -- FIXME: Check if target tag already exists within a tag-set of an article. Maybe window functions?
 \echo '-- Adjustments for articles and tags --'
 --- Rename tags if target tag is not yet present
-begin transaction;
-UPDATE articles_tags 
+BEGIN TRANSACTION;
+UPDATE articles_tags
 SET tags_id = (SELECT id FROM tags WHERE name = 'Kommerziell')
 WHERE tags_id = (SELECT id FROM tags WHERE name = 'Kommerztiell')
-and article_id not in (select article_id from articles_tags where tags_id = (SELECT id FROM tags WHERE name = 'Kommerziell'));
-delete from articles_tags where tags_id = (SELECT id FROM tags WHERE name = 'Kommerztiell');
-commit;
+      AND article_id NOT IN (SELECT article_id FROM articles_tags WHERE tags_id = (SELECT id FROM tags WHERE name = 'Kommerziell'));
+
+DELETE FROM articles_tags WHERE tags_id = (SELECT id FROM tags WHERE name = 'Kommerztiell');
+COMMIT;
 
 UPDATE tags SET name = 'infinite runner' WHERE name = 'infinte runner';
 
 UPDATE tags SET name = 'Mehrspieler' WHERE name = 'mehrspieler';
 
 --- Set tags correctly
-begin transaction;
+BEGIN TRANSACTION;
 UPDATE articles_tags
 SET tags_id = (SELECT id FROM tags WHERE name = '32bit')
-WHERE tags_id = (SELECT id FROM tags WHERE name = 'native_x86');
-and article_id not in (select article_id from articles_tags where tags_id = (SELECT id FROM tags WHERE name = '32bit'));
-delete from articles_tags where tags_id = (SELECT id FROM tags WHERE name = 'native_x86');
-delete from tags where tags_id = (SELECT id FROM tags WHERE name = 'native_x86');
-commit;
+WHERE tags_id = (SELECT id FROM tags WHERE name = 'native_x86')
+      AND article_id NOT IN (SELECT article_id FROM articles_tags WHERE tags_id = (SELECT id FROM tags WHERE name = '32bit'));
 
-begin transaction;
+DELETE FROM articles_tags WHERE tags_id = (SELECT id FROM tags WHERE name = 'native_x86');
+
+DELETE FROM tags WHERE name = 'native_x86';
+COMMIT;
+
+BEGIN TRANSACTION;
 UPDATE articles_tags
 SET tags_id = (SELECT id FROM tags WHERE name = 'amd64')
 WHERE tags_id = (SELECT id FROM tags WHERE name = 'native_x86_64')
-and article_id not in (select article_id from articles_tags where tags_id = (SELECT id FROM tags WHERE name = 'amd64'));
-delete from articles_tags where tags_id = (SELECT id FROM tags WHERE name = 'native_x86_64');
-delete from tags where tags_id = (SELECT id FROM tags WHERE name = 'native_x86_64');
-commit;
+      AND article_id NOT IN (SELECT article_id FROM articles_tags WHERE tags_id = (SELECT id FROM tags WHERE name = 'amd64'));
 
-begin transaction;
+DELETE FROM articles_tags WHERE tags_id = (SELECT id FROM tags WHERE name = 'native_x86_64');
+
+DELETE FROM tags WHERE name = 'native_x86_64';
+COMMIT;
+
+BEGIN TRANSACTION;
 UPDATE articles_tags
 SET tags_id = (SELECT id FROM tags WHERE name = 'einstellt')
 WHERE tags_id = (SELECT id FROM tags WHERE name = 'einstellt. eingestampft')
-and article_id not in (select article_id from articles_tags where tags_id = (SELECT id FROM tags WHERE name = 'einstellt'));
-delete from articles_tags where tags_id = (SELECT id FROM tags WHERE name = 'einstellt. eingestampft');
-delete from tags where tags_id = (SELECT id FROM tags WHERE name = 'einstellt. eingestampft');
-commit;
+      AND article_id NOT IN (SELECT article_id FROM articles_tags WHERE tags_id = (SELECT id FROM tags WHERE name = 'einstellt'));
 
-begin transaction;
+DELETE FROM articles_tags WHERE tags_id = (SELECT id FROM tags WHERE name = 'einstellt. eingestampft');
+
+DELETE FROM tags WHERE name = 'einstellt. eingestampft';
+COMMIT;
+
+BEGIN TRANSACTION;
 UPDATE articles_tags
 SET tags_id = (SELECT id FROM tags WHERE name = 'Flatpak')
 WHERE tags_id = (SELECT id FROM tags WHERE name = 'Flatpack')
-and article_id not in (select article_id from articles_tags where tags_id = (SELECT id FROM tags WHERE name = 'Flatpak'));
-delete from articles_tags where tags_id = (SELECT id FROM tags WHERE name = 'Flatpack');
-delete from tags where tags_id = (SELECT id FROM tags WHERE name = 'Flatpack');
-commit;
+      AND article_id NOT IN (SELECT article_id FROM articles_tags WHERE tags_id = (SELECT id FROM tags WHERE name = 'Flatpak'));
 
-begin transaction;
+DELETE FROM articles_tags WHERE tags_id = (SELECT id FROM tags WHERE name = 'Flatpack');
+
+DELETE FROM tags WHERE name = 'Flatpack';
+COMMIT;
+
+BEGIN TRANSACTION;
 UPDATE articles_tags
 SET tags_id = (SELECT id FROM tags WHERE name = 'Gamepad')
 WHERE tags_id = (SELECT id FROM tags WHERE name = 'Gampad')
-and article_id not in (select article_id from articles_tags where tags_id = (SELECT id FROM tags WHERE name = 'Gamepad'));
-delete from articles_tags where tags_id = (SELECT id FROM tags WHERE name = 'Gampad');
-delete from tags where tags_id = (SELECT id FROM tags WHERE name = 'Gampad');
-commit;
+      AND article_id NOT IN (SELECT article_id FROM articles_tags WHERE tags_id = (SELECT id FROM tags WHERE name = 'Gamepad'));
 
-begin transaction;
+DELETE FROM articles_tags where tags_id = (SELECT id FROM tags WHERE name = 'Gampad');
+
+DELETE FROM tags WHERE name = 'Gampad';
+COMMIT;
+
+BEGIN TRANSACTION;
 UPDATE articles_tags
 SET tags_id = (SELECT id FROM tags WHERE name = 'kein LAN')
 WHERE tags_id = (SELECT id FROM tags WHERE name = 'keinLAN')
-and article_id not in (select article_id from articles_tags where tags_id = (SELECT id FROM tags WHERE name = 'kein LAN'));
-delete from articles_tags where tags_id = (SELECT id FROM tags WHERE name = 'keinLAN');
-delete from tags where tags_id = (SELECT id FROM tags WHERE name = 'keinLAN');
-commit;
+      AND article_id NOT IN (SELECT article_id FROM articles_tags WHERE tags_id = (SELECT id FROM tags WHERE name = 'kein LAN'));
 
-begin transaction;
+DELETE FROM articles_tags WHERE tags_id = (SELECT id FROM tags WHERE name = 'keinLAN');
+
+DELETE FROM tags WHERE name = 'keinLAN';
+COMMIT;
+
+BEGIN TRANSACTION;
 UPDATE articles_tags
 SET tags_id = (SELECT id FROM tags WHERE name = 'Mod')
 WHERE tags_id = (SELECT id FROM tags WHERE name = 'Mods')
-and article_id not in (select article_id from articles_tags where tags_id = (SELECT id FROM tags WHERE name = 'Mod'));
-delete from articles_tags where tags_id = (SELECT id FROM tags WHERE name = 'Mods');
-delete from tags where tags_id = (SELECT id FROM tags WHERE name = 'Mods');
-commit;
+      AND article_id NOT IN (SELECT article_id FROM articles_tags WHERE tags_id = (SELECT id FROM tags WHERE name = 'Mod'));
+DELETE FROM articles_tags WHERE tags_id = (SELECT id FROM tags WHERE name = 'Mods');
 
-begin transaction;
+DELETE FROM tags WHERE name = 'Mods';
+COMMIT;
+
+BEGIN TRANSACTION;
 UPDATE articles_tags
 SET tags_id = (SELECT id FROM tags WHERE name = 'Steam VR')
 WHERE tags_id = (SELECT id FROM tags WHERE name = 'SteamVR')
-and article_id not in (select article_id from articles_tags where tags_id = (SELECT id FROM tags WHERE name = 'Steam VR'));
-delete from articles_tags where tags_id = (SELECT id FROM tags WHERE name = 'SteamVR');
-delete from tags where tags_id = (SELECT id FROM tags WHERE name = 'SteamVR');
-commit;
+      AND article_id NOT IN (SELECT article_id FROM articles_tags WHERE tags_id = (SELECT id FROM tags WHERE name = 'Steam VR'));
 
-begin transaction;
+DELETE FROM articles_tags WHERE tags_id = (SELECT id FROM tags WHERE name = 'SteamVR');
+
+DELETE FROM tags WHERE name = 'SteamVR';
+COMMIT;
+
+BEGIN TRANSACTION;
 UPDATE articles_tags
 SET tags_id = (SELECT id FROM tags WHERE name = 'split-screen')
 WHERE tags_id = (SELECT id FROM tags WHERE name = 'splitscreen')
-and article_id not in (select article_id from articles_tags where tags_id = (SELECT id FROM tags WHERE name = 'split-screen'));
-delete from articles_tags where tags_id = (SELECT id FROM tags WHERE name = 'splitscreen');
-delete from tags where tags_id = (SELECT id FROM tags WHERE name = 'splitscreen');
-commit;
+      AND article_id NOT IN (SELECT article_id FROM articles_tags WHERE tags_id = (SELECT id FROM tags WHERE name = 'split-screen'));
 
-begin transaction;
+DELETE FROM articles_tags WHERE tags_id = (SELECT id FROM tags WHERE name = 'splitscreen');
+
+DELETE FROM tags WHERE name = 'splitscreen';
+COMMIT;
+
+BEGIN TRANSACTION;
 UPDATE articles_tags
 SET tags_id = (SELECT id FROM tags WHERE name = 'Strategie')
 WHERE tags_id = (SELECT id FROM tags WHERE name = 'Stategie')
-and article_id not in (select article_id from articles_tags where tags_id = (SELECT id FROM tags WHERE name = 'Strategie'));
-delete from articles_tags where tags_id = (SELECT id FROM tags WHERE name = 'Stategie');
-delete from tags where tags_id = (SELECT id FROM tags WHERE name = 'Stategie');
-commit;
+      AND article_id NOT IN (SELECT article_id FROM articles_tags WHERE tags_id = (SELECT id FROM tags WHERE name = 'Strategie'));
+
+DELETE FROM articles_tags WHERE tags_id = (SELECT id FROM tags WHERE name = 'Stategie');
+
+DELETE FROM tags WHERE name = 'Stategie';
+COMMIT;
 
 begin transaction;
 UPDATE articles_tags
 SET tags_id = (SELECT id FROM tags WHERE name = 'Engines')
 WHERE tags_id = (SELECT id FROM tags WHERE name = 'engine')
-and article_id not in (select article_id from articles_tags where tags_id = (SELECT id FROM tags WHERE name = 'Engines'));
-delete from articles_tags where tags_id = (SELECT id FROM tags WHERE name = 'engine');
-delete from tags where tags_id = (SELECT id FROM tags WHERE name = 'engine');
-commit;
+      AND article_id NOT IN (SELECT article_id FROM articles_tags WHERE tags_id = (SELECT id FROM tags WHERE name = 'Engines'));
+
+DELETE FROM articles_tags WHERE tags_id = (SELECT id FROM tags WHERE name = 'engine');
+
+DELETE FROM tags WHERE name = 'engine');
+COMMIT;
 
 --- Tag assignment
 INSERT INTO tags(id, created, name, taggroup_id)
@@ -615,7 +637,7 @@ VALUES
 -- add feral store to all feral games
 INSERT INTO articles_tags(article_id, tags_id)
     SELECT a.id AS article_id, (SELECT id FROM tags WHERE name = 'Feral Store') AS tags_id
-    FROM articles a 
+    FROM articles a
     LEFT JOIN articles_tags at1 ON at1.article_id = a.id AND at1.tags_id = (SELECT id FROM tags WHERE name = 'Feral Interactive')
     LEFT JOIN articles_tags at2 ON at2.article_id = a.id AND at2.tags_id = (SELECT id FROM tags WHERE name = 'Spiele')
     LEFT JOIN articles_tags at3 ON at3.article_id = a.id AND at3.tags_id = (SELECT id FROM tags WHERE name = 'Kommerziell')

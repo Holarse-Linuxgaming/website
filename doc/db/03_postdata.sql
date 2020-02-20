@@ -40,14 +40,14 @@ INSERT INTO taggroups(id, name) VALUES (nextval('hibernate_sequence'), 'PACKAGEM
 -- 3. Forums
 \echo '-- Insert forums --'
 INSERT INTO forums(id, title, description, slug)
-VALUES 
-    (nextval('hibernate_sequence'), 'Spieletreff', 'Zum regelmäßige Spieletreff sind alle Linuxspieler herzlich eingeladen!', 'spieletreff'), 
-    (nextval('hibernate_sequence'), 'Holarse Services', 'Fragen oder Anregungen zu unseren Gameservern?', 'holarse-services'), 
-    (nextval('hibernate_sequence'), 'Hardware', 'Falls die Hardware mal nicht will', 'hardware'), 
-    (nextval('hibernate_sequence'), 'Holarse', 'Fragen und Anregungen zu Holarse selbst', 'holarse'), 
-    (nextval('hibernate_sequence'), 'Spiele', 'Rund um Linuxspiele','spiele'), 
-    (nextval('hibernate_sequence'), 'Windows/Wine etc', 'Rund um Windows-Spiele, Spielen mit Wine, Codeweavers oder Proton','windows-wine-etc'), 
-    (nextval('hibernate_sequence'), 'Open Source', 'Fragen rund um FOSS','open-source'), 
+VALUES
+    (nextval('hibernate_sequence'), 'Spieletreff', 'Zum regelmäßige Spieletreff sind alle Linuxspieler herzlich eingeladen!', 'spieletreff'),
+    (nextval('hibernate_sequence'), 'Holarse Services', 'Fragen oder Anregungen zu unseren Gameservern?', 'holarse-services'),
+    (nextval('hibernate_sequence'), 'Hardware', 'Falls die Hardware mal nicht will', 'hardware'),
+    (nextval('hibernate_sequence'), 'Holarse', 'Fragen und Anregungen zu Holarse selbst', 'holarse'),
+    (nextval('hibernate_sequence'), 'Spiele', 'Rund um Linuxspiele','spiele'),
+    (nextval('hibernate_sequence'), 'Windows/Wine etc', 'Rund um Windows-Spiele, Spielen mit Wine, Codeweavers oder Proton','windows-wine-etc'),
+    (nextval('hibernate_sequence'), 'Open Source', 'Fragen rund um FOSS','open-source'),
     (nextval('hibernate_sequence'), 'Off-Topic', 'Was sonst irgendwo passt', 'off-topic');
 
 
