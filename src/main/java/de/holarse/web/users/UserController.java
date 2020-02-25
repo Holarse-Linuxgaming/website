@@ -4,10 +4,8 @@ import de.holarse.auth.web.HolarsePrincipal;
 import de.holarse.backend.db.PasswordType;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.UserRepository;
-import de.holarse.backend.views.UserView;
-import de.holarse.backend.views.ViewHelper;
-import de.holarse.exceptions.HolarseException;
 import de.holarse.exceptions.NodeNotFoundException;
+import de.holarse.factories.ViewFactory;
 import de.holarse.services.SecurityService;
 import javax.validation.Valid;
 
@@ -41,12 +39,15 @@ public class UserController {
 
     @Autowired
     @Qualifier("bcryptEncoder")
-    PasswordEncoder passwordEncoder;    
+    PasswordEncoder passwordEncoder;   
+    
+    @Autowired
+    ViewFactory viewFactory;
 
     @GetMapping
     @Transactional
-    public String index(ModelMap map) {
-        map.addAttribute("users", userRepository.findAll().stream().map(ViewHelper.MapToViewFn).collect(Collectors.toList()));
+    public String index(final ModelMap map) {
+        map.addAttribute("users", userRepository.findAll().stream().map(viewFactory::fromUser).collect(Collectors.toList()));
         return "users/index";
     }
     

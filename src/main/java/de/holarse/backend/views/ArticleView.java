@@ -6,13 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
-
 /**
  * Viewmodel für Artikel
  * @author comrad
  */
-public class ArticleView implements ContentView {
+public class ArticleView extends AbstractLinkView implements ContentView, PageTitleView, SlugView, View {
     
     private Long nodeId;
     private String mainTitle;
@@ -25,21 +23,14 @@ public class ArticleView implements ContentView {
     private String plainContent = "";
     private String teaser = "";
     
+    private String created;
+    private String updated;
+       
     private String slug;
     
     private String tagLine; // Representation der Eingabezeile für Tags
-    private List<TagView> tags = new ArrayList<>(20);
+    private final List<TagView> tags = new ArrayList<>(20);
     private final Map<AttachmentGroup, List<AttachmentView>> attachments = new HashMap<>();
-   
-    @Override
-    public String getUrl() {
-        return String.format("/wiki/%s", slug);
-    }
-    
-    @Override
-    public String getEditUrl() {
-        return String.format("/wiki/%s/edit", nodeId);
-    }
 
     public Long getNodeId() {
         return nodeId;
@@ -86,6 +77,7 @@ public class ArticleView implements ContentView {
         return content;
     }
 
+    @Override
     public void setContent(String content) {
         this.content = content;
     }
@@ -95,6 +87,7 @@ public class ArticleView implements ContentView {
         return formattedContent;
     }
 
+    @Override
     public void setFormattedContent(String formattedContent) {
         this.formattedContent = formattedContent;
     }
@@ -104,10 +97,12 @@ public class ArticleView implements ContentView {
         return plainContent;
     }
 
+    @Override
     public void setPlainContent(String plainContent) {
         this.plainContent = plainContent;
     }
-
+    
+    @Override
     public String getSlug() {
         return slug;
     }
@@ -144,24 +139,37 @@ public class ArticleView implements ContentView {
         return getAttachments().get(AttachmentGroup.WEBSITE);
     }
 
-    /**
-     * Noch unklar, wie wir das benutzen wollen. Eigentlich
-     * müssten wir das Teaserergebnis
-     * @param teaser
-     */
-    @Deprecated
+    @Override
     public void setTeaser(String teaser) {
         this.teaser = teaser;
     }
 
     @Override
     public String getTeaser() {
-        return StringUtils.abbreviate(content, 200);
+        return teaser;
     }
 
     @Override
     public String getPageTitle() {
         return String.format("%s", mainTitle);
     }      
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
+    }
+
+    public String getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(String updated) {
+        this.updated = updated;
+    }
+   
+    
     
 }

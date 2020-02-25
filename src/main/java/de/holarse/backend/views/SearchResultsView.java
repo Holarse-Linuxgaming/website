@@ -3,7 +3,11 @@ package de.holarse.backend.views;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchResultsView implements PageTitleView {
+/**
+ * TODO Noch ViewFactory-fähig umbauen
+ * @author comrad
+ */
+public class SearchResultsView extends AbstractLinkView implements PageTitleView {
 
     private final List<SearchResultView> results = new ArrayList<>(250);
     private String searchTerm;

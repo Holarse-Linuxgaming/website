@@ -1,29 +1,19 @@
 package de.holarse.backend.views;
 
-import de.holarse.backend.db.Comment;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-
-public class CommentView {
+public class CommentView implements ContentView {
 
     private Long id;
     private Long nodeId;
-    private String author;
+    private UserView author;
+
+    private String created;
+    private String updated;
+    
     private String content;
-    private String created; 
-
-    public CommentView() {
-    }
-
-    public CommentView(final Comment comment) {
-        this.id = comment.getId();
-        this.nodeId = comment.getNodeId();
-        this.author = comment.getAuthor().getLogin();
-        this.content = comment.getContent();
-        this.created = comment.getCreated().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));
-    }
-    
-    
+    private String formattedContent;
+    private String plainContent;
+    private String teaser;
+   
     public Long getId() {
         return id;
     }
@@ -39,19 +29,22 @@ public class CommentView {
     public void setNodeId(Long nodeId) {
         this.nodeId = nodeId;
     }
-    
-    public String getAuthor() {
+
+    public UserView getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(UserView author) {
         this.author = author;
     }
 
+
+    @Override
     public String getContent() {
         return content;
     }
 
+    @Override
     public void setContent(String content) {
         this.content = content;
     }
@@ -62,6 +55,44 @@ public class CommentView {
 
     public void setCreated(String created) {
         this.created = created;
+    }
+
+    public String getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(String updated) {
+        this.updated = updated;
+    }
+
+    @Override
+    public String getFormattedContent() {
+        return formattedContent;
+    }
+
+    @Override
+    public void setFormattedContent(String formattedContent) {
+        this.formattedContent = formattedContent;
+    }
+
+    @Override
+    public String getPlainContent() {
+        return plainContent;
+    }
+
+    @Override
+    public void setPlainContent(String plainContent) {
+        this.plainContent = plainContent;
+    }
+
+    @Override
+    public String getTeaser() {
+        return teaser;
+    }
+
+    @Override
+    public void setTeaser(String teaser) {
+        this.teaser = teaser;
     }
     
 }

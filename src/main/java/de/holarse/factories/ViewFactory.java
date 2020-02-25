@@ -1,7 +1,6 @@
 package de.holarse.factories;
 
 import java.util.stream.Collectors;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,12 +14,20 @@ import de.holarse.backend.db.News;
 import de.holarse.backend.db.Tag;
 import de.holarse.backend.db.Article;
 import de.holarse.backend.db.Attachment;
+import de.holarse.backend.db.Comment;
+import de.holarse.backend.db.Node;
+import de.holarse.backend.db.User;
 import de.holarse.backend.db.types.AttachmentGroup;
 import de.holarse.backend.views.ArticleView;
 import de.holarse.backend.views.AttachmentView;
+import de.holarse.backend.views.CommentView;
+import de.holarse.backend.views.ContentView;
 import de.holarse.backend.views.NewsView;
 import de.holarse.backend.views.TagView;
+import de.holarse.backend.views.UserView;
 import de.holarse.renderer.Renderer;
+import de.holarse.services.WebUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Component
 public class ViewFactory
@@ -28,9 +35,9 @@ public class ViewFactory
     Logger logger = LoggerFactory.getLogger(ViewFactory.class);
 
     @Qualifier("htmlRenderer")
-    @org.springframework.beans.factory.annotation.Autowired
-    Renderer renderer;      
-
+    @Autowired
+    Renderer formattedRenderer;      
+    
     /**
      * Erzeugt eine View-Ansicht eines Artikel
      * @param article
@@ -39,6 +46,7 @@ public class ViewFactory
     public ArticleView fromArticle(final Article article) {
         final ArticleView view = new ArticleView();
                 
+        // Attachments umwandeln
         final Map<AttachmentGroup, List<AttachmentView>> attachmentGroups = article.getAttachments()
                 .stream()
                 .filter(a -> StringUtils.isNotBlank(a.getAttachmentData()))
@@ -47,7 +55,7 @@ public class ViewFactory
         
         view.getAttachments().putAll(attachmentGroups);
 
-        // TODO In Tag-Views umwandeln
+        // Tags umwandeln
         view.getTags().addAll(article.getTags().stream().map(this::fromTag).collect(Collectors.toList()));        
         
         logger.debug("Content: {}", article.getContent());
@@ -59,14 +67,14 @@ public class ViewFactory
         view.setAlternativeTitle3(article.getAlternativeTitle3());
         view.setSlug(article.getSlug());
         
-        view.setContent(article.getContent());
-
-        try {
-            view.setFormattedContent( renderer.render(article.getContent() ));
-        } catch (Exception e) {
-            logger.warn("Fehler beim Rendern in Article Id=" + article.getId(), e);
-            view.setContent("");
-        }
+        view.setCreated(WebUtils.format(article.getCreated()));
+        view.setUpdated(WebUtils.format(article.getUpdated()));        
+        
+        // URL definieren
+        view.setUrl(String.format("/wiki/%s", article.getSlug()));
+        view.setEditUrl(String.format("/wiki/%s/edit", article.getNodeId()));
+        
+        renderNodeInto(article, view);  
         
         return view;
     }    
@@ -93,17 +101,14 @@ public class ViewFactory
         view.setTitle(news.getTitle());
         view.setSubtitle(news.getSubtitle());
         view.setSlug(news.getSlug());
-        view.setCreated(news.getCreated());
-        view.setUpdated(news.getUpdated());
+        view.setCreated(WebUtils.format(news.getCreated()));
+        view.setUpdated(WebUtils.format(news.getUpdated()));
         
-        view.setContent(news.getContent());
-
-        try {
-            view.setFormattedContent( renderer.render(news.getContent() ));
-        } catch (Exception e) {
-            logger.warn("Fehler beim Rendern in News Id=" + news.getId(), e);
-            view.setContent("");
-        }        
+        // URL definieren
+        view.setUrl(String.format("/news/%s", news.getSlug()));
+        view.setEditUrl(String.format("/news/%s/edit", news.getNodeId()));        
+        
+        renderNodeInto(news, view);      
         
         return view;
     } 
@@ -124,8 +129,62 @@ public class ViewFactory
 
     public TagView fromTag(final Tag tag) {
         final TagView view = new TagView(tag.getName(), tag.getName(), tag.getUseCount());
+        
+        // URL definieren
+        view.setUrl(String.format("/finder?tags=%s&i=1", tag.getName()));
+        
         return view;
     }
+    
+    public UserView fromUser(final User user) {
+        final UserView view = new UserView();
+        view.setId(user.getId());
+        view.setEmail(user.getEmail());
+        view.setLogin(user.getLogin());
+        view.setSlug(user.getSlug());
+        view.setSignature(user.getSignature());
+        
+        view.getRoles().addAll( user.getRoles().stream().map(r -> r.getCode()).collect(Collectors.toList()) );
+        
+        // URL definieren
+        view.setUrl(String.format("/users/%s", user.getSlug()));
+        view.setEditUrl(String.format("/users/%s/edit", user.getSlug()));         
+        
+        return view;
+    }
+    
+    public CommentView fromComment(final Comment comment) {
+        final CommentView view = new CommentView();
+        view.setId(comment.getId());
+        
+        view.setAuthor(fromUser(comment.getAuthor()));
+        renderNodeInto(comment, view);
+        
+        view.setCreated(WebUtils.format(comment.getCreated()));
+        view.setUpdated(WebUtils.format(comment.getUpdated()));        
+        
+        return view;
+    }
+    
+    public ContentView renderNodeInto(final Node node, final ContentView view) {
+        // Rohen Content setzen
+        view.setContent(node.getContent());
 
-
+        // Formatierten HTML-Content setzen
+        try {
+            view.setFormattedContent( formattedRenderer.render(node.getContent() ));
+        } catch (Exception e) {
+            logger.warn("Fehler beim Formatted Rendering in Node Id=" + node.getId(), e);
+            view.setFormattedContent("");
+        } 
+        
+        // Plain-Content setzen
+        // TODO
+        
+        // Teaser
+        view.setTeaser(StringUtils.abbreviate(view.getContent(), 200));
+        
+        return view;
+    }
+    
 }

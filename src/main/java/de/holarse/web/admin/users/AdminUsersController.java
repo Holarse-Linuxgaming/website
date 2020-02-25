@@ -1,11 +1,8 @@
 package de.holarse.web.admin.users;
 
-import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.UserRepository;
 import de.holarse.backend.views.UserView;
-import de.holarse.backend.views.ViewHelper;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import de.holarse.factories.ViewFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +21,13 @@ public class AdminUsersController {
     @Autowired
     UserRepository userRepository;
     
+    @Autowired
+    ViewFactory viewFactory;
+    
     @Transactional
     @GetMapping
     public String index(final ModelMap map, @PageableDefault(size=10, sort="login") final Pageable pageable, final HttpServletRequest request) {
-        final Page<UserView> view = userRepository.findAll(pageable).map(ViewHelper.MapToViewFn);
+        final Page<UserView> view = userRepository.findAll(pageable).map(viewFactory::fromUser);
         map.addAttribute("view", view);
        
         return "admin/users/index";

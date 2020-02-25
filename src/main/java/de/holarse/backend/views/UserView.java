@@ -3,18 +3,14 @@ package de.holarse.backend.views;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.holarse.services.WebUtils;
-
-public class UserView implements View {
+public class UserView extends AbstractLinkView implements SlugView {
 
     private Long id;
     private String login;
     private String email;
     private final List<String> roles = new ArrayList<>();
-
-    public String getUrl() {
-        return "/users/" + WebUtils.slugify(login);
-    }
+    private String slug;
+    private String signature;
     
     public Long getId() {
         return id;
@@ -43,6 +39,23 @@ public class UserView implements View {
 
     public List<String> getRoles() {
         return roles;
+    }
+    
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+
+    @Override
+    public String getSlug() {
+        return slug;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
     }
     
 }

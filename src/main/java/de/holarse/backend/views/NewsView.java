@@ -8,7 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class NewsView implements ContentView {
+public class NewsView extends AbstractLinkView implements ContentView, PageTitleView, SlugView, View {
 
     private Long nodeId;
     private String title;
@@ -19,21 +19,21 @@ public class NewsView implements ContentView {
     private String plainContent;
     private String teaser;
     
-    private OffsetDateTime created;
-    private OffsetDateTime updated;
+    private String created;
+    private String updated;
     private String slug;
     
     private final Map<AttachmentGroup, List<AttachmentView>> attachments = new HashMap<>();    
     
-    @Override
-    public String getUrl() {
-        return String.format("/news/%s", slug);
-    }
-    
-    @Override
-    public String getEditUrl() {
-        return String.format("/news/%s/edit", nodeId);
-    }    
+//    @Override
+//    public String getUrl() {
+//        return String.format("/news/%s", slug);
+//    }
+//    
+//    @Override
+//    public String getEditUrl() {
+//        return String.format("/news/%s/edit", nodeId);
+//    }    
 
     public Long getNodeId() {
         return nodeId;
@@ -64,6 +64,7 @@ public class NewsView implements ContentView {
         return content;
     }
 
+    @Override
     public void setContent(String content) {
         this.content = content;
     }
@@ -73,6 +74,7 @@ public class NewsView implements ContentView {
         return formattedContent;
     }
 
+    @Override
     public void setFormattedContent(String formattedContent) {
         this.formattedContent = formattedContent;
     }
@@ -82,10 +84,12 @@ public class NewsView implements ContentView {
         return plainContent;
     }
 
+    @Override
     public void setPlainContent(String plainContent) {
         this.plainContent = plainContent;
     }
 
+    @Override
     public String getSlug() {
         return slug;
     }
@@ -94,28 +98,23 @@ public class NewsView implements ContentView {
         this.slug = slug;
     }
 
-    public OffsetDateTime getCreated() {
+    public String getCreated() {
         return created;
     }
 
-    public void setCreated(OffsetDateTime created) {
+    public void setCreated(String created) {
         this.created = created;
     }
 
-    public OffsetDateTime getUpdated() {
+    public String getUpdated() {
         return updated;
     }
 
-    public void setUpdated(OffsetDateTime updated) {
+    public void setUpdated(String updated) {
         this.updated = updated;
     }
 
-    /**
-     * Noch unklar, wie wir das benutzen wollen. Eigentlich
-     * müssten wir das Teaserergebnis
-     * @param teaser
-     */    
-    @Deprecated
+    @Override
     public void setTeaser(String teaser) {
         this.teaser = teaser;
     }

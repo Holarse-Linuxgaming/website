@@ -9,6 +9,7 @@ import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.CommentRepository;
 import de.holarse.backend.db.repositories.RoleRepository;
 import de.holarse.backend.views.CommentView;
+import de.holarse.factories.ViewFactory;
 import de.holarse.renderer.Renderer;
 import de.holarse.search.SearchEngine;
 import de.holarse.services.SecurityService;
@@ -51,11 +52,14 @@ public class CommentController {
     @Autowired 
     Renderer renderer;
     
+    @Autowired
+    ViewFactory viewFactory;
+    
     @Transactional
     @GetMapping(value = "/nodes/comments", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Collection<CommentView>> comments(@RequestParam("nodeId") final Long nodeId) {
         final Collection<CommentView> comments = commentRepository.findNodeComments(nodeId).stream()
-                                                                                           .map(CommentView::new)
+                                                                                           .map(viewFactory::fromComment)
                                                                                            .collect(Collectors.toList());
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }

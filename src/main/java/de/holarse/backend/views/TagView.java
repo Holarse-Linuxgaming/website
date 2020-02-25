@@ -1,6 +1,6 @@
 package de.holarse.backend.views;
 
-public class TagView {
+public class TagView extends AbstractLinkView implements View {
 
     private final String label;
     private final String name;

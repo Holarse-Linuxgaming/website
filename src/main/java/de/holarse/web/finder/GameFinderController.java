@@ -57,7 +57,7 @@ public class GameFinderController {
     public ModelAndView index(@RequestParam(value = "tags", required = false) final List<String> tags, 
                               @RequestParam(value = "tag",  required = false) final String newTag, 
                               @RequestParam(value = "q", required = false) final String q,
-                              @RequestParam(value = "i", required = false, defaultValue = "0") final int i, // Indikator für Erstsuche, wo Top-Titel
+                              @RequestParam(value = "i", required = false, defaultValue = "0") final int i, // Indikator für Erstsuche, bei 0 werden immer Top-Titel angezeigt
                               @RequestParam(value = "page", defaultValue = "1") final int page, 
                               @RequestParam(value = "pageSize", defaultValue = "30") final int pageSize,                        
                               final Model map) {

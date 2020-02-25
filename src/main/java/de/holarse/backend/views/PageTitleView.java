@@ -9,7 +9,4 @@ public interface PageTitleView extends View {
         return "Eure deutschsprachige Linuxspiele-Community";
     }
     
-    String getUrl();
-    String getEditUrl();
-    
 }

@@ -7,7 +7,7 @@
             <div class="media">
                 <img class="align-self-start mr-3" src="https://placeimg.com/64/64/any" alt="Generic placeholder image">
                 <div class="media-body">
-                    <h5 class="mt-0"><a v-bind:href="'/users/' + comment.author">{{comment.author}}</a> am {{comment.created}}</h5>
+                    <h5 class="mt-0"><a v-bind:href="comment.author.url">{{comment.author.login}}</a> am {{comment.created}}</h5>
                     <p>{{comment.content}}</p>
                 </div>
             </div>   

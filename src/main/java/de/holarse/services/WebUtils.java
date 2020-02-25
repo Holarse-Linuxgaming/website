@@ -1,5 +1,9 @@
 package de.holarse.services;
 
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.Locale;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -74,4 +78,10 @@ public class WebUtils {
 
         return buffer.toString();
     }    
+    
+    public static String format(final OffsetDateTime datetime) {
+        if (datetime == null) return "";
+        
+        return datetime.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM).withLocale(Locale.GERMAN));
+    }
 }
