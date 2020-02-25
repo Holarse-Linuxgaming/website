@@ -310,5 +310,38 @@ public class HtmlRendererTest {
         
         assertEquals(expc, renderer.render(text));        
     } 
+    
+    @Test
+    public void testCitiesSyklines() {
+        String text = "<!--break-->\n" +
+"===Das Spiel===\n" +
+"Cities: Skylines war 2015 das Spiel auf das ehemalige Windows-Städtebauer, *hust* [[SimCity]] *hust*, gewartet hatten. Während [[Sim City 3000]] nur noch schwerlich zur Mitarbeit unter aktuellen Linuxbetriebssystemen bewegt werden konnte und nach diversen zaghaften Versuchen der Open Source Community eine Städtebausimulation zu etablieren, es seinen [[FreeReign]], [[OpenCity]] aber auch [[LinCityNG]] genannt, wurde die Ankündigung von Cities: Skylines zum Hoffnungsschimmer aller Linux-Hobbybürgermeister. Mit der Veröffentlichung am 10. März 2015 ([https://www.holarse-linuxgaming.de/content/cities_skylines_erscheint_am_10_m%C3%A4rz_mit_linux_version Holarse Shortnews]) konnten nun auch Linuxer Tage und Nächte in ihre digitalen Großstädte investieren. \n" +
+"Es wird lediglich ein Einzelspielermodus angeboten. Im Koop eine Stadt zu verwalten oder sich mit Nachbarstädten zu verbinden wurde nicht implementiert.\n" +
+"\n" +
+"===Gameplay===\n" +
+"Cities: Skylines zeigt in vielerlei Hinsicht Aspekte eines Easy-to-learn;hard-to-master Titels. Man beginnt mit freier Fläche und wenigen Bauoptionen. Je mehr Einwohner man anlocken kann, desto mehr Bauoptionen aber auch Probleme werden frei geschaltet. Von anfangs naheliegenden Problemchen wie Strom- und Wasserversorgung müssen später möglichst alle Viertel gut an die soziale Infrastruktur wie Schulen, Krankenhäuser und öffentlicher Nahverkehr angebunden sein. Ist das nicht der Fall sind unbeliebte Stadtviertel mit niedrigen Grundstückspreisen die Folge, was sich wiederum negativ auf die möglichen Einnahmen auswirkt. Geld ist erwartungsgemäß generell ein heikles Thema. Präsentiert man potenziellen Einwohnern in Stadtform den Himmel auf Erden, darf davon ausgegangen werden dass man diesen Luxus nicht sonderlich lange finanzieren kann. Spart man am falschen Ende versiegt die Frischwasserzufuhr oder die unterbezahlte Polizei kann die Kriminalität nicht mehr im Zaum halten. Kürzt man dann noch das Geld für das Gesundheitswesen hortet man auf Dauer zwar Geld aber eben auch eine Menge keuchender, ausgedörter und kriminalisierter Bewohner. Das goldene Mittelmaß zu finden entspricht dem hard-to-master-Teil des Spiels.\n" +
+"Nicht falsch verstehen, scheitern dauert lange und man bekommt meistens irgendwie doch noch die Kurve am Ende aber wenn man sich beim Herauszoomen sein Werk so ansieht mit seinen vielen Ecken und Kanten, seinen vielen verbauten Straßen und der Umweltverschmutzung inmitten des Wohngebietes, wächst spätestens dann der Wunsch ganz sachte die Neustart-Taste zu betätigen. Spätestens der Versuch in eine verkorkste Großstadt nachträglich noch ein zufriedenstellendes Nahverkehrsnetz zu basteln triggert dann letztlich den Alles-auf-Anfang Button.\n" +
+"\n" +
+"===Installation===\n" +
+"Stichwort [[Steam]]. Eine Nicht-Steam Variante wird nach unseren Informationen nicht vertrieben. Ebenfalls auf [[Steam]] werden diverse DLCs angeboten, die den Umfang des eigentlichen Spiels um weitere Inhalte ergänzen. Erworben können Steam-Keys auch beim hauseigenen Paradox Plaza-Store und im Humble Store.\n" +
+"\n" +
+"===Benötigte Hardware===\n" +
+"Zum Spielen benötigt man laut Hersteller mindestens einen Intel Core 2 Duo mit 3,00GHZ pro Kern bzw. einen AMD Athlon 64 X2 6400+. \n" +
+"Bei der eingesetzten Grafikkarte sollte es sich mindestens um eine GeForce GTX 260 oder eine ATI Radeon HD 5670 mit 512MB Speichern handeln. Intel-HD-Chips werden offiziell nicht unterstützt, in einem Testszenario verweigerte das Spiel mit einem Intel-HD 4200er Chip den Start.\n" +
+"\n" +
+"Wie so häufig gilt auch hier, je mehr desto besser. Größere Städte mit ihrem hochdetailierten Eigenleben neigen schnell dazu die FPS zu schmälern. Wer auch im späteren Spielverlauf ohne Diashow-Effekt daddeln möchte sollte genug Hardwarereserven haben oder muss sich mit niedrigeren Details zufrieden geben. Eine gute CPU ist hierbei entscheidend.\n" +
+"\n" +
+"===Getestete Geräte===\n" +
+"[[TUXEDO Book XC1706]], i7-6700HQ, 64GB RAM, Nvidia Geforce GTX 970M → in Ordnung\n" +
+"[[TUXEDO Book XC1507]], i7-7700HQ, 32GB RAM, Nvidia Geforce GTX 1060M → in Ordnung (max. Details)\n" +
+"AMD Ryzen 7 1800X, 32GB RAM, Nvidia GeForce 960 GTX →in Ordnung (max. Details)\n" +
+"AMD Desktop-PC, A8-3850, 8GB RAM, Nvidia Geforce 650GTX → in Ordnung (mit Abstrichen)\n" +
+"AMD Desktop-PC, A8-3850, 8GB RAM, AMD Radeon RX460 → in Ordnung (mit Abstrichen)\n" +
+"Intel Desktop-PC, C2D E8500, 4GB RAM, AMD Radeon HD 5770 → startet nicht\n" +
+"AMD Desktop-PC, Athlon 3200+, 2GB RAM, Nvidia 7900GTO → startet nicht\n" +
+"Acer Aspire One 756, Intel Pentium 987, 4GB Ram, Intel-HD → startet nicht";
+        
+        renderer.render(text);
+    }
 
 }
