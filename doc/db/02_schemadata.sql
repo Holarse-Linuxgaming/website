@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS logging.accesslog (
     campaignname varchar(255),
     httpstatus int,
     ipaddress varchar(255),
-    referer varchar(255),
+    referer varchar(2083),
     searchword varchar(255),
     url varchar(2083),
     useragent varchar(255),

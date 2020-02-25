@@ -27,6 +27,7 @@ public class PageVisit implements Serializable {
     private String visitorId; // sessionid hashed
     private String ipaddress; // anonymized 
     private String userAgent;
+    @Column(length = 2083) // as per rfc    
     private String referer;
     @Column(length = 2083) // as per rfc
     private String url;

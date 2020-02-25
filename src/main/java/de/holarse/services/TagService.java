@@ -50,7 +50,7 @@ public class TagService {
     public Set<String> merge(Collection<String> tags, Collection<String> tagsToMerge) {
         return tagsToMerge.stream()
                 // tagsToMerge in Tags umwandeln, dabei fallen schonmal nicht existierende Tags weg.
-                .map(t -> tagRepository.findByNameIgnoreCase(t)).filter(Optional::isPresent).map(Optional::get)
+                .map(tagRepository::findByNameIgnoreCase).filter(Optional::isPresent).map(Optional::get)
                 // Tags ggf in ihre Aliase umwandeln
                 .map(t -> Optional.ofNullable(t.getAlias()).orElse(t))
                 // In ihre Namen umwandeln

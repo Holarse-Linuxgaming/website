@@ -41,11 +41,11 @@ public class TrafficService {
         page.setNodeId(nodeId);
         page.setAccessed(OffsetDateTime.now());
         page.setIpaddress(request.getRemoteAddr());
-        page.setUrl(request.getRequestURI());
-        page.setUserAgent(request.getHeader("User-Agent"));
-        page.setReferer(request.getHeader("referer"));
+        page.setUrl(        StringUtils.substring(request.getRequestURI(),          0, 2083));
+        page.setUserAgent(  StringUtils.substring(request.getHeader("User-Agent"),  0, 255));
+        page.setReferer(    StringUtils.substring(request.getHeader("referer"),     0, 2083));
         page.setVisitorId(request.getRequestedSessionId());
-        page.setSearchword(request.getParameter("term"));
+        page.setSearchword( StringUtils.substring(request.getParameter("term"),     0, 255));
         
         if (request.getParameterNames().hasMoreElements()) {
             page.setCampaignName(extractCampaignName(request));
@@ -61,7 +61,7 @@ public class TrafficService {
         for (final String campaignName : CAMPAIGN_NAMES) {
             final String name = req.getParameter(campaignName);
             if (name != null) {
-                return name;
+                return StringUtils.substring(name, 0, 255);
             }
         }
         return null;
@@ -71,12 +71,19 @@ public class TrafficService {
         for (final String campaignKeyword : CAMPAIGN_KEYWORDS) {
             final String keyword = req.getParameter(campaignKeyword);
             if (keyword != null) {
-                return keyword;
+                return StringUtils.substring(keyword, 0, 255);
             }
         }
         return null;
     }
     
+    /**
+     * Ermittelt die Seitenbesuche innerhalb eines Zeitraums
+     * @param nodeId
+     * @param fromDate
+     * @param untilDate
+     * @return 
+     */
     public List<PageVisitResult> getPageVisits(final Long nodeId, final Date fromDate, final Date untilDate) {
         LocalDateTime start, end;
         start = LocalDateTime.ofInstant(fromDate.toInstant(), ZoneId.systemDefault());
