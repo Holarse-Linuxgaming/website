@@ -20,15 +20,19 @@ public class News extends BranchableNode implements Frontpagable, Searchable {
     @Enumerated(EnumType.STRING)
     private NewsType newsType;
 
+    @Deprecated
     @Transient
     private String url;
-    
+
+    @Deprecated
     @Transient
     private String urlid;   
     
+    @Deprecated    
     @Transient
     private String teaser;
     
+    @Deprecated    
     @Transient
     private NodeType nodeType;
 
