@@ -1,5 +1,9 @@
 package de.holarse.backend.db.types;
 
+/**
+ * Eine AttachmentGroup ist die Kategorie zu der der Anhang zugehört. Regelt in welchem
+ * Teil der Seitenansicht der Anhang zugehörig dargestellt wird.
+ */
 public enum AttachmentGroup {
     
     /**

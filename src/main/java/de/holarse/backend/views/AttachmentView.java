@@ -9,21 +9,22 @@ import de.holarse.backend.db.types.AttachmentType;
  * @author comrad
  */
 public class AttachmentView {
-    
+
+    private Long nodeId;
     private Long ordering;
     private String description;
     private String data;
-    
+
     /**
      * Die Gruppierung, z.B. Webseite, Links, Bilder, Videos
      */
     private AttachmentGroup group;
-    
+
     /**
      * Die Untereinteilung innerhalb einer Gruppe
      */
     private AttachmentType type;
-    
+
     /**
      * Datentyp, entweder eine URI (Pfad oder URL) oder BASE64.
      */
@@ -31,6 +32,14 @@ public class AttachmentView {
 
     public Long getOrdering() {
         return ordering;
+    }
+
+    public Long getNodeId() {
+        return nodeId;
+    }
+
+    public void setNodeId(Long nodeId) {
+        this.nodeId = nodeId;
     }
 
     public void setOrdering(Long ordering) {

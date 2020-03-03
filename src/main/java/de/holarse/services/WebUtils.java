@@ -84,4 +84,17 @@ public class WebUtils {
         
         return datetime.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM).withLocale(Locale.GERMAN));
     }
+
+    /**
+     * Entfernt Google Analytics, Partner, Tracking- oder Session-IDs aus der URL
+     * @param url
+     * @return
+     */
+    public static String antispyUrl(final String url) {
+        if (url.toLowerCase().contains("humblebundle")) {
+            return url.replaceAll("\\?partner=.*", "");
+        }
+
+        return url;
+    }
 }

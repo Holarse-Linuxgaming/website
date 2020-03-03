@@ -8,23 +8,20 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 @Service
-public class WebUtilService {
+public class YoutubeService {
    
-    protected String extractYoutubeId(final String youtubeUrl) throws MalformedURLException, URISyntaxException {
+    public String extractYoutubeId(final String youtubeUrl) throws MalformedURLException, URISyntaxException {
         if (StringUtils.isBlank(youtubeUrl)) {
             return null;
         }
-        
        
         final URI uri = new URL(youtubeUrl).toURI();
-        System.out.println("host:  " + uri.getHost());
-        System.out.println("query: " + uri.getQuery());
+
         switch (uri.getHost()) {
             case "www.youtube.com":
             case "www.youtube-nocookie.com":
                 // Nach v-Parameter prüfen
                 for (final String param : uri.getQuery().split("&")) {
-                    System.out.println("param: " + param);
                     if (param.toLowerCase().startsWith("v=")) {
                         final String[] value = param.split("=");
                         if (value.length == 2) {
@@ -42,12 +39,16 @@ public class WebUtilService {
         return null;
     }
     
-    protected String buildYoutubeUrl(final String youtubeId) {
-        return "//www.youtube-nocookie.com/embed/" + youtubeId;
+    public String buildYoutubeUrl(final String youtubeId) {
+        return String.format("//www.youtube-nocookie.com/embed/%s", youtubeId);
     }
     
+    ///
+    /// Youtube-Thumbnail
+    /// 
+
     protected String buildYoutubeThumbnail(final String youtubeId, final YoutubeThumbnailType type) {
-        return "//i3.ytimg.com/vi/" + youtubeId + "/" + type.getFilename();
+        return String.format("//i3.ytimg.com/vi/%s/%s", youtubeId, type.getFilename());
     }
     
     protected enum YoutubeThumbnailType {
@@ -84,7 +85,7 @@ public class WebUtilService {
      * @return
      * @throws Exception 
      */
-    protected String getYoutubeThumbnail(final String youtubeId) throws Exception {
+    public String getYoutubeThumbnail(final String youtubeId) throws Exception {
         return buildYoutubeThumbnail(youtubeId, YoutubeThumbnailType.DEFAULT);
     }
     

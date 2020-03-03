@@ -4,13 +4,13 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 
-public class WebUtilServiceTest {
+public class YoutubeServiceTest {
 
-    private WebUtilService service;
+    private YoutubeService service;
     
     @Before
     public void setup() {
-        service = new WebUtilService();
+        service = new YoutubeService();
     }
     
     @Test

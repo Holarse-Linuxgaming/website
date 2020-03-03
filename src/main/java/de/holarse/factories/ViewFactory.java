@@ -115,6 +115,7 @@ public class ViewFactory
     
     public AttachmentView fromAttachment(final Attachment attachment) {
         final AttachmentView view = new AttachmentView();
+        view.setNodeId(attachment.getNodeId());
         view.setData(attachment.getAttachmentData());
         view.setDescription(attachment.getDescription());
 

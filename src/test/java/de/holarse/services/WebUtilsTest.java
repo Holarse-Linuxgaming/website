@@ -183,5 +183,19 @@ public class WebUtilsTest {
     public void testSlugifyKeepUmlaut() {
         assertEquals("brütal_legend", WebUtils.slugify("Brütal Legend"));
     }   
+
+    @Test
+    public void testAntiSpyPlain() {
+        String url = "http://linux.com";
+        assertEquals("http://linux.com", WebUtils.antispyUrl(url));
+    }
+
+    @Test
+    public void testAntiSpyHumbleBundlePartner() {
+        String url = "https://www.humblebundle.com/store/promo/rpg-sale?partner=somelinuxgamingwebsite";
+        assertEquals("https://www.humblebundle.com/store/promo/rpg-sale", WebUtils.antispyUrl(url));
+    }    
+
+    
     
 }
