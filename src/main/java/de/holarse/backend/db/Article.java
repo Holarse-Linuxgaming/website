@@ -8,6 +8,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.FetchType;
 import org.apache.commons.lang3.StringUtils;
 
 @Table(name="articles")
@@ -28,7 +29,7 @@ public class Article extends BranchableNode implements Frontpagable, Searchable 
     @Transient
     private String urlid;
     
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @OrderBy(value = "name")
     private final Set<Tag> tags = new HashSet<>();
 
