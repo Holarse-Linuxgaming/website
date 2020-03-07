@@ -10,11 +10,10 @@ import java.util.List;
 public class UrlSet {
 
     @JsonProperty(value = "url")
-    @JacksonXmlElementWrapper(useWrapping = false)    
-    private final List<Url> urls = new ArrayList<Url>(12000);
+    @JacksonXmlElementWrapper(useWrapping = false)
+    private final List<Url> urls = new ArrayList<Url>(1024);
 
     public List<Url> getUrls() {
         return urls;
     }
-    
 }

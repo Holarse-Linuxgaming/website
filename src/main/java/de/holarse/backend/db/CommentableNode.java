@@ -19,7 +19,7 @@ public abstract class CommentableNode extends RevisionableNode {
     @Column(nullable = false, columnDefinition = "boolean default true")    
     private Boolean commentable;    
     
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "node_id", foreignKey = @ForeignKey(name="none", value = ConstraintMode.NO_CONSTRAINT))
     private List<Comment> comments = new ArrayList<>();
 

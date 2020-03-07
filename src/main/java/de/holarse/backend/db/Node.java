@@ -10,6 +10,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import javax.persistence.PostLoad;
 import javax.persistence.Transient;
+import javax.persistence.FetchType;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
@@ -50,7 +51,7 @@ public abstract class Node extends Base implements LegacyImport, LinkableNode, N
     @Column(nullable = false, length = 32768)
     private String content;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User author;
 
     // ID aus Drupal
@@ -59,7 +60,7 @@ public abstract class Node extends Base implements LegacyImport, LinkableNode, N
     @Transient
     private int wordCount;
     
-    @OneToMany(mappedBy = "nodeId")
+    @OneToMany(mappedBy = "nodeId", fetch = FetchType.LAZY)
     @Cascade({CascadeType.DELETE, CascadeType.SAVE_UPDATE})    
     private List<Attachment> attachments = new ArrayList<>();
 
