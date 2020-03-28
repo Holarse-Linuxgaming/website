@@ -19,7 +19,7 @@ public abstract class Base implements Serializable {
     @GeneratedValue    
     private Long id;
     
-    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE default CURRENT_TIMESTAMP")    
+    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE NOT NULL default CURRENT_TIMESTAMP")    
     private OffsetDateTime created;
     
     @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE default CURRENT_TIMESTAMP")    
