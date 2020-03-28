@@ -86,7 +86,6 @@ public class ArticleExport implements Export {
                 state.setArchived(false);
                 state.setCommentable(result.getLong("comment") == 2);
                 state.setDeleted(false);
-                state.setDraft(false);
                 state.setLocked(false);
                 state.setPublished(result.getLong("status") == 1);
                 article.setState(state);

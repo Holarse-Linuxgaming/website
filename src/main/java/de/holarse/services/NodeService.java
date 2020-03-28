@@ -74,7 +74,6 @@ public class NodeService {
         
         node.setArchived(Boolean.FALSE);
         node.setDeleted(Boolean.FALSE);
-        node.setDraft(Boolean.FALSE);
         node.setLocked(Boolean.FALSE);
         // Wahrscheinlich später auf false, wenn Vorschau Standard ist.
         node.setPublished(Boolean.TRUE);
@@ -289,7 +288,7 @@ public class NodeService {
      * @return 
      */
     public boolean isPublicViewable(final Node node) {
-        return (node != null && !node.getDraft() && node.getPublished() && !node.getDeleted());
+        return (node != null && node.getPublished() && !node.getDeleted());
     }
    
 }

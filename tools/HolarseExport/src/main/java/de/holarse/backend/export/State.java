@@ -15,8 +15,6 @@ public class State {
     @JacksonXmlProperty  
     private Boolean commentable;
     @JacksonXmlProperty  
-    private Boolean draft;
-    @JacksonXmlProperty  
     private Boolean published;
     @JacksonXmlProperty  
     private Boolean deleted;
@@ -68,14 +66,6 @@ public class State {
 
     public void setCommentable(Boolean commentable) {
         this.commentable = commentable;
-    }
-
-    public Boolean getDraft() {
-        return draft;
-    }
-
-    public void setDraft(Boolean draft) {
-        this.draft = draft;
     }
 
     public Boolean getPublished() {

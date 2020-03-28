@@ -96,7 +96,6 @@ public class ImportArticles {
         de.holarse.backend.export.State importState = importArticle.getState();
         
         article.setDeleted(importState.getDeleted());
-        article.setDraft(importState.getDraft());
         article.setArchived(importState.getArchived());
         article.setLocked(importState.getLocked());
         article.setPublished(importState.getPublished());
@@ -123,7 +122,6 @@ public class ImportArticles {
                 final Attachment attachment = new Attachment();
                 attachment.setNodeId(article.getNodeId());
                 attachment.setAttachmentGroup(AttachmentGroup.valueOf(importAttachment.getGroup()));
-                attachment.setAttachmentType(AttachmentType.lookup(importAttachment.getType(), importAttachment.getGroup()));
                 attachment.setAttachmentDataType(AttachmentDataType.URI);
                 attachment.setCreated(OffsetDateTime.now());
                 attachment.setOrdering(importAttachment.getPrio() != null ? importAttachment.getPrio() : 0l );

@@ -22,11 +22,6 @@ public abstract class Node extends Base implements LegacyImport, LinkableNode, N
      */
     @Column(nullable = false, columnDefinition = "boolean default false")    
     private Boolean deleted;
-    /**
-     * Entwurf
-     */
-    @Column(nullable = false, columnDefinition = "boolean default false")    
-    private Boolean draft;
 
     /**
      * Für Änderungen ausser Admins gesperrt
@@ -90,14 +85,6 @@ public abstract class Node extends Base implements LegacyImport, LinkableNode, N
 
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
-    }
-
-    public Boolean getDraft() {
-        return draft;
-    }
-
-    public void setDraft(Boolean draft) {
-        this.draft = draft;
     }
 
     @Override

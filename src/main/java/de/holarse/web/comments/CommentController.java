@@ -75,7 +75,6 @@ public class CommentController {
         comment.setContent(renderer.render(command.getContent()));
         comment.setDeleted(Boolean.FALSE);
         comment.setCreated(OffsetDateTime.now());
-        comment.setDraft(Boolean.FALSE);
         comment.setLocked(Boolean.FALSE);
         comment.setPublished(Boolean.TRUE);
         comment.setArchived(Boolean.FALSE);
