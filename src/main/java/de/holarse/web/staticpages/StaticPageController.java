@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class StaticPageController {
     
-    @GetMapping(value = "/impressum")
+    @GetMapping(value = {"/impressum", "/imprint"})
     public String Imprint() {
         return "static/imprint";
     }

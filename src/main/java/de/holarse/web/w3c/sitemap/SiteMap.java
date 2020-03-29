@@ -8,8 +8,8 @@ import de.holarse.backend.db.repositories.NewsRepository;
 import de.holarse.backend.sitemap.ChangeFrequencyType;
 import de.holarse.backend.sitemap.Url;
 import de.holarse.backend.sitemap.UrlSet;
-import javax.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,7 +25,7 @@ public class SiteMap {
     /** TODO! Muss später noch gegen das header-value von x-forwarded-proto ausgetauscht werden */
     static final String baseAddress = "https://www.holarse-linuxgaming.de";
 
-    @GetMapping(value = "/sitemap.xml", produces = MediaType.APPLICATION_XML)
+    @GetMapping(value = "/sitemap.xml", produces = MediaType.APPLICATION_XML_VALUE)
     public @ResponseBody String sitemap() throws Exception {
         final UrlSet urlSet = new UrlSet();
 

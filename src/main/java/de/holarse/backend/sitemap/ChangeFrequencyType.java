@@ -1,9 +1,6 @@
 package de.holarse.backend.sitemap;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
-import javax.xml.bind.annotation.XmlType;
 
 public enum ChangeFrequencyType {
     @JsonProperty("always")

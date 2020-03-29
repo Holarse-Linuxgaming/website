@@ -145,7 +145,8 @@ public class MultipleHttpSecurityConfig {
                             "/assets/**",
                             "/favicon.ico",
                             "/sitemap.xml",
-                            "/robots.txt",
+                            "/age.xml", "/age-de.xml", "/miracle.xml",
+                            "/robots.txt", "/humans.txt",
                             "/webapi/**");
         }
 

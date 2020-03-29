@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class RobotsController {
 
-    private static String CONTENT = "User-Agent: *\\n" +
-                                    "Disallow: /search\\n" +
-                                    "Disallow: /webapi\\n" +
-                                    "Disallow: /api\\n" +
-                                    "Sitemap: https://www.holarse-linuxgaming.de/sitemap.xml";
+    private static String CONTENT = "User-Agent: *\r\n" +
+                                    "Disallow: /search\r\n" +
+                                    "Disallow: /webapi\r\n" +
+                                    "Disallow: /api\r\n" +
+                                    "Sitemap: https://www.holarse-linuxgaming.de/sitemap.xml\r\n";
 
 
     @GetMapping("/robots.txt")
