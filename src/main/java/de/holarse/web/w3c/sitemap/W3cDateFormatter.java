@@ -1,4 +1,4 @@
-package de.holarse.web.sitemap;
+package de.holarse.web.w3c.sitemap;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;

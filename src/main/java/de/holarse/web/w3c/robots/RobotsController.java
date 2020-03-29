@@ -1,4 +1,4 @@
-package de.holarse.web.robots;
+package de.holarse.web.w3c.robots;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

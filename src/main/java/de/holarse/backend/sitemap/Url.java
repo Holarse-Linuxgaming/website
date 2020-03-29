@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import de.holarse.web.sitemap.W3cDateFormatter;
+import de.holarse.web.w3c.sitemap.W3cDateFormatter;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
 
