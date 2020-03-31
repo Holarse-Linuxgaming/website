@@ -1,0 +1,11 @@
+<news uid="1980" created="2010-12-24T17:02:19+0100" newstype="REPORT"><revision><created>2010-12-24T17:02:43+0100</created><author>comrad</author><revisionId>0</revisionId><changelog>2</changelog></revision><state><locked>false</locked><commentable>true</commentable><draft>false</draft><published>true</published><deleted>false</deleted><archived>false</archived><ftp/><ftpTools/><releaseDate/></state><content format="WIKI"><![CDATA[Und wieder ist Weihnachten, wieder liegt Schnee, und wieder kommt beides völlig überraschend ;-) In der Linuxspielewelt gab es dieses Jahr auch einige Überraschungen, davon zum Glück viele Positive!
+
+Ganz frisch ist noch das Weihnachtsbundle der Indiegames in der zweiten Runde, das [[Humble Indie Bundle]]. Wie schon zuvor bei der [[World Of Goo]]-Aktion darf man den Preis selbst bestimmen. Wieder ist es schön zu sehen, dass Linuxspieler die verfügbaren Spiele der Indiehersteller zu schätzen wissen und die von allen Plattformen die höchste Wertschätzung im freiwillig zu zahlenden Preis niederschlagen. Für die Spielehersteller sind diese Aktionen aber beinichten nur ein PR-Gag, spühlen diese doch wegen der Masse ordentlich Geld in die Kassen.
+
+Wieder gab es dieses Jahr einige Veröffentlichungen unter der GPL. Dieses Jahr waren das [http://www.holarse-linuxgaming.de/news/id_software_gibt_den_quellcode_von_rtcw_und_et_frei RTCW und ET].
+
+Für Holarse haben wir endlich auch wieder einen Root-Server angeschafft, der nun die Geschwindigkeits- und Erreichbarkeitsprobleme von früher abgestellt hat. Zudem konnten wir unseren eigenen FTP-Server hosten ([[Holarse Services]]) und auch eigene Game-Server anbieten.
+
+Wir danken allen Lesern und Wiki-Autoren für dieses tolle Linuxjahr (im übrigen das verschwitzte 10. Jubiläum von Holarse) und freuen uns auf ein kommendes spannendes linuxspielereiches 2011!
+
+Euer Holarse-Team]]></content><title>Weihnachtsgruß</title><subtitle/><category>DEFAULT</category><attachments/></news>

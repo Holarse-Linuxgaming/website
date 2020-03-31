@@ -1,0 +1,24 @@
+<news uid="1270" created="2009-12-24T11:17:16+0100" newstype="REPORT"><revision><created>2018-12-23T23:38:45+0100</created><author>comrad</author><revisionId>0</revisionId><changelog>2</changelog></revision><state><locked>false</locked><commentable>true</commentable><draft>false</draft><published>true</published><deleted>false</deleted><archived>false</archived><ftp/><ftpTools/><releaseDate/></state><content format="WIKI"><![CDATA[Es weihnachtet wieder sehr und draussen liegt sogar richtig viel Schnee herum. Man kann dieses Jahr sogar richtig in Stimmung kommen.
+
+Auf jedenfall ist es wieder Zeit für unseren jährlichen Rückblick auf das Linuxspielejahr 2009 und wir wollen wieder kurz an die wichtigsten Ereignisse in der Linuxspielewelt und im Bezug auf Holarse erinnern.
+
+[[ScummVM]] ist nach etlichen Jahren der Entwicklung endlich bei 1.0 angelangt. Und ID Software brachte und [[Quake Live]] und einen Ausblick auf die nächste Engine id tech 5.
+
+Ganz frisch ist natürlich noch Retos-Spiele-Tester-Aktion, bei der man Vollversionen von Spielen testen kann, indem man einen Bericht darüber schreibt. Holarse vermittelt Euch Spielehersteller, die Spiele hierfür bereitstellen. Achtet hier einfach auf das Symbol auf der rechten Seitenleiste.
+
+Wichtig zu erwähnen ist natürlich auch der [[Linuxtag 2009|Linuxtag]], zu dem wir dieses Jahr nach Berlin gefahren sind. Die Jahre zuvor, vor dem Wechsel von ursprünglich Karlsruhe, haben wir nicht mehr daran teilgenommen. Es war auf aber die richtige Entscheidung uns hier wieder zu engagieren. Zusammen mit Linux-Gamers.net haben wir uns einen Stand geteilt und wirklich sehr vielen interessierten Besuchern die neusten Spiele aus der Linuxspielewelt zeigen können. Für mich persönlich immer am erfreulichsten ist es, wenn man jemanden aufzeigen kann, dass Linux nicht nur zum Arbeiten taugt, sondern, dass es auch eine große Sammlung von netten Spielen auch unter Linux gibt. Am Schluß des Linuxtags fand auch noch die alljährliche Mitgliederversammlung des [[linux-gamers.net|Linux-Gamers e.V.]] statt.
+
+Unsere Gewinnspielaktion fand auch guten Absatz, vielen Dank an [[LGP]] an dieser Stelle für die freundliche Zusammenarbeit und die Schlüssel, die dazu beigesteuert wurden. So konnten wir auch auf die neue Download-Vertriebsmöglichkeit von [[LGP]] aufmerksam machen, die neben Wochen- und Monatskeys auch das volle Spiel online zum Kauf anbietet.
+
+Anfang des Jahres haben wir mit Eurer Unterstützung und Euren Anregungen viele Veränderungen an Holarse vorgenommen. Nachdem wir auf Drupal umgeschwenkt waren, hattet Ihr viele Anmerkungen, die wir gesammelt und zum Schluß (hoffentlich) größtenteils alle umgesetzt haben.
+
+Mit Hilfe von pcdog konnten wir zunächst unseren [[FTP-Server]] wieder in Gang bringen, jedoch hielt das nicht so lange wie gewünscht, aber nun können wir Euch trotzdem wieder Demo-Dateien und Patches direkt zu den Spielen anbieten. Danke an [http://www.byteblock.de/ byteblock], die uns hier helfend zur Hand gegangen sind.
+
+Herzlich bedanken möchte ich mich an dieser Stelle für die wunderbare Arbeit von ''Reto''. Er leistet unglaubliches und ist unheimlich engagiert und bleibt es auch, sogar wenn ich Wochen für die Zusammenstellung eines bestimmten Dokuments benötige ;-) Also Danke, Reto!
+
+Vielen Dank natürlich auch an alle anderen Helfer, die uns über News berichten, Spieleberichte schreiben und sich an der Community beteiligen!
+
+Wir wünschen Euch allen ein ruhiges Weihnachtsfest und viele Geschenke (vielleicht ist ja sogar das ein oder andere Linuxspiel dabei ;-) ) und uns allen ein tolles und spannendes Linuxspielejahr 2010!
+
+Euer Holarse-Team
+]]></content><title>Weihnachtsgruß 2009</title><subtitle/><category>DEFAULT</category><attachments/></news>
