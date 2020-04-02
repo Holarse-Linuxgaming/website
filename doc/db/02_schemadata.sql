@@ -36,7 +36,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS search.mv_searchindex AS (
         FROM attachments
         WHERE nodeid = a.id AND attachmenttype = 'SCREENSHOT' AND attachmentgroup = 'IMAGE' ORDER BY id LIMIT 1
     )
-	WHERE NOT draft AND NOT deleted AND published
+	WHERE NOT deleted AND published
     GROUP BY a.id, att.attachmentdata
 
 	UNION
@@ -60,7 +60,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS search.mv_searchindex AS (
         FROM attachments
         WHERE nodeid = n.id AND attachmenttype = 'SCREENSHOT' AND attachmentgroup = 'IMAGE' ORDER BY id limit 1
     )
-	WHERE NOT deleted AND NOT draft AND published
+	WHERE NOT deleted AND published
     GROUP BY n.id, att.attachmentdata
 );
 ALTER MATERIALIZED VIEW search.mv_searchindex OWNER TO :dbUser;
