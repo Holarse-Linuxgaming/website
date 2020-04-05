@@ -1,0 +1,1 @@
+curl -X POST -H 'Content-Type: text/plain' -u dbl:ADDB0F5E7826C857D7376D1BD9BC33C0C544790A2EAC96144A8AF22B1298C940 http://localhost:8080/api/drueckblick/ -d 'Minetest 5.2.0 veröffentlicht - https://fosstodon.org/@Minetest/103947016966452347'
