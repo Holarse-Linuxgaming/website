@@ -193,9 +193,26 @@ public class WebUtilsTest {
     @Test
     public void testAntiSpyHumbleBundlePartner() {
         String url = "https://www.humblebundle.com/store/promo/rpg-sale?partner=somelinuxgamingwebsite";
-        assertEquals("https://www.humblebundle.com/store/promo/rpg-sale", WebUtils.antispyUrl(url));
+        assertEquals("https://www.humblebundle.com/store/promo/rpg-sale?", WebUtils.antispyUrl(url));
     }    
 
-    
+    @Test
+    public void testAntiSpyHarmlessParameters() {
+        String url = "https://www.website.com/store/promo/rpg-sale?param1=x&param2=y";
+        assertEquals("https://www.website.com/store/promo/rpg-sale?param1=x&param2=y", WebUtils.antispyUrl(url));
+    }   
+
+    @Test
+    public void testAntiSpyGoogleAnalytics() {
+        String url = "https://example.com?utm_source=news4&utm_medium=email&utm_campaign=fruehling-sommer";
+        assertEquals("https://example.com?", WebUtils.antispyUrl(url));
+    } 
+ 
+    @Test
+    public void testAntiSpyGoogleAnalyticsWithValidParam() {
+        String url = "https://example.com?param=1&utm_source=news4&utm_medium=email&utm_campaign=fruehling-sommer";
+        assertEquals("https://example.com?param=1", WebUtils.antispyUrl(url));
+    } 
+ 
     
 }
