@@ -44,20 +44,21 @@ public class UserController {
     @Autowired
     ViewFactory viewFactory;
 
-    @GetMapping
     @Transactional
+    @GetMapping
     public String index(final ModelMap map) {
         map.addAttribute("users", userRepository.findAll().stream().map(viewFactory::fromUser).collect(Collectors.toList()));
         return "users/index";
     }
     
+    @Transactional
     @GetMapping("{username}")
     public String show(@PathVariable("username") final String username, final ModelMap map) {       
         return show(userRepository.findBySlug(username).orElseThrow(() -> new NodeNotFoundException("Username not found")), map);
     }
 
     protected String show(final User user, final ModelMap map) {
-        map.addAttribute("user", user);
+        map.addAttribute("user", viewFactory.fromUser(user));
         return "users/show";        
     }
 
