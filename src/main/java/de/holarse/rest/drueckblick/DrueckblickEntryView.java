@@ -30,6 +30,8 @@ public class DrueckblickEntryView {
         this.message = message;
     }
 
-    
-
+    @Override
+    public String toString() {
+        return "DrueckblickEntryView [bearer=" + bearer + ", link=" + link + ", message=" + message + "]";
+    }
 }

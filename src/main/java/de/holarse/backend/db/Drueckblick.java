@@ -16,12 +16,12 @@ public class Drueckblick extends Base {
     private String name;
 
     @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE NOT NULL")    
-    private OffsetDateTime dbStart;
+    private OffsetDateTime coverageBegin;
     
     @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE NOT NULL")    
-    private OffsetDateTime dbEnd;
+    private OffsetDateTime coverageEnd;
 
-    @OneToMany
+    @OneToMany(mappedBy = "drueckblick")
     private List<DrueckblickEntry> entries = new ArrayList<>();
 
     public String getName() {
@@ -32,20 +32,29 @@ public class Drueckblick extends Base {
         this.name = name;
     }
 
-    public OffsetDateTime getDbStart() {
-        return dbStart;
+    public OffsetDateTime getCoverageBegin() {
+        return coverageBegin;
     }
 
-    public void setDbStart(OffsetDateTime dbStart) {
-        this.dbStart = dbStart;
+    public void setCoverageBegin(OffsetDateTime coverageBegin) {
+        this.coverageBegin = coverageBegin;
     }
 
-    public OffsetDateTime getDbEnd() {
-        return dbEnd;
+    public OffsetDateTime getCoverageEnd() {
+        return coverageEnd;
     }
 
-    public void setDbEnd(OffsetDateTime dbEnd) {
-        this.dbEnd = dbEnd;
+    public void setCoverageEnd(OffsetDateTime coverageEnd) {
+        this.coverageEnd = coverageEnd;
     }
+
+    public List<DrueckblickEntry> getEntries() {
+        return entries;
+    }
+
+    public void setEntries(List<DrueckblickEntry> entries) {
+        this.entries = entries;
+    }
+
 
 }

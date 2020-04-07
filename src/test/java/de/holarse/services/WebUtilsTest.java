@@ -214,5 +214,10 @@ public class WebUtilsTest {
         assertEquals("https://example.com?param=1", WebUtils.antispyUrl(url));
     } 
  
+    @Test
+    public void testAntiSpyGoogleAnalyticsWithValidParam2() {
+        String url = "https://store.steampowered.com/newshub/app/431240/view/2083419329409949304";
+        assertEquals("https://store.steampowered.com/newshub/app/431240/view/2083419329409949304", WebUtils.antispyUrl(url));
+    }     
     
 }

@@ -50,7 +50,8 @@ public class DrueckblickEndpoint {
 
     @Transactional
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> upload(final DrueckblickEntryView view) throws Exception {
+    public ResponseEntity<String> upload(@RequestBody final DrueckblickEntryView view) throws Exception {
+        log.debug("{}", view);
         DrueckblickEntry entry = new DrueckblickEntry();
         entry.setCreated(OffsetDateTime.now());
         entry.setCategory(DrueckblickCategory.UNASSIGNED);
