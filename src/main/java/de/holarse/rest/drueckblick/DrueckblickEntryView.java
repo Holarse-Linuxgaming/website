@@ -5,6 +5,7 @@ public class DrueckblickEntryView {
     private String bearer;
     private String link;
     private String message;
+    private String createdAt;
 
     public String getBearer() {
         return bearer;
@@ -33,5 +34,13 @@ public class DrueckblickEntryView {
     @Override
     public String toString() {
         return "DrueckblickEntryView [bearer=" + bearer + ", link=" + link + ", message=" + message + "]";
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 }

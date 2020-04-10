@@ -18,7 +18,7 @@
                 <th scope="col">Rolle</th>
                 <th scope="col">Aktiv?</th>
                 <th scope="col">Erstellt</th>
-                <th scope="col">Gültig bis</th>                
+                <th scope="col">GÃ¼ltig bis</th>                
             </tr>
         </thead>
         <tbody>
