@@ -970,7 +970,8 @@
         <script src="assets/vendor/unify/components/hs.datatables.js"></script>
         
         <!-- JS Custom -->
-        <script src="assets/custom/js/custom.js"></script>
+        <script src="assets/vendor/vuejs/vue.js"></script>
+        <script src="assets/custom/js/admin.js"></script>
 
         <!-- JS Plugins Init. -->
         <script>

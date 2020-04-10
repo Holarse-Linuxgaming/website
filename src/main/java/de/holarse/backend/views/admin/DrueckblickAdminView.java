@@ -2,6 +2,7 @@ package de.holarse.backend.views.admin;
 
 public class DrueckblickAdminView implements AdminView {
 
+    private Long id;
     private String name;
 
     public String getName() {
@@ -10,6 +11,14 @@ public class DrueckblickAdminView implements AdminView {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
 }
