@@ -2,6 +2,11 @@ $(document).ready(function() {
    
    $(".datepicker").datepicker($.datepicker.regional[ "de" ]);
    
+   Vue.component('drueckblick-entry', {
+      props: ['entry', 'index'],
+      template: '#admin-drueckblick-entry'
+   });
+
    var vadmdbl = new Vue({
             el: "#v-admin-drueckblick",
             data: {

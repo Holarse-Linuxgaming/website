@@ -1,5 +1,7 @@
 package de.holarse.web.admin;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,10 +12,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import de.holarse.backend.db.repositories.DrueckblickEntryRepository;
 import de.holarse.backend.db.repositories.DrueckblickRepository;
+import de.holarse.backend.db.types.DrueckblickCategory;
+import de.holarse.backend.views.SelectionViewModel;
 import de.holarse.backend.views.admin.DrueckblickEntryAdminView;
 import de.holarse.factories.AdminViewFactory;
 
@@ -32,6 +38,9 @@ public class AdminDrueckblickController {
 
     @GetMapping
     public String index(final ModelMap map) {
+        var categories = Arrays.asList(DrueckblickCategory.values()).stream().map(e -> new SelectionViewModel(e.name(), e.getLabel())).collect(Collectors.toList());
+        map.put("categories", categories);
+
         return "admin/drueckblick/index";
     }
 
@@ -42,6 +51,16 @@ public class AdminDrueckblickController {
                                                           .collect(Collectors.toList());
 
         return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    /**
+     * Nimmt ein Update eines Drückblick-Entries entgegen.
+     * @param view
+     * @return
+     */
+    @PostMapping("update_entry")
+    public ResponseEntity<DrueckblickEntryAdminView> autoUpdateEntry(@RequestBody final DrueckblickEntryAdminView view) {
+        return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
     }
 
 }

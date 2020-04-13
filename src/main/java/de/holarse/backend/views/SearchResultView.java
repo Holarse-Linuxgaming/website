@@ -3,10 +3,8 @@ package de.holarse.backend.views;
 import de.holarse.search.SearchResult;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-public class SearchResultView {
+public class SearchResultView implements ViewModel {
 
     private final SearchResult result;
     
