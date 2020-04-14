@@ -28,6 +28,7 @@ $(document).ready(function() {
                   request.setRequestHeader(holarse.csrf_header, holarse.csrf_token);
                },
                complete: function(result) {
+                  obj = result;
                   obj.changed = false;
                }
             });

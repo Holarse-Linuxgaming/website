@@ -1,5 +1,6 @@
 package de.holarse.web.admin;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -69,6 +70,7 @@ public class AdminDrueckblickController {
         entry.setCategory(view.getCategory());
         entry.setLink(view.getLink());
         entry.setMessage(view.getMessage());
+        entry.setUpdated(OffsetDateTime.now());
 
         drueckblickEntryRepository.save(entry);
         return new ResponseEntity<>(viewFactory.fromDrueckblickEntry(entry), HttpStatus.ACCEPTED);
