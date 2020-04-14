@@ -1,25 +1,19 @@
 <%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<script type="text/x-template" id="admin-drueckblick-entry-x">
-    <tr>    
-        <td v-bind:data_entry_id="entry.id">{{index}}</td>
-        <td>{{entry.category}}</td>
-        <td>{{entry.created}}</td>
-        <td>{{entry.bearer}}</td>
-        <td>{{entry.message}}</td>
-        <td>{{entry.link}}</td>    
-    </tr>    
-</script>
-
 <script type="text/x-template" id="admin-drueckblick-entry">
-    <tr>    
+    <tr v-on:change="entry.changed = true">    
         <td v-bind:data_entry_id="entry.id">{{index}}</td>
         <td>{{entry.category}}</td>
         <td>{{entry.created}}</td>
         <td><input v-model="entry.bearer"></td>
         <td><textarea v-model="entry.message"></textarea></td>
-        <td><input v-model="entry.link"></td>    
+        <td><input v-model="entry.link"></td>  
+        <td>
+            <button class="btn u-btn-primary g-mr-10 g-mb-15" v-on:click="update_entry(entry)" :disabled="!entry.changed">
+                <i class="fa fa-floppy-o g-mr-5"></i>
+            </button>
+        </td>  
     </tr>    
 </script>
 

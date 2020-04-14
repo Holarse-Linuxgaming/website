@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import de.holarse.backend.db.types.DrueckblickCategory;
 
 @Entity
-@Table(name = "drueckblick_entry")
+@Table(name = "drueckblick_entries")
 public class DrueckblickEntry extends Base {
 
     @ManyToOne

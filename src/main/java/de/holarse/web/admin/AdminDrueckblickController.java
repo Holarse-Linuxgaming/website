@@ -3,6 +3,7 @@ package de.holarse.web.admin;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,15 +13,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import de.holarse.backend.db.DrueckblickEntry;
 import de.holarse.backend.db.repositories.DrueckblickEntryRepository;
 import de.holarse.backend.db.repositories.DrueckblickRepository;
 import de.holarse.backend.db.types.DrueckblickCategory;
 import de.holarse.backend.views.SelectionViewModel;
 import de.holarse.backend.views.admin.DrueckblickEntryAdminView;
+import de.holarse.exceptions.HolarseException;
 import de.holarse.factories.AdminViewFactory;
 
 @Controller
@@ -58,9 +62,16 @@ public class AdminDrueckblickController {
      * @param view
      * @return
      */
-    @PostMapping("update_entry")
-    public ResponseEntity<DrueckblickEntryAdminView> autoUpdateEntry(@RequestBody final DrueckblickEntryAdminView view) {
-        return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
+    @PostMapping(value="update_entry")
+    public ResponseEntity<DrueckblickEntryAdminView> autoUpdateEntry(@ModelAttribute final DrueckblickEntryAdminView view) {
+        final DrueckblickEntry entry = drueckblickEntryRepository.findById(view.getId()).orElseThrow(() -> new HolarseException("id not found"));
+        entry.setBearer(view.getBearer());
+        entry.setCategory(view.getCategory());
+        entry.setLink(view.getLink());
+        entry.setMessage(view.getMessage());
+
+        drueckblickEntryRepository.save(entry);
+        return new ResponseEntity<>(viewFactory.fromDrueckblickEntry(entry), HttpStatus.ACCEPTED);
     }
 
 }

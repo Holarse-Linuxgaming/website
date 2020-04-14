@@ -166,6 +166,7 @@
   <%@include file="/WEB-INF/jspf/vue_snippets.jspf" %> 
   
   <!-- JS Custom -->
+  <script src="/assets/custom/js/holarse.js"></script>
   <script src="/assets/custom/js/holarse-vue.js"></script>  
   <script src="/assets/custom/js/custom.js"></script>  
 </body>
