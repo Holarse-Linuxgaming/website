@@ -2,6 +2,9 @@ package de.holarse.backend.views.admin;
 
 import de.holarse.backend.db.types.DrueckblickCategory;
 
+/**
+ * ViewModel für Drückblick-Einträge im Adminbereich
+ */
 public class DrueckblickEntryAdminView implements AdminView {
 
     private Long id;
@@ -11,8 +14,7 @@ public class DrueckblickEntryAdminView implements AdminView {
     private String message;
     private String link;
     private String created;
-
-    
+    private boolean deleted;    
 
     public DrueckblickAdminView getDrueckblick() {
         return drueckblick;
@@ -68,6 +70,14 @@ public class DrueckblickEntryAdminView implements AdminView {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     

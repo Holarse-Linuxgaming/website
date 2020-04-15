@@ -27,12 +27,31 @@ $(document).ready(function() {
                beforeSend: function(request) {
                   request.setRequestHeader(holarse.csrf_header, holarse.csrf_token);
                },
-               complete: function(result) {
-                  obj = result;
+               success: function(result) {
                   obj.changed = false;
                }
             });
-            console.debug(holarse);
+         },
+         delete_entry: function(obj) {
+            var data = {
+               id: obj.id,
+               deleted: !obj.deleted,
+            }
+
+            $.ajax({
+               url: "/admin/drueckblick/delete_entry",
+               type: "post",
+               data: data,
+               dataType: "json",
+               beforeSend: function(request) {
+                  request.setRequestHeader(holarse.csrf_header, holarse.csrf_token);
+               },
+               success: function(result) {
+                  obj.changed = false;
+                  obj.deleted = result.deleted;
+                  console.debug(result.deleted);
+               }
+            });            
          }
       }
    });

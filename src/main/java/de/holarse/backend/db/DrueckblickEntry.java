@@ -30,6 +30,9 @@ public class DrueckblickEntry extends Base {
     @Column(length = 2083)
     private String link;
 
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean deleted;
+
     public DrueckblickCategory getCategory() {
         return category;
     }
@@ -69,4 +72,13 @@ public class DrueckblickEntry extends Base {
     public void setDrueckblick(Drueckblick drueckblick) {
         this.drueckblick = drueckblick;
     }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
 }

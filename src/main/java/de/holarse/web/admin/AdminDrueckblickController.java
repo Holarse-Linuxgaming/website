@@ -16,7 +16,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import de.holarse.backend.db.DrueckblickEntry;
@@ -75,5 +74,20 @@ public class AdminDrueckblickController {
         drueckblickEntryRepository.save(entry);
         return new ResponseEntity<>(viewFactory.fromDrueckblickEntry(entry), HttpStatus.ACCEPTED);
     }
+
+    /**
+     * Nimmt ein Löschen eines Drückblick-Entries entgegen.
+     * @param view
+     * @return
+     */
+    @PostMapping(value="delete_entry")
+    public ResponseEntity<DrueckblickEntryAdminView> deleteEntry(@ModelAttribute final DrueckblickEntryAdminView view) {
+        final DrueckblickEntry entry = drueckblickEntryRepository.findById(view.getId()).orElseThrow(() -> new HolarseException("id not found"));
+        entry.setDeleted(view.isDeleted());
+        entry.setUpdated(OffsetDateTime.now());
+
+        drueckblickEntryRepository.save(entry);
+        return new ResponseEntity<>(viewFactory.fromDrueckblickEntry(entry), HttpStatus.ACCEPTED);
+    }    
 
 }
