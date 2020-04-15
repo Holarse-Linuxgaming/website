@@ -14,7 +14,7 @@
                 <i class="fa fa-floppy-o g-mr-3"></i>
                 Speichern
             </button>
-            <button class="btn u-btn-outline-red g-mr-10 g-mb-15" v-on:click="delete_entry(entry)" title="Löschen oder undo">
+            <button class="btn u-btn-outline-red g-mr-10 g-mb-15" v-on:click="delete_entry(entry)" title="Löschen oder wieder freigeben">
                 <i class="fa fa-trash-o g-mr-3"></i>
             </button>
         </td>  

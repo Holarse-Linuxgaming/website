@@ -26,7 +26,7 @@ public class AdminViewFactory {
         }
         view.setLink(entity.getLink());
         view.setMessage(entity.getMessage());
-        view.setCreated(WebUtils.format(entity.getCreated()));
+        view.setCreated(WebUtils.formatShort(entity.getCreated()));
         view.setDeleted(entity.isDeleted());
 
         return view;

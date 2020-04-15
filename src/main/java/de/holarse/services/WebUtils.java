@@ -100,6 +100,18 @@ public class WebUtils {
         return datetime.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM).withLocale(Locale.GERMAN));
     }
 
+    public static String formatISO(final OffsetDateTime datetime) {
+        if (datetime == null) return "";
+        
+        return datetime.format(DateTimeFormatter.ISO_DATE_TIME);
+    }
+
+    public static String formatShort(final OffsetDateTime datetime) {
+        if (datetime == null) return "";
+        
+        return datetime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss"));
+    }    
+
     private static String filterQueryParams(final String host, final String uriQuery) {
         if (StringUtils.isBlank(uriQuery))
             return null;
