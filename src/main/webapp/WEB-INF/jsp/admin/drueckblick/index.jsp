@@ -4,8 +4,14 @@
 <script type="text/x-template" id="admin-drueckblick-entry">
     <tr v-on:change="entry.changed = true">    
         <td v-bind:data_entry_id="entry.id">{{index}}</td>
-        <td>{{entry.category}}</td>
-        <td><span :title="entry.created">{{entry.createdAgo}}</a></td>
+        <td>
+            <select class="form-control form-control-md rounded-0" v-model="entry.category" :disabled="entry.deleted">
+                <option v-for="category in categories" v-bind:value="category.value">
+                  {{ category.label }}
+                </option>
+              </select>
+        </td>
+        <td><span :title="entry.created">{{entry.createdAgo}}</span></td>
         <td><input class="form-control form-control-md rounded-0" v-model="entry.bearer"     :disabled="entry.deleted"></td>
         <td><textarea class="form-control form-control-md u-textarea-expandable rounded-0" rows="3" v-model="entry.message" :disabled="entry.deleted"></textarea></td>
         <td><textarea class="form-control form-control-md u-textarea-expandable rounded-0"  v-model="entry.link"       :disabled="entry.deleted"></textarea></td>  
@@ -44,7 +50,10 @@
             </tr>
         </thead>
         <tbody>
-            <tr is="drueckblick-entry" v-for="(entry, index) in entries" :key="entry.id" :entry="entry" :index="index + 1" />
+            <tr is="drueckblick-entry" v-for="(entry, index) in entries" :key="entry.id" 
+                                                                         :entry="entry" 
+                                                                         :index="index + 1" 
+                                                                         :categories="categories" />
         </tbody>
     </table>
 </div>

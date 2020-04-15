@@ -6,7 +6,7 @@ $(document).ready(function() {
    // Drückblick
    ///////////////////////////////////////////////////////////////////////////////
    Vue.component('drueckblick-entry', {
-      props: ['entry', 'index'],
+      props: ['entry', 'categories', 'index'],
       template: '#admin-drueckblick-entry',
       methods: {
          update_entry: function(obj) {
@@ -60,6 +60,7 @@ $(document).ready(function() {
             el: "#v-admin-drueckblick",
             data: {
                entries: [],
+               categories: []
             },
             methods: {
                load_data: function() {
@@ -73,10 +74,20 @@ $(document).ready(function() {
                         });
                      }
                   });
+               },
+               load_categories: function() {
+                  $.ajax({
+                     dataType: "json",
+                     url: "/admin/drueckblick/categories",
+                     success: function(result) {
+                        vadmdbl.categories = result;
+                     }
+                  });
                }
             },
             mounted: function() {
                this.load_data();
+               this.load_categories();
             }
    });
 

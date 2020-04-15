@@ -41,10 +41,7 @@ public class AdminDrueckblickController {
     private AdminViewFactory viewFactory;
 
     @GetMapping
-    public String index(final ModelMap map) {
-        var categories = Arrays.asList(DrueckblickCategory.values()).stream().map(e -> new SelectionViewModel(e.name(), e.getLabel())).collect(Collectors.toList());
-        map.put("categories", categories);
-
+    public String index() {
         return "admin/drueckblick/index";
     }
 
@@ -88,6 +85,14 @@ public class AdminDrueckblickController {
 
         drueckblickEntryRepository.save(entry);
         return new ResponseEntity<>(viewFactory.fromDrueckblickEntry(entry), HttpStatus.ACCEPTED);
-    }    
+    } 
+    
+    @GetMapping(value="categories", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<SelectionViewModel>> categories() {
+        return new ResponseEntity<>(Arrays.asList(DrueckblickCategory.values())
+                                    .stream()
+                                    .map(e -> new SelectionViewModel(e.getLabel(), e.name()))
+                                    .collect(Collectors.toList()), HttpStatus.OK);
+    }
 
 }
