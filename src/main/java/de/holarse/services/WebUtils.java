@@ -1,20 +1,14 @@
 package de.holarse.services;
 
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.util.UrlPathHelper;
 
 import de.holarse.services.views.QueryKV;
 
@@ -94,24 +88,6 @@ public class WebUtils {
         return buffer.toString();
     }    
     
-    public static String format(final OffsetDateTime datetime) {
-        if (datetime == null) return "";
-        
-        return datetime.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM).withLocale(Locale.GERMAN));
-    }
-
-    public static String formatISO(final OffsetDateTime datetime) {
-        if (datetime == null) return "";
-        
-        return datetime.format(DateTimeFormatter.ISO_DATE_TIME);
-    }
-
-    public static String formatShort(final OffsetDateTime datetime) {
-        if (datetime == null) return "";
-        
-        return datetime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss"));
-    }    
-
     private static String filterQueryParams(final String host, final String uriQuery) {
         if (StringUtils.isBlank(uriQuery))
             return null;

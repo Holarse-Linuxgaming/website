@@ -8,7 +8,7 @@ import de.holarse.backend.db.Drueckblick;
 import de.holarse.backend.db.DrueckblickEntry;
 import de.holarse.backend.views.admin.DrueckblickAdminView;
 import de.holarse.backend.views.admin.DrueckblickEntryAdminView;
-import de.holarse.services.WebUtils;
+import de.holarse.services.DateUtils;
 
 @Component
 public class AdminViewFactory {
@@ -26,7 +26,8 @@ public class AdminViewFactory {
         }
         view.setLink(entity.getLink());
         view.setMessage(entity.getMessage());
-        view.setCreated(WebUtils.formatShort(entity.getCreated()));
+        view.setCreated(DateUtils.formatShort(entity.getCreated()));
+        view.setCreatedAgo(DateUtils.formatAgo(entity.getCreated()));
         view.setDeleted(entity.isDeleted());
 
         return view;

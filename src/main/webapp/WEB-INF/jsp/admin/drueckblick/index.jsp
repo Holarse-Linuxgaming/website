@@ -5,7 +5,7 @@
     <tr v-on:change="entry.changed = true">    
         <td v-bind:data_entry_id="entry.id">{{index}}</td>
         <td>{{entry.category}}</td>
-        <td>{{entry.created}}</td>
+        <td><span :title="entry.created">{{entry.createdAgo}}</a></td>
         <td><input class="form-control form-control-md rounded-0" v-model="entry.bearer"     :disabled="entry.deleted"></td>
         <td><textarea class="form-control form-control-md u-textarea-expandable rounded-0" rows="3" v-model="entry.message" :disabled="entry.deleted"></textarea></td>
         <td><textarea class="form-control form-control-md u-textarea-expandable rounded-0"  v-model="entry.link"       :disabled="entry.deleted"></textarea></td>  

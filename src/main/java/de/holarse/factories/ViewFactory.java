@@ -26,7 +26,7 @@ import de.holarse.backend.views.NewsView;
 import de.holarse.backend.views.TagView;
 import de.holarse.backend.views.UserView;
 import de.holarse.renderer.Renderer;
-import de.holarse.services.WebUtils;
+import de.holarse.services.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Component
@@ -67,8 +67,8 @@ public class ViewFactory
         view.setAlternativeTitle3(article.getAlternativeTitle3());
         view.setSlug(article.getSlug());
         
-        view.setCreated(WebUtils.format(article.getCreated()));
-        view.setUpdated(WebUtils.format(article.getUpdated()));        
+        view.setCreated(DateUtils.format(article.getCreated()));
+        view.setUpdated(DateUtils.format(article.getUpdated()));        
         
         // URL definieren
         view.setUrl(String.format("/wiki/%s", article.getSlug()));
@@ -101,8 +101,8 @@ public class ViewFactory
         view.setTitle(news.getTitle());
         view.setSubtitle(news.getSubtitle());
         view.setSlug(news.getSlug());
-        view.setCreated(WebUtils.format(news.getCreated()));
-        view.setUpdated(WebUtils.format(news.getUpdated()));
+        view.setCreated(DateUtils.format(news.getCreated()));
+        view.setUpdated(DateUtils.format(news.getUpdated()));
         
         // URL definieren
         view.setUrl(String.format("/news/%s", news.getSlug()));
@@ -161,8 +161,8 @@ public class ViewFactory
         view.setAuthor(fromUser(comment.getAuthor()));
         renderNodeInto(comment, view);
         
-        view.setCreated(WebUtils.format(comment.getCreated()));
-        view.setUpdated(WebUtils.format(comment.getUpdated()));        
+        view.setCreated(DateUtils.format(comment.getCreated()));
+        view.setUpdated(DateUtils.format(comment.getUpdated()));        
         
         return view;
     }

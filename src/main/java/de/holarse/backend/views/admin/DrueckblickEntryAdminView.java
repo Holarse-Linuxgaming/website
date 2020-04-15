@@ -14,6 +14,7 @@ public class DrueckblickEntryAdminView implements AdminView {
     private String message;
     private String link;
     private String created;
+    private String createdAgo;
     private boolean deleted;    
 
     public DrueckblickAdminView getDrueckblick() {
@@ -78,6 +79,14 @@ public class DrueckblickEntryAdminView implements AdminView {
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public String getCreatedAgo() {
+        return createdAgo;
+    }
+
+    public void setCreatedAgo(String createdAgo) {
+        this.createdAgo = createdAgo;
     }
 
     
