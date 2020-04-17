@@ -1,4 +1,5 @@
-      <!-- Footer -->
+<%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=UTF-8" %>
+<!-- Footer -->
       <footer class="g-bg-black-opacity-0_9 g-color-white-opacity-0_6 g-py-60">
         <div class="container">
           <div class="row">
@@ -6,8 +7,8 @@
             <div class="col-lg-4 g-mb-50 g-mb-0--lg">
               <h2 class="h6 g-color-white text-uppercase g-font-weight-700 g-mb-20">HOLARSE - Spielen unter Linux - Linux als Spieleplattform</h2>
               <div class="g-mb-25">
-                <p>Holarse ist eine freie Plattform für Linuxspieler. Wir bieten neben haufenweise Informationen zu über tausend Spielen auch Nachrichten und Interviews und Einblicke in die Welt der Spiele. Natürlich beschäftigen wir uns nicht nur mit kommerziellen Spielen, sondern vornehmlich auch mit den freien Nachimplementationen oder innovativen quelloffenen Spielen. In letzter Zeit sind natürlich Steam und diverse andere digitale Vertriebsplattformen in den Vordergrund getreten.</p>
-                <p>Spielen unter Linux ist für jeden! In diesem Wiki kann jeder Linuxspieler Informationen zusammentragen und erweitern! Einfach anmelden und mitschreiben!</p>
+                <p>Holarse ist eine freie Plattform fÃ¼r Linuxspieler. Wir bieten neben haufenweise Informationen zu Ã¼ber vielen tausend Spielen auch Nachrichten und Interviews und Einblicke in die Welt der Spiele. NatÃ¼rlich beschÃ¤ftigen wir uns nicht nur mit kommerziellen Spielen, sondern vornehmlich auch mit den freien Nachimplementationen oder innovativen quelloffenen Spielen. In letzter Zeit sind Steam und diverse andere digitale Vertriebsplattformen in den Vordergrund getreten.</p>
+                <p>Spielen unter Linux ist fÃ¼r jeden! In diesem Wiki kann jeder Linuxspieler Informationen zusammentragen und erweitern! Einfach anmelden und mitschreiben!</p>
               </div>
       
               <ul class="list-inline mb-0">
@@ -48,7 +49,7 @@
                   <ul class="list-unstyled g-mb-30 g-mb-0--md">
                     <li class="d-flex g-mb-12">
                       <i class="fa fa-circle g-color-primary g-font-size-5 g-mt-10 g-mr-8"></i>
-                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="/wiki/über_holarse">&Uuml;ber Holarse</a>
+                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="/wiki/Ã¼ber_holarse">&Uuml;ber Holarse</a>
                     </li>
                     <li class="d-flex g-mb-12">
                       <i class="fa fa-circle g-color-primary g-font-size-5 g-mt-10 g-mr-8"></i>
@@ -115,8 +116,8 @@
       
             <!-- Footer Content -->
             <div class="col-lg-4">
-                <h2 class="h6 g-color-white text-uppercase g-font-weight-700 g-mb-20">News statt Gerüchte</h2>
-                <p>Ihr werden eventuell auf Holarse die ein oder andere "News" vermissen, die auf diversen anderen Linuxspiele-Seiten herumgeistert. Wir veröffentlichten News nur, wenn wir sie bestätigen konnten. Gerüchte veröffentlichen wir nicht. Natürlich verfolgen wir, was dahintersteckt. Zusammengefasst: Wenn ihr etwas auf Holarse lest, dann hat das Hand und Fuss.</p>                
+                <h2 class="h6 g-color-white text-uppercase g-font-weight-700 g-mb-20">News statt GerÃ¼chte</h2>
+                <p>Ihr werden eventuell auf Holarse die ein oder andere "News" vermissen, die auf diversen anderen Linuxspiele-Seiten herumgeistert. Wir verÃ¶ffentlichten News nur, wenn wir sie bestÃ¤tigen konnten. GerÃ¼chte, "Klatsch" und Meinungsmache verÃ¶ffentlichen wir nicht. NatÃ¼rlich verfolgen wir, was dahintersteckt. Zusammengefasst: Wenn ihr etwas auf Holarse lest, dann hat das Hand und Fuss.</p>                
             </div>
             <!-- End Footer Content -->
           </div>

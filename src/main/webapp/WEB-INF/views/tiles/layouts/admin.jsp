@@ -738,107 +738,46 @@
                 <!-- Sidebar Nav -->
                 <div id="sideNav" class="col-auto u-sidebar-navigation-v1 u-sidebar-navigation--dark">
                     <ul id="sideNavMenu" class="u-sidebar-navigation-v1-menu u-side-nav--top-level-menu g-min-height-100vh mb-0">
-                        <!-- Benachrichtigungen -->
-                        <li class="u-sidebar-navigation-v1-menu-item u-side-nav--top-level-menu-item">
-                            <a class="media u-side-nav--top-level-menu-link u-side-nav--hide-on-hidden g-px-15 g-py-12" href="/admin/notifications">
-                                <span class="d-flex align-self-center g-pos-rel g-font-size-18 g-mr-18">
-                                    <i class="hs-admin-layout-list-thumb"></i>
-                                </span>
-                                <span class="media-body align-self-center">Benachrichtigungen</span>
-                                <span class="d-flex align-self-center">
-                                    <span class="d-inline-block text-center g-min-width-35 g-bg-secondary g-font-size-12 g-color-white g-rounded-15 g-px-8 g-py-1">5</span>
-                                </span>              
-                            </a>
-                        </li>
-                        <!-- End Benachrichtigungen -->            
-
-                        <!-- Statistiken -->
-                        <li class="u-sidebar-navigation-v1-menu-item u-side-nav--top-level-menu-item">
-                            <a class="media u-side-nav--top-level-menu-link u-side-nav--hide-on-hidden g-px-15 g-py-12" href="/admin/statistics">
-                                <span class="d-flex align-self-center g-pos-rel g-font-size-18 g-mr-18">
-                                    <i class="hs-admin-bar-chart"></i>
-                                </span>
-                                <span class="media-body align-self-center">Zugriffe</span>
-                            </a>
-                        </li>
-                        <!-- End Statistiken -->
-
                         <!-- Drückblick -->
-                        <li class="u-sidebar-navigation-v1-menu-item u-side-nav--top-level-menu-item">
-                            <a class="media u-side-nav--top-level-menu-link u-side-nav--hide-on-hidden g-px-15 g-py-12" href="/admin/drueckblick">
+                        <li class="u-sidebar-navigation-v1-menu-item u-side-nav--has-sub-menu u-side-nav--top-level-menu-item">
+                            <a class="media u-side-nav--top-level-menu-link u-side-nav--hide-on-hidden g-px-15 g-py-12" href="#" data-hssm-target="#subMenu_db">
                                 <span class="d-flex align-self-center g-pos-rel g-font-size-18 g-mr-18">
-                                    <i class="hs-admin-bar-chart"></i>
+                                    <i class="hs-admin-layout-accordion-list"></i>
                                 </span>
                                 <span class="media-body align-self-center">Drückblick</span>
-                            </a>
-                        </li>
-                        <!-- End Drückblick -->                        
-
-                        <!-- Suchen -->
-                        <li class="u-sidebar-navigation-v1-menu-item u-side-nav--top-level-menu-item">
-                            <a class="media u-side-nav--top-level-menu-link u-side-nav--hide-on-hidden g-px-15 g-py-12" href="/admin/searches">
-                                <span class="d-flex align-self-center g-pos-rel g-font-size-18 g-mr-18">
-                                    <i class="hs-admin-search"></i>
+                                <span class="d-flex align-self-center u-side-nav--control-icon">
+                                    <i class="hs-admin-angle-right"></i>
                                 </span>
-                                <span class="media-body align-self-center">Suchen</span>
+                                <span class="u-side-nav--has-sub-menu__indicator"></span>
                             </a>
-                        </li>
-                        <!-- End Suchen -->  
 
-                        <!-- Frontpage -->
-                        <li class="u-sidebar-navigation-v1-menu-item u-side-nav--top-level-menu-item">
-                            <a class="media u-side-nav--top-level-menu-link u-side-nav--hide-on-hidden g-px-15 g-py-12" href="/admin/frontpage">
-                                <span class="d-flex align-self-center g-pos-rel g-font-size-18 g-mr-18">
-                                    <i class="hs-admin-blackboard"></i>
-                                </span>
-                                <span class="media-body align-self-center">Frontpage</span>
-                            </a>
-                        </li>
-                        <!-- End Artikel -->            
+                            <!-- Drückblick: Submenu -->
+                            <ul id="subMenu_db" class="u-sidebar-navigation-v1-menu u-side-nav--second-level-menu mb-0">
+                                <!-- Drückblicke -->
+                                <li class="u-sidebar-navigation-v1-menu-item u-side-nav--second-level-menu-item">
+                                    <a class="media u-side-nav--second-level-menu-link g-px-15 g-py-12" href="/admin/drueckblick/groups/">
+                                    <span class="d-flex align-self-center g-mr-15 g-mt-minus-1">
+                                        <i class="hs-admin-layout-media-overlay"></i>
+                                    </span>
+                                    <span class="media-body align-self-center">Drückblicke</span>
+                                    </a>
+                                </li>
+                                <!-- End Aktuelle Eingänge -->
 
-                        <!-- Kommentare -->
-                        <li class="u-sidebar-navigation-v1-menu-item u-side-nav--top-level-menu-item">
-                            <a class="media u-side-nav--top-level-menu-link u-side-nav--hide-on-hidden g-px-15 g-py-12" href="/admin/comments">
-                                <span class="d-flex align-self-center g-pos-rel g-font-size-18 g-mr-18">
-                                    <i class="hs-admin-comment-alt"></i>
-                                </span>
-                                <span class="media-body align-self-center">Kommentare</span>
-                            </a>
+                                <!-- Aktuelle Eingänge -->
+                                <li class="u-sidebar-navigation-v1-menu-item u-side-nav--second-level-menu-item">
+                                    <a class="media u-side-nav--second-level-menu-link g-px-15 g-py-12" href="/admin/drueckblick/entries/">
+                                    <span class="d-flex align-self-center g-mr-15 g-mt-minus-1">
+                                        <i class="hs-admin-layers-alt"></i>
+                                    </span>
+                                    <span class="media-body align-self-center">Aktuelle Eingänge</span>
+                                    </a>
+                                </li>
+                                <!-- End Aktuelle Eingänge -->
+                            </ul>
+                            <!-- End Drückblick: Submenu -->                            
                         </li>
-                        <!-- End Kommentare -->       
-
-                        <!-- Artikel -->
-                        <li class="u-sidebar-navigation-v1-menu-item u-side-nav--top-level-menu-item">
-                            <a class="media u-side-nav--top-level-menu-link u-side-nav--hide-on-hidden g-px-15 g-py-12" href="/admin/articles">
-                                <span class="d-flex align-self-center g-pos-rel g-font-size-18 g-mr-18">
-                                    <i class="hs-admin-book"></i>
-                                </span>
-                                <span class="media-body align-self-center">Artikel</span>
-                            </a>
-                        </li>
-                        <!-- End Artikel -->     
-
-                        <!-- News -->
-                        <li class="u-sidebar-navigation-v1-menu-item u-side-nav--top-level-menu-item">
-                            <a class="media u-side-nav--top-level-menu-link u-side-nav--hide-on-hidden g-px-15 g-py-12" href="/admin/news">
-                                <span class="d-flex align-self-center g-pos-rel g-font-size-18 g-mr-18">
-                                    <i class="hs-admin-pencil-alt"></i>
-                                </span>
-                                <span class="media-body align-self-center">News</span>
-                            </a>
-                        </li>
-                        <!-- End News -->     
-
-                        <!-- Benutzer -->
-                        <li class="u-sidebar-navigation-v1-menu-item u-side-nav--top-level-menu-item">
-                            <a class="media u-side-nav--top-level-menu-link u-side-nav--hide-on-hidden g-px-15 g-py-12" href="/admin/users">
-                                <span class="d-flex align-self-center g-pos-rel g-font-size-18 g-mr-18">
-                                    <i class="hs-admin-user"></i>
-                                </span>
-                                <span class="media-body align-self-center">Benutzer</span>
-                            </a>
-                        </li>
-                        <!-- End Benutzer -->              
+                        <!-- End Drückblick -->
                     </ul>
                 </div>
                 <!-- End Sidebar Nav -->
@@ -873,39 +812,6 @@
                                 </ul>
                             </div>
                             <!-- End Footer Nav -->
-
-                            <!-- Footer Socials -->
-                            <div class="col-md-4 g-mb-10 g-mb-0--md">
-                                <ul class="list-inline g-font-size-16 text-center mb-0">
-                                    <li class="list-inline-item g-mx-10">
-                                        <a href="#" class="g-color-facebook g-color-secondary--hover">
-                                            <i class="fa fa-facebook-square"></i>
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item g-mx-10">
-                                        <a href="#" class="g-color-google-plus g-color-secondary--hover">
-                                            <i class="fa fa-google-plus"></i>
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item g-mx-10">
-                                        <a href="#" class="g-color-black g-color-secondary--hover">
-                                            <i class="fa fa-github"></i>
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item g-mx-10">
-                                        <a href="#" class="g-color-twitter g-color-secondary--hover">
-                                            <i class="fa fa-twitter"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!-- End Footer Socials -->
-
-                            <!-- Footer Copyrights -->
-                            <div class="col-md-4 text-center text-md-right">
-                                <small class="d-block g-font-size-default">&copy; 2000-2019 Holarse - Spielen unter Linux. All Rights Reserved.</small>
-                            </div>
-                            <!-- End Footer Copyrights -->
                         </div>
                     </footer>
                     <!-- End Footer -->

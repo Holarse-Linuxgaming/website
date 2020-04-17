@@ -20,7 +20,7 @@ $(document).ready(function() {
             };
 
             $.ajax({
-               url: "/admin/drueckblick/update_entry",
+               url: "/admin/drueckblick/entries/update_entry",
                type: "post",
                data: data,
                dataType: "json",
@@ -39,7 +39,7 @@ $(document).ready(function() {
             }
 
             $.ajax({
-               url: "/admin/drueckblick/delete_entry",
+               url: "/admin/drueckblick/entries/delete_entry",
                type: "post",
                data: data,
                dataType: "json",
@@ -66,7 +66,7 @@ $(document).ready(function() {
                load_data: function() {
                   $.ajax({
                      dataType: "json",
-                     url: "/admin/drueckblick",
+                     url: "/admin/drueckblick/entries/",
                      success: function(result) {
                         vadmdbl.entries = $.map(result, function(i) {
                            i.changed = false;
@@ -78,7 +78,7 @@ $(document).ready(function() {
                load_categories: function() {
                   $.ajax({
                      dataType: "json",
-                     url: "/admin/drueckblick/categories",
+                     url: "/admin/drueckblick/entries/categories",
                      success: function(result) {
                         vadmdbl.categories = result;
                      }

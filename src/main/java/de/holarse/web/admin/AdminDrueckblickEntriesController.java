@@ -1,10 +1,8 @@
 package de.holarse.web.admin;
 
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import de.holarse.backend.db.DrueckblickEntry;
 import de.holarse.backend.db.repositories.DrueckblickEntryRepository;
-import de.holarse.backend.db.repositories.DrueckblickRepository;
 import de.holarse.backend.db.types.DrueckblickCategory;
 import de.holarse.backend.views.SelectionViewModel;
 import de.holarse.backend.views.admin.DrueckblickEntryAdminView;
@@ -28,11 +24,8 @@ import de.holarse.exceptions.HolarseException;
 import de.holarse.factories.AdminViewFactory;
 
 @Controller
-@RequestMapping("/admin/drueckblick")
-public class AdminDrueckblickController {
-
-    @Autowired
-    private DrueckblickRepository drueckblickRepository;
+@RequestMapping("/admin/drueckblick/entries/")
+public class AdminDrueckblickEntriesController {
 
     @Autowired
     private DrueckblickEntryRepository drueckblickEntryRepository;
@@ -42,7 +35,7 @@ public class AdminDrueckblickController {
 
     @GetMapping
     public String index() {
-        return "admin/drueckblick/index";
+        return "admin/drueckblick/entries/index";
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
