@@ -1,10 +1,12 @@
 package de.holarse.web.admin;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.temporal.TemporalField;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,7 @@ import de.holarse.backend.db.repositories.DrueckblickEntryRepository;
 import de.holarse.backend.db.repositories.DrueckblickRepository;
 import de.holarse.backend.views.admin.DrueckblickAdminView;
 import de.holarse.factories.AdminViewFactory;
+import de.holarse.services.DateUtils;
 
 @Controller
 @RequestMapping("/admin/drueckblick/")
@@ -46,9 +49,9 @@ public class AdminDrueckblickController {
         final Drueckblick dbl = new Drueckblick();
 
         // Letzter Samstag
-        dbl.setCoverageBegin(findLastSaturday(OffsetDateTime.now())); 
+        dbl.setCoverageBegin(findLastSaturday(LocalDate.now())); 
         // Heute
-        dbl.setCoverageEnd(OffsetDateTime.now());
+        dbl.setCoverageEnd(LocalDate.now());
 
         // Sollte wohl am besten aus einer Sequence kommen
         dbl.setName(""); 
@@ -56,10 +59,24 @@ public class AdminDrueckblickController {
         return new ResponseEntity<DrueckblickAdminView>(viewFactory.fromDrueckblick(dbl), HttpStatus.CREATED);
     }
 
-    @PostMapping(value="join_to_drueckblick")
+    @Transactional
+    @PostMapping(value="join")
     @ResponseStatus(HttpStatus.CREATED)
     public void joinToDrueckblick(@ModelAttribute final DrueckblickAdminView view) {
-        final Drueckblick dbl = drueckblickRepository.findById(view.getId()).orElseThrow(() -> new EntityNotFoundException("Drückblick-ID nicht gefunden"));
+        final Drueckblick dbl;
+        if (view.getId() != null) {
+            dbl = drueckblickRepository.findById(view.getId()).orElseThrow(() -> new EntityNotFoundException("Drückblick-ID nicht gefunden"));
+        } else {
+            dbl = new Drueckblick();
+            dbl.setCreated(OffsetDateTime.now());
+        }
+
+        dbl.setName(view.getName());
+        dbl.setTitle(view.getTitle());
+        dbl.setCoverageBegin(DateUtils.parseIsoDate(view.getBegin()));
+        dbl.setCoverageEnd(DateUtils.parseIsoDate(view.getEnd()));
+
+        drueckblickRepository.save(dbl);                    
 
         // Alle noch offenen diesem Drückblick zuweisen
         drueckblickEntryRepository.assignOpenTo(dbl);
@@ -71,8 +88,8 @@ public class AdminDrueckblickController {
      * @param tp
      * @return
      */
-    private OffsetDateTime findLastSaturday(final OffsetDateTime tp) {
-        OffsetDateTime _instance = tp;
+    private LocalDate findLastSaturday(final LocalDate tp) {
+        LocalDate _instance = tp;
         
         // Falls heute Samstag ist, wir wollen ja den letzten Samstag finden
         if (_instance.getDayOfWeek().equals(DayOfWeek.SATURDAY))

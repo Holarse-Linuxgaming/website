@@ -1,6 +1,7 @@
 package de.holarse.services;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -9,6 +10,10 @@ import java.util.Locale;
 public class DateUtils {
 
     private DateUtils(){};
+
+    public static LocalDate parseIsoDate(final String date) {
+        return LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    }
 
     public static String format(final OffsetDateTime datetime) {
         if (datetime == null) return "";
@@ -32,6 +37,17 @@ public class DateUtils {
         
         return datetime.format(DateTimeFormatter.ISO_LOCAL_DATE);        
     }
+
+    /**
+     * Formatiert das Datum als YYYY-MM-DD
+     * @param datetime
+     * @return Das Datum als YYYY-MM-DD
+     */
+    public static String formatDate(final LocalDate datetime) {
+        if (datetime == null) return "";
+        
+        return datetime.format(DateTimeFormatter.ISO_LOCAL_DATE);        
+    }    
 
     /**
      * Formatiert das Datum als dd.MM.YYYY HH::mm::ss

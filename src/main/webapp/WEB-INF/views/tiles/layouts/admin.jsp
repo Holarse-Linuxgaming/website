@@ -924,7 +924,7 @@
                 $.HSCore.components.HSRangeDatepicker.init('#rangeDatepicker, #rangeDatepicker2, #rangeDatepicker3');
 
                 // initialization of datepicker
-                $.HSCore.components.HSDatepicker.init('#dbl_prop_begin', '#dbl_prop_end');
+                $.HSCore.components.HSDatepicker.init('#dbl_prop_begin, #dbl_prop_end');
 
                 // initialization of HSDropdown component
                 $.HSCore.components.HSDropdown.init($('[data-dropdown-target]'), {dropdownHideOnScroll: false});

@@ -16,7 +16,7 @@ public interface DrueckblickEntryRepository extends CrudRepository<DrueckblickEn
     public List<DrueckblickEntry> findAllNew();
 
     @Modifying
-    @Query("update DrueckblickEntry de set de.drueckblick = :dbl where de.drueckblick is null and de.drueckblick is not deleted")
+    @Query("update DrueckblickEntry de set de.drueckblick = :dbl where de.drueckblick is null and de.deleted = false")
     public void assignOpenTo(@Param("dbl") final Drueckblick dbl);
 
 }

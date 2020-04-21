@@ -37,43 +37,71 @@
     </p>
     <p class="card-text">      
         <div class="row">
-            <div class="col-md-3">
-                <button type="button" class="btn btn-primary g-mr-10 g-mb-15" v-on:click="request_dbl">Drückblick anfordern</button>
-            </div>
-            
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="form-group g-mb-20">
-                    <label class="g-mb-10" for="dbl_prop_name">Name des Drückblicks (seine Nummer)</label>
-                    <input id="dbl_prop_name" v-model="drueckblick_proposal.name" class="form-control form-control-md rounded-0">
-                    <small class="form-text text-muted g-font-size-default g-mt-10">Die fortlaufende Nummer des Drückblicks.</small>
-                </div>                            
-            </div> 
-
-            <div class="col-md-3">
+                    <button type="button" class="btn btn-md u-btn-blue g-mr-10 g-mb-15" v-on:click="request_dbl">Drückblick anfordern</button>                    
+                    <button type="button" class="btn btn-md u-btn-darkgray g-mr-10 g-mb-15" v-on:click="load_data">
+                        <i class="fa fa-refresh"></i>
+                    </button>                    
+                </div>   
                 <div class="form-group g-mb-20">
-                    <label class="g-mb-10" for="dbl_prop_begin">Drückblick Erfassungsbeginn</label>
-                    <div class="input-group g-brd-primary--focus">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text rounded-0 g-color-gray-dark-v5"><i class="icon-calendar"></i></span>
-                        </div>                                            
-                        <input id="dbl_prop_begin" v-model="drueckblick_proposal.begin" class="form-control form-control-md rounded-0 u-datepicker-v1" type="text" data-mask="9999-99-99"  data-range="true" data-to="dbl_prop_end">
-                        <small class="form-text text-muted g-font-size-default g-mt-10">Das Datum ab dem dieser Drückblick beginnt (meist letzter Samstag).</small>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="form-group g-mb-20">
-                    <label class="g-mb-10" for="dbl_prop_end">Drückblick Erfassungsende</label>
-                    <div class="input-group g-brd-primary--focus">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text rounded-0 g-color-gray-dark-v5"><i class="icon-calendar"></i></span>
-                        </div>                                            
-                        <input id="dbl_prop_end" v-model="drueckblick_proposal.end" class="form-control form-control-md rounded-0 u-datepicker-v1" type="text" data-mask="9999-99-99">
-                        <small class="form-text text-muted g-font-size-default g-mt-10">Das Datum bis zu dem dieser Drückblick reicht (meist heute).</small>
-                    </div>
-                </div>
+                </div>                                
             </div>  
+            <div class="col-md-4" v-if="ctrl.show_drueckblick">
+                <div class="form-group g-mb-20">
+                    <button type="button" class="btn btn-md u-btn-primary g-mr-10 g-mb-15" v-on:click="join_into_dbl">Drückblick zusammenstellen</button>                    
+                </div>                  
+            </div>  
+        </div>
+        <div class="row">
+            <div class="col-md-4" v-if="ctrl.show_drueckblick">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group g-mb-20">
+                            <label class="g-mb-10" for="dbl_prop_name">Name des Drückblicks</label>
+                            <input id="dbl_prop_name" v-model="drueckblick_proposal.name" class="form-control form-control-md rounded-0">
+                        </div>                            
+                    </div>                 
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group g-mb-20">
+                            <label class="g-mb-10" for="dbl_prop_title">Titel des Drückblicks</label>
+                            <input id="dbl_prop_title" v-model="drueckblick_proposal.title" class="form-control form-control-md rounded-0">
+                        </div>                            
+                    </div>                 
+                </div>                
+            </div>            
+            
+            <div class="col-md-4" v-if="ctrl.show_drueckblick">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group g-mb-20">
+                            <label class="g-mb-10" for="dbl_prop_begin">Drückblick Erfassungsbeginn</label>
+                            <div class="input-group g-brd-primary--focus">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text rounded-0 g-color-gray-dark-v5"><i class="icon-calendar"></i></span>
+                                </div>                                            
+                                <input id="dbl_prop_begin" v-model="drueckblick_proposal.begin" class="form-control form-control-md rounded-0 u-datepicker-v1" type="text" data-mask="9999-99-99"  data-range="true" data-to="dbl_prop_end">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group g-mb-20">
+                            <label class="g-mb-10" for="dbl_prop_end">Drückblick Erfassungsende</label>
+                            <div class="input-group g-brd-primary--focus">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text rounded-0 g-color-gray-dark-v5"><i class="icon-calendar"></i></span>
+                                </div>                                            
+                                <input id="dbl_prop_end" v-model="drueckblick_proposal.end" class="form-control form-control-md rounded-0 u-datepicker-v1" type="text" data-mask="9999-99-99">
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
         </div>                     
     </p>        
     </div>

@@ -40,6 +40,7 @@ public class AdminViewFactory {
         view.setBegin(DateUtils.formatDate(entity.getCoverageBegin()));
         view.setEnd(DateUtils.formatDate(entity.getCoverageEnd()));
         view.setName(entity.getName());
+        view.setTitle(entity.getTitle());
 
         return view;
     }

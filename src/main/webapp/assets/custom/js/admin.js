@@ -37,6 +37,8 @@ $(document).ready(function() {
                id: obj.id,
                deleted: !obj.deleted,
             }
+            console.debug("Object to delete: ");
+            console.debug(data);
 
             $.ajax({
                url: "/admin/drueckblick/entries/delete_entry",
@@ -46,11 +48,10 @@ $(document).ready(function() {
                beforeSend: function(request) {
                   request.setRequestHeader(holarse.csrf_header, holarse.csrf_token);
                },
-               success: function(result) {
+            }).done(function(result) {
                   obj.changed = false;
                   obj.deleted = result.deleted;
                   console.debug(result.deleted);
-               }
             });            
          }
       }
@@ -61,19 +62,21 @@ $(document).ready(function() {
             data: {
                entries: [],
                categories: [],
-               drueckblick_proposal: {}
+               drueckblick_proposal: {},
+               ctrl: {
+                  show_drueckblick: false
+               }
             },
             methods: {
                load_data: function() {
                   $.ajax({
                      dataType: "json",
                      url: "/admin/drueckblick/entries/",
-                     success: function(result) {
-                        vadmdbl_entries.entries = $.map(result, function(i) {
-                           i.changed = false;
-                           return i;
-                        });
-                     }
+                  }).done(function(result) {
+                     vadmdbl_entries.entries = $.map(result, function(i) {
+                        i.changed = false;
+                        return i;
+                     });
                   });
                },
                load_categories: function() {
@@ -91,9 +94,28 @@ $(document).ready(function() {
                      url: "/admin/drueckblick/propose",
                      success: function(result) {
                         vadmdbl_entries.drueckblick_proposal = result;
+                        vadmdbl_entries.ctrl.show_drueckblick = true;
                         console.debug(vadmdbl_entries.drueckblick_proposal);
                      }
                   });                  
+               },
+               join_into_dbl: function() {
+                  $.ajax({
+                     dataType: "json",
+                     url: "/admin/drueckblick/join",
+                     type: "post",
+                     beforeSend: function(request) {
+                        request.setRequestHeader(holarse.csrf_header, holarse.csrf_token);
+                     },
+                     data: vadmdbl_entries.drueckblick_proposal,
+                  }).done(function() {
+                     vadmdbl_entries.drueckblick_proposal = {};
+                     vadmdbl_entries.ctrl.show_drueckblick = false;
+                     alert("fuck");
+                     this.load_data();
+                  }).fail(function(result) {
+                     alert("failed");
+                  });                                    
                }
             },
             mounted: function() {

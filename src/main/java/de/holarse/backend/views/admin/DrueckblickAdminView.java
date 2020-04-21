@@ -3,6 +3,7 @@ package de.holarse.backend.views.admin;
 public class DrueckblickAdminView implements AdminView {
 
     private Long id;
+    private String title;
     private String name;
     private String begin;
     private String end;
@@ -37,6 +38,14 @@ public class DrueckblickAdminView implements AdminView {
 
     public void setEnd(String end) {
         this.end = end;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     

@@ -1,6 +1,6 @@
 package de.holarse.backend.db;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +15,11 @@ public class Drueckblick extends Base {
 
     private String name;
 
-    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE NOT NULL")    
-    private OffsetDateTime coverageBegin;
-    
-    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE NOT NULL")    
-    private OffsetDateTime coverageEnd;
+    @Column(length = 512)
+    private String title;
+
+    private LocalDate coverageBegin;
+    private LocalDate coverageEnd;
 
     @OneToMany(mappedBy = "drueckblick")
     private List<DrueckblickEntry> entries = new ArrayList<>();
@@ -32,19 +32,19 @@ public class Drueckblick extends Base {
         this.name = name;
     }
 
-    public OffsetDateTime getCoverageBegin() {
+    public LocalDate getCoverageBegin() {
         return coverageBegin;
     }
 
-    public void setCoverageBegin(OffsetDateTime coverageBegin) {
+    public void setCoverageBegin(LocalDate coverageBegin) {
         this.coverageBegin = coverageBegin;
     }
 
-    public OffsetDateTime getCoverageEnd() {
+    public LocalDate getCoverageEnd() {
         return coverageEnd;
     }
 
-    public void setCoverageEnd(OffsetDateTime coverageEnd) {
+    public void setCoverageEnd(LocalDate coverageEnd) {
         this.coverageEnd = coverageEnd;
     }
 
@@ -54,6 +54,14 @@ public class Drueckblick extends Base {
 
     public void setEntries(List<DrueckblickEntry> entries) {
         this.entries = entries;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
 
