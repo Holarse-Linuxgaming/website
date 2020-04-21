@@ -22,6 +22,22 @@ public class DateUtils {
         return datetime.format(DateTimeFormatter.ISO_DATE_TIME);
     }
 
+    /**
+     * Formatiert das Datum als YYYY-MM-DD
+     * @param datetime
+     * @return Das Datum als YYYY-MM-DD
+     */
+    public static String formatDate(final OffsetDateTime datetime) {
+        if (datetime == null) return "";
+        
+        return datetime.format(DateTimeFormatter.ISO_LOCAL_DATE);        
+    }
+
+    /**
+     * Formatiert das Datum als dd.MM.YYYY HH::mm::ss
+     * @param datetime
+     * @return
+     */
     public static String formatShort(final OffsetDateTime datetime) {
         if (datetime == null) return "";
         

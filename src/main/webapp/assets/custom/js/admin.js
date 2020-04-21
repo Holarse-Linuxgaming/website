@@ -1,6 +1,6 @@
 $(document).ready(function() {
    
-   $(".datepicker").datepicker($.datepicker.regional[ "de" ]);
+   //$(".datepicker").datepicker($.datepicker.regional[ "de" ]);
    
    ///////////////////////////////////////////////////////////////////////////////
    // Drückblick
@@ -56,11 +56,12 @@ $(document).ready(function() {
       }
    });
 
-   var vadmdbl = new Vue({
-            el: "#v-admin-drueckblick",
+   var vadmdbl_entries = new Vue({
+            el: "#v-admin-drueckblick-entries",
             data: {
                entries: [],
-               categories: []
+               categories: [],
+               drueckblick_proposal: {}
             },
             methods: {
                load_data: function() {
@@ -68,7 +69,7 @@ $(document).ready(function() {
                      dataType: "json",
                      url: "/admin/drueckblick/entries/",
                      success: function(result) {
-                        vadmdbl.entries = $.map(result, function(i) {
+                        vadmdbl_entries.entries = $.map(result, function(i) {
                            i.changed = false;
                            return i;
                         });
@@ -80,9 +81,19 @@ $(document).ready(function() {
                      dataType: "json",
                      url: "/admin/drueckblick/entries/categories",
                      success: function(result) {
-                        vadmdbl.categories = result;
+                        vadmdbl_entries.categories = result;
                      }
                   });
+               },
+               request_dbl: function() {
+                  $.ajax({
+                     dataType: "json",
+                     url: "/admin/drueckblick/propose",
+                     success: function(result) {
+                        vadmdbl_entries.drueckblick_proposal = result;
+                        console.debug(vadmdbl_entries.drueckblick_proposal);
+                     }
+                  });                  
                }
             },
             mounted: function() {

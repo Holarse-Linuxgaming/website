@@ -19,6 +19,7 @@ import de.holarse.backend.db.DrueckblickEntry;
 import de.holarse.backend.db.repositories.DrueckblickEntryRepository;
 import de.holarse.backend.db.types.DrueckblickCategory;
 import de.holarse.backend.views.SelectionViewModel;
+import de.holarse.backend.views.admin.DrueckblickAdminView;
 import de.holarse.backend.views.admin.DrueckblickEntryAdminView;
 import de.holarse.exceptions.HolarseException;
 import de.holarse.factories.AdminViewFactory;
@@ -86,6 +87,7 @@ public class AdminDrueckblickEntriesController {
                                     .stream()
                                     .map(e -> new SelectionViewModel(e.getLabel(), e.name()))
                                     .collect(Collectors.toList()), HttpStatus.OK);
-    }
+    }  
 
+   
 }

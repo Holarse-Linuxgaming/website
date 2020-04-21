@@ -28,13 +28,53 @@
 </script>
 
 <h1>Drückblick-Organisation</h1>
-<div id="v-admin-drueckblick">
+<div id="v-admin-drueckblick-entries">
 <div class="card-block g-pa-15">
     <p class="card-text">
         Zusammenstellung neuer eingegangener Drückblick-Meldungen. Alle nachfolgenden Meldungen sind noch keinem Drückblick zugeordnet und damit als Neu zu bewerten.
-        Änderungen an den Texten werden sofort gespeichert. Auswahl der Zeilen ermöglicht das Zusammenfügen zu einem neuen Drückblick.</p>
-    <p class="card-text">
-        <button type="button" class="btn btn-primary g-mr-10 g-mb-15">Drückblick aus Ausgewählten erstellen</button>
+        Änderungen an den Texten werden sofort gespeichert. Mit <strong>Drückblick anfordern</strong> wird ein neuer Drückblick
+        vorgeschlagen. Zu diesem können dann alle noch offenen hinzugefügt werden. Gelöscht Einträge werden übersprungen.
+    </p>
+    <p class="card-text">      
+        <div class="row">
+            <div class="col-md-3">
+                <button type="button" class="btn btn-primary g-mr-10 g-mb-15" v-on:click="request_dbl">Drückblick anfordern</button>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="form-group g-mb-20">
+                    <label class="g-mb-10" for="dbl_prop_name">Name des Drückblicks (seine Nummer)</label>
+                    <input id="dbl_prop_name" v-model="drueckblick_proposal.name" class="form-control form-control-md rounded-0">
+                    <small class="form-text text-muted g-font-size-default g-mt-10">Die fortlaufende Nummer des Drückblicks.</small>
+                </div>                            
+            </div> 
+
+            <div class="col-md-3">
+                <div class="form-group g-mb-20">
+                    <label class="g-mb-10" for="dbl_prop_begin">Drückblick Erfassungsbeginn</label>
+                    <div class="input-group g-brd-primary--focus">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text rounded-0 g-color-gray-dark-v5"><i class="icon-calendar"></i></span>
+                        </div>                                            
+                        <input id="dbl_prop_begin" v-model="drueckblick_proposal.begin" class="form-control form-control-md rounded-0 u-datepicker-v1" type="text" data-mask="9999-99-99"  data-range="true" data-to="dbl_prop_end">
+                        <small class="form-text text-muted g-font-size-default g-mt-10">Das Datum ab dem dieser Drückblick beginnt (meist letzter Samstag).</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group g-mb-20">
+                    <label class="g-mb-10" for="dbl_prop_end">Drückblick Erfassungsende</label>
+                    <div class="input-group g-brd-primary--focus">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text rounded-0 g-color-gray-dark-v5"><i class="icon-calendar"></i></span>
+                        </div>                                            
+                        <input id="dbl_prop_end" v-model="drueckblick_proposal.end" class="form-control form-control-md rounded-0 u-datepicker-v1" type="text" data-mask="9999-99-99">
+                        <small class="form-text text-muted g-font-size-default g-mt-10">Das Datum bis zu dem dieser Drückblick reicht (meist heute).</small>
+                    </div>
+                </div>
+            </div>  
+        </div>                     
     </p>        
     </div>
 

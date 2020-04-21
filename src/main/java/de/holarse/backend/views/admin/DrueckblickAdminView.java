@@ -4,6 +4,8 @@ public class DrueckblickAdminView implements AdminView {
 
     private Long id;
     private String name;
+    private String begin;
+    private String end;
 
     public String getName() {
         return name;
@@ -20,5 +22,23 @@ public class DrueckblickAdminView implements AdminView {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public String getBegin() {
+        return begin;
+    }
+
+    public void setBegin(String begin) {
+        this.begin = begin;
+    }
+
+    public String getEnd() {
+        return end;
+    }
+
+    public void setEnd(String end) {
+        this.end = end;
+    }
+
+    
 
 }

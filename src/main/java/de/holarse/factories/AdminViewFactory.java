@@ -36,6 +36,9 @@ public class AdminViewFactory {
     public DrueckblickAdminView fromDrueckblick(final Drueckblick entity) {
         DrueckblickAdminView view = new DrueckblickAdminView();
 
+        view.setId(entity.getId());
+        view.setBegin(DateUtils.formatDate(entity.getCoverageBegin()));
+        view.setEnd(DateUtils.formatDate(entity.getCoverageEnd()));
         view.setName(entity.getName());
 
         return view;
