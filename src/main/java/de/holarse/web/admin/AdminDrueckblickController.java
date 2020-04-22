@@ -1,8 +1,10 @@
 package de.holarse.web.admin;
 
+import java.sql.Date;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalField;
 
 import javax.persistence.EntityNotFoundException;
@@ -44,6 +46,10 @@ public class AdminDrueckblickController {
         return "admin/drueckblick/main/index";
     }    
 
+    /**
+     * Stellt einen möglichen Drückblick-Eintrag her
+     * @return
+     */
     @GetMapping(value="propose", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<DrueckblickAdminView> proposeNewDrueckblick() {
         final Drueckblick dbl = new Drueckblick();
@@ -53,8 +59,8 @@ public class AdminDrueckblickController {
         // Heute
         dbl.setCoverageEnd(LocalDate.now());
 
-        // Sollte wohl am besten aus einer Sequence kommen
-        dbl.setName(""); 
+        // Namensvorschlag auf Basis der Jahres-Woche
+        dbl.setName(OffsetDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-ww"))); 
 
         return new ResponseEntity<DrueckblickAdminView>(viewFactory.fromDrueckblick(dbl), HttpStatus.CREATED);
     }
