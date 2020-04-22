@@ -54,7 +54,7 @@ public class AdminDrueckblickController {
 
     @GetMapping(value="index.json", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<DrueckblickAdminView>> getList(@RequestParam(name= "page", defaultValue = "1") final int page, @RequestParam(name = "pageSize", defaultValue = "30") final int pageSize) {
-        var pagination = new PaginationView("/wiki", page, drueckblickRepository.count(), pageSize);
+        var pagination = new PaginationView("/admin/drueckblick/collections/index.json", page, drueckblickRepository.count(), pageSize);
 
         var result = drueckblickRepository.findAll(PageRequest.of(pagination.getPageRequestPage(), pagination.getPageSize(), Sort.by(Sort.Direction.DESC, "updated", "created")))
         .stream().map(viewFactory::fromDrueckblick).collect(Collectors.toList());

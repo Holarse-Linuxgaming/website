@@ -3,6 +3,34 @@ $(document).ready(function() {
    //$(".datepicker").datepicker($.datepicker.regional[ "de" ]);
    
    ///////////////////////////////////////////////////////////////////////////////
+   // API-User
+   ///////////////////////////////////////////////////////////////////////////////   
+   Vue.component('apiuser', {
+      props: ['apiuser'],
+      template: '#admin-apiuser'
+   });
+
+   var vapiusers = new Vue({
+      el: "#v-admin-apiusers",
+      data: {
+         apiusers: [],
+      },
+      methods: {
+         load_data: function() {
+            $.ajax({
+               dataType: "json",
+               url: "/admin/api_users/index.json",
+            }).done(function(result) {
+               vapiusers.apiusers = result;
+            });
+         },
+      },
+      mounted: function() {
+         this.load_data();
+      }
+   });     
+
+   ///////////////////////////////////////////////////////////////////////////////
    // Drückblick Collections
    ///////////////////////////////////////////////////////////////////////////////   
    Vue.component('drueckblick-collection', {
@@ -28,7 +56,7 @@ $(document).ready(function() {
       mounted: function() {
          this.load_data();
       }
-});   
+   });   
 
    ///////////////////////////////////////////////////////////////////////////////
    // Drückblick Einträge

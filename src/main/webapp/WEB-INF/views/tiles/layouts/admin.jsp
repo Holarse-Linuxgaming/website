@@ -778,6 +778,46 @@
                             <!-- End Drückblick: Submenu -->                            
                         </li>
                         <!-- End Drückblick -->
+
+                        <!-- Benutzer -->
+                        <li class="u-sidebar-navigation-v1-menu-item u-side-nav--has-sub-menu u-side-nav--top-level-menu-item">
+                            <a class="media u-side-nav--top-level-menu-link u-side-nav--hide-on-hidden g-px-15 g-py-12" href="#" data-hssm-target="#subMenu_users">
+                                <span class="d-flex align-self-center g-pos-rel g-font-size-18 g-mr-18">
+                                    <i class="hs-admin-layout-accordion-list"></i>
+                                </span>
+                                <span class="media-body align-self-center">Benutzerkonten</span>
+                                <span class="d-flex align-self-center u-side-nav--control-icon">
+                                    <i class="hs-admin-angle-right"></i>
+                                </span>
+                                <span class="u-side-nav--has-sub-menu__indicator"></span>
+                            </a>
+
+                            <!-- Drückblick: Submenu -->
+                            <ul id="subMenu_users" class="u-sidebar-navigation-v1-menu u-side-nav--second-level-menu mb-0">
+                                <!-- Drückblicke -->
+                                <li class="u-sidebar-navigation-v1-menu-item u-side-nav--second-level-menu-item">
+                                    <a class="media u-side-nav--second-level-menu-link g-px-15 g-py-12" href="/admin/api_users/">
+                                    <span class="d-flex align-self-center g-mr-15 g-mt-minus-1">
+                                        <i class="hs-admin-android"></i>
+                                    </span>
+                                    <span class="media-body align-self-center">API-Benutzer</span>
+                                    </a>
+                                </li>
+                                <!-- End Aktuelle Eingänge -->
+
+                                <!-- Aktuelle Eingänge -->
+                                <li class="u-sidebar-navigation-v1-menu-item u-side-nav--second-level-menu-item">
+                                    <a class="media u-side-nav--second-level-menu-link g-px-15 g-py-12" href="/admin/users/">
+                                    <span class="d-flex align-self-center g-mr-15 g-mt-minus-1">
+                                        <i class="hs-admin-user"></i>
+                                    </span>
+                                    <span class="media-body align-self-center">WEB-Benutzerkonten</span>
+                                    </a>
+                                </li>
+                                <!-- End Aktuelle Eingänge -->
+                            </ul>
+                            <!-- End Drückblick: Submenu -->                              
+                        </li>                        
                     </ul>
                 </div>
                 <!-- End Sidebar Nav -->
