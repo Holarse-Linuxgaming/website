@@ -3,7 +3,35 @@ $(document).ready(function() {
    //$(".datepicker").datepicker($.datepicker.regional[ "de" ]);
    
    ///////////////////////////////////////////////////////////////////////////////
-   // Drückblick
+   // Drückblick Collections
+   ///////////////////////////////////////////////////////////////////////////////   
+   Vue.component('drueckblick-collection', {
+      props: ['collection'],
+      template: '#admin-drueckblick-collection'
+   });
+
+   var vadmdbl_collections = new Vue({
+      el: "#v-admin-drueckblick-collections",
+      data: {
+         collections: [],
+      },
+      methods: {
+         load_data: function() {
+            $.ajax({
+               dataType: "json",
+               url: "/admin/drueckblick/collections/index.json",
+            }).done(function(result) {
+               vadmdbl_collections.collections = result;
+            });
+         },
+      },
+      mounted: function() {
+         this.load_data();
+      }
+});   
+
+   ///////////////////////////////////////////////////////////////////////////////
+   // Drückblick Einträge
    ///////////////////////////////////////////////////////////////////////////////
    Vue.component('drueckblick-entry', {
       props: ['entry', 'categories', 'index'],
@@ -20,7 +48,7 @@ $(document).ready(function() {
             };
 
             $.ajax({
-               url: "/admin/drueckblick/entries/update_entry",
+               url: "/admin/drueckblick/entries/update_entry.json",
                type: "post",
                data: data,
                dataType: "json",
@@ -41,7 +69,7 @@ $(document).ready(function() {
             console.debug(data);
 
             $.ajax({
-               url: "/admin/drueckblick/entries/delete_entry",
+               url: "/admin/drueckblick/entries/delete_entry.json",
                type: "post",
                data: data,
                dataType: "json",
@@ -71,7 +99,7 @@ $(document).ready(function() {
                load_data: function() {
                   $.ajax({
                      dataType: "json",
-                     url: "/admin/drueckblick/entries/",
+                     url: "/admin/drueckblick/entries/index.json",
                   }).done(function(result) {
                      vadmdbl_entries.entries = $.map(result, function(i) {
                         i.changed = false;
@@ -82,7 +110,7 @@ $(document).ready(function() {
                load_categories: function() {
                   $.ajax({
                      dataType: "json",
-                     url: "/admin/drueckblick/entries/categories",
+                     url: "/admin/drueckblick/entries/categories.json",
                      success: function(result) {
                         vadmdbl_entries.categories = result;
                      }
@@ -91,7 +119,7 @@ $(document).ready(function() {
                request_dbl: function() {
                   $.ajax({
                      dataType: "json",
-                     url: "/admin/drueckblick/propose",
+                     url: "/admin/drueckblick/collections/propose.json",
                      success: function(result) {
                         vadmdbl_entries.drueckblick_proposal = result;
                         vadmdbl_entries.ctrl.show_drueckblick = true;
@@ -102,7 +130,7 @@ $(document).ready(function() {
                join_into_dbl: function() {
                   $.ajax({
                      dataType: "json",
-                     url: "/admin/drueckblick/join",
+                     url: "/admin/drueckblick/collections/join.json",
                      type: "post",
                      beforeSend: function(request) {
                         request.setRequestHeader(holarse.csrf_header, holarse.csrf_token);

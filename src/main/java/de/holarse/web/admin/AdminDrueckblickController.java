@@ -6,11 +6,15 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalField;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,17 +23,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import de.holarse.backend.db.Drueckblick;
 import de.holarse.backend.db.repositories.DrueckblickEntryRepository;
 import de.holarse.backend.db.repositories.DrueckblickRepository;
+import de.holarse.backend.views.PaginationView;
 import de.holarse.backend.views.admin.DrueckblickAdminView;
 import de.holarse.factories.AdminViewFactory;
 import de.holarse.services.DateUtils;
 
 @Controller
-@RequestMapping("/admin/drueckblick/")
+@RequestMapping("/admin/drueckblick/collections/")
 public class AdminDrueckblickController {
 
     @Autowired
@@ -43,14 +49,24 @@ public class AdminDrueckblickController {
 
     @GetMapping
     public String index() {
-        return "admin/drueckblick/main/index";
+        return "admin/drueckblick/collections/index";
     }    
+
+    @GetMapping(value="index.json", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<DrueckblickAdminView>> getList(@RequestParam(name= "page", defaultValue = "1") final int page, @RequestParam(name = "pageSize", defaultValue = "30") final int pageSize) {
+        var pagination = new PaginationView("/wiki", page, drueckblickRepository.count(), pageSize);
+
+        var result = drueckblickRepository.findAll(PageRequest.of(pagination.getPageRequestPage(), pagination.getPageSize(), Sort.by(Sort.Direction.DESC, "updated", "created")))
+        .stream().map(viewFactory::fromDrueckblick).collect(Collectors.toList());
+
+        return new ResponseEntity<List<DrueckblickAdminView>>(result, HttpStatus.OK);
+    }
 
     /**
      * Stellt einen möglichen Drückblick-Eintrag her
      * @return
      */
-    @GetMapping(value="propose", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value="propose.json", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<DrueckblickAdminView> proposeNewDrueckblick() {
         final Drueckblick dbl = new Drueckblick();
 
@@ -66,7 +82,7 @@ public class AdminDrueckblickController {
     }
 
     @Transactional
-    @PostMapping(value="join")
+    @PostMapping(value="join.json")
     @ResponseStatus(HttpStatus.CREATED)
     public void joinToDrueckblick(@ModelAttribute final DrueckblickAdminView view) {
         final Drueckblick dbl;

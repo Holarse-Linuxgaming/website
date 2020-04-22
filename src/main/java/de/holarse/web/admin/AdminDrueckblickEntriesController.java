@@ -19,7 +19,6 @@ import de.holarse.backend.db.DrueckblickEntry;
 import de.holarse.backend.db.repositories.DrueckblickEntryRepository;
 import de.holarse.backend.db.types.DrueckblickCategory;
 import de.holarse.backend.views.SelectionViewModel;
-import de.holarse.backend.views.admin.DrueckblickAdminView;
 import de.holarse.backend.views.admin.DrueckblickEntryAdminView;
 import de.holarse.exceptions.HolarseException;
 import de.holarse.factories.AdminViewFactory;
@@ -39,7 +38,7 @@ public class AdminDrueckblickEntriesController {
         return "admin/drueckblick/entries/index";
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "index.json", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<DrueckblickEntryAdminView>> GetOpen() {
         var list = drueckblickEntryRepository.findAllNew().stream()
                                                           .map(viewFactory::fromDrueckblickEntry)
@@ -53,7 +52,7 @@ public class AdminDrueckblickEntriesController {
      * @param view
      * @return
      */
-    @PostMapping(value="update_entry")
+    @PostMapping(value="update_entry.json")
     public ResponseEntity<DrueckblickEntryAdminView> autoUpdateEntry(@ModelAttribute final DrueckblickEntryAdminView view) {
         final DrueckblickEntry entry = drueckblickEntryRepository.findById(view.getId()).orElseThrow(() -> new HolarseException("id not found"));
         entry.setBearer(view.getBearer());
@@ -71,7 +70,7 @@ public class AdminDrueckblickEntriesController {
      * @param view
      * @return
      */
-    @PostMapping(value="delete_entry")
+    @PostMapping(value="delete_entry.json")
     public ResponseEntity<DrueckblickEntryAdminView> deleteEntry(@ModelAttribute final DrueckblickEntryAdminView view) {
         final DrueckblickEntry entry = drueckblickEntryRepository.findById(view.getId()).orElseThrow(() -> new HolarseException("id not found"));
         entry.setDeleted(view.isDeleted());
@@ -81,7 +80,7 @@ public class AdminDrueckblickEntriesController {
         return new ResponseEntity<>(viewFactory.fromDrueckblickEntry(entry), HttpStatus.ACCEPTED);
     } 
     
-    @GetMapping(value="categories", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value="categories.json", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<SelectionViewModel>> categories() {
         return new ResponseEntity<>(Arrays.asList(DrueckblickCategory.values())
                                     .stream()
