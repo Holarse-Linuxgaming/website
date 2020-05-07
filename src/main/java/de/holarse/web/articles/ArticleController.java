@@ -39,7 +39,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -95,10 +98,9 @@ public class ArticleController {
     // INDEX
     @Transactional
     @GetMapping
-    public String index(@RequestParam(name= "page", defaultValue = "1") final int page, @RequestParam(name = "pageSize", defaultValue = "30") final int pageSize, final Model map) {
-        var pagination = new PaginationView("/wiki", page, articleRepository.count(), pageSize);
-        
-        var data = articleRepository.findAll(PageRequest.of(pagination.getPageRequestPage(), pagination.getPageSize(), Sort.by(Sort.Direction.DESC, "updated", "created")))
+    public String index(@PageableDefault(page = 1, size = 30) final Pageable pageable, final Model map) {        
+        var pagination = new PaginationView("/wiki/", pageable, articleRepository.countByDeletedFalseAndPublishedTrue());
+        var data = articleRepository.findAll(pagination.getPageable(Sort.by(Direction.ASC, "title")))
                 .stream()
                 .map(n -> {
                         Hibernate.initialize(n.getComments());            

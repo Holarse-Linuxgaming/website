@@ -64,7 +64,7 @@ public class SearchController {
         
         var pagination = new PaginationView("/search?term=" + URLEncoder.encode(query, "UTF-8"), page, searchEngine.searchCount(query), pageSize);
         
-        final List<SearchResultView> results = searchEngine.search(decodedQuery, pagination.getPagable())
+        final List<SearchResultView> results = searchEngine.search(decodedQuery, pagination.getPageable())
                                                             .stream()
                                                             .map(SearchResultView::new)
                                                             .collect(Collectors.toList());

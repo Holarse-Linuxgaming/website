@@ -45,11 +45,11 @@ public class SecureAccountFailureHandler extends SimpleUrlAuthenticationFailureH
         final User user = userRepository.findByLogin(username);
         if (user != null) {
             final UserStat stats = userStatRepository.findByUser(user).orElseGet(userStatRepository.createDefaultUserStat());
-            stats.setUser(user);
             stats.setFailedLogins(stats.getFailedLogins() + 1);
             stats.setUpdated(OffsetDateTime.now());
 
             userStatRepository.save(stats);
+            user.setUserStat(stats);
 
             if (!user.isLocked() && stats.getFailedLogins() > 3) {
                 user.setLocked(true);

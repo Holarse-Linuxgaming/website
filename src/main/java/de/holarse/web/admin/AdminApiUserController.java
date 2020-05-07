@@ -34,7 +34,7 @@ public class AdminApiUserController {
     @GetMapping("index.json")
     public ResponseEntity<List<ApiUserAdminView>> indexData(@RequestParam(name= "page", defaultValue = "1") final int page, @RequestParam(name = "pageSize", defaultValue = "30") final int pageSize) {
         var pagination = new PaginationView("/admin/api_users/index.json", page, apiUserRepository.count(), pageSize);        
-        return new ResponseEntity<List<ApiUserAdminView>>(apiUserRepository.findAll(pagination.getPagable())
+        return new ResponseEntity<List<ApiUserAdminView>>(apiUserRepository.findAll(pagination.getPageable())
                                                                            .stream()
                                                                            .map(viewFactory::fromApiUser)
                                                                            .collect(Collectors.toList()), HttpStatus.OK);

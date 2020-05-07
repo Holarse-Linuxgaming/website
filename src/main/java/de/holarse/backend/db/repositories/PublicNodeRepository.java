@@ -14,5 +14,11 @@ public interface PublicNodeRepository<N> {
      * @return 
      */
     Streamable<N> findByDeletedFalseAndPublishedTrue();
+
+    /**
+     * Anzahl der öffentlich sichtbaren Nodes
+     * @return Die Anzahl der öffentlich sichtbaren Nodes
+     */
+    int countByDeletedFalseAndPublishedTrue();
     
 }

@@ -2,16 +2,14 @@ package de.holarse.backend.db;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.FetchType;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.OffsetDateTime;
 
 @Table(name="user_stats")
 @Entity
 public class UserStat extends Base {
-    @ManyToOne
-    private User user;
-
     @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private OffsetDateTime lastLogin;
 
@@ -24,13 +22,8 @@ public class UserStat extends Base {
     @Column(columnDefinition = "INT DEFAULT 0")
     private int failedLogins;
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
+    @OneToOne(fetch = FetchType.LAZY)
+    private User user;
 
     public int getFailedLogins() {
         return failedLogins;

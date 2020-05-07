@@ -82,7 +82,6 @@ public class LoginListener {
             final UserStat userStat = userStatRepository.findByUser(user).orElseGet(() -> {
                 final UserStat initialUserStat = new UserStat();
                 initialUserStat.setCreated(OffsetDateTime.now());
-                initialUserStat.setUser(user);
                 return initialUserStat;
             });
             
@@ -94,6 +93,9 @@ public class LoginListener {
             if (migrated != null) userStat.setMigrated(migrated);
 
             userStatRepository.save(userStat);
+
+            user.setUserStat(userStat);
+            userRepository.save(user);
         }
     }
 }

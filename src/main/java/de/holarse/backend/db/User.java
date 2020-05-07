@@ -11,6 +11,8 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Table(name="users")
@@ -41,6 +43,9 @@ public class User extends Base {
         inverseJoinColumns = {@JoinColumn(name="roles_id", referencedColumnName="id")}
     )    
     private Set<Role> roles;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    private UserStat userStat;
     
     private Long oldId;
     
@@ -170,6 +175,14 @@ public class User extends Base {
     @Override
     public String toString() {
         return "User{" + "login=" + login + ", passwordType=" + passwordType + ", digest=" + digest + ", locked=" + locked + ", roles=" + roles + '}';
+    }
+
+    public UserStat getUserStat() {
+        return userStat;
+    }
+
+    public void setUserStat(UserStat userStat) {
+        this.userStat = userStat;
     }
 
 }

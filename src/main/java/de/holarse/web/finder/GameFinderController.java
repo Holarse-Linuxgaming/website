@@ -132,7 +132,7 @@ public class GameFinderController {
         var pagination = new PaginationView(newUrl, page, searchEngine.searchCount(validatedTags, q), pageSize);                
         
         // Ergebnisse ermitteln
-        final List<SearchResultView> searchResults = searchEngine.searchByTags(validatedTags, q, pagination.getPagable())
+        final List<SearchResultView> searchResults = searchEngine.searchByTags(validatedTags, q, pagination.getPageable())
                                                                  .stream()
                                                                  .map(SearchResultView::new)
                                                                  .collect(Collectors.toList());

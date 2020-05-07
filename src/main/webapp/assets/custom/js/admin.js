@@ -3,6 +3,35 @@ $(document).ready(function() {
    //$(".datepicker").datepicker($.datepicker.regional[ "de" ]);
    
    ///////////////////////////////////////////////////////////////////////////////
+   // Web-Users
+   ///////////////////////////////////////////////////////////////////////////////   
+   Vue.component('webuser', {
+      props: ['webuser'],
+      template: '#admin-webuser'
+   });
+
+   var vwebusers = new Vue({
+      el: "#v-admin-webusers",
+      data: {
+         webusers: [],
+      },
+      methods: {
+         load_data: function() {
+            $.ajax({
+               dataType: "json",
+               url: "/admin/users/index.json",
+            }).done(function(result) {
+               vwebusers.webusers = result.webusers;
+               vwebusers.pagination = result.pagination;
+            });
+         },
+      },
+      mounted: function() {
+         this.load_data();
+      }
+   });      
+
+   ///////////////////////////////////////////////////////////////////////////////
    // API-User
    ///////////////////////////////////////////////////////////////////////////////   
    Vue.component('apiuser', {

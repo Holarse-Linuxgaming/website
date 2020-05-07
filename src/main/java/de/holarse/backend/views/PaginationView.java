@@ -3,14 +3,23 @@ package de.holarse.backend.views;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 /**
  * View für die Erstellung einer Pagination. Liefert eine Liste mit "Knöpfen",
  * die zum Aufbau der Paginationbar geeignet sind.
+ * 
+ * Diese wird in serverseitig gerenderten Views benutzt.
  * @author comrad
  */
 public class PaginationView {
+
+    Logger logger = LoggerFactory.getLogger(PaginationView.class);
 
     private final String baseUrl;
     private final int currentPage;
@@ -18,7 +27,7 @@ public class PaginationView {
     private final long maxPage;
     
     private final static String PAGE_PARAM = "page";
-    private final static String PAGESIZE_PARAM = "pageSize";
+    private final static String PAGESIZE_PARAM = "size";
     
     private final static int PAGESIZE_MIN = 5;
     private final static int PAGESIZE_MAX = 100;
@@ -43,14 +52,22 @@ public class PaginationView {
         this.baseUrl = baseUrl;
         this.currentPage = currentPage;
         this.maxItems = maxItems;
-        this.maxPage = (long) Math.ceil(maxItems / (float) pageSize);
         this.pageSize = getBoundedPageSize(pageSize); // Einmal berechnen am Anfang reicht
+        this.maxPage = (long) Math.ceil(maxItems / (float) this.pageSize);
         
         renderBar();
     }
+
+    public PaginationView(final String baseUrl, final Pageable pageable, final long maxItems) {
+        this(baseUrl, pageable.getPageNumber(), maxItems, pageable.getPageSize());
+    }
     
-    public PageRequest getPagable() {
+    public PageRequest getPageable() {
         return PageRequest.of(getPageRequestPage(), pageSize);
+    }
+
+    public PageRequest getPageable(final Sort sort) {
+        return PageRequest.of(getPageRequestPage(), pageSize, sort);
     }
     
     private String buildUrl(final long page) {
@@ -102,7 +119,7 @@ public class PaginationView {
     }
     
     private long getPreviousPage() {
-        if (currentPage - 1 <= 0)
+        if (currentPage - 1 < 1)
             return 1;
         
         return currentPage - 1;
@@ -110,10 +127,11 @@ public class PaginationView {
     
     /**
      * Die Seite für das Spring Data-Pageable-System, das bei 0 beginnt.
+     * Relevant um passende Queries auszuführen
      * @return Die aktuelle Seite ab 0
      */
     public int getPageRequestPage() {
-        return (currentPage - 1 < 0 ? 0 : currentPage - 1);
+        return currentPage - 1 < 0 ? 0 : currentPage - 1;
     }
     
     /**

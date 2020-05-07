@@ -25,7 +25,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -64,10 +66,10 @@ public class NewsController {
     // INDEX
     @Transactional
     @GetMapping
-    public String index(@RequestParam(name= "page", defaultValue = "1") final int page, @RequestParam(name = "pageSize", defaultValue = "30") final int pageSize, final Model map) {
-        var pagination = new PaginationView("/news", page, newsRepository.count(), pageSize);
+    public String index(@PageableDefault(page = 1, size = 30) final Pageable pageable, final Model map) {
+        var pagination = new PaginationView("/news", pageable, newsRepository.count());
         
-        var data = newsRepository.findAll(PageRequest.of(pagination.getPageRequestPage(), pagination.getPageSize(), Sort.by(Sort.Direction.DESC, "updated", "created")))
+        var data = newsRepository.findAll(pagination.getPageable(Sort.by(Sort.Direction.DESC, "updated", "created")))
                 .stream()
                 .map(n -> {
                         Hibernate.initialize(n.getComments());            
