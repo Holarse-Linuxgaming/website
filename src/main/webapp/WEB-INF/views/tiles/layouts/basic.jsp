@@ -45,13 +45,15 @@
 
   <link rel="stylesheet" href="/assets/vendor/highlightjs/styles/hybrid.css">  
   
+  <link rel="stylesheet" href="/assets/vendor/jquery-ui/themes/base/jquery-ui.min.css">
+
   <!-- CSS Unify -->
   <link rel="stylesheet" href="/assets/vendor/unify/unify-core.css">
   <link rel="stylesheet" href="/assets/vendor/unify/unify-components.css">
   <link rel="stylesheet" href="/assets/vendor/unify/unify-globals.css">
 
   <link rel="stylesheet" href="/assets/vendor/jquery-tagsinput/jquery.tagsinput.min.css">
-  
+
   <!-- CSS Customization -->
   <link rel="stylesheet" href="/assets/custom/css/custom.css">
 </head>
@@ -98,6 +100,9 @@
   <script src="/assets/vendor/slick-carousel/slick/slick.js"></script>
   <script src="/assets/vendor/fancybox/jquery.fancybox.min.js"></script>
 
+  <!-- jQuery UI Widgets -->
+  <script src="/assets/vendor/jquery-ui/ui/widgets/autocomplete.js"></script>
+
   <!-- JS Unify -->
   <script src="/assets/vendor/unify/hs.core.js"></script>
 
@@ -108,6 +113,7 @@
   <script src="/assets/vendor/unify/components/hs.scrollbar.js"></script>
   <script src="/assets/vendor/unify/components/hs.popup.js"></script>
   <script src="/assets/vendor/unify/components/hs.carousel.js"></script>
+  <script src="/assets/vendor/unify/components/hs.autocomplete.js"></script>  
 
   <script src="/assets/vendor/unify/components/hs.go-to.js"></script>
 
@@ -145,6 +151,8 @@
 
       // initialization of popups
       $.HSCore.components.HSPopup.init('.js-fancybox');
+
+      $.HSCore.components.HSAutocomplete.init('#query');
     });
 
     $(window).on('load', function () {

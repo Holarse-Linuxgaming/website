@@ -1,7 +1,7 @@
 package de.holarse.search;
 
 /**
- * Projection result für suche über Repository
+ * Projection result für Suche über Repository
  * @author comrad
  */
 public interface SearchResult {

@@ -2,7 +2,9 @@ package de.holarse.web.search;
 
 import de.holarse.backend.views.SearchResultView;
 import de.holarse.backend.views.SearchResultsView;
+import de.holarse.factories.ViewFactory;
 import de.holarse.backend.views.PaginationView;
+import de.holarse.backend.views.SearchAutocompleteView;
 import de.holarse.search.SearchEngine;
 import de.holarse.services.TrafficService;
 import java.io.UnsupportedEncodingException;
@@ -17,6 +19,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,7 +29,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.view.RedirectView;
 
 @RequestMapping("/search")
@@ -75,13 +78,5 @@ public class SearchController {
         map.addAttribute("view", view);
         
         return "search/result";
-    }
-    
-    @GetMapping("suggest.json")
-    public @ResponseBody List<Suggestion> suggestion(@RequestParam("term") final String query)
-    {
-        return searchEngine.search(query, PageRequest.of(0, 15))
-                .stream().map(r -> new Suggestion(r.getUrl(), "", r.getTitle(), r.getContent(), "Artikel"))
-                .collect(Collectors.toList());
     }
 }

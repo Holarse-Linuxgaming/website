@@ -7,13 +7,15 @@ import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.NewsRepository;
 import de.holarse.backend.db.repositories.SearchRepository;
 import de.holarse.backend.views.PageVisitResult;
+import de.holarse.backend.views.SearchAutocompleteView;
+import de.holarse.factories.ViewFactory;
 import de.holarse.search.TagSuggestion;
 import de.holarse.renderer.html.HtmlRenderer;
-import de.holarse.search.SuggestionResult;
 import de.holarse.services.TrafficService;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
@@ -21,7 +23,6 @@ import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -53,7 +54,10 @@ public class WebApiController {
     
     @Autowired
     private SearchRepository searchRepository;
-       
+    
+    @Autowired
+    ViewFactory viewFactory;    
+
     @Secured("ROLE_USER")
     @PostMapping("/render/preview")
     public String renderPreview(String content) {
@@ -76,6 +80,19 @@ public class WebApiController {
     public ResponseEntity<List<TagSuggestion>> tagAutocomplete(@RequestParam("term") final String term) {
         return new ResponseEntity<>(searchRepository.suggestTag(term + ":*"), HttpStatus.OK);
     }
+
+    /**
+     * Autovervollständigung
+     * @param query
+     * @return
+     */
+    @GetMapping("/autocomplete/search.json")
+    public ResponseEntity<List<SearchAutocompleteView>> suggestion(@RequestParam("term") final String query)
+    {
+        return new ResponseEntity<>(searchRepository.search(query, 0, 15)
+                                    .stream().map(viewFactory::fromSearchResult)
+                                    .collect(Collectors.toList()), HttpStatus.OK);
+    }    
 
     @Transactional
     @Secured({ "ROLE_MODERATOR", "ROLE_ADMIN" })    

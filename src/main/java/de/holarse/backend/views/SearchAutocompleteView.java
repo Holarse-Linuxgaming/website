@@ -1,6 +1,9 @@
-package de.holarse.web.search;
+package de.holarse.backend.views;
 
-public class Suggestion {
+/**
+ * View für die Auto-Vervollständigung der Suche
+ */
+public class SearchAutocompleteView implements ViewModel {
 
     private String url;
     private String thumbnail;
@@ -8,10 +11,10 @@ public class Suggestion {
     private String teaser;
     private String category;
 
-    public Suggestion() {
+    public SearchAutocompleteView() {
     }
     
-    public Suggestion(String url, String thumbnail, String title, String teaser, String category) {
+    public SearchAutocompleteView(final String url, final String thumbnail, final String title, final String teaser, final String category) {
         this.url = url;
         this.thumbnail = thumbnail;
         this.title = title;

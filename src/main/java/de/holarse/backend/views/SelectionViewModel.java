@@ -3,7 +3,7 @@ package de.holarse.backend.views;
 /**
  * Generisches ViewModel für Selection-Boxes
  */
-public class SelectionViewModel implements ViewModel {
+public class SelectionViewModel implements View {
 
     private final String label;
     private final String value;

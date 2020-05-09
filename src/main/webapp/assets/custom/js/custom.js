@@ -19,7 +19,7 @@ $(document).ready(function () {
 
     
     $("#query").autocomplete({
-      source: "/search.json",
+      source: "/webapi/autocomplete/search.json",
       minLength: 2,
       select: function( event, ui ) {
         console.debug( "Selected: " + ui.item.url );

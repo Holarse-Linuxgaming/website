@@ -23,9 +23,11 @@ import de.holarse.backend.views.AttachmentView;
 import de.holarse.backend.views.CommentView;
 import de.holarse.backend.views.ContentView;
 import de.holarse.backend.views.NewsView;
+import de.holarse.backend.views.SearchAutocompleteView;
 import de.holarse.backend.views.TagView;
 import de.holarse.backend.views.UserView;
 import de.holarse.renderer.Renderer;
+import de.holarse.search.SearchResult;
 import de.holarse.services.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -187,5 +189,15 @@ public class ViewFactory
         
         return view;
     }
-    
+
+    public SearchAutocompleteView fromSearchResult(final SearchResult node) {
+        SearchAutocompleteView view = new SearchAutocompleteView();
+
+        view.setTeaser(node.getContent());
+        view.setTitle(node.getTitle());
+        view.setUrl(node.getUrl());
+        view.setCategory("Artikel");
+        
+        return view;
+    }    
 }

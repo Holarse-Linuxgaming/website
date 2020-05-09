@@ -1,14 +1,13 @@
 package de.holarse.backend.views;
 
 import de.holarse.backend.db.types.AttachmentGroup;
-import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class NewsView extends AbstractLinkView implements ContentView, PageTitleView, SlugView, View {
+public class NewsView extends AbstractLinkView implements ContentView, PageTitleView, SlugView {
 
     private Long nodeId;
     private String title;
