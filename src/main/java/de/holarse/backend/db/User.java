@@ -44,7 +44,7 @@ public class User extends Base {
     )    
     private Set<Role> roles;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(mappedBy="user", fetch = FetchType.LAZY)
     private UserStat userStat;
     
     private Long oldId;

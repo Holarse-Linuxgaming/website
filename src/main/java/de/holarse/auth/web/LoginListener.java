@@ -79,11 +79,7 @@ public class LoginListener {
 //            }            
 
             // Letztes Login hinterlegen und Fehlercounter zurücksetzen
-            final UserStat userStat = userStatRepository.findByUser(user).orElseGet(() -> {
-                final UserStat initialUserStat = new UserStat();
-                initialUserStat.setCreated(OffsetDateTime.now());
-                return initialUserStat;
-            });
+            final UserStat userStat = userStatRepository.findByUser(user).orElseGet(userStatRepository.createDefaultUserStat(user));
             
             userStat.setUpdated(OffsetDateTime.now());
             userStat.setLastLogin(OffsetDateTime.now());

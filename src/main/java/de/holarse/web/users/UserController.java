@@ -4,6 +4,7 @@ import de.holarse.auth.web.HolarsePrincipal;
 import de.holarse.backend.db.PasswordType;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.UserRepository;
+import de.holarse.backend.views.PaginationView;
 import de.holarse.exceptions.NodeNotFoundException;
 import de.holarse.factories.ViewFactory;
 import de.holarse.services.SecurityService;
@@ -15,11 +16,16 @@ import javax.transaction.Transactional;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -46,8 +52,16 @@ public class UserController {
 
     @Transactional
     @GetMapping
-    public String index(final ModelMap map) {
-        map.addAttribute("users", userRepository.findAll().stream().map(viewFactory::fromUser).collect(Collectors.toList()));
+    public String index(@PageableDefault(page = 1, size = 30) final Pageable pageable, final Model map) {
+        var pagination = new PaginationView("/users/", pageable, userRepository.count());
+        var data = userRepository.findAll(pagination.getPageable(Sort.by(Direction.ASC, "login")))
+                                    .stream()
+                                    .map(viewFactory::fromUser)
+                                    .collect(Collectors.toList());
+
+        map.addAttribute("views", data);
+        map.addAttribute("pagination", pagination);
+
         return "users/index";
     }
     

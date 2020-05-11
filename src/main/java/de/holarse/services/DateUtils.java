@@ -61,6 +61,8 @@ public class DateUtils {
     }        
 
     public static String formatAgo(final OffsetDateTime datetime) {
+        if (datetime == null) return "";
+
         final Duration duration = Duration.between(OffsetDateTime.now(), datetime);
         final long minutes = Math.abs(duration.toMinutes());
 

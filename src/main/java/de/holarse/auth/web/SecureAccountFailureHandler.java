@@ -44,12 +44,11 @@ public class SecureAccountFailureHandler extends SimpleUrlAuthenticationFailureH
 
         final User user = userRepository.findByLogin(username);
         if (user != null) {
-            final UserStat stats = userStatRepository.findByUser(user).orElseGet(userStatRepository.createDefaultUserStat());
+            final UserStat stats = userStatRepository.findByUser(user).orElseGet(userStatRepository.createDefaultUserStat(user));
             stats.setFailedLogins(stats.getFailedLogins() + 1);
             stats.setUpdated(OffsetDateTime.now());
 
             userStatRepository.save(stats);
-            user.setUserStat(stats);
 
             if (!user.isLocked() && stats.getFailedLogins() > 3) {
                 user.setLocked(true);
@@ -59,7 +58,7 @@ public class SecureAccountFailureHandler extends SimpleUrlAuthenticationFailureH
             }
         }                                 
         
-        super.setDefaultFailureUrl("/login?error=true");
+        super.setDefaultFailureUrl("/login?error=2");
         super.onAuthenticationFailure(request, response, exception);
     }
 }

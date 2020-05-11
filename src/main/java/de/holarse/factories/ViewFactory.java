@@ -3,6 +3,7 @@ package de.holarse.factories;
 import java.util.stream.Collectors;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ import de.holarse.backend.db.Attachment;
 import de.holarse.backend.db.Comment;
 import de.holarse.backend.db.Node;
 import de.holarse.backend.db.User;
+import de.holarse.backend.db.UserStat;
 import de.holarse.backend.db.types.AttachmentGroup;
 import de.holarse.backend.views.ArticleView;
 import de.holarse.backend.views.AttachmentView;
@@ -139,15 +141,27 @@ public class ViewFactory
         return view;
     }
     
+    /**
+     * Datenschutzkonforme öffentliche Ansicht eines Benutzers
+     * @param user
+     * @return
+     */
     public UserView fromUser(final User user) {
         final UserView view = new UserView();
         view.setId(user.getId());
-        view.setEmail(user.getEmail());
         view.setLogin(user.getLogin());
         view.setSlug(user.getSlug());
         view.setSignature(user.getSignature());
         
-        view.getRoles().addAll( user.getRoles().stream().map(r -> r.getCode()).collect(Collectors.toList()) );
+        var roles = user.getRoles().stream().map(r -> r.getCode()).collect(Collectors.toList());
+        view.getRoles().addAll( roles );
+
+        view.setCreated(DateUtils.format(user.getCreated()));
+        view.setLastLogin(DateUtils.format(Optional.ofNullable(user.getUserStat()).map(UserStat::getLastLogin).orElse(null)));
+
+        var lastAction = Optional.ofNullable(user.getUserStat()).map(UserStat::getLastAction).orElse(null);
+        view.setLastAction(DateUtils.format(lastAction));        
+        view.setLastActionAgo(DateUtils.formatAgo(lastAction));
         
         // URL definieren
         view.setUrl(String.format("/users/%s", user.getSlug()));

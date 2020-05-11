@@ -3,11 +3,12 @@ package de.holarse.backend.db;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.OffsetDateTime;
 
-@Table(name="user_stats")
+@Table(name="users_stats")
 @Entity
 public class UserStat extends Base {
     @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
@@ -23,6 +24,7 @@ public class UserStat extends Base {
     private int failedLogins;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     public int getFailedLogins() {
@@ -55,6 +57,14 @@ public class UserStat extends Base {
 
     public void setMigrated(OffsetDateTime migrated) {
         this.migrated = migrated;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
     
 }

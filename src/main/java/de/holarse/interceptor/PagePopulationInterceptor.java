@@ -2,12 +2,18 @@ package de.holarse.interceptor;
 
 import de.holarse.auth.web.HolarsePrincipal;
 import de.holarse.backend.db.User;
+import de.holarse.backend.db.repositories.UserStatRepository;
 import de.holarse.backend.views.PageTitleView;
 import de.holarse.backend.views.View;
 import de.holarse.services.MenuService;
 import de.holarse.services.TrafficService;
+
+import java.time.OffsetDateTime;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +32,9 @@ public class PagePopulationInterceptor extends HandlerInterceptorAdapter {
     
     //@Autowired
     //private UserRepository userRepository;
+
+    @Autowired
+    private UserStatRepository userStatsRepository;
     
     @Autowired
     private TrafficService trafficService;  
@@ -58,11 +67,20 @@ public class PagePopulationInterceptor extends HandlerInterceptorAdapter {
         return null;
     }
 
+    // @Transactional
+    // public void updateLastAction(final User current) {
+    //     userStatsRepository.updateLastAction(current, OffsetDateTime.now());
+    // }
+
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView mav) {       
         if (mav != null) {
             // Aktuellen Benutzer einfügen
-            mav.getModel().putIfAbsent("currentUser", getCurrentUser());
+            var currentUser = getCurrentUser();
+            mav.getModel().putIfAbsent("currentUser", currentUser);
+            // if (currentUser != null) {
+            //     updateLastAction(currentUser);
+            // }
 
             // Standardtitel setzen
             if (mav.getModel().containsKey("view") && mav.getModel().get("view") instanceof View) {

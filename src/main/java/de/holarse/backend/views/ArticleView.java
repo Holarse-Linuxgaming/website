@@ -10,7 +10,7 @@ import java.util.Map;
  * Viewmodel für Artikel
  * @author comrad
  */
-public class ArticleView extends AbstractLinkView implements ContentView, PageTitleView, SlugView, View {
+public class ArticleView extends AbstractLinkView implements ContentView, PageTitleView, SlugView {
     
     private Long nodeId;
     private String mainTitle;
