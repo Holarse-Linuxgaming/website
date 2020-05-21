@@ -85,9 +85,7 @@ public interface SearchRepository extends JpaRepository<Node, Long> {
      * @param tag Wird mit :* für die Vervollständigung übergeben
      * @return 
      */
-    @Query(value        = "select wlabel as value from search.mv_suggestions where word @@ websearch_to_tsquery('simple', '?1:*') and wtype = 'tag' order by use_count limit 10", 
-            countQuery  = "select count(*) from search.mv_suggestions where word @@ websearch_to_tsquery('simple', '?1:*') and wtype = 'tag'",
-            nativeQuery = true)
+    @Query(value = "select wlabel as value from search.mv_suggestions where word @@ to_tsquery('simple', :tag) and wtype = 'tag' ORDER BY use_count desc", nativeQuery = true)
     List<TagSuggestion> suggestTag(@Param("tag") final String tag);
     
     /**
@@ -95,7 +93,7 @@ public interface SearchRepository extends JpaRepository<Node, Long> {
      * @param title
      * @return 
      */
-    @Query(value = "select wtype, wlabel from search.mv_suggestions where word @@ websearch_to_tsquery('simple', '?1:*') and wtype = 'title'", nativeQuery = true)
+    @Query(value = "select wtype, wlabel from search.mv_suggestions where word @@ to_tsquery('english', :title) and wtype = 'title' ORDER BY ts_rank(word, to_tsquery('english', :title)) asc", nativeQuery = true)
     List<SuggestionResult> suggestTitle(@Param("title") final String title);
     
     /**
@@ -103,7 +101,14 @@ public interface SearchRepository extends JpaRepository<Node, Long> {
      * @param qry
      * @return 
      */
-    @Query(value = "select wtype, wlabel from search.mv_suggestions where word @@ websearch_to_tsquery('simple', ':qry:*')", nativeQuery = true)
+    @Query(value = "select wtype, wlabel from " +
+    "( " +
+    "(select wtype, wlabel, ts_rank(word, to_tsquery('english', :qry)) * 1000 as rank from search.mv_suggestions where word @@ to_tsquery('english', :qry) and wtype='title' ORDER BY ts_rank(word, to_tsquery('english', :qry)) asc) " +
+    "union " +
+    "(select wtype, wlabel, use_count as rank from search.mv_suggestions where word @@ to_tsquery('simple', :qry) and wtype = 'tag' order by use_count desc) " +
+    ") "+
+    "as suggestion " +
+    "order by rank", nativeQuery = true)
     List<SuggestionResult> suggestAnything(@Param("qry") final String qry);
         
     

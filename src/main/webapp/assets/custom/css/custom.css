@@ -102,3 +102,10 @@ a .u-nav-v8__title {
 a.external-link::after {
   font-family: 'FontAwesome'; content: " \f08e";
 }
+
+.tagsinput {
+    width: auto;
+    border: none;
+    height: auto;
+    padding: 0px;
+}

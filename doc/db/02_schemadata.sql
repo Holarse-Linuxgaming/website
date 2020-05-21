@@ -85,7 +85,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS search.mv_suggestions AS (
 
     -- Suggestions from tags
     SELECT
-        to_tsvector('simple', coalesce(t.name, '')) AS word,
+        to_tsvector('german', coalesce(t.name, '')) AS word,
         t.name AS wlabel,
         'tag'::suggestiontype AS wtype,
         (SELECT count(1) FROM articles_tags at WHERE at.tags_id = t.id) AS use_count

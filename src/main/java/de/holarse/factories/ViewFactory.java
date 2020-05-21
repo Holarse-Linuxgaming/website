@@ -4,6 +4,7 @@ import java.util.stream.Collectors;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.StringJoiner;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -60,7 +61,10 @@ public class ViewFactory
         view.getAttachments().putAll(attachmentGroups);
 
         // Tags umwandeln
-        view.getTags().addAll(article.getTags().stream().map(this::fromTag).collect(Collectors.toList()));        
+        var tags = article.getTags().stream().map(this::fromTag).collect(Collectors.toList());
+        view.getTags().addAll(tags);
+
+        view.setTagLine(article.getTags().stream().map(t -> t.getName()).collect(Collectors.joining(",")));
         
         logger.debug("Content: {}", article.getContent());
 

@@ -89,7 +89,7 @@ public class WebApiController {
     @GetMapping("/autocomplete/search.json")
     public ResponseEntity<List<SearchAutocompleteView>> suggestion(@RequestParam("term") final String query)
     {
-        return new ResponseEntity<>(searchRepository.search(query, 0, 15)
+        return new ResponseEntity<>(searchRepository.search(query + ":*", 0, 15)
                                     .stream().map(viewFactory::fromSearchResult)
                                     .collect(Collectors.toList()), HttpStatus.OK);
     }    

@@ -11,23 +11,24 @@
               Abbrechen
             </a>       
         </div>
-        <div class="col-md-2">
-            <a href="#" class="btn u-btn-bluegray btn-block g-mr-10 g-mb-15">
-                <i class="fa fa-archive g-mr-5"></i>
-                Als Entwurf speichern
-              </a> 
-        </div>
+
 
         <div class="col-md-4">
             <div class="input-group g-brd-primary--focus g-mb-10">
-                <input class="form-control form-control-md border-right-0 rounded-0 pr-0" type="text" placeholder="Deine �nderungsnotiz">
-                <b class="tooltip tooltip-top-right u-tooltip--v1">Kurze Notiz �ber die �nderung</b>
+                <input class="form-control form-control-md border-right-0 rounded-0 pr-0" type="text" placeholder="Deine Änderungsnotiz">
+                <b class="tooltip tooltip-top-right u-tooltip--v1">Kurze Notiz über die Änderung</b>
                 <div class="input-group-append">
                   <span class="input-group-text rounded-0 g-color-gray-dark-v5"><i class="icon-info"></i></span>
                 </div>
             </div>
         </div>
 
+        <div class="col-md-2">
+          <a href="#" class="btn u-btn-bluegray btn-block g-mr-10 g-mb-15">
+              <i class="fa fa-archive g-mr-5"></i>
+              Als Entwurf speichern
+            </a> 
+        </div>        
         <div class="col-md-2">
             <a href="#" v-on:click="submit" class="btn u-btn-primary btn-block g-mr-10 g-mb-15" >
                 <i class="fa fa-save g-mr-5"></i>
@@ -82,7 +83,7 @@
                 <span class="u-nav-v8__icon u-icon-v3 u-icon-size--lg g-rounded-50x g-brd-around g-brd-4 g-brd-white">
                   <i class="fa fa-file-archive-o"></i>
                 </span>
-                <strong class="text-uppercase u-nav-v8__title">Anh�nge</strong>
+                <strong class="text-uppercase u-nav-v8__title">Anhänge</strong>
                 <em class="u-nav-v8__description">Patches, Konfigurationen, usw.</em>
               </a>
             </li>
@@ -109,47 +110,58 @@
 
                <form class="g-brd-around g-brd-gray-light-v4 g-pa-30 g-mb-30">
                    <div class="form-group g-mb-20">
-                                <label class="g-mb-10" for="mainTitle">Titel</label>
+                                <label class="g-mb-10" for="mainTitle">Haupttitel dieses Artikels</label>
                                 <div class="row">                            
                                         <div class="col-md-10">                                                        
                                             <input id="mainTitle" v-model="node.mainTitle" class="form-control form-control-md rounded-0" placeholder="Titel des Artikels">
                                         </div>
                                         <div class="col-md-2">
-                                            <a href="#" v-on:click="ctrl.show_additional_titles = !ctrl.show_additional_titles" class="btn btn-md u-btn-primary g-mr-10 g-mb-15" title="Klicken f�r zus�tzliche Titel">
+                                            <a href="#" v-on:click="ctrl.show_additional_titles = !ctrl.show_additional_titles" class="btn btn-md u-btn-primary g-mr-10 g-mb-15" title="Klicken für zusätzliche Titel">
                                                 <i class="fa fa-database"></i>
                                                 <i class="fa fa-plus" v-if='!ctrl.show_additional_titles'></i>
                                                 <i class="fa fa-minus" v-if='ctrl.show_additional_titles'></i>
                                             </a>
                                         </div>
                                 </div>                            
-                                <small class="form-text text-muted g-font-size-default g-mt-10">Der Haupttitel dieses Artikels</small>                            
                    </div>
 
-                   <!-- Zus�tzliche Titel -->
+                   <!-- Zusätzliche Titel -->
                    <div class="additional-titles" v-if="ctrl.show_additional_titles">
                         <div class="form-group g-mb-20">
-                            <label class="g-mb-10" for="alternativeTitle1">Alternativtitel 1</label>
-                            <input id="alternativeTitle1" v-model="node.alternativeTitle1" class="form-control form-control-md rounded-0" placeholder="Alternativtitel 1">
-                            <small class="form-text text-muted g-font-size-default g-mt-10">Alternativtitel 1</small>
-                        </div>     
+                          Manchmal wird ein Spiel oder Tool unter mehreren Namen geführt. Oder es hat bekannte Abkürzungen (z.B. C&C) unter denen es bekannt ist. Dann helfen die
+                          Alternativtitel diesen Artikel auch unter seinen anderen Namen zu finden.
+                        </div>                        
+                        <div class="form-group row g-mb-25">
+                          <label class="col-sm-3 col-form-label g-mb-10" for="alternativeTitle1">Alternativtitel 1</label>
+                      
+                          <div class="col-sm-9">
+                            <input id="alternativeTitle1" v-model="node.alternativeTitle1" class="form-control u-form-control rounded-0" placeholder="Alternativtitel 1">                            
+                          </div>
+                        </div>
 
-                        <div class="form-group g-mb-20">
-                                <label class="g-mb-10" for="alternativeTitle2">Alternativtitel 2</label>
-                                <input id="alternativeTitle2" v-model="node.alternativeTitle2" class="form-control form-control-md rounded-0" placeholder="Alternativtitel 2">
-                                <small class="form-text text-muted g-font-size-default g-mt-10">Alternativtitel 2</small>
-                        </div>   
+                        <div class="form-group row g-mb-25">
+                          <label class="col-sm-3 col-form-label g-mb-10" for="alternativeTitle2">Alternativtitel 2</label>
+                      
+                          <div class="col-sm-9">
+                            <input id="alternativeTitle2" v-model="node.alternativeTitle2" class="form-control u-form-control rounded-0" placeholder="Alternativtitel 2">                            
+                          </div>
+                        </div>
 
-                        <div class="form-group g-mb-20">
-                                <label class="g-mb-10" for="alternativeTitle1">Alternativtitel 3</label>
-                                <input id="alternativeTitle3" v-model="node.alternativeTitle3" class="form-control form-control-md rounded-0" placeholder="Alternativtitel 3">
-                                <small class="form-text text-muted g-font-size-default g-mt-10">Alternativtitel 3</small>
-                        </div>                           
+                        
+                        <div class="form-group row g-mb-25">
+                          <label class="col-sm-3 col-form-label g-mb-10" for="alternativeTitle3">Alternativtitel 3</label>
+                      
+                          <div class="col-sm-9">
+                            <input id="alternativeTitle3" v-model="node.alternativeTitle3" class="form-control u-form-control rounded-0" placeholder="Alternativtitel 3">                            
+                          </div>
+                        </div>
+
                    </div>
 
                    <div class="form-group g-mb-20">
                         <label class="g-mb-10" for="tags">Tags</label>
-                         <input id="tags" v-model="node.tags" class="form-control form-control-md rounded-0" placeholder="Tags eingeben mit Autovervollst�ndigung">
-                         <small class="form-text text-muted g-font-size-default g-mt-10">Tags, die den Artikel eingruppieren und katalogisieren. Nutzt die Autovervollst�ndigung, um Tags zu finden</small>
+                         <input id="tags" v-model="node.tagLine" class="form-control form-control-md rounded-0" placeholder="Tags eingeben mit Autovervollständigung">
+                         <small class="form-text text-muted g-font-size-default g-mt-10">Tags, die den Artikel eingruppieren und katalogisieren. Nutzt die Autovervollständigung, um Tags zu finden</small>
                     </div>               
 
                    <div class="form-group g-mb-20">

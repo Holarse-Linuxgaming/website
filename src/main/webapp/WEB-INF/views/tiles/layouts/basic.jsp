@@ -177,6 +177,7 @@
   <script src="/assets/custom/js/holarse.js"></script>
   <script src="/assets/custom/js/holarse-vue.js"></script>  
   <script src="/assets/custom/js/custom.js"></script>  
+  <script src="/assets/custom/js/editor-vue.js"></script>  
 </body>
 
 </html>
