@@ -15,6 +15,8 @@ import de.holarse.factories.ViewFactory;
 import de.holarse.exceptions.HolarseException;
 import de.holarse.search.SearchEngine;
 import de.holarse.services.NodeService;
+import de.holarse.services.SecurityService;
+
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.stream.Collectors;
@@ -24,11 +26,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,7 +39,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -52,6 +53,9 @@ public class NewsController {
 
     @Autowired
     RevisionRepository revisionRepository;
+
+    @Autowired
+    SecurityService securityService;
 
     @Autowired
     @Qualifier("pgsql")            
@@ -131,28 +135,27 @@ public class NewsController {
     // SHOW by Slug
     @Transactional
     @GetMapping("{slug}")
-    public ModelAndView show(@PathVariable("slug") final String slug, final Model map) {  
-        try {
-            final News node = nodeService.findNews(slug).get();
-            Hibernate.initialize(node.getComments());            
-            Hibernate.initialize(node.getAttachments());
-            
-            if (!nodeService.isPublicViewable(node))
-                throw new HolarseException("News nicht mehr verfügbar");
-            
-            // View-Objekt erzeugen
-            NewsView view = viewFactory.fromNews(node);
-            
-            // View übergeben
-            map.addAttribute("view", view);
-            
-            // NodeId für die Statistik einfügen
-            map.addAttribute("nodeId", node.getId());
-            
-            return new ModelAndView("news/show");
-        } catch (RedirectException re) {
-            return new ModelAndView(re.getRedirect());
+    public ModelAndView show(@PathVariable("slug") final String slug, final Model map, final Authentication authentication) {  
+        final News node = nodeService.findNews(slug).get();
+        Hibernate.initialize(node.getComments());            
+        Hibernate.initialize(node.getAttachments());
+        
+        if (!nodeService.isPublicViewable(node)) {
+            if (!securityService.hasClearance(authentication, "MODERATOR")) {
+                throw new HolarseException("News ist noch nicht freigegeben.");
+            }
         }
+        
+        // View-Objekt erzeugen
+        NewsView view = viewFactory.fromNews(node);
+        
+        // View übergeben
+        map.addAttribute("view", view);
+        
+        // NodeId für die Statistik einfügen
+        map.addAttribute("nodeId", node.getId());
+        
+        return new ModelAndView("news/show");
     }
 
     // EDIT

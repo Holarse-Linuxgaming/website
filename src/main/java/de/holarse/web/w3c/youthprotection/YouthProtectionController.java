@@ -17,7 +17,6 @@ import de.holarse.backend.age.AgeBlockCountry;
 import de.holarse.backend.age.AgeBlockLabelType;
 import de.holarse.backend.age.AgeBlockLabelTypeDefinition;
 import de.holarse.backend.age.AgeDeclaration;
-import de.holarse.backend.age.Label;
 import de.holarse.backend.age.LabelTypeXmlFile;
 import de.holarse.backend.miracle.Country;
 import de.holarse.backend.miracle.Issuer;

@@ -23,6 +23,7 @@ import de.holarse.factories.ViewFactory;
 import de.holarse.renderer.Renderer;
 import de.holarse.search.SearchEngine;
 import de.holarse.services.NodeService;
+import de.holarse.services.SecurityService;
 import de.holarse.services.TagService;
 import de.holarse.services.views.UpdateState;
 import de.holarse.services.views.ViewUpdate;
@@ -84,6 +85,9 @@ public class ArticleController {
     
     @Autowired
     TagService tagService;
+
+    @Autowired
+    SecurityService securityService;
 
     @Autowired
     NodeService nodeService;
@@ -163,31 +167,33 @@ public class ArticleController {
     // SHOW by Slug
     @Transactional
     @GetMapping("{slug}")
-    public ModelAndView showBySlug(@PathVariable("slug") final String slug, final ModelMap map) {             
-        try {
-            final Article article = nodeService.findArticle(slug).get();
-            Hibernate.initialize(article.getTags());
-            Hibernate.initialize(article.getAttachments());
-            Hibernate.initialize(article.getComments());
+    public ModelAndView showBySlug(@PathVariable("slug") final String slug, final ModelMap map, final Authentication authentication) {             
+        final Article article = nodeService.findArticle(slug).get();
+        Hibernate.initialize(article.getTags());
+        Hibernate.initialize(article.getAttachments());
+        Hibernate.initialize(article.getComments());
 
-            if (logger.isDebugEnabled()) {
-                logger.debug("Attachments for Article (id: {}) - {}", new Object[] { article.getId(), article.getTitle() });
-                for(Attachment att : article.getAttachments()) {
-                    logger.debug("att: id={}, group={}, data={}", new Object[] { att.getId(), att.getAttachmentGroup(), att.getAttachmentData()});
-                }
+        if (!nodeService.isPublicViewable(article)) {
+            if (!securityService.hasClearance(authentication, "MODERATOR")) {
+                throw new HolarseException("Artikel nicht freigegeben");
             }
-            
-            ArticleView view = viewFactory.fromArticle(article);
-            
-            // Das View-Objekt
-            map.addAttribute("view", view);
-            // NodeId für die Statistik setzen
-            map.addAttribute("nodeId", article.getId());
-            
-            return new ModelAndView("articles/show", map);
-        } catch (RedirectException re) {
-            return new ModelAndView(re.getRedirect());
+        }        
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("Attachments for Article (id: {}) - {}", new Object[] { article.getId(), article.getTitle() });
+            for(Attachment att : article.getAttachments()) {
+                logger.debug("att: id={}, group={}, data={}", new Object[] { att.getId(), att.getAttachmentGroup(), att.getAttachmentData()});
+            }
         }
+        
+        ArticleView view = viewFactory.fromArticle(article);
+        
+        // Das View-Objekt
+        map.addAttribute("view", view);
+        // NodeId für die Statistik setzen
+        map.addAttribute("nodeId", article.getId());
+        
+        return new ModelAndView("articles/show", map);
     }
 
     // Edit Data

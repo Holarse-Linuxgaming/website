@@ -82,74 +82,29 @@ public class NodeService {
     }    
     
     /**
-     * TODO Schöner umsetzen
      * @param ident
      * @return 
      * @throws de.holarse.exceptions.RedirectException 
      */
-    public Optional<Article> findArticle(final String ident) throws RedirectException {
-        // Ist der Ident eine Zahl, dann nach ID suchen
-        if (NumberUtils.isDigits(ident)) {
-            final Optional<Article> articleById = articleRepository.findById(Long.parseLong(ident));
-            if (articleById.isPresent()) {
-                throw new RedirectException(articleById.get().getUrl());
-            }
+    public Optional<Article> findArticle(final String ident) {
+        final Optional<Long> nodeId = slugRepository.findBySlugView(ident, "article");
+        if (nodeId.isPresent()) {
+            return articleRepository.findById(nodeId.get());
         }
-        
-        // Anhand des Mainslugs (Hauptpfad) finden
-        final Optional<Article> nodeByMainSlug = Optional.ofNullable(articleRepository.findBySlugAndBranch(ident, MASTER_BRANCH));
-        if (nodeByMainSlug.isPresent()) {
-            return nodeByMainSlug;
-        }
-        
-        // Anhand eines archivierten Slugs finden
-        final Optional<Slug> slug = Optional.ofNullable(slugRepository.findBySlug(ident));
-        if (slug.isPresent()) {
-            final Optional<Article> articleByArchivedSlug = articleRepository.findById(slug.get().getNodeId());
-            if (articleByArchivedSlug.isPresent()) {
-                final Article article = articleByArchivedSlug.get();
-                 if (StringUtils.isNotBlank(article.getSlug())) {
-                    throw new RedirectException(articleByArchivedSlug.get().getUrl());
-                 }
-            }
-        }
-        
+
         throw new NodeNotFoundException(ident);
     }
     
     /**
-     * TODO Schöner umsetzen
      * @param ident
      * @return 
-     * @throws de.holarse.exceptions.RedirectException 
      */    
-    public Optional<News> findNews(final String ident) throws RedirectException {
-        // Ist der Ident eine Zahl, dann nach ID suchen
-        if (NumberUtils.isDigits(ident)) {
-            final Optional<News> newsById = newsRepository.findById(Long.parseLong(ident));
-            if (newsById.isPresent()) {
-                throw new RedirectException(newsById.get().getUrl());
-            }
+    public Optional<News> findNews(final String ident) {
+        final Optional<Long> nodeId = slugRepository.findBySlugView(ident, "news");
+        if (nodeId.isPresent()) {
+            return newsRepository.findById(nodeId.get());
         }
-        
-        // Anhand des Mainslugs (Hauptpfad) finden
-        final Optional<News> nodeByMainSlug = Optional.ofNullable(newsRepository.findBySlugAndBranch(ident, MASTER_BRANCH));
-        if (nodeByMainSlug.isPresent()) {
-            return nodeByMainSlug;
-        }
-        
-        // Anhand eines archivierten Slugs finden
-        final Optional<Slug> slug = Optional.ofNullable(slugRepository.findBySlug(ident));
-        if (slug.isPresent()) {
-            final Optional<News> newsByArchivedSlug = newsRepository.findById(slug.get().getNodeId());
-            if (newsByArchivedSlug.isPresent()) {
-                final News news = newsByArchivedSlug.get();
-                 if (StringUtils.isNotBlank(news.getSlug())) {
-                    throw new RedirectException(newsByArchivedSlug.get().getUrl());
-                 }
-            }
-        }
-        
+
         throw new NodeNotFoundException(ident);
     }    
        
@@ -283,7 +238,8 @@ public class NodeService {
     }    
     
     /**
-     * Gibt an, ob eine Node grundsätzlich öffentlich einsehbar ist
+     * Gibt an, ob eine Node grundsätzlich öffentlich einsehbar ist.
+     * TODO Hier noch unterstützen, dass News erst ab einem bestimmten Zeitpunkt sichtbar sein darf.
      * @param node
      * @return 
      */

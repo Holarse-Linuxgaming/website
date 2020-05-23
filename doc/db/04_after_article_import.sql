@@ -643,6 +643,10 @@ INSERT INTO articles_tags(article_id, tags_id)
     LEFT JOIN articles_tags at3 ON at3.article_id = a.id AND at3.tags_id = (SELECT id FROM tags WHERE name = 'Kommerziell')
     WHERE at1.tags_id IS NOT null AND at2.tags_id IS NOT null AND at3.tags_id IS NOT null;
 
+-- Update Searchindex and SlugView
+refresh materialized view search.mv_suggestions;
+refresh materialized view search.mv_searchindex;
+refresh materialized view search.mv_slugs;
 
 -- End
 \echo '----'

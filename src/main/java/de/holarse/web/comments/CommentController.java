@@ -94,12 +94,10 @@ public class CommentController {
                                 final Authentication authentication) {
 
         final Comment comment = commentRepository.findById(commentId).get();        
-        final User user = ((HolarsePrincipal) authentication.getPrincipal()).getUser();
+        final User currentUser = ((HolarsePrincipal) authentication.getPrincipal()).getUser();
 
-        final Role requiredRole = roleRepository.findByCodeIgnoreCase("MODERATOR").orElseThrow(IllegalStateException::new);
-        
         // Der User selbst darf löschen
-        if (comment.getAuthor().equals(user) || securityService.hasUserHigherClearance(user, requiredRole.getClearanceLevel())) {
+        if (securityService.hasEditPermissions(comment.getAuthor(), currentUser)) {
             comment.setDeleted(true);
             comment.setContent("");
             commentRepository.save(comment);

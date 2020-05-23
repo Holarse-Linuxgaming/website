@@ -94,6 +94,19 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS search.mv_suggestions AS (
 ALTER MATERIALIZED VIEW search.mv_suggestions OWNER TO :dbUser;
 CREATE INDEX IF NOT EXISTS idx_suggestions ON search.mv_suggestions USING gin(word, wtype);
 
+-- Slug-View
+CREATE MATERIALIZED VIEW IF NOT EXISTS search.mv_slugs AS (
+    select id, slug, nodetype from
+    (
+        (select id, slug, 'news' as nodetype from news where branch = 'master')
+        union
+        (select id, slug, 'article' as nodetype from articles where branch = 'master')
+        union
+        (select nodeid as id, slug, nodetype as nodetype from slugs)
+    ) as foo
+);
+ALTER MATERIALIZED VIEW search.mv_slugs OWNER TO :dbUser;
+CREATE INDEX IF NOT EXISTS idx_slugview ON search.mv_slugs (slug, nodetype);
 
 -- 2. Triggers and functions
 \echo '-- Create triggers and functions --'

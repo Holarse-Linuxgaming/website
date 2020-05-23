@@ -7,6 +7,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+/**
+ * TODO Diese Tabelle kann den MV SlugView und die Slugfelder in den jeweiligen
+ * NodeTypes komplett ersetzen.
+ */
 @Table(name = "slugs",
         uniqueConstraints = { @UniqueConstraint(columnNames = 
                                            { "nodeType", "slug" }) })
