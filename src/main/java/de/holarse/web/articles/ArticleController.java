@@ -18,6 +18,7 @@ import de.holarse.exceptions.FlashMessage;
 import de.holarse.exceptions.HolarseException;
 import de.holarse.exceptions.NodeLockException;
 import de.holarse.exceptions.NodeNotFoundException;
+import de.holarse.exceptions.NodeNotVisibleException;
 import de.holarse.exceptions.RedirectException;
 import de.holarse.factories.ViewFactory;
 import de.holarse.renderer.Renderer;
@@ -175,7 +176,7 @@ public class ArticleController {
 
         if (!nodeService.isPublicViewable(article)) {
             if (!securityService.hasClearance(authentication, "MODERATOR")) {
-                throw new HolarseException("Artikel nicht freigegeben");
+                throw new NodeNotVisibleException("Artikel nicht freigegeben", article.getNodeId());
             }
         }        
 

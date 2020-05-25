@@ -13,6 +13,7 @@ import de.holarse.backend.views.PaginationView;
 import de.holarse.exceptions.RedirectException;
 import de.holarse.factories.ViewFactory;
 import de.holarse.exceptions.HolarseException;
+import de.holarse.exceptions.NodeNotVisibleException;
 import de.holarse.search.SearchEngine;
 import de.holarse.services.NodeService;
 import de.holarse.services.SecurityService;
@@ -142,7 +143,7 @@ public class NewsController {
         
         if (!nodeService.isPublicViewable(node)) {
             if (!securityService.hasClearance(authentication, "MODERATOR")) {
-                throw new HolarseException("News ist noch nicht freigegeben.");
+                throw new NodeNotVisibleException("News ist noch nicht freigegeben.", node.getNodeId());
             }
         }
         
