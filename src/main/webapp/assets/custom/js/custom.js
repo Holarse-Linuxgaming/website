@@ -37,7 +37,7 @@ $(document).ready(function () {
       });
   
       var access_chart = $("#access_chart");
-      if (access_chart) {
+      if (access_chart.length() > 0) {
         var nodeid = $("[data-nodeid]").data("nodeid");
         $.getJSON("/webapi/pagevisits", {nodeId: nodeid}, function(result) {
           var mappeddata = $.map(result.items, function(item) {

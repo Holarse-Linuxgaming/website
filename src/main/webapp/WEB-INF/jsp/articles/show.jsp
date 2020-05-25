@@ -28,11 +28,17 @@
         <canvas id="access_chart" width="400" height="200"></canvas>
 
         <!-- Tags -->
-        <div class="btn-group" role="group" aria-label="Basic example">
-            <c:forEach items="${view.tags}" var="tag">
-                <a class="btn btn-primary" href="/finder/?tag=${tag.name}" title="Klicken für weitere Artikel mit diesem Tag">${tag.name}</a>
-            </c:forEach>
-        </div>
+        <ul class="u-list-inline">
+            <li class="list-inline-item g-mb-10">
+                <c:forEach items="${view.tags}" var="tag">
+                    <a class="u-tags-v1 g-color-main g-brd-around g-brd-gray-light-v3 g-bg-gray-dark-v2--hover g-brd-gray-dark-v2--hover g-color-white--hover g-py-4 g-px-10" href="/finder/?tag=${tag.name}" title="Klicken für weitere Artikel mit diesem Tag">
+                        <i class="fa fa-tag mr-1"></i>
+                        ${tag.name}
+                    </a>
+                </c:forEach>                
+            </li>
+        </ul>        
+        
         <!-- Screenshots -->
         <div id="carouselScreenshots" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
