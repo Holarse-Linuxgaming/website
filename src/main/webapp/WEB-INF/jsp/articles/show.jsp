@@ -38,7 +38,7 @@
                 </c:forEach>                
             </li>
         </ul>        
-        
+
         <!-- Screenshots -->
         <div id="carouselScreenshots" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
@@ -104,7 +104,7 @@
 
 <!-- Kommentare -->
 <div id="v-comments">
-    <comment v-for="comment in comments" v-bind:comment="comment"></comment>
+    <comment v-for="comment in comments" :comment="comment" :key="comment.id"></comment>
 </div>
     
 <s:authorize access="hasRole('USER')">
