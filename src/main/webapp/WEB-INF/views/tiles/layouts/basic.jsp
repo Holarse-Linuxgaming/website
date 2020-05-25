@@ -54,6 +54,8 @@
 
   <link rel="stylesheet" href="/assets/vendor/jquery-tagsinput/jquery.tagsinput.min.css">
 
+  <link rel="stylesheet" href="/assets/vendor/chartjs/chart.min.css">
+
   <!-- CSS Customization -->
   <link rel="stylesheet" href="/assets/custom/css/custom.css">
 </head>
@@ -120,6 +122,8 @@
   <script src="/assets/vendor/highlightjs/highlight.pack.js"></script>  
   <script src="/assets/vendor/vuejs/vue.js"></script>
   <script src="/assets/vendor/jquery-tagsinput/jquery.tagsinput.min.js"></script>
+  <script src="/assets/vendor/momentjs/moment.min.js"></script>
+  <script src="/assets/vendor/chartjs/chart.min.js"></script>  
 
   <!-- JS Plugins Init. -->
   <script>

@@ -24,6 +24,9 @@
     
     <!-- Attachments -->
     <div class="col-md-4">
+        <!-- Access -->
+        <canvas id="access_chart" width="400" height="200"></canvas>
+
         <!-- Tags -->
         <div class="btn-group" role="group" aria-label="Basic example">
             <c:forEach items="${view.tags}" var="tag">

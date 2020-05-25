@@ -6,6 +6,7 @@ import de.holarse.backend.db.NodeState;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.NewsRepository;
 import de.holarse.backend.db.repositories.SearchRepository;
+import de.holarse.backend.views.PageVisitReport;
 import de.holarse.backend.views.PageVisitResult;
 import de.holarse.backend.views.SearchAutocompleteView;
 import de.holarse.factories.ViewFactory;
@@ -65,10 +66,10 @@ public class WebApiController {
     }
 
     @GetMapping(value = "/pagevisits", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<PageVisitResult>> pageVisits(@RequestParam("nodeId") final Long nodeId, 
-            @RequestParam("fromDate") @DateTimeFormat(pattern="yyyy-MM-dd") final Date fromDate, 
-            @RequestParam(required = false, name = "untilDate") @DateTimeFormat(pattern="yyyy-MM-dd") final Date untilDate) {
-        return new ResponseEntity<>(trafficService.getPageVisits(nodeId, fromDate, untilDate), HttpStatus.OK);
+    public ResponseEntity<PageVisitReport> pageVisits(@RequestParam("nodeId") final Long nodeId, 
+            @RequestParam(name = "dateFrom", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") final Date dateFrom, 
+            @RequestParam(name = "dateUntil", required = false) @DateTimeFormat(pattern="yyyy-MM-dd") final Date dateUntil) {
+        return new ResponseEntity<>(trafficService.getPageVisits(nodeId, dateFrom, dateUntil), HttpStatus.OK);
     }
     
     /**

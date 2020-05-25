@@ -2,6 +2,7 @@ package de.holarse.services;
 
 import de.holarse.backend.db.PageVisit;
 import de.holarse.backend.db.repositories.PageVisitRepository;
+import de.holarse.backend.views.PageVisitReport;
 import de.holarse.backend.views.PageVisitResult;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
@@ -84,14 +85,24 @@ public class TrafficService {
      * @param untilDate
      * @return 
      */
-    public List<PageVisitResult> getPageVisits(final Long nodeId, final Date fromDate, final Date untilDate) {
+    public PageVisitReport getPageVisits(final Long nodeId, final Date dateFrom, final Date dateUntil) {
+        final LocalDateTime now = LocalDateTime.now();
         LocalDateTime start, end;
-        start = LocalDateTime.ofInstant(fromDate.toInstant(), ZoneId.systemDefault());
+        
+        start = dateFrom == null ? now.minusMonths(1) : LocalDateTime.ofInstant(dateFrom.toInstant(), ZoneId.systemDefault());
         
         // Entweder gesetzt oder jetzt
-        end = untilDate == null ? LocalDateTime.now() : LocalDateTime.ofInstant(untilDate.toInstant(), ZoneId.systemDefault());
-            
-        return pageVisitRepository.getNodeVists(nodeId, start, end);        
+        end = dateUntil == null ? now : LocalDateTime.ofInstant(dateUntil.toInstant(), ZoneId.systemDefault());
+
+        // Wenn end for start liegt, dann wieder die Defaults
+        if (end.isBefore(start)) {
+            start = now.minusMonths(1);
+            end = now;
+        }
+        
+        return new PageVisitReport(DateUtils.formatDate(start.toLocalDate()), DateUtils.formatDate(end.toLocalDate()), 
+                                   nodeId, 
+                                   pageVisitRepository.getNodeVists(nodeId, start, end));
     }
     
 }

@@ -18,7 +18,17 @@ public interface PageVisitRepository extends CrudRepository<PageVisit, Long> {
     @Query(value = "select searchword, count(searchword) as count from logging.accesslog group by searchword order by count(searchword) desc", nativeQuery = true)
     List<StatisticSearchResult> getSearches();    
     
-    @Query(value = "select cast(cast(accessed as date) as varchar) as date, count(id) as visits from logging.accesslog where nodeid = :nodeId and accessed between :fromDate and :untilDate group by cast(accessed as date) order by date", nativeQuery = true)    
+    //@Query(value = "select cast(cast(accessed as date) as varchar) as date, count(id) as visits from logging.accesslog where nodeid = :nodeId and accessed between :fromDate and :untilDate group by cast(accessed as date) order by date", nativeQuery = true)    
+    @Query(value = "with calendar_range as ( " +
+        "select " +
+        "to_char(generate_series(cast(:fromDate as date), cast(:untilDate as date), '1 day'), 'YYYY-MM-DD') as date " +
+    "), access_range as ( " +
+        "select to_char(accessed, 'YYYY-MM-DD') as date, count(id) as visits from logging.accesslog " +
+        "where nodeid = :nodeId and accessed between :fromDate and :untilDate " +
+        "group by to_char(accessed, 'YYYY-MM-DD') order by date " +
+    ") " +
+    "select cr.date, coalesce(ar.visits, 0) as visits from calendar_range cr " +
+    "left join access_range ar on cr.date = ar.date", nativeQuery = true)
     List<PageVisitResult> getNodeVists(@Param("nodeId") final Long nodeId, @Param("fromDate") final LocalDateTime fromDate, @Param("untilDate") LocalDateTime untilDate);
     
 }
