@@ -1,7 +1,7 @@
 package de.holarse.web.forums;
 
 import de.holarse.auth.web.HolarsePrincipal;
-import de.holarse.backend.db.ContentType;
+import de.holarse.backend.db.types.ContentType;
 import de.holarse.backend.db.Forum;
 import de.holarse.backend.db.ForumThread;
 import de.holarse.backend.db.repositories.ForumRepository;

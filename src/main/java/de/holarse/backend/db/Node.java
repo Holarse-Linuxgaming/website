@@ -1,5 +1,6 @@
 package de.holarse.backend.db;
 
+import de.holarse.backend.db.types.ContentType;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;

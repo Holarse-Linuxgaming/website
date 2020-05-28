@@ -1,4 +1,4 @@
-package de.holarse.backend.db;
+package de.holarse.backend.db.types;
 
 public enum PasswordType {
     

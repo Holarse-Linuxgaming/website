@@ -1,5 +1,6 @@
 package de.holarse.backend.db;
 
+import de.holarse.backend.db.types.PasswordType;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Set;

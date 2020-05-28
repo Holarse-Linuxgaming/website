@@ -1,7 +1,7 @@
 package de.holarse.web.news;
 
 import de.holarse.auth.web.HolarsePrincipal;
-import de.holarse.backend.db.ContentType;
+import de.holarse.backend.db.types.ContentType;
 import de.holarse.backend.db.News;
 import de.holarse.backend.db.types.NewsCategory;
 import de.holarse.backend.db.NodeType;

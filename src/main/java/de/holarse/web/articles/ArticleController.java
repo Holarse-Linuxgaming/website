@@ -3,7 +3,7 @@ package de.holarse.web.articles;
 import de.holarse.auth.web.HolarsePrincipal;
 import de.holarse.backend.db.Article;
 import de.holarse.backend.db.Attachment;
-import de.holarse.backend.db.ContentType;
+import de.holarse.backend.db.types.ContentType;
 import de.holarse.backend.db.NodeType;
 import de.holarse.backend.db.Tag;
 import de.holarse.backend.db.User;

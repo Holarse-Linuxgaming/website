@@ -1,6 +1,6 @@
 package de.holarse.rest.importer;
 
-import de.holarse.backend.db.PasswordType;
+import de.holarse.backend.db.types.PasswordType;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.RoleRepository;
 import de.holarse.backend.db.repositories.UserRepository;

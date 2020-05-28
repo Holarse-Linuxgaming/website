@@ -1,6 +1,6 @@
 package de.holarse.web.forums;
 
-import de.holarse.backend.db.ContentType;
+import de.holarse.backend.db.types.ContentType;
 import de.holarse.backend.db.Forum;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;

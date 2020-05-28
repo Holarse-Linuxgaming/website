@@ -1,6 +1,6 @@
 package de.holarse.web.articles;
 
-import de.holarse.backend.db.ContentType;
+import de.holarse.backend.db.types.ContentType;
 
 @Deprecated
 /**

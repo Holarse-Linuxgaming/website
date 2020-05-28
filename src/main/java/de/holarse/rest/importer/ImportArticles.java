@@ -3,7 +3,7 @@ package de.holarse.rest.importer;
 import de.holarse.backend.db.Article;
 import de.holarse.backend.db.Attachment;
 import de.holarse.backend.db.types.AttachmentDataType;
-import de.holarse.backend.db.ContentType;
+import de.holarse.backend.db.types.ContentType;
 import de.holarse.backend.db.NodeType;
 import de.holarse.backend.db.Tag;
 import de.holarse.backend.db.repositories.ArticleRepository;
