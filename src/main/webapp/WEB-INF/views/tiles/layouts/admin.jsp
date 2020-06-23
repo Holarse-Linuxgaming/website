@@ -883,7 +883,7 @@
 
         <!-- jQuery UI Widgets -->
         <script src="assets/vendor/jquery-ui/ui/widgets/datepicker.js"></script>
-
+        
         <!-- JS Plugins Init. -->
         <script src="assets/vendor/appear.js"></script>
         <script src="assets/vendor/bootstrap-select/js/bootstrap-select.min.js"></script>
@@ -960,11 +960,8 @@
                     dropdownAnimationOut: 'fadeOut'
                 });
 
-                // initialization of range datepicker
-                $.HSCore.components.HSRangeDatepicker.init('#rangeDatepicker, #rangeDatepicker2, #rangeDatepicker3');
-
                 // initialization of datepicker
-                $.HSCore.components.HSDatepicker.init('#dbl_prop_begin, #dbl_prop_end');
+                $.HSCore.components.HSRangeDatepicker.init('#dbl_prop_begin, #dbl_prop_end');
 
                 // initialization of HSDropdown component
                 $.HSCore.components.HSDropdown.init($('[data-dropdown-target]'), {dropdownHideOnScroll: false});
@@ -978,6 +975,8 @@
                         smallBtn: '<button data-fancybox-close class="btn g-pos-abs g-top-25 g-right-30 g-line-height-1 g-bg-transparent g-font-size-16 g-color-gray-light-v3 g-brd-none p-0" title=""><i class="hs-admin-close"></i></button>'
                     }
                 });
+                
+                //$.HSCore.components.HSMaskedInput.init('[data-mask]');
 
 
                 // initialization of tagsinput

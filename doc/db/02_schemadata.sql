@@ -14,19 +14,27 @@
 CREATE MATERIALIZED VIEW IF NOT EXISTS search.mv_searchindex AS (
     -- articles
     SELECT
-        a.id AS pid,
-        a.title AS ptitle,
-        concat_ws(';', a.alternativetitle1, a.alternativetitle2, a.alternativetitle3) AS psubtitles,
-        concat('/wiki/', a.slug) AS purl,
+        a.id AS pid, -- für referenz
+        a.title AS ptitle, -- für ergebnisanzeiuge
+        concat_ws(';', a.alternativetitle1, a.alternativetitle2, a.alternativetitle3, a.alternativetitle4, a.alternativetitle5) AS psubtitles, -- für ergebnisanzeige
+        concat('/wiki/', a.slug) AS purl, -- für schnelles verlinken
         a.content AS content,
         att.attachmentdata AS image,
         string_agg(tags.name, ';') AS tags,
-        setweight(to_tsvector('english', unaccent(a.title)), 'A') ||
-        setweight(to_tsvector('english', coalesce(unaccent(a.alternativetitle1), '')), 'C') ||
-        setweight(to_tsvector('english', coalesce(unaccent(a.alternativetitle2), '')), 'C') ||
-        setweight(to_tsvector('english', coalesce(unaccent(a.alternativetitle3), '')), 'C') ||
-        setweight(to_tsvector('german', coalesce(a.content, '')), 'B') ||
-        setweight(to_tsvector('simple', string_agg(tags.name, ' ')), 'C') AS document,
+        setweight(to_tsvector('simple', unaccent(a.title)), 'A') ||		
+		setweight(to_tsvector('simple', coalesce(unaccent(a.alternativetitle1), '')), 'A') ||				
+		setweight(to_tsvector('simple', coalesce(unaccent(a.alternativetitle2), '')), 'A') ||				
+		setweight(to_tsvector('simple', coalesce(unaccent(a.alternativetitle3), '')), 'A') ||				
+		setweight(to_tsvector('simple', coalesce(unaccent(a.alternativetitle4), '')), 'A') ||				
+		setweight(to_tsvector('simple', coalesce(unaccent(a.alternativetitle5), '')), 'A') ||						  
+        setweight(to_tsvector(a.title_lang::regconfig, unaccent(a.title)), 'B') ||
+        setweight(to_tsvector(alternativetitle1_lang::regconfig, coalesce(unaccent(a.alternativetitle1), '')), 'B') ||
+        setweight(to_tsvector(alternativetitle2_lang::regconfig, coalesce(unaccent(a.alternativetitle2), '')), 'B') ||
+        setweight(to_tsvector(alternativetitle3_lang::regconfig, coalesce(unaccent(a.alternativetitle3), '')), 'B') ||
+        setweight(to_tsvector(alternativetitle4_lang::regconfig, coalesce(unaccent(a.alternativetitle4), '')), 'B') ||
+        setweight(to_tsvector(alternativetitle5_lang::regconfig, coalesce(unaccent(a.alternativetitle5), '')), 'B') ||                
+        setweight(to_tsvector(content_lang::regconfig, coalesce(a.content, '')), 'C') ||
+        setweight(to_tsvector('simple', string_agg(tags.name, ' ')), 'D') AS document,
         'article' :: nodetype AS doctype
     FROM articles a
     LEFT JOIN articles_tags ON articles_tags.article_id = a.id
@@ -50,9 +58,9 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS search.mv_searchindex AS (
         n.content AS content,
         att.attachmentdata AS image,
         '' AS tags,
-        setweight(to_tsvector('german', unaccent(n.title)), 'A') ||
-        setweight(to_tsvector('german', coalesce(unaccent(n.subtitle), '')), 'C') ||
-        setweight(to_tsvector('german', coalesce(n.content, '')), 'B')  AS document,
+        setweight(to_tsvector(title_lang::regconfig, unaccent(n.title)), 'B') ||
+        setweight(to_tsvector(subtitle_lang::regconfig, coalesce(unaccent(n.subtitle), '')), 'D') ||
+        setweight(to_tsvector(content_lang::regconfig, coalesce(n.content, '')), 'C')  AS document,
         'news' :: nodetype AS doctype
     FROM news n
     LEFT JOIN attachments att on att.id = (
@@ -72,10 +80,12 @@ CREATE INDEX IF NOT EXISTS idx_fts_tags ON search.mv_searchindex (tags, doctype)
 CREATE MATERIALIZED VIEW IF NOT EXISTS search.mv_suggestions AS (
     -- Suggestions from titles
     SELECT
-        to_tsvector('english', a.title) ||
-        to_tsvector('english', coalesce(a.alternativetitle1, '')) ||
-        to_tsvector('english', coalesce(a.alternativetitle2, '')) ||
-        to_tsvector('english', coalesce(a.alternativetitle3, '')) AS word,
+        to_tsvector(title_lang::regconfig, a.title) ||
+        to_tsvector(alternativetitle1_lang::regconfig, coalesce(a.alternativetitle1, '')) ||
+        to_tsvector(alternativetitle2_lang::regconfig, coalesce(a.alternativetitle2, '')) ||
+        to_tsvector(alternativetitle3_lang::regconfig, coalesce(a.alternativetitle3, '')) || 
+        to_tsvector(alternativetitle4_lang::regconfig, coalesce(a.alternativetitle4, '')) || 
+        to_tsvector(alternativetitle5_lang::regconfig, coalesce(a.alternativetitle5, '')) AS word,
         a.title AS wlabel,
         'title'::suggestiontype AS wtype,
         0 AS use_count

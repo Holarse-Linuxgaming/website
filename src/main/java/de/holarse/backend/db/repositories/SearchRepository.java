@@ -24,8 +24,8 @@ public interface SearchRepository extends JpaRepository<Node, Long> {
      * @return 
      */
     @Query(value = "select pid as id, ptitle as title, psubtitles as subtitles, purl as url, content, tags from search.mv_searchindex " +
-                   "where document @@ websearch_to_tsquery('german', :query) " +
-                   "ORDER BY ts_rank(document, websearch_to_tsquery('german', :query)) DESC " +
+                   "where document @@ websearch_to_tsquery('english', :query) " +
+                   "ORDER BY ts_rank(document, websearch_to_tsquery('english', :query)) DESC " +
                    "OFFSET :offset ROWS FETCH NEXT :pageSize ROWS ONLY",
            nativeQuery = true)
     List<SearchResult> search(@Param("query") final String query, @Param("offset") final long offset, @Param("pageSize") final int pageSize);
@@ -43,7 +43,7 @@ public interface SearchRepository extends JpaRepository<Node, Long> {
      */
     @Query(value = "select pid as id, ptitle as title, psubtitles as subtitles, purl as url, content, tags from search.mv_searchindex where document @@ websearch_to_tsquery('german', :query) " +
             "and string_to_array(tags, ';') @> string_to_array(:tags, ';') " +
-            "ORDER BY ts_rank(document, websearch_to_tsquery('german', :query)) DESC " +
+            "ORDER BY ts_rank(document, websearch_to_tsquery('english', :query)) DESC " +
             "OFFSET :offset ROWS FETCH NEXT :pageSize ROWS ONLY"
             , nativeQuery = true)
     List<SearchResult> search(@Param("query") final String query, @Param("tags") final String tags, @Param("offset") final long offset, @Param("pageSize") final int pageSize);

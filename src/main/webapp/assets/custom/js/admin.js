@@ -180,7 +180,9 @@ $(document).ready(function() {
                      success: function(result) {
                         vadmdbl_entries.drueckblick_proposal = result;
                         vadmdbl_entries.ctrl.show_drueckblick = true;
-                        console.debug(vadmdbl_entries.drueckblick_proposal);
+                        
+                        $.HSCore.components.HSRangeDatepicker.init('#dbl_prop_begin, #dbl_prop_end');
+                        alert("1");
                      }
                   });                  
                },

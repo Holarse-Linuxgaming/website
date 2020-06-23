@@ -81,8 +81,8 @@
                             <div class="input-group g-brd-primary--focus">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text rounded-0 g-color-gray-dark-v5"><i class="icon-calendar"></i></span>
-                                </div>                                            
-                                <input id="dbl_prop_begin" v-model="drueckblick_proposal.begin" class="form-control form-control-md rounded-0 u-datepicker-v1" type="text" data-mask="9999-99-99"  data-range="true" data-to="dbl_prop_end">
+                                </div>                                                                                                            
+                                <input id="dbl_prop_begin" v-model="drueckblick_proposal.begin" class="form-control form-control-md g-brd-right-none rounded-0 u-datepicker-v1" data-rp-date-format="yy-m-d" type="text" data-range="true" data-to="dbl_prop_end">
                             </div>
                         </div>
                     </div>
@@ -95,8 +95,8 @@
                             <div class="input-group g-brd-primary--focus">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text rounded-0 g-color-gray-dark-v5"><i class="icon-calendar"></i></span>
-                                </div>                                            
-                                <input id="dbl_prop_end" v-model="drueckblick_proposal.end" class="form-control form-control-md rounded-0 u-datepicker-v1" type="text" data-mask="9999-99-99">
+                                </div>                                  
+                                <input id="dbl_prop_end" v-model="drueckblick_proposal.end" class="form-control form-control-md g-brd-right-none rounded-0 u-datepicker-v1" data-rp-date-format="yy-m-d" type="text">                                         
                             </div>
                         </div>
                     </div> 
