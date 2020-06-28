@@ -34,7 +34,7 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS search.mv_searchindex AS (
         setweight(to_tsvector(alternativetitle4_lang::regconfig, coalesce(unaccent(a.alternativetitle4), '')), 'B') ||
         setweight(to_tsvector(alternativetitle5_lang::regconfig, coalesce(unaccent(a.alternativetitle5), '')), 'B') ||                
         setweight(to_tsvector(content_lang::regconfig, coalesce(a.content, '')), 'C') ||
-        setweight(to_tsvector('simple', string_agg(tags.name, ' ')), 'D') AS document,
+        setweight(to_tsvector(name_lang::regconfig, tags.name), 'D') ||  AS document,
         'article' :: nodetype AS doctype
     FROM articles a
     LEFT JOIN articles_tags ON articles_tags.article_id = a.id

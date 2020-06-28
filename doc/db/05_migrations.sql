@@ -14,3 +14,5 @@ ALTER TABLE public.news ADD COLUMN subtitle_lang character varying(12) default '
 ALTER TABLE public.news ADD COLUMN content_lang character varying(12) default 'german';
 
 ALTER TABLE public.comments ADD COLUMN content_lang character varying(12) default 'german';
+
+ALTER TABLE public.tags ADD COLUMN name_lang character varying(12) default 'english';
