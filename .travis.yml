@@ -10,10 +10,6 @@ env:
   - CATALINA_PID=/tmp/tomcat.pid
 addons:
   postgresql: "11"
-  apt:
-    packages:
-      - postgresql-11
-      - postgresql-client-11
 services:
   - postgresql
 install:

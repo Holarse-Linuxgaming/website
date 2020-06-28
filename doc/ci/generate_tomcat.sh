@@ -1,8 +1,8 @@
 #!/bin/bash
 # Tomcat server
-TOMCAT_VER="apache-tomcat-9.0.31"
-TOMCATURL="https://mirror.synyx.de/apache/tomcat/tomcat-9/v9.0.31/bin/$TOMCAT_VER.zip"
-TOMCATSHA="de260846a6fa7b88638d08ac101ec8fe4bdd6b477aa76355de07d00956de701d9e2af3fe372926f7ed48f1e64147a928d5bac4786c02a6c4ac9dc3dfb1da7140"
+TOMCAT_VER="apache-tomcat-9.0.35"
+TOMCATURL="https://mirror.netcologne.de/apache.org/tomcat/tomcat-9/v9.0.35/bin/$TOMCAT_VER.zip"
+TOMCATSHA="2322c2032d3d22adb102b7b366f5eb6d50f159b8076de2160138b1bc24b3061080143014ad67d03d68919264d4246e02719f69c865ddd77bc0b4cbdbda475f5e"
 # PostgreSQL JDBC
 JDBCPOST_VER="postgresql-42.2.10.jar"
 JDBCPOST_URL="https://jdbc.postgresql.org/download/$JDBCPOST_VER"
