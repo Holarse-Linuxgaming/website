@@ -12,6 +12,8 @@ import de.holarse.backend.db.repositories.TagRepository;
 import de.holarse.backend.db.repositories.UserRepository;
 import de.holarse.backend.db.types.AttachmentGroup;
 import de.holarse.backend.db.types.AttachmentType;
+import de.holarse.backend.export.Title;
+import de.holarse.backend.export.TitleType;
 import de.holarse.search.SearchEngine;
 import de.holarse.services.NodeService;
 import de.holarse.services.TagService;
@@ -19,8 +21,11 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.transaction.Transactional;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +77,7 @@ public class ImportArticles {
 
         return data;
     }
-    
+
     @Transactional
     @PostMapping(consumes = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<String> upload(@RequestBody final de.holarse.backend.export.Article importArticle) throws Exception {
@@ -80,12 +85,35 @@ public class ImportArticles {
         final Article article = ar.findByOldId(importArticle.getUid()).orElseGet(() -> new Article());
         // Im Drupal gab es noch keine multiplen Titel       
         article.setCreated(OffsetDateTime.ofInstant(importArticle.getCreated().toInstant(), ZoneOffset.UTC));
+     
+        // Haupttitel
+        final Title mainTitle = importArticle.getTitles().stream()
+                                                          .filter(t -> t.getType().equalsIgnoreCase(TitleType.MAIN) && StringUtils.isNotBlank(t.getValue()))
+                                                          .findFirst()
+                                                          .orElseThrow(() -> new IllegalArgumentException("Kein Main-Title vorhanden"));
+        article.setTitle(mainTitle.getValue());
         
-        //System.out.println("Content START::::::::::::::::::::::::::::::::::::::::::::::::");
-        //System.out.println(importArticle.getContent().getValue());
-        //System.out.println("Content STOPP::::::::::::::::::::::::::::::::::::::::::::::::");
+        // Gesetze Alternativtitel raussuchen
+        final List<String> alternativeTitles = importArticle.getTitles().stream()
+                                                                        .filter(t -> t.getType().equalsIgnoreCase(TitleType.ALTERNATIVE) && StringUtils.isNotBlank(t.getValue()))
+                                                                        .map(t -> t.getValue())
+                                                                        .collect(Collectors.toList());
         
-        article.setTitle(importArticle.getTitles().get(0).getValue());
+        // Alternativtitel setzen, aber nicht mehr als 3
+        for (int i=0; i < Math.min(3, alternativeTitles.size()); i++) {
+            switch (i) {
+                case 0:
+                    article.setAlternativeTitle1(alternativeTitles.get(i));
+                    break;
+                case 1:
+                    article.setAlternativeTitle2(alternativeTitles.get(i));
+                    break;
+                case 2:
+                    article.setAlternativeTitle3(alternativeTitles.get(i));
+                    break;                    
+            }
+        }
+        
         article.setContent(importArticle.getContent().getValue());
         article.setContentType(ContentType.WIKI);
         article.setOldId(importArticle.getUid());

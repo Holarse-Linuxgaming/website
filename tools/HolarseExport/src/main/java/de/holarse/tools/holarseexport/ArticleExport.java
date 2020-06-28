@@ -32,6 +32,7 @@ public class ArticleExport implements Export {
     final static String LINK_QUERY = "select field_homepage_value, delta from content_field_homepage where nid = ? and vid = ?";
     final static String WINE_QUERY = "select field_winehq_value, field_protondb_value, field_official_proton_value, field_crossoverdb_value from content_type_page where nid = ? and vid = ?";
     final static String STATE_QUERY = "select field_ftpavail_value, field_ftpavail_tools_value, field_release_value from content_type_page where nid = ? and vid = ?";
+    final static String TITLES_QUERY = "select field_alternativetitle1_value, field_alternativetitle2_value, field_alternativetitle3_value from content_type_page where nid = ? and vid = ?";    
     final static String SHOP_QUERY = "select field_steam_value, field_humblestore_value, field_gog_value, field_ownshop_value, field_itchio_value from content_type_page where nid = ? and vid = ?";
     final static String VIDEO_QUERY = "select field_videos_value from content_field_videos where nid = ? and vid = ?";
     final static String IMAGE_QUERY = "select filepath from content_field_screenshots cfs inner join files f on cfs.field_screenshots_fid = f.fid where nid = ? and vid = ? order by delta";
@@ -105,6 +106,7 @@ public class ArticleExport implements Export {
         final PreparedStatement winePs = c.prepareStatement(WINE_QUERY);
         final PreparedStatement shopPs = c.prepareStatement(SHOP_QUERY);             
         final PreparedStatement statePs = c.prepareStatement(STATE_QUERY);        
+        final PreparedStatement titlesPs = c.prepareStatement(TITLES_QUERY);          
         final PreparedStatement videoPs = c.prepareStatement(VIDEO_QUERY);         
         final PreparedStatement imagePs = c.prepareStatement(IMAGE_QUERY);                 
         final PreparedStatement filePs = c.prepareStatement(FILE_QUERY);                
@@ -125,6 +127,22 @@ public class ArticleExport implements Export {
                 }
             }
             article.setTags(tags);
+
+            // titles
+            titlesPs.setLong(1, article.getUid());
+            titlesPs.setLong(2, article.getVid());
+            try (final ResultSet result = titlesPs.executeQuery()) {
+                while (result.next()) {
+                    final String at = result.getString("field_alternativetitle1_value");
+                    if (StringUtils.isNotBlank(at)) {
+                        final Title t = new Title();
+                        t.setType("ALTERNATIVE");
+                        t.setValue(at);
+
+                        article.getTitles().add(t);
+                    } 
+                }
+            }
 
             // Attachments
             final List<Attachment> attachments = new ArrayList<>();
