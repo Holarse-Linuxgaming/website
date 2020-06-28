@@ -75,7 +75,7 @@ public class GameFinderController {
             // TagViews erstellen
             final List<TagView> tagViews = assocTags.stream().map(viewFactory::fromTag).collect(Collectors.toList());
             // TagGroupView erstellen
-            final TagGroupView tgv = new TagGroupView(tg.getName(), tagViews, groupedSum);
+            final TagGroupView tgv = new TagGroupView(tg.getId(), tg.getName(), tagViews, groupedSum);
             views.add(tgv);
         }
         
@@ -83,7 +83,7 @@ public class GameFinderController {
         final List<Tag> freeTags = tagRepository.findFreeTags();
         final List<TagView> freeTagViews = freeTags.stream().map(viewFactory::fromTag).collect(Collectors.toList());
         final long freeTagGroupSum = freeTags.stream().mapToLong(t -> t.getUseCount()).sum();
-        final TagGroupView tgvFree = new TagGroupView("Freie Stichworte", freeTagViews, freeTagGroupSum);
+        final TagGroupView tgvFree = new TagGroupView(0, "Freie Stichworte", freeTagViews, freeTagGroupSum);
         views.add(tgvFree);
         
         map.addAttribute("tagGroups", views);
