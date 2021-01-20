@@ -23,7 +23,7 @@ public class Comment extends Node {
     private User author;    
     
     @Transient
-    private String url;    
+    private String url;  
     
     @Override
     public String getUrl() {

@@ -486,7 +486,7 @@ WHERE name IN (
     'PPA',
     'SNAP',
     'Flatpak',
-    'AppImage',
+    'AppImage'
 );
 
 
@@ -626,7 +626,7 @@ WHERE tags_id = (SELECT id FROM tags WHERE name = 'engine')
 
 DELETE FROM articles_tags WHERE tags_id = (SELECT id FROM tags WHERE name = 'engine');
 
-DELETE FROM tags WHERE name = 'engine');
+DELETE FROM tags WHERE name = 'engine';
 COMMIT;
 
 --- Tag assignment

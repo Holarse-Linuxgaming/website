@@ -2,6 +2,7 @@ package de.holarse.backend.db;
 
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OrderBy;
@@ -19,6 +20,21 @@ public class Article extends BranchableNode implements Frontpagable, Searchable 
     private String alternativeTitle1;
     private String alternativeTitle2;
     private String alternativeTitle3;
+    private String alternativeTitle4;
+    private String alternativeTitle5;  
+    
+    @Column(name = "title_lang", nullable=false, columnDefinition = "character varying(12) default 'english'")
+    private String titleLang;
+    @Column(name = "alternativetitle1_lang", nullable=false, columnDefinition = "character varying(12) default 'english'")
+    private String alternativeTitle1Lang;
+    @Column(name = "alternativetitle2_lang", nullable=false, columnDefinition = "character varying(12) default 'english'")
+    private String alternativeTitle2Lang;
+    @Column(name = "alternativetitle3_lang", nullable=false, columnDefinition = "character varying(12) default 'english'")
+    private String alternativeTitle3Lang;
+    @Column(name = "alternativetitle4_lang", nullable=false, columnDefinition = "character varying(12) default 'english'")
+    private String alternativeTitle4Lang;
+    @Column(name = "alternativetitle5_lang", nullable=false, columnDefinition = "character varying(12) default 'english'")
+    private String alternativeTitle5Lang;      
     
     @Transient
     private final Set<String> alternativeTitles = new HashSet<>();
@@ -70,6 +86,8 @@ public class Article extends BranchableNode implements Frontpagable, Searchable 
         if (StringUtils.isNoneBlank(alternativeTitle1)) alternativeTitles.add(alternativeTitle1);        
         if (StringUtils.isNoneBlank(alternativeTitle2)) alternativeTitles.add(alternativeTitle2);        
         if (StringUtils.isNoneBlank(alternativeTitle3)) alternativeTitles.add(alternativeTitle3);
+        if (StringUtils.isNoneBlank(alternativeTitle4)) alternativeTitles.add(alternativeTitle4);
+        if (StringUtils.isNoneBlank(alternativeTitle5)) alternativeTitles.add(alternativeTitle5);        
     }
     
     @Override
@@ -105,6 +123,70 @@ public class Article extends BranchableNode implements Frontpagable, Searchable 
         this.alternativeTitle3 = alternativeTitle3;
     }
 
+    public String getAlternativeTitle4() {
+        return alternativeTitle4;
+    }
+
+    public void setAlternativeTitle4(String alternativeTitle4) {
+        this.alternativeTitle4 = alternativeTitle4;
+    }
+
+    public String getAlternativeTitle5() {
+        return alternativeTitle5;
+    }
+
+    public void setAlternativeTitle5(String alternativeTitle5) {
+        this.alternativeTitle5 = alternativeTitle5;
+    }
+
+    public String getTitleLang() {
+        return titleLang;
+    }
+
+    public void setTitleLang(String titleLang) {
+        this.titleLang = titleLang;
+    }
+
+    public String getAlternativeTitle1Lang() {
+        return alternativeTitle1Lang;
+    }
+
+    public void setAlternativeTitle1Lang(String alternativeTitle1Lang) {
+        this.alternativeTitle1Lang = alternativeTitle1Lang;
+    }
+
+    public String getAlternativeTitle2Lang() {
+        return alternativeTitle2Lang;
+    }
+
+    public void setAlternativeTitle2Lang(String alternativeTitle2Lang) {
+        this.alternativeTitle2Lang = alternativeTitle2Lang;
+    }
+
+    public String getAlternativeTitle3Lang() {
+        return alternativeTitle3Lang;
+    }
+
+    public void setAlternativeTitle3Lang(String alternativeTitle3Lang) {
+        this.alternativeTitle3Lang = alternativeTitle3Lang;
+    }
+
+    public String getAlternativeTitle4Lang() {
+        return alternativeTitle4Lang;
+    }
+
+    public void setAlternativeTitle4Lang(String alternativeTitle4Lang) {
+        this.alternativeTitle4Lang = alternativeTitle4Lang;
+    }
+
+    public String getAlternativeTitle5Lang() {
+        return alternativeTitle5Lang;
+    }
+
+    public void setAlternativeTitle5Lang(String alternativeTitle5Lang) {
+        this.alternativeTitle5Lang = alternativeTitle5Lang;
+    }
+    
     /**
      * Einheitlicher Zugriff auf den Identifier. Ist die Id.
      * @return 

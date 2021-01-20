@@ -10,6 +10,9 @@ public class Tag extends Base {
     @Column(unique = true)
     private String name;
     
+    @Column(name = "name_lang", nullable=false, columnDefinition = "character varying(12) default 'german'")
+    private String nameLang;
+    
     private Long legacyId;
 
     private Long weight;
@@ -79,6 +82,14 @@ public class Tag extends Base {
 
     public void setUseCount(Long useCount) {
         this.useCount = useCount;
+    }
+
+    public String getNameLang() {
+        return nameLang;
+    }
+
+    public void setNameLang(String nameLang) {
+        this.nameLang = nameLang;
     }
 
     @Override

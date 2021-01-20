@@ -21,20 +21,20 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS search.mv_searchindex AS (
         a.content AS content,
         att.attachmentdata AS image,
         string_agg(tags.name, ';') AS tags,
-        setweight(to_tsvector('simple', unaccent(a.title)), 'A') ||		
-		setweight(to_tsvector('simple', coalesce(unaccent(a.alternativetitle1), '')), 'A') ||				
-		setweight(to_tsvector('simple', coalesce(unaccent(a.alternativetitle2), '')), 'A') ||				
-		setweight(to_tsvector('simple', coalesce(unaccent(a.alternativetitle3), '')), 'A') ||				
-		setweight(to_tsvector('simple', coalesce(unaccent(a.alternativetitle4), '')), 'A') ||				
-		setweight(to_tsvector('simple', coalesce(unaccent(a.alternativetitle5), '')), 'A') ||						  
-        setweight(to_tsvector(a.title_lang::regconfig, unaccent(a.title)), 'B') ||
-        setweight(to_tsvector(alternativetitle1_lang::regconfig, coalesce(unaccent(a.alternativetitle1), '')), 'B') ||
-        setweight(to_tsvector(alternativetitle2_lang::regconfig, coalesce(unaccent(a.alternativetitle2), '')), 'B') ||
-        setweight(to_tsvector(alternativetitle3_lang::regconfig, coalesce(unaccent(a.alternativetitle3), '')), 'B') ||
-        setweight(to_tsvector(alternativetitle4_lang::regconfig, coalesce(unaccent(a.alternativetitle4), '')), 'B') ||
-        setweight(to_tsvector(alternativetitle5_lang::regconfig, coalesce(unaccent(a.alternativetitle5), '')), 'B') ||                
-        setweight(to_tsvector(content_lang::regconfig, coalesce(a.content, '')), 'C') ||
-        setweight(to_tsvector(name_lang::regconfig, tags.name), 'D') ||  AS document,
+--        setweight(to_tsvector('simple', unaccent(a.title)), 'A') ||		
+--	setweight(to_tsvector('simple', coalesce(unaccent(a.alternativetitle1), '')), 'A') ||			
+--	setweight(to_tsvector('simple', coalesce(unaccent(a.alternativetitle2), '')), 'A') ||			
+--	setweight(to_tsvector('simple', coalesce(unaccent(a.alternativetitle3), '')), 'A') ||			
+--	setweight(to_tsvector('simple', coalesce(unaccent(a.alternativetitle4), '')), 'A') ||			
+--	setweight(to_tsvector('simple', coalesce(unaccent(a.alternativetitle5), '')), 'A') ||						  
+        setweight(to_tsvector(a.title_lang::regconfig, unaccent(a.title)), 'A') ||
+        setweight(to_tsvector(alternativetitle1_lang::regconfig, coalesce(unaccent(a.alternativetitle1), '')), 'A') ||
+        setweight(to_tsvector(alternativetitle2_lang::regconfig, coalesce(unaccent(a.alternativetitle2), '')), 'A') ||
+        setweight(to_tsvector(alternativetitle3_lang::regconfig, coalesce(unaccent(a.alternativetitle3), '')), 'A') ||
+        setweight(to_tsvector(alternativetitle4_lang::regconfig, coalesce(unaccent(a.alternativetitle4), '')), 'A') ||
+        setweight(to_tsvector(alternativetitle5_lang::regconfig, coalesce(unaccent(a.alternativetitle5), '')), 'A') ||        setweight(to_tsvector('german', coalesce(a.content, '')), 'B') -- content will be mostly german
+--        setweight(to_tsvector(name_lang::regconfig, tags.name), 'C')
+	AS document,
         'article' :: nodetype AS doctype
     FROM articles a
     LEFT JOIN articles_tags ON articles_tags.article_id = a.id

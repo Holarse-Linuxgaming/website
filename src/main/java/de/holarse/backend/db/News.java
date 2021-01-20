@@ -20,6 +20,12 @@ public class News extends BranchableNode implements Frontpagable, Searchable {
     @Enumerated(EnumType.STRING)
     private NewsType newsType;
 
+    @Column(name = "title_lang", nullable=false, columnDefinition = "character varying(12) default 'german'")
+    private String titleLang;
+
+    @Column(name = "subtitle_lang", nullable=false, columnDefinition = "character varying(12) default 'german'")
+    private String subtitleLang;   
+    
     @Deprecated
     @Transient
     private String url;
@@ -129,4 +135,21 @@ public class News extends BranchableNode implements Frontpagable, Searchable {
     public String getTeaserImage() {
         return null;
     }   
+
+    public String getTitleLang() {
+        return titleLang;
+    }
+
+    public void setTitleLang(String titleLang) {
+        this.titleLang = titleLang;
+    }
+
+    public String getSubtitleLang() {
+        return subtitleLang;
+    }
+
+    public void setSubtitleLang(String subtitleLang) {
+        this.subtitleLang = subtitleLang;
+    }
+
 }

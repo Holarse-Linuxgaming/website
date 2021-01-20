@@ -47,6 +47,9 @@ public abstract class Node extends Base implements LegacyImport, LinkableNode, N
     @Column(nullable = false, length = 32768)
     private String content;
     
+    @Column(name = "content_lang", nullable = false, columnDefinition = "varchar(12) default 'german'")
+    private String contentLang;    
+    
     @ManyToOne(fetch = FetchType.LAZY)
     private User author;
 
@@ -128,6 +131,14 @@ public abstract class Node extends Base implements LegacyImport, LinkableNode, N
 
     public String getContent() {
         return content;
+    }
+
+    public String getContentLang() {
+        return contentLang;
+    }
+
+    public void setContentLang(String contentLang) {
+        this.contentLang = contentLang;
     }
 
     public void setContent(String content) {
