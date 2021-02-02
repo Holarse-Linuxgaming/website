@@ -17,7 +17,7 @@ Den Import der Dateien kann man über die REST-API durchführen. Es gibt zwei Sc
 ### Anforderungen
 * Java 11 JDK
 * Apache Maven 3.x
-* PostgreSQL 11 oder 12
+* PostgreSQL 13
 * Apache Tomcat 9.x
 
 ### Konfiguration Tomcat
@@ -54,25 +54,38 @@ aber werden beim bauen wieder **sofort überschrieben**.
 ### Datenbank
 Die Datenbank per Distro-Repo einbinden oder von dem Postgresql-bereitgestelltem Repository. Die Anleitungen finden sich in ```/doc/db/```.
 
-Als erstes muss die Datenbank über ```00_create_db.sql``` oder manuell über
+Die Benutzer müssen vorab angelegt werden. Zudem ist in der ```postgresql.conf``` noch die Authentifizierung von md5 (Standard) auf 
+```
+password_encryption = scram-sha-256
+```
+zu ändern.
+
+Dann kann die Datenbank und der Benutzer entweder über das Script oder manuell angelegt werden. Per Script:
+
+
+    psql -h HOST -U postgres -d holarse -W -f 00_createdb.sql
+
+oder manuell auf dem Datenbank-Server via
 
     su - postgres
     createrole holarse
-    createdb holarse -W holarse
+    createdb -O holarse holarse
 
 angelegt werden.
 
-Dann folgen als Benutzer ```postgres``` oder einem anderen Admin-Benutzer die Datei ```01_as_postgresql.sql```. Diese legen Sequenzen und Postgres-Erweiterungen an.
+Dann folgt das nächste Script ebenfalls noch als postgres-Benutzer mit
+
+    psql -h HOST -U postgres -d holarse -W -f 01_as_postgres.sql
 
 Nun muss Holarse gebaut und auf dem Tomcat deployt werden. Hibernate erstellt dann automatisch aus den Entity-Definitionen
 die nötigen Datenbankstrukturen. Danach geht es weiter mit:
 
-* ```02_schemadata.sql``` 
-* ```03_postdata.sql``` 
+    psql -h HOST -U holarse -d holarse -W -f 02_searchindex.sql 
+    psql -h HOST -U holarse -d holarse -W -f 03_postdata.sql
 
 An dieser Stelle ist Holarse eingerichtet. Die Daten können nun importiert werden. Danach müssen die Daten noch bereinigt werden mit dem Script:
 
-* ```04_after_article_import.sql``` 
+    psql -h HOST -U holarse -d holarse -W -f 04_after_article_import.sql
 
 Willkommen im HolaCMS 3-Testsystem!
 
