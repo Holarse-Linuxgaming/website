@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class HumansController {
 
-    private static String CONTENT = "/* TEAM */\r\n" +
+    private final static String CONTENT = "/* TEAM */\r\n" +
     "Site: contact@holarse-linuxgaming.de\r\n" +
     "Twitter: https://twitter.com/holarse\r\n" +
     "Youtube: https://www.youtube.com/user/holarse\r\n" + 

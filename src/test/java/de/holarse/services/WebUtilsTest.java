@@ -44,10 +44,24 @@ public class WebUtilsTest {
         assertEquals("americas_army", WebUtils.slugify("America's Army"));
     }
 
+    /**
+     * Dieses Slug entspricht den Slugs z.b. aus der Suchliste. Im Wiki wird der Doppelpunkt beibehalten.
+     * Wir vereinheitlichen das allerdings auf ohne Doppelpunkte.
+     */
     @Test
     public void testSlugifyRemoveColons() {
         assertEquals("ash_gods_redemption", WebUtils.slugify("Ash of Gods: Redemption"));
     }
+    
+    @Test
+    public void testSlugifyRemoveColons2() {
+        assertEquals("imperator_rome", WebUtils.slugify("Imperator: Rome"));
+    }
+    
+    @Test
+    public void testSlugifyRemoveColonsNoSpace() {
+        assertEquals("imperator_rome", WebUtils.slugify("Imperator:Rome"));
+    }    
     
     @Test
     public void testSlugifyReplaceDashes() {
@@ -107,7 +121,13 @@ public class WebUtilsTest {
     public void testSlugifyRemoveHashtagAndStrip6() {
         assertEquals("linuxspiele_wochenend_rückblick_352019_warzone_2100_mit_release_330_und_rennspiel_yorg_bietet", 
         WebUtils.slugify("Linuxspiele-Wochenend-Rückblick 35/2019 - Warzone 2100 mit Release 3.3.0 und Rennspiel Yorg bietet lokalen Multiplayer und Rabtte bei der Kalypso-Woche und im RPG-Bundle"));
-    }    
+    }   
+    
+    @Test
+    public void testSlugifyChineseCharacters() {
+        assertEquals("holarse_wochenend_rückblick_2021_07_drückblick_新年快乐_stellaris_dreht_mit_neuem_dlc_nemesis_auf", 
+            WebUtils.slugify("Holarse Wochenend-Rückblick 2021-07 #Drückblick - 新年快乐 - Stellaris dreht mit neuem DLC Nemesis auf - X4 erkundet den Geburtsort der Menschheit - Weltraum ohne Ende: StarDrive 2 und SpaceHaven mit neuen Updates - Wir sind Vikinger, eine Millionen Hornträge"));
+    }
     
     @Test
     public void testSlugifyRemoveExclamationMark() {

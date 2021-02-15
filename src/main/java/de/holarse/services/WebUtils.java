@@ -56,7 +56,7 @@ public class WebUtils {
                             .replaceAll("\\.", "")
                             .replaceAll("&", "")                
                             .replaceAll("!", "")                               
-                            .replaceAll(":", "")
+                            .replaceAll(":", " ")
                             .replaceAll("'", "")
                             .replaceAll("\\+", "")
                             .replaceAll("#", "");
