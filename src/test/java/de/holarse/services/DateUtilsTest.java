@@ -63,7 +63,12 @@ public class DateUtilsTest {
     
     @Test
     public void testFormatAgo10() {
-        assertEquals("Vor 3 Monaten", DateUtils.formatAgo(OffsetDateTime.now().minusMonths(3)));
+        assertEquals("Vor 2 Monaten", DateUtils.formatAgo(OffsetDateTime.now().minusMonths(3))); // Der heutige Tag zählt mit
+    }     
+    
+    @Test
+    public void testFormatAgo10a() {
+        assertEquals("Vor 3 Monaten", DateUtils.formatAgo(OffsetDateTime.now().minusMonths(3).minusDays(1)));
     }     
 
     @Test

@@ -314,7 +314,7 @@
                         <arg>-Xlint:unchecked</arg>
                         <arg>-Xlint:deprecation</arg>
                     </compilerArgs>
-                    <debug>false</debug>
+                    <debug>true</debug>
                 </configuration>
             </plugin>
             <!-- WAR-Datei erstellen -->

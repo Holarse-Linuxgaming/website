@@ -11,7 +11,6 @@ import de.holarse.backend.db.repositories.AttachmentRepository;
 import de.holarse.backend.db.repositories.TagRepository;
 import de.holarse.backend.db.repositories.UserRepository;
 import de.holarse.backend.db.types.AttachmentGroup;
-import de.holarse.backend.db.types.AttachmentType;
 import de.holarse.backend.export.Title;
 import de.holarse.backend.export.TitleType;
 import de.holarse.search.SearchEngine;
@@ -21,7 +20,6 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
@@ -81,6 +79,8 @@ public class ImportArticles {
     @Transactional
     @PostMapping(consumes = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<String> upload(@RequestBody final de.holarse.backend.export.Article importArticle) throws Exception {
+        // TODO: in einen eigenen Service und dann in die Queue-Verarbeitung verschieben
+        
         // Bstehenden Drupal-Import finden oder neuen anlegen
         final Article article = ar.findByOldId(importArticle.getUid()).orElseGet(() -> new Article());
         // Im Drupal gab es noch keine multiplen Titel       
@@ -130,7 +130,7 @@ public class ImportArticles {
         article.setCommentable(importState.getCommentable());
 
         // Tags
-        Set<Tag> tags = tagService.listToTags(importArticle.getTags());
+        final Set<Tag> tags = tagService.listToTags(importArticle.getTags());
         tr.saveAll(tags);
 
         article.getTags().clear();
@@ -145,7 +145,7 @@ public class ImportArticles {
         attr.deleteByNodeId(article.getNodeId());
         
         if (importArticle.getAttachments() != null) {
-            List<Attachment> attachments = new ArrayList<>();
+            final List<Attachment> attachments = new ArrayList<>();
             for (de.holarse.backend.export.Attachment importAttachment : importArticle.getAttachments()) {
                 final Attachment attachment = new Attachment();
                 attachment.setNodeId(article.getNodeId());
