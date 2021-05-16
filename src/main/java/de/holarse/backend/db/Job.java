@@ -5,6 +5,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 @Table(name = "mqueue")
@@ -19,9 +20,9 @@ public class Job extends Base {
     private QueueWorkerType worker;
     
     private String details;
-    
-    @Column(length = 4096)
-    private String payload;
+
+    @Lob
+    private byte[] payload;
     
     // Priorität von 0 bis MAX (je höher umso wichtiger)
     @Column(columnDefinition = "int not null default 0")
@@ -57,11 +58,11 @@ public class Job extends Base {
         this.worker = worker;
     }
 
-    public String getPayload() {
+    public byte[] getPayload() {
         return payload;
     }
 
-    public void setPayload(String payload) {
+    public void setPayload(byte[] payload) {
         this.payload = payload;
     }
 

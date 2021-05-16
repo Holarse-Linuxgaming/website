@@ -1,15 +1,11 @@
 package de.holarse.rest.importer;
 
-import de.holarse.backend.db.types.PasswordType;
-import de.holarse.backend.db.User;
-import de.holarse.backend.db.repositories.RoleRepository;
-import de.holarse.backend.db.repositories.UserRepository;
-import de.holarse.services.WebUtils;
+import de.holarse.backend.db.Job;
+import de.holarse.backend.db.repositories.JobRepository;
+import de.holarse.backend.db.types.QueueWorkerType;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutputStream;
 import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,43 +27,22 @@ public class ImportUsers {
     Logger log = LoggerFactory.getLogger(ImportUsers.class);    
     
     @Autowired
-    private UserRepository ur;
-    
-    @Autowired
-    private RoleRepository rr;
+    JobRepository jobRepository;
     
     @Transactional
     @PostMapping(consumes = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<String> upload(@RequestBody final de.holarse.backend.export.User importUser) throws Exception {
-        // Bstehenden Drupal-Import finden oder neuen anlegen
-        final User user  = ur.findByOldId(importUser.getUid()).orElseGet(() -> new User());
-        user.setCreated(OffsetDateTime.ofInstant(importUser.getCreated().toInstant(), ZoneOffset.UTC));
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        final ObjectOutputStream oos = new ObjectOutputStream(out);
+        oos.writeObject(importUser);
         
-        user.setLogin(importUser.getLogin());        
-        user.setEmail(importUser.getEmail());
-        user.setPasswordType(PasswordType.valueOf(importUser.getPassword().getType()));
-        user.setDigest(importUser.getPassword().getDigest());
+        final Job job = new Job();
+        job.setCreated(OffsetDateTime.now());
+        job.setPayload(out.toByteArray());
+        job.setWorker(QueueWorkerType.IMPORT);
+        job.setDetails("USER");
         
-        user.setSignature(importUser.getSignature());
-        user.setAvatar(importUser.getAvatar());
-        user.setVerified(true); // Automatisch verifiziert durch den Import
-        user.setLocked(importUser.isLocked());
-        user.setOldId(importUser.getUid());
-        user.setSlug(WebUtils.slugify(importUser.getLogin()));
-        
-        if (user.getRoles() == null) {
-            user.setRoles(new HashSet<>());
-        } else {
-            user.getRoles().clear();    
-        }
-        
-        if (importUser.getRoles() != null) {
-            user.setRoles( importUser.getRoles().stream().map(r -> rr.findByCodeIgnoreCase(r.getValue()))
-                                                         .filter(Optional::isPresent)
-                                                         .map(Optional::get)
-                                                         .collect(Collectors.toSet()) );
-        }
-        ur.save(user);
+        jobRepository.saveAndFlush(job);
         
         return new ResponseEntity<>("OK", HttpStatus.CREATED);
     }    

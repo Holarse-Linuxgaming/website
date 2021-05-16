@@ -22,6 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import de.holarse.backend.db.repositories.JobRepository;
+import de.holarse.services.importer.NodeImportService;
+import java.io.ByteArrayInputStream;
+import java.io.ObjectInputStream;
 import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,18 +41,36 @@ public class QueueJobManager {
     @Autowired
     JobRepository jobRepository;
     
+    @Autowired
+    NodeImportService nodeImportService;
+    
     @Transactional
     @Scheduled(fixedDelay = 1000)
     public void workImportEntries() {
         for (final Job job : jobRepository.getJobs(QueueWorkerType.IMPORT)) {
-            switch(job.getDetails()) {
-                case "ARTCILE": break;
-                case "NEWS": break;
-                case "USERS": break;
-                default:
-                    logger.error("unhandled job detail for import: " + job.getDetails());
-                    job.incrementFail();
-                    jobRepository.save(job);
+            logger.debug("Job #{}: Importing {} (fails: {})", new Object[]{job.getId(), job.getDetails(), job.getFails()});
+            try {            
+                final ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(job.getPayload()));    
+
+                switch (job.getDetails()) {
+                    case "ARTICLE":
+                        final de.holarse.backend.export.Article article = (de.holarse.backend.export.Article) ois.readObject();
+                        nodeImportService.doImport(article);                    
+                        break;
+                    case "NEWS":
+                        final de.holarse.backend.export.News news = (de.holarse.backend.export.News) ois.readObject();
+                        nodeImportService.doImport(news);                                            
+                        break;
+                    case "USER": 
+                        final de.holarse.backend.export.User user = (de.holarse.backend.export.User) ois.readObject();
+                        nodeImportService.doImport(user);                                            
+                        break;
+                    default:
+                }
+            } catch (final Exception ex) {
+                logger.error("Job #{} has failed: ", job.getId(), ex);
+                job.incrementFail();
+                jobRepository.save(job);
             }
         }
     }
