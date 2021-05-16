@@ -41,13 +41,13 @@ public abstract class Node extends Base implements LegacyImport, LinkableNode, N
     private Boolean archived;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "varchar(255) default 'WIKI'")
+    @Column(nullable = true, columnDefinition = "varchar(255) default 'WIKI'")
     private ContentType contentType;
         
-    @Column(nullable = false, length = 32768)
+    @Column(nullable = true, length = 32768)
     private String content;
     
-    @Column(name = "content_lang", nullable = false, columnDefinition = "varchar(12) default 'german'")
+    @Column(name = "content_lang", nullable = true, columnDefinition = "varchar(12) default 'german'")
     private String contentLang;    
     
     @ManyToOne(fetch = FetchType.LAZY)

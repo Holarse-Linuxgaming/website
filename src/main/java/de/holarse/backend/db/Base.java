@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import org.hibernate.annotations.DynamicUpdate;
 
 /**
  * Die Basis-Klasse für alle Datenbank-Entitäten. Sie enthält die ID und ein
@@ -13,16 +14,17 @@ import javax.persistence.MappedSuperclass;
  * @author comrad
  */
 @MappedSuperclass
+@DynamicUpdate
 public abstract class Base implements Serializable {
     
     @Id
     @GeneratedValue    
     private Long id;
     
-    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE NOT NULL default CURRENT_TIMESTAMP")    
+    @Column(insertable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE NOT NULL default CURRENT_TIMESTAMP")    
     private OffsetDateTime created;
     
-    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE default CURRENT_TIMESTAMP")    
+    @Column(insertable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE default CURRENT_TIMESTAMP")    
     private OffsetDateTime updated;
 
     public Long getId() {

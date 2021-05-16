@@ -111,6 +111,7 @@ public class NodeImportService {
                                                           .findFirst()
                                                           .orElseThrow(() -> new IllegalArgumentException("Kein Main-Title vorhanden"));
         article.setTitle(mainTitle.getValue());
+        article.setTitleLang("german");
         
         // Gesetze Alternativtitel raussuchen
         final List<String> alternativeTitles = importArticle.getTitles().stream()
@@ -118,8 +119,8 @@ public class NodeImportService {
                                                                         .map(t -> t.getValue())
                                                                         .collect(Collectors.toList());
         
-        // Alternativtitel setzen, aber nicht mehr als 3
-        for (int i=0; i < Math.min(3, alternativeTitles.size()); i++) {
+        // Alternativtitel setzen, aber nicht mehr als 5
+        for (int i=0; i < Math.min(5, alternativeTitles.size()); i++) {
             switch (i) {
                 case 0:
                     article.setAlternativeTitle1(alternativeTitles.get(i));
@@ -130,11 +131,25 @@ public class NodeImportService {
                 case 2:
                     article.setAlternativeTitle3(alternativeTitles.get(i));
                     break;                    
+                case 3:
+                    article.setAlternativeTitle4(alternativeTitles.get(i));
+                    break;                                        
+                case 4:
+                    article.setAlternativeTitle5(alternativeTitles.get(i));
+                    break;                                                            
             }
         }
         
+        article.setAlternativeTitle1Lang("english");
+        article.setAlternativeTitle2Lang("english");
+        article.setAlternativeTitle3Lang("english");
+        article.setAlternativeTitle4Lang("english");
+        article.setAlternativeTitle5Lang("english");
+
+        
         article.setContent(importArticle.getContent().getValue());
         article.setContentType(ContentType.WIKI);
+        article.setContentLang("german");
         article.setOldId(importArticle.getUid());
         article.setBranch("master");
         

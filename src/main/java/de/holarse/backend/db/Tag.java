@@ -10,15 +10,15 @@ public class Tag extends Base {
     @Column(unique = true)
     private String name;
     
-    @Column(name = "name_lang", nullable=false, columnDefinition = "character varying(12) default 'german'")
+    @Column(name = "name_lang", columnDefinition = "character varying(12) not null default 'german'")
     private String nameLang;
     
     private Long legacyId;
 
     private Long weight;
     
-    @Column(name = "use_count", columnDefinition = "bigint default 0")
-    private Long useCount;
+    @Column(name = "use_count", columnDefinition = "bigint not null default 0")
+    private long useCount;
     
     @OneToOne
     private Tag alias;
@@ -38,9 +38,9 @@ public class Tag extends Base {
         this.weight = weight;
     }
 
-    public Tag(String name) {
-        super.setCreated(OffsetDateTime.now());
+    public Tag(final String name) {
         this.name = name.trim();
+        this.nameLang = "german";
     }
 
     public Tag getAlias() {

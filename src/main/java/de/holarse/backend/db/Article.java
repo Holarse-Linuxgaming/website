@@ -23,17 +23,17 @@ public class Article extends BranchableNode implements Frontpagable, Searchable 
     private String alternativeTitle4;
     private String alternativeTitle5;  
     
-    @Column(name = "title_lang", nullable=false, columnDefinition = "character varying(12) default 'english'")
+    @Column(name = "title_lang", columnDefinition = "character varying(12) default 'english'")
     private String titleLang;
-    @Column(name = "alternativetitle1_lang", nullable=false, columnDefinition = "character varying(12) default 'english'")
+    @Column(name = "alternativetitle1_lang", columnDefinition = "character varying(12) default 'english'")
     private String alternativeTitle1Lang;
-    @Column(name = "alternativetitle2_lang", nullable=false, columnDefinition = "character varying(12) default 'english'")
+    @Column(name = "alternativetitle2_lang", columnDefinition = "character varying(12) default 'english'")
     private String alternativeTitle2Lang;
-    @Column(name = "alternativetitle3_lang", nullable=false, columnDefinition = "character varying(12) default 'english'")
+    @Column(name = "alternativetitle3_lang", columnDefinition = "character varying(12) default 'english'")
     private String alternativeTitle3Lang;
-    @Column(name = "alternativetitle4_lang", nullable=false, columnDefinition = "character varying(12) default 'english'")
+    @Column(name = "alternativetitle4_lang", columnDefinition = "character varying(12) default 'english'")
     private String alternativeTitle4Lang;
-    @Column(name = "alternativetitle5_lang", nullable=false, columnDefinition = "character varying(12) default 'english'")
+    @Column(name = "alternativetitle5_lang", columnDefinition = "character varying(12) default 'english'")
     private String alternativeTitle5Lang;      
     
     @Transient

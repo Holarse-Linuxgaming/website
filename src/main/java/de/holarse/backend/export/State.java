@@ -2,9 +2,10 @@ package de.holarse.backend.export;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import java.io.Serializable;
 
 @JacksonXmlRootElement(localName = "state")
-public class State {
+public class State implements Serializable {
     
     @JacksonXmlProperty  
     private Boolean locked;

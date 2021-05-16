@@ -2,9 +2,10 @@ package de.holarse.backend.export;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
+import java.io.Serializable;
 
 @JacksonXmlRootElement(localName = "role")
-public class Role {
+public class Role implements Serializable {
 
     @JacksonXmlText
     private String value;

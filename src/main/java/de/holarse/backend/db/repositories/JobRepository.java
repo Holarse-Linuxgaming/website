@@ -29,7 +29,7 @@ import org.springframework.data.repository.query.Param;
  */
 public interface JobRepository extends JpaRepository<Job, Long>{
 
-    @Query("FROM Job j WHERE j.worker = :workerType and j.done = FALSE and j.fails < 3 order by j.priority limit 10")    
+    @Query("FROM Job j WHERE j.worker = :workerType and j.done = FALSE and j.fails < 3 order by j.priority")    
     List<Job> getJobs(@Param("workerType") final QueueWorkerType workerType);
     
 }

@@ -3,9 +3,10 @@ package de.holarse.backend.export;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
+import java.io.Serializable;
 
 @JacksonXmlRootElement(localName = "title")
-public class Title {
+public class Title implements Serializable {
     
     @JacksonXmlProperty(localName = "type", isAttribute = true)
     private String type;

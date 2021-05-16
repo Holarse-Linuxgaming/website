@@ -68,6 +68,8 @@ INSERT INTO apiusers (id, login, rolename, token)
 VALUES
     (nextval('hibernate_sequence'), :'apiUser', 'API_IMPORT', :'apiPassword');
 
+-- 6. Index auf Queue-Tabelle
+CREATE INDEX IF NOT EXISTS idx_mqueue_worker ON public.mqueue(worker);
 
 -- End
 \echo '----'

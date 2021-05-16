@@ -2,10 +2,11 @@ package de.holarse.backend.export;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import java.io.Serializable;
 import java.util.Date;
 
 @JacksonXmlRootElement(localName = "revision")
-public class Revision {
+public class Revision implements Serializable {
     
     @JacksonXmlProperty
     private Date created;

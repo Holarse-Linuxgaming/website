@@ -44,9 +44,13 @@ public class QueueJobManager {
     @Autowired
     NodeImportService nodeImportService;
     
+    /**
+     * Importieren, alle 5s
+     */
     @Transactional
-    @Scheduled(fixedDelay = 1000)
+    @Scheduled(fixedDelay = 5000)
     public void workImportEntries() {
+        logger.debug("Checking for new jobs...");
         for (final Job job : jobRepository.getJobs(QueueWorkerType.IMPORT)) {
             logger.debug("Job #{}: Importing {} (fails: {})", new Object[]{job.getId(), job.getDetails(), job.getFails()});
             try {            
@@ -55,7 +59,7 @@ public class QueueJobManager {
                 switch (job.getDetails()) {
                     case "ARTICLE":
                         final de.holarse.backend.export.Article article = (de.holarse.backend.export.Article) ois.readObject();
-                        nodeImportService.doImport(article);                    
+                        nodeImportService.doImport(article);
                         break;
                     case "NEWS":
                         final de.holarse.backend.export.News news = (de.holarse.backend.export.News) ois.readObject();
@@ -66,12 +70,16 @@ public class QueueJobManager {
                         nodeImportService.doImport(user);                                            
                         break;
                     default:
+                        throw new IllegalArgumentException("unknown import detail: " + job.getDetails());
                 }
+                
+                job.setDone(true);                
             } catch (final Exception ex) {
                 logger.error("Job #{} has failed: ", job.getId(), ex);
                 job.incrementFail();
-                jobRepository.save(job);
             }
+            
+            jobRepository.save(job);
         }
     }
     

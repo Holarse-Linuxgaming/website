@@ -2,9 +2,10 @@ package de.holarse.backend.export;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import java.io.Serializable;
 
 @JacksonXmlRootElement(localName="attachment")
-public class Attachment {
+public class Attachment implements Serializable {
 
     @JacksonXmlProperty(isAttribute = true)
     private Long prio;
