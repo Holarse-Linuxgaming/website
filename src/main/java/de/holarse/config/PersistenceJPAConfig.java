@@ -39,14 +39,8 @@ public class PersistenceJPAConfig {
 
     @Bean(name="dataSource", destroyMethod = "")
     public DataSource dataSource() {
-        DriverManagerDataSource ds = new DriverManagerDataSource();
-        ds.setDriverClassName("org.postgresql.Driver");
-        ds.setUrl("jdbc:postgresql://luna:5432/holarse?user=holarse&password=geheim");
-        
-        return ds;
-//        
-//        JndiDataSourceLookup lookup = new JndiDataSourceLookup();
-//        return lookup.getDataSource("jdbc/holarse");        
+        final JndiDataSourceLookup lookup = new JndiDataSourceLookup();
+        return lookup.getDataSource("jdbc/holarse");        
     }
 
     @Bean
