@@ -11,4 +11,9 @@ public class StaticPageController {
         return "static/imprint";
     }
     
+    @GetMapping(value = {"/about", "/wiki/über_holarse"})
+    public String About() {
+        return "static/about";
+    }
+    
 }

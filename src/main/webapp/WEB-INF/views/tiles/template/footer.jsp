@@ -82,7 +82,7 @@
                   <ul class="list-unstyled mb-0">
                     <li class="d-flex g-mb-12">
                       <i class="fa fa-circle g-color-primary g-font-size-5 g-mt-10 g-mr-8"></i>
-                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="http://klaud.holarse-linuxgaming.de">Downloads</a>
+                      <a class="g-color-white-opacity-0_6 g-color-primary--hover" href="http://files.holarse.de">Downloads</a>
                     </li>
                     <li class="d-flex g-mb-12">
                       <i class="fa fa-circle g-color-primary g-font-size-5 g-mt-10 g-mr-8"></i>
@@ -133,13 +133,13 @@
             <div class="d-lg-flex">             
               <ul class="u-list-inline">
                <li class="list-inline-item">
-                    2000-2020 &copy; Bernd Ritter
+                    2000-2021 &copy; Bernd Ritter
                </li>              
                 <li class="list-inline-item">
                   <span>|</span>
                 </li>                    
                 <li class="list-inline-item">
-                    Build <a class="g-color-white-opacity-0_8 g-color-white--hover" href="https://git.holarse-linuxgaming.de/Holarse-Linuxgaming/website/commit/${commitId}">${commitIdDescribe}</a>
+                    Build <a class="g-color-white-opacity-0_8 g-color-white--hover" href="https://git.holarse.de/Holarse-Linuxgaming/website/commit/${commitId}">${commitIdDescribe}</a>
                 </li>
                 <li class="list-inline-item">
                   <span>|</span>
@@ -166,12 +166,12 @@
           <div class="col-md-4 align-self-center">
             <ul class="list-inline text-center text-md-right mb-0">
               <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="Git">
-                <a href="https://git.holarse-linuxgaming.de" class="g-color-white-opacity-0_5 g-color-white--hover">
+                <a href="https://git.holarse.de" class="g-color-white-opacity-0_5 g-color-white--hover">
                   <i class="fa fa-git"></i>
                 </a>
               </li>                
               <li class="list-inline-item g-mx-10" data-toggle="tooltip" data-placement="top" title="Downloads">
-                <a href="http://klaud.holarse-linuxgaming.de" class="g-color-white-opacity-0_5 g-color-white--hover">
+                <a href="http://files.holarse.de" class="g-color-white-opacity-0_5 g-color-white--hover">
                   <i class="fa fa-download"></i>
                 </a>
               </li>                
