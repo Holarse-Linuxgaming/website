@@ -1,13 +1,23 @@
 package de.holarse.backend.db;
 
+import java.io.Serializable;
 import java.time.OffsetDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Table(name="apiusers")
 @Entity
-public class ApiUser extends Base {
+public class ApiUser implements Serializable {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hibernate_generator")
+    @SequenceGenerator(name="hibernate_generator", sequenceName = "hibernate_sequence", allocationSize=1)
+    private Long id;
     
     @Column(unique = true)
     private String login;
@@ -60,11 +70,6 @@ public class ApiUser extends Base {
 
     public void setActive(boolean active) {
         this.active = active;
-    }
-
-    @Override
-    public String toString() {
-        return "ApiUser{" + "login=" + login + ", token=" + token + ", validUntil=" + validUntil + ", roleName=" + roleName + ", active=" + active + '}';
     }
     
 }

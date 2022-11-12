@@ -1,5 +1,0 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
-<nav class="nav nav-pills nav-justified holarse-context-menu" style="display: none">
-    <a class="nav-item nav-link" href="edit"      title="Klicken zum Bearbeiten"  rel="nofollow"><i class="fas fa-edit"></i><br />Bearbeiten</a>    
-</nav>

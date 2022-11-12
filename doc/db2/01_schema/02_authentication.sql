@@ -1,12 +1,14 @@
 create table if not exists roles(
 	id integer primary key default nextval('hibernate_sequence'),
-	name varchar(255) not null unique,
+	code varchar(255) not null unique,
 	
 	level integer check (level > 0),
 	
 	created timestamptz not null default CURRENT_TIMESTAMP,
 	updated timestamptz not null default CURRENT_TIMESTAMP
 );
+
+create type password_type as enum ('md5', 'bcrypt');
 
 create table if not exists users (
 	id integer primary key default nextval('hibernate_sequence'),
@@ -30,7 +32,7 @@ create table if not exists user_roles (
 	roleid integer not null references roles(id)
 );
 
-create table user_status(
+create table if not exists user_status(
     id integer primary key not null default nextval('hibernate_sequence'), 
     userid integer not null references users(id),
     
@@ -44,7 +46,7 @@ create table user_status(
     failed_logins integer default 0
 );
 
-create table user_data(
+create table if not exists user_data(
 	id integer primary key default nextval('hibernate_sequence'),
 	userid integer references users(id),
 	
@@ -55,14 +57,15 @@ create table user_data(
 	updated timestamptz not null default CURRENT_TIMESTAMP	
 );
 
-create table apiusers (
+create table if not exists apiusers (
     id integer primary key default nextval('hibernate_sequence'),
-	login varchar(255) not null unique,
-	token varchar(1024),
-	
-	valid_until timestamptz,
-	active bool not null default false,
-	
-	created timestamptz not null default CURRENT_TIMESTAMP,
-	updated timestamptz not null default CURRENT_TIMESTAMP	
+    login varchar(255) not null unique,
+    rolename varchar(255),
+    token varchar(1024),
+
+    valid_until timestamptz,
+    active bool not null default false,
+
+    created timestamptz not null default CURRENT_TIMESTAMP,
+    updated timestamptz not null default CURRENT_TIMESTAMP	
 );

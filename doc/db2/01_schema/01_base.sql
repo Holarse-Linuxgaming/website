@@ -1,11 +1,11 @@
 -- Basis-Sequenz für alle Einträge anlegen
-create sequence hibernate_sequence start with 1;
+create sequence if not exists hibernate_sequence start with 1;
 grant select, update on sequence  hibernate_sequence to holarse;
 
 -- Erweiterungen für die Suche
-CREATE EXTENSION unaccent;
-CREATE EXTENSION pg_trgm;
-CREATE EXTENSION btree_gin;
+CREATE EXTENSION if not exists unaccent;
+CREATE EXTENSION if not exists pg_trgm;
+CREATE EXTENSION if not exists btree_gin;
 
 -- Erweiterungen für das alte Passwort-Hashing (MD5)
-CREATE EXTENSION pgcrypto;
+CREATE EXTENSION if not exists pgcrypto;

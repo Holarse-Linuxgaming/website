@@ -1,6 +1,6 @@
 package de.holarse.config;
 
-import de.holarse.auth.web.SecureAccountFailureHandler;
+//import de.holarse.auth.web.SecureAccountFailureHandler;
 import de.holarse.drupal.Drupal6PasswordEncoder;
 import de.holarse.rest.encoder.NonePasswordEncoder;
 import java.util.Arrays;
@@ -31,9 +31,9 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class MultipleHttpSecurityConfig {
 
-    @Autowired
-    @Qualifier("webUserDetailsService")            
-    UserDetailsService webUserDetailsService;
+//    @Autowired
+//    @Qualifier("webUserDetailsService")            
+//    UserDetailsService webUserDetailsService;
     
     @Autowired
     @Qualifier("apiUserDetailsService")
@@ -54,21 +54,21 @@ public class MultipleHttpSecurityConfig {
         return new NonePasswordEncoder();
     }    
 
-    @Bean
-    public DaoAuthenticationProvider drupal6AuthenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(webUserDetailsService);
-        authProvider.setPasswordEncoder(drupalEncoder());
-        return authProvider;
-    }
-
-    @Bean
-    public DaoAuthenticationProvider holaCms3AuthenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(webUserDetailsService);
-        authProvider.setPasswordEncoder(bcryptEncoder());
-        return authProvider;
-    }
+//    @Bean
+//    public DaoAuthenticationProvider drupal6AuthenticationProvider() {
+//        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+//        authProvider.setUserDetailsService(webUserDetailsService);
+//        authProvider.setPasswordEncoder(drupalEncoder());
+//        return authProvider;
+//    }
+//
+//    @Bean
+//    public DaoAuthenticationProvider holaCms3AuthenticationProvider() {
+//        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+//        authProvider.setUserDetailsService(webUserDetailsService);
+//        authProvider.setPasswordEncoder(bcryptEncoder());
+//        return authProvider;
+//    }
     
     @Bean
     public DaoAuthenticationProvider apiAuthenticationProvider() {
@@ -83,15 +83,15 @@ public class MultipleHttpSecurityConfig {
         return new SavedRequestAwareAuthenticationSuccessHandler();
     }
 
-    /**
-     * Erhöht den Zähler für die fehlgeschlagenen Logins und sperrt
-     * ggf. auch das Konto.
-     * @return 
-     */
-    @Bean
-    public AuthenticationFailureHandler failureHandler() {
-        return new SecureAccountFailureHandler();
-    }
+//    /**
+//     * Erhöht den Zähler für die fehlgeschlagenen Logins und sperrt
+//     * ggf. auch das Konto.
+//     * @return 
+//     */
+//    @Bean
+//    public AuthenticationFailureHandler failureHandler() {
+//        return new SecureAccountFailureHandler();
+//    }
 
     //
     // REST
@@ -116,64 +116,64 @@ public class MultipleHttpSecurityConfig {
 
     }
     
-    //
-    // HTTP-FORM
-    //
-    @Configuration
-    @Order(2)
-    public class FormLoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
-
-        Logger log = LoggerFactory.getLogger(FormLoginWebSecurityConfigurerAdapter.class);
-
-        @Override
-        public AuthenticationManager authenticationManager() {
-            final ProviderManager man = new ProviderManager(Arrays.asList(drupal6AuthenticationProvider(), holaCms3AuthenticationProvider()));
-            man.setEraseCredentialsAfterAuthentication(false); // Sonst haben wir keine Chance das unsichere Drupal-Passwort zu migrieren
-            return man;
-        }
-
-        /**
-         * Definiert die URLs die nicht von der Sicherheit geprüft werden
-         * müssen
-         * @param web
-         * @throws Exception 
-         */
-        @Override
-        public void configure(final WebSecurity web) throws Exception {
-            web.ignoring()
-                    .mvcMatchers(
-                            "/assets/**",
-                            "/favicon.ico",
-                            "/sitemap.xml",
-                            "/age.xml", "/age-de.xml", "/miracle.xml",
-                            "/robots.txt", "/humans.txt",
-                            "/webapi/**");
-        }
-
-        /**
-         * Detail-Berechtigungen werden auf Methoden-Ebene definiert
-         * @param http
-         * @throws java.lang.Exception
-         */
-        @Override
-        protected void configure(final HttpSecurity http) throws Exception {
-            // WEB
-            http.csrf()
-                    .and().authorizeRequests()
-                        .mvcMatchers("/login", "/register", "/verify").anonymous()
-                        .mvcMatchers("/admin/**").hasRole("ADMIN")
-                        .mvcMatchers("/**").permitAll()
+//    //
+//    // HTTP-FORM
+//    //
+//    @Configuration
+//    @Order(2)
+//    public class FormLoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
+//
+//        Logger log = LoggerFactory.getLogger(FormLoginWebSecurityConfigurerAdapter.class);
+//
+//        @Override
+//        public AuthenticationManager authenticationManager() {
+//            final ProviderManager man = new ProviderManager(Arrays.asList(drupal6AuthenticationProvider(), holaCms3AuthenticationProvider()));
+//            man.setEraseCredentialsAfterAuthentication(false); // Sonst haben wir keine Chance das unsichere Drupal-Passwort zu migrieren
+//            return man;
+//        }
+//
+//        /**
+//         * Definiert die URLs die nicht von der Sicherheit geprüft werden
+//         * müssen
+//         * @param web
+//         * @throws Exception 
+//         */
+//        @Override
+//        public void configure(final WebSecurity web) throws Exception {
+//            web.ignoring()
+//                    .mvcMatchers(
+//                            "/assets/**",
+//                            "/favicon.ico",
+//                            "/sitemap.xml",
+//                            "/age.xml", "/age-de.xml", "/miracle.xml",
+//                            "/robots.txt", "/humans.txt",
+//                            "/webapi/**");
+//        }
+//
+//        /**
+//         * Detail-Berechtigungen werden auf Methoden-Ebene definiert
+//         * @param http
+//         * @throws java.lang.Exception
+//         */
+//        @Override
+//        protected void configure(final HttpSecurity http) throws Exception {
+//            // WEB
+//            http.csrf()
 //                    .and().authorizeRequests()
-//                        .anyRequest().authenticated()
-                    .and()
-                    .formLogin()
-                        .usernameParameter("login")
-                        .successHandler(successHandler())
-                        .failureHandler(failureHandler())
-                        .loginPage("/login")
-                    .and()
-                        .logout().logoutUrl("/logout").logoutSuccessUrl("/login?logout=true");
-        }
-
-    }
+//                        .mvcMatchers("/login", "/register", "/verify").anonymous()
+//                        .mvcMatchers("/admin/**").hasRole("ADMIN")
+//                        .mvcMatchers("/**").permitAll()
+////                    .and().authorizeRequests()
+////                        .anyRequest().authenticated()
+//                    .and()
+//                    .formLogin()
+//                        .usernameParameter("login")
+//                        .successHandler(successHandler())
+//                        .failureHandler(failureHandler())
+//                        .loginPage("/login")
+//                    .and()
+//                        .logout().logoutUrl("/logout").logoutSuccessUrl("/login?logout=true");
+//        }
+//
+//    }
 }

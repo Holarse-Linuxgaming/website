@@ -1,4 +1,4 @@
-create table forums (
+create table if not exists forums (
 	id int primary key default nextval('hibernate_sequence'),
 	title varchar(255) not null unique,
 	description varchar(1024),

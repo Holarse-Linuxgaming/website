@@ -1,8 +1,8 @@
 package de.holarse.rest.importer;
 
-import de.holarse.backend.db.Job;
-import de.holarse.backend.db.repositories.JobRepository;
-import de.holarse.backend.db.types.QueueWorkerType;
+//import de.holarse.backend.db.Job;
+//import de.holarse.backend.db.repositories.JobRepository;
+//import de.holarse.backend.db.types.QueueWorkerType;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
 import java.time.OffsetDateTime;
@@ -26,8 +26,8 @@ public class ImportUsers {
     
     Logger log = LoggerFactory.getLogger(ImportUsers.class);    
     
-    @Autowired
-    JobRepository jobRepository;
+//    @Autowired
+//    JobRepository jobRepository;
     
     @Transactional
     @PostMapping(consumes = MediaType.APPLICATION_XML_VALUE)
@@ -36,13 +36,13 @@ public class ImportUsers {
         final ObjectOutputStream oos = new ObjectOutputStream(out);
         oos.writeObject(importUser);
         
-        final Job job = new Job();
-        job.setCreated(OffsetDateTime.now());
-        job.setPayload(out.toByteArray());
-        job.setWorker(QueueWorkerType.IMPORT);
-        job.setDetails("USER");
-        
-        jobRepository.saveAndFlush(job);
+//        final Job job = new Job();
+//        job.setCreated(OffsetDateTime.now());
+//        job.setPayload(out.toByteArray());
+//        job.setWorker(QueueWorkerType.IMPORT);
+//        job.setDetails("USER");
+//        
+//        jobRepository.saveAndFlush(job);
         
         return new ResponseEntity<>("OK", HttpStatus.CREATED);
     }    

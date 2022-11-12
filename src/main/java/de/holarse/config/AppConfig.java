@@ -1,6 +1,6 @@
 package de.holarse.config;
 
-import de.holarse.interceptor.PagePopulationInterceptor;
+//import de.holarse.interceptor.PagePopulationInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -23,12 +23,9 @@ import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 @EnableScheduling
 @ComponentScan(basePackages = "de.holarse")
 @PropertySources({
-    @PropertySource("classpath:application.properties")
-    , @PropertySource("classpath:git.properties")})
+    @PropertySource("classpath:application.properties"), 
+    @PropertySource("classpath:git.properties")})
 public class AppConfig implements WebMvcConfigurer {
-
-    @Autowired
-    PagePopulationInterceptor pagePopulationInterceptor;
 
     @Bean
     public MultipartResolver filterMultipartResolver() {
@@ -81,11 +78,6 @@ public class AppConfig implements WebMvcConfigurer {
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
-    }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(pagePopulationInterceptor);
     }
     
 

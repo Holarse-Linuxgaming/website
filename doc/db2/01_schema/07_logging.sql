@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS node_pagevisits (
-    id bigserial, -- eigner index, shortcut via serial, darf wegen partition kein primary key sein
+    id bigserial, -- eigner index, daher anstelle von sequence ein serial, darf wegen partition kein primary key sein
     nodeid integer,
     visitorid varchar(255),
     campaign_keyword varchar(255),

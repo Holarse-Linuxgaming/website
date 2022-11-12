@@ -6,10 +6,10 @@
 
     <groupId>de.holarse</groupId>
     <artifactId>HolarseWeb</artifactId>
-    <version>3.0-alpha-1</version>
+    <version>3.1</version>
     <packaging>war</packaging>
 
-    <name>holacms30</name>
+    <name>holacms31</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -17,7 +17,6 @@
         <spring.security.version>5.7.3</spring.security.version>
         <apache.tiles.version>3.0.8</apache.tiles.version>
         <slf4jVersion>1.6.1</slf4jVersion>
-        <!-- <apache.camel.version>2.19.0</apache.camel.version> -->
         <jackson.version>2.10.2</jackson.version>
         
         <maven.compiler.release>11</maven.compiler.release>
@@ -259,65 +258,6 @@
             <version>22.0.0.9</version>
             <type>zip</type>
         </dependency>        
-    
-        <!-- ElasticSearch -->
-<!--        <dependency>
-            <groupId>org.elasticsearch.client</groupId>
-            <artifactId>elasticsearch-rest-high-level-client</artifactId>
-            <version>6.5.4</version>
-        </dependency>  -->
- 
-        <!-- JAXB -->
-<!--        <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>2.3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-core</artifactId>
-            <version>2.3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
-            <version>2.3.0</version>
-        </dependency>-->
-        
-<!--        <dependency>
-            <groupId>com.whalin</groupId>
-            <artifactId>Memcached-Java-Client</artifactId>
-            <version>3.0.2</version>
-        </dependency>   
-        
-        <dependency>
-            <groupId>com.rabbitmq</groupId>
-            <artifactId>amqp-client</artifactId>
-            <version>5.7.0</version>
-        </dependency>                -->
-        
-        <!--        <dependency>
-            <groupId>org.freemarker</groupId>
-            <artifactId>freemarker</artifactId>
-            <version>2.3.28</version>
-        </dependency>                          -->
-
-        <!--         Apache Camel 
-        <dependency>
-        <groupId>org.apache.camel</groupId>
-        <artifactId>camel-core</artifactId>
-        <version>${apache.camel.version}</version>
-        </dependency>
-        <dependency>
-        <groupId>org.apache.camel</groupId>
-        <artifactId>camel-spring</artifactId>
-        <version>${apache.camel.version}</version>
-        </dependency>
-        <dependency>
-        <artifactId>camel-jaxb</artifactId>
-        <groupId>org.apache.camel</groupId>
-        <version>${apache.camel.version}</version>
-        </dependency>        -->
     </dependencies>
 
     <build>

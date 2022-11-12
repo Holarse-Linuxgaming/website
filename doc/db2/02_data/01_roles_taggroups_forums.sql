@@ -1,9 +1,9 @@
 -- 1. Roles
-INSERT INTO roles (id, code, clearancelevel) VALUES (nextval('hibernate_sequence'), 'ADMIN', 0);
-INSERT INTO roles (id, code, clearancelevel) VALUES (nextval('hibernate_sequence'), 'HOLARSE-CORE', 10);
-INSERT INTO roles (id, code, clearancelevel) VALUES (nextval('hibernate_sequence'), 'MODERATOR', 100);
-INSERT INTO roles (id, code, clearancelevel) VALUES (nextval('hibernate_sequence'), 'REPORTER', 250);
-INSERT INTO roles (id, code, clearancelevel) VALUES (nextval('hibernate_sequence'), 'TRUSTED_USER', 500);
+INSERT INTO roles (id, code, level) VALUES (nextval('hibernate_sequence'), 'ADMIN', 1);
+INSERT INTO roles (id, code, level) VALUES (nextval('hibernate_sequence'), 'HOLARSE-CORE', 10);
+INSERT INTO roles (id, code, level) VALUES (nextval('hibernate_sequence'), 'MODERATOR', 100);
+INSERT INTO roles (id, code, level) VALUES (nextval('hibernate_sequence'), 'REPORTER', 250);
+INSERT INTO roles (id, code, level) VALUES (nextval('hibernate_sequence'), 'TRUSTED_USER', 500);
 
 -- 2. Tag groups
 INSERT INTO taggroups(id, name) VALUES (nextval('hibernate_sequence'), 'LICENSE');
@@ -34,7 +34,7 @@ VALUES
     (nextval('hibernate_sequence'), 'Off-Topic', 'Was sonst irgendwo passt', 'off-topic');
 
 -- 5. APIUser
-INSERT INTO apiusers (id, login, rolename, token)
+INSERT INTO apiusers (id, login, rolename, token, active)
 VALUES
-    (nextval('hibernate_sequence'), 'dummy', 'API_IMPORT', 'ADDB0F5E7826C857D7376D1BD9BC33C0C544790A2EAC96144A8AF22B1298C940'); -- u: dummy, p: geheim
+    (nextval('hibernate_sequence'), 'dummy', 'API_IMPORT', 'ADDB0F5E7826C857D7376D1BD9BC33C0C544790A2EAC96144A8AF22B1298C940', true); -- u: dummy, p: geheim
 
