@@ -15,8 +15,6 @@ import javax.persistence.Table;
 public class ApiUser implements Serializable {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hibernate_generator")
-    @SequenceGenerator(name="hibernate_generator", sequenceName = "hibernate_sequence", allocationSize=1)
     private Long id;
     
     @Column(unique = true)
@@ -24,7 +22,7 @@ public class ApiUser implements Serializable {
     
     private String token;    
     
-    @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")    
+    @Column(name = "valid_until")    
     private OffsetDateTime validUntil;    
     
     private String roleName;

@@ -7,6 +7,8 @@ import java.io.Serializable;
 
 @JacksonXmlRootElement(localName = "password")
 public class Password implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     
     @JacksonXmlProperty(localName = "type", isAttribute = true)
     private String type;

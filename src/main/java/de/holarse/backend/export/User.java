@@ -11,6 +11,8 @@ import java.util.List;
 
 @JacksonXmlRootElement(localName = "user")
 public class User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     
     @JacksonXmlProperty(localName = "uid", isAttribute = true)
     private Long uid;

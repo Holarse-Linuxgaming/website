@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service("apiUserDetailsService")
 public class HolarseApiUserDetailsService implements UserDetailsService {
 
-    Logger log = LoggerFactory.getLogger(HolarseApiUserDetailsService.class);    
+    private final static transient Logger log = LoggerFactory.getLogger(HolarseApiUserDetailsService.class);    
     
     @Autowired
     private ApiUserRepository apiUserRepository;

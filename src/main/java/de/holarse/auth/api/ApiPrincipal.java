@@ -11,9 +11,13 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+/**
+ *
+ * @author comrad
+ */
 public class ApiPrincipal implements UserDetails {
 
-    Logger log = LoggerFactory.getLogger(ApiPrincipal.class);  
+    private final static transient Logger log = LoggerFactory.getLogger(ApiPrincipal.class);  
     
     private final ApiUser user;
 

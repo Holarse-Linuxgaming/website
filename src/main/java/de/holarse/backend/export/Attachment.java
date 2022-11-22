@@ -7,6 +7,8 @@ import java.io.Serializable;
 @JacksonXmlRootElement(localName="attachment")
 public class Attachment implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     @JacksonXmlProperty(isAttribute = true)
     private Long prio;
     

@@ -1,7 +1,7 @@
 package de.holarse.config;
 
-//import de.holarse.interceptor.PagePopulationInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -14,35 +14,26 @@ import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
-import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
-import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
+import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 @Configuration
 @EnableWebMvc
 @EnableSpringDataWebSupport
 @EnableScheduling
-@ComponentScan(basePackages = "de.holarse")
+@ComponentScan(basePackages = { "de.holarse" } )
 @PropertySources({
     @PropertySource("classpath:application.properties"), 
     @PropertySource("classpath:git.properties")})
 public class AppConfig implements WebMvcConfigurer {
 
+    @Autowired
+    ApplicationContext applicationContext;     
+    
     @Bean
     public MultipartResolver filterMultipartResolver() {
         return new StandardServletMultipartResolver();
-    }
-
-    /**
-     * Configure TilesConfigurer.
-     *
-     * @return
-     */
-    @Bean
-    public TilesConfigurer tilesConfigurer() {
-        TilesConfigurer tilesConfigurer = new TilesConfigurer();
-        tilesConfigurer.setDefinitions(new String[]{"/WEB-INF/views/tiles/tiles.xml"});
-        tilesConfigurer.setCheckRefresh(true);
-        return tilesConfigurer;
     }
 
     @Override
@@ -50,20 +41,29 @@ public class AppConfig implements WebMvcConfigurer {
         configurer.setUseTrailingSlashMatch(true);
     }
 
-//    /**
-//     * Configure ViewResolvers to deliver preferred views.
-//     * @param registry
-//     */
-//    @Override
-//    public void configureViewResolvers(ViewResolverRegistry registry) {
-//
-//        registry.viewResolver(viewResolver);
-//    }
     @Bean
-    public ViewResolver viewResolver() {
-        return new TilesViewResolver();
+    public SpringResourceTemplateResolver springTemplateResolver(){
+        SpringResourceTemplateResolver springTemplateResolver = new SpringResourceTemplateResolver();
+        springTemplateResolver.setApplicationContext(this.applicationContext);
+        springTemplateResolver.setPrefix("/WEB-INF/pages/");
+        springTemplateResolver.setSuffix(".html");
+        return springTemplateResolver;
     }
-
+    
+    @Bean
+    public SpringTemplateEngine springTemplateEngine(){
+        SpringTemplateEngine springTemplateEngine = new SpringTemplateEngine();
+        springTemplateEngine.setTemplateResolver(springTemplateResolver());
+        return springTemplateEngine;
+    }
+    
+    @Bean
+    public ViewResolver viewResolver(){
+        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+        viewResolver.setTemplateEngine(springTemplateEngine());
+        return viewResolver;
+    }      
+    
     /**
      * Configure ResourceHandlers to serve static resources like CSS/ Javascript
      * etc...

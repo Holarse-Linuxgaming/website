@@ -8,6 +8,8 @@ import java.io.Serializable;
 
 @JacksonXmlRootElement(localName = "content")
 public class Content implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     
     @JacksonXmlProperty(localName = "format", isAttribute = true)
     private String format;

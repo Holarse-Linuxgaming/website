@@ -6,6 +6,8 @@ import java.io.Serializable;
 
 @JacksonXmlRootElement(localName = "state")
 public class State implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     
     @JacksonXmlProperty  
     private Boolean locked;

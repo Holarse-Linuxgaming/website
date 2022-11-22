@@ -7,6 +7,8 @@ import java.util.Date;
 
 @JacksonXmlRootElement(localName = "revision")
 public class Revision implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     
     @JacksonXmlProperty
     private Date created;
