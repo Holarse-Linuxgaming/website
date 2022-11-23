@@ -95,6 +95,7 @@ public class MultipleHttpSecurityConfig {
 
     //
     // REST
+    // Deprectated: siehe https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
     //
     @Configuration
     @Order(1)

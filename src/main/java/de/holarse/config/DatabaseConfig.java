@@ -6,10 +6,7 @@ import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
-import org.springframework.data.jdbc.repository.config.AbstractJdbcConfiguration;
-import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -20,8 +17,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJdbcRepositories(basePackages = "de.holarse.backend.db.repositories")
-public class DatabaseConfig extends AbstractJdbcConfiguration {
+@EnableJpaRepositories(basePackages = "de.holarse.backend.db.repositories")
+public class DatabaseConfig {
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -39,17 +36,12 @@ public class DatabaseConfig extends AbstractJdbcConfiguration {
         return em;
     }
 
-    @Bean(name="dataSource", destroyMethod = "")
+    @Bean(name="dataSource")
     public DataSource dataSource() {
         final JndiDataSourceLookup lookup = new JndiDataSourceLookup();
         return lookup.getDataSource("jdbc/holarse");        
     }
     
-    @Bean
-    public NamedParameterJdbcTemplate jdbcTemplate(){
-        return new NamedParameterJdbcTemplate(dataSource());
-    }    
-
     @Bean
     public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
         final JpaTransactionManager transactionManager = new JpaTransactionManager();

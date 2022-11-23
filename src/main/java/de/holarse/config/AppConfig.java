@@ -22,7 +22,7 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 @EnableWebMvc
 @EnableSpringDataWebSupport
 @EnableScheduling
-@ComponentScan(basePackages = { "de.holarse" } )
+@ComponentScan(basePackages = "de.holarse" )
 @PropertySources({
     @PropertySource("classpath:application.properties"), 
     @PropertySource("classpath:git.properties")})

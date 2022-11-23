@@ -144,8 +144,8 @@
 
         <dependency>
             <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jdbc</artifactId>
-            <version>2.4.5</version>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>2.7.5</version>
         </dependency>   
     
 <!--        <dependency>
@@ -231,6 +231,14 @@
 
     <build>
         <finalName>holarseweb</finalName>
+        
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        
         <plugins> 
 <!--            <plugin>
                 <groupId>io.openliberty.tools</groupId>

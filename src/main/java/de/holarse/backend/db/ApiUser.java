@@ -10,8 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-@Table(name="apiusers")
-@Entity
+@Table
+@Entity(name = "apiusers")
 public class ApiUser implements Serializable {
     
     @Id

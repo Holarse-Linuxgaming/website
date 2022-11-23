@@ -8,6 +8,9 @@
     <header data-th-include="header :: menu"></header>
 
     <a data-th-href="@{/welcome(name=bernd)}">Welcome</a>
+    <p>
+        <span th:text="${token}" />
+    </p>
 </body>
 </html>
 
