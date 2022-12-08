@@ -1,4 +1,4 @@
-package de.holarse.backend.export;
+package de.holarse.backend.api;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;

@@ -1,12 +1,12 @@
-package de.holarse.backend.export;
+package de.holarse.backend.api;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 import java.io.Serializable;
 
-@JacksonXmlRootElement(localName = "password")
-public class Password implements Serializable {
+@JacksonXmlRootElement(localName = "title")
+public class Title implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
@@ -14,7 +14,7 @@ public class Password implements Serializable {
     private String type;
     
     @JacksonXmlText
-    private String digest;    
+    private String value;
 
     public String getType() {
         return type;
@@ -24,12 +24,12 @@ public class Password implements Serializable {
         this.type = type;
     }
 
-    public String getDigest() {
-        return digest;
+    public String getValue() {
+        return value;
     }
 
-    public void setDigest(String digest) {
-        this.digest = digest;
+    public void setValue(String value) {
+        this.value = value;
     }
     
 }

@@ -1,4 +1,4 @@
-package de.holarse.backend.export;
+package de.holarse.backend.api;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
@@ -9,8 +9,8 @@ import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-@JacksonXmlRootElement(localName = "article")
-public class Article implements Serializable {
+@JacksonXmlRootElement(localName = "news")
+public class News implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -21,7 +21,7 @@ public class Article implements Serializable {
     private Long vid;
 
     @JacksonXmlProperty(localName="created", isAttribute = true)
-    private Date created;     
+    private Date created;    
     
     @JacksonXmlProperty(localName="revision")
     private Revision revision;
@@ -33,16 +33,36 @@ public class Article implements Serializable {
     private Content content;
     
     @JacksonXmlProperty(localName="title")
-    @JacksonXmlElementWrapper(localName = "titles")
-    private List<Title> titles = new ArrayList<>();
+    private String title;
     
-    @JacksonXmlProperty(localName="tag")
-    @JacksonXmlElementWrapper(localName = "tags")
-    private List<Tag> tags = new ArrayList<>();
-
+    @JacksonXmlProperty(localName="subtitle")
+    private String subtitle;    
+    
+    @JacksonXmlProperty(localName="category")
+    private String category;         
+    
     @JacksonXmlProperty(localName="attachment")
     @JacksonXmlElementWrapper(localName = "attachments")    
     private List<Attachment> attachments = new ArrayList<>();
+
+    @JacksonXmlProperty(localName="newstype", isAttribute = true)
+    private String newsType;
+
+    public String getNewsType() {
+        return newsType;
+    }
+
+    public void setNewsType(String newsType) {
+        this.newsType = newsType;
+    }
+    
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     public Long getVid() {
         return vid;
@@ -92,28 +112,28 @@ public class Article implements Serializable {
         this.content = content;
     }
 
-    public List<Title> getTitles() {
-        return titles;
-    }
-
-    public void setTitles(List<Title> titles) {
-        this.titles = titles;
-    }
-
-    public List<Tag> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<Tag> tags) {
-        this.tags = tags;
-    }
-
     public List<Attachment> getAttachments() {
         return attachments;
     }
 
     public void setAttachments(List<Attachment> attachments) {
         this.attachments = attachments;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getSubtitle() {
+        return subtitle;
+    }
+
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
     }
     
 }

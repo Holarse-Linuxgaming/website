@@ -3,6 +3,8 @@
   <login>comrad</login>
   <locked>false</locked>
   <signature>yeah linux</signature>
+  <email>comrad@posteo.de</email>
+  <avatar />
   <password type="bcrypt">SFDGJKJFDKGJDFKLGJF</password>
   <roles>
     <role>ADMIN</role>

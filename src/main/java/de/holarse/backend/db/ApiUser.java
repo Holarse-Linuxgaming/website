@@ -4,18 +4,13 @@ import java.io.Serializable;
 import java.time.OffsetDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Table
 @Entity(name = "apiusers")
-public class ApiUser implements Serializable {
-    
-    @Id
-    private Long id;
+public class ApiUser extends Base implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     
     @Column(unique = true)
     private String login;
