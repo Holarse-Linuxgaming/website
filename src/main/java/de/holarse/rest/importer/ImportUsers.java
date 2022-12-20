@@ -44,6 +44,7 @@ public class ImportUsers {
         job.setContext(JobConfiguration.USER_IMPORT);
         job.setQueue(JobConfiguration.IMPORT_QUEUE);
         job.setData(out.toByteArray());
+        job.setTries(0);
 
         jobRepository.saveAndFlush(job);
         

@@ -27,7 +27,6 @@ create table if not exists users (
 );
 
 create table if not exists user_roles (
-	id integer primary key default nextval('hibernate_sequence'),
 	userid integer not null references users(id),
 	roleid integer not null references roles(id)
 );
