@@ -18,7 +18,9 @@ public class WelcomeController {
     @GetMapping("/")
     public ModelAndView index() {
         final ModelAndView mv = new ModelAndView();
-        mv.setViewName("index");
+        mv.setViewName("layouts/landing");
+        mv.addObject("title", "Die Linuxspiele-Seite für Linuxspieler");
+        mv.addObject("content", "partials/welcome");
         
         final ApiUser apiUser = apiUserRepository.findByLogin("dummy");
         mv.addObject("token", apiUser.getToken());

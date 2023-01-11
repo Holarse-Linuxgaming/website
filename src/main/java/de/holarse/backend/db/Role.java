@@ -1,13 +1,13 @@
 package de.holarse.backend.db;
 
 
-import de.holarse.backend.db.Base;
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Table(name = "roles")
 @Entity
-public class Role extends Base implements java.io.Serializable {
+public class Role extends Base implements Serializable {
     
     private String code;
     private Integer level;

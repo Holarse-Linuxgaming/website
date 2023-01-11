@@ -45,7 +45,7 @@ public class AppConfig implements WebMvcConfigurer {
     public SpringResourceTemplateResolver springTemplateResolver(){
         SpringResourceTemplateResolver springTemplateResolver = new SpringResourceTemplateResolver();
         springTemplateResolver.setApplicationContext(this.applicationContext);
-        springTemplateResolver.setPrefix("/WEB-INF/pages/");
+        springTemplateResolver.setPrefix("/WEB-INF/templates/");
         springTemplateResolver.setSuffix(".html");
         return springTemplateResolver;
     }
@@ -71,8 +71,8 @@ public class AppConfig implements WebMvcConfigurer {
      * @param registry
      */
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/assets/**").addResourceLocations("/assets/");
+    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/assets/");
     }
 
     @Bean

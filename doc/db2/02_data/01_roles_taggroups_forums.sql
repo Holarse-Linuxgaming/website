@@ -38,3 +38,7 @@ INSERT INTO apiusers (id, login, rolename, token, active)
 VALUES
     (nextval('hibernate_sequence'), 'dummy', 'API_IMPORT', 'ADDB0F5E7826C857D7376D1BD9BC33C0C544790A2EAC96144A8AF22B1298C940', true); -- u: dummy, p: geheim
 
+INSERT INTO apiusers (id, login, rolename, token, active)
+VALUES
+    (nextval('hibernate_sequence'), 'dbl', 'ROLE_API_DRÜCKBLICK', 'ADDB0F5E7826C857D7376D1BD9BC33C0C544790A2EAC96144A8AF22B1298C940', true); -- u: dbl, p: geheim
+

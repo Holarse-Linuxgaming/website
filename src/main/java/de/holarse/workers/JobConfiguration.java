@@ -8,6 +8,8 @@ public class JobConfiguration {
     /// CONTEXT
     public static final String USER_IMPORT = "users";
     
+    public static final String DRUECKBLICK = "drueckblick";
+    
     private JobConfiguration() {};
     
     

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <!-- Required Meta Tags Always Come First -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Title -->
+    <title>Holarse - Spielen unter Linux
+        <span th-data-text="${title}"></span>
+    </title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="./favicon.ico">
+
+    <!-- CSS Unify Template -->
+    <link rel="stylesheet" href="assets/unify/theme.min.css">
+    <link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/bootstrap/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/hs-mega-menu/hs-mega-menu.min.css">
+    <link rel="stylesheet" href="assets/holarse/main.css">
+  </head>
+
+  <body>
+      <div data-th-replace="~{fragments/header}"></div>
+
+      <div class="container content-space-1">
+          <div data-th-replace="~{${content} :: main}"></div>
+      </div>
+      
+      <div data-th-replace="~{fragments/footer :: small}"></div>
+      
+      <div data-th-replace="~{fragments/goto}"></div>
+      
+    <!-- JS Global Compulsory -->
+    <script src="assets/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="assets/hs-mega-menu/hs-mega-menu.min.js"></script>
+    <script src="assets/hs-header/hs-header.min.js"></script>
+
+    <!-- JS Unify -->
+    <script>
+        (function() {
+            // INITIALIZATION OF MEGA MENU
+            // =======================================================
+            const megaMenu = new HSMegaMenu('.js-mega-menu', {
+              desktop: {
+                position: 'left'
+              },
+              eventType: 'click'
+            }).init();
+
+            // INITIALIZATION OF HEADER
+            // =======================================================
+            new HSHeader('#header').init();
+            
+            // INITIALIZATION OF GO TO
+            // =======================================================
+            new HSGoTo('.js-go-to');
+            
+        })();
+    </script>
+  </body>
+</html>
