@@ -31,7 +31,9 @@
 
   <body>
       <div data-th-replace="~{fragments/header}"></div>
-      <div data-th-replace="~{${content} :: main}"></div>
+      <div class="container-fluid g-px-30 g-py-200">
+        <div data-th-replace="~{${content} :: main}"></div>
+      </div>
       <div data-th-replace="~{fragments/footer}"></div>
       
       <div data-th-replace="~{fragments/goto}"></div>
