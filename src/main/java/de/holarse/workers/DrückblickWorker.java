@@ -50,7 +50,7 @@ public class DrückblickWorker {
                 
                 job.setCompleted(true);
                 jobRepository.save(job);                
-            } catch (IOException | ClassNotFoundException ex) {
+            } catch (Exception ex) {
                 log.error("Error on import job #{}", job.getId(), ex);
                 job.setTries(job.getTries() + 1);
                 job.setUpdated(OffsetDateTime.now());
