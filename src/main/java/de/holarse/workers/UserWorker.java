@@ -7,9 +7,7 @@ import de.holarse.backend.db.repositories.RoleRepository;
 import de.holarse.backend.db.repositories.UserRepository;
 import de.holarse.backend.types.PasswordType;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.sql.SQLException;
 import java.time.OffsetDateTime;
 import java.util.List;
 import org.slf4j.Logger;
@@ -34,7 +32,7 @@ public class UserWorker {
 
     @Scheduled(fixedRate = 10000)
     public void importUsers() {
-        final List<Job> jobs = jobRepository.findOpenJobs(JobConfiguration.IMPORT_QUEUE, JobConfiguration.USER_IMPORT);
+        final List<Job> jobs = jobRepository.findOpenJobs(JobConfiguration.IMPORT_QUEUE, JobQueueContext.USERS.toString().toLowerCase());
         for (final Job job : jobs) {
             log.debug("Working on Job#{}", job);
             try {

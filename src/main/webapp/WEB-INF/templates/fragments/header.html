@@ -1,304 +1,85 @@
 <!-- ========== HEADER ========== -->
-<header id="header" class="navbar navbar-expand-lg navbar-sticky-top navbar-light navbar-end flex-column hol-bg-color">
-    <nav class="navbar-topbar">
-        <div class="container">
-            <!-- Toggler -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topbarNavbar" aria-controls="topbarNavbar" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="d-flex justify-content-between align-items-center">
-                    <span class="me-2">Topbar</span>
-                    <span class="navbar-toggler-default">
-                        <i class="bi-chevron-down"></i>
-                    </span>
-                    <span class="navbar-toggler-toggled">
-                        <i class="bi-chevron-up"></i>
-                    </span>
-                </span>
+<!-- Header -->
+    <header id="js-header" class="u-header u-header--static u-header--show-hide u-header--change-appearance" data-header-fix-moment="500" data-header-fix-effect="slide">
+      <div class="u-header__section u-header__section--light g-bg-white g-transition-0_3 g-py-15" data-header-fix-moment-exclude="g-bg-white g-py-15" data-header-fix-moment-classes="g-bg-white-opacity-0_8 u-shadow-v18 g-py-5">
+        <nav class="navbar navbar-expand-lg">
+          <div class="container">
+            <!-- Responsive Toggle Button -->
+            <button class="navbar-toggler navbar-toggler-right btn g-line-height-1 g-brd-none g-pa-0 g-pos-abs g-top-3 g-right-0" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navBar" data-toggle="collapse" data-target="#navBar">
+              <span class="hamburger hamburger--slider">
+            <span class="hamburger-box">
+              <span class="hamburger-inner"></span>
+              </span>
+              </span>
             </button>
-            <!-- End Toggler -->
+            <!-- End Responsive Toggle Button -->
 
-            <!-- Collapse -->
-            <div class="collapse navbar-collapse" id="topbarNavbar">
-                <div class="navbar-topbar-collapse-toggler">
-                    <span class="navbar-topbar-toggler-text">Topbar</span>
-
-                    <!-- Toggler -->
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topbarNavbar" aria-controls="topbarNavbar" aria-expanded="true" aria-label="Toggle navigation">
-                        <i class="bi-x"></i>
-                    </button>
-                    <!-- End Toggler -->
-                </div>
-
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Account</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Settings</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- End Collapse -->
-        </div>
-    </nav>
-
-    <div class="container">
-        <nav class="js-mega-menu navbar-nav-wrap">
-            <!-- Default Logo -->
-            <a class="navbar-brand" href="#" data-th-href="@{/}" aria-label="Holarse">
-                <img class="navbar-brand-logo" src="assets/images/holarse/logo.svg" data-th-src="@{assets/images/holarse/logo.svg}" alt="Logo">
+            <!-- Logo -->
+            <a href="../../../index.html" class="navbar-brand">
+              <img src="../../../assets/img/logo/logo-1.png" alt="Image Description">
             </a>
-            <!-- End Default Logo -->
+            <!-- End Logo -->
 
-            <!-- Toggler -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-default">
-                    <i class="bi-list"></i>
-                </span>
-                <span class="navbar-toggler-toggled">
-                    <i class="bi-x"></i>
-                </span>
-            </button>
-            <!-- End Toggler -->
-
-            <!-- Collapse -->
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <div class="navbar-sticky-top-scroller">
-                    <ul class="navbar-nav nav-pills">
-                        <!-- Landings -->
-                        <li class="hs-has-mega-menu nav-item"
-                            data-hs-mega-menu-item-options='{
-                            "desktop": {
-                            "maxWidth": "40rem"
-                            }
-                            }'>
-                            <a id="landingsMegaMenu" class="hs-mega-menu-invoker nav-link dropdown-toggle" aria-current="page" href="#" role="button" aria-expanded="false">Landings</a>
-
-                            <!-- Mega Menu -->
-                            <div class="hs-mega-menu dropdown-menu" aria-labelledby="landingsMegaMenu" style="min-width: 25rem;">
-                                <!-- Main Content -->
-                                <div class="row">
-                                    <div class="col-lg d-none d-lg-block">
-                                        <div class="d-flex align-items-start flex-column bg-light rounded-3 h-100 p-4">
-                                            <span class="fs-3 fw-bold d-block">Landings</span>
-                                            <p class="text-body">Accelerate the way your business builds modern sites at scale.</p>
-                                            <div class="mt-auto">
-                                                <p class="mb-1"><a class="link link-dark link-pointer" href="#">Learn more</a></p>
-                                                <p class="mb-1"><a class="link link-dark link-pointer" href="#">Why Unify Template</a></p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm">
-                                        <div class="navbar-dropdown-menu-inner">
-                                            <span class="dropdown-header">Classic</span>
-                                            <a class="dropdown-item" href="./index.html"><i class="bi-building me-2"></i> Corporate</a>
-                                            <a class="dropdown-item" href="./landing-business.html"><i class="bi-briefcase me-2"></i> Business <span class="badge text-primary">New</span></a>
-                                            <a class="dropdown-item" href="./landing-consulting.html"><i class="bi-chat-right-dots me-2"></i> Consulting <span class="badge text-primary">New</span></a>
-                                            <a class="dropdown-item" href="./landing-saas.html"><i class="bi-tropical-storm me-2"></i> SaaS</a>
-                                            <a class="dropdown-item" href="./landing-services.html"><i class="bi-gear me-2"></i> Services</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- End Main Content -->
-                            </div>
-                            <!-- End Mega Menu -->
-                        </li>
-                        <!-- End Landings -->
-
-                        <!-- Pages -->
-                        <li class="hs-has-mega-menu nav-item">
-                            <a id="pagesMegaMenu" class="hs-mega-menu-invoker nav-link dropdown-toggle" href="#" role="button" aria-expanded="false">Pages</a>
-
-                            <!-- Mega Menu -->
-                            <div class="hs-mega-menu hs-position-right dropdown-menu w-100" aria-labelledby="pagesMegaMenu" style="min-width: 42rem;">
-                                <!-- Main Content -->
-                                <div class="navbar-dropdown-menu-inner">
-                                    <div class="row">
-                                        <div class="col-sm-6 col-lg-3">
-                                            <span class="dropdown-header">Company</span>
-                                            <a class="dropdown-item" href="./page-about.html">About</a>
-                                            <a class="dropdown-item" href="./page-customer-stories.html">Customer Stories</a>
-                                            <a class="dropdown-item" href="./page-customer-story.html">Customer Story</a>
-                                            <a class="dropdown-item" href="./page-help-center.html">Help Center</a>
-                                            <a class="dropdown-item" href="./page-help-center-categories.html">Help Center: Categories</a>
-                                            <a class="dropdown-item" href="./page-help-center-article.html">Help Center: Article</a>
-                                        </div>
-
-                                        <div class="col-sm-6 col-lg-3 mt-n5 mt-sm-0 mb-3 mb-lg-0">
-                                            <span class="dropdown-header invisible">Company</span>
-                                            <a class="dropdown-item" href="./page-careers.html">Careers</a>
-                                            <a class="dropdown-item" href="./page-careers-role-overview.html">Careers: Role Overview</a>
-                                            <a class="dropdown-item" href="./page-careers-apply.html">Careers: Apply</a>
-                                            <a class="dropdown-item" href="./page-hire-us.html">Hire Us</a>
-                                            <a class="dropdown-item" href="./page-login.html">Log In</a>
-                                            <a class="dropdown-item" href="./page-signup.html">Sign Up</a>
-                                            <a class="dropdown-item" href="./page-reset-password.html">Forgot Password</a>
-                                        </div>
-
-                                        <div class="col-sm-6 col-lg-3 mb-3 mb-lg-0">
-                                            <span class="dropdown-header">Portfolio</span>
-                                            <a class="dropdown-item" href="./portfolio-modern.html">Modern</a>
-                                            <a class="dropdown-item" href="./portfolio-case-study.html">Case Study</a>
-                                        </div>
-
-                                        <div class="col-sm-6 col-lg-3">
-                                            <span class="dropdown-header">Specialty pages</span>
-                                            <a class="dropdown-item" href="./page-pricing.html">Pricing</a>
-                                            <a class="dropdown-item" href="./page-contacts.html">Contacts</a>
-                                            <a class="dropdown-item" href="./page-coming-soon.html">Coming Soon</a>
-                                            <a class="dropdown-item" href="./page-coming-soon-simple.html">Coming Soon: Simple</a>
-                                            <a class="dropdown-item" href="./page-error-404.html">Error 404</a>
-                                            <a class="dropdown-item" href="./page-terms.html">Terms & Conditions</a>
-                                            <a class="dropdown-item" href="./page-privacy.html">Privacy & Policy</a>
-                                        </div>
-                                    </div>
-                                    <!-- End Row -->
-                                </div>
-                                <!-- End Main Content -->
-                            </div>
-                            <!-- End Mega Menu -->
-                        </li>
-                        <!-- End Pages -->
-
-                        <!-- Blog -->
-                        <li class="hs-has-mega-menu nav-item"
-                            data-hs-mega-menu-item-options='{
-                            "desktop": {
-                            "maxWidth": "50rem"
-                            }
-                            }'>
-                            <a id="blogMegaMenu" class="hs-mega-menu-invoker nav-link dropdown-toggle" href="#" role="button" aria-expanded="false">Blog</a>
-
-                            <!-- Mega Menu -->
-                            <div class="hs-mega-menu dropdown-menu" aria-labelledby="blogMegaMenu" style="min-width: 12rem;">
-                                <!-- Main Content -->
-                                <div class="row">
-                                    <div class="col-lg d-none d-lg-block">
-                                        <div class="bg-light rounded-3 h-100 p-4">
-                                            <span class="d-block fs-4 fw-bold text-dark mb-3">Latest from the Blog</span>
-
-                                            <div class="row">
-                                                <div class="col-md-6 mb-3 mb-md-0">
-                                                    <!-- Card -->
-                                                    <a class="d-block" href="./documentation/index.html">
-                                                        <img class="img-fluid rounded-2 mb-2" src="./assets/svg/components/card-1.svg" alt="Image Description">
-
-                                                        <span class="fs-4 fw-medium text-dark text-inherit">Documentation</span>
-                                                        <p class="fs-6 text-body">Development guides for building projects with Unify</p>
-                                                        <span class="link link-pointer">Learn more</span>
-                                                    </a>
-                                                    <!-- End Card -->
-                                                </div>
-                                                <!-- End Col -->
-
-                                                <div class="col-md-6">
-                                                    <!-- Card -->
-                                                    <a class="d-block" href="./snippets/index.html">
-                                                        <img class="img-fluid rounded-2 mb-2" src="./assets/svg/components/card-2.svg" alt="Image Description">
-
-                                                        <span class="fs-4 fw-medium text-dark text-inherit">Snippets</span>
-                                                        <p class="fs-6 text-body">Move quickly with copy-to-clipboard feature</p>
-                                                        <span class="link link-pointer">Learn more</span>
-                                                    </a>
-                                                    <!-- End Card -->
-                                                </div>
-                                                <!-- End Col -->
-                                            </div>
-                                            <!-- End Row -->
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-4">
-                                        <div class="navbar-dropdown-menu-inner">
-                                            <span class="dropdown-header">Classic</span>
-                                            <a class="dropdown-item" href="./blog-modern.html">Modern <span class="badge text-primary">New</span></a>
-                                            <a class="dropdown-item" href="./blog-grid.html">Grid</a>
-                                            <a class="dropdown-item" href="./blog-list.html">List</a>
-                                            <a class="dropdown-item" href="./blog-article.html">Article <span class="badge text-primary">New</span></a>
-                                            <a class="dropdown-item" href="./blog-author-profile.html">Author Profile</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- End Main Content -->
-                            </div>
-                            <!-- End Mega Menu -->
-                        </li>
-                        <!-- End Blog -->
-
-                        <!-- Docs -->
-                        <li class="hs-has-mega-menu nav-item"
-                            data-hs-mega-menu-item-options='{
-                            "desktop": {
-                            "maxWidth": "20rem"
-                            }
-                            }'>
-                            <a id="docsMegaMenu" class="hs-mega-menu-invoker nav-link dropdown-toggle" href="#" role="button" aria-expanded="false">Docs</a>
-
-                            <!-- Mega Menu -->
-                            <div class="hs-mega-menu hs-position-right-fix dropdown-menu" aria-labelledby="docsMegaMenu" style="min-width: 20rem;">
-                                <!-- Link -->
-                                <a class="navbar-dropdown-menu-media-link" href="./documentation/index.html">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0">
-                                            <i class="bi-file-earmark-text fs-2 text-dark"></i>
-                                        </div>
-
-                                        <div class="flex-grow-1 ms-3">
-                                            <span class="navbar-dropdown-menu-media-title">Documentation <span class="badge badge-sm bg-primary rounded-pill ms-1">v3.2</span></span>
-                                            <p class="navbar-dropdown-menu-media-desc">Development guides for building projects with Unify</p>
-                                        </div>
-                                    </div>
-                                </a>
-                                <!-- End Link -->
-
-                                <div class="dropdown-divider"></div>
-
-                                <!-- Link -->
-                                <a class="navbar-dropdown-menu-media-link" href="./snippets/index.html">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0">
-                                            <i class="bi-layers fs-2 text-dark"></i>
-                                        </div>
-
-                                        <div class="flex-grow-1 ms-3">
-                                            <span class="navbar-dropdown-menu-media-title">Snippets</span>
-                                            <p class="navbar-dropdown-menu-media-desc">Move quickly with copy-to-clipboard feature</p>
-                                        </div>
-                                    </div>
-                                </a>
-                                <!-- End Link -->
-                            </div>
-                            <!-- End Mega Menu -->
-                        </li>
-                        <!-- End Docs -->
-
-                        <li class="nav-item ms-lg-auto">
-                            <form class="d-flex">
-                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                                <button class="btn btn-outline-success" type="submit">Search</button>
-                            </form>                              
-                        </li>
-
-                        <!-- Log in -->
-                        <li class="nav-item ms-lg-auto">
-                            <a class="btn btn-ghost-dark me-2 me-lg-0" href="./page-login.html">Log in</a>
-                            <a class="btn btn-dark d-lg-none" href="./page-signup.html">Sign up</a>
-                        </li>
-                        <!-- End Log in -->
-
-                        <!-- Sign up -->
-                        <li class="nav-item">
-                            <a class="btn btn-dark d-none d-lg-inline-block" href="./page-signup.html">Sign up</a>
-                        </li>
-                        <!-- End Sign up -->
-                    </ul>
-
-
-
-                </div>
+            <!-- Navigation -->
+            <div class="collapse navbar-collapse align-items-center flex-sm-row g-pt-10 g-pt-5--lg g-mr-40--sm" id="navBar">
+              <ul class="navbar-nav text-uppercase g-font-weight-600 ml-auto">
+                <li class="nav-item g-mx-25--lg">
+                  <a href="#!" class="nav-link px-0">Home
+                
+              </a>
+                </li>
+                <li class="nav-item g-mx-25--lg">
+                  <a href="#!" class="nav-link px-0">Features
+                
+              </a>
+                </li>
+                <li class="nav-item g-mx-25--lg active">
+                  <a href="#!" class="nav-link px-0">Shortcodes
+                <span class="sr-only">(current)</span>
+              </a>
+                </li>
+                <li class="nav-item g-mx-25--lg">
+                  <a href="#!" class="nav-link px-0">Pages
+                
+              </a>
+                </li>
+                <li class="nav-item g-mx-25--lg">
+                  <a href="#!" class="nav-link px-0">Demos
+                
+              </a>
+                </li>
+                <li class="nav-item g-mx-25--lg g-mr-0--lg">
+                  <a href="#!" class="nav-link px-0">What's New
+                
+              </a>
+                </li>
+              </ul>
             </div>
-            <!-- End Collapse -->
+            <!-- End Navigation -->
+
+            <!-- Search -->
+            <div class="d-inline-block g-pos-rel g-valign-middle g-ml-30 g-ml-0--lg">
+              <a href="#!" class="g-font-size-18 g-color-main" aria-haspopup="true" aria-expanded="false" aria-controls="searchform-1" data-dropdown-target="#searchform-1" data-dropdown-type="css-animation" data-dropdown-duration="300" data-dropdown-animation-in="fadeInUp"
+              data-dropdown-animation-out="fadeOutDown">
+                <i class="fa fa-search"></i>
+              </a>
+
+              <!-- Search Form -->
+              <form id="searchform-1" class="u-searchform-v1 u-dropdown--css-animation u-dropdown--hidden g-bg-white g-pa-10 g-mt-30--lg g-mt-20--lg--scrolling">
+                <div class="input-group g-brd-primary--focus">
+                  <input class="form-control rounded-0 u-form-control" type="search" placeholder="Enter Your Search Here...">
+
+                  <div class="input-group-addon p-0">
+                    <button class="btn rounded-0 btn-primary btn-md g-font-size-14 g-px-18" type="submit">Go</button>
+                  </div>
+                </div>
+              </form>
+              <!-- End Search Form -->
+            </div>
+            <!-- End Search -->
+          </div>
         </nav>
-    </div>
-</header>
+      </div>
+    </header>
+    <!-- End Header -->
 <!-- ========== END HEADER ========== -->

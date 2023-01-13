@@ -6,6 +6,7 @@ package de.holarse.rest.importer;
 import de.holarse.workers.JobConfiguration;
 import de.holarse.backend.db.Job;
 import de.holarse.backend.db.repositories.JobRepository;
+import de.holarse.workers.JobQueueContext;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
 import java.time.OffsetDateTime;
@@ -41,7 +42,7 @@ public class ImportUsers {
         
         final Job job = new Job();
         job.setCreated(OffsetDateTime.now());
-        job.setContext(JobConfiguration.USER_IMPORT);
+        job.setContext(JobQueueContext.USERS.toString().toLowerCase());
         job.setQueue(JobConfiguration.IMPORT_QUEUE);
         job.setData(out.toByteArray());
         job.setTries(0);

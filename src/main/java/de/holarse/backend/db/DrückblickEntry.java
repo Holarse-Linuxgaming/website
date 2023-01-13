@@ -1,21 +1,34 @@
-package de.holarse.backend.api.drückblick;
+package de.holarse.backend.db;
 
 import de.holarse.backend.types.DrückblickSourceType;
 import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Table;
+import org.hibernate.annotations.Type;
 
-public class DrückblickEntry implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+@Table(name = "drückblick_entries")
+@Entity
+public class DrückblickEntry extends Base implements Serializable {
     
-    private String reporter;
-    private String name;
-    private String message;
-    private String url;
-    private String category;
-    private DrückblickSourceType source;    
+    private static final long serialVersionUID = 1L;
 
-    public DrückblickEntry() {
-    }
+    @Column(length = 255)
+    private String reporter;    
+    @Column(length = 255)
+    private String name;
+    @Column(length = 255)    
+    private String message;
+    @Column(length = 255)    
+    private String url;
+    @Column(length = 255)    
+    private String category;
+    
+    @Enumerated(EnumType.STRING)
+    @Type(type = "com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType")
+    private DrückblickSourceType source;
 
     public String getReporter() {
         return reporter;

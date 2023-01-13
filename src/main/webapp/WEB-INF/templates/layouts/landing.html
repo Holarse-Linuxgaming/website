@@ -1,63 +1,77 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="de-de">
   <head>
-    <!-- Required Meta Tags Always Come First -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Title -->
     <title>Holarse - Spielen unter Linux
         <span th-data-text="${title}"></span>
     </title>
 
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="./favicon.ico">
+    <!-- Required Meta Tags Always Come First -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-    <!-- CSS Unify Template -->
-    <link rel="stylesheet" href="assets/unify/theme.min.css">
-    <link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/bootstrap/bootstrap-icons.css">
-    <link rel="stylesheet" href="assets/hs-mega-menu/hs-mega-menu.min.css">
-    <link rel="stylesheet" href="assets/holarse/main.css">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <!-- CSS Global Compulsory -->
+    <link rel="stylesheet" href="assets/vendor/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/vendor/icon-awesome/css/font-awesome.min.css">
+    
+    <link rel="stylesheet" href="assets/vendor/icon-hs/style.css">
+
+    <!-- CSS Unify -->
+    <link rel="stylesheet" href="assets/css/unify-core.css">
+    <link rel="stylesheet" href="assets/css/unify-components.css">
+    <link rel="stylesheet" href="assets/css/unify-globals.css">
+
+    <!-- CSS Customization -->
+    <link rel="stylesheet" href="assets/css/custom.css">
   </head>
 
   <body>
       <div data-th-replace="~{fragments/header}"></div>
-
-      <div class="container content-space-1">
-          <div data-th-replace="~{${content} :: main}"></div>
-      </div>
-      
-      <div data-th-replace="~{fragments/footer :: small}"></div>
+      <div data-th-replace="~{${content} :: main}"></div>
+      <div data-th-replace="~{fragments/footer}"></div>
       
       <div data-th-replace="~{fragments/goto}"></div>
-      
+
+
     <!-- JS Global Compulsory -->
-    <script src="assets/bootstrap/bootstrap.bundle.min.js"></script>
-    <script src="assets/hs-mega-menu/hs-mega-menu.min.js"></script>
-    <script src="assets/hs-header/hs-header.min.js"></script>
+    <script src="assets/vendor/jquery/jquery.min.js"></script>
+    <script src="assets/vendor/jquery-migrate/jquery-migrate.min.js"></script>
+    <script src="assets/vendor/popper.min.js"></script>
+    <script src="assets/vendor/bootstrap/bootstrap.min.js"></script>
+    <script src="assets/vendor/masonry/dist/masonry.pkgd.min.js"></script>
 
     <!-- JS Unify -->
-    <script>
-        (function() {
-            // INITIALIZATION OF MEGA MENU
-            // =======================================================
-            const megaMenu = new HSMegaMenu('.js-mega-menu', {
-              desktop: {
-                position: 'left'
-              },
-              eventType: 'click'
-            }).init();
+    <script src="assets/js/hs.core.js"></script>
+    <script src="assets/js/components/hs.header.js"></script>
+    <script src="assets/js/components/hs.go-to.js"></script>
 
-            // INITIALIZATION OF HEADER
-            // =======================================================
-            new HSHeader('#header').init();
-            
-            // INITIALIZATION OF GO TO
-            // =======================================================
-            new HSGoTo('.js-go-to');
-            
-        })();
-    </script>
+    <!-- JS Custom -->
+    <script src="assets/js/custom.js"></script>
+    
+  <!-- JS Plugins Init. -->
+  <script>
+    $(document).on('ready', function () {
+      // initialization of go to
+      $.HSCore.components.HSGoTo.init('.js-go-to');
+
+      // initialization of masonry
+      $('.masonry-grid').imagesLoaded().then(function () {
+        $('.masonry-grid').masonry({
+          columnWidth: '.masonry-grid-sizer',
+          itemSelector: '.masonry-grid-item',
+          percentPosition: true
+        });
+      });
+    });
+
+    $(window).on('load', function () {
+      // initialization of header
+      $.HSCore.components.HSHeader.init($('#js-header'));
+    });
+  </script>    
   </body>
 </html>
