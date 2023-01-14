@@ -21,8 +21,10 @@ public class DrückblickEntry extends Base implements Serializable {
     private String name;
     @Column(length = 255)    
     private String message;
-    @Column(length = 255)    
+    @Column(length = 2048)    
     private String url;
+    @Column(length = 2048)    
+    private String changelog;    
     @Column(length = 255)    
     private String category;
     
@@ -76,6 +78,14 @@ public class DrückblickEntry extends Base implements Serializable {
 
     public void setSource(DrückblickSourceType source) {
         this.source = source;
+    }
+
+    public String getChangelog() {
+        return changelog;
+    }
+
+    public void setChangelog(String changelog) {
+        this.changelog = changelog;
     }
     
 }

@@ -14,6 +14,7 @@ public class DrückblickEntry implements Serializable {
     @NotBlank
     private String message;
     private String url;
+    private String changelog;
     private String category;
     private DrückblickSourceType source;    
 
@@ -66,6 +67,14 @@ public class DrückblickEntry implements Serializable {
 
     public void setSource(DrückblickSourceType source) {
         this.source = source;
+    }
+
+    public String getChangelog() {
+        return changelog;
+    }
+
+    public void setChangelog(String changelog) {
+        this.changelog = changelog;
     }
     
 }
