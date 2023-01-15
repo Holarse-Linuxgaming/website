@@ -10,6 +10,7 @@
 
                     <!-- Form -->
                     <form class="g-py-15" data-th-target="@{/login}" method="POST">
+                        <input type="hidden" data-th-name="${_csrf.parameterName}" data-th-value="${_csrf.token}" />
                         <div class="mb-4">
                             <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Benutzername</label>
                             <input class="form-control g-color-black g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-brd-primary--hover rounded g-py-15 g-px-15" type="text" placeholder="Benutzername" name="login">
