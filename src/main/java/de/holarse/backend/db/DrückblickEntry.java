@@ -11,7 +11,7 @@ import org.hibernate.annotations.Type;
 
 @Table(name = "drückblick_entries")
 @Entity
-public class DrückblickEntry extends Base implements Serializable {
+public class DrückblickEntry extends TimestampedBase implements Serializable {
     
     private static final long serialVersionUID = 1L;
 

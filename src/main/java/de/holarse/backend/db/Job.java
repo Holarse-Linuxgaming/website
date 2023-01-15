@@ -6,7 +6,7 @@ import javax.persistence.Table;
 
 @Table(name = "jobs")
 @Entity
-public class Job extends Base implements Serializable {
+public class Job extends TimestampedBase implements Serializable {
     
     private Integer queue;
     private String context;

@@ -18,6 +18,8 @@ create table if not exists users (
 	slug varchar(255) not null unique,
 	
 	drupalid integer,
+
+        user_status_id integer not null references user_status(id)
 	
 	hashtype password_type not null,
 	digest varchar(255) not null,
@@ -33,7 +35,6 @@ create table if not exists user_roles (
 
 create table if not exists user_status(
     id integer primary key not null default nextval('hibernate_sequence'), 
-    userid integer not null references users(id),
     
     locked bool default false,
     verified bool default false,
@@ -42,7 +43,10 @@ create table if not exists user_status(
     last_action timestamptz,
     migrated timestamptz,
     
-    failed_logins integer default 0
+    failed_logins integer default 0,
+
+    created timestamptz not null default CURRENT_TIMESTAMP,
+    updated timestamptz not null default CURRENT_TIMESTAMP
 );
 
 create table if not exists user_data(

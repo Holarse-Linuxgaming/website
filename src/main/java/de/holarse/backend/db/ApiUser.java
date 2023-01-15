@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Table
 @Entity(name = "apiusers")
-public class ApiUser extends Base implements Serializable {
+public class ApiUser extends TimestampedBase implements Serializable {
 
     private static final long serialVersionUID = 1L;
     

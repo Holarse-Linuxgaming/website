@@ -4,18 +4,20 @@ import de.holarse.backend.types.PasswordType;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.hibernate.annotations.Type;
 
 @Table(name = "users")
 @Entity
-public class User extends Base implements Serializable  {
+public class User extends TimestampedBase implements Serializable  {
     
     private String login;
     private String email;
@@ -33,6 +35,10 @@ public class User extends Base implements Serializable  {
             inverseJoinColumns = @JoinColumn(name = "roleid")
     )
     private Set<Role> roles = new HashSet<>();
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="user_status_id", referencedColumnName = "id")
+    private UserStatus userStatus;
 
     public String getLogin() {
         return login;
@@ -88,6 +94,14 @@ public class User extends Base implements Serializable  {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public UserStatus getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(UserStatus userStatus) {
+        this.userStatus = userStatus;
     }
     
 }
