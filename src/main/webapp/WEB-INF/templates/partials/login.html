@@ -1,53 +1,49 @@
 <!-- Login -->
-<section class="g-bg-gray-light-v5">
-    <div class="container g-py-100">
-        <div class="row justify-content-center">
-            <div class="col-sm-8 col-lg-5">
-                <div class="u-shadow-v21 g-bg-white rounded g-py-40 g-px-30">
-                    <header class="text-center mb-4">
-                        <h2 class="h2 g-color-black g-font-weight-600">Login</h2>
-                    </header>
+<div class="row justify-content-center">
+    <div class="col-sm-8 col-lg-5">
+        <div class="u-shadow-v21 g-bg-white rounded g-py-40 g-px-30">
+            <header class="text-center mb-4">
+                <h2 class="h2 g-color-black g-font-weight-600">Login</h2>
+            </header>
 
-                    <!-- Form -->
-                    <form class="g-py-15" data-th-target="@{/login}" method="POST">
-                        <input type="hidden" data-th-name="${_csrf.parameterName}" data-th-value="${_csrf.token}" />
-                        <div class="mb-4">
-                            <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Benutzername</label>
-                            <input class="form-control g-color-black g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-brd-primary--hover rounded g-py-15 g-px-15" type="text" placeholder="Benutzername" name="login">
-                        </div>
-
-                        <div class="g-mb-35">
-                            <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Password:</label>
-                            <input class="form-control g-color-black g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-brd-primary--hover rounded g-py-15 g-px-15 mb-3" type="password" placeholder="Password" name="password">
-                            <div class="row justify-content-between">
-                                <div class="col align-self-center">
-                                    <label class="form-check-inline u-check g-color-gray-dark-v5 g-font-size-12 g-pl-25 mb-0">
-                                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox">
-                                        <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0">
-                                            <i class="fa" data-check-icon="&#xf00c"></i>
-                                        </div>
-                                        Keep signed in
-                                    </label>
-                                </div>
-                                <div class="col align-self-center text-right">
-                                    <a class="g-font-size-12" href="#!">Forgot password?</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mb-4">
-                            <button class="btn btn-md btn-block u-btn-primary rounded g-py-13" type="submit">Login</button>
-                        </div>
-                    </form>
-                    <!-- End Form -->
-
-                    <footer class="text-center">
-                        <p class="g-color-gray-dark-v5 g-font-size-13 mb-0">Noch kein Holarse-Konto? <a class="g-font-weight-600" href="#" data-th-href="@{/register}">Konto anlegen</a>
-                        </p>
-                    </footer>
+            <!-- Form -->
+            <form class="g-py-15" data-th-target="@{/login}" method="POST">
+                <input type="hidden" data-th-name="${_csrf.parameterName}" data-th-value="${_csrf.token}" />
+                <div class="mb-4">
+                    <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Benutzername</label>
+                    <input class="form-control g-color-black g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-brd-primary--hover rounded g-py-15 g-px-15" type="text" placeholder="Benutzername" name="login">
                 </div>
-            </div>
+
+                <div class="g-mb-35">
+                    <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Password:</label>
+                    <input class="form-control g-color-black g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-brd-primary--hover rounded g-py-15 g-px-15 mb-3" type="password" placeholder="Password" name="password">
+                    <div class="row justify-content-between">
+                        <div class="col align-self-center">
+                            <label class="form-check-inline u-check g-color-gray-dark-v5 g-font-size-12 g-pl-25 mb-0">
+                                <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox">
+                                <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0">
+                                    <i class="fa" data-check-icon="&#xf00c"></i>
+                                </div>
+                                Keep signed in
+                            </label>
+                        </div>
+                        <div class="col align-self-center text-right">
+                            <a class="g-font-size-12" href="#!">Forgot password?</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <button class="btn btn-md btn-block u-btn-primary rounded g-py-13" type="submit">Login</button>
+                </div>
+            </form>
+            <!-- End Form -->
+
+            <footer class="text-center">
+                <p class="g-color-gray-dark-v5 g-font-size-13 mb-0">Noch kein Holarse-Konto? <a class="g-font-weight-600" href="#" data-th-href="@{/register}">Konto anlegen</a>
+                </p>
+            </footer>
         </div>
     </div>
-</section>
+</div>
 <!-- End Login -->

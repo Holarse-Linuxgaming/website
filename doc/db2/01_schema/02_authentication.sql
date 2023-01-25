@@ -38,6 +38,8 @@ create table if not exists user_status(
     
     locked bool default false,
     verified bool default false,
+    verification_hash varchar(255),
+    verification_hash_validuntil timestamptz,
     
     last_login timestamptz,
     last_action timestamptz,
@@ -48,6 +50,8 @@ create table if not exists user_status(
     created timestamptz not null default CURRENT_TIMESTAMP,
     updated timestamptz not null default CURRENT_TIMESTAMP
 );
+
+create index idx_user_verification_hash on user_status (verification_hash, locked, verified);
 
 create table if not exists user_data(
 	id integer primary key default nextval('hibernate_sequence'),

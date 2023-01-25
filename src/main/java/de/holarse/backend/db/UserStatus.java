@@ -24,6 +24,9 @@ public class UserStatus extends TimestampedBase implements Serializable {
     
     @Column(name="failed_logins")
     private int failedLogins;
+    
+    @Column(name = "verification_hash")
+    private String verificationHash;
 
     public boolean isLocked() {
         return locked;
@@ -71,6 +74,14 @@ public class UserStatus extends TimestampedBase implements Serializable {
 
     public void setFailedLogins(int failedLogins) {
         this.failedLogins = failedLogins;
+    }
+
+    public String getVerificationHash() {
+        return verificationHash;
+    }
+
+    public void setVerificationHash(String verificationHash) {
+        this.verificationHash = verificationHash;
     }
     
 }
