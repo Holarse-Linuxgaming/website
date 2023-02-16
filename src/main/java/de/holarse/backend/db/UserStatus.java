@@ -27,6 +27,9 @@ public class UserStatus extends TimestampedBase implements Serializable {
     
     @Column(name = "verification_hash")
     private String verificationHash;
+    
+    @Column(name = "verification_hash_validuntil")
+    private OffsetDateTime verificationHashValidUntil;
 
     public boolean isLocked() {
         return locked;
@@ -82,6 +85,14 @@ public class UserStatus extends TimestampedBase implements Serializable {
 
     public void setVerificationHash(String verificationHash) {
         this.verificationHash = verificationHash;
+    }
+
+    public OffsetDateTime getVerificationHashValidUntil() {
+        return verificationHashValidUntil;
+    }
+
+    public void setVerificationHashValidUntil(OffsetDateTime verificationHashValidUntil) {
+        this.verificationHashValidUntil = verificationHashValidUntil;
     }
     
 }

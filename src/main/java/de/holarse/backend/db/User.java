@@ -2,7 +2,9 @@ package de.holarse.backend.db;
 
 import de.holarse.backend.types.PasswordType;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -11,6 +13,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.hibernate.annotations.Type;
@@ -21,7 +24,6 @@ public class User extends TimestampedBase implements Serializable  {
     
     private String login;
     private String email;
-    private String slug;
     private Integer drupalId;
     @Enumerated(EnumType.STRING)
     @Type(type = "com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType")
@@ -39,6 +41,13 @@ public class User extends TimestampedBase implements Serializable  {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="user_status_id", referencedColumnName = "id")
     private UserStatus userStatus;
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="user_data_id", referencedColumnName = "id")
+    private UserData userData;    
+    
+    @OneToMany(mappedBy="user", cascade = CascadeType.PERSIST)
+    private Set<UserSlug> userSlugs = new HashSet<>(); 
 
     public String getLogin() {
         return login;
@@ -56,12 +65,12 @@ public class User extends TimestampedBase implements Serializable  {
         this.email = email;
     }
 
-    public String getSlug() {
-        return slug;
+    public Set<UserSlug> getUserSlugs() {
+        return userSlugs;
     }
 
-    public void setSlug(String slug) {
-        this.slug = slug;
+    public void setUserSlugs(Set<UserSlug> userSlugs) {
+        this.userSlugs = userSlugs;
     }
 
     public Integer getDrupalId() {
@@ -102,6 +111,14 @@ public class User extends TimestampedBase implements Serializable  {
 
     public void setUserStatus(UserStatus userStatus) {
         this.userStatus = userStatus;
+    }
+
+    public UserData getUserData() {
+        return userData;
+    }
+
+    public void setUserData(UserData userData) {
+        this.userData = userData;
     }
     
 }

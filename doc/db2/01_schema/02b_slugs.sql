@@ -14,3 +14,15 @@ create table if not exists node_slugs(
 
     unique (name, slug_context)
 );
+
+-- Die Slugs aller User
+create table if not exists user_slugs(
+    id integer primary key default nextval('hibernate_sequence'),    
+
+    userid integer not null unique,
+
+    name varchar(255) not null unique,
+
+    created timestamptz not null default CURRENT_TIMESTAMP,
+    updated timestamptz not null default CURRENT_TIMESTAMP
+);

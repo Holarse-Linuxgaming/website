@@ -15,11 +15,11 @@ create table if not exists users (
 	
 	login varchar(255) not null unique,
 	email varchar(255) not null unique,
-	slug varchar(255) not null unique,
 	
 	drupalid integer,
 
-        user_status_id integer not null references user_status(id)
+        user_status_id integer not null references user_status(id),
+        user_data_id integer not null references user_data(id),
 	
 	hashtype password_type not null,
 	digest varchar(255) not null,

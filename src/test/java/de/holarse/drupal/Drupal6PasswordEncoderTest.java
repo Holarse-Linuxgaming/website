@@ -1,8 +1,10 @@
 package de.holarse.drupal;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
-import org.junit.Before;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
@@ -13,7 +15,7 @@ public class Drupal6PasswordEncoderTest {
 
     private PasswordEncoder pe;
     
-    @Before
+    @BeforeEach
     public void setup() {
         pe = new Drupal6PasswordEncoder();
     }
