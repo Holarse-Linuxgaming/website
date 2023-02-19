@@ -2,19 +2,20 @@ package de.holarse.web.controller.commands;
 
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 
+import javax.validation.constraints.NotBlank;
 public class RegisterForm {
 
-    @NotBlank(message = "Benutzername fehlt")
+    @NotBlank(message = "Benutzername darf nicht leer sein.")
     private String username;
-    @Email(message = "Ungültige Email-Adresse")
-    @NotBlank(message = "Email-Adresse fehlt")
+    @Email(message = "Muss eine gültige Email-Adresse sein")
+    @NotBlank(message = "Email-Adresse darf nicht leer sein.")
     private String email;
-    @NotBlank(message = "Es muss ein Passwort angegeben werden")
+    @NotBlank(message = "Passwort darf nicht leer sein")
     private String password;
+    @NotBlank(message = "Passwortbestätigung darf nicht leer sein.")
     private String passwordConfirmation;
-    @AssertTrue
+    @AssertTrue(message = "Unsere Communityregeln müssen akzeptiert werden.")
     private boolean rules;
 
     public String getUsername() {

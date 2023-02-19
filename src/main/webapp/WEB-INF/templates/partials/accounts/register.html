@@ -10,27 +10,27 @@
             <form data-th-action="@{/register}" data-th-object="${registerForm}" class="g-py-15" method="POST">
                 <div class="mb-4">
                     <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Benutzername:</label>
-                    <input class="form-control g-color-black g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-brd-primary--hover rounded g-py-15 g-px-15" type="text" placeholder="Dein Benutzername" data-th-field="*{username}">
-                    <p data-th-if="${#fields.hasErrors('username')}" data-th-errors="*{username}"></p>
+                    <input class="form-control g-color-black g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-brd-primary--hover rounded g-py-15 g-px-15" type="text" placeholder="Dein Benutzername" data-th-field="*{username}" />
+                    <small data-th-if="${#fields.hasErrors('username')}" data-th-errorclass="error" data-th-errors="*{username}" class="form-control-feedback d-block g-bg-red g-color-white g-font-size-12 g-px-14 g-py-3 mt-0" />
                 </div>
 
                 <div class="mb-4">
                     <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Email:</label>
                     <input class="form-control g-color-black g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-brd-primary--hover rounded g-py-15 g-px-15" type="email" placeholder="johndoe@gmail.com" data-th-field="*{email}">
-                    <p data-th-if="${#fields.hasErrors('email')}" data-th-errors="*{email}"></p>
+                    <small data-th-if="${#fields.hasErrors('email')}" data-th-errorclass="error" data-th-errors="*{email}" class="form-control-feedback d-block g-bg-red g-color-white g-font-size-12 g-px-14 g-py-3 mt-0" />
                 </div>
 
                 <div class="row">
                     <div class="col-xs-12 col-sm-6 mb-4">
                         <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Passwort:</label>
                         <input class="form-control g-color-black g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-brd-primary--hover rounded g-py-15 g-px-15" type="password" placeholder="" data-th-field="*{password}">
-                        <p data-th-if="${#fields.hasErrors('password')}" data-th-errors="*{password}"></p>
+                    <small data-th-if="${#fields.hasErrors('password')}" data-th-errorclass="error" data-th-errors="*{password}" class="form-control-feedback d-block g-bg-red g-color-white g-font-size-12 g-px-14 g-py-3 mt-0" />
                     </div>
 
                     <div class="col-xs-12 col-sm-6 mb-4">
                         <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Passwort bestätigen:</label>
                         <input class="form-control g-color-black g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-brd-primary--hover rounded g-py-15 g-px-15" type="password" placeholder="" data-th-field="*{passwordConfirmation}">
-                        <p data-th-if="${#fields.hasErrors('passwordConfirmation')}" data-th-errors="*{passwordConfirmation}"></p>
+                    <small data-th-if="${#fields.hasErrors('passwordConfirmation')}" data-th-errorclass="error" data-th-errors="*{passwordConfirmation}" class="form-control-feedback d-block g-bg-red g-color-white g-font-size-12 g-px-14 g-py-3 mt-0" />
                     </div>
                 </div>
 
@@ -42,7 +42,7 @@
                                 <i class="fa" data-check-icon="&#xf00c"></i>
                             </div>
                             Ich akzeptiere die <a href="#" data-th-href="@{/community-rules}">Communityregeln</a> und habe die <a href="#" data-th-href="@{/datenschutz}">Datenschutz-Bestimmungen</a> gelesen.
-                            <p data-th-if="${#fields.hasErrors('rules')}" data-th-errors="*{rules}"></p>
+                    <small data-th-if="${#fields.hasErrors('rules')}" data-th-errorclass="error" data-th-errors="*{rules}" class="form-control-feedback d-block g-bg-red g-color-white g-font-size-12 g-px-14 g-py-3 mt-0" />
                         </label>
                     </div>
                     <div class="col-4 align-self-center text-right">

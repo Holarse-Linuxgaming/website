@@ -6,17 +6,13 @@ import de.holarse.backend.db.repositories.RoleRepository;
 import de.holarse.backend.db.repositories.UserRepository;
 import de.holarse.web.controller.commands.RegisterForm;
 import de.holarse.web.services.JobService;
+import de.holarse.web.services.RegisterFormValidationService;
 import de.holarse.web.services.RegisterService;
 import de.holarse.web.services.SlugService;
 import java.time.OffsetDateTime;
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transaction;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -55,6 +51,9 @@ public class RegisterController {
 
     @Autowired
     RoleRepository roleRepository;
+    
+    @Autowired
+    RegisterFormValidationService rfValidationService;
 
     @GetMapping
     public ModelAndView index() {
@@ -74,24 +73,12 @@ public class RegisterController {
         mv.addObject("title", "Die Linuxspiele-Seite für Linuxspieler");
 
         log.debug("Recieved register form email:{}, isRules: {}", registerForm.getEmail(), registerForm.isRules());
-
-        if (!registerForm.getPassword().equals(registerForm.getPasswordConfirmation())) {
-            result.rejectValue("passwordConfirmation", "Passwörter stimmen nicht überein.");
-        }
-
-        if (userRepository.findByLogin(registerForm.getUsername()) != null) {
-            result.rejectValue("username", "Benutzername wird bereits verwendet.");
-        }
-
-        if (userRepository.findByEmail(registerForm.getEmail()) != null) {
-            result.rejectValue("email", "Email wird bereits verwendet.");
-        }
-
+        rfValidationService.validate(registerForm, result);
+        
         if (result.hasErrors()) {
             mv.addObject("content", "partials/accounts/register");
-            mv.addObject("registerForm", registerForm);
-            log.debug("Registration failed");
-            return mv;
+            log.debug("Registration form failed");
+            return mv;            
         }
 
         log.info("Registration form ok");
