@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
+import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
@@ -30,7 +31,7 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 public class AppConfig implements WebMvcConfigurer {
 
     @Autowired
-    ApplicationContext applicationContext;     
+    private ApplicationContext applicationContext;     
     
     @Bean
     public MultipartResolver filterMultipartResolver() {
@@ -55,7 +56,8 @@ public class AppConfig implements WebMvcConfigurer {
     public SpringTemplateEngine springTemplateEngine(){
         SpringTemplateEngine springTemplateEngine = new SpringTemplateEngine();
         springTemplateEngine.setTemplateResolver(springTemplateResolver());
-        return springTemplateEngine;
+        springTemplateEngine.addDialect(new SpringSecurityDialect()); 
+       return springTemplateEngine;
     }
     
     @Bean

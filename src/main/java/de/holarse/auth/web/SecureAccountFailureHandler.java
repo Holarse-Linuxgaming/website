@@ -39,7 +39,7 @@ public class SecureAccountFailureHandler extends SimpleUrlAuthenticationFailureH
                                         final AuthenticationException exception) throws IOException, ServletException {
 
 
-        final String username = request.getParameter("login");
+        final String username = request.getParameter("username");
 
         log.debug("Login für User " + username + " fehlgeschlagen.", exception);
 

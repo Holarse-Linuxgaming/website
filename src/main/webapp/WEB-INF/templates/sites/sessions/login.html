@@ -7,20 +7,21 @@
             </header>
 
             <!-- Form -->
-            <form class="g-py-15" data-th-target="@{/login}" method="POST">
-                <input type="hidden" data-th-name="${_csrf.parameterName}" data-th-value="${_csrf.token}" />
+            <form data-th-action="@{/login}" data-th-object="${loginForm}" class="g-py-15" method="POST">
                 <div class="mb-4">
                     <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Benutzername</label>
-                    <input class="form-control g-color-black g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-brd-primary--hover rounded g-py-15 g-px-15" type="text" placeholder="Benutzername" name="login">
+                    <input class="form-control g-color-black g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-brd-primary--hover rounded g-py-15 g-px-15" type="text" placeholder="Benutzername" name="username">
+                    <small data-th-if="${#fields.hasErrors('username')}" data-th-errorclass="error" data-th-errors="*{username}" class="form-control-feedback d-block g-bg-red g-color-white g-font-size-12 g-px-14 g-py-3 mt-0" />
                 </div>
 
                 <div class="g-mb-35">
                     <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Password:</label>
                     <input class="form-control g-color-black g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-brd-primary--hover rounded g-py-15 g-px-15 mb-3" type="password" placeholder="Password" name="password">
+                    <small data-th-if="${#fields.hasErrors('password')}" data-th-errorclass="error" data-th-errors="*{password}" class="form-control-feedback d-block g-bg-red g-color-white g-font-size-12 g-px-14 g-py-3 mt-0" />                    
                     <div class="row justify-content-between">
                         <div class="col align-self-center">
                             <label class="form-check-inline u-check g-color-gray-dark-v5 g-font-size-12 g-pl-25 mb-0">
-                                <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox">
+                                <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" name="keep_signed_in">
                                 <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0">
                                     <i class="fa" data-check-icon="&#xf00c"></i>
                                 </div>

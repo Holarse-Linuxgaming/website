@@ -34,11 +34,11 @@ public class MultipleHttpSecurityConfig {
 
     @Autowired
     @Qualifier("webUserDetailsService")            
-    UserDetailsService webUserDetailsService;
+    private UserDetailsService webUserDetailsService;
     
     @Autowired
     @Qualifier("apiUserDetailsService")
-    UserDetailsService apiUserDetailsService;    
+    private UserDetailsService apiUserDetailsService;    
 
     @Bean(name = "bcryptEncoder")
     public PasswordEncoder bcryptEncoder() {
@@ -169,12 +169,12 @@ public class MultipleHttpSecurityConfig {
 //                        .anyRequest().authenticated()
                     .and()
                     .formLogin()
-                        .usernameParameter("login")
+                        .usernameParameter("username")
                         .successHandler(successHandler())
                         .failureHandler(failureHandler())
                         .loginPage("/login")
                     .and()
-                        .logout().logoutUrl("/logout").logoutSuccessUrl("/login?logout=true");
+                        .logout().logoutUrl("/logout").logoutSuccessUrl("/");
         }
 
     }

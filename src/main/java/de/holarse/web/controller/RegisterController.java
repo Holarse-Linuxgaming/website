@@ -5,6 +5,7 @@ import de.holarse.backend.db.UserSlug;
 import de.holarse.backend.db.repositories.RoleRepository;
 import de.holarse.backend.db.repositories.UserRepository;
 import de.holarse.web.controller.commands.RegisterForm;
+import de.holarse.web.defines.WebDefines;
 import de.holarse.web.services.JobService;
 import de.holarse.web.services.RegisterFormValidationService;
 import de.holarse.web.services.RegisterService;
@@ -56,13 +57,11 @@ public class RegisterController {
     RegisterFormValidationService rfValidationService;
 
     @GetMapping
-    public ModelAndView index() {
-        final ModelAndView mv = new ModelAndView();
+    public ModelAndView index(final ModelAndView mv) {
         mv.setViewName("layouts/bare");
         mv.addObject("title", "Die Linuxspiele-Seite für Linuxspieler");
-        mv.addObject("content", "partials/accounts/register");
+        mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/accounts/register");
         mv.addObject("registerForm", new RegisterForm());
-
         return mv;
     }
 
@@ -76,7 +75,7 @@ public class RegisterController {
         rfValidationService.validate(registerForm, result);
         
         if (result.hasErrors()) {
-            mv.addObject("content", "partials/accounts/register");
+            mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/accounts/register");
             log.debug("Registration form failed");
             return mv;            
         }
@@ -94,7 +93,7 @@ public class RegisterController {
         em.persist(newUser);
         mv.addObject("validationKey", newUser.getUserStatus().getVerificationHash());
 
-        mv.addObject("content", "partials/accounts/registered");
+        mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/accounts/registered");
         return mv;
     }
 
@@ -109,9 +108,9 @@ public class RegisterController {
             user2.getUserStatus().setUpdated(OffsetDateTime.now());
 
             userRepository.save(user2);
-            mv.addObject("content", "partials/accounts/verify-complete");
+            mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/accounts/verify-complete");
         } else {
-            mv.addObject("content", "partials/accounts/verify-failed");
+            mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/accounts/verify-failed");
         }
 
         return mv;
