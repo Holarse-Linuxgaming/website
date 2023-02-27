@@ -1,0 +1,55 @@
+<div class="col g-ml-45 g-ml-0--lg g-pb-65--md">
+    <!-- Breadcrumb-v1 -->
+    <div class="g-hidden-sm-down g-bg-gray-light-v8 g-pa-20">
+        <ul class="u-list-inline g-color-gray-dark-v6">
+
+            <li class="list-inline-item g-mr-10">
+                <a class="u-link-v5 g-color-gray-dark-v6 g-color-lightblue-v3--hover g-valign-middle" href="#!">Admin</a>
+                <i class="hs-admin-angle-right g-font-size-12 g-color-gray-light-v6 g-valign-middle g-ml-10"></i>
+            </li>
+
+            <li class="list-inline-item">
+                <span class="g-valign-middle">Benutzer</span>
+            </li>
+        </ul>
+    </div>
+    <!-- End Breadcrumb-v1 -->
+
+    <div class="g-pa-20">
+
+        <header class="g-mb-20">
+            <h2 class="g-font-weight-400 g-font-size-16 g-color-black mb-0">Editable Table</h2>
+        </header>
+
+        <div class="table-responsive">
+            <table class="js-editable-table table u-table--v3 u-editable-table--v1 g-color-black">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Letztes Login</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr th:each="user : ${users}">
+                        <td th:text=${user.id}></td>
+                        <td th:text=${user.login}></td>
+                        <td th:text=${user.email}></td>
+                        <td th:text="${user.userStatus?.lastLogin}"></td>
+                        <td>
+                            <a class="js-edit u-link-v5 g-color-gray-light-v6 g-color-lightblue-v3--hover" href="#!">
+                                <i class="hs-admin-pencil"></i>
+                            </a>
+                            <a class="u-link-v5 g-color-gray-light-v6 g-color-lightblue-v3--hover g-text-underline--none--hover g-ml-12" href="#!">
+                                <i class="hs-admin-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>    
+</div>

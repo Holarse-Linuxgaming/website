@@ -11,12 +11,12 @@
                 <div class="col-auto g-pos-rel g-px-15">
                     <ul class="list-inline g-overflow-hidden g-font-size-12 g-mt-minus-10 g-mx-minus-4 mb-0">
 
-                        <div sec:authorize="hasRole('ADMIN')">
+                        <span sec:authorize="hasRole('ADMIN')">
                             <li class="list-inline-item g-mx-4 g-mt-10">
-                                <a href="#" data-th-href="@{/admin}" class="g-color-white g-color-primary--hover g-text-underline--none--hover">Admin</a>
+                                <a href="#" data-th-href="@{/admin}" target="_blank" class="g-color-white g-color-primary--hover g-text-underline--none--hover">Admin</a>
                             </li>
                             <li class="list-inline-item g-mx-4 g-mt-10">|</li>                        
-                        </div>
+                        </span>
                         <li class="list-inline-item g-mx-4 g-mt-10">
                             <a href="#" data-th-href="@{/profile}" class="g-color-white g-color-primary--hover g-text-underline--none--hover">
                                 <span sec:authentication="name"></span>
