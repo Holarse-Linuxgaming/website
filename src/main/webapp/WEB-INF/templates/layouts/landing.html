@@ -6,28 +6,7 @@
         <span th-data-text="${title}"></span>
     </title>
 
-    <!-- Required Meta Tags Always Come First -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="#" data-th-href="@{/assets/images/holarse/favicon.png}">
-
-    <!-- CSS Global Compulsory -->
-    <link rel="stylesheet" data-th-href="@{/assets/vendor/bootstrap/bootstrap.min.css}">
-    <link rel="stylesheet" data-th-href="@{/assets/vendor/icon-awesome/css/font-awesome.min.css}">
-    
-    <link rel="stylesheet" data-th-href="@{/assets/vendor/icon-hs/style.css}">
-
-    <!-- CSS Unify -->
-    <link rel="stylesheet" data-th-href="@{/assets/css/unify-core.css}">
-    <link rel="stylesheet" data-th-href="@{/assets/css/unify-components.css}">
-    <link rel="stylesheet" data-th-href="@{/assets/css/unify-globals.css}">
-
-    <!-- CSS Customization -->
-    <link rel="stylesheet" data-th-href="@{/assets/css/holarse.css}">    
-    <link rel="stylesheet" data-th-href="@{/assets/css/custom.css}">
+    <div data-th-replace="~{fragments/head_top}"></div>
   </head>
 
   <body>
@@ -40,20 +19,7 @@
       <div data-th-replace="~{fragments/goto}"></div>
 
 
-    <!-- JS Global Compulsory -->
-    <script data-th-src="@{/assets/vendor/jquery/jquery.min.js}"></script>
-    <script data-th-src="@{/assets/vendor/jquery-migrate/jquery-migrate.min.js}"></script>
-    <script data-th-src="@{/assets/vendor/popper.min.js}"></script>
-    <script data-th-src="@{/assets/vendor/bootstrap/bootstrap.min.js}"></script>
-    <script data-th-src="@{/assets/vendor/masonry/dist/masonry.pkgd.min.js}"></script>
-
-    <!-- JS Unify -->
-    <script data-th-src="@{/assets/js/hs.core.js}"></script>
-    <script data-th-src="@{/assets/js/components/hs.header.js}"></script>
-    <script data-th-src="@{/assets/js/components/hs.go-to.js}"></script>
-
-    <!-- JS Custom -->
-    <script data-th-src="@{/assets/js/custom.js}"></script>
+    <div data-th-replace="~{fragments/head_bottom}"></div>
     
   <!-- JS Plugins Init. -->
   <script>
@@ -62,13 +28,11 @@
       $.HSCore.components.HSGoTo.init('.js-go-to');
 
       // initialization of masonry
-      $('.masonry-grid').imagesLoaded().then(function () {
         $('.masonry-grid').masonry({
           columnWidth: '.masonry-grid-sizer',
           itemSelector: '.masonry-grid-item',
           percentPosition: true
         });
-      });
     });
 
     $(window).on('load', function () {

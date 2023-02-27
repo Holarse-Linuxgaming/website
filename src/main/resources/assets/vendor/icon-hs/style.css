@@ -1,9 +1,6 @@
 @font-face {
   font-family: 'hs-icons';
-  src:
-    url('fonts/hs-icons.ttf?xa77py') format('truetype'),
-    url('fonts/hs-icons.woff?xa77py') format('woff'),
-    url('fonts/hs-icons.svg?xa77py#hs-icons') format('svg');
+  src: url('fonts/hs-icons.ttf');
   font-weight: normal;
   font-style: normal;
 }
