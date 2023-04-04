@@ -36,9 +36,9 @@
                 <tbody>
                     <tr th:each="user : ${users}">
                         <td th:text=${user.id}></td>
-                        <td th:text=${user.login}></td>
+                        <td th:text=${user.username}></td>
                         <td th:text=${user.email}></td>
-                        <td th:text="${user.userStatus?.lastLogin}"></td>
+                        <td th:text="${user.lastLogin}"></td>
                         <td>
                             <a class="js-edit u-link-v5 g-color-gray-light-v6 g-color-lightblue-v3--hover" href="#!">
                                 <i class="hs-admin-pencil"></i>
@@ -50,6 +50,38 @@
                     </tr>
                 </tbody>
             </table>
+
+            <!-- Pagination #15 -->
+            <nav class="text-center" aria-label="Page Navigation">
+                <ul class="list-inline">
+                    <li class="list-inline-item" data-th-if="${users.hasPrevious}">
+                        <a class="u-pagination-v1__item g-brd-around g-brd-2 g-brd-gray-dark-v2 g-color-gray-dark-v2 g-bg-gray-dark-v2--hover g-color-white--hover g-brd-gray-dark-v2--hover g-rounded-3 g-pa-4-13" 
+                           href="#!" data-th-href="@{?(page=${users.previousPageable.pageNumber},size=${users.previousPageable.pageSize})}"  aria-label="Previous">
+                            <span aria-hidden="true">
+                                <i class="fa fa-angle-left g-mr-5"></i>
+                            </span>
+                            <span class="sr-only">Zurück</span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item font-italic">
+                        <a class="g-color-gray-dark-v3 g-pa-7-14">
+                            <span th:text="${users.number + 1}"></span>
+                            von
+                            <span th:text="${users.totalPages}"></span></a>
+                    </li>                    
+                    <li class="list-inline-item" data-th-if="${users.hasNext}">
+                        <a class="u-pagination-v1__item g-brd-around g-brd-2 g-brd-gray-dark-v2 g-color-gray-dark-v2 g-bg-gray-dark-v2--hover g-color-white--hover g-brd-gray-dark-v2--hover g-rounded-3 g-pa-4-13" 
+                           href="#!" data-th-href="@{?(page=${users.nextPageable.pageNumber},size=${users.nextPageable.pageSize})}" aria-label="Next">
+                            <span aria-hidden="true">
+                                <i class="fa fa-angle-right g-ml-5"></i>
+                            </span>
+                            <span class="sr-only">Weiter</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- End Pagination #15 -->            
+
         </div>
     </div>    
 </div>
