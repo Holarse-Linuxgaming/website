@@ -17,12 +17,24 @@
 
     <div class="g-pa-20">
 
-        <header class="g-mb-20">
-            <h2 class="g-font-weight-400 g-font-size-16 g-color-black mb-0">Editable Table</h2>
-        </header>
+        <div class="g-mb-20">
+            <div class="d-flex">
+                <div class="align-self-md-center">
+                    <header>
+                        <h2 class="g-font-weight-400 g-font-size-16 g-color-black mb-0">Benutzer</h2>
+                    </header>                
+                </div>
+                <div class="align-self-md-center">
+                    <label class="g-font-weight-400 g-font-size-15 g-pl-30" for="users-select-size">Anzahl</label>
+                    <select id="users-select-size" onchange="updateUrlWithSize(this.value)" class="js-custom-select w-50 u-select-v2 u-shadow-v19 g-brd-none g-color-black g-color-primary--hover g-bg-white text-left g-rounded-30 g-pl-30 g-py-12" name="users-select-size">            
+                        <option data-th-each="i : ${ {5,10,25,50,100} }" data-th-value="${i}" data-th-text="${i}" data-th-selected="${i == users.pageable.pageSize}" class="g-brd-secondary-light-v2 g-color-black g-color-white--active g-bg-primary--active"></option>
+                    </select>
+                </div>
+            </div>
+        </div>        
 
-        <div class="table-responsive">
-            <table class="js-editable-table table u-table--v3 u-editable-table--v1 g-color-black">
+        <div class="table-responsive g-mb-40">
+            <table class="table u-table--v3 g-color-black">
                 <thead>
                     <tr>
                         <th>#</th>
