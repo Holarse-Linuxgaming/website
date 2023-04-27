@@ -10,6 +10,7 @@ create table if not exists drückblick_entries (
         category varchar(255),
         source drückblick_source_type not null,
 
+        trash bool not null default false,
         done bool not null default false,
 	
 	created timestamptz not null default CURRENT_TIMESTAMP,

@@ -32,6 +32,9 @@ public class DrückblickEntry extends TimestampedBase implements Serializable {
     @Type(type = "com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType")
     private DrückblickSourceType source;
 
+    private boolean done;
+    private boolean trash;
+    
     public String getReporter() {
         return reporter;
     }
@@ -86,6 +89,22 @@ public class DrückblickEntry extends TimestampedBase implements Serializable {
 
     public void setChangelog(String changelog) {
         this.changelog = changelog;
+    }
+
+    public boolean isDone() {
+        return done;
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
+    }
+
+    public boolean isTrash() {
+        return trash;
+    }
+
+    public void setTrash(boolean trash) {
+        this.trash = trash;
     }
     
 }
