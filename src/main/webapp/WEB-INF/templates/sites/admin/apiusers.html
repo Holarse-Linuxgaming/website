@@ -9,7 +9,7 @@
             </li>
 
             <li class="list-inline-item">
-                <span class="g-valign-middle">Drückblick-Einträge</span>
+                <span class="g-valign-middle">API-Benutzer</span>
             </li>
         </ul>
     </div>
@@ -17,49 +17,32 @@
 
     <div class="g-pa-20">
 
-        <div class="g-mb-20">
-            <div class="d-flex">
-                <div class="align-self-md-center">
-                    <header>
-                        <h2 class="g-font-weight-400 g-font-size-16 g-color-black mb-0">Drückblick-Einträge</h2>
-                    </header>                
-                </div>
-            </div>
-        </div>        
-
         <div class="table-responsive g-mb-40">
             <table class="table u-table--v3 g-color-black">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Name</th>
-                        <th>Kategorie</th>
-                        <th>Nachricht</th>
-                        <th>Quelle</th>
-                        <th>Reporter</th>
-                        <th>URL</th>
-                        <th>Changelog</th>
+                        <th>Login</th>
+                        <th>Rollenname</th>
+                        <th>Token</th>
+                        <th>Gültig bis</th>
+                        <th>Aktiv</th>
                         <th></th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <tr th:each="item: ${items}">
+                    <tr th:each="item : ${items}">
                         <td th:text=${item.id}></td>
-                        <td th:text=${item.name}></td>
-                        <td th:text=${item.category}></td>
-                        <td th:text=${item.message}></td>
-                        <td th:text=${item.source}></td>
-                        <td th:text=${item.reporter}></td>
-                        <td><a th:href="${item.url}" th:text="${item.url}" href="#" target="_blank"></a></td>
-                        <td th:text=${item.changelog}></td>
+                        <td th:text=${item.login}></td>
+                        <td th:text=${item.roleName}></td>
+                        <td th:text=${item.token}></td>
+                        <td th:text="${item.validUntil}"></td>
+                        <td th:text="${item.active}"></td>
                         <td>
                             <a class="js-edit u-link-v5 g-color-gray-light-v6 g-color-lightblue-v3--hover" href="#!">
                                 <i class="hs-admin-pencil"></i>
                             </a>
-                            <a class="js-edit u-link-v5 g-color-gray-light-v6 g-color-lightblue-v3--hover" href="#!">
-                                <i class="hs-admin-save"></i>
-                            </a>                            
                             <a class="u-link-v5 g-color-gray-light-v6 g-color-lightblue-v3--hover g-text-underline--none--hover g-ml-12" href="#!">
                                 <i class="hs-admin-trash"></i>
                             </a>
@@ -67,6 +50,7 @@
                     </tr>
                 </tbody>
             </table>
+
         </div>
     </div>    
 </div>

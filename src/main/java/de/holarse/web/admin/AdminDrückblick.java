@@ -40,6 +40,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import static de.holarse.utils.ModelAndViewFactory.makeAdminLayout;
+
 /**
  *
  * @author comrad
@@ -54,7 +56,7 @@ public class AdminDrückblick {
         
         @GetMapping("/admin/drückblick")
         public ModelAndView index(final ModelAndView mv) {
-            ModelAndViewFactory.makeAdminLayout(mv, "sites/admin/drückblick");
+            makeAdminLayout(mv, "sites/admin/drückblick");
             
             mv.addObject("items", drückblickRepository.findUnattended());
             
@@ -79,6 +81,5 @@ public class AdminDrückblick {
             
             return new ResponseEntity<>("", HttpStatus.ACCEPTED);
         }
-
     
 }

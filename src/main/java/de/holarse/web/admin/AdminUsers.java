@@ -2,7 +2,7 @@ package de.holarse.web.admin;
 
 import de.holarse.backend.db.repositories.UserRepository;
 import de.holarse.backend.view.UserView;
-import de.holarse.web.defines.WebDefines;
+import static de.holarse.utils.ModelAndViewFactory.makeAdminLayout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +21,7 @@ public class AdminUsers {
     
     @GetMapping("/admin/users")
     public ModelAndView index(final Pageable pageable, final ModelAndView mv) {
-        mv.setViewName("layouts/admin");
-        mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/admin/users");
+        makeAdminLayout(mv, "sites/admin/users");
         mv.addObject("users", userRepository.findAll(pageable).map(UserView::of));
         return mv;
     }

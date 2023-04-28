@@ -1,4 +1,4 @@
-package de.holarse.rest.importer;
+package de.holarse.rest;
 
 import de.holarse.backend.db.Job;
 import de.holarse.backend.db.repositories.JobRepository;
@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Secured({"ROLE_API_DRÜCKBLICK", "ROLE_API_ADMIN"})
 @RestController
 @RequestMapping("/api/drückblick/")
-public class DrückblickEndpoint {
+public class Drückblick {
     
-    Logger log = LoggerFactory.getLogger(DrückblickEndpoint.class);    
+    Logger log = LoggerFactory.getLogger(Drückblick.class);    
     
     @Autowired
     JobRepository jobRepository;
