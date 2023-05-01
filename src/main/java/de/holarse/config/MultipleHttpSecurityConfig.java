@@ -4,25 +4,19 @@ package de.holarse.config;
 import de.holarse.auth.web.SecureAccountFailureHandler;
 import de.holarse.drupal.Drupal6PasswordEncoder;
 import de.holarse.rest.encoder.NonePasswordEncoder;
-import java.util.Arrays;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
@@ -94,88 +88,57 @@ public class MultipleHttpSecurityConfig {
         return new SecureAccountFailureHandler();
     }
 
-    //
-    // REST
-    // Deprecatated: siehe https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
-    //
-    @Configuration
+    /**
+     * REST-API Authentication
+     * @param http
+     * @return
+     * @throws Exception 
+     */
+    @Bean
     @Order(1)
-    public class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
-
-        Logger log = LoggerFactory.getLogger(ApiWebSecurityConfigurationAdapter.class);
-
-        @Override
-        public AuthenticationManager authenticationManager() {
-            return new ProviderManager(Arrays.asList(apiAuthenticationProvider()));
-        }        
-
-        @Override
-        protected void configure(final HttpSecurity http) throws Exception {
-            // API
-            http.csrf().disable()
-                    .mvcMatcher("/api/**").authorizeRequests().anyRequest().hasRole("API").and().httpBasic();
-        }
-
+    public SecurityFilterChain apiSecurityFilterChain(final HttpSecurity http) throws Exception {
+        http.csrf().disable(); // Kein CSRF-Form-Check für API notwendig
+        http.mvcMatcher("/api/**").authorizeHttpRequests().anyRequest().hasRole("API").and().httpBasic();
+        http.authenticationProvider(apiAuthenticationProvider());
+        
+        return http.build();
     }
-    
-    //
-    // HTTP-FORM
-    //
-    @Configuration
+
+    @Bean
     @Order(2)
-    public class FormLoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
+    public SecurityFilterChain webFormSecurityFilterChain(final HttpSecurity http) throws Exception {
+        http.authenticationProvider(drupal6AuthenticationProvider());
+        http.authenticationProvider(holaCms3AuthenticationProvider());
+       
+        // Was ignoriert werden soll und keiner Authentifizierung bedarf
+        http.csrf().disable().authorizeHttpRequests((requests) -> requests.mvcMatchers("/assets/**", 
+                                                                      "/favicon.ico", 
+                                                                      "/sitemap.xml", 
+                                                                      "/age.xml", "/age-de.xml", "/miracle.xml",
+                                                                      "/robots.txt", "/humans.txt",
+                                                                      "/webapi/**").permitAll());
+        
+        // Admin-Bereich nur für Admins
+        http.csrf().and().authorizeHttpRequests((requests) -> requests.mvcMatchers("/admin/**").hasRole("ADMIN"));
+        
+        // Login- und Registrierungsbereich
+        http.authorizeHttpRequests((requests) -> requests.mvcMatchers("/login", "/register", "/verify").permitAll());
 
-        Logger log = LoggerFactory.getLogger(FormLoginWebSecurityConfigurerAdapter.class);
-
-        @Override
-        public AuthenticationManager authenticationManager() {
-            final ProviderManager man = new ProviderManager(Arrays.asList(drupal6AuthenticationProvider(), holaCms3AuthenticationProvider()));
-            man.setEraseCredentialsAfterAuthentication(false); // Sonst haben wir keine Chance das unsichere Drupal-Passwort zu migrieren
-            return man;
-        }
-
-        /**
-         * Definiert die URLs die nicht von der Sicherheit geprüft werden
-         * müssen
-         * @param web
-         * @throws Exception 
-         */
-        @Override
-        public void configure(final WebSecurity web) throws Exception {
-            web.ignoring()
-                    .mvcMatchers(
-                            "/assets/**",
-                            "/favicon.ico",
-                            "/sitemap.xml",
-                            "/age.xml", "/age-de.xml", "/miracle.xml",
-                            "/robots.txt", "/humans.txt",
-                            "/webapi/**");
-        }
-
-        /**
-         * Detail-Berechtigungen werden auf Methoden-Ebene definiert
-         * @param http
-         * @throws java.lang.Exception
-         */
-        @Override
-        protected void configure(final HttpSecurity http) throws Exception {
-            // WEB
-            http.csrf()
-                    .and().authorizeRequests()
-                        .mvcMatchers("/login", "/register", "/verify").anonymous()
-                        .mvcMatchers("/admin/**").hasRole("ADMIN")
-                        .mvcMatchers("/**").permitAll()
-//                    .and().authorizeRequests()
-//                        .anyRequest().authenticated()
-                    .and()
-                    .formLogin()
-                        .usernameParameter("username")
-                        .successHandler(successHandler())
-                        .failureHandler(failureHandler())
-                        .loginPage("/login")
-                    .and()
-                        .logout().logoutUrl("/logout").logoutSuccessUrl("/");
-        }
-
+        // Bereich nur für authentifizierte Benutzer jeglicher Rollen, z.B. Profil, edit-Seiten
+        http.authorizeHttpRequests((requests) -> requests.mvcMatchers("/profile").authenticated());
+        
+        // Normale Webseite, auch als Gast nutzbar
+        http.authorizeHttpRequests((requests) -> requests.mvcMatchers("/",
+                                                                      "/datenschutz",
+                                                                      "/impressum", "/imprint").permitAll());
+        
+        // Alles andere prinzipiell verbieten anstatt pauschal zu erlauben
+        http.authorizeHttpRequests().anyRequest().denyAll();
+        
+        // Form-Login
+        http.formLogin().loginPage("/login").successHandler(successHandler()).failureHandler(failureHandler()).and().logout().logoutUrl("/logout").logoutSuccessUrl("/");
+        
+        return http.build();
     }
+  
 }
