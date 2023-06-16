@@ -1,6 +1,5 @@
 package de.holarse.backend.db;
 
-import java.io.Serializable;
 import java.time.OffsetDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,7 +7,7 @@ import javax.persistence.Table;
 
 @Table
 @Entity(name = "apiusers")
-public class ApiUser extends TimestampedBase implements Serializable {
+public class ApiUser extends TimestampedBase {
 
     private static final long serialVersionUID = 1L;
     

@@ -1,0 +1,88 @@
+/*
+ * Copyright (C) 2023 comrad
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package de.holarse.backend.db;
+
+import de.holarse.backend.types.NodeType;
+import java.time.OffsetDateTime;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import org.hibernate.annotations.Type;
+
+/**
+ * Allgemeine Writelock-Tabelle für alle Arten von geteilten, speicherbaren Daten.
+ * @author comrad
+ */
+@Table(name = "entity_writelocks")
+@Entity
+public class EntityWriteLock extends Base  {
+
+    private static final long serialVersionUID = 1L;
+    
+    @Enumerated(EnumType.STRING)
+    @Type(type = "com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType")
+    @Column(name="entity")
+    private NodeType entity;    
+   
+    @Column(name="row_id")
+    private Integer rowId;
+  
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id", nullable=false, referencedColumnName = "id")
+    private User writeLockUser;    
+
+    @Column(name = "write_lock_updated", insertable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE default CURRENT_TIMESTAMP")    
+    private OffsetDateTime writeLockUpdated;        
+
+    public NodeType getEntity() {
+        return entity;
+    }
+
+    public void setEntity(NodeType entity) {
+        this.entity = entity;
+    }
+
+    public Integer getRowId() {
+        return rowId;
+    }
+
+    public void setRowId(Integer rowId) {
+        this.rowId = rowId;
+    }
+
+    public User getWriteLockUser() {
+        return writeLockUser;
+    }
+
+    public void setWriteLockUser(User writeLockUser) {
+        this.writeLockUser = writeLockUser;
+    }
+
+    public OffsetDateTime getWriteLockUpdated() {
+        return writeLockUpdated;
+    }
+
+    public void setWriteLockUpdated(OffsetDateTime writeLockUpdated) {
+        this.writeLockUpdated = writeLockUpdated;
+    }
+    
+}

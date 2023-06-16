@@ -19,7 +19,7 @@ create table if not exists node_slugs(
 create table if not exists user_slugs(
     id integer primary key default nextval('hibernate_sequence'),    
 
-    userid integer not null unique,
+    user_id integer references users(id),
 
     name varchar(255) not null unique,
 

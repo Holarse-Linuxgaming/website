@@ -18,15 +18,7 @@ package de.holarse.web.admin;
 
 import de.holarse.backend.db.DrückblickEntry;
 import de.holarse.backend.db.repositories.DrückblickRepository;
-import de.holarse.backend.types.DrückblickSourceType;
-import de.holarse.utils.ModelAndViewFactory;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpHeaders;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.time.OffsetDateTime;
-import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +56,7 @@ public class AdminDrückblick {
         }
         
         @PutMapping(value = "/admin/drückblick/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-        public ResponseEntity<String> update(@PathVariable(name = "id") final Long id, @RequestBody final DrückblickEntry updatedEntry) {
+        public ResponseEntity<String> update(@PathVariable(name = "id") final Integer id, @RequestBody final DrückblickEntry updatedEntry) {
             final DrückblickEntry entry = drückblickRepository.findById(id).orElseThrow(IllegalArgumentException::new);
             entry.setCategory(updatedEntry.getCategory());
             entry.setChangelog(updatedEntry.getChangelog());

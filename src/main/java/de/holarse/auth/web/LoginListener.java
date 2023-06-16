@@ -19,7 +19,7 @@ import org.springframework.security.core.Authentication;
 @Component
 public class LoginListener {
 
-    Logger log = LoggerFactory.getLogger(LoginListener.class);
+    private final static transient Logger log = LoggerFactory.getLogger(LoginListener.class);
 
     @Autowired
     UserRepository userRepository;

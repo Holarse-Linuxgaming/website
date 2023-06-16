@@ -1,14 +1,12 @@
 package de.holarse.backend.db;
 
 import de.holarse.backend.types.PasswordType;
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -19,7 +17,9 @@ import org.hibernate.annotations.Type;
 
 @Table(name = "users")
 @Entity
-public class User extends TimestampedBase implements Serializable  {
+public class User extends TimestampedBase {
+
+    private static final long serialVersionUID = 1L;
     
     private String login;
     private String email;
@@ -37,12 +37,10 @@ public class User extends TimestampedBase implements Serializable  {
     )
     private Set<Role> roles = new HashSet<>();
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="user_status_id", referencedColumnName = "id")
+    @OneToOne(mappedBy="user", cascade = CascadeType.ALL)
     private UserStatus userStatus;
     
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="user_data_id", referencedColumnName = "id")
+    @OneToOne(mappedBy="user", cascade = CascadeType.ALL)
     private UserData userData;    
     
     @OneToMany(mappedBy="user", cascade = CascadeType.PERSIST)

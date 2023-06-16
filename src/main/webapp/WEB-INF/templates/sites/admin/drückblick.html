@@ -27,44 +27,42 @@
             </div>
         </div>        
 
-        <div class="table-responsive g-mb-40">
-            <table class="table u-table--v3 g-color-black">
-                <thead>
+        <div class="table-responsive">
+            <table class="table table-bordered u-table--v2">
+                <thead class="text-uppercase g-letter-spacing-1">
                     <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Kategorie</th>
-                        <th>Nachricht</th>
-                        <th>Quelle</th>
-                        <th>Reporter</th>
-                        <th>URL</th>
-                        <th>Changelog</th>
                         <th></th>
+                        <th class="g-font-weight-300 g-color-black">#</th>
+                        <th class="g-font-weight-300 g-color-black">Name</th>
+                        <th class="g-font-weight-300 g-color-black">Kategorie</th>
+                        <th class="g-font-weight-300 g-color-black">Nachricht</th>
+                        <th class="g-font-weight-300 g-color-black">Quelle</th>
+                        <th class="g-font-weight-300 g-color-black">Reporter</th>
+                        <th class="g-font-weight-300 g-color-black">URL</th>
+                        <th class="g-font-weight-300 g-color-black">Changelog</th>
+                        <th class="g-font-weight-300 g-color-black"></th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <tr th:each="item: ${items}">
-                        <td th:text=${item.id}></td>
-                        <td th:text=${item.name}></td>
-                        <td th:text=${item.category}></td>
-                        <td th:text=${item.message}></td>
-                        <td th:text=${item.source}></td>
-                        <td th:text=${item.reporter}></td>
-                        <td><a th:href="${item.url}" th:text="${item.url}" href="#" target="_blank"></a></td>
-                        <td th:text=${item.changelog}></td>
-                        <td>
-                            <a class="js-edit u-link-v5 g-color-gray-light-v6 g-color-lightblue-v3--hover" href="#!">
-                                <i class="hs-admin-pencil"></i>
-                            </a>
-                            <a class="js-edit u-link-v5 g-color-gray-light-v6 g-color-lightblue-v3--hover" href="#!">
-                                <i class="hs-admin-save"></i>
-                            </a>                            
-                            <a class="u-link-v5 g-color-gray-light-v6 g-color-lightblue-v3--hover g-text-underline--none--hover g-ml-12" href="#!">
-                                <i class="hs-admin-trash"></i>
-                            </a>
-                        </td>
-                    </tr>
+                    <th:block th:each="item: ${items}">
+                        <tr th:attr="onfocus=|dbl_mark_busy('dbl-edit-${item.id}')|" th:id="|dbl-edit-${item.id}|">
+                                <td></td>
+                                <td th:text="${item.id}"></td>
+                                <td><input th:value=${item.name} /></td>
+                                <td><input th:value=${item.category} /></td>
+                                <td><input th:value=${item.message} /></td>
+                                <td><input th:value=${item.source} /></td>
+                                <td th:text="${item.reporter}"></td>
+                                <td><input th:value="${item.url}" /><a th:href="${item.url}" href="#" target="_blank"><i class="hs-admin-link g-font-size-18 g-mr-7"></i></a></td>
+                                <td><textarea th:value=${item.changelog}></textarea></td>
+                                <td>
+                                    <a class="g-color-gray-dark-v5 g-text-underline--none--hover g-pa-5" href="#!" th:attr="onclick=|dbl_mark_deleted('dbl-edit-${item.id}')|">
+                                        <i class="hs-admin-trash g-font-size-18 g-mr-7"></i>
+                                    </a>
+                                </td>
+                        </tr>
+                    </th:block>
                 </tbody>
             </table>
         </div>

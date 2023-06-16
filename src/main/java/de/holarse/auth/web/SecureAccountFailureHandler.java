@@ -23,7 +23,7 @@ import java.time.OffsetDateTime;
 @Component
 public class SecureAccountFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
-    Logger log = LoggerFactory.getLogger(SecureAccountFailureHandler.class);
+    private final static transient Logger log = LoggerFactory.getLogger(SecureAccountFailureHandler.class);
     
     private final static transient int MAX_FAILED_LOGINS = 3;
 
@@ -48,7 +48,7 @@ public class SecureAccountFailureHandler extends SimpleUrlAuthenticationFailureH
             user.getUserStatus().setFailedLogins(user.getUserStatus().getFailedLogins() + 1);
             user.getUserStatus().setUpdated(OffsetDateTime.now());
 
-            if (!user.getUserStatus().isLocked() && user.getUserStatus().getFailedLogins() > MAX_FAILED_LOGINS) {
+            if (!user.getUserStatus().isLocked() && hasTooManyFailedAttempts(user)) {
                 user.getUserStatus().setLocked(true);
                 log.info("Benutzer " + user.getLogin() + " wurde wegen zu vielen Fehlversuchen gesperrt.");
             }
@@ -56,5 +56,13 @@ public class SecureAccountFailureHandler extends SimpleUrlAuthenticationFailureH
         
         super.setDefaultFailureUrl("/login?error=2");
         super.onAuthenticationFailure(request, response, exception);
+    }
+    
+    private boolean hasTooManyFailedAttempts(final User user) {
+        if (user == null || user.getUserStatus() == null) {
+            return true;
+        }
+        
+        return user.getUserStatus().getFailedLogins() > MAX_FAILED_LOGINS;
     }
 }

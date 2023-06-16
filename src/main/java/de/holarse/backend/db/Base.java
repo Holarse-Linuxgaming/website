@@ -1,8 +1,6 @@
 package de.holarse.backend.db;
 
 import java.io.Serializable;
-import java.time.OffsetDateTime;
-import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,6 +9,8 @@ import javax.persistence.SequenceGenerator;
 
 @MappedSuperclass
 public abstract class Base implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     
     @Id
     @SequenceGenerator(name = "hibernate_seq", sequenceName = "hibernate_sequence", allocationSize = 1)

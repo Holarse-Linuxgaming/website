@@ -1,4 +1,4 @@
-package de.holarse.rest.encoder;
+package de.holarse.utils;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 

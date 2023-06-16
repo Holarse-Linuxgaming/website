@@ -6,7 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public abstract class TimestampedBase extends Base implements Serializable {
+public abstract class TimestampedBase extends Base {
 
     private static final long serialVersionUID = 1L;
     

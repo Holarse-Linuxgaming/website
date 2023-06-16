@@ -1,12 +1,13 @@
 package de.holarse.backend.db;
 
-import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Table(name = "jobs")
 @Entity
-public class Job extends TimestampedBase implements Serializable {
+public class Job extends TimestampedBase {
+
+    private static final long serialVersionUID = 1L;
     
     private Integer queue;
     private String context;

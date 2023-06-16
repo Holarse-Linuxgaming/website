@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 @Service("webUserDetailsService")
 public class HolarseWebUserDetailsService implements UserDetailsService {
 
-    Logger log = LoggerFactory.getLogger(HolarseWebUserDetailsService.class);
+    private final static transient Logger log = LoggerFactory.getLogger(HolarseWebUserDetailsService.class);
 
     @Autowired
     private UserRepository userRepository;

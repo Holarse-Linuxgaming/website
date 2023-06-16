@@ -4,11 +4,15 @@ import java.io.Serializable;
 import java.time.OffsetDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Table(name = "user_status")
 @Entity
-public class UserStatus extends TimestampedBase implements Serializable {
+public class UserStatus extends TimestampedBase {
+
+    private static final long serialVersionUID = 1L;
     
     private boolean locked;
     private boolean verified;
@@ -30,6 +34,10 @@ public class UserStatus extends TimestampedBase implements Serializable {
     
     @Column(name = "verification_hash_validuntil")
     private OffsetDateTime verificationHashValidUntil;
+    
+    @OneToOne
+    @JoinColumn(name="user_id", referencedColumnName = "id")
+    private User user;
 
     public boolean isLocked() {
         return locked;
@@ -93,6 +101,14 @@ public class UserStatus extends TimestampedBase implements Serializable {
 
     public void setVerificationHashValidUntil(OffsetDateTime verificationHashValidUntil) {
         this.verificationHashValidUntil = verificationHashValidUntil;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
     
 }

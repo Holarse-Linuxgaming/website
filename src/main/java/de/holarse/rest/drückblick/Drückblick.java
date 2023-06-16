@@ -1,9 +1,12 @@
-package de.holarse.rest;
+package de.holarse.rest.drückblick;
 
+import de.holarse.backend.db.DrückblickEntry;
 import de.holarse.backend.db.Job;
+import de.holarse.backend.db.repositories.DrückblickRepository;
 import de.holarse.backend.db.repositories.JobRepository;
 import de.holarse.web.services.JobService;
 import de.holarse.workers.JobQueueContext;
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import org.slf4j.Logger;
@@ -14,8 +17,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Secured({"ROLE_API_DRÜCKBLICK", "ROLE_API_ADMIN"})
@@ -31,6 +36,9 @@ public class Drückblick {
     @Autowired
     JobService jobService;
     
+    @Autowired
+    DrückblickRepository dblRepo;
+    
     @Transactional
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> upload(@Valid @RequestBody final de.holarse.backend.api.drückblick.DrückblickEntry importItem) throws Exception {
@@ -38,6 +46,12 @@ public class Drückblick {
         jobRepository.save(job);
         
         return new ResponseEntity<>("", HttpStatus.CREATED);
+    }
+    
+    @PutMapping(value = "markDirty")
+    public ResponseEntity<String> markDirty(@RequestParam("id") final Integer drückblickId) throws Exception {
+        final DrückblickEntry dbl = dblRepo.findById(drückblickId).orElseThrow(EntityNotFoundException::new);
+        return new ResponseEntity<>("", HttpStatus.ACCEPTED);
     }
        
     

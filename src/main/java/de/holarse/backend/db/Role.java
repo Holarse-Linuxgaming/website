@@ -1,7 +1,6 @@
 package de.holarse.backend.db;
 
-
-import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,10 +8,13 @@ import org.springframework.security.core.GrantedAuthority;
 
 @Table(name = "roles")
 @Entity
-public class Role extends TimestampedBase implements Serializable, GrantedAuthority {
+public class Role extends TimestampedBase implements GrantedAuthority {
+
+    private static final long serialVersionUID = 1L;
     
     private String code;
-    private Integer level;
+    @Column(name="access_level")
+    private Integer accessLevel;
 
     public String getCode() {
         return code;
@@ -22,12 +24,12 @@ public class Role extends TimestampedBase implements Serializable, GrantedAuthor
         this.code = code;
     }
 
-    public Integer getLevel() {
-        return level;
+    public Integer getAccessLevel() {
+        return accessLevel;
     }
 
-    public void setLevel(Integer level) {
-        this.level = level;
+    public void setAccessLevel(Integer accessLevel) {
+        this.accessLevel = accessLevel;
     }
 
     @Override

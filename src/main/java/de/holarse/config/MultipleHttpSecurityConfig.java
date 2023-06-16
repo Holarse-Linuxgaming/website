@@ -1,9 +1,9 @@
 package de.holarse.config;
 
 //import de.holarse.auth.web.SecureAccountFailureHandler;
+import de.holarse.utils.NonePasswordEncoder;
 import de.holarse.auth.web.SecureAccountFailureHandler;
 import de.holarse.drupal.Drupal6PasswordEncoder;
-import de.holarse.rest.encoder.NonePasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;

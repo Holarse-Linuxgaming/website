@@ -2,7 +2,7 @@
 create sequence node_sequence start with 10000;
 grant select, update on sequence node_sequence to holarse;
 
-create type node_type as enum ('article', 'news', 'thread');
+create type node_type as enum ('article', 'news', 'thread', 'drückblick');
 
 -- Gemeinsame Node-Tabellen
 
@@ -19,11 +19,12 @@ create table if not exists node_status (
     update_userid integer references users(id)
 );
 
-create table if not exists node_writelocks(
+-- Standard-Zeilen-Locktabelle
+create table if not exists entity_writelocks(
     id integer primary key default nextval('hibernate_sequence'),
-    nodeid integer not null unique,
-    write_lock bool default false,
-    write_lock_userid integer references users(id),
+    entity node_type not null,
+    row_id integer not null unique,
+    user_id integer references users(id),
     write_lock_updated timestamptz
 );
 

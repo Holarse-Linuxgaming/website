@@ -17,6 +17,8 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 public class ApiPrincipal implements UserDetails {
 
+    private static final long serialVersionUID = 1L;
+    
     private final static transient Logger log = LoggerFactory.getLogger(ApiPrincipal.class);  
     
     private final ApiUser user;

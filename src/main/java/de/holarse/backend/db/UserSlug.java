@@ -9,10 +9,12 @@ import javax.persistence.Table;
 
 @Table(name = "user_slugs")
 @Entity
-public class UserSlug extends TimestampedBase implements Serializable {
+public class UserSlug extends TimestampedBase {
+
+    private static final long serialVersionUID = 1L;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="userid", nullable=false, referencedColumnName = "id")
+    @JoinColumn(name="user_id", nullable=false, referencedColumnName = "id")
     private User user;
     
     private String name;
