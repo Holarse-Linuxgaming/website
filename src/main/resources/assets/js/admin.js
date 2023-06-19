@@ -16,5 +16,27 @@ function dbl_mark_busy(id) {
 }
 
 function dbl_mark_deleted(id) {
-    alert("Drückblick #" + id + " is marked as deleted");
+    console.log("Drückblick #" + id + " is marked as deleted");
+    $.ajax({
+        url: '/admin/api/drueckblick/mark_dirty',
+        method: "PUT",
+        data: { "id": parseInt(id.replace("dbl-edit-", "")) },
+        headers: 
+        {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+}
+
+function dbl_get_dirty_marks() {
+    $.ajax({
+        url: "/admin/api/drueckblick/get_dirty_marks", 
+        method: "GET", 
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }, 
+        success: function(result) {
+            
+        }
+    });
 }

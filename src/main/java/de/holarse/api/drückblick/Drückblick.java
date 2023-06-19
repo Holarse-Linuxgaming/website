@@ -1,4 +1,4 @@
-package de.holarse.rest.drückblick;
+package de.holarse.api.drückblick;
 
 import de.holarse.backend.db.DrückblickEntry;
 import de.holarse.backend.db.Job;
@@ -47,12 +47,6 @@ public class Drückblick {
         
         return new ResponseEntity<>("", HttpStatus.CREATED);
     }
-    
-    @PutMapping(value = "markDirty")
-    public ResponseEntity<String> markDirty(@RequestParam("id") final Integer drückblickId) throws Exception {
-        final DrückblickEntry dbl = dblRepo.findById(drückblickId).orElseThrow(EntityNotFoundException::new);
-        return new ResponseEntity<>("", HttpStatus.ACCEPTED);
-    }
-       
+           
     
 }

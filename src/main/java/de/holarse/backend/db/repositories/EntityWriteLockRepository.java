@@ -18,6 +18,7 @@ package de.holarse.backend.db.repositories;
 
 import de.holarse.backend.db.EntityWriteLock;
 import de.holarse.backend.types.NodeType;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -37,5 +38,7 @@ public interface EntityWriteLockRepository extends JpaRepository<EntityWriteLock
     @Query(value="SELECT 1 from entity_writelocks ew where ew.entity = :entity and ew.row_id = :rowId", nativeQuery = true)
     boolean existsLock(@Param("rowId") final Integer rowId, @Param("entity") final NodeType nodeType);
     
+    @Query(value="SELECT ew.* from entity_writelocks ew where ew.entity = :entity", nativeQuery = true)
+    List<EntityWriteLock> findAllByType(@Param("entity") final NodeType entity);
     
 }

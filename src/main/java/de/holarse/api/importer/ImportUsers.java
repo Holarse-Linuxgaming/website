@@ -1,4 +1,4 @@
-package de.holarse.rest.importer;
+package de.holarse.api.importer;
 
 //import de.holarse.backend.db.Job;
 //import de.holarse.backend.db.repositories.JobRepository;

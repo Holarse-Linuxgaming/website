@@ -97,8 +97,8 @@ public class MultipleHttpSecurityConfig {
     @Bean
     @Order(1)
     public SecurityFilterChain apiSecurityFilterChain(final HttpSecurity http) throws Exception {
-        http.csrf().disable(); // Kein CSRF-Form-Check für API notwendig
-        http.mvcMatcher("/api/**").authorizeHttpRequests().anyRequest().hasRole("API").and().httpBasic();
+        // Für normale API-Abfragen ist kein CSRF notwendig
+        http.mvcMatcher("/api/**").csrf().disable().authorizeHttpRequests().anyRequest().hasRole("API").and().httpBasic();
         http.authenticationProvider(apiAuthenticationProvider());
         
         return http.build();

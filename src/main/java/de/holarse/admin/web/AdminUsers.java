@@ -1,4 +1,4 @@
-package de.holarse.web.admin;
+package de.holarse.admin.web;
 
 import de.holarse.backend.db.repositories.UserRepository;
 import de.holarse.backend.view.UserView;

@@ -36,5 +36,10 @@ public class Role extends TimestampedBase implements GrantedAuthority {
     public String getAuthority() {
         return String.format("ROLE_%s", getCode().toUpperCase());
     }
+
+    @Override
+    public String toString() {
+        return String.format("ROLE_%s", getCode().toUpperCase());
+    }
     
 }

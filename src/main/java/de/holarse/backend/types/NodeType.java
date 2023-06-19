@@ -26,5 +26,5 @@ public enum NodeType {
     news,
     thread,
     drückblick
-    
+
 }

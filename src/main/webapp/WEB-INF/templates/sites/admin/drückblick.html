@@ -47,7 +47,15 @@
                 <tbody>
                     <th:block th:each="item: ${items}">
                         <tr th:attr="onfocus=|dbl_mark_busy('dbl-edit-${item.id}')|" th:id="|dbl-edit-${item.id}|">
-                                <td></td>
+                            <td>
+                                <span class="u-icon-v3 g-bg-red g-mr-15 g-mb-15">
+                                    <i class="fa fa-lock g-color-white g-font-size-25"></i>
+                                </span>
+                                
+                                <span class="u-icon-v3 g-bg-green g-mr-15 g-mb-15">
+                                    <i class="fa fa-unlock-alt g-color-white g-font-size-25"></i>
+                                </span>                                
+                            </td>
                                 <td th:text="${item.id}"></td>
                                 <td><input th:value=${item.name} /></td>
                                 <td><input th:value=${item.category} /></td>
@@ -58,7 +66,7 @@
                                 <td><textarea th:value=${item.changelog}></textarea></td>
                                 <td>
                                     <a class="g-color-gray-dark-v5 g-text-underline--none--hover g-pa-5" href="#!" th:attr="onclick=|dbl_mark_deleted('dbl-edit-${item.id}')|">
-                                        <i class="hs-admin-trash g-font-size-18 g-mr-7"></i>
+                                        <i class="fa fa-trash-o g-font-size-25 g-mr-7"></i>
                                     </a>
                                 </td>
                         </tr>
