@@ -61,6 +61,7 @@ public class DatabaseConfig {
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");       
         properties.setProperty("hibernate.current_session_context_class", "thread");
         properties.setProperty("hibernate.jdbc.time_zone", "UTC");
+        properties.setProperty("hibernate.hbm2ddl.extra_physical_table_types", "PARTITIONED TABLE"); // See https://github.com/thingsboard/thingsboard/issues/2570#issuecomment-721121151
         return properties;
     }
 }

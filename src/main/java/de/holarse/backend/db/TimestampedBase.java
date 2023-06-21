@@ -1,6 +1,5 @@
 package de.holarse.backend.db;
 
-import java.io.Serializable;
 import java.time.OffsetDateTime;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;

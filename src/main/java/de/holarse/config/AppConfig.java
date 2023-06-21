@@ -1,5 +1,6 @@
 package de.holarse.config;
 
+import de.holarse.web.interceptors.RequestLoggingInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +14,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
@@ -32,6 +34,11 @@ public class AppConfig implements WebMvcConfigurer {
 
     @Autowired
     private ApplicationContext applicationContext;     
+    
+    @Bean
+    public HandlerInterceptor requestLoggingInterceptor() {
+        return new RequestLoggingInterceptor();
+    }
     
     @Bean
     public MultipartResolver filterMultipartResolver() {
@@ -87,6 +94,12 @@ public class AppConfig implements WebMvcConfigurer {
     public LocalValidatorFactoryBean validator() {
         return new LocalValidatorFactoryBean();
     }    
+
+    @Override
+    public void addInterceptors(final InterceptorRegistry registry) {
+        registry.addInterceptor(requestLoggingInterceptor());
+    }
+    
     
 
 }
