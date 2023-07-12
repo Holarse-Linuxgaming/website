@@ -98,8 +98,11 @@ public class MultipleHttpSecurityConfig {
     @Order(1)
     public SecurityFilterChain apiSecurityFilterChain(final HttpSecurity http) throws Exception {
         // Für normale API-Abfragen ist kein CSRF notwendig
-        http.mvcMatcher("/api/**").csrf().disable().authorizeHttpRequests().anyRequest().hasRole("API").and().httpBasic();
-        http.authenticationProvider(apiAuthenticationProvider());
+        http.csrf((csrf) -> csrf.disable())
+            .authorizeHttpRequests((requests) -> requests.requestMatchers("/api/**").hasRole("API"))
+            .authenticationProvider(apiAuthenticationProvider());
+        
+        // TODO http.httpBasic((httpbasic) -> httpbasic.)
         
         return http.build();
     }
@@ -111,7 +114,7 @@ public class MultipleHttpSecurityConfig {
         http.authenticationProvider(holaCms3AuthenticationProvider());
        
         // Was ignoriert werden soll und keiner Authentifizierung bedarf
-        http.csrf().disable().authorizeHttpRequests((requests) -> requests.mvcMatchers("/assets/**", 
+        http.csrf((csrf) -> csrf.disable()).authorizeHttpRequests((requests) -> requests.requestMatchers("/assets/**", 
                                                                       "/favicon.ico", 
                                                                       "/sitemap.xml", 
                                                                       "/age.xml", "/age-de.xml", "/miracle.xml",
@@ -119,24 +122,25 @@ public class MultipleHttpSecurityConfig {
                                                                       "/webapi/**").permitAll());
         
         // Admin-Bereich nur für Admins
-        http.csrf().and().authorizeHttpRequests((requests) -> requests.mvcMatchers("/admin/**").hasRole("ADMIN"));
+        http.authorizeHttpRequests((requests) -> requests.requestMatchers("/admin/**").hasRole("ADMIN"));
         
         // Login- und Registrierungsbereich
-        http.authorizeHttpRequests((requests) -> requests.mvcMatchers("/login", "/register", "/verify").permitAll());
+        http.authorizeHttpRequests((requests) -> requests.requestMatchers("/login", "/register", "/verify").permitAll());
 
         // Bereich nur für authentifizierte Benutzer jeglicher Rollen, z.B. Profil, edit-Seiten
-        http.authorizeHttpRequests((requests) -> requests.mvcMatchers("/profile").authenticated());
+        http.authorizeHttpRequests((requests) -> requests.requestMatchers("/profile").authenticated());
         
         // Normale Webseite, auch als Gast nutzbar
-        http.authorizeHttpRequests((requests) -> requests.mvcMatchers("/",
+        http.authorizeHttpRequests((requests) -> requests.requestMatchers("/",
                                                                       "/datenschutz",
                                                                       "/impressum", "/imprint").permitAll());
         
         // Alles andere prinzipiell verbieten anstatt pauschal zu erlauben
-        http.authorizeHttpRequests().anyRequest().denyAll();
+        http.authorizeHttpRequests((req) -> req.anyRequest().denyAll());
         
         // Form-Login
-        http.formLogin().loginPage("/login").successHandler(successHandler()).failureHandler(failureHandler()).and().logout().logoutUrl("/logout").logoutSuccessUrl("/");
+        http.formLogin((formlogin) -> formlogin.loginPage("/login").successHandler(successHandler()).failureHandler(failureHandler()));
+        http.logout((logout) -> logout.logoutUrl("/logout").logoutSuccessUrl("/"));
         
         return http.build();
     }
