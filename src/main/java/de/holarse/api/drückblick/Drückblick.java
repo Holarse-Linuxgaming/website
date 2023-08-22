@@ -6,9 +6,9 @@ import de.holarse.backend.db.repositories.DrückblickRepository;
 import de.holarse.backend.db.repositories.JobRepository;
 import de.holarse.web.services.JobService;
 import de.holarse.workers.JobQueueContext;
-import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
-import javax.validation.Valid;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +17,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Secured({"ROLE_API_DRÜCKBLICK", "ROLE_API_ADMIN"})

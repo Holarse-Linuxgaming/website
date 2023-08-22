@@ -1,9 +1,9 @@
 package de.holarse.web.controller.commands;
 
-import javax.validation.constraints.AssertTrue;
-import javax.validation.constraints.Email;
+import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.Email;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 public class RegisterForm {
 
     @NotBlank(message = "Benutzername darf nicht leer sein.")

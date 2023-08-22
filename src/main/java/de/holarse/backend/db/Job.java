@@ -1,7 +1,7 @@
 package de.holarse.backend.db;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 @Table(name = "jobs")
 @Entity

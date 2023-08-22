@@ -1,18 +1,19 @@
 package de.holarse.backend.db;
 
 import de.holarse.backend.types.PasswordType;
+import io.hypersistence.utils.hibernate.type.basic.PostgreSQLEnumType;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import org.hibernate.annotations.Type;
 
 @Table(name = "users")
@@ -25,7 +26,7 @@ public class User extends TimestampedBase {
     private String email;
     private Integer drupalId;
     @Enumerated(EnumType.STRING)
-    @Type(type = "com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType")
+//    @Type(PostgreSQLEnumType.class)
     private PasswordType hashType;
     private String digest;
     

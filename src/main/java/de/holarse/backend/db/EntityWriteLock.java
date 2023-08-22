@@ -17,15 +17,16 @@
 package de.holarse.backend.db;
 
 import de.holarse.backend.types.NodeType;
+import io.hypersistence.utils.hibernate.type.basic.PostgreSQLEnumType;
 import java.time.OffsetDateTime;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import org.hibernate.annotations.Type;
 
 /**
@@ -39,7 +40,7 @@ public class EntityWriteLock extends Base  {
     private static final long serialVersionUID = 1L;
     
     @Enumerated(EnumType.STRING)
-    @Type(type = "com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType")
+//    @Type(PostgreSQLEnumType.class)
     @Column(name="entity")
     private NodeType entity;    
    
