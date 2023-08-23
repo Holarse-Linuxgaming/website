@@ -10,9 +10,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,10 +21,13 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true)
+@EnableWebMvc
 public class MultipleHttpSecurityConfig {
 
     @Autowired
@@ -89,54 +93,72 @@ public class MultipleHttpSecurityConfig {
     }
 
     /**
+     * Workaround für CVS 2023-34035 - https://spring.io/security/cve-2023-34035
+     * @param introspector
+     * @return
+     */
+    @Bean
+    MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
+        return new MvcRequestMatcher.Builder(introspector).servletPath("/");
+    }
+
+    /**
      * REST-API Authentication
      * @param http
+     * @param mvc
      * @return
      * @throws Exception 
      */
     @Bean
     @Order(1)
-    public SecurityFilterChain apiSecurityFilterChain(final HttpSecurity http) throws Exception {
+    public SecurityFilterChain apiSecurityFilterChain(final HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
         // Für normale API-Abfragen ist kein CSRF notwendig
-        http.csrf((csrf) -> csrf.disable())
-            .authorizeHttpRequests((requests) -> requests.requestMatchers("/api/**").hasRole("API"))
-            .authenticationProvider(apiAuthenticationProvider());
-        
-        // TODO http.httpBasic((httpbasic) -> httpbasic.)
-        
-        return http.build();
+        return http
+            .authorizeHttpRequests((requests) -> requests.requestMatchers(mvc.pattern("/api/**")).hasRole("API"))
+            .csrf((csrf) -> csrf.disable())
+            .authenticationProvider(apiAuthenticationProvider())
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .httpBasic(Customizer.withDefaults())
+            .build();
     }
 
     @Bean
     @Order(2)
-    public SecurityFilterChain webFormSecurityFilterChain(final HttpSecurity http) throws Exception {
-        http.authenticationProvider(drupal6AuthenticationProvider());
-        http.authenticationProvider(holaCms3AuthenticationProvider());
-       
+    public SecurityFilterChain webFormSecurityFilterChain(final HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
+        // Authorisierungsverfahren Drupal6 (md5) und holaCms3 (bcrypt)
+        http.authenticationProvider(drupal6AuthenticationProvider()).authenticationProvider(holaCms3AuthenticationProvider());
+
         // Was ignoriert werden soll und keiner Authentifizierung bedarf
-        http.csrf((csrf) -> csrf.disable()).authorizeHttpRequests((requests) -> requests.requestMatchers("/assets/**", 
-                                                                      "/favicon.ico", 
-                                                                      "/sitemap.xml", 
-                                                                      "/age.xml", "/age-de.xml", "/miracle.xml",
-                                                                      "/robots.txt", "/humans.txt",
-                                                                      "/webapi/**").permitAll());
-        
+        http.csrf((csrf) -> csrf.disable()).authorizeHttpRequests((requests) -> requests.requestMatchers(
+                                                                                        mvc.pattern("/assets/**"),
+                                                                                        mvc.pattern("/favicon.ico"),
+                                                                                        mvc.pattern("/sitemap.xml"),
+                                                                                        mvc.pattern("/age.xml"),
+                                                                                        mvc.pattern("/age-de.xml"),
+                                                                                        mvc.pattern("/miracle.xml"),
+                                                                                        mvc.pattern("/robots.txt"),
+                                                                                        mvc.pattern("/humans.txt"),
+                                                                                        mvc.pattern("/webapi/**")).permitAll());
+
         // Admin-Bereich nur für Admins
-        http.authorizeHttpRequests((requests) -> requests.requestMatchers("/admin/**").hasRole("ADMIN"));
+        http.authorizeHttpRequests((requests) -> requests.requestMatchers(mvc.pattern("/admin/**")).hasRole("ADMIN"));
         
         // Login- und Registrierungsbereich
-        http.authorizeHttpRequests((requests) -> requests.requestMatchers("/login", "/register", "/verify").permitAll());
+        http.authorizeHttpRequests((requests) -> requests.requestMatchers(mvc.pattern("/login"),
+                                                                          mvc.pattern("/register"),
+                                                                          mvc.pattern("/verify")).permitAll());
 
         // Bereich nur für authentifizierte Benutzer jeglicher Rollen, z.B. Profil, edit-Seiten
-        http.authorizeHttpRequests((requests) -> requests.requestMatchers("/profile").authenticated());
+        http.authorizeHttpRequests((requests) -> requests.requestMatchers(mvc.pattern("/profile")).authenticated());
         
         // Normale Webseite, auch als Gast nutzbar
-        http.authorizeHttpRequests((requests) -> requests.requestMatchers("/",
-                                                                      "/datenschutz",
-                                                                      "/impressum", "/imprint").permitAll());
+        http.authorizeHttpRequests((requests) -> requests.requestMatchers(mvc.pattern("/"),
+                                                                          mvc.pattern("/datenschutz"),
+                                                                          mvc.pattern("/impressum"),
+                                                                          mvc.pattern("/imprint")).permitAll());
         
         // Alles andere prinzipiell verbieten anstatt pauschal zu erlauben
-        http.authorizeHttpRequests((req) -> req.anyRequest().denyAll());
+
         
         // Form-Login
         http.formLogin((formlogin) -> formlogin.loginPage("/login").successHandler(successHandler()).failureHandler(failureHandler()));
