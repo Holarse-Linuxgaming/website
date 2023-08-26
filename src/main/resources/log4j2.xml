@@ -12,5 +12,6 @@
         <Logger name="de.holarse" level="DEBUG" />
         <Logger name="org.springframework.security" level="DEBUG" />
         <Logger name="com.fasterxml" level="WARN" />
+        <Logger name="org.hibernate.type" level="WARN" />
     </Loggers>
 </Configuration>

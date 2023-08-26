@@ -25,7 +25,7 @@ public class LoginController {
     public String logout(final SessionStatus session) {
         SecurityContextHolder.getContext().setAuthentication(null);
         session.setComplete();
-        return "redirect:/login?logout=true";
+        return "/login?logout=true";
     }    
 
 }

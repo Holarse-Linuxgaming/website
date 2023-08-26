@@ -22,12 +22,10 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
-@Configuration
 @EnableWebSecurity
-@EnableWebMvc
+@Configuration
 public class MultipleHttpSecurityConfig {
 
     @Autowired
@@ -55,7 +53,7 @@ public class MultipleHttpSecurityConfig {
 
     @Bean
     public DaoAuthenticationProvider drupal6AuthenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(webUserDetailsService);
         authProvider.setPasswordEncoder(drupalEncoder());
         return authProvider;
@@ -63,7 +61,7 @@ public class MultipleHttpSecurityConfig {
 
     @Bean
     public DaoAuthenticationProvider holaCms3AuthenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(webUserDetailsService);
         authProvider.setPasswordEncoder(bcryptEncoder());
         return authProvider;
@@ -71,7 +69,7 @@ public class MultipleHttpSecurityConfig {
     
     @Bean
     public DaoAuthenticationProvider apiAuthenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(apiUserDetailsService);
         authProvider.setPasswordEncoder(noneEncoder());
         return authProvider;
@@ -92,64 +90,42 @@ public class MultipleHttpSecurityConfig {
         return new SecureAccountFailureHandler();
     }
 
-    /**
-     * Workaround für CVS 2023-34035 - https://spring.io/security/cve-2023-34035
-     * @param introspector
-     * @return
-     */
-    @Bean
-    MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
-        return new MvcRequestMatcher.Builder(introspector).servletPath("/");
-    }
-
-    /**
-     * REST-API Authentication
-     * @param http
-     * @param mvc
-     * @return
-     * @throws Exception 
-     */
     @Bean
     @Order(1)
-    public SecurityFilterChain apiSecurityFilterChain(final HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
-        // Für normale API-Abfragen ist kein CSRF notwendig
-        return http
-            .authorizeHttpRequests((requests) -> requests.requestMatchers(mvc.pattern("/api/**")).hasRole("API"))
-            .csrf((csrf) -> csrf.disable())
-            .authenticationProvider(apiAuthenticationProvider())
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .httpBasic(Customizer.withDefaults())
-            .build();
-    }
-
-    @Bean
-    @Order(2)
-    public SecurityFilterChain webFormSecurityFilterChain(final HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
+    public SecurityFilterChain webFormSecurityFilterChain(final HttpSecurity http, final HandlerMappingIntrospector introspector) throws Exception {
+        // Workaround für CVS 2023-34035 - https://spring.io/security/cve-2023-34035        
+        var mvc = new MvcRequestMatcher.Builder(introspector).servletPath("/");
+        
+        http.securityContext(ctx -> ctx.requireExplicitSave(false));
+        
         // Authorisierungsverfahren Drupal6 (md5) und holaCms3 (bcrypt)
         http.authenticationProvider(drupal6AuthenticationProvider()).authenticationProvider(holaCms3AuthenticationProvider());
 
         // Was ignoriert werden soll und keiner Authentifizierung bedarf
-        http.csrf((csrf) -> csrf.disable()).authorizeHttpRequests((requests) -> requests.requestMatchers(
-                                                                                        mvc.pattern("/assets/**"),
-                                                                                        mvc.pattern("/favicon.ico"),
-                                                                                        mvc.pattern("/sitemap.xml"),
-                                                                                        mvc.pattern("/age.xml"),
-                                                                                        mvc.pattern("/age-de.xml"),
-                                                                                        mvc.pattern("/miracle.xml"),
-                                                                                        mvc.pattern("/robots.txt"),
-                                                                                        mvc.pattern("/humans.txt"),
-                                                                                        mvc.pattern("/webapi/**")).permitAll());
+        http.authorizeHttpRequests((requests) -> requests.requestMatchers(mvc.pattern("/assets/**"),
+                                                                          mvc.pattern("/favicon.ico"),
+                                                                          mvc.pattern("/sitemap.xml"),
+                                                                          mvc.pattern("/age.xml"),
+                                                                          mvc.pattern("/age-de.xml"),
+                                                                          mvc.pattern("/miracle.xml"),
+                                                                          mvc.pattern("/robots.txt"),
+                                                                          mvc.pattern("/humans.txt"),
+                                                                          mvc.pattern("/webapi/**")).permitAll());
 
         // Admin-Bereich nur für Admins
         http.authorizeHttpRequests((requests) -> requests.requestMatchers(mvc.pattern("/admin/**")).hasRole("ADMIN"));
         
         // Login- und Registrierungsbereich
-        http.authorizeHttpRequests((requests) -> requests.requestMatchers(mvc.pattern("/login"),
+        http.authorizeHttpRequests((requests) -> requests.requestMatchers(
+                                                                          mvc.pattern("/login"),
                                                                           mvc.pattern("/register"),
                                                                           mvc.pattern("/verify")).permitAll());
 
-        // Bereich nur für authentifizierte Benutzer jeglicher Rollen, z.B. Profil, edit-Seiten
-        http.authorizeHttpRequests((requests) -> requests.requestMatchers(mvc.pattern("/profile")).authenticated());
+
+        // Bereich nur für authentifizierte Benutzer jeglicher Rollen, z.B. Profil, edit-Seiten, logout
+        http.authorizeHttpRequests((requests) -> requests.requestMatchers(mvc.pattern("/profile"),
+                                                                          mvc.pattern("/logout")
+        ).authenticated());
         
         // Normale Webseite, auch als Gast nutzbar
         http.authorizeHttpRequests((requests) -> requests.requestMatchers(mvc.pattern("/"),
@@ -157,14 +133,44 @@ public class MultipleHttpSecurityConfig {
                                                                           mvc.pattern("/impressum"),
                                                                           mvc.pattern("/imprint")).permitAll());
         
-        // Alles andere prinzipiell verbieten anstatt pauschal zu erlauben
-
-        
         // Form-Login
-        http.formLogin((formlogin) -> formlogin.loginPage("/login").successHandler(successHandler()).failureHandler(failureHandler()));
-        http.logout((logout) -> logout.logoutUrl("/logout").logoutSuccessUrl("/"));
+        http.formLogin(form -> form
+            .loginPage("/login").permitAll()
+            .successHandler(successHandler())
+            .failureHandler(failureHandler())
+        );
+        
+        // Logout
+        http.logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+        );
         
         return http.build();
     }
   
+    /**
+     * REST-API Authentication
+     * @param http
+     * @param introspector
+     * @return
+     * @throws Exception 
+     */
+    @Bean
+    @Order(2)
+    public SecurityFilterChain apiSecurityFilterChain(final HttpSecurity http, final HandlerMappingIntrospector introspector) throws Exception {
+        // Workaround für CVS 2023-34035 - https://spring.io/security/cve-2023-34035        
+        var mvc = new MvcRequestMatcher.Builder(introspector).servletPath("/");
+        
+        return http
+            .securityMatcher("/api/**")
+            .csrf((csrf) -> csrf.disable()) // Für normale API-Abfragen ist kein CSRF notwendig                
+            .authorizeHttpRequests((requests) -> requests
+                    .requestMatchers(mvc.pattern("/api/**")).hasRole("API")
+            )
+            .authenticationProvider(apiAuthenticationProvider())
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .httpBasic(Customizer.withDefaults())
+            .build();
+    }    
 }

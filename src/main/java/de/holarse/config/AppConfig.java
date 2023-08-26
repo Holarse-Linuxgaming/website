@@ -45,10 +45,10 @@ public class AppConfig implements WebMvcConfigurer {
         return new StandardServletMultipartResolver();
     }
 
-    @Override
-    public void configurePathMatch(final PathMatchConfigurer configurer) {
-        configurer.setUseTrailingSlashMatch(true);
-    }
+//    @Override
+//    public void configurePathMatch(final PathMatchConfigurer configurer) {
+//        configurer.setUseTrailingSlashMatch(true);
+//    }
 
     @Bean
     public SpringResourceTemplateResolver springTemplateResolver(){
@@ -82,7 +82,8 @@ public class AppConfig implements WebMvcConfigurer {
      */
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/assets/");
+        // TODO später dann vom Dateisystem über NGINX ausliefern
+        registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/assets/"); 
     }
 
     @Bean
