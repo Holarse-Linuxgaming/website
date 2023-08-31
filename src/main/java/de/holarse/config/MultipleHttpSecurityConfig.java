@@ -4,6 +4,8 @@ package de.holarse.config;
 import de.holarse.utils.NonePasswordEncoder;
 import de.holarse.auth.web.SecureAccountFailureHandler;
 import de.holarse.drupal.Drupal6PasswordEncoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -22,12 +24,18 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.web.cors.CorsUtils;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
-@EnableWebSecurity
 @Configuration
+@EnableWebSecurity
 public class MultipleHttpSecurityConfig {
 
+    private final static transient Logger log = LoggerFactory.getLogger(MultipleHttpSecurityConfig.class);
+    
+    
     @Autowired
     @Qualifier("webUserDetailsService")            
     private UserDetailsService webUserDetailsService;
@@ -94,59 +102,54 @@ public class MultipleHttpSecurityConfig {
     @Order(1)
     public SecurityFilterChain webFormSecurityFilterChain(final HttpSecurity http, final HandlerMappingIntrospector introspector) throws Exception {
         // Workaround für CVS 2023-34035 - https://spring.io/security/cve-2023-34035        
-        var mvc = new MvcRequestMatcher.Builder(introspector).servletPath("/");
+//        var mvc = new MvcRequestMatcher.Builder(introspector).servletPath("/");
         
-        http.securityContext(ctx -> ctx.requireExplicitSave(false));
+        log.debug("webFormSecurityFilterChain");
+        
+        return http.cors(Customizer.withDefaults())
         
         // Authorisierungsverfahren Drupal6 (md5) und holaCms3 (bcrypt)
-        http.authenticationProvider(drupal6AuthenticationProvider()).authenticationProvider(holaCms3AuthenticationProvider());
-
+        .authenticationProvider(drupal6AuthenticationProvider()).authenticationProvider(holaCms3AuthenticationProvider())
+       
         // Was ignoriert werden soll und keiner Authentifizierung bedarf
-        http.authorizeHttpRequests((requests) -> requests.requestMatchers(mvc.pattern("/assets/**"),
-                                                                          mvc.pattern("/favicon.ico"),
-                                                                          mvc.pattern("/sitemap.xml"),
-                                                                          mvc.pattern("/age.xml"),
-                                                                          mvc.pattern("/age-de.xml"),
-                                                                          mvc.pattern("/miracle.xml"),
-                                                                          mvc.pattern("/robots.txt"),
-                                                                          mvc.pattern("/humans.txt"),
-                                                                          mvc.pattern("/webapi/**")).permitAll());
+        .authorizeHttpRequests((requests) -> requests.requestMatchers(antMatcher("/assets/**"),
+                                                                      antMatcher("/favicon.ico"),
+                                                                      antMatcher("/sitemap.xml"),
+                                                                      antMatcher("/age.xml"),
+                                                                      antMatcher("/age-de.xml"),
+                                                                      antMatcher("/miracle.xml"),
+                                                                      antMatcher("/robots.txt"),
+                                                                      antMatcher("/humans.txt")).permitAll())
 
         // Admin-Bereich nur für Admins
-        http.authorizeHttpRequests((requests) -> requests.requestMatchers(mvc.pattern("/admin/**")).hasRole("ADMIN"));
+        .authorizeHttpRequests((requests) -> requests.requestMatchers(antMatcher("/admin/**")).hasRole("ADMIN"))
         
         // Login- und Registrierungsbereich
-        http.authorizeHttpRequests((requests) -> requests.requestMatchers(
-                                                                          mvc.pattern("/login"),
-                                                                          mvc.pattern("/register"),
-                                                                          mvc.pattern("/verify")).permitAll());
+        .authorizeHttpRequests((requests) -> requests.requestMatchers(antMatcher("/register"),
+                                                                      antMatcher("/verify")).permitAll())
 
 
         // Bereich nur für authentifizierte Benutzer jeglicher Rollen, z.B. Profil, edit-Seiten, logout
-        http.authorizeHttpRequests((requests) -> requests.requestMatchers(mvc.pattern("/profile"),
-                                                                          mvc.pattern("/logout")
-        ).authenticated());
+        .authorizeHttpRequests((requests) -> requests.requestMatchers(antMatcher("/profile"),
+                                                                      antMatcher("/logout")).authenticated())
         
         // Normale Webseite, auch als Gast nutzbar
-        http.authorizeHttpRequests((requests) -> requests.requestMatchers(mvc.pattern("/"),
-                                                                          mvc.pattern("/datenschutz"),
-                                                                          mvc.pattern("/impressum"),
-                                                                          mvc.pattern("/imprint")).permitAll());
+        .authorizeHttpRequests((requests) -> requests.requestMatchers(antMatcher("/"),
+                                                                      antMatcher("/datenschutz"),
+                                                                      antMatcher("/privacy"),
+                                                                      antMatcher("/impressum"),
+                                                                      antMatcher("/imprint")).permitAll())
         
         // Form-Login
-        http.formLogin(form -> form
-            .loginPage("/login").permitAll()
-            .successHandler(successHandler())
-            .failureHandler(failureHandler())
-        );
+        .formLogin(form -> form.loginPage("/login").permitAll()
+                               .successHandler(successHandler())
+                               .failureHandler(failureHandler()))
         
         // Logout
-        http.logout(logout -> logout
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/")
-        );
+        .logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/"))
         
-        return http.build();
+        // Fertig
+        .build();
     }
   
     /**
@@ -160,13 +163,13 @@ public class MultipleHttpSecurityConfig {
     @Order(2)
     public SecurityFilterChain apiSecurityFilterChain(final HttpSecurity http, final HandlerMappingIntrospector introspector) throws Exception {
         // Workaround für CVS 2023-34035 - https://spring.io/security/cve-2023-34035        
-        var mvc = new MvcRequestMatcher.Builder(introspector).servletPath("/");
+        //var mvc = new MvcRequestMatcher.Builder(introspector).servletPath("/");
         
         return http
             .securityMatcher("/api/**")
             .csrf((csrf) -> csrf.disable()) // Für normale API-Abfragen ist kein CSRF notwendig                
             .authorizeHttpRequests((requests) -> requests
-                    .requestMatchers(mvc.pattern("/api/**")).hasRole("API")
+                    .requestMatchers(antMatcher("/api/**")).hasRole("API")
             )
             .authenticationProvider(apiAuthenticationProvider())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
