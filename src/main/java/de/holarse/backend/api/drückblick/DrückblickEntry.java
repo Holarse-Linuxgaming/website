@@ -2,8 +2,7 @@ package de.holarse.backend.api.drückblick;
 
 import de.holarse.backend.types.DrückblickSourceType;
 import java.io.Serializable;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 
 public class DrückblickEntry implements Serializable {
 

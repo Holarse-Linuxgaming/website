@@ -1,7 +1,7 @@
 package de.holarse.config;
 
 import java.util.Properties;
-import javax.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -56,7 +56,7 @@ public class DatabaseConfig {
     }
 
     Properties additionalProperties() {
-        Properties properties = new Properties();
+        final Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", "validate");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");       
         properties.setProperty("hibernate.current_session_context_class", "thread");

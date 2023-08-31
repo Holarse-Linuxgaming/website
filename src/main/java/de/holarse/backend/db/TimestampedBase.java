@@ -1,8 +1,8 @@
 package de.holarse.backend.db;
 
 import java.time.OffsetDateTime;
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
+import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public abstract class TimestampedBase extends Base {

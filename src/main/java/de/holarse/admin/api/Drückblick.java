@@ -24,7 +24,7 @@ import de.holarse.backend.db.repositories.EntityWriteLockRepository;
 import de.holarse.backend.types.NodeType;
 import de.holarse.web.services.EntityLockService;
 import java.util.List;
-import javax.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

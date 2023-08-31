@@ -2,7 +2,7 @@ package de.holarse.auth.web;
 
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.UserRepository;
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 
 import org.hibernate.Hibernate;
 import org.slf4j.Logger;

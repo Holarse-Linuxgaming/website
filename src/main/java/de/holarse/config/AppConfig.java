@@ -17,10 +17,10 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
-import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
-import org.thymeleaf.spring5.SpringTemplateEngine;
-import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
-import org.thymeleaf.spring5.view.ThymeleafViewResolver;
+import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
+import org.thymeleaf.spring6.SpringTemplateEngine;
+import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
+import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 
 @Configuration
 @EnableWebMvc
@@ -45,10 +45,10 @@ public class AppConfig implements WebMvcConfigurer {
         return new StandardServletMultipartResolver();
     }
 
-    @Override
-    public void configurePathMatch(final PathMatchConfigurer configurer) {
-        configurer.setUseTrailingSlashMatch(true);
-    }
+//    @Override
+//    public void configurePathMatch(final PathMatchConfigurer configurer) {
+//        configurer.setUseTrailingSlashMatch(true);
+//    }
 
     @Bean
     public SpringResourceTemplateResolver springTemplateResolver(){
@@ -82,7 +82,8 @@ public class AppConfig implements WebMvcConfigurer {
      */
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/assets/");
+        // TODO später dann vom Dateisystem über NGINX ausliefern
+        registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/assets/"); 
     }
 
     @Bean
