@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+@Deprecated
 public interface JobRepository extends JpaRepository<Job, Integer> {
     
     @Query(value = "SELECT j.* FROM jobs j WHERE j.queue = :queue AND j.context = :context AND not j.ignore AND not j.completed and j.tries < 3", nativeQuery = true)

@@ -1,6 +1,8 @@
 package de.holarse.config;
 
 import de.holarse.web.interceptors.RequestLoggingInterceptor;
+import jakarta.jms.ConnectionFactory;
+import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -73,7 +75,7 @@ public class AppConfig implements WebMvcConfigurer {
         viewResolver.setTemplateEngine(springTemplateEngine());
         return viewResolver;
     }      
-    
+        
     /**
      * Configure ResourceHandlers to serve static resources like CSS/ Javascript
      * etc...

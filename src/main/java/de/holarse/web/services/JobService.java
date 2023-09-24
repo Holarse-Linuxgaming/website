@@ -3,7 +3,7 @@ package de.holarse.web.services;
 import de.holarse.backend.db.Job;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.JobRepository;
-import de.holarse.workers.JobConfiguration;
+import de.holarse.consumers.JobConfiguration;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -24,6 +24,7 @@ public class JobService {
         return job;
     }
     
+    @Deprecated
     public Job prepareForJob(final Object payload, final String ctx) throws IOException {
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
         final ObjectOutputStream oos = new ObjectOutputStream(out);

@@ -1,6 +1,5 @@
 package de.holarse.config;
 
-//import de.holarse.auth.web.SecureAccountFailureHandler;
 import de.holarse.utils.NonePasswordEncoder;
 import de.holarse.auth.web.SecureAccountFailureHandler;
 import de.holarse.drupal.Drupal6PasswordEncoder;
@@ -13,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -23,14 +23,12 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
-import org.springframework.web.cors.CorsUtils;
-import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity()
+@EnableMethodSecurity(securedEnabled = true)
 public class MultipleHttpSecurityConfig {
 
     private final static transient Logger log = LoggerFactory.getLogger(MultipleHttpSecurityConfig.class);
@@ -99,7 +97,7 @@ public class MultipleHttpSecurityConfig {
     }
 
     @Bean
-    @Order(1)
+    @Order(2)
     public SecurityFilterChain webFormSecurityFilterChain(final HttpSecurity http, final HandlerMappingIntrospector introspector) throws Exception {
         // Workaround für CVS 2023-34035 - https://spring.io/security/cve-2023-34035        
 //        var mvc = new MvcRequestMatcher.Builder(introspector).servletPath("/");
@@ -160,7 +158,7 @@ public class MultipleHttpSecurityConfig {
      * @throws Exception 
      */
     @Bean
-    @Order(2)
+    @Order(1)
     public SecurityFilterChain apiSecurityFilterChain(final HttpSecurity http, final HandlerMappingIntrospector introspector) throws Exception {
         // Workaround für CVS 2023-34035 - https://spring.io/security/cve-2023-34035        
         //var mvc = new MvcRequestMatcher.Builder(introspector).servletPath("/");
@@ -168,9 +166,8 @@ public class MultipleHttpSecurityConfig {
         return http
             .securityMatcher("/api/**")
             .csrf((csrf) -> csrf.disable()) // Für normale API-Abfragen ist kein CSRF notwendig                
-            .authorizeHttpRequests((requests) -> requests
-                    .requestMatchers(antMatcher("/api/**")).hasRole("API")
-            )
+            // Jede Anfrage muss grundsätzlich erstmal ROLE_API haben, Details sind dann an der Method-Security definiert
+            .authorizeHttpRequests((requests) -> requests.anyRequest().hasRole("API")) 
             .authenticationProvider(apiAuthenticationProvider())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .httpBasic(Customizer.withDefaults())

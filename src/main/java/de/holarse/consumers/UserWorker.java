@@ -1,4 +1,4 @@
-package de.holarse.workers;
+package de.holarse.consumers;
 
 import de.holarse.backend.db.Job;
 import de.holarse.backend.db.User;
