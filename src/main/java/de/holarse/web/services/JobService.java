@@ -24,6 +24,7 @@ public class JobService {
         return job;
     }
     
+    @Deprecated
     public Job prepareForJob(final Object payload, final String ctx) throws IOException {
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
         final ObjectOutputStream oos = new ObjectOutputStream(out);

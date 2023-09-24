@@ -36,6 +36,13 @@
             <artifactId>jakarta.persistence-api</artifactId>
             <version>3.1.0</version>
         </dependency>
+        
+        <!-- https://mvnrepository.com/artifact/jakarta.jms/jakarta.jms-api -->
+        <dependency>
+            <groupId>jakarta.jms</groupId>
+            <artifactId>jakarta.jms-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>        
 
         <!-- Spring -->
         <dependency>
@@ -63,13 +70,25 @@
             <artifactId>spring-aop</artifactId>
             <version>${spring.version}</version>
         </dependency>
-     
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>${spring.version}</version>
             <scope>test</scope>
-        </dependency>    
+        </dependency>         
+        
+        <!-- Messaging -->
+        <!-- https://mvnrepository.com/artifact/org.apache.activemq/activemq-spring -->
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-client-jakarta</artifactId>
+            <version>5.18.2</version>
+        </dependency>   
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jms</artifactId>
+            <version>${spring.version}</version>
+        </dependency>        
     
         <!-- Spring Security -->
         <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
