@@ -1,4 +1,4 @@
-package de.holarse.workers;
+package de.holarse.consumers;
 
 public enum JobQueueContext {
 

@@ -3,7 +3,7 @@ package de.holarse.web.services;
 import de.holarse.backend.db.Job;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.JobRepository;
-import de.holarse.workers.JobConfiguration;
+import de.holarse.consumers.JobConfiguration;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;

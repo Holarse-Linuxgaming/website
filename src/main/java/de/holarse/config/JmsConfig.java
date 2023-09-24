@@ -42,7 +42,7 @@ public class JmsConfig {
         connectionFactory.setUserName("web");
         connectionFactory.setPassword("geheim");
         
-        connectionFactory.setTrustedPackages(Arrays.asList("de.holarse.backend.api.drückblick"));
+        connectionFactory.setTrustedPackages(Arrays.asList("de.holarse.backend.api.drückblick", "de.holarse.backend.types"));
         
         return connectionFactory;        
     }    

@@ -1,4 +1,4 @@
-package de.holarse.workers;
+package de.holarse.consumers;
 
 import de.holarse.backend.db.DrückblickEntry;
 import de.holarse.backend.db.repositories.DrückblickRepository;
@@ -18,7 +18,7 @@ public class DrückblickWorker {
     private final static transient Logger log = LoggerFactory.getLogger(UserWorker.class);
     
     @Autowired
-    DrückblickRepository drückblickRepository;
+    private DrückblickRepository drückblickRepository;
     
     @JmsListener(destination = "drueckblick")
     public void importDrückblickEntries(final de.holarse.backend.api.drückblick.DrückblickEntry entry_u) {
