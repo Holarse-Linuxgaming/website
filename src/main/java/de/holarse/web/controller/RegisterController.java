@@ -1,9 +1,12 @@
 package de.holarse.web.controller;
 
 import de.holarse.backend.db.User;
+import de.holarse.backend.db.UserData;
 import de.holarse.backend.db.UserSlug;
+import de.holarse.backend.db.UserStatus;
 import de.holarse.backend.db.repositories.RoleRepository;
 import de.holarse.backend.db.repositories.UserRepository;
+import de.holarse.backend.types.PasswordType;
 import de.holarse.web.controller.commands.RegisterForm;
 import de.holarse.web.defines.WebDefines;
 import de.holarse.web.services.JobService;
@@ -13,13 +16,17 @@ import de.holarse.web.services.SlugService;
 import java.time.OffsetDateTime;
 import java.util.Optional;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import org.apache.commons.math3.random.RandomDataGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,6 +62,10 @@ public class RegisterController {
     
     @Autowired
     RegisterFormValidationService rfValidationService;
+    
+    @Autowired
+    @Qualifier("bcryptEncoder")
+    private PasswordEncoder passwordEncoder;      
 
     @GetMapping
     public ModelAndView index(final ModelAndView mv) {
@@ -82,17 +93,42 @@ public class RegisterController {
 
         log.info("Registration form ok");
 
+        final EntityTransaction tx = em.getTransaction();
+        tx.begin();
         // Unbestätigten Benutzer anlegen
-        final User newUser = registerService.createUnverifiedUser(registerForm);
-        newUser.getRoles().add(roleRepository.findByCode("TRUSTED_USER"));
+        final User user = new User();
+        user.setLogin(registerForm.getUsername());
+        user.setEmail(registerForm.getEmail());
+        user.setHashType(PasswordType.bcrypt);
+        user.setDigest(passwordEncoder.encode(registerForm.getPassword()));
+        em.persist(user);
+        
+        final UserStatus userStatus = new UserStatus();
+        userStatus.setCreated(OffsetDateTime.now());
+        userStatus.setFailedLogins(0);
+        userStatus.setLocked(false);
+        userStatus.setVerified(false);
+        userStatus.setVerificationHash(generateVerificationHash());
+        userStatus.setVerificationHashValidUntil(OffsetDateTime.now().plusMinutes(30));
+        user.setUserStatus(userStatus); 
+        
+        final UserData userData = new UserData();
+        user.setUserData(userData);
+        
+        user.getRoles().add(roleRepository.findByCode("TRUSTED_USER"));
         
         // Slugs
-        UserSlug userSlug = slugService.slugify(newUser);
-        userSlug.setUser(newUser);
-        newUser.getUserSlugs().add(userSlug);
-        em.persist(newUser);
-        mv.addObject("validationKey", newUser.getUserStatus().getVerificationHash());
+        UserSlug userSlug = slugService.slugify(user);
+        userSlug.setUser(user);
+        user.getUserSlugs().add(userSlug);
+        mv.addObject("validationKey", user.getUserStatus().getVerificationHash());
 
+        em.persist(user);
+        em.persist(userStatus);
+        em.persist(userData);
+        em.persist(userSlug);
+        tx.commit();
+        
         mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/accounts/registered");
         return mv;
     }
@@ -115,5 +151,9 @@ public class RegisterController {
 
         return mv;
     }
+    
+    public String generateVerificationHash() {
+        return new RandomDataGenerator().nextSecureHexString(12);
+    }    
 
 }
