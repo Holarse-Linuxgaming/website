@@ -17,4 +17,4 @@ EXPOSE 61616
 
 VOLUME /opt/holaq/data/journal
 
-CMD /opt/holaq/bin/artemis run --relax-jolokia
+CMD /opt/holaq/bin/artemis run

@@ -14,7 +14,7 @@ services:
     volumes:
       - website_my_pgdata:/var/lib/postgresql/data
   amq:
-      image: holarse/amq:1
+      image: git.holarse.de/holarse-linuxgaming/holarse/holaq:latest
       restart: always
       ports:
           - 8161:8161
