@@ -28,7 +28,7 @@ create table if not exists users (
 create table if not exists user_status(
     id integer primary key not null default nextval('hibernate_sequence'), 
 
-    userid integer references users(id),
+    user_id integer references users(id),
     
     locked bool default false,
     verified bool default false,
@@ -47,7 +47,7 @@ create table if not exists user_status(
 
 create table if not exists user_data(
 	id integer primary key default nextval('hibernate_sequence'),
-	userid integer references users(id),
+	user_id integer references users(id),
 	
 	signature varchar(1024),
 	avatar varchar(255),
@@ -59,8 +59,8 @@ create table if not exists user_data(
 
 
 create table if not exists user_roles (
-	userid integer not null references users(id),
-	roleid integer not null references roles(id)
+	user_id integer not null references users(id),
+	role_id integer not null references roles(id)
 );
 
 create index idx_user_verification_hash on user_status (verification_hash, locked, verified);

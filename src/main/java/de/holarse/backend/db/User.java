@@ -5,6 +5,7 @@ import io.hypersistence.utils.hibernate.type.basic.PostgreSQLEnumType;
 import java.util.HashSet;
 import java.util.Set;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -26,15 +27,16 @@ public class User extends TimestampedBase {
     private String email;
     private Integer drupalId;
     @Enumerated(EnumType.STRING)
-//    @Type(PostgreSQLEnumType.class)
+    @Type(PostgreSQLEnumType.class)
+    @Column(columnDefinition = "password_type")
     private PasswordType hashType;
     private String digest;
     
     @ManyToMany
     @JoinTable(
             name = "user_roles",
-            joinColumns = @JoinColumn(name = "userid"),
-            inverseJoinColumns = @JoinColumn(name = "roleid")
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
 

@@ -15,43 +15,26 @@ Den Import der Dateien kann man über die REST-API durchführen. Es gibt zwei Sc
 ## Webapp
 
 ### Anforderungen
-* Java 11 JDK
+* Java 17
+* Docker, docker-compose
 * Apache Maven 3.x
-* PostgreSQL 13
-* Apache Tomcat 9.x
+* Containerisiert: Apache Tomcat 10, Apache Artemis, PostgreSQL 15
 
-### Konfiguration Tomcat
-1.) Tomcat installieren
+### Container-Deployment
+Starten mit
 
-Siehe /doc/tomcat/README.txt
+```
+docker-compose -f doc/docker-compose.yml up
+```
+Ggf. muss man sich am Holarse-Container-Repo unter git.holarse.de anmelden.
 
-2.) Tomcat anpassen
-
-Dazu im Tomcat-Ordner in `conf/context.xml` einfügen, im "Context"-Block:
-
-`<Context>` wird zu `<Context reloadable="true">`
-
-Damit lädt Tomcat die Anwendung neu, wenn sie gebaut wurde.
-
-Nun wird noch ein Symlink in *webapps* erstellt.
-Falls der Ordner `ROOT` in webapps existiert, wird dieser dann gelöscht.
-
-Danach wird der target Ordner von diesen Repository verlinkt, damit wir darüber
-dann "live" arbeiten können.
-
-`ln -s ~/website/target/holarseweb/ tomcat/webapps/ROOT`
-
-Dann nur noch Tomcat starten (`/bin/catalina.sh run`) und man ist zum Arbeiten bereit.
-
-Kleiner Hinweis noch:
-
-Wenn man am Source Code (Keine Template-/HTML-Dateien) arbeitet, muss man mittels *mvn compile*
-diese bauen, damit Tomcat die dann "nachlädt".
-
-Template-/HTML-Dateien können in ```target/holarseweb/``` bearbeitet werden (und direkt nachgeladen werden)
-aber werden beim bauen wieder **sofort überschrieben**.
+### Apache Artemis Message-Queue
+Die Message-Queue ist unter http://localhost:8161 erreichbar.
 
 ### Datenbank
+Die Datenbank ist unter http://localhost:5432 erreichbar.
+
+#### Manuelles Deployment
 Die Datenbank per Distro-Repo einbinden oder von dem Postgresql-bereitgestelltem Repository. Die Anleitungen finden sich in ```/doc/db/```.
 
 Die Benutzer müssen vorab angelegt werden. Zudem ist in der ```postgresql.conf``` noch die Authentifizierung von md5 (Standard) auf 
@@ -60,12 +43,7 @@ password_encryption = scram-sha-256
 ```
 zu ändern.
 
-Dann kann die Datenbank und der Benutzer entweder über das Script oder manuell angelegt werden. Per Script:
-
-
-    psql -h HOST -U postgres -d holarse -W -f 00_createdb.sql
-
-oder manuell auf dem Datenbank-Server via
+Dann kann die Datenbank und der Benutzer manuell auf dem Datenbank-Server via
 
     su - postgres
     createrole holarse
@@ -73,19 +51,18 @@ oder manuell auf dem Datenbank-Server via
 
 angelegt werden.
 
-Dann folgt das nächste Script ebenfalls noch als postgres-Benutzer mit
+Dann folgt das Schema-Script unter ```doc/db2/01_schema``` ebenfalls noch als postgres-Benutzer mit
 
-    psql -h HOST -U postgres -d holarse -W -f 01_as_postgres.sql
+    psql -h HOST -U postgres -d holarse -W -f 01_*.sql
+ 
+Dann die weiteren Dateien aufsteigend in den Nummern, bis es keine mehr gibt.
 
-Nun muss Holarse gebaut und auf dem Tomcat deployt werden. Hibernate erstellt dann automatisch aus den Entity-Definitionen
-die nötigen Datenbankstrukturen. Danach geht es weiter mit:
+Danach können einige Daten importiert werden. Diese sind unter ```doc/db2/02_data```.
 
-    psql -h HOST -U holarse -d holarse -W -f 02_searchindex.sql 
-    psql -h HOST -U holarse -d holarse -W -f 03_postdata.sql
-
+    
 An dieser Stelle ist Holarse eingerichtet. Die Daten können nun importiert werden. Danach müssen die Daten noch bereinigt werden mit dem Script:
 
-    psql -h HOST -U holarse -d holarse -W -f 04_after_article_import.sql
+    psql -h HOST -U holarse -d holarse -W -f doc/db/04_after_article_import.sql
 
 Willkommen im HolaCMS 3-Testsystem!
 
