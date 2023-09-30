@@ -2,13 +2,28 @@ create table if not exists roles(
 	id integer primary key default nextval('hibernate_sequence'),
 	code varchar(255) not null unique,
 	
-	access_level integer check (level > 0),
+	access_level integer check (access_level > 0),
 	
 	created timestamptz not null default CURRENT_TIMESTAMP,
 	updated timestamptz not null default CURRENT_TIMESTAMP
 );
 
 create type password_type as enum ('md5', 'bcrypt');
+
+create table if not exists users (
+	id integer primary key default nextval('hibernate_sequence'),
+	
+	login varchar(255) not null unique,
+	email varchar(255) not null unique,
+	
+	drupalid integer,
+	
+	hashtype password_type not null,
+	digest varchar(255) not null,
+	
+	created timestamptz not null default CURRENT_TIMESTAMP,
+	updated timestamptz not null default CURRENT_TIMESTAMP
+);
 
 create table if not exists user_status(
     id integer primary key not null default nextval('hibernate_sequence'), 
@@ -41,20 +56,7 @@ create table if not exists user_data(
 	updated timestamptz not null default CURRENT_TIMESTAMP	
 );
 
-create table if not exists users (
-	id integer primary key default nextval('hibernate_sequence'),
-	
-	login varchar(255) not null unique,
-	email varchar(255) not null unique,
-	
-	drupalid integer,
-	
-	hashtype password_type not null,
-	digest varchar(255) not null,
-	
-	created timestamptz not null default CURRENT_TIMESTAMP,
-	updated timestamptz not null default CURRENT_TIMESTAMP
-);
+
 
 create table if not exists user_roles (
 	userid integer not null references users(id),

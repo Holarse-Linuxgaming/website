@@ -21,7 +21,7 @@ SELECT
         setweight(to_tsvector(article_revisions.title7_lang::regconfig, coalesce(unaccent(article_revisions.title7), '')), 'A') ||        setweight(to_tsvector('german', coalesce(article_revisions.content, '')), 'B') -- content will be mostly german
 --        setweight(to_tsvector(name_lang::regconfig, tags.name), 'C')
 	AS document,
-        'article' :: nodetype AS doctype
+        'article' :: node_type AS doctype
     FROM article_revisions
     INNER JOIN articles a on a.revisionid = article_revisions.id  
     LEFT JOIN node_tags ON node_tags.nodeid = article_revisions.nodeid
@@ -53,7 +53,7 @@ SELECT
         setweight(to_tsvector(news_revisions.title_lang::regconfig, unaccent(news_revisions.title)), 'A') ||  setweight(to_tsvector('german', coalesce(news_revisions.content, '')), 'B') -- content will be mostly german
 --        setweight(to_tsvector(name_lang::regconfig, tags.name), 'C')
 	AS document,
-        'news' :: nodetype AS doctype
+        'news' :: node_type AS doctype
     FROM news_revisions
     INNER JOIN news n on n.revisionid = news_revisions.id  
     LEFT JOIN node_tags ON node_tags.nodeid = news_revisions.nodeid
@@ -84,7 +84,7 @@ union -- ab hier forumthreads
     '' as tags,
     setweight(to_tsvector(ft.title_lang::regconfig, unaccent(ft.title)), 'A') ||  setweight(to_tsvector('german', coalesce(ft.content, '')), 'B') -- content will be mostly german
     as document,
-    'thread' :: nodetype as doctype
+    'thread' :: node_type as doctype
     from forum_threads ft
     inner join forums on forums.id = ft.forumid 
     inner join node_status ns on ns.nodeid = ft.nodeid 

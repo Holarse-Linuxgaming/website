@@ -1,24 +1,26 @@
 -- 1. Roles
-INSERT INTO roles (id, code, level) VALUES (nextval('hibernate_sequence'), 'ADMIN', 1);
-INSERT INTO roles (id, code, level) VALUES (nextval('hibernate_sequence'), 'HOLARSE-CORE', 10);
-INSERT INTO roles (id, code, level) VALUES (nextval('hibernate_sequence'), 'MODERATOR', 100);
-INSERT INTO roles (id, code, level) VALUES (nextval('hibernate_sequence'), 'REPORTER', 250);
-INSERT INTO roles (id, code, level) VALUES (nextval('hibernate_sequence'), 'TRUSTED_USER', 500);
+INSERT INTO roles (id, code, access_level) VALUES 
+(nextval('hibernate_sequence'), 'ADMIN', 1),
+(nextval('hibernate_sequence'), 'HOLARSE-CORE', 10),
+(nextval('hibernate_sequence'), 'MODERATOR', 100),
+(nextval('hibernate_sequence'), 'REPORTER', 250),
+(nextval('hibernate_sequence'), 'TRUSTED_USER', 500);
 
 -- 2. Tag groups
-INSERT INTO taggroups(id, name) VALUES (nextval('hibernate_sequence'), 'LICENSE');
-INSERT INTO taggroups(id, name) VALUES (nextval('hibernate_sequence'), 'GENRE');
-INSERT INTO taggroups(id, name) VALUES (nextval('hibernate_sequence'), 'MULTIPLAYER');
-INSERT INTO taggroups(id, name) VALUES (nextval('hibernate_sequence'), 'STORE');
-INSERT INTO taggroups(id, name) VALUES (nextval('hibernate_sequence'), 'FRANCHISE');
-INSERT INTO taggroups(id, name) VALUES (nextval('hibernate_sequence'), 'COMPANY');
-INSERT INTO taggroups(id, name) VALUES (nextval('hibernate_sequence'), 'DEVELOPER');
-INSERT INTO taggroups(id, name) VALUES (nextval('hibernate_sequence'), 'PUBLISHER');
-INSERT INTO taggroups(id, name) VALUES (nextval('hibernate_sequence'), 'PORTER');
-INSERT INTO taggroups(id, name) VALUES (nextval('hibernate_sequence'), 'PLATFORM');
-INSERT INTO taggroups(id, name) VALUES (nextval('hibernate_sequence'), 'TECHNICAL');
-INSERT INTO taggroups(id, name) VALUES (nextval('hibernate_sequence'), 'ENGINE');
-INSERT INTO taggroups(id, name) VALUES (nextval('hibernate_sequence'), 'PACKAGEMANAGER');
+INSERT INTO taggroups(id, name) VALUES 
+(nextval('hibernate_sequence'), 'LICENSE'),
+(nextval('hibernate_sequence'), 'GENRE'),
+(nextval('hibernate_sequence'), 'MULTIPLAYER'),
+(nextval('hibernate_sequence'), 'STORE'),
+(nextval('hibernate_sequence'), 'FRANCHISE'),
+(nextval('hibernate_sequence'), 'COMPANY'),
+(nextval('hibernate_sequence'), 'DEVELOPER'),
+(nextval('hibernate_sequence'), 'PUBLISHER'),
+(nextval('hibernate_sequence'), 'PORTER'),
+(nextval('hibernate_sequence'), 'PLATFORM'),
+(nextval('hibernate_sequence'), 'TECHNICAL'),
+(nextval('hibernate_sequence'), 'ENGINE'),
+(nextval('hibernate_sequence'), 'PACKAGEMANAGER');
 
 
 -- 3. Forums
