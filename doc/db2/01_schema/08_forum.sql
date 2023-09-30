@@ -2,7 +2,8 @@ create table if not exists forums (
 	id int primary key default nextval('hibernate_sequence'),
 	title varchar(255) not null unique,
 	description varchar(1024),
-	weight int default 0
+	weight int default 0,
+        slug varchar(255) not null
 );
 
 create table if not exists forum_threads (
