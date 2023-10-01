@@ -132,6 +132,7 @@ public class MultipleHttpSecurityConfig {
         
         // Normale Webseite, auch als Gast nutzbar
         .authorizeHttpRequests((requests) -> requests.requestMatchers(antMatcher("/"),
+                                                                      antMatcher("/search/**"),
                                                                       antMatcher("/wiki/**"),
                                                                       antMatcher("/datenschutz"),
                                                                       antMatcher("/privacy"),
