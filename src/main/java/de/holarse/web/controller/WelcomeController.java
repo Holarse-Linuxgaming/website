@@ -16,7 +16,7 @@ public class WelcomeController {
     @Autowired
     ApiUserRepository apiUserRepository;
     
-    @GetMapping("/")
+    @GetMapping
     public ModelAndView index() {
         final ModelAndView mv = new ModelAndView();
         mv.setViewName("layouts/landing");
