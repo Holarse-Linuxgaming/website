@@ -1,8 +1,6 @@
 package de.holarse.config;
 
 import de.holarse.web.interceptors.RequestLoggingInterceptor;
-import jakarta.jms.ConnectionFactory;
-import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +11,7 @@ import org.springframework.context.annotation.PropertySources;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
@@ -28,6 +27,7 @@ import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 @EnableWebMvc
 @EnableSpringDataWebSupport
 @EnableScheduling
+@EnableTransactionManagement
 @ComponentScan(basePackages = "de.holarse" )
 @PropertySources({
     @PropertySource("classpath:application.properties"), 

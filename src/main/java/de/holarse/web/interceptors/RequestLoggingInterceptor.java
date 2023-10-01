@@ -49,9 +49,9 @@ public class RequestLoggingInterceptor implements HandlerInterceptor {
     
     @Override
     public void afterCompletion(final HttpServletRequest request, final HttpServletResponse response, final Object handler, final Exception ex) throws Exception {
-        final String requestURI = request.getRequestURI();
+        final String requestPath = request.getServletPath();
         // Ignorierte URLs nun ja... ignorieren
-        if (IGNORED_URLS.stream().anyMatch(i -> requestURI.startsWith(i))) {
+        if (IGNORED_URLS.stream().anyMatch(i -> requestPath.startsWith(i))) {
             return;
         }
         
@@ -61,7 +61,7 @@ public class RequestLoggingInterceptor implements HandlerInterceptor {
         }        
         
         final PageVisit pageVisit = new PageVisit();
-        pageVisit.setUrl(StringUtils.substring(requestURI, 0, 2083));
+        pageVisit.setUrl(StringUtils.substring(requestPath, 0, 2083));
         pageVisit.setHttpStatus(response.getStatus());
         pageVisit.setUserAgent(StringUtils.substring(request.getHeader("User-Agent"), 0, 255));
         pageVisit.setIpAddress(request.getRemoteAddr());
@@ -74,7 +74,7 @@ public class RequestLoggingInterceptor implements HandlerInterceptor {
             pageVisit.setCampaignKeyWord(extractCampaignKeyword(request));
         }        
         
-        logger.debug("filter before save: {0}", request.getQueryString());
+        logger.debug("filter before save: {}", request.getRequestURL());
         pageVisitRepo.save(pageVisit);
     }
     

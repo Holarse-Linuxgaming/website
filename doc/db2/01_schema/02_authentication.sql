@@ -63,6 +63,21 @@ create table if not exists user_roles (
 	role_id integer not null references roles(id)
 );
 
+-- View für die Übersicht aller Benutzer
+create view v_user_roles as 
+select u.login, 
+	r.code, r.access_level, 
+	us.verified, us.locked, us.failed_logins, us.last_login, 
+	ud.id as user_data,
+	us.id as user_status,
+	uslugs.id as user_slugs
+from user_roles ur
+inner join users u on u.id = ur.user_id
+inner join roles r on r.id = ur.role_id
+left join user_status us on us.user_id = u.id
+left join user_data ud on ud.user_id = u.id
+left join user_slugs uslugs on uslugs.user_id = u.id;
+
 create index idx_user_verification_hash on user_status (verification_hash, locked, verified);
 
 create table if not exists apiusers (

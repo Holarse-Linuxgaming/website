@@ -123,8 +123,7 @@ public class MultipleHttpSecurityConfig {
         .authorizeHttpRequests((requests) -> requests.requestMatchers(antMatcher("/admin/**")).hasRole("ADMIN"))
         
         // Login- und Registrierungsbereich
-        .authorizeHttpRequests((requests) -> requests.requestMatchers(antMatcher("/register"),
-                                                                      antMatcher("/verify")).permitAll())
+        .authorizeHttpRequests((requests) -> requests.requestMatchers(antMatcher("/register/**")).permitAll())
 
 
         // Bereich nur für authentifizierte Benutzer jeglicher Rollen, z.B. Profil, edit-Seiten, logout

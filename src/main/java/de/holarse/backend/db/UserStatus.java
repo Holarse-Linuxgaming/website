@@ -14,7 +14,9 @@ public class UserStatus extends TimestampedBase {
 
     private static final long serialVersionUID = 1L;
     
+    @Column
     private boolean locked;
+    @Column
     private boolean verified;
     
     @Column(insertable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE default CURRENT_TIMESTAMP", name = "last_login")    

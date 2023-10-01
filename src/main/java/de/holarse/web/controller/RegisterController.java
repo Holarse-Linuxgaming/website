@@ -5,7 +5,10 @@ import de.holarse.backend.db.UserData;
 import de.holarse.backend.db.UserSlug;
 import de.holarse.backend.db.UserStatus;
 import de.holarse.backend.db.repositories.RoleRepository;
+import de.holarse.backend.db.repositories.UserDataRepository;
 import de.holarse.backend.db.repositories.UserRepository;
+import de.holarse.backend.db.repositories.UserSlugRepository;
+import de.holarse.backend.db.repositories.UserStatusRepository;
 import de.holarse.backend.types.PasswordType;
 import de.holarse.web.controller.commands.RegisterForm;
 import de.holarse.web.defines.WebDefines;
@@ -16,7 +19,6 @@ import de.holarse.web.services.SlugService;
 import java.time.OffsetDateTime;
 import java.util.Optional;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -47,6 +49,15 @@ public class RegisterController {
     
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private UserStatusRepository userStatusRepository;    
+    
+    @Autowired
+    private UserDataRepository userDataRepository;      
+    
+    @Autowired
+    private UserSlugRepository userSlugRepository;        
 
     @Autowired
     private RegisterService registerService;
@@ -58,7 +69,7 @@ public class RegisterController {
     private SlugService slugService;
 
     @Autowired
-    RoleRepository roleRepository;
+    private RoleRepository roleRepository;    
     
     @Autowired
     RegisterFormValidationService rfValidationService;
@@ -93,15 +104,14 @@ public class RegisterController {
 
         log.info("Registration form ok");
 
-        final EntityTransaction tx = em.getTransaction();
-        tx.begin();
         // Unbestätigten Benutzer anlegen
-        final User user = new User();
+        User user = new User();
         user.setLogin(registerForm.getUsername());
         user.setEmail(registerForm.getEmail());
         user.setHashType(PasswordType.bcrypt);
         user.setDigest(passwordEncoder.encode(registerForm.getPassword()));
-        em.persist(user);
+        user.getRoles().add(roleRepository.findByCode("TRUSTED_USER"));
+        userRepository.saveAndFlush(user);        
         
         final UserStatus userStatus = new UserStatus();
         userStatus.setCreated(OffsetDateTime.now());
@@ -110,25 +120,19 @@ public class RegisterController {
         userStatus.setVerified(false);
         userStatus.setVerificationHash(generateVerificationHash());
         userStatus.setVerificationHashValidUntil(OffsetDateTime.now().plusMinutes(30));
-        user.setUserStatus(userStatus); 
-        
+        userStatus.setUser(user);
+        userStatusRepository.saveAndFlush(userStatus);
+
         final UserData userData = new UserData();
-        user.setUserData(userData);
-        
-        user.getRoles().add(roleRepository.findByCode("TRUSTED_USER"));
+        userData.setUser(user);
+        userDataRepository.saveAndFlush(userData);
         
         // Slugs
         UserSlug userSlug = slugService.slugify(user);
         userSlug.setUser(user);
-        user.getUserSlugs().add(userSlug);
-        mv.addObject("validationKey", user.getUserStatus().getVerificationHash());
-
-        em.persist(user);
-        em.persist(userStatus);
-        em.persist(userData);
-        em.persist(userSlug);
-        tx.commit();
+        userSlugRepository.saveAndFlush(userSlug);
         
+        mv.addObject("validationKey", userStatus.getVerificationHash());        
         mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/accounts/registered");
         return mv;
     }
@@ -137,13 +141,13 @@ public class RegisterController {
     public ModelAndView verify(@NotNull @RequestParam("v") final String verificationHash, final ModelAndView mv) {
         mv.setViewName("layouts/bare");
 
-        final Optional<User> user = userRepository.findByVerificationHash(verificationHash);
-        if (user.isPresent()) {
-            final User user2 = user.get();
-            user2.getUserStatus().setVerified(true);
-            user2.getUserStatus().setUpdated(OffsetDateTime.now());
+        final Optional<UserStatus> userStatusOpt = userStatusRepository.findByValidVerification(verificationHash);
+        if (userStatusOpt.isPresent()) {
+            final UserStatus userStatus = userStatusOpt.get();
+            userStatus.setVerified(true);
+            userStatus.setUpdated(OffsetDateTime.now());
 
-            userRepository.save(user2);
+            userStatusRepository.saveAndFlush(userStatus);
             mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/accounts/verify-complete");
         } else {
             mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/accounts/verify-failed");

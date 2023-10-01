@@ -40,10 +40,10 @@ public class User extends TimestampedBase {
     )
     private Set<Role> roles = new HashSet<>();
 
-    @OneToOne(mappedBy="user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy="user", cascade = CascadeType.PERSIST)
     private UserStatus userStatus;
     
-    @OneToOne(mappedBy="user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy="user", cascade = CascadeType.PERSIST)
     private UserData userData;    
     
     @OneToMany(mappedBy="user", cascade = CascadeType.PERSIST)
