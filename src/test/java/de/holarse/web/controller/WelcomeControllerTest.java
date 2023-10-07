@@ -2,6 +2,9 @@ package de.holarse.web.controller;
 
 import de.holarse.backend.db.ApiUser;
 import de.holarse.backend.db.repositories.ApiUserRepository;
+import de.holarse.test.TestHelper;
+import de.holarse.web.defines.WebDefines;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -18,7 +21,7 @@ public class WelcomeControllerTest {
     @Mock
     ApiUserRepository apiUserRepositoryMock;
     
-    WelcomeController controller;
+    private WelcomeController controller;
     
     @BeforeEach
     public void setup() throws Exception {
@@ -33,7 +36,11 @@ public class WelcomeControllerTest {
         
         
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
-        mockMvc.perform(MockMvcRequestBuilders.get("/")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("layouts/landing"));
+        var result = mockMvc.perform(MockMvcRequestBuilders.get("/"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.view().name("layouts/landing"));
+        
+        assertEquals("sites/welcome", TestHelper.getContentView(result));
     }
     
 }
