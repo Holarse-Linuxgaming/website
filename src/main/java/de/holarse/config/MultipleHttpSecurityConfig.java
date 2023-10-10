@@ -145,7 +145,7 @@ public class MultipleHttpSecurityConfig {
                                .failureHandler(failureHandler()))
         
         // Logout
-        .logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/"))
+        .logout(logout -> logout.logoutUrl("/logout"))
         
         // Fertig
         .build();

@@ -47,7 +47,7 @@ public class EntityLockService {
     }
     
     public void unlock(final LockableEntity lockable, final User lockingUser) {
-        ewlRepo.unlock(lockable.getId(), lockable.getNodeType(), lockingUser.getId());
+        ewlRepo.unlock(lockable.getId(), lockable.getNodeType(), lockingUser.getId().intValue());
     }
     
     @PreAuthorize("hasRole('ADMIN')")

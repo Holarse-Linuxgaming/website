@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.holarse.admin.web;
+package de.holarse.web.controller.admin;
 
 import de.holarse.backend.db.DrückblickEntry;
 import de.holarse.backend.db.repositories.DrückblickRepository;

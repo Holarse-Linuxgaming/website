@@ -3,6 +3,7 @@ package de.holarse.auth.web;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.UserStatus;
 import de.holarse.backend.db.repositories.UserRepository;
+import de.holarse.backend.db.repositories.UserStatusRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class SecureAccountFailureHandler extends SimpleUrlAuthenticationFailureH
 
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private UserStatusRepository userStatusRepository;
 
 //    @Autowired
 //    private UserStatRepository userStatRepository;
@@ -45,12 +49,18 @@ public class SecureAccountFailureHandler extends SimpleUrlAuthenticationFailureH
 
         final User user = userRepository.findByLogin(username);
         if (user != null) {
-            user.getUserStatus().setFailedLogins(user.getUserStatus().getFailedLogins() + 1);
-            user.getUserStatus().setUpdated(OffsetDateTime.now());
+            final UserStatus userStatus = user.getUserStatus();
+            if (userStatus != null) {
+                userStatus.setFailedLogins(user.getUserStatus().getFailedLogins() + 1);
+                userStatus.setUpdated(OffsetDateTime.now());
 
-            if (!user.getUserStatus().isLocked() && hasTooManyFailedAttempts(user)) {
-                user.getUserStatus().setLocked(true);
-                log.info("Benutzer " + user.getLogin() + " wurde wegen zu vielen Fehlversuchen gesperrt.");
+                if (!userStatus.isLocked() && hasTooManyFailedAttempts(userStatus)) {
+                    userStatus.setLocked(true);
+                    log.warn("Benutzer {} wurde wegen zu vielen Fehlversuchen gesperrt.", username);
+                }
+                userStatusRepository.save(userStatus);
+            } else {
+                log.error("User login {} has no user_status assoc", username);
             }
         }                                 
         
@@ -58,11 +68,11 @@ public class SecureAccountFailureHandler extends SimpleUrlAuthenticationFailureH
         super.onAuthenticationFailure(request, response, exception);
     }
     
-    private boolean hasTooManyFailedAttempts(final User user) {
-        if (user == null || user.getUserStatus() == null) {
+    private boolean hasTooManyFailedAttempts(final UserStatus userStatus) {
+        if (userStatus == null) {
             return true;
         }
         
-        return user.getUserStatus().getFailedLogins() > MAX_FAILED_LOGINS;
+        return userStatus.getFailedLogins() > MAX_FAILED_LOGINS;
     }
 }

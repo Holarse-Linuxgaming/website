@@ -1,4 +1,4 @@
-package de.holarse.admin.web;
+package de.holarse.web.controller.admin;
 
 import de.holarse.backend.db.repositories.UserRepository;
 import static de.holarse.utils.ModelAndViewFactory.makeAdminLayout;
