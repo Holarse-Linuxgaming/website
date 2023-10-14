@@ -74,7 +74,7 @@ public class RequestLoggingInterceptor implements HandlerInterceptor {
             pageVisit.setCampaignKeyWord(extractCampaignKeyword(request));
         }        
         
-        logger.debug("filter before save: {}", request.getRequestURL());
+        //logger.debug("filter before save: {}", request.getRequestURL());
         pageVisitRepo.save(pageVisit);
     }
     

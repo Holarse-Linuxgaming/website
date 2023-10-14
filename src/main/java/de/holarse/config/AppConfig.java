@@ -1,6 +1,7 @@
 package de.holarse.config;
 
 import de.holarse.web.interceptors.RequestLoggingInterceptor;
+import java.nio.charset.StandardCharsets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -73,6 +74,7 @@ public class AppConfig implements WebMvcConfigurer {
     public ViewResolver viewResolver(){
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
         viewResolver.setTemplateEngine(springTemplateEngine());
+        viewResolver.setCharacterEncoding(StandardCharsets.UTF_8.name());
         return viewResolver;
     }      
         
