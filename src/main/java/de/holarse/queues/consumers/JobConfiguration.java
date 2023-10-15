@@ -1,4 +1,4 @@
-package de.holarse.consumers;
+package de.holarse.queues.consumers;
 
 public class JobConfiguration {
 

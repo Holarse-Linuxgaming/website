@@ -1,12 +1,12 @@
-package de.holarse.api.importer;
+package de.holarse.rest.api;
 
 //import de.holarse.backend.db.Job;
 //import de.holarse.backend.db.repositories.JobRepository;
 //import de.holarse.backend.db.types.QueueWorkerType;
-import de.holarse.consumers.JobConfiguration;
+import de.holarse.queues.consumers.JobConfiguration;
 import de.holarse.backend.db.Job;
 import de.holarse.backend.db.repositories.JobRepository;
-import de.holarse.consumers.JobQueueContext;
+import de.holarse.queues.consumers.JobQueueContext;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
 import java.time.OffsetDateTime;

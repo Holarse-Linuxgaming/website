@@ -1,4 +1,4 @@
-package de.holarse.api.drückblick;
+package de.holarse.rest.api;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;

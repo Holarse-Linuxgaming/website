@@ -1,4 +1,4 @@
-package de.holarse.consumers;
+package de.holarse.queues.consumers;
 
 import de.holarse.backend.db.DrückblickEntry;
 import de.holarse.backend.db.repositories.DrückblickRepository;
@@ -22,6 +22,7 @@ public class DrückblickWorker {
     
     @JmsListener(destination = "drueckblick")
     public void importDrückblickEntries(final de.holarse.backend.api.drückblick.DrückblickEntry entry_u) {
+        log.debug("Incoming Drückblick via Queue: {}", entry_u);
         try {
             DrückblickEntry entry = new DrückblickEntry();
             entry.setName(entry_u.getName());

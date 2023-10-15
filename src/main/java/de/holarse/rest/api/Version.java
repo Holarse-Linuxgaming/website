@@ -1,4 +1,4 @@
-package de.holarse.api.version;
+package de.holarse.rest.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

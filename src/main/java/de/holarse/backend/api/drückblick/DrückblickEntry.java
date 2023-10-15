@@ -75,5 +75,10 @@ public class DrückblickEntry implements Serializable {
     public void setChangelog(String changelog) {
         this.changelog = changelog;
     }
+
+    @Override
+    public String toString() {
+        return "Dr\u00fcckblickEntry{" + "reporter=" + reporter + ", name=" + name + ", message=" + message + ", url=" + url + ", changelog=" + changelog + ", category=" + category + ", source=" + source + '}';
+    }
     
 }
