@@ -17,10 +17,6 @@ public class UserData extends TimestampedBase {
 
     private String avatar;
     
-    @OneToOne
-    @JoinColumn(name="user_id", referencedColumnName = "id")
-    private User user;    
-
     public String getSignature() {
         return signature;
     }
@@ -37,12 +33,4 @@ public class UserData extends TimestampedBase {
         this.avatar = avatar;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-    
 }

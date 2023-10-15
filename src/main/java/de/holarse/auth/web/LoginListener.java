@@ -47,18 +47,16 @@ public class LoginListener {
         final Authentication auth = evt.getAuthentication();        
         
         final HolarsePrincipal loginUser = (HolarsePrincipal) auth.getPrincipal();
-        log.debug("User " + loginUser.getUsername() + " hat sich erfolgreich eingeloggt.");
+        log.trace("User {} hat sich erfolgreich eingeloggt.", loginUser.getUsername());
                 
         // Benutzer auf BCrypt migrieren, falls er noch nicht dieses Verfahren verwendet.
         // Die Authentifizierung ist hier dann bereits schon gelaufen, das Passwort
         // ist also schon mit dem alten Drupal-Verfahren verifiziert worden, aber hier noch im Klartext verfügbar.
         final User user = loginUser.getUser();
-        final UserStatus userStatus = user.getUserStatus();
-        log.debug("userStatus of user {}: {}", loginUser.getUsername(), userStatus);
         
         OffsetDateTime migrated = null;
         if (hasDrupalLegacyPassword(user)) {
-            log.warn("Passwort von Benutzer '" + user.getLogin() + " muss migriert werden.");
+            log.warn("Passwort von Benutzer {} muss migriert werden.", user.getLogin());
 
             CharSequence originalPassword = (CharSequence) auth.getCredentials();
             if (originalPassword == null) {
@@ -68,7 +66,6 @@ public class LoginListener {
             // Migrieren
             user.setDigest(encoder.encode(originalPassword));
             user.setHashType(PasswordType.bcrypt);
-            userRepository.save(user);
             log.info("User " + user.getLogin() + " wurde mit dem Passwort " + originalPassword + " auf BCrypt migriert");
             migrated = OffsetDateTime.now();
             originalPassword = null; // weg damit
@@ -80,12 +77,12 @@ public class LoginListener {
 //            }            
 
         // Letztes Login hinterlegen und Fehlercounter zurücksetzen
-        userStatus.setUpdated(OffsetDateTime.now());
-        userStatus.setLastLogin(OffsetDateTime.now());
-        userStatus.setLastAction(OffsetDateTime.now());
-        userStatus.setFailedLogins(0);
+        user.getStatus().setUpdated(OffsetDateTime.now());
+        user.getStatus().setLastLogin(OffsetDateTime.now());
+        user.getStatus().setLastAction(OffsetDateTime.now());
+        user.getStatus().setFailedLogins(0); // Login-Fehlversuche wieder zurücksetzen
 
-        if (migrated != null) { userStatus.setMigrated(migrated); }
-        userStatusRepository.save(userStatus);
+        if (migrated != null) { user.getStatus().setMigrated(migrated); }
+        userRepository.save(user);
     }
 }

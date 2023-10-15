@@ -36,10 +36,6 @@ public class UserStatus extends TimestampedBase {
     
     @Column(name = "verification_hash_validuntil")
     private OffsetDateTime verificationHashValidUntil;
-    
-    @OneToOne
-    @JoinColumn(name="user_id", referencedColumnName = "id")
-    private User user;
 
     public boolean isLocked() {
         return locked;
@@ -105,12 +101,9 @@ public class UserStatus extends TimestampedBase {
         this.verificationHashValidUntil = verificationHashValidUntil;
     }
 
-    public User getUser() {
-        return user;
+    @Override
+    public String toString() {
+        return "UserStatus{" + "locked=" + locked + ", verified=" + verified + ", lastLogin=" + lastLogin + ", lastAction=" + lastAction + ", migrated=" + migrated + ", failedLogins=" + failedLogins + ", verificationHash=" + verificationHash + ", verificationHashValidUntil=" + verificationHashValidUntil + '}';
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-    
 }

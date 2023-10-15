@@ -43,17 +43,17 @@ public class HolarsePrincipal implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return user.getUserStatus() != null && !user.getUserStatus().isLocked();
+        return user.getStatus()!= null && !user.getStatus().isLocked();
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return user.getUserStatus() != null && !user.getUserStatus().isLocked();
+        return user.getStatus() != null && !user.getStatus().isLocked();
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return user.getUserStatus() != null && user.getUserStatus().isVerified();
+        return user.getStatus() != null && user.getStatus().isVerified();
     }
 
     @Override

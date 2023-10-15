@@ -49,9 +49,9 @@ public class SecureAccountFailureHandler extends SimpleUrlAuthenticationFailureH
 
         final User user = userRepository.findByLogin(username);
         if (user != null) {
-            final UserStatus userStatus = user.getUserStatus();
+            final UserStatus userStatus = user.getStatus();
             if (userStatus != null) {
-                userStatus.setFailedLogins(user.getUserStatus().getFailedLogins() + 1);
+                userStatus.setFailedLogins(user.getStatus().getFailedLogins() + 1);
                 userStatus.setUpdated(OffsetDateTime.now());
 
                 if (!userStatus.isLocked() && hasTooManyFailedAttempts(userStatus)) {
@@ -59,12 +59,13 @@ public class SecureAccountFailureHandler extends SimpleUrlAuthenticationFailureH
                     log.warn("Benutzer {} wurde wegen zu vielen Fehlversuchen gesperrt.", username);
                 }
                 userStatusRepository.save(userStatus);
+                super.setDefaultFailureUrl("/login?error=locked");
             } else {
                 log.error("User login {} has no user_status assoc", username);
+                super.setDefaultFailureUrl("/login?error=incomplete");
             }
         }                                 
         
-        super.setDefaultFailureUrl("/login?error=2");
         super.onAuthenticationFailure(request, response, exception);
     }
     

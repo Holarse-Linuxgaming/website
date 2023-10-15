@@ -120,12 +120,10 @@ public class RegisterController {
         userStatus.setVerified(false);
         userStatus.setVerificationHash(generateVerificationHash());
         userStatus.setVerificationHashValidUntil(OffsetDateTime.now().plusMinutes(30));
-        userStatus.setUser(user);
-        userStatusRepository.saveAndFlush(userStatus);
+        user.setStatus(userStatus);
 
         final UserData userData = new UserData();
-        userData.setUser(user);
-        userDataRepository.saveAndFlush(userData);
+        user.setUserData(userData);
         
         // Slugs
         UserSlug userSlug = slugService.slugify(user);

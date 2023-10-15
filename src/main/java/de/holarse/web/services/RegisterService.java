@@ -33,7 +33,7 @@ public class RegisterService {
         userStatus.setVerified(false);
         userStatus.setVerificationHash(generateVerificationHash());
         userStatus.setVerificationHashValidUntil(OffsetDateTime.now().plusMinutes(30));
-        user.setUserStatus(userStatus); 
+        user.setStatus(userStatus); 
         
         final UserData userData = new UserData();
         user.setUserData(userData);

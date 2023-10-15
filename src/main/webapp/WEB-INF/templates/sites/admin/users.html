@@ -40,6 +40,7 @@
                         <th>#</th>
                         <th>Username</th>
                         <th>Email</th>
+                        <th>Status (L/V/FL)</th>
                         <th>Letztes Login</th>
                         <th></th>
                     </tr>
@@ -50,6 +51,11 @@
                         <td th:text=${user.id}></td>
                         <td th:text=${user.username}></td>
                         <td th:text=${user.email}></td>
+                        <td>
+                            <span th:text=${user.locked}></span>
+                            <span th:text=${user.verified}></span>
+                            <span th:text=${user.failedLogins}></span>
+                        </td> 
                         <td th:text="${user.lastLogin}"></td>
                         <td>
                             <a class="js-edit u-link-v5 g-color-gray-light-v6 g-color-lightblue-v3--hover" href="#" data-th-href="@{/admin/users/{id}(id=${user.id})}">

@@ -9,6 +9,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
@@ -40,13 +41,15 @@ public class User extends TimestampedBase {
     )
     private Set<Role> roles = new HashSet<>();
 
-    @OneToOne(mappedBy="user", cascade = CascadeType.PERSIST)
-    private UserStatus userStatus;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="user_status_id", referencedColumnName = "id")    
+    private UserStatus status;
     
-    @OneToOne(mappedBy="user", cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="user_data_id", referencedColumnName = "id")
     private UserData userData;    
     
-    @OneToMany(mappedBy="user", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy="user", cascade = CascadeType.ALL)
     private Set<UserSlug> userSlugs = new HashSet<>(); 
 
     public String getLogin() {
@@ -105,16 +108,12 @@ public class User extends TimestampedBase {
         this.roles = roles;
     }
 
-    public UserStatus getUserStatus() {
-        return userStatus;
+    public UserStatus getStatus() {
+        return status;
     }
 
-    public void setUserStatus(UserStatus userStatus) {
-        this.userStatus = userStatus;
-    }
-
-    public UserData getUserData() {
-        return userData;
+    public void setStatus(UserStatus status) {
+        this.status = status;
     }
 
     public void setUserData(UserData userData) {

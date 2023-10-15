@@ -6,6 +6,8 @@
                 <h2 class="h2 g-color-black g-font-weight-600">Login</h2>
             </header>
 
+            <p>${error}</p>
+            
             <!-- Form -->
             <form data-th-action="@{/login}" data-th-object="${loginForm}" class="g-py-15" method="POST">
                 <div class="mb-4">
