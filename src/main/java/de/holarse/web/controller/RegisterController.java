@@ -12,7 +12,6 @@ import de.holarse.backend.db.repositories.UserStatusRepository;
 import de.holarse.backend.types.PasswordType;
 import de.holarse.web.controller.commands.RegisterForm;
 import de.holarse.web.defines.WebDefines;
-import de.holarse.web.services.JobService;
 import de.holarse.web.services.RegisterFormValidationService;
 import de.holarse.web.services.RegisterService;
 import de.holarse.web.services.SlugService;
@@ -61,9 +60,6 @@ public class RegisterController {
 
     @Autowired
     private RegisterService registerService;
-
-    @Autowired
-    private JobService jobService;
 
     @Autowired
     private SlugService slugService;

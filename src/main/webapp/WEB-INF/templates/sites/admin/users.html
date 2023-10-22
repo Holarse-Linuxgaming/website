@@ -38,7 +38,7 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Username</th>
+                        <th>Login</th>
                         <th>Email</th>
                         <th>Status (L/V/FL)</th>
                         <th>Letztes Login</th>
@@ -49,7 +49,7 @@
                 <tbody>
                     <tr th:each="user : ${users}">
                         <td th:text=${user.id}></td>
-                        <td th:text=${user.username}></td>
+                        <td th:text=${user.login}></td>
                         <td th:text=${user.email}></td>
                         <td>
                             <span th:text=${user.locked}></span>

@@ -38,6 +38,7 @@ create table if not exists user_status(
     last_login timestamptz,
     last_action timestamptz,
     migrated timestamptz,
+    imported timestamptz,
     
     failed_logins integer default 0,
 

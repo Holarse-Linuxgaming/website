@@ -53,7 +53,7 @@ public class AdminUsers {
 
         final User backendUser = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
         backendUser.setEmail(user.getEmail());
-        backendUser.setLogin(user.getUsername());
+        backendUser.setLogin(user.getLogin());
         backendUser.setUpdated(OffsetDateTime.now());
         
         if (backendUser.getStatus() == null) {

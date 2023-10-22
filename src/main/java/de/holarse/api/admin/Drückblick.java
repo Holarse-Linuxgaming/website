@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.holarse.admin.api;
+package de.holarse.api.admin;
 
 import de.holarse.auth.web.HolarsePrincipal;
 import de.holarse.backend.db.DrückblickEntry;
@@ -49,7 +49,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/admin/api/drueckblick/")
 public class Drückblick {
     
-    private final static transient Logger log = LoggerFactory.getLogger(de.holarse.admin.api.Drückblick.class);    
+    private final static transient Logger log = LoggerFactory.getLogger(de.holarse.api.admin.Drückblick.class);    
     
     @Autowired
     DrückblickRepository dblRepo;    

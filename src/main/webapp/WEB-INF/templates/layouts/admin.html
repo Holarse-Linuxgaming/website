@@ -102,6 +102,13 @@
     <!-- JS Custom -->
     <script data-th-src="@{/assets/js/admin.js}"></script>
     
+    <!-- jQuery UI Widgets -->
+    <script  src="../../../assets/vendor/jquery-ui/ui/widgets/datepicker.js"></script>
+
+    <!-- JS Unify -->
+    <script  src="../../../assets/js/components/hs.datepicker.js"></script>
+    
+    
     <!-- JS Plugins Init. -->
     <script>
         $(document).on('ready', function () {
@@ -110,7 +117,9 @@
             // initialization of custom select
             $('.js-select').selectpicker();
             // initialization of datatables
-            $.HSCore.components.HSDatatables.init('.js-datatable');            
+            $.HSCore.components.HSDatatables.init('.js-datatable');  
+            // datepicker
+            $.HSCore.components.HSDatepicker.init('.js-datepicker');
         });
     </script>    
 </body>

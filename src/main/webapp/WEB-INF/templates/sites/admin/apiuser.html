@@ -9,7 +9,7 @@
             </li>
 
             <li class="list-inline-item">
-                <span class="g-valign-middle"><a href="#" data-th-href="@{/admin/users}">Benutzer</a></span>
+                <span class="g-valign-middle"><a href="#" data-th-href="@{/admin/apiusers}">API-User</a></span>
             </li>
         </ul>
     </div>
@@ -21,17 +21,23 @@
             <div class="d-flex">
                 <div class="align-self-md-center">
                     <header>
-                        <h2 class="g-font-weight-400 g-font-size-16 g-color-black mb-0" data-th-text="'Benutzer ' + ${user.login}">Benutzer</h2>
+                        <h2 class="g-font-weight-400 g-font-size-16 g-color-black mb-0" data-th-text="'API-User ' + ${apiuser.login}">Benutzer</h2>
                     </header>     
                     
                     <div class="h-100 g-brd-around g-brd-gray-light-v7 g-rounded-4 g-pa-15 g-pa-20--md">
-                        <form action="#" data-th-action="@{/admin/users/{id}(id=${user.id})}" data-th-object="${user}" method="post">
+                        <form action="#" data-th-action="@{/admin/apiusers/{id}(id=${apiuser.id})}" data-th-object="${apiuser}" method="post">
                             <input type="hidden" data-th-field="*{id}" />
                             <p>Login: <input type="text" data-th-field="*{login}" /></p>
-                            <p>Email: <input type="text" data-th-field="*{email}" /></p>
-                            <p>Locked: <input type="checkbox" data-th-field="*{locked}" /></p>
-                            <p>Verified: <input type="checkbox" data-th-field="*{verified}" /></p>
-                            <p>Failed Logins <input type="text" data-th-field="*{failedLogins}" /></p>
+                            <p>Token: <input type="text" data-th-field="*{token}" /></p>
+                            <p>Rolename: <input type="text" data-th-field="*{roleName}" /></p>
+                            <p>Valid Until: 
+                                <input type="text" class="u-datepicker-v1 js-datepicker" data-th-field="*{validUntil}">
+                                  <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-dark-v5 rounded-0">
+                                    <i class="icon-calendar"></i>
+                                  </div>
+                                </input>
+                            </p>
+                            <p>Active: <input type="checkbox" data-th-field="*{active}" /></p>
                             
                             <p><input type="submit" value="Speichern" /></p>
                         </form>

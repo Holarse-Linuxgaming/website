@@ -6,7 +6,7 @@ import java.time.OffsetDateTime;
 public class UserView {
 
     private Integer id;
-    private String username;
+    private String login;
     private String email;
     private boolean locked;
     private boolean verified;
@@ -16,7 +16,7 @@ public class UserView {
     public static UserView of(final User user) {
         final UserView uv = new UserView();
         uv.id = user.getId();
-        uv.username = user.getLogin();
+        uv.login = user.getLogin();
         uv.email = user.getEmail();
         if (user.getStatus() != null) {
             uv.locked = user.getStatus().isLocked();
@@ -32,9 +32,7 @@ public class UserView {
         this.id = id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+
 
     public void setEmail(String email) {
         this.email = email;
@@ -47,11 +45,15 @@ public class UserView {
     public Integer getId() {
         return id;
     }
-    
-    public String getUsername() {
-        return username;
+
+    public String getLogin() {
+        return login;
     }
 
+    public void setLogin(String login) {
+        this.login = login;
+    }
+    
     public String getEmail() {
         return email;
     }
@@ -86,7 +88,7 @@ public class UserView {
 
     @Override
     public String toString() {
-        return "UserView{" + "id=" + id + ", username=" + username + ", email=" + email + ", locked=" + locked + ", verified=" + verified + ", failedLogins=" + failedLogins + ", lastLogin=" + lastLogin + '}';
+        return "UserView{" + "id=" + id + ", login=" + login + ", email=" + email + ", locked=" + locked + ", verified=" + verified + ", failedLogins=" + failedLogins + ", lastLogin=" + lastLogin + '}';
     }
 
 

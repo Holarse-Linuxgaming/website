@@ -1,3 +1,4 @@
+
 # Use postgres/example user/password credentials
 version: '3.1'
 
@@ -35,6 +36,12 @@ services:
           - './tomcat/conf/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml'
           - './tomcat/lib/postgresql-42.3.1.jar:/usr/local/tomcat/lib/postgresql-42.3.1.jar'
           - '../target/holarseweb.war:/usr/local/tomcat/webapps/holarseweb.war'
+  cache:
+      image: redis:latest
+      container_name: cache
+      restart: always
+      ports:
+          - 6379:6379
 volumes:
   website_my_pgdata: 
       external: true

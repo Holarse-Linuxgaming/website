@@ -28,6 +28,9 @@ public class UserStatus extends TimestampedBase {
     @Column(insertable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE default CURRENT_TIMESTAMP", name = "migrated")    
     private OffsetDateTime migrated;    
     
+    @Column(insertable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE default CURRENT_TIMESTAMP", name = "imported")    
+    private OffsetDateTime imported;     
+    
     @Column(name="failed_logins")
     private int failedLogins;
     
@@ -101,6 +104,14 @@ public class UserStatus extends TimestampedBase {
         this.verificationHashValidUntil = verificationHashValidUntil;
     }
 
+    public OffsetDateTime getImported() {
+        return imported;
+    }
+
+    public void setImported(OffsetDateTime imported) {
+        this.imported = imported;
+    }
+    
     @Override
     public String toString() {
         return "UserStatus{" + "locked=" + locked + ", verified=" + verified + ", lastLogin=" + lastLogin + ", lastAction=" + lastAction + ", migrated=" + migrated + ", failedLogins=" + failedLogins + ", verificationHash=" + verificationHash + ", verificationHashValidUntil=" + verificationHashValidUntil + '}';

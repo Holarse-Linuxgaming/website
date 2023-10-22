@@ -27,20 +27,24 @@
                         <th>Token</th>
                         <th>Gültig bis</th>
                         <th>Aktiv</th>
+                        <th>Erstellt</th>
+                        <th>Aktualisiert</th>
                         <th></th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <tr th:each="item : ${items}">
-                        <td th:text=${item.id}></td>
-                        <td th:text=${item.login}></td>
-                        <td th:text=${item.roleName}></td>
-                        <td th:text=${item.token}></td>
-                        <td th:text="${item.validUntil}"></td>
-                        <td th:text="${item.active}"></td>
+                    <tr th:each="apiuser : ${apiusers}">
+                        <td th:text=${apiuser.id}></td>
+                        <td th:text=${apiuser.login}></td>
+                        <td th:text=${apiuser.roleName}></td>
+                        <td th:text=${apiuser.token}></td>
+                        <td th:text="${apiuser.validUntil}"></td>
+                        <td th:text="${apiuser.active}"></td>
+                        <td th:text="${apiuser.created}"></td>
+                        <td th:text="${apiuser.updated}"></td>
                         <td>
-                            <a class="js-edit u-link-v5 g-color-gray-light-v6 g-color-lightblue-v3--hover" href="#!">
+                            <a class="js-edit u-link-v5 g-color-gray-light-v6 g-color-lightblue-v3--hover" href="#" data-th-href="@{/admin/apiusers/{id}(id=${apiuser.id})}">
                                 <i class="hs-admin-pencil"></i>
                             </a>
                             <a class="u-link-v5 g-color-gray-light-v6 g-color-lightblue-v3--hover g-text-underline--none--hover g-ml-12" href="#!">

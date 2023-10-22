@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ApiUserRepository extends JpaRepository<ApiUser, Integer> {
     
-    public ApiUser findByLogin(final String login);
+    ApiUser findByLogin(final String login);
 
 }

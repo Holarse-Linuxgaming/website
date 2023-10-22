@@ -1,10 +1,9 @@
-package de.holarse.rest.api;
+package de.holarse.api.imports;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import static de.holarse.config.RoleApiTypes.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/version")
-@Secured({"ROLE_API", "ROLE_API_VERSION", "ROLE_API_ADMIN"})
+@Secured({ROLE_API, ROLE_API_VERSION, ROLE_API_ADMIN})
 public class Version {
     
     @Value("${git.commit.id.abbrev}")

@@ -2,6 +2,7 @@ package de.holarse.queues.consumers;
 
 import de.holarse.backend.db.DrückblickEntry;
 import de.holarse.backend.db.repositories.DrückblickRepository;
+import static de.holarse.config.JmsQueueTypes.QUEUE_DRÜCKBLICK;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class DrückblickWorker {
     @Autowired
     private DrückblickRepository drückblickRepository;
     
-    @JmsListener(destination = "drueckblick")
+    @JmsListener(destination = QUEUE_DRÜCKBLICK)
     public void importDrückblickEntries(final de.holarse.backend.api.drückblick.DrückblickEntry entry_u) {
         log.debug("Incoming Drückblick via Queue: {}", entry_u);
         try {

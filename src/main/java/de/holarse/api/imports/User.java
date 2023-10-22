@@ -1,15 +1,8 @@
-package de.holarse.rest.api;
+package de.holarse.api.imports;
 
-//import de.holarse.backend.db.Job;
-//import de.holarse.backend.db.repositories.JobRepository;
-//import de.holarse.backend.db.types.QueueWorkerType;
-import de.holarse.queues.consumers.JobConfiguration;
-import de.holarse.backend.db.Job;
-import de.holarse.backend.db.repositories.JobRepository;
-import de.holarse.queues.consumers.JobQueueContext;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectOutputStream;
-import java.time.OffsetDateTime;
+import de.holarse.config.JmsQueueTypes;
+import static de.holarse.config.JmsQueueTypes.QUEUE_IMPORTS;
+import static de.holarse.config.RoleApiTypes.*;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,46 +10,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jms.JmsException;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Secured({"ROLE_API_IMPORT", "ROLE_API_ADMIN"})
+@Secured({ROLE_API_IMPORT, ROLE_API_ADMIN})
 @RestController
 @RequestMapping("/api/import/users")
-public class ImportUsers {
+public class User {
     
-    Logger log = LoggerFactory.getLogger(ImportUsers.class);    
+    private final static transient Logger log = LoggerFactory.getLogger(User.class);    
     
     @Autowired
-    JobRepository jobRepository;
+    private JmsTemplate jmsTemplate;
     
     @Transactional
     @PostMapping(consumes = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<String> upload(@RequestBody final de.holarse.backend.api.User importUser) throws Exception {
-        final ByteArrayOutputStream out = new ByteArrayOutputStream();
-        final ObjectOutputStream oos = new ObjectOutputStream(out);
-        oos.writeObject(importUser);
-        
-        final Job job = new Job();
-        job.setCreated(OffsetDateTime.now());
-        job.setContext(JobQueueContext.USERS.toString().toLowerCase());
-        job.setQueue(JobConfiguration.IMPORT_QUEUE);
-        job.setData(out.toByteArray());
-        job.setTries(0);
-
-        jobRepository.saveAndFlush(job);
-        
-//        final Job job = new Job();
-//        job.setCreated(OffsetDateTime.now());
-//        job.setPayload(out.toByteArray());
-//        job.setWorker(QueueWorkerType.IMPORT);
-//        job.setDetails("USER");
-//        
-//        jobRepository.saveAndFlush(job);
-        
+        try {
+            jmsTemplate.convertAndSend(QUEUE_IMPORTS, importUser);
+        } catch (JmsException je) {
+            throw new RuntimeException("error while jms send", je);
+        }        
         return new ResponseEntity<>("OK", HttpStatus.CREATED);
     }    
     
