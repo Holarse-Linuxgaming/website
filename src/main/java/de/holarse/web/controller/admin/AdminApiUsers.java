@@ -43,7 +43,7 @@ import org.springframework.web.servlet.view.RedirectView;
  * @author comrad
  */
 @Controller
-@RequestMapping(value = "/admin/apiusers")
+@RequestMapping(value = "/admin/apiusers/")
 public class AdminApiUsers {
 
     private final static transient Logger log = LoggerFactory.getLogger(AdminApiUsers.class);
@@ -60,6 +60,13 @@ public class AdminApiUsers {
         return mv;
     }
     
+    @GetMapping("new")
+    public ModelAndView create(final ModelAndView mv) {
+        makeAdminLayout(mv, "sites/admin/apiuser");
+        mv.addObject("apiuser", new ApiUserView());
+        return mv;
+    }
+    
     @GetMapping("{apiUserId}")
     public ModelAndView show(@PathVariable("apiUserId") final Integer userId, final ModelAndView mv) {
         makeAdminLayout(mv, "sites/admin/apiuser");  
@@ -67,14 +74,15 @@ public class AdminApiUsers {
         return mv;
     }
 
-    @PostMapping("{apiUserId}")
-    public RedirectView save(@Valid @ModelAttribute("apiuser") ApiUserView user, @PathVariable int apiUserId) {
-        if (apiUserId != user.getId()) {
-            log.error("Userid ({}) does not match form userid. Form: {}", apiUserId, user);
-            throw new IllegalArgumentException("userid does not match form userid");
+    @PostMapping
+    public RedirectView save(@Valid @ModelAttribute("apiuser") ApiUserView user) {
+        ApiUser backendUser;
+        if (user.getId() == null) {
+            backendUser = new ApiUser();
+            backendUser.setCreated(OffsetDateTime.now());
+        } else {
+            backendUser = apiUserRepository.findById(user.getId()).orElseThrow(EntityNotFoundException::new);            
         }
-
-        final ApiUser backendUser = apiUserRepository.findById(apiUserId).orElseThrow(EntityNotFoundException::new);
         backendUser.setLogin(user.getLogin());
         backendUser.setRoleName(user.getRoleName());
         backendUser.setToken(user.getToken());
@@ -84,7 +92,7 @@ public class AdminApiUsers {
 
         apiUserRepository.saveAndFlush(backendUser);
 
-        return new RedirectView("../apiusers");
+        return new RedirectView("../apiusers/");
     }    
     
     

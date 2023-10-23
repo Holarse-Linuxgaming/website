@@ -22,7 +22,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-@RequestMapping(value = "/admin/users")
+@RequestMapping(value = "/admin/users/")
 public class AdminUsers {
 
     private final static transient Logger log = LoggerFactory.getLogger(AdminUsers.class);

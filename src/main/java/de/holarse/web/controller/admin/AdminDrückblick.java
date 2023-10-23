@@ -33,12 +33,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import static de.holarse.utils.ModelAndViewFactory.makeAdminLayout;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  *
  * @author comrad
  */
 @Controller
+@RequestMapping(value="/admin/drückblick/")
 public class AdminDrückblick {
     
         private final static transient Logger log = LoggerFactory.getLogger(AdminDrückblick.class);
@@ -46,7 +48,7 @@ public class AdminDrückblick {
         @Autowired
         private DrückblickRepository drückblickRepository;
         
-        @GetMapping("/admin/drückblick")
+        @GetMapping
         public ModelAndView index(final ModelAndView mv) {
             makeAdminLayout(mv, "sites/admin/drückblick");
             
@@ -55,7 +57,7 @@ public class AdminDrückblick {
             return mv;
         }
         
-        @PutMapping(value = "/admin/drückblick/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+        @PutMapping(value = "{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
         public ResponseEntity<String> update(@PathVariable(name = "id") final Integer id, @RequestBody final DrückblickEntry updatedEntry) {
             final DrückblickEntry entry = drückblickRepository.findById(id).orElseThrow(IllegalArgumentException::new);
             entry.setCategory(updatedEntry.getCategory());

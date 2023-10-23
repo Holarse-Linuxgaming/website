@@ -40,3 +40,16 @@ function dbl_get_dirty_marks() {
         }
     });
 }
+
+function admin_apiusers_get_token(event) {
+    event.preventDefault();
+    $.ajax({
+        url: "/admin/api/apiusers/token.json", 
+        method: "GET", 
+        headers: {
+        }, 
+        success: function(result) {
+            $("input#token").html(result.password);
+        }
+    });
+}
