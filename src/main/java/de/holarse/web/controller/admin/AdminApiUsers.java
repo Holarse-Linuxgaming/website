@@ -19,24 +19,26 @@ package de.holarse.web.controller.admin;
 import de.holarse.backend.db.ApiUser;
 import de.holarse.backend.db.repositories.ApiUserRepository;
 import de.holarse.backend.view.ApiUserView;
+import de.holarse.config.RoleApiTypes;
 import static de.holarse.utils.ModelAndViewFactory.makeAdminLayout;
 import static de.holarse.web.defines.WebDefines.ADMIN_USERS_DEFAULT_PAGE_SIZE;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import java.time.OffsetDateTime;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 /**
  *
@@ -50,50 +52,66 @@ public class AdminApiUsers {
     
     @Autowired
     private ApiUserRepository apiUserRepository;
+    
+    private final static List<String> apiTypes = RoleApiTypes.getTypes();
 
     @GetMapping
     public ModelAndView index(@PageableDefault(sort={"login"}, value=ADMIN_USERS_DEFAULT_PAGE_SIZE) final Pageable pageable, final ModelAndView mv) {
-        makeAdminLayout(mv, "sites/admin/apiusers");
-        var result = apiUserRepository.findAll(pageable).map(ApiUserView::of);
-        log.debug("apiusers: {}", result);
-        mv.addObject("apiusers", result);
+        makeAdminLayout(mv, "sites/admin/apiusers/list");
+        mv.addObject("apiusers", apiUserRepository.findAll(pageable));
         return mv;
     }
     
     @GetMapping("new")
     public ModelAndView create(final ModelAndView mv) {
-        makeAdminLayout(mv, "sites/admin/apiuser");
+        makeAdminLayout(mv, "sites/admin/apiusers/form");
         mv.addObject("apiuser", new ApiUserView());
+        mv.addObject("apiTypes", apiTypes);        
         return mv;
     }
     
     @GetMapping("{apiUserId}")
     public ModelAndView show(@PathVariable("apiUserId") final Integer userId, final ModelAndView mv) {
-        makeAdminLayout(mv, "sites/admin/apiuser");  
-        mv.addObject("apiuser", apiUserRepository.findById(userId).map(ApiUserView::of).get());
+        makeAdminLayout(mv, "sites/admin/apiusers/form");  
+        mv.addObject("apiuser", apiUserRepository.findById(userId).orElseThrow(EntityNotFoundException::new));
         return mv;
     }
+    
+    @GetMapping("{apiUserId}/edit")
+    public ModelAndView edit(@PathVariable("apiUserId") final Integer userId, final ModelAndView mv) {
+        makeAdminLayout(mv, "sites/admin/apiusers/form");  
+        mv.addObject("apiuser", apiUserRepository.findById(userId).orElseThrow(EntityNotFoundException::new));
+        return mv;
+    }    
 
-    @PostMapping
-    public RedirectView save(@Valid @ModelAttribute("apiuser") ApiUserView user) {
-        ApiUser backendUser;
-        if (user.getId() == null) {
-            backendUser = new ApiUser();
-            backendUser.setCreated(OffsetDateTime.now());
-        } else {
-            backendUser = apiUserRepository.findById(user.getId()).orElseThrow(EntityNotFoundException::new);            
-        }
+    public ModelAndView update(final ApiUser backendUser, ApiUser user, final BindingResult result, final ModelAndView mv) {
         backendUser.setLogin(user.getLogin());
         backendUser.setRoleName(user.getRoleName());
         backendUser.setToken(user.getToken());
         backendUser.setValidUntil(user.getValidUntil());
         backendUser.setActive(user.isActive());
         backendUser.setUpdated(OffsetDateTime.now());
-
+        
         apiUserRepository.saveAndFlush(backendUser);
-
-        return new RedirectView("../apiusers/");
-    }    
+        return new ModelAndView("redirect:.");
+    }
     
+    @PostMapping
+    public ModelAndView save(@Valid @ModelAttribute("apiuser") ApiUser user, final BindingResult result, final ModelAndView mv) {
+        if (result.hasErrors()) {
+            makeAdminLayout(mv, "sites/admin/apiusers/list");
+            return mv;
+        }
+
+        ApiUser backendUser;
+        if (user.getId() == null) {
+            backendUser = new ApiUser();
+            backendUser.setCreated(OffsetDateTime.now());
+        } else {
+            backendUser = apiUserRepository.findById(user.getId()).orElseThrow(EntityNotFoundException::new);    
+        }
+
+        return update(backendUser, user, result, mv);
+    }    
     
 }

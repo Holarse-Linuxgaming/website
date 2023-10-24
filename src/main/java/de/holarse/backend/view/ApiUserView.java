@@ -1,14 +1,18 @@
 package de.holarse.backend.view;
 
 import de.holarse.backend.db.ApiUser;
+import jakarta.validation.constraints.NotNull;
 import java.time.OffsetDateTime;
 
 public class ApiUserView {
 
     private Integer id;
+    @NotNull
     private String login;
+    @NotNull
     private String token;
     private OffsetDateTime validUntil;
+    @NotNull
     private String roleName;
     private boolean active;
     private OffsetDateTime created;

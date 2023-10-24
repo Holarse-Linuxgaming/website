@@ -1,5 +1,8 @@
 package de.holarse.config;
 
+import java.util.Arrays;
+import java.util.List;
+
 public final class RoleApiTypes {
     
     /**
@@ -24,5 +27,9 @@ public final class RoleApiTypes {
      */
     public static final String ROLE_API = "ROLE_API";
     
+    private static final List<String> types = Arrays.asList(ROLE_API_DRÜCKBLICK, ROLE_API_ADMIN, ROLE_API_VERSION, ROLE_API_IMPORT, ROLE_API);
     
+    public static List<String> getTypes() {
+        return types;
+    }
 }

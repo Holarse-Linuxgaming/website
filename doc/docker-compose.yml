@@ -15,6 +15,9 @@ services:
       - 5432:5432
     volumes:
       - website_my_pgdata:/var/lib/postgresql/data
+    networks:
+      - holarse-dev
+
   amq:
       image: git.holarse.de/holarse-linuxgaming/holarse/holaq:latest
       container_name: amq
@@ -23,29 +26,40 @@ services:
           - 8161:8161
           - 61616:61616
       volumes:
-          - amq_journal_data:/opt/holaq/data
+        - amq_journal_data:/opt/holaq/data
+      networks:
+        - holarse-dev
+
   app:
-      image: tomcat:11.0-jdk21-openjdk
-      container_name: app
-      restart: always
-      ports:
-          - 8080:8080
-      volumes:
-          - './tomcat/conf/context.xml:/usr/local/tomcat/conf/context.xml'
-          - './tomcat/conf/server.xml:/usr/local/tomcat/conf/server.xml'
-          - './tomcat/conf/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml'
-          - './tomcat/lib/postgresql-42.3.1.jar:/usr/local/tomcat/lib/postgresql-42.3.1.jar'
-          - '../target/holarseweb.war:/usr/local/tomcat/webapps/holarseweb.war'
+    image: tomcat:11.0-jdk21-openjdk
+    container_name: app
+    restart: always
+    ports:
+      - 8080:8080
+    volumes:
+      - './tomcat/conf/context.xml:/usr/local/tomcat/conf/context.xml'
+      - './tomcat/conf/server.xml:/usr/local/tomcat/conf/server.xml'
+      - './tomcat/conf/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml'
+      - './tomcat/lib/postgresql-42.3.1.jar:/usr/local/tomcat/lib/postgresql-42.3.1.jar'
+      - '../target/holarseweb.war:/usr/local/tomcat/webapps/holarseweb.war'
+    networks:
+      - holarse-dev
+
   cache:
       image: redis:latest
       container_name: cache
       restart: always
       ports:
-          - 6379:6379
+        - 6379:6379
+      networks:
+        - holarse-dev
+
 volumes:
   website_my_pgdata: 
       external: true
   amq_journal_data:
       external: true
 
-
+networks:
+  holarse-dev:
+    driver: bridge

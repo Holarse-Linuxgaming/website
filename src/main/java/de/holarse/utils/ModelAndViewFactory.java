@@ -17,6 +17,7 @@
 package de.holarse.utils;
 
 import de.holarse.web.defines.WebDefines;
+import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -29,11 +30,11 @@ public class ModelAndViewFactory {
         return new LayoutModelAndView("layout/admin", page);
     }
     
-    public static ModelAndView makeAdminLayout(final ModelAndView mv, final String page) {
-        mv.setViewName("layouts/admin");
-        mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, page);           
+    public static ModelAndView makeAdminLayout(final ModelAndView model, final String page) {
+        model.setViewName("layouts/admin");
+        model.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, page);           
         
-        return mv;
+        return model;
     }
     
     private ModelAndViewFactory() {

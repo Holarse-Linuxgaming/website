@@ -41,15 +41,14 @@ function dbl_get_dirty_marks() {
     });
 }
 
-function admin_apiusers_get_token(event) {
-    event.preventDefault();
+function admin_apiusers_get_token() {
     $.ajax({
-        url: "/admin/api/apiusers/token.json", 
+        url: "/holarseweb/admin/api/apiusers/token.json", 
         method: "GET", 
         headers: {
         }, 
         success: function(result) {
-            $("input#token").html(result.password);
+            $("#apiuser-token").value = result.password;
         }
     });
 }
