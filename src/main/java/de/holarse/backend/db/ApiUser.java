@@ -5,8 +5,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
-@Table
-@Entity(name = "apiusers")
+@Table(name = "apiusers")
+@Entity
 public class ApiUser extends TimestampedBase {
 
     private static final long serialVersionUID = 1L;

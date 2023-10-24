@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de-de">
+<html xmlns:th="http://www.thymeleaf.org" lang="de-de">
   <head>
     <!-- Title -->
     <title>Holarse - Spielen unter Linux
@@ -39,6 +39,11 @@
       // initialization of header
       $.HSCore.components.HSHeader.init($('#js-header'));
     });
-  </script>    
+  </script>
+  
+  <!-- Page-specific javascript -->
+  <script id="page-scriptlet">
+      console.log("im the default scriptlet");
+  </script>
   </body>
 </html>

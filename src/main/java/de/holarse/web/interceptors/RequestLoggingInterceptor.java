@@ -41,7 +41,7 @@ public class RequestLoggingInterceptor implements HandlerInterceptor {
     @Autowired
     private PageVisitRepository pageVisitRepo;
     
-    final static List<String> IGNORED_URLS = Arrays.asList("/login", "/assets", "/nodes/", "/webapi/", "/api/", "/admin/", 
+    final static List<String> IGNORED_URLS = Arrays.asList("/login", "/assets", "/nodes/", "/webapi/", "/api/", "/admin", "/workspace",
                                                            "/robots.txt", "/humans.txt", "/age.xml", "/age-de.xml", "/miracle.xml");
 
     final public static List<String> CAMPAIGN_NAMES = Arrays.asList("pk_campaign", "piwik_campaign", "utm_campaign", "utm_source", "utm_medium");

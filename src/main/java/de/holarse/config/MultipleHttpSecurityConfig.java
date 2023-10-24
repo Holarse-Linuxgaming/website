@@ -128,6 +128,7 @@ public class MultipleHttpSecurityConfig {
 
         // Bereich nur für authentifizierte Benutzer jeglicher Rollen, z.B. Profil, edit-Seiten, logout
         .authorizeHttpRequests((requests) -> requests.requestMatchers(antMatcher("/profile"),
+                                                                      antMatcher("/workspace/**"),
                                                                       antMatcher("/logout")).authenticated())
         
         // Normale Webseite, auch als Gast nutzbar

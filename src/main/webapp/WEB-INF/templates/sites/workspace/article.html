@@ -1,0 +1,138 @@
+<div class="container">
+    <!-- Breadcrumbs -->
+    <section class="g-bg-gray-light-v5 g-py-5">
+      <div class="container">
+        <div class="d-sm-flex text-center">
+          <div class="align-self-center">
+            <h2 class="h3 g-font-weight-300 w-100 g-mb-10 g-mb-0--md">Neuer Artikel</h2>
+          </div>
+
+          <div class="align-self-center ml-auto">
+            <ul class="u-list-inline">
+              <li class="list-inline-item g-mr-5">
+                <a class="u-link-v5 g-color-main" href="#!" data-th-href="@{/workspace/}">Workspace</a>
+                <i class="g-color-gray-light-v2 g-ml-5">/</i>
+              </li>
+              <li class="list-inline-item g-mr-5">
+                <a class="u-link-v5 g-color-main" href="#!" data-th-href="@{/workspace/add/}">Neue Inhalte</a>
+                <i class="g-color-gray-light-v2 g-ml-5">/</i>
+              </li>
+              <li class="list-inline-item g-color-primary">
+                <span>Artikel</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>    
+    
+    <form class="g-brd-around g-brd-gray-light-v4 g-pa-30 g-mb-30" data-th-action="@{/workspace/add/article}" data-th-object="${article}" method="post">
+        <!-- Title 1 -->
+        <div class="form-group g-mb-20">
+          <label class="col-sm-3 col-form-label g-mb-10" for="title1">Titel</label>
+          <input data-th-field="*{title1}" class="form-control form-control-md rounded-0" type="text" placeholder="Haupttitel des Artikels">
+        </div>
+        <!-- End Title 1 -->
+        
+        <!-- Title 2 -->
+        <div class="form-group g-mb-20 block-title block-title2">
+          <label class="col-sm-3 col-form-label g-mb-10" for="title2">Alternativtitel (2)</label>
+          <input data-th-field="*{title2}" class="form-control form-control-md rounded-0" type="text" placeholder="Mögliche alternative Titel">
+          <a href="#" class="btn btn-md btn-remove-article-title" data-field="title2">
+              <i class="fa fa fa-minus"></i>
+          </a>              
+        </div>
+        <!-- End Title 2 -->        
+        
+        <!-- Title 3 -->
+        <div class="form-group g-mb-20 block-title block-title3">
+          <label class="col-sm-3 col-form-label g-mb-10" for="title3">Alternativtitel (3)</label>
+          <input data-th-field="*{title3}" class="form-control form-control-md rounded-0" type="text" placeholder="Mögliche alternative Titel">
+          <a href="#" class="btn btn-md btn-remove-article-title" data-field="title3">
+              <i class="fa fa fa-minus"></i>
+          </a>              
+        </div>
+        <!-- End Title 3 -->    
+        
+        <!-- Title 4 -->
+        <div class="form-group g-mb-20 block-title block-title4">
+          <label class="col-sm-3 col-form-label g-mb-10" for="title4">Alternativtitel (4)</label>
+          <input data-th-field="*{title4}" class="form-control form-control-md rounded-0" type="text" placeholder="Mögliche alternative Titel">
+          <a href="#" class="btn btn-md btn-remove-article-title" data-field="title4">
+              <i class="fa fa fa-minus"></i>
+          </a>    
+        </div>
+        <!-- End Title 4 -->   
+
+        <!-- Title 5 -->
+        <div class="form-group g-mb-20 block-title block-title5">
+          <label class="col-sm-3 col-form-label g-mb-10" for="title5">Alternativtitel (5)</label>
+          <input data-th-field="*{title5}" class="form-control form-control-md rounded-0" type="text" placeholder="Mögliche alternative Titel">
+          <a href="#" class="btn btn-md btn-remove-article-title" data-field="title5">
+              <i class="fa fa fa-minus"></i>
+          </a>              
+        </div>
+        <!-- End Title 5 -->   
+
+        <!-- Title 6 -->
+        <div class="form-group g-mb-20 block-title block-title6">
+          <label class="col-sm-3 col-form-label g-mb-10" for="title6">Alternativtitel (6)</label>
+          <input data-th-field="*{title6}" class="form-control form-control-md rounded-0" type="text" placeholder="Mögliche alternative Titel">
+          <a href="#" class="btn btn-md btn-remove-article-title" data-field="title6">
+              <i class="fa fa fa-minus"></i>
+          </a>              
+        </div>
+        <!-- End Title 6 -->   
+
+        <!-- Title 7 -->
+        <div class="form-group g-mb-20 block-title block-title7">
+          <label class="col-sm-3 col-form-label g-mb-10" for="title7">Alternativtitel (7)</label>
+          <input data-th-field="*{title7}" class="form-control form-control-md rounded-0" type="text" placeholder="Mögliche alternative Titel">
+          <a href="#" class="btn btn-md btn-remove-article-title" data-field="title7">
+              <i class="fa fa fa-minus"></i>
+          </a>          
+        </div>
+        <!-- End Title 7 -->
+        
+        <a href="#" id="btn-workspace-add-title" class="btn btn-md">
+            <i class="fa fa fa-plus"></i>
+        </a>
+        
+        <!-- Title 7 -->
+        <div class="form-group g-mb-20">
+          <label class="col-sm-3 col-form-label g-mb-10" for="tags">Tags</label>
+          <input data-th-field="*{tags}" class="form-control form-control-md rounded-0" type="text" placeholder="Tags kommasepariert">
+        </div>
+        <!-- End Title 7 -->        
+        
+        <!-- Textarea Expandable -->
+        <div class="form-group g-mb-20">
+          <label class="col-sm-3 col-form-label g-mb-10" for="content">Inhalt</label>
+          <textarea data-th-field="*{content}" class="form-control form-control-md rounded-0" rows="10" placeholder="Text area"></textarea>
+          <small class="form-text text-muted g-font-size-default g-mt-10">
+            <strong>Note:</strong> expands on focus.
+          </small>
+        </div>
+        <!-- End Textarea Expandable -->        
+        
+        <!-- Toggles Checkbox -->
+        <div class="form-group">
+          <label class="d-flex align-items-center justify-content-between">
+            <span>Veröffentlicht?</span>
+<!--            <div class="u-check">-->
+              <input class="g-hidden-xs-up g-pos-abs g-top-0 g-right-0" name="radGroup3_1" type="checkbox" checked="" data-th-field="*{published}">
+<!--              <div class="u-check-icon-radio-v8">
+                <i class="fa" data-check-icon=""></i>
+              </div>-->
+<!--            </div>-->
+          </label>
+        </div>
+        <!-- End Toggles Checkbox -->        
+        
+        <p>
+            <input type="submit" value="Anlegen" class="btn btn-md u-btn-primary g-mr-10 g-mb-15" />
+        </p>        
+        
+    </form>
+    
+</div>

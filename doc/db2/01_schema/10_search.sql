@@ -5,40 +5,40 @@
 CREATE MATERIALIZED VIEW IF NOT EXISTS mv_searchindex AS (
 
 SELECT
-        article_revisions.id AS pid, -- für referenz
-        article_revisions.title1 AS ptitle, -- für ergebnisanzeiuge
-        concat_ws(';', article_revisions.title2, article_revisions.title3, article_revisions.title4, article_revisions.title5, article_revisions.title6, article_revisions.title7) AS psubtitles, -- für ergebnisanzeige
+        ar.id AS pid, -- für referenz
+        ar.title1 AS ptitle, -- für ergebnisanzeiuge
+        concat_ws(';', ar.title2, ar.title3, ar.title4, ar.title5, ar.title6, ar.title7) AS psubtitles, -- für ergebnisanzeige
         nsl.name as purl, -- für schnelles verlinken
-        article_revisions.content AS content,
+        ar.content AS content,
         att.attachment_data AS image,
         string_agg(tags.name, ';') AS tags,				  
-        setweight(to_tsvector(article_revisions.title1_lang::regconfig,          unaccent(article_revisions.title1)), 'A') ||
-        setweight(to_tsvector(article_revisions.title2_lang::regconfig, coalesce(unaccent(article_revisions.title2), '')), 'A') ||
-        setweight(to_tsvector(article_revisions.title3_lang::regconfig, coalesce(unaccent(article_revisions.title3), '')), 'A') ||
-        setweight(to_tsvector(article_revisions.title4_lang::regconfig, coalesce(unaccent(article_revisions.title4), '')), 'A') ||
-        setweight(to_tsvector(article_revisions.title5_lang::regconfig, coalesce(unaccent(article_revisions.title5), '')), 'A') ||
-        setweight(to_tsvector(article_revisions.title6_lang::regconfig, coalesce(unaccent(article_revisions.title6), '')), 'A') ||        
-        setweight(to_tsvector(article_revisions.title7_lang::regconfig, coalesce(unaccent(article_revisions.title7), '')), 'A') ||        setweight(to_tsvector('german', coalesce(article_revisions.content, '')), 'B') -- content will be mostly german
+        setweight(to_tsvector(ar.title1_lang::regconfig,          unaccent(ar.title1)), 'A') ||
+        setweight(to_tsvector(ar.title2_lang::regconfig, coalesce(unaccent(ar.title2), '')), 'A') ||
+        setweight(to_tsvector(ar.title3_lang::regconfig, coalesce(unaccent(ar.title3), '')), 'A') ||
+        setweight(to_tsvector(ar.title4_lang::regconfig, coalesce(unaccent(ar.title4), '')), 'A') ||
+        setweight(to_tsvector(ar.title5_lang::regconfig, coalesce(unaccent(ar.title5), '')), 'A') ||
+        setweight(to_tsvector(ar.title6_lang::regconfig, coalesce(unaccent(ar.title6), '')), 'A') ||        
+        setweight(to_tsvector(ar.title7_lang::regconfig, coalesce(unaccent(ar.title7), '')), 'A') ||        setweight(to_tsvector('german', coalesce(ar.content, '')), 'B') -- content will be mostly german
 --        setweight(to_tsvector(name_lang::regconfig, tags.name), 'C')
 	AS document,
         'article' :: node_type AS doctype
-    FROM article_revisions
-    INNER JOIN articles a on a.revisionid = article_revisions.id  
-    LEFT JOIN node_tags ON node_tags.nodeid = article_revisions.nodeid
+    FROM article_revisions ar
+    INNER JOIN articles a on a.versionid = ar.id  
+    LEFT JOIN node_tags ON node_tags.nodeid = ar.nodeid
     LEFT JOIN tags ON tags.id = node_tags.tagid
     LEFT JOIN attachments att ON att.id = (
         SElECT id
         FROM attachments
-        WHERE nodeid = article_revisions.id AND attachment_type = 'SCREENSHOT' AND attachment_group = 'IMAGE' ORDER BY id LIMIT 1
+        WHERE nodeid = ar.id AND attachment_type = 'SCREENSHOT' AND attachment_group = 'IMAGE' ORDER BY id LIMIT 1
     )
     left join node_slugs nsl on nsl.id = (
     	select id
     	from node_slugs
-    	where node_slugs.nodeid = article_revisions.nodeid order by updated limit 1
+    	where node_slugs.nodeid = ar.nodeid order by updated limit 1
     )
-    inner join node_status ns on ns.nodeid = article_revisions.nodeid 
-	WHERE NOT ns.deleted AND published
-    GROUP BY article_revisions.id, nsl.name, att.attachment_data
+    inner join node_status ns on ns.nodeid = ar.nodeid 
+	WHERE NOT ns.deleted AND ns.published
+    GROUP BY ar.id, nsl.name, att.attachment_data
      
 union -- ab hier news
 

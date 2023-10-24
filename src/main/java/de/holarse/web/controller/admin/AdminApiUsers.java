@@ -45,7 +45,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @author comrad
  */
 @Controller
-@RequestMapping(value = "/admin/apiusers/")
+@RequestMapping(value = {"/admin/apiusers", "/admin/apiusers/"})
 public class AdminApiUsers {
 
     private final static transient Logger log = LoggerFactory.getLogger(AdminApiUsers.class);
