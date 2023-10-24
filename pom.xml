@@ -18,7 +18,7 @@
         <slf4jVersion>2.0.9</slf4jVersion>
         <jackson.version>2.15.3</jackson.version>
         
-        <maven.compiler.release>21</maven.compiler.release>
+        <maven.compiler.release>17</maven.compiler.release>
     </properties>
   
     <dependencies>
