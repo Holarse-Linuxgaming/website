@@ -32,6 +32,7 @@ import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 @ComponentScan(basePackages = "de.holarse" )
 @PropertySources({
     @PropertySource("classpath:application.properties"), 
+    @PropertySource("classpath:credential.properties"),
     @PropertySource("classpath:git.properties")})
 public class AppConfig implements WebMvcConfigurer {
 

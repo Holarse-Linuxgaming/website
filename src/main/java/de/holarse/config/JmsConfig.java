@@ -21,6 +21,7 @@ import jakarta.jms.DeliveryMode;
 import java.util.Arrays;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.annotation.EnableJms;
@@ -35,12 +36,19 @@ import org.springframework.jms.core.JmsTemplate;
 @EnableJms
 public class JmsConfig {
     
+    @Value("${amq.brokerUrl}")
+    private String amqBrokerUrl;
+    @Value("${amq.username}")
+    private String amqUsername;
+    @Value("${amq.password}")
+    private String amqPassword;
+    
     @Bean
     public ConnectionFactory jmsConnectionFactory() {
         ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
-        connectionFactory.setBrokerURL("tcp://luna:61616");
-        connectionFactory.setUserName("web");
-        connectionFactory.setPassword("geheim");
+        connectionFactory.setBrokerURL(amqBrokerUrl);
+        connectionFactory.setUserName(amqUsername);
+        connectionFactory.setPassword(amqPassword);
         
         connectionFactory.setTrustedPackages(Arrays.asList("de.holarse.backend.api.drückblick", "de.holarse.backend.types"));
         

@@ -3,12 +3,14 @@
     <div class="col-sm-8 col-lg-5">
         <div class="u-shadow-v21 g-bg-white rounded g-py-40 g-px-30">
             <header class="text-center mb-4">
-                <h2 class="h2 g-color-black g-font-weight-600">Das Holarse-Wiki</h2>
+                <h2 class="h2 g-color-black g-font-weight-600" data-th-text="${view.title1}"></h2>
             </header>
 
-            <ul data-th-each="article : ${articles}">
-                <li><a href="#" data-th-href="@{/wiki/{slug}(slug=${article.slug})}" data-th-text="${article.title1}"></a></li>
+            <ul data-th-each="tag : ${view.tags}" >
+                <li data-th-text="${tag.name}"></li>
             </ul>
+            
+            <p data-th-text="${view.content}"></p>
             
         </div>
     </div>

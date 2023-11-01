@@ -16,8 +16,10 @@
  */
 package de.holarse.web.interceptors;
 
+import de.holarse.auth.web.HolarsePrincipal;
 import de.holarse.backend.db.PageVisit;
 import de.holarse.backend.db.repositories.PageVisitRepository;
+import de.holarse.config.RoleUserTypes;
 import java.util.Arrays;
 import java.util.List;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,8 +28,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.handler.UserRoleAuthorizationInterceptor;
 
 /**
  * Schreibt die HTTP-Requests in die Logging-Tabelle
@@ -60,6 +66,17 @@ public class RequestLoggingInterceptor implements HandlerInterceptor {
             return; 
         }        
         
+        boolean internal = false;
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            final HolarsePrincipal userPrincipal = (HolarsePrincipal)authentication.getPrincipal(); 
+            //logger.debug("Granted Authorities: {}", userPrincipal.getAuthorities());
+            if (userPrincipal.getAuthorities().stream().anyMatch(a -> RoleUserTypes.getPrivilegedRoles().contains(a.getAuthority()))) {
+                //logger.debug("Admin user browsing");
+                internal = true;
+            }
+        }        
+        
         final PageVisit pageVisit = new PageVisit();
         pageVisit.setUrl(StringUtils.substring(requestPath, 0, 2083));
         pageVisit.setHttpStatus(response.getStatus());
@@ -68,6 +85,8 @@ public class RequestLoggingInterceptor implements HandlerInterceptor {
         pageVisit.setReferer(StringUtils.substring(request.getHeader("referer"), 0, 255));
         pageVisit.setVisitorId(request.getRequestedSessionId());
         pageVisit.setSearchWord(StringUtils.substring(request.getParameter("q"), 0, 255));
+        pageVisit.setInternal(internal);
+        pageVisit.setBot(false);
         
         if (request.getParameterNames().hasMoreElements()) {
             pageVisit.setCampaginName(extractCampaignName(request));

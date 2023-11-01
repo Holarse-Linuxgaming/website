@@ -1,6 +1,7 @@
 package de.holarse.auth.web;
 
 import de.holarse.backend.db.User;
+import static de.holarse.config.RoleUserTypes.ROLE_USER;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,7 +22,7 @@ public class HolarsePrincipal implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> roles = new HashSet<>();
-        roles.add(new SimpleGrantedAuthority("ROLE_USER")); // Standardrolle
+        roles.add(new SimpleGrantedAuthority(ROLE_USER)); // Standardrolle "Gast"
         roles.addAll(user.getRoles());
         
         return roles;

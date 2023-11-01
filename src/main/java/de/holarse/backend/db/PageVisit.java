@@ -72,6 +72,12 @@ public class PageVisit implements Serializable {
     @Column(name="bot", columnDefinition = "boolean default false")
     private boolean bot;
     
+    /**
+     * Marks Holarse-Core member access so distinguish external users from "us"
+     */
+    @Column(name="internal", columnDefinition = "boolean default false")
+    private boolean internal;    
+    
     @Column(insertable = false, name = "accessed", columnDefinition = "TIMESTAMP WITH TIME ZONE default CURRENT_TIMESTAMP")    
     private OffsetDateTime accessed;      
 
@@ -177,6 +183,14 @@ public class PageVisit implements Serializable {
 
     public void setAccessed(OffsetDateTime accessed) {
         this.accessed = accessed;
+    }
+
+    public boolean isInternal() {
+        return internal;
+    }
+
+    public void setInternal(boolean internal) {
+        this.internal = internal;
     }
     
 }

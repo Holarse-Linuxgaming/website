@@ -2,7 +2,7 @@
 create table if not exists node_slugs(
     id integer primary key default nextval('hibernate_sequence'),    
 
-    nodeid integer not null unique,
+    nodeid integer not null,
 
     name varchar(255) not null,
 

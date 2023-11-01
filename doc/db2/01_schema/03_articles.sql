@@ -40,3 +40,12 @@ create table if not exists articles(
         drupalid integer
 );
 
+-- view with all current active and published articles and a slug to link to
+create or replace view v_articles as (
+    SELECT ar.nodeid, ar.revision, ar.title1 as title, sl."name" as slug
+    FROM article_revisions ar
+    INNER JOIN articles a on a.versionid = ar.id  
+    inner join node_status ns on ns.nodeid = ar.nodeid
+    left join node_slugs sl on sl.nodeid = ar.nodeid
+    WHERE NOT ns.deleted AND ns.published and sl.id = (select max(_ns.id) from node_slugs _ns where _ns.nodeid = ar.nodeid)
+);

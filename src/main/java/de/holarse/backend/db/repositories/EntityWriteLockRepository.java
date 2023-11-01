@@ -22,11 +22,13 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author comrad
  */
+@Repository
 public interface EntityWriteLockRepository extends JpaRepository<EntityWriteLock, Integer> {
     
     @Query(value="delete from entity_writelocks ew where ew.entity = :entity and ew.row_id = :rowId and ew.user_id = :userId", nativeQuery = true)

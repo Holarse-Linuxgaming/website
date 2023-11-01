@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS node_pagevisits (
     url varchar(2083),
     useragent varchar(255),
     bot boolean DEFAULT false,
+    internal boolean DEFAULT false,
     accessed timestamptz DEFAULT CURRENT_TIMESTAMP NOT NULL
 ) PARTITION BY range(accessed);
 

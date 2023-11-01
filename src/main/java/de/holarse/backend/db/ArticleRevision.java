@@ -1,11 +1,19 @@
 package de.holarse.backend.db;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import java.util.HashSet;
+import java.util.Set;
 
 @Table(name = "article_revisions")
 @Entity
@@ -37,7 +45,19 @@ public class ArticleRevision extends TimestampedBase {
     private String title7;
     @Column(length = 16384)    
     private String content;
-
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="nodeid", referencedColumnName = "nodeid")    
+    private NodeStatus nodeStatus;
+    
+    @ManyToMany(cascade = { CascadeType.REFRESH })
+    @JoinTable(
+        name = "node_tags", 
+        joinColumns = { @JoinColumn(name = "nodeid") }, 
+        inverseJoinColumns = { @JoinColumn(name = "tagid") }
+    )    
+    private Set<Tag> tags = new HashSet<>();
+    
     public int getNodeId() {
         return nodeId;
     }
@@ -116,6 +136,22 @@ public class ArticleRevision extends TimestampedBase {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public NodeStatus getNodeStatus() {
+        return nodeStatus;
+    }
+
+    public void setNodeStatus(NodeStatus nodeStatus) {
+        this.nodeStatus = nodeStatus;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
     }
     
 }
