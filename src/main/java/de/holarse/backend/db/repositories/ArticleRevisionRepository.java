@@ -16,13 +16,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ArticleRevisionRepository extends JpaRepository<ArticleRevision, Integer>, RevisionAwareRepository  {    
-    
-//    @Query("SELECT ar.nodeId as nodeId, ar.revision as revision, ar.title1 as title1, sl.name as slug FROM ArticleRevision ar " + 
-//           "INNER JOIN Article a ON a.versionId = ar.id " +
-//           "INNER JOIN NodeStatus ns ON ns.nodeId = ar.nodeId " + 
-//           "LEFT JOIN NodeSlug sl on sl.nodeId = ar.nodeId " + 
-//           "WHERE NOT ns.deleted AND ns.published and sl.id = (SELECT max(_ns.id) from NodeSlug _ns where _ns.nodeId = ar.nodeId)")
-//    Page<CurrentArticle> findAllCurrent(final Pageable pageable);
 //    
 //    @Query("FROM ArticleRevision ar " + 
 //           "INNER JOIN NodeStatus ns ON ns.nodeId = ar.nodeId " +

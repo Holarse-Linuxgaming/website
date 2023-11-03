@@ -58,8 +58,8 @@ public class WikiController {
         mv.addObject("title", "Die Linuxspiele-Seite für Linuxspieler");
         mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/wiki/index");
         
-//        // TODO: Wieder entfernen, nur zum Testen
-//        mv.addObject("articles", articleRevisionRepository.findAllCurrent(pageable));
+        // TODO: Wieder entfernen, nur zum Testen
+        mv.addObject("articles", articleRepository.listCurrentArticles(pageable));
 //        
         return mv;
     }
@@ -72,7 +72,7 @@ public class WikiController {
 
         boolean adminOverride = false;
         
-        ArticleRevision article = null; //articleRevisionRepository.findCurrentBySlug(slug).orElseThrow(EntityNotFoundException::new);
+        ArticleRevision article = articleRepository.findBySlug(slug).orElseThrow(EntityNotFoundException::new).getArticleRevision();
         // TODO
 //        if (article.getNodeStatus().isDeleted() || !article.getNodeStatus().isPublished()) {
 //            logger.debug("Principal: {}", principal);
@@ -91,10 +91,10 @@ public class WikiController {
         // View zusammenstellen
         final ArticleView view = ArticleView.of(article);
         view.setNodeId(article.getNodeId());
-        view.setTagList(tagRepository.findByNodeId(article.getNodeId(), Sort.by("weight")));
+//        view.setTagList(tagRepository.findByNodeId(article.getNodeId(), Sort.by("weight")));
         view.setContent(renderer.render(view.getContent(), null));
-        view.setSlug(nodeSlugRepository.findByNodeId(article.getNodeId()).orElseThrow(EntityNotFoundException::new).getName());
-        
+//        view.setSlug(nodeSlugRepository.findByNodeId(article.getNodeId()).orElseThrow(EntityNotFoundException::new).getName());
+//        
         mv.addObject("view", view);
         
         return mv;
