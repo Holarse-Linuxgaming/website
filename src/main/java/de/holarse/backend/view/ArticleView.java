@@ -7,6 +7,9 @@ import java.util.List;
 
 public class ArticleView {
 
+    private int nodeId;
+    private String slug;
+    
     private String title1;
     private String title2;
     private String title3;
@@ -19,10 +22,14 @@ public class ArticleView {
     private LocalDateTime created;
     private LocalDateTime updated;
     
-    private List<TagView> tags = new ArrayList<>();
-    
+    // Tags as editable String
+    private String tags;
+    // Tags as views for display
+    private List<TagView> tagList = new ArrayList<>();
+     
     public static ArticleView of(final ArticleRevision ar) {
         final ArticleView av = new ArticleView();
+        av.setNodeId(ar.getNodeId());
         av.setTitle1(ar.getTitle1());
         av.setTitle2(ar.getTitle2());
         av.setTitle3(ar.getTitle3());
@@ -37,6 +44,14 @@ public class ArticleView {
         return av;        
     }
 
+    public int getNodeId() {
+        return nodeId;
+    }
+
+    public void setNodeId(int nodeId) {
+        this.nodeId = nodeId;
+    }
+    
     public String getTitle1() {
         return title1;
     }
@@ -117,12 +132,28 @@ public class ArticleView {
         this.updated = updated;
     }
 
-    public List<TagView> getTags() {
+    public String getTags() {
         return tags;
     }
 
-    public void setTags(List<TagView> tags) {
+    public void setTags(String tags) {
         this.tags = tags;
     }
-    
+
+    public List<TagView> getTagList() {
+        return tagList;
+    }
+
+    public void setTagList(List<TagView> tagList) {
+        this.tagList = tagList;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+
 }

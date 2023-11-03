@@ -1,11 +1,12 @@
 package de.holarse.web.controller.commands;
 
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public class ArticleForm {
 
+    private int nodeId;
+    
     @NotBlank
     private String title1;
     
@@ -22,6 +23,14 @@ public class ArticleForm {
     private String tags;
     private boolean published;
 
+    public int getNodeId() {
+        return nodeId;
+    }
+
+    public void setNodeId(int nodeId) {
+        this.nodeId = nodeId;
+    }
+    
     public String getTitle1() {
         return title1;
     }

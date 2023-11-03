@@ -33,8 +33,7 @@ create table if not exists node_tags(
     nodeid integer not null,
 
     created timestamptz not null default CURRENT_TIMESTAMP,
-    updated timestamptz not null default CURRENT_TIMESTAMP,
-    update_userid integer references users(id)	
+    updated timestamptz not null default CURRENT_TIMESTAMP
 );
 
 

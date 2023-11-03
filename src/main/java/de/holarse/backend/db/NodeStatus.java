@@ -1,11 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package de.holarse.backend.db;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Table(name = "node_status")
@@ -14,19 +10,18 @@ public class NodeStatus extends TimestampedBase {
     
     private static final long serialVersionUID = 1L;
     
-    private int nodeId;
+    @Column(name = "nodeid", nullable = false)
+    private Integer nodeId;
     private boolean archived;
     private boolean commentable;
     private boolean published;
     private boolean deleted;
-    @ManyToOne
-    private User user;
 
-    public int getNodeId() {
+    public Integer getNodeId() {
         return nodeId;
     }
 
-    public void setNodeId(int nodeId) {
+    public void setNodeId(Integer nodeId) {
         this.nodeId = nodeId;
     }
 
@@ -60,14 +55,6 @@ public class NodeStatus extends TimestampedBase {
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
     
 }

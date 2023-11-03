@@ -16,8 +16,7 @@ create table if not exists node_status (
     deleted bool default false,
 
     created timestamptz not null default CURRENT_TIMESTAMP,
-    updated timestamptz not null default CURRENT_TIMESTAMP,
-    user_id integer references users(id)
+    updated timestamptz not null default CURRENT_TIMESTAMP
 );
 
 -- Standard-Zeilen-Locktabelle

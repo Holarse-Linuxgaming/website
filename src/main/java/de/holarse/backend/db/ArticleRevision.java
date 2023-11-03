@@ -1,19 +1,8 @@
 package de.holarse.backend.db;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import java.util.HashSet;
-import java.util.Set;
 
 @Table(name = "article_revisions")
 @Entity
@@ -21,14 +10,10 @@ public class ArticleRevision extends TimestampedBase {
     
     private static final long serialVersionUID = 1L;
     
-    @Column
-    @SequenceGenerator(name = "node_sequence", sequenceName = "node_sequence", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "node_sequence")    
-    private int nodeId;
-    @Column
-    @SequenceGenerator(name = "revision_sequence", sequenceName = "revision_sequence", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "revision_sequence")    
-    private int revision;
+    @Column(name = "nodeid", nullable = false)
+    private Integer nodeId;
+    @Column(name = "revision", nullable = false)
+    private Integer revision;
     @Column(length = 512)
     private String title1;
     @Column(length = 512)
@@ -45,32 +30,20 @@ public class ArticleRevision extends TimestampedBase {
     private String title7;
     @Column(length = 16384)    
     private String content;
-    
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="nodeid", referencedColumnName = "nodeid")    
-    private NodeStatus nodeStatus;
-    
-    @ManyToMany(cascade = { CascadeType.REFRESH })
-    @JoinTable(
-        name = "node_tags", 
-        joinColumns = { @JoinColumn(name = "nodeid") }, 
-        inverseJoinColumns = { @JoinColumn(name = "tagid") }
-    )    
-    private Set<Tag> tags = new HashSet<>();
-    
-    public int getNodeId() {
+
+    public Integer getNodeId() {
         return nodeId;
     }
 
-    public void setNodeId(int nodeId) {
+    public void setNodeId(Integer nodeId) {
         this.nodeId = nodeId;
     }
 
-    public int getRevision() {
+    public Integer getRevision() {
         return revision;
     }
 
-    public void setRevision(int revision) {
+    public void setRevision(Integer revision) {
         this.revision = revision;
     }
 
@@ -138,20 +111,4 @@ public class ArticleRevision extends TimestampedBase {
         this.content = content;
     }
 
-    public NodeStatus getNodeStatus() {
-        return nodeStatus;
-    }
-
-    public void setNodeStatus(NodeStatus nodeStatus) {
-        this.nodeStatus = nodeStatus;
-    }
-
-    public Set<Tag> getTags() {
-        return tags;
-    }
-
-    public void setTags(Set<Tag> tags) {
-        this.tags = tags;
-    }
-    
 }

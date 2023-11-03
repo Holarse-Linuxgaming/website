@@ -1,0 +1,8 @@
+<div class="col g-ml-45 g-ml-0--lg g-pb-65--md">
+    <form action="#" data-th-action="@{/wiki/{nodeId}(nodeId=${form.nodeId})}" data-th-object="${form}" method="post" class="g-brd-around g-brd-gray-light-v4 g-pa-30 g-mb-30">
+        <input type="hidden" data-th-field="*{nodeId}" />
+
+        <div data-th-replace="~{sites/shared/articles/form}"></div>   
+        
+    </form>
+</div>

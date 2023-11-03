@@ -10,7 +10,6 @@ create table if not exists node_slugs(
 
     created timestamptz not null default CURRENT_TIMESTAMP,
     updated timestamptz not null default CURRENT_TIMESTAMP,
-    update_userid integer references users(id),
 
     unique (name, slug_context)
 );

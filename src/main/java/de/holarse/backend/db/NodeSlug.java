@@ -6,8 +6,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import org.hibernate.annotations.Type;
 
@@ -17,7 +15,8 @@ public class NodeSlug extends TimestampedBase {
     
     private static final long serialVersionUID = 1L;
     
-    private int nodeId;
+    @Column(name = "nodeid", nullable = false)
+    private Integer nodeId;
     
     @Column(length = 255)
     private String name;
@@ -26,16 +25,12 @@ public class NodeSlug extends TimestampedBase {
     @Type(PostgreSQLEnumType.class)
     @Column(columnDefinition = "node_type", name = "slug_context")
     private NodeType slugContext;
-    
-    @ManyToOne
-    @JoinColumn(name="update_userid", nullable=false, referencedColumnName = "id")
-    private User user;   
 
-    public int getNodeId() {
+    public Integer getNodeId() {
         return nodeId;
     }
 
-    public void setNodeId(int nodeId) {
+    public void setNodeId(Integer nodeId) {
         this.nodeId = nodeId;
     }
 
@@ -53,14 +48,6 @@ public class NodeSlug extends TimestampedBase {
 
     public void setSlugContext(NodeType slugContext) {
         this.slugContext = slugContext;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
 }

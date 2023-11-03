@@ -2,11 +2,20 @@
 <div class="row justify-content-center">
     <div class="col-sm-8 col-lg-5">
         <div class="u-shadow-v21 g-bg-white rounded g-py-40 g-px-30">
+            
+            <ul class="">            
+                <li class="">
+                    <a href="#" data-th-href="@{/wiki/{slug}/edit(slug=${view.slug})}">bearbeiten</a>
+                </li>
+            </ul>
+            
             <header class="text-center mb-4">
                 <h2 class="h2 g-color-black g-font-weight-600" data-th-text="${view.title1}"></h2>
             </header>
+            
+          
 
-            <ul data-th-each="tag : ${view.tags}" >
+            <ul data-th-each="tag : ${view.tagList}" >
                 <li data-th-text="${tag.name}"></li>
             </ul>
             
