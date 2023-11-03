@@ -12,6 +12,7 @@ import de.holarse.backend.db.repositories.NodeStatusRepository;
 import de.holarse.backend.types.NodeType;
 import de.holarse.web.controller.commands.ArticleForm;
 import de.holarse.web.defines.WebDefines;
+import de.holarse.web.services.SlugService;
 import jakarta.validation.Valid;
 import java.security.Principal;
 import org.slf4j.Logger;
@@ -41,6 +42,9 @@ public class WorkspaceController {
     
     @Autowired
     private NodeStatusRepository nodeStatusRepository;
+    
+    @Autowired
+    private SlugService slugService;
     
     /**
      * Übersicht über den eigenen Workspace
@@ -107,10 +111,7 @@ public class WorkspaceController {
         nodeStatus.setPublished(form.isPublished());
 
         // Slug anlegen
-        final NodeSlug nodeSlug = new NodeSlug();
-        nodeSlug.setNodeId(nodeId);
-        nodeSlug.setName(articleRevision.getTitle1().toLowerCase());
-        nodeSlug.setSlugContext(NodeType.article);
+        final NodeSlug nodeSlug = slugService.slugify(articleRevision);
 
         // Artikel anlegen
         final Article article = new Article();

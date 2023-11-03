@@ -1,18 +1,80 @@
 package de.holarse.web.services;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import de.holarse.backend.db.ApiUser;
+import de.holarse.backend.db.ArticleRevision;
+import de.holarse.backend.db.NodeSlug;
+import de.holarse.backend.db.repositories.ApiUserRepository;
+import de.holarse.backend.db.repositories.NodeSlugRepository;
+import de.holarse.backend.types.NodeType;
+import java.util.Arrays;
+import java.util.stream.IntStream;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import static org.mockito.Mockito.*;
+import org.mockito.MockitoAnnotations;
 
 public class SlugServiceTest {
 
     private SlugService slugService;
     
+    @Mock
+    NodeSlugRepository nodeSlugRepositoryMock;
+    
     @BeforeEach
     public void setup() {
+        MockitoAnnotations.initMocks(this);        
         slugService = new SlugService();
+        slugService.nodeSlugRepository = nodeSlugRepositoryMock;
     }
+    
+    @Test
+    public void testSlugifyArticleHappy() {
+        final ArticleRevision ar = new ArticleRevision();
+        ar.setTitle1("Hallo Welt");
+        
+        when(nodeSlugRepositoryMock.existsByNameAndSlugContext(anyString(), any(NodeType.class))).thenReturn(Boolean.FALSE); // No slug of this name exists
+        
+        final NodeSlug expected = new NodeSlug();
+        expected.setName("hallo_welt");
+        expected.setSlugContext(NodeType.article);
+        
+        final NodeSlug result = slugService.slugify(ar);
+        
+        assertEquals(expected.getName(), result.getName());
+    }
+    
+    @Test
+    public void testSlugifyArticleFirstThreeBlocked() {
+        final ArticleRevision ar = new ArticleRevision();
+        ar.setTitle1("Hallo Welt");
+        
+        when(nodeSlugRepositoryMock.existsByNameAndSlugContext(anyString(), any(NodeType.class))).thenReturn(Boolean.TRUE, Boolean.TRUE, Boolean.TRUE, Boolean.FALSE);
+
+        
+        final NodeSlug expected = new NodeSlug();
+        expected.setName("hallo_welt-3");
+        expected.setSlugContext(NodeType.article);
+        
+        final NodeSlug result = slugService.slugify(ar);
+
+        //verify(nodeSlugRepositoryMock, times(3)).existsByNameAndSlugContext("hallo_welt", NodeType.article);
+        
+        assertEquals(expected.getName(), result.getName());
+    }    
+    
+    @Test
+    public void testSlugifyArticleAlllocked() {
+        final ArticleRevision ar = new ArticleRevision();
+        ar.setTitle1("Hallo Welt");
+        
+        when(nodeSlugRepositoryMock.existsByNameAndSlugContext(anyString(), any(NodeType.class))).thenReturn(Boolean.TRUE);
+        
+        assertThrows(IllegalStateException.class, () -> slugService.slugify(ar));
+    }     
     
     @Test
     public void testSlugifyNull() {
@@ -20,7 +82,7 @@ public class SlugServiceTest {
         assertEquals("", slugService.slugify(input), "should not fail");
     }
     
-@Test
+    @Test
     public void testSlugifyAscii() {
         assertEquals("abcdefg", slugService.slugify("abcdefg"));
     }

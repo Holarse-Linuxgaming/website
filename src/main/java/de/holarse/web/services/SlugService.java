@@ -1,9 +1,14 @@
 package de.holarse.web.services;
 
+import de.holarse.backend.db.Article;
+import de.holarse.backend.db.ArticleRevision;
+import de.holarse.backend.db.NodeSlug;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.UserSlug;
+import de.holarse.backend.db.repositories.NodeSlugRepository;
 import de.holarse.backend.db.repositories.UserRepository;
 import de.holarse.backend.db.repositories.UserSlugRepository;
+import de.holarse.backend.types.NodeType;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -21,8 +26,40 @@ public class SlugService {
     
     private final static transient Logger log = LoggerFactory.getLogger(SlugService.class);
     
+    private final static String SLUGWORD_DELIMITER = "_";    
+    private final static int SLUGWORD_MAXSIZE = 95;
+    //private final String[] removeWords = new String[]{"a","an","as","at","before","but","by","for","from","is","in","into","like","of","off","on","onto","per","since","than","the","this","that","to","up","via","with"};    
+   
+    
     @Autowired
-    private UserSlugRepository userSlugRepository;
+    NodeSlugRepository nodeSlugRepository;
+    
+    @Autowired
+    UserSlugRepository userSlugRepository;
+
+    public NodeSlug slugify(final ArticleRevision articleRevision) {
+        final String title = articleRevision.getTitle1();
+        final String slugifiedTitle = slugify(title);
+        final List<String> possibleSlugs = new ArrayList<>(101);
+        possibleSlugs.add(slugifiedTitle);
+        possibleSlugs.addAll(IntStream.rangeClosed(1, 100).boxed().map(n -> String.format("%s-%d", slugifiedTitle, n)).toList());
+        
+        for (final String possibleSlug : possibleSlugs) {
+            final boolean result = nodeSlugRepository.existsByNameAndSlugContext(possibleSlug, NodeType.article);
+            log.debug("User {} testing slug {} exists: {}", title, possibleSlug, result);
+            if (!result) {
+                final NodeSlug nodeSlug = new NodeSlug();
+                nodeSlug.setName(possibleSlug);
+                nodeSlug.setNodeId(articleRevision.getNodeId());
+                nodeSlug.setSlugContext(NodeType.article);
+                
+                return nodeSlug;
+            }
+            log.debug("slug {} exists", title, possibleSlug);            
+        }
+
+        throw new IllegalStateException("ran out of article revision slug titles");
+    }
     
     /**
      * Hinterlegt ein Slug für diesen Benutzer
@@ -49,13 +86,10 @@ public class SlugService {
             }
         }
 
-        throw new IllegalStateException("no slug for user could be found");
+        throw new IllegalStateException("ran out of user slug titles");
     }
-    
-    private final static String SLUGWORD_DELIMITER = "_";
 
-    //private final String[] removeWords = new String[]{"a","an","as","at","before","but","by","for","from","is","in","into","like","of","off","on","onto","per","since","than","the","this","that","to","up","via","with"};    
-    
+   
     public String transliterate(final String title) {
         return title.toLowerCase()
         .replaceAll(" of ", " ")
@@ -72,8 +106,9 @@ public class SlugService {
     }
 
     public String slugify(final String title) {
-        if (title == null)
+        if (title == null) {
             return "";
+        }
         
         // Ungewollte Wörter raus
         // Ungewollte Zeichen raus
@@ -98,12 +133,13 @@ public class SlugService {
         final String[] words = r2.split(" ");
 
         // Wörter zusammenfügen, solange keine 95 Zeichen überschritten sind
-        final StringBuffer buffer = new StringBuffer(95);
+        final StringBuffer buffer = new StringBuffer(SLUGWORD_MAXSIZE);
         for(final String word : words) {
             final String w = word.trim();
             //System.out.println("WORD='" + w + "', buffer: '" + buffer.toString() + "', len: " + buffer.length());
-            if (StringUtils.isBlank(w))
+            if (StringUtils.isBlank(w)) {
                 continue;
+            }
 
             // bisheriger slug + "_" + neues wort                
             if ((buffer.length() + w.length() + 1) > 95) { 
