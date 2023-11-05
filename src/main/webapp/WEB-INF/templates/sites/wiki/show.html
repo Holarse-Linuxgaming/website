@@ -16,7 +16,7 @@
           
 
             <ul data-th-each="tag : ${view.tagList}" >
-                <li data-th-text="${tag.name}"></li>
+                <li><a href="" data-th-href="@{/tags/{slug}(slug=${tag.slug})}" data-th-text="${tag.name}"></a></li>
             </ul>
             
             <p data-th-text="${view.content}"></p>
