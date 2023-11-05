@@ -1,7 +1,5 @@
 package de.holarse.web.controller;
 
-import de.holarse.auth.web.HolarsePrincipal;
-import de.holarse.auth.web.HolarseWebUserDetailsService;
 import de.holarse.backend.db.Article;
 import de.holarse.backend.db.ArticleRevision;
 import de.holarse.backend.db.NodeSlug;
@@ -9,12 +7,10 @@ import de.holarse.backend.db.NodeStatus;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.ArticleRevisionRepository;
 import de.holarse.backend.db.repositories.NodeStatusRepository;
-import de.holarse.backend.types.NodeType;
 import de.holarse.web.controller.commands.ArticleForm;
 import de.holarse.web.defines.WebDefines;
 import de.holarse.web.services.SlugService;
 import jakarta.validation.Valid;
-import java.security.Principal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

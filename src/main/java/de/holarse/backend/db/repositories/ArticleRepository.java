@@ -24,12 +24,17 @@ public interface ArticleRepository extends JpaRepository<Article, Integer>, Node
                    "WHERE ns.published and not ns.deleted and sl.id = (SELECT max(_sl.id) FROM NodeSlug _sl where _sl.nodeId = a.nodeId)")
     List<CurrentArticle> listCurrentArticles(final Pageable pageable);
     
-    Optional<Article> findByNodeId(final int nodeId);
+    @Query(value = "from Article a " +
+                   "JOIN FETCH a.articleRevision " + 
+                   "LEFT JOIN FETCH a.tags " +
+                   "WHERE a.nodeId = :nodeId")
+    Optional<Article> findByNodeId(@Param("nodeId") final int nodeId);
     
     @Query(value = "FROM Article a " + 
                    "JOIN FETCH a.articleRevision " + 
                    "JOIN FETCH a.nodeStatus as ns " + 
                    "JOIN a.nodeSlugs as sl " +
+                   "LEFT JOIN FETCH a.tags " +            
                    "WHERE NOT ns.deleted " + 
                    "AND sl.name = :slug")
     Optional<Article> findBySlug(@Param("slug") final String slug);

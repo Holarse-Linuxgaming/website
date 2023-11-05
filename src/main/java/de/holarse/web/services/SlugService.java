@@ -3,9 +3,11 @@ package de.holarse.web.services;
 import de.holarse.backend.db.Article;
 import de.holarse.backend.db.ArticleRevision;
 import de.holarse.backend.db.NodeSlug;
+import de.holarse.backend.db.Tag;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.UserSlug;
 import de.holarse.backend.db.repositories.NodeSlugRepository;
+import de.holarse.backend.db.repositories.TagRepository;
 import de.holarse.backend.db.repositories.UserRepository;
 import de.holarse.backend.db.repositories.UserSlugRepository;
 import de.holarse.backend.types.NodeType;
@@ -36,6 +38,9 @@ public class SlugService {
     
     @Autowired
     UserSlugRepository userSlugRepository;
+    
+    @Autowired
+    TagRepository tagRepository;
 
     public NodeSlug slugify(final ArticleRevision articleRevision) {
         final String title = articleRevision.getTitle1();
@@ -60,7 +65,7 @@ public class SlugService {
 
         throw new IllegalStateException("ran out of article revision slug titles");
     }
-    
+   
     /**
      * Hinterlegt ein Slug für diesen Benutzer
      * @param user
@@ -87,6 +92,32 @@ public class SlugService {
         }
 
         throw new IllegalStateException("ran out of user slug titles");
+    }    
+    
+    /**
+     * Hinterlegt ein Slug für den Tag
+     * @param tag
+     * @return 
+     */
+    public Tag slugify(final Tag tag) {
+        if (StringUtils.isAllBlank(tag.getSlug())) {
+            final String sluggedTag = slugify(tag.getName());
+
+            final List<String> possibleSlugs = new ArrayList<>(101);
+            possibleSlugs.add(sluggedTag);
+            possibleSlugs.addAll(IntStream.rangeClosed(1, 100).boxed().map(n -> String.format("%s-%d", sluggedTag, n)).toList());
+            
+            for (final String possibleSlug : possibleSlugs) {
+                log.debug("User {} testing slug {}", tag.getName(), possibleSlug);
+                if (!tagRepository.existsBySlug(possibleSlug)) {
+                    tag.setSlug(possibleSlug);
+                    return tag;
+                }
+            } 
+            throw new IllegalStateException("ran out of tag slugs");
+        } else {
+            return tag;
+        }
     }
 
    

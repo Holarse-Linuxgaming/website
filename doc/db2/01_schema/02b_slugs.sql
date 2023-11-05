@@ -5,6 +5,7 @@ create table if not exists node_slugs(
     nodeid integer not null,
 
     name varchar(255) not null,
+    main bool not null default false,
 
     slug_context node_type not null,
 

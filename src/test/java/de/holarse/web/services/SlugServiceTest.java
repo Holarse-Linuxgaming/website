@@ -1,19 +1,15 @@
 package de.holarse.web.services;
 
-import de.holarse.backend.db.ApiUser;
 import de.holarse.backend.db.ArticleRevision;
 import de.holarse.backend.db.NodeSlug;
-import de.holarse.backend.db.repositories.ApiUserRepository;
+import de.holarse.backend.db.Tag;
 import de.holarse.backend.db.repositories.NodeSlugRepository;
+import de.holarse.backend.db.repositories.TagRepository;
 import de.holarse.backend.types.NodeType;
-import java.util.Arrays;
-import java.util.stream.IntStream;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import static org.mockito.Mockito.*;
 import org.mockito.MockitoAnnotations;
 
@@ -24,12 +20,56 @@ public class SlugServiceTest {
     @Mock
     NodeSlugRepository nodeSlugRepositoryMock;
     
+    @Mock
+    TagRepository tagRepositoryMock;
+    
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);        
         slugService = new SlugService();
         slugService.nodeSlugRepository = nodeSlugRepositoryMock;
+        slugService.tagRepository = tagRepositoryMock;
     }
+    
+    @Test
+    public void testSlugifyTagFirst() {
+        final Tag tag = new Tag();
+        tag.setName("Hallo Welt");
+        
+        final String expected = "hallo_welt";
+        
+        when(tagRepositoryMock.existsBySlug(anyString())).thenReturn(Boolean.FALSE);
+        
+        slugService.slugify(tag);
+        assertEquals(expected, tag.getSlug());
+    }
+    
+    @Test
+    public void testSlugifyTagSecond() {
+        final Tag tag = new Tag();
+        tag.setName("Hallo Welt");
+        
+        final String expected = "hallo_welt-2";
+        
+        when(tagRepositoryMock.existsBySlug(anyString())).thenReturn(Boolean.TRUE, Boolean.TRUE, Boolean.FALSE);
+        
+        slugService.slugify(tag);
+        assertEquals(expected, tag.getSlug());
+    }    
+    
+    @Test
+    public void testSlugifyTagAlreadySlugged() {
+        final Tag tag = new Tag();
+        tag.setName("Hallo Welt");
+        tag.setSlug("hallo_welt");
+        
+        final String expected = "hallo_welt";
+       
+        when(tagRepositoryMock.existsBySlug(anyString())).thenReturn(Boolean.TRUE, Boolean.TRUE, Boolean.FALSE);
+        
+        slugService.slugify(tag);
+        assertEquals(expected, tag.getSlug());
+    }       
     
     @Test
     public void testSlugifyArticleHappy() {

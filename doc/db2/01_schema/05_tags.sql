@@ -19,6 +19,7 @@ create table if not exists tags(
 	taggroupid integer references taggroups(id),
 	
 	drupalid integer,
+        slug varchar(255) not null,
 	
 	created timestamptz not null default CURRENT_TIMESTAMP,
 	updated timestamptz not null default CURRENT_TIMESTAMP,

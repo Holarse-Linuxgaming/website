@@ -21,6 +21,9 @@ public class NodeSlug extends TimestampedBase {
     @Column(length = 255)
     private String name;
     
+    @Column
+    private boolean main;
+    
     @Enumerated(EnumType.STRING)
     @Type(PostgreSQLEnumType.class)
     @Column(columnDefinition = "node_type", name = "slug_context")
@@ -48,6 +51,14 @@ public class NodeSlug extends TimestampedBase {
 
     public void setSlugContext(NodeType slugContext) {
         this.slugContext = slugContext;
+    }
+
+    public boolean isMain() {
+        return main;
+    }
+
+    public void setMain(boolean main) {
+        this.main = main;
     }
 
 }

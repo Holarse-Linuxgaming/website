@@ -11,9 +11,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface NodeSlugRepository extends JpaRepository<NodeSlug, Integer> {
     
-    @Query("FROM NodeSlug ns WHERE ns.nodeId = :nodeId ORDER BY ns.id DESC LIMIT 1")
+    @Query("from NodeSlug ns where ns.nodeId = :nodeId order by ns.id desc limit 1")
     Optional<NodeSlug> findByNodeId(@Param("nodeId") final int nodeId);
     
     boolean existsByNameAndSlugContext(final String name, final NodeType slugContext);
+    
+    @Query("from NodeSlug ns where nodeId = :nodeId order by ns.created desc limit 1")
+    Optional<NodeSlug> findMainSlug(@Param("nodeId") final Integer nodeId);
     
 }

@@ -10,13 +10,21 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "tags")
 public class Tag extends TimestampedBase {
- 
+
+    public Tag() {
+    }
+
+    public Tag(final String name) {
+        this.name = name;
+    }
+    
     @Column(length = 255)
     private String name;
     
     @Column(length = 12, name = "name_lang")
     private String nameLang;
-    
+
+    @Column
     private int weight;
     
     @ManyToOne(fetch = FetchType.LAZY)
@@ -26,6 +34,9 @@ public class Tag extends TimestampedBase {
     @ManyToOne
     @JoinColumn(name="taggroupid", nullable=false, referencedColumnName = "id")
     private TagGroup tagGroup;
+    
+    @Column
+    private String slug;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="update_userid", nullable=true, referencedColumnName = "id")
@@ -77,6 +88,14 @@ public class Tag extends TimestampedBase {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
     
 }
