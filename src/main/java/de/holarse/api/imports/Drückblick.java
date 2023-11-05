@@ -1,5 +1,6 @@
 package de.holarse.api.imports;
 
+import static de.holarse.config.JmsQueueTypes.QUEUE_DRÜCKBLICK;
 import static de.holarse.config.RoleApiTypes.*;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -31,7 +32,7 @@ public class Drückblick {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> upload(@Valid @RequestBody final de.holarse.backend.api.drückblick.DrückblickEntry importItem) throws Exception {
         try {
-            jmsTemplate.convertAndSend("drueckblick", importItem);
+            jmsTemplate.convertAndSend(QUEUE_DRÜCKBLICK, importItem);
         } catch (JmsException je) {
             throw new RuntimeException("error while jms send", je);
         }

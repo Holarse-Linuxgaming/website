@@ -1,14 +1,10 @@
----
---- Suchindex
----
-
 CREATE MATERIALIZED VIEW IF NOT EXISTS mv_searchindex AS (
 
 SELECT
-        ar.id AS pid, -- für referenz
+        ar.nodeid AS nodeid, -- für referenz
         ar.title1 AS ptitle, -- für ergebnisanzeiuge
         concat_ws(';', ar.title2, ar.title3, ar.title4, ar.title5, ar.title6, ar.title7) AS psubtitles, -- für ergebnisanzeige
-        nsl.name as purl, -- für schnelles verlinken
+        '/wiki/' || nsl.name as purl, -- für schnelles verlinken
         ar.content AS content,
         att.attachment_data AS image,
         string_agg(tags.name, ';') AS tags,				  
@@ -18,12 +14,13 @@ SELECT
         setweight(to_tsvector(ar.title4_lang::regconfig, coalesce(unaccent(ar.title4), '')), 'A') ||
         setweight(to_tsvector(ar.title5_lang::regconfig, coalesce(unaccent(ar.title5), '')), 'A') ||
         setweight(to_tsvector(ar.title6_lang::regconfig, coalesce(unaccent(ar.title6), '')), 'A') ||        
-        setweight(to_tsvector(ar.title7_lang::regconfig, coalesce(unaccent(ar.title7), '')), 'A') ||        setweight(to_tsvector('german', coalesce(ar.content, '')), 'B') -- content will be mostly german
---        setweight(to_tsvector(name_lang::regconfig, tags.name), 'C')
+        setweight(to_tsvector(ar.title7_lang::regconfig, coalesce(unaccent(ar.title7), '')), 'A') ||        
+        setweight(to_tsvector('german', coalesce(ar.content, '')), 'B') || -- content will be mostly german
+        setweight(to_tsvector('simple', string_agg(tags.name, ';')), 'C') -- tags should be matched exactly
 	AS document,
         'article' :: node_type AS doctype
     FROM article_revisions ar
-    INNER JOIN articles a on a.versionid = ar.id  
+    INNER JOIN articles a on a.revisionid = ar.id  
     LEFT JOIN node_tags ON node_tags.nodeid = ar.nodeid
     LEFT JOIN tags ON tags.id = node_tags.tagid
     LEFT JOIN attachments att ON att.id = (
@@ -43,15 +40,16 @@ SELECT
 union -- ab hier news
 
 SELECT
-        news_revisions.id AS pid, -- für referenz
+        news_revisions.nodeid AS nodeid, -- für referenz
         news_revisions.title AS ptitle, -- für ergebnisanzeiuge
         '' as psubtitle, -- für spaltenkompatibilität zu articles
         nsl.name as purl, -- für schnelles verlinken
         news_revisions.content AS content,
         att.attachment_data AS image,
         string_agg(tags.name, ';') AS tags,				  
-        setweight(to_tsvector(news_revisions.title_lang::regconfig, unaccent(news_revisions.title)), 'A') ||  setweight(to_tsvector('german', coalesce(news_revisions.content, '')), 'B') -- content will be mostly german
---        setweight(to_tsvector(name_lang::regconfig, tags.name), 'C')
+        setweight(to_tsvector(news_revisions.title_lang::regconfig, unaccent(news_revisions.title)), 'A') ||  
+        setweight(to_tsvector('german', coalesce(news_revisions.content, '')), 'B') || -- content will be mostly german
+        setweight(to_tsvector('simple', string_agg(tags.name, ';')), 'C') -- tags should be matched exactly
 	AS document,
         'news' :: node_type AS doctype
     FROM news_revisions
@@ -75,14 +73,15 @@ SELECT
 union -- ab hier forumthreads   
 
     select 
-    ft.id as pid, -- für referenz
+    ft.nodeid as nodeid, -- für referenz
     ft.title as ptitle, --für ergebnisanzeige
     '' as psubtitle, -- für spaltenkompatibilität zu articles
     nsl.name as purl, -- für schnelles verlinken
     ft.content as content,
     '' as image,
     '' as tags,
-    setweight(to_tsvector(ft.title_lang::regconfig, unaccent(ft.title)), 'A') ||  setweight(to_tsvector('german', coalesce(ft.content, '')), 'B') -- content will be mostly german
+    setweight(to_tsvector(ft.title_lang::regconfig, unaccent(ft.title)), 'A') ||  
+    setweight(to_tsvector('german', coalesce(ft.content, '')), 'B') -- content will be mostly german
     as document,
     'thread' :: node_type as doctype
     from forum_threads ft

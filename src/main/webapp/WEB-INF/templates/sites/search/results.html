@@ -1,5 +1,10 @@
 <div class="container">
     <div class="row">
-        Suchergebnisse für '<span data-th-text="${q}"></span>'
+        <span data-th-text="${count}"></span> Suchergebnisse für '<span data-th-text="${q}"></span>'
+        
+        <ul th:each="result : ${results}">
+            <li><a href="" data-th-href="@{{url}(url=${result.url})}" data-th-text="${result.title}"></a></li>
+        </ul>
+        
     </div>
 </div>

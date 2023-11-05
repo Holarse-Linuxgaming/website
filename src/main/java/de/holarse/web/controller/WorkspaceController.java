@@ -4,16 +4,22 @@ import de.holarse.backend.db.Article;
 import de.holarse.backend.db.ArticleRevision;
 import de.holarse.backend.db.NodeSlug;
 import de.holarse.backend.db.NodeStatus;
+import de.holarse.backend.db.Tag;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.ArticleRevisionRepository;
 import de.holarse.backend.db.repositories.NodeStatusRepository;
+import static de.holarse.config.JmsQueueTypes.QUEUE_SEARCH;
+import de.holarse.queues.commands.SearchRefresh;
 import de.holarse.web.controller.commands.ArticleForm;
 import de.holarse.web.defines.WebDefines;
 import de.holarse.web.services.SlugService;
+import de.holarse.web.services.TagService;
 import jakarta.validation.Valid;
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +47,12 @@ public class WorkspaceController {
     
     @Autowired
     private SlugService slugService;
+    
+    @Autowired
+    private TagService tagService;
+    
+    @Autowired
+    private JmsTemplate jmsTemplate;
     
     /**
      * Übersicht über den eigenen Workspace
@@ -109,14 +121,23 @@ public class WorkspaceController {
         // Slug anlegen
         final NodeSlug nodeSlug = slugService.slugify(articleRevision);
 
+        // Tags verarbeiten
+        final Set<Tag> tags = tagService.extract(form);
+        
         // Artikel anlegen
         final Article article = new Article();
         article.setNodeId(nodeId);
         article.setArticleRevision(articleRevision);        
         article.setNodeStatus(nodeStatus);
         article.getNodeSlugs().add(nodeSlug);
+        article.setTags(tags);
 
         articleRepository.saveAndFlush(article);        
+        
+        // Suche aktualisieren
+        if (nodeStatus.isPublished()) { 
+            jmsTemplate.convertAndSend(QUEUE_SEARCH, new SearchRefresh());
+        }        
         
         return new ModelAndView("redirect:/");
     }

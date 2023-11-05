@@ -3,6 +3,7 @@ package de.holarse.web.controller;
 import de.holarse.backend.db.Article;
 import de.holarse.backend.db.ArticleRevision;
 import de.holarse.backend.db.NodeSlug;
+import de.holarse.backend.db.NodeStatus;
 import de.holarse.backend.db.Tag;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.ArticleRevisionRepository;
@@ -10,17 +11,17 @@ import de.holarse.backend.db.repositories.NodeSlugRepository;
 import de.holarse.backend.db.repositories.TagRepository;
 import de.holarse.backend.view.ArticleView;
 import de.holarse.backend.view.TagView;
+import de.holarse.config.JmsQueueTypes;
+import static de.holarse.config.JmsQueueTypes.QUEUE_SEARCH;
+import de.holarse.queues.commands.SearchRefresh;
 import de.holarse.web.controller.commands.ArticleForm;
 import de.holarse.web.defines.WebDefines;
 import static de.holarse.web.defines.WebDefines.WIKI_ARTICLES_DEFAULT_PAGE_SIZE;
 import de.holarse.web.renderer.Renderer;
 import de.holarse.web.services.SlugService;
+import de.holarse.web.services.TagService;
 import jakarta.persistence.EntityNotFoundException;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
@@ -28,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,7 +61,13 @@ public class WikiController {
     private SlugService slugService;
     
     @Autowired
+    private TagService tagService;
+    
+    @Autowired
     private Renderer renderer;
+    
+    @Autowired
+    private JmsTemplate jmsTemplate;
     
     @GetMapping
     public ModelAndView index(@PageableDefault(sort={"title1"}, value=WIKI_ARTICLES_DEFAULT_PAGE_SIZE) final Pageable pageable, final ModelAndView mv) {
@@ -162,23 +170,24 @@ public class WikiController {
         articleRevision.setContent(form.getContent());
         articleRevisionRepository.save(articleRevision);
         
-        final Set<Tag> articleTags = new HashSet<>();
-        
-        // Tags auslesen, in Entities umwandeln und ggf. erzeugen
-        final String[] tagNames = form.getTags().split(",");
-        for (final String tagName : tagNames) {
-            final Tag tag = tagRepository.findByName(tagName.trim()).orElseGet(() -> new Tag(tagName.trim()));
-            articleTags.add(tag);
-        }
-        // Alle Tags mit Slugs versehen, bestehende werden nicht angefasst
-        articleTags.stream().forEach(t -> slugService.slugify(t));
+        final Set<Tag> articleTags = tagService.extract(form);
 
-        // TODO Bilder, Anhänge        
+        // TODO Bilder, Anhänge 
+        
+        // Status
+        final NodeStatus nodeStatus = article.getNodeStatus();
+        nodeStatus.setPublished(form.isPublished());
         
         // Artikel auf neue Revision setzen
         article.setArticleRevision(articleRevision);
         article.setTags(articleTags);        
+        article.setNodeStatus(nodeStatus);
         articleRepository.saveAndFlush(article);
+        
+        // Suche aktualisieren
+        if (nodeStatus.isPublished()) { 
+            jmsTemplate.convertAndSend(QUEUE_SEARCH, new SearchRefresh());
+        }
         
         final NodeSlug nodeSlug = nodeSlugRepository.findMainSlug(nodeId).orElseThrow(EntityNotFoundException::new);
         return new ModelAndView(String.format("redirect:{}", nodeSlug.getName()));
