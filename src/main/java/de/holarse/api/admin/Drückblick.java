@@ -44,6 +44,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author comrad
  */
+@Deprecated(forRemoval = true)
 @Secured({"ROLE_API_ADMIN", "ROLE_ADMIN"})
 @RestController(value = "AdminDrückblick")
 @RequestMapping(value = "/admin/api/drueckblick/")

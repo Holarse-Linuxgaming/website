@@ -1,8 +1,5 @@
 package de.holarse.config;
 
-import de.holarse.utils.NonePasswordEncoder;
-import de.holarse.auth.web.SecureAccountFailureHandler;
-import de.holarse.drupal.Drupal6PasswordEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +20,12 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
-import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
+
+import de.holarse.auth.web.SecureAccountFailureHandler;
+import de.holarse.drupal.Drupal6PasswordEncoder;
+import de.holarse.utils.NonePasswordEncoder;
 
 @Configuration
 @EnableWebSecurity()
@@ -135,6 +136,7 @@ public class MultipleHttpSecurityConfig {
         // Normale Webseite, auch als Gast nutzbar
         .authorizeHttpRequests((requests) -> requests.requestMatchers(antMatcher("/"),
                                                                       antMatcher("/search/**"),
+                                                                      antMatcher("/tags/**"),
                                                                       antMatcher("/wiki/**"),
                                                                       antMatcher("/datenschutz"),
                                                                       antMatcher("/privacy"),

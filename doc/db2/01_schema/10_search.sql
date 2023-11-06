@@ -7,7 +7,7 @@ SELECT
         '/wiki/' || nsl.name as purl, -- für schnelles verlinken
         ar.content AS content,
         att.attachment_data AS image,
-        string_agg(tags.name, ';') AS tags,				  
+        string_agg(tags.slug, ';') AS tags,				  
         setweight(to_tsvector(ar.title1_lang::regconfig,          unaccent(ar.title1)), 'A') ||
         setweight(to_tsvector(ar.title2_lang::regconfig, coalesce(unaccent(ar.title2), '')), 'A') ||
         setweight(to_tsvector(ar.title3_lang::regconfig, coalesce(unaccent(ar.title3), '')), 'A') ||

@@ -3,6 +3,7 @@
     <div class="col-sm-8 col-lg-5">
         <div class="u-shadow-v21 g-bg-white rounded g-py-40 g-px-30">
             
+            
             <ul class="">            
                 <li class="">
                     <a href="#" data-th-href="@{/wiki/{nodeId}/edit(nodeId=${view.nodeId})}">bearbeiten</a>
@@ -13,11 +14,7 @@
                 <h2 class="h2 g-color-black g-font-weight-600" data-th-text="${view.title1}"></h2>
             </header>
             
-          
-
-            <ul data-th-each="tag : ${view.tagList}" >
-                <li><a href="" data-th-href="@{/tags/{slug}(slug=${tag.slug})}" data-th-text="${tag.name}"></a></li>
-            </ul>
+            <ul th:replace="~{sites/shared/tags/list :: taglist(tags=${view.tagList})}"></ul>
             
             <p data-th-text="${view.content}"></p>
             

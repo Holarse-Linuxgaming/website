@@ -1,0 +1,5 @@
+<div th:fragment="taglist(tags)">
+    <ul th:each="tag : ${tags}">
+        <li><a href="" th:href="@{/tags/{slug}(slug=${tag.slug})}" th:text="${tag.name}"></a></li>
+    </ul>
+</div>
