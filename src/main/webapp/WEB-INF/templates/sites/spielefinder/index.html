@@ -1,0 +1,48 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>Spielefinder</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            Menü links
+                       
+            <ul th:each="tagGroup : ${tagGroups}">
+                <li>
+                    <span th:text="${tagGroup.name}"></span>
+                    <ul th:each="tag : ${tagGroup.tags}">
+                        <li><a href="#" th:text="${tag.name}"></a>
+                    </ul>
+                </li>
+            </ul>            
+        </div>
+        <div class="col">        
+            <div class="row">
+                Ergebnismenü
+                <div class="col">
+                    <ul>
+                       <li><a href="#">Sortieren nach Name</a></li>
+                   </ul>
+                </div>
+            </div>
+            <div class="row">
+                Gewählte Tags und Filter:
+                <ul th:each="filter : ${t}">
+                    <li><a href="" data-th-text="${filter}"></a></li>
+                </ul> 
+                <form>
+                    <label for="f">Filter</label>
+                    <input type="text" data-th-value="${f}" name="f" placeholder="Suchergebnis eingrenzen" />
+                </form>
+            </div>
+            <div class="row">
+                <span data-th-text="${count}"></span> Suchergebnisse
+                <ul th:each="searchResult : ${searchResults}">
+                    <li><a href="" data-th-href="@{/{url}(url=${searchResult.url})}" data-th-text="${searchResult.title}"></a></li>
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+</div>

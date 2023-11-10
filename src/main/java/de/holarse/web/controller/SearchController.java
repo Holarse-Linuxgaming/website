@@ -23,6 +23,10 @@ import de.holarse.backend.db.repositories.SearchRepository;
 import de.holarse.web.controller.commands.SearchForm;
 import de.holarse.web.defines.WebDefines;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 
 @Controller
 @RequestMapping
@@ -45,29 +49,35 @@ public class SearchController {
     }
     
     @GetMapping("/search")
-    public ModelAndView search(@RequestParam("q") final String q, final ModelAndView mv) throws UnsupportedEncodingException {
+    public ModelAndView search(
+            @RequestParam("q") final String q, 
+            @PageableDefault(value = 25, page = 0) @SortDefault(sort="name", direction = Sort.Direction.ASC) Pageable pageable, 
+            final ModelAndView mv) throws UnsupportedEncodingException {
         mv.setViewName("layouts/bare");
         mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/search/results");
 
         mv.addObject("q", URLDecoder.decode(q, StandardCharsets.UTF_8));
         
-        var results = searchRepository.search(String.join(" | ", q.trim().split(" ")));
+        var results = searchRepository.search(String.join(" | ", q.trim().split(" ")), pageable);
         mv.addObject("results", results);
-        mv.addObject("count", results.size());
+        mv.addObject("count", results.getTotalElements());
         
         return mv;
     }
 
     @GetMapping("/tags/{tags}")
-    public ModelAndView searchTags(@PathVariable("tags") final List<String> tags, final ModelAndView mv) {
+    public ModelAndView searchTags(
+            @PathVariable("tags") final List<String> tags, 
+            @PageableDefault(value = 25, page = 0) @SortDefault(sort="name", direction = Sort.Direction.ASC) Pageable pageable, 
+            final ModelAndView mv) {
         mv.setViewName("layouts/bare");
         mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/search/results");
 
         //mv.addObject("q", URLDecoder.decode(tags, StandardCharsets.UTF_8));
         
-        var results = searchRepository.searchTags(String.join(";", tags));
+        var results = searchRepository.searchTags(String.join("~", tags), pageable);
         mv.addObject("results", results);
-        mv.addObject("count", results.size());
+        mv.addObject("count", results.getTotalElements());
         
         return mv;
     }

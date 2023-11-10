@@ -138,6 +138,7 @@ public class MultipleHttpSecurityConfig {
                                                                       antMatcher("/search/**"),
                                                                       antMatcher("/tags/**"),
                                                                       antMatcher("/wiki/**"),
+                                                                      antMatcher("/spielefinder/**"),
                                                                       antMatcher("/datenschutz"),
                                                                       antMatcher("/privacy"),
                                                                       antMatcher("/impressum"),

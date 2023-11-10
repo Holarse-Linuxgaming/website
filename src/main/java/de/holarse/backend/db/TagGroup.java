@@ -5,7 +5,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 
 @Table(name = "taggroups")
 @Entity
@@ -16,10 +19,21 @@ public class TagGroup extends TimestampedBase {
     @Column
     private int weight;
     
+    @OneToMany(mappedBy = "tagGroup")
+    private List<Tag> tags = new ArrayList<>();
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="update_userid", nullable=false, referencedColumnName = "id")
     private User user;
 
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
+    
     public String getName() {
         return name;
     }
