@@ -22,6 +22,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import de.holarse.backend.db.repositories.SearchRepository;
 import de.holarse.web.controller.commands.SearchForm;
 import de.holarse.web.defines.WebDefines;
+import static de.holarse.web.defines.WebDefines.TAG_DELIMITER;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -35,7 +36,7 @@ public class SearchController {
     private final static transient Logger logger = LoggerFactory.getLogger(SearchController.class);
     
     @Autowired
-    SearchRepository searchRepository;
+    private SearchRepository searchRepository;
        
     @ModelAttribute
     public SearchForm setupSearchForm() {
@@ -59,23 +60,6 @@ public class SearchController {
         mv.addObject("q", URLDecoder.decode(q, StandardCharsets.UTF_8));
         
         var results = searchRepository.search(String.join(" | ", q.trim().split(" ")), pageable);
-        mv.addObject("results", results);
-        mv.addObject("count", results.getTotalElements());
-        
-        return mv;
-    }
-
-    @GetMapping("/tags/{tags}")
-    public ModelAndView searchTags(
-            @PathVariable("tags") final List<String> tags, 
-            @PageableDefault(value = 25, page = 0) @SortDefault(sort="name", direction = Sort.Direction.ASC) Pageable pageable, 
-            final ModelAndView mv) {
-        mv.setViewName("layouts/bare");
-        mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/search/results");
-
-        //mv.addObject("q", URLDecoder.decode(tags, StandardCharsets.UTF_8));
-        
-        var results = searchRepository.searchTags(String.join("~", tags), pageable);
         mv.addObject("results", results);
         mv.addObject("count", results.getTotalElements());
         

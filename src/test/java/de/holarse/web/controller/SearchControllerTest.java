@@ -4,9 +4,16 @@
  */
 package de.holarse.web.controller;
 
+import de.holarse.backend.db.datasets.SearchResultView;
+import de.holarse.backend.db.repositories.SearchRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -21,6 +28,9 @@ public class SearchControllerTest {
     
     SearchController controller;
     
+    @Mock
+    SearchRepository searchRepository;
+    
     @BeforeEach
     public void setup() throws Exception {
         MockitoAnnotations.initMocks(this);
@@ -34,6 +44,7 @@ public class SearchControllerTest {
         mockMvc.perform(post("/search").param("query", searchTerm).with(csrf())).andExpect(status().is3xxRedirection());
                 //assertEquals("sites/search/results", TestHelper.getContentView(result));
     }      
+    
     
     
     

@@ -10,5 +10,5 @@ public interface TagRepository extends JpaRepository<Tag, Integer> {
     
     boolean existsBySlug(final String slug);
     Optional<Tag> findByName(final String name);
-    
+    Optional<Tag> findBySlug(final String slug);
 }

@@ -7,7 +7,7 @@ SELECT
         '/wiki/' || nsl.name as purl, -- für schnelles verlinken
         ar.content AS content,
         att.attachment_data AS image,
-        string_agg(tags.slug, ';') AS tags,				  
+        string_agg(tags.slug, '@@@') AS tags,				  
         setweight(to_tsvector(ar.title1_lang::regconfig,          unaccent(ar.title1)), 'A') ||
         setweight(to_tsvector(ar.title2_lang::regconfig, coalesce(unaccent(ar.title2), '')), 'A') ||
         setweight(to_tsvector(ar.title3_lang::regconfig, coalesce(unaccent(ar.title3), '')), 'A') ||
@@ -16,7 +16,7 @@ SELECT
         setweight(to_tsvector(ar.title6_lang::regconfig, coalesce(unaccent(ar.title6), '')), 'A') ||        
         setweight(to_tsvector(ar.title7_lang::regconfig, coalesce(unaccent(ar.title7), '')), 'A') ||        
         setweight(to_tsvector('german', coalesce(ar.content, '')), 'B') || -- content will be mostly german
-        setweight(to_tsvector('simple', string_agg(tags.name, ';')), 'C') -- tags should be matched exactly
+        setweight(to_tsvector('simple', string_agg(tags.name, '@@@')), 'C') -- tags should be matched exactly
 	AS document,
         'article' :: node_type AS doctype
     FROM article_revisions ar
@@ -46,10 +46,10 @@ SELECT
         nsl.name as purl, -- für schnelles verlinken
         news_revisions.content AS content,
         att.attachment_data AS image,
-        string_agg(tags.name, ';') AS tags,				  
+        string_agg(tags.name, '@@@') AS tags,				  
         setweight(to_tsvector(news_revisions.title_lang::regconfig, unaccent(news_revisions.title)), 'A') ||  
         setweight(to_tsvector('german', coalesce(news_revisions.content, '')), 'B') || -- content will be mostly german
-        setweight(to_tsvector('simple', string_agg(tags.name, ';')), 'C') -- tags should be matched exactly
+        setweight(to_tsvector('simple', string_agg(tags.name, '@@@')), 'C') -- tags should be matched exactly
 	AS document,
         'news' :: node_type AS doctype
     FROM news_revisions

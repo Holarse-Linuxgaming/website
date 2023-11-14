@@ -20,14 +20,20 @@ public interface SearchRepository extends JpaRepository<SearchIndex, Integer> {
                    "where document @@ websearch_to_tsquery('german', :query) " +
                    "order by ts_rank(document, websearch_to_tsquery('german', 'gesabbel')) desc ", nativeQuery = true)
     Page<SearchResultView> search(@Param("query") final String query, final Pageable pageable);
-    
+
+    /***
+     * Die Tag-Delimiter müssen @@@ sein, weil das Semikolon von Pagable-Ersetzungsmuster fälschlicherweise als Ende erkannt wird
+     * @param tags
+     * @param pageable
+     * @return 
+     */
     @Query(value = "select nodeid as nodeid, ptitle as title, purl as url from mv_searchindex " +
-                   "where string_to_array(tags, '~') @> string_to_array(:tags, '~')", nativeQuery = true)            
+                   "where string_to_array(tags, '@@@') @> string_to_array(:tags, '@@@')", nativeQuery = true)            
     Page<SearchResultView> searchTags(@Param("tags") final String tags, final Pageable pageable);
 
     @Query(value = "select * from ( " + 
                    "select nodeid as nodeid, ptitle as title, purl as url from mv_searchindex " +
-                   "where string_to_array(tags, '~') @> string_to_array(:tags, '~') " +
+                   "where string_to_array(tags, '@@@') @> string_to_array(:tags, '@@@') " +
                    "and document @@ websearch_to_tsquery('german', :filter) " +
                    "order by ts_rank(document, websearch_to_tsquery('german', :filter)) desc) as x ", nativeQuery = true)
     Page<SearchResultView> searchTags(@Param("tags") final String tags, @Param("filter") final String filter, final Pageable pageable);    

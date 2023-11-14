@@ -61,6 +61,11 @@ public class RequestLoggingInterceptor implements HandlerInterceptor {
             return;
         }
         
+        // Redirects should not be counted
+        if (StringUtils.isNotBlank(request.getParameter("c")) && request.getParameter("c").equals("0")) {
+            return;
+        }
+        
         // Nur GETs protokollieren
         if (!request.getMethod().equalsIgnoreCase("GET")) { 
             return; 

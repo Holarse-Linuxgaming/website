@@ -7,5 +7,7 @@ public class WebDefines {
     public static final int ADMIN_USERS_DEFAULT_PAGE_SIZE = 25;
     public static final int WIKI_ARTICLES_DEFAULT_PAGE_SIZE = 50;
     
+    public static final String TAG_DELIMITER = "@@@";
+    
     private WebDefines() {}
 }

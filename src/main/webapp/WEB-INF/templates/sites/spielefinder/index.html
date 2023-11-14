@@ -12,7 +12,7 @@
                 <li>
                     <span th:text="${tagGroup.name}"></span>
                     <ul th:each="tag : ${tagGroup.tags}">
-                        <li><a href="#" th:text="${tag.name}"></a>
+                        <li><a href="#" th:href="@{/spielefinder(t=${t},f=${f},a=${tag.slug})}" th:text="${tag.name}"></a>
                     </ul>
                 </li>
             </ul>            
@@ -28,10 +28,11 @@
             </div>
             <div class="row">
                 Gewählte Tags und Filter:
-                <ul th:each="filter : ${t}">
-                    <li><a href="" data-th-text="${filter}"></a></li>
+                <ul th:each="selectedTag : ${selectedTags}">
+                    <li><a href="#" th:href="@{/spielefinder(t=${t},f=${f},a=${selectedTag.slug})}" th:text="${selectedTag.name}"></a>
                 </ul> 
                 <form>
+                    <input type="hidden" value="" name="t" th:value="${t}" />
                     <label for="f">Filter</label>
                     <input type="text" data-th-value="${f}" name="f" placeholder="Suchergebnis eingrenzen" />
                 </form>
@@ -39,7 +40,7 @@
             <div class="row">
                 <span data-th-text="${count}"></span> Suchergebnisse
                 <ul th:each="searchResult : ${searchResults}">
-                    <li><a href="" data-th-href="@{/{url}(url=${searchResult.url})}" data-th-text="${searchResult.title}"></a></li>
+                    <li><a href="" data-th-href="@{${searchResult.url}}" data-th-text="${searchResult.title}"></a></li>
                 </ul>
             </div>
         </div>

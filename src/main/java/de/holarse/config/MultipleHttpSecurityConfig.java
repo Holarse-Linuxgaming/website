@@ -139,6 +139,7 @@ public class MultipleHttpSecurityConfig {
                                                                       antMatcher("/tags/**"),
                                                                       antMatcher("/wiki/**"),
                                                                       antMatcher("/spielefinder/**"),
+                                                                      antMatcher("/category/*/*"), // Legacy-Tag-URLs
                                                                       antMatcher("/datenschutz"),
                                                                       antMatcher("/privacy"),
                                                                       antMatcher("/impressum"),
