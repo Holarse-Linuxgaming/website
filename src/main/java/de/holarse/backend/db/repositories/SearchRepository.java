@@ -12,13 +12,13 @@ import de.holarse.backend.db.SearchIndex;
 import de.holarse.backend.db.datasets.SearchResultView;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 @Repository
 public interface SearchRepository extends JpaRepository<SearchIndex, Integer> {
     
     @Query(value = "select nodeid as nodeid, ptitle as title, purl as url from mv_searchindex " +
-                   "where document @@ websearch_to_tsquery('german', :query) " +
-                   "order by ts_rank(document, websearch_to_tsquery('german', 'gesabbel')) desc ", nativeQuery = true)
+                   "where document @@ websearch_to_tsquery('german', :query)", nativeQuery = true)
     Page<SearchResultView> search(@Param("query") final String query, final Pageable pageable);
 
     /***

@@ -23,9 +23,12 @@ import de.holarse.backend.db.repositories.SearchRepository;
 import de.holarse.web.controller.commands.SearchForm;
 import de.holarse.web.defines.WebDefines;
 import static de.holarse.web.defines.WebDefines.TAG_DELIMITER;
+import static de.holarse.web.defines.WebDefines.WIKI_ARTICLES_DEFAULT_PAGE_SIZE;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.JpaSort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 
@@ -34,6 +37,9 @@ import org.springframework.data.web.SortDefault;
 public class SearchController {
     
     private final static transient Logger logger = LoggerFactory.getLogger(SearchController.class);
+    
+    // Standardsortierung nach Ergebnis-Ranking
+    final static Sort defaultRankSorted = JpaSort.unsafe(Sort.Direction.DESC, "ts_rank(document, websearch_to_tsquery('german', :query))");
     
     @Autowired
     private SearchRepository searchRepository;
@@ -49,17 +55,21 @@ public class SearchController {
         return new RedirectView("search?q=" + URLEncoder.encode(searchForm.getQuery(), StandardCharsets.UTF_8));
     }
     
+    
+    
     @GetMapping("/search")
     public ModelAndView search(
             @RequestParam("q") final String q, 
-            @PageableDefault(value = 25, page = 0) @SortDefault(sort="name", direction = Sort.Direction.ASC) Pageable pageable, 
+            @PageableDefault(value = WIKI_ARTICLES_DEFAULT_PAGE_SIZE) Pageable pageable, 
             final ModelAndView mv) throws UnsupportedEncodingException {
         mv.setViewName("layouts/bare");
         mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/search/results");
 
         mv.addObject("q", URLDecoder.decode(q, StandardCharsets.UTF_8));
         
-        var results = searchRepository.search(String.join(" | ", q.trim().split(" ")), pageable);
+        final PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSortOr(defaultRankSorted));
+
+        var results = searchRepository.search(String.join(" | ", q.trim().split(" ")), pageRequest);
         mv.addObject("results", results);
         mv.addObject("count", results.getTotalElements());
         
