@@ -1,0 +1,6 @@
+<div th:fragment="categories(tagGroups)">
+    <div th:each="tagGroup: ${tagGroups}">
+        <h2 data-th-text="${tagGroup.name}"></h2>
+        <div th:replace="~{sites/search/tags :: taglist(tags=${tagGroup.tags})}"></div>
+    </div>
+</div>    

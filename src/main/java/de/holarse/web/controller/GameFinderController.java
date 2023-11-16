@@ -1,5 +1,7 @@
 package de.holarse.web.controller;
 
+import de.holarse.backend.db.TagGroup;
+import de.holarse.backend.db.datasets.SearchResultView;
 import de.holarse.backend.db.repositories.SearchRepository;
 import de.holarse.backend.db.repositories.TagGroupRepository;
 import de.holarse.backend.db.repositories.TagRepository;
@@ -10,18 +12,18 @@ import java.util.List;
 import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.JpaSort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -42,20 +44,23 @@ public class GameFinderController {
     public SearchForm setupSearchForm() {
         return new SearchForm();
     }    
+    
+    // Standardsortierung nach Ergebnis-Ranking
+    final static Sort defaultRankSorted = JpaSort.unsafe(Sort.Direction.DESC, "ts_rank(document, websearch_to_tsquery('german', :query))");    
         
     @GetMapping
     public ModelAndView index(
-            @PageableDefault(value = 25, page = 0) @SortDefault(sort="title", direction = Sort.Direction.ASC) Pageable pageable, 
+            @PageableDefault(value = WebDefines.DEFAULT_LIST_SIZE) Pageable pageable, 
             @RequestParam(name = "t", defaultValue = "") final List<String> selectedTags,
-            @RequestParam(name = "f", defaultValue = "") final String filter,
+            @RequestParam(name = "q", defaultValue = "") final String query,
             @RequestParam(name = "a", defaultValue = "") final String toggleTag,
             final ModelAndView mv) {
         mv.setViewName("layouts/bare");
         mv.addObject("title", "Die Linuxspiele-Seite für Linuxspieler");
-        mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/spielefinder/index");        
-        
+        mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/search/results");        
+                
         // Ermitteln der Taggruppen und der dazugehörigen Tags
-        var tagGroups = tagGroupRepository.findAllTagGroups(Sort.by(Sort.Direction.DESC, "weight"));
+        final List<TagGroup> tagGroups = tagGroupRepository.findAllTagGroups(Sort.by(Sort.Direction.DESC, "weight"));
         
         // Ein Tag soll entweder hinzugeschaltet oder weggenommen werden. Danach Seite neuladen
         if (!StringUtils.isBlank(toggleTag)) {
@@ -69,7 +74,7 @@ public class GameFinderController {
             
             final UriComponents uriComponents = UriComponentsBuilder.newInstance().path("spielefinder")
                                                                                   .queryParam("t", String.join(",", selectedTags)).encode()
-                                                                                  .queryParam("f", filter).encode()
+                                                                                  .queryParam("q", query).encode()
                                                                                   .queryParam("c", "0") // Dont count the redirect
                                                                                   .build();
             
@@ -78,10 +83,30 @@ public class GameFinderController {
         
         // TODO: Normalisieren und Aliasse auflösen
         
+        //
         // Suchergebnis ermitteln
-        var searchResults = StringUtils.isAllBlank(filter) ? 
-                            searchRepository.searchTags(String.join(TAG_DELIMITER, selectedTags), pageable) :
-                            searchRepository.searchTags(String.join(TAG_DELIMITER, selectedTags), filter, pageable);
+        //
+        
+        // Suchwörter splitten und mit Oder verbinden
+        var orJoinQuery = String.join(" | ", query.trim().split(" "));
+        
+        // Die Standardsortierung davon abhängig machen, was wir suchen. 
+        final PageRequest pageRequest = StringUtils.isNotBlank(query) // Bei Text "ranked" suchen, sofern nicht anders definiert
+                                                                      ?    PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSortOr(defaultRankSorted)) 
+                                                                      // bei Tags nur nach Titel
+                                                                      :    PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSortOr(Sort.by(Sort.Order.by("title"))));
+        
+        // Suche unterscheiden, ob Tags gesetzt sind oder nur ein Query
+        Page<SearchResultView> searchResults;
+        if (selectedTags.isEmpty()) {
+            // Garkeine Tags gesetzt, wir suchen im Text
+            searchResults = searchRepository.search(orJoinQuery, pageRequest);            
+        } else {
+            // Tags gesetzt, also Tag-basierte Suche
+            searchResults = StringUtils.isAllBlank(query) ? 
+                            searchRepository.searchTags(String.join(TAG_DELIMITER, selectedTags), pageRequest) :
+                            searchRepository.searchTags(String.join(TAG_DELIMITER, selectedTags), orJoinQuery, pageRequest);
+        }
         
         mv.addObject("count", searchResults.getTotalElements());
         mv.addObject("tagGroups", tagGroups);
@@ -92,7 +117,7 @@ public class GameFinderController {
                                                           .filter(Optional::isPresent)
                                                           .map(Optional::get)
                                                           .toList());
-        mv.addObject("f", filter);
+        mv.addObject("q", query);
         
         return mv;
     }

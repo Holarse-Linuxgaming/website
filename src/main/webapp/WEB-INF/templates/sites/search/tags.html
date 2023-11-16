@@ -1,0 +1,8 @@
+<div th:fragment="taglist(tags)">
+    <ul class="list-inline g-mb-40">
+        <li class="list-inline-item my-2" th:each="tag : ${tags}">
+            <a class="u-tags-v1 g-color-main g-brd-around g-brd-gray-light-v3 g-bg-gray-dark-v2--hover g-brd-gray-dark-v2--hover g-color-white--hover rounded g-py-4 g-px-10" 
+               href="" th:href="@{/spielefinder(t=${t},q=${q},a=${tag.slug})}" th:text="${tag.name}"></a>
+        </li>
+    </ul>
+</div>
