@@ -60,7 +60,7 @@ public class GameFinderController {
         mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/search/results");        
                 
         // Ermitteln der Taggruppen und der dazugehörigen Tags
-        final List<TagGroup> tagGroups = tagGroupRepository.findAllTagGroups(Sort.by(Sort.Direction.DESC, "weight"));
+        final List<TagGroup> tagGroups = tagGroupRepository.findAllTagGroups(Sort.by(Sort.Order.desc("weight"), Sort.Order.desc("t.useCount")));
         
         // Ein Tag soll entweder hinzugeschaltet oder weggenommen werden. Danach Seite neuladen
         if (!StringUtils.isBlank(toggleTag)) {

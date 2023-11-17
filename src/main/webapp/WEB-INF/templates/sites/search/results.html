@@ -26,7 +26,13 @@
                         </div>
                     </div>
                 </form>
-                <!-- End Search Form -->                    
+                <!-- End Search Form -->    
+
+                <!-- Tags -->
+                <h2 class="h5 text-uppercase g-color-gray-dark-v1">Aktivierte Tags</h2>
+                <hr class="g-brd-gray-light-v4 g-my-15">
+                <span th:replace="~{sites/search/tags :: tagcloud(tags=${selectedTags})}"></span>
+                <!-- End Tags -->
 
                 <!-- Categories -->
                 <h2 class="h5 text-uppercase g-color-gray-dark-v1">Kategorien</h2>
@@ -37,12 +43,6 @@
                     </li>
                 </ul>
                 <!-- End Categories -->
-
-                <!-- Tags -->
-                <h2 class="h5 text-uppercase g-color-gray-dark-v1">Aktivierte Tags</h2>
-                <hr class="g-brd-gray-light-v4 g-my-15">
-                <span th:replace="~{sites/search/tags :: taglist(tags=${selectedTags})}"></span>
-                <!-- End Tags -->
 
                 <!-- Sort By -->
                 <h2 class="h5 text-uppercase g-color-gray-dark-v1">Sortieren nach</h2>
@@ -100,9 +100,10 @@
                 <div class="container text-center g-py-100--md g-py-80">
                     <h2 class="h1 text-uppercase g-font-weight-300 g-mb-30">Suchergebnisse</h2>
                 </div>
+
                 <!-- Search Info -->
                 <div class="d-md-flex justify-content-between g-mb-30">
-                    <h3 class="h6 text-uppercase g-mb-10 g-mb--lg"><span class="g-color-gray-dark-v1" data-th-text="${count}">0</span> Ergebnisse</h3>
+                    <h3 class="h6 text-uppercase g-mb-10 g-mb--lg"><span class="g-color-gray-dark-v1" data-th-text="${count}">0</span> Ergebnis(se)</h3>
                 </div>
                 <!-- End Search Info -->
 

@@ -23,6 +23,9 @@ public class Tag extends TimestampedBase {
     
     @Column(length = 12, name = "name_lang")
     private String nameLang;
+    
+    @Column(name="use_count")
+    private int useCount;
 
     @Column
     private int weight;
@@ -96,6 +99,14 @@ public class Tag extends TimestampedBase {
 
     public void setSlug(String slug) {
         this.slug = slug;
+    }
+
+    public int getUseCount() {
+        return useCount;
+    }
+
+    public void setUseCount(int useCount) {
+        this.useCount = useCount;
     }
     
 }
