@@ -44,3 +44,40 @@ INSERT INTO apiusers (id, login, rolename, token, active)
 VALUES
     (nextval('hibernate_sequence'), 'dbl', 'API_DRÜCKBLICK', 'ADDB0F5E7826C857D7376D1BD9BC33C0C544790A2EAC96144A8AF22B1298C940', true); -- u: dbl, p: geheim
 
+-- 6. attachments
+insert into attachment_groups (code, label)
+values
+('website', 'Webseiten'),
+('wine', 'wine'),
+('shop', 'Shops'),
+('video', 'Videos'),
+('image', 'Bilder/Screenshots'),
+('file', 'Dateien/Anhänge'),
+('repo', 'Repos');
+
+insert into attachment_types (code, label, attachment_group_id, datatype) values
+('link', 'Link', (select id from attachment_groups where code = 'website'), 'url'),
+
+('winehq', 'WineHQ', (select id from attachment_groups where code = 'wine'), 'url'),
+('protondb', 'ProtonDB', (select id from attachment_groups where code = 'wine'), 'url'),
+('protonofficial', 'Proton Official', (select id from attachment_groups where code = 'wine'), 'url'),
+('crossoverdb', 'CrossOver', (select id from attachment_groups where code = 'wine'), 'url'),
+
+('steam', 'Steam', (select id from attachment_groups where code = 'shop'), 'url'),
+('humble', 'HumbleStore', (select id from attachment_groups where code = 'shop'), 'url'),
+('gog', 'GOG', (select id from attachment_groups where code = 'shop'), 'url'),
+('ownshop', 'Hersteller', (select id from attachment_groups where code = 'shop'), 'url'),
+('itch', 'Itch', (select id from attachment_groups where code = 'shop'), 'url'),
+
+('youtube', 'YouTube', (select id from attachment_groups where code = 'video'), 'url'),
+('youtube-channel', 'YouTube-Kanal', (select id from attachment_groups where code = 'video'), 'url'),
+('twitch', 'Twitch', (select id from attachment_groups where code = 'video'), 'url'),
+
+('screenshot', 'Screenshot', (select id from attachment_groups where code = 'image'), 'storage'),
+
+('file', 'Dateianhang', (select id from attachment_groups where code = 'file'), 'storage'),
+
+('appimage', 'AppImage', (select id from attachment_groups where code = 'repo'), 'url'),
+('flatpak', 'Flatpak', (select id from attachment_groups where code = 'repo'), 'url'),
+('Snap', 'Snap', (select id from attachment_groups where code = 'repo'), 'url');
+

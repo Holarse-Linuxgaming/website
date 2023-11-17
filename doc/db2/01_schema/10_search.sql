@@ -25,9 +25,9 @@ SELECT
     LEFT JOIN node_tags ON node_tags.nodeid = ar.nodeid
     LEFT JOIN tags ON tags.id = node_tags.tagid
     LEFT JOIN attachments att ON att.id = (
-        SElECT id
-        FROM attachments
-        WHERE nodeid = ar.id AND attachment_type = 'SCREENSHOT' AND attachment_group = 'IMAGE' ORDER BY id LIMIT 1
+		select a2.id from attachments a2
+		inner join attachment_types at2 on at2.id = a2.attachment_type_id 
+		where at2.code = 'screenshot' order by a2.weight, a2.id limit 1
     )
     left join node_slugs nsl on nsl.id = (
     	select id
@@ -59,9 +59,9 @@ SELECT
     LEFT JOIN node_tags ON node_tags.nodeid = nr.nodeid
     LEFT JOIN tags ON tags.id = node_tags.tagid
     LEFT JOIN attachments att ON att.id = (
-        SElECT id
-        FROM attachments
-        WHERE nodeid = nr.id AND attachment_type = 'SCREENSHOT' AND attachment_group = 'IMAGE' ORDER BY id LIMIT 1
+		select a2.id from attachments a2
+		inner join attachment_types at2 on at2.id = a2.attachment_type_id 
+		where at2.code = 'screenshot' order by a2.weight, a2.id limit 1
     )
     left join node_slugs nsl on nsl.id = (
     	select id
@@ -102,6 +102,7 @@ union -- ab hier forumthreads
 ALTER MATERIALIZED VIEW mv_searchindex OWNER TO holarse;
 CREATE INDEX IF NOT EXISTS idx_fts_search ON mv_searchindex USING gin(document);
 CREATE INDEX IF NOT EXISTS idx_fts_tags ON mv_searchindex (tags, doctype);
+
 
 ---
 --- Suggestions
