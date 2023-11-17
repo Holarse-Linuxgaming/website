@@ -42,17 +42,17 @@
                 <hr class="g-brd-gray-light-v4 g-my-15">
                 <div class="btn-group justified-content g-mb-40">
                     <label class="u-check">
-<!--                            <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="sort" type="radio" value="">-->
+                        <!--                            <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="sort" type="radio" value="">-->
                         <a class="btn btn-block u-btn-outline-lightgray g-color-white--checked g-bg-primary--checked rounded-0"
                            th:href="@{/spielefinder(t=${t},q=${q},sort=)}">Relevanz</a>
                     </label>
                     <label class="u-check">
-<!--                            <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="sort" type="radio" value="title">-->
+                        <!--                            <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="sort" type="radio" value="title">-->
                         <a class="btn btn-block u-btn-outline-lightgray g-color-white--checked g-bg-primary--checked rounded-0"
                            th:href="@{/spielefinder(t=${t},q=${q},sort=title)}">Titel</a>
                     </label>
                     <label class="u-check">
-<!--                            <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="sort" type="radio" value="update">-->
+                        <!--                            <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="sort" type="radio" value="update">-->
                         <a class="btn btn-block u-btn-outline-lightgray g-color-white--checked g-bg-primary--checked rounded-0"
                            th:href="@{/spielefinder(t=${t},q=${q},sort=last_update)}">Zeit</a>
                     </label>
@@ -86,7 +86,7 @@
                         </label>
                     </div>
                     <!-- End Checkbox -->
-                    
+
                     <!-- Checkbox -->
                     <div class="form-group g-mb-10">
                         <label class="u-check g-pl-30">
@@ -129,51 +129,39 @@
 
                 <!-- End Search Results -->
 
-
-                <hr class="g-brd-gray-light-v4 g-mt-10 g-mb-40">
-
                 <!-- Pagination -->
-                <nav class="g-mb-50" aria-label="Page Navigation">
+                <nav class="text-center g-mb-50" aria-label="Page Navigation">
                     <ul class="list-inline">
-                        <li class="list-inline-item">
-                            <a class="u-pagination-v1__item u-pagination-v1-5 rounded g-pa-4-13" href="#!" aria-label="Previous">
+                        <li class="list-inline-item g-hidden-sm-down" data-th-if="${searchResults.hasPrevious}">
+                            <a class="u-pagination-v1__item u-pagination-v1-5 rounded g-pa-4-11" 
+                               href="#!" data-th-href="@{?(q=${q},t=${t},s=${s},page=${searchResults.previousPageable.pageNumber},size=${searchResults.previousPageable.pageSize})}"  aria-label="Previous">
                                 <span aria-hidden="true">
-                                    <i class="fa fa-angle-left"></i>
+                                    <i class="fa fa-angle-left g-mr-5"></i>
                                 </span>
-                                <span class="sr-only">Previous</span>
+                                <span class="sr-only">Zurück</span>
                             </a>
                         </li>
                         <li class="list-inline-item g-hidden-sm-down">
-                            <a class="u-pagination-v1__item u-pagination-v1-5 u-pagination-v1-5--active rounded g-pa-4-11" href="#!">1</a>
-                        </li>
-                        <li class="list-inline-item g-hidden-sm-down">
-                            <a class="u-pagination-v1__item u-pagination-v1-5 rounded g-pa-4-11" href="#!">2</a>
-                        </li>
-                        <li class="list-inline-item g-hidden-sm-down">
-                            <a class="u-pagination-v1__item u-pagination-v1-5 rounded g-pa-4-11" href="#!">3</a>
-                        </li>
-                        <li class="list-inline-item g-hidden-sm-down">
-                            <span class="g-pa-4-11">...</span>
-                        </li>
-                        <li class="list-inline-item g-hidden-sm-down">
-                            <a class="u-pagination-v1__item u-pagination-v1-5 rounded g-pa-4-11" href="#!">80</a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a class="u-pagination-v1__item u-pagination-v1-5 rounded g-pa-4-13" href="#!" aria-label="Next">
-                                <span aria-hidden="true">
-                                    <i class="fa fa-angle-right"></i>
-                                </span>
-                                <span class="sr-only">Next</span>
+                            <a class="list-inline-item font-italic">
+                                <span th:text="${searchResults.number + 1}"></span>
+                                von
+                                <span th:text="${searchResults.totalPages}"></span>
                             </a>
-                        </li>
-                        <li class="list-inline-item float-right">
-                            <span class="u-pagination-v1__item-info g-pa-4-11">Page 1 of 80</span>
+                        </li>                    
+                        <li class="list-inline-item g-hidden-sm-down" data-th-if="${searchResults.hasNext}">
+                            <a class="u-pagination-v1__item u-pagination-v1-5 rounded g-pa-4-11" 
+                               href="#!" data-th-href="@{?(q=${q},t=${t},s=${s},page=${searchResults.nextPageable.pageNumber},size=${searchResults.nextPageable.pageSize})}" aria-label="Next">
+                                <span aria-hidden="true">
+                                    <i class="fa fa-angle-right g-ml-5"></i>
+                                </span>
+                                <span class="sr-only">Weiter</span>
+                            </a>
                         </li>
                     </ul>
                 </nav>
                 <!-- End Pagination -->
 
-                <h3 class="h5 g-color-gray-dark-v1 g-mb-20">Searches Related to Unify Template</h3>
+                <h3 class="h5 g-color-gray-dark-v1 g-mb-20">Ähnliche Suchbegriffe</h3>
 
                 <!-- Tags -->
                 <ul class="u-list-inline mb-0">
