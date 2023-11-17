@@ -54,6 +54,8 @@ public class GameFinderController {
             @RequestParam(name = "t", defaultValue = "") final List<String> selectedTags,
             @RequestParam(name = "q", defaultValue = "") final String query,
             @RequestParam(name = "a", defaultValue = "") final String toggleTag,
+            @RequestParam(name = "sort", defaultValue = "") final String sort,
+            @RequestParam(name = "s", defaultValue = "article,news,thread") final List<String> scope,
             final ModelAndView mv) {
         mv.setViewName("layouts/bare");
         mv.addObject("title", "Die Linuxspiele-Seite für Linuxspieler");
@@ -75,6 +77,7 @@ public class GameFinderController {
             final UriComponents uriComponents = UriComponentsBuilder.newInstance().path("spielefinder")
                                                                                   .queryParam("t", String.join(",", selectedTags)).encode()
                                                                                   .queryParam("q", query).encode()
+                                                                                  .queryParam("s", scope)                    
                                                                                   .queryParam("c", "0") // Dont count the redirect
                                                                                   .build();
             
@@ -100,12 +103,12 @@ public class GameFinderController {
         Page<SearchResultView> searchResults;
         if (selectedTags.isEmpty()) {
             // Garkeine Tags gesetzt, wir suchen im Text
-            searchResults = searchRepository.search(orJoinQuery, pageRequest);            
+            searchResults = searchRepository.search(orJoinQuery, scope, pageRequest);
         } else {
             // Tags gesetzt, also Tag-basierte Suche
             searchResults = StringUtils.isAllBlank(query) ? 
-                            searchRepository.searchTags(String.join(TAG_DELIMITER, selectedTags), pageRequest) :
-                            searchRepository.searchTags(String.join(TAG_DELIMITER, selectedTags), orJoinQuery, pageRequest);
+                            searchRepository.searchTags(String.join(TAG_DELIMITER, selectedTags), scope, pageRequest) :
+                            searchRepository.searchTags(String.join(TAG_DELIMITER, selectedTags), orJoinQuery, scope, pageRequest);            
         }
         
         mv.addObject("count", searchResults.getTotalElements());
@@ -118,6 +121,7 @@ public class GameFinderController {
                                                           .map(Optional::get)
                                                           .toList());
         mv.addObject("q", query);
+        mv.addObject("sort", sort);
         
         return mv;
     }

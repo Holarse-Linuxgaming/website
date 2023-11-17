@@ -13,6 +13,8 @@ create table if not exists forum_threads (
 	title varchar(255) not null,
         title_lang varchar(12) not null default 'german',
         content varchar(16384),
-        content_lang varchar(12) not null default 'german'
+        content_lang varchar(12) not null default 'german',
+        created timestamptz not null default CURRENT_TIMESTAMP,
+        updated timestamptz not null default CURRENT_TIMESTAMP
 );
 

@@ -18,7 +18,8 @@ SELECT
         setweight(to_tsvector('german', coalesce(ar.content, '')), 'B') || -- content will be mostly german
         setweight(to_tsvector('simple', string_agg(tags.name, '@@@')), 'C') -- tags should be matched exactly
 	AS document,
-        'article' :: node_type AS doctype
+        'article' :: node_type AS doctype,
+        ar.created as last_update
     FROM article_revisions ar
     INNER JOIN articles a on a.revisionid = ar.id  
     LEFT JOIN node_tags ON node_tags.nodeid = ar.nodeid
@@ -40,35 +41,36 @@ SELECT
 union -- ab hier news
 
 SELECT
-        news_revisions.nodeid AS nodeid, -- für referenz
-        news_revisions.title AS ptitle, -- für ergebnisanzeiuge
+        nr.nodeid AS nodeid, -- für referenz
+        nr.title AS ptitle, -- für ergebnisanzeiuge
         '' as psubtitle, -- für spaltenkompatibilität zu articles
         nsl.name as purl, -- für schnelles verlinken
-        news_revisions.content AS content,
+        nr.content AS content,
         att.attachment_data AS image,
         string_agg(tags.name, '@@@') AS tags,				  
-        setweight(to_tsvector(news_revisions.title_lang::regconfig, unaccent(news_revisions.title)), 'A') ||  
-        setweight(to_tsvector('german', coalesce(news_revisions.content, '')), 'B') || -- content will be mostly german
+        setweight(to_tsvector(nr.title_lang::regconfig, unaccent(nr.title)), 'A') ||  
+        setweight(to_tsvector('german', coalesce(nr.content, '')), 'B') || -- content will be mostly german
         setweight(to_tsvector('simple', string_agg(tags.name, '@@@')), 'C') -- tags should be matched exactly
 	AS document,
-        'news' :: node_type AS doctype
-    FROM news_revisions
-    INNER JOIN news n on n.revisionid = news_revisions.id  
-    LEFT JOIN node_tags ON node_tags.nodeid = news_revisions.nodeid
+        'news' :: node_type AS doctype,
+        nr.created as last_update
+    FROM news_revisions nr
+    INNER JOIN news n on n.revisionid = nr.id  
+    LEFT JOIN node_tags ON node_tags.nodeid = nr.nodeid
     LEFT JOIN tags ON tags.id = node_tags.tagid
     LEFT JOIN attachments att ON att.id = (
         SElECT id
         FROM attachments
-        WHERE nodeid = news_revisions.id AND attachment_type = 'SCREENSHOT' AND attachment_group = 'IMAGE' ORDER BY id LIMIT 1
+        WHERE nodeid = nr.id AND attachment_type = 'SCREENSHOT' AND attachment_group = 'IMAGE' ORDER BY id LIMIT 1
     )
     left join node_slugs nsl on nsl.id = (
     	select id
     	from node_slugs
-    	where node_slugs.nodeid = news_revisions.nodeid order by updated limit 1
+    	where node_slugs.nodeid = nr.nodeid order by updated limit 1
     )
-    inner join node_status ns on ns.nodeid = news_revisions.nodeid 
+    inner join node_status ns on ns.nodeid = nr.nodeid 
 	WHERE NOT ns.deleted AND published
-    GROUP BY news_revisions.id, nsl.name, att.attachment_data
+    GROUP BY nr.id, nsl.name, att.attachment_data
 
 union -- ab hier forumthreads   
 
@@ -83,7 +85,8 @@ union -- ab hier forumthreads
     setweight(to_tsvector(ft.title_lang::regconfig, unaccent(ft.title)), 'A') ||  
     setweight(to_tsvector('german', coalesce(ft.content, '')), 'B') -- content will be mostly german
     as document,
-    'thread' :: node_type as doctype
+    'thread' :: node_type as doctype,
+    ft.created as last_update
     from forum_threads ft
     inner join forums on forums.id = ft.forumid 
     inner join node_status ns on ns.nodeid = ft.nodeid 

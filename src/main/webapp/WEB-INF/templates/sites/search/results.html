@@ -1,11 +1,3 @@
-<!-- Page Title -->
-<section class="dzsparallaxer auto-init height-is-based-on-content use-loading" data-options='{direction: "reverse", settings_mode_oneelement_max_offset: "150"}'>
-    <!-- Parallax Image -->
-    <div class="divimage dzsparallaxer--target w-100 g-bg-cover g-bg-white-gradient-opacity-v3--after" style="height: 140%; background-image: url(../../assets/img-temp/1920x800/img10.jpg);"></div>
-    <!-- End Parallax Image -->
-</section>
-<!-- Page Title -->
-
 <section class="g-pt-50 g-pb-90">
     <div class="container">
         <div class="row">
@@ -17,6 +9,7 @@
                 <!-- Search Form -->
                 <form action="" id="searchform-2" class="">
                     <input type="hidden" value="" name="t" th:value="${t}" />
+                    <input type="hidden" value="" name="sort" th:value="${sort}" />
                     <div class="input-group g-brd-primary--focus">
                         <input class="form-control rounded-0 u-form-control" type="search" placeholder="Nach Text filtern" name="q" data-th-value="${q}">
                         <div class="input-group-addon p-0">
@@ -49,16 +42,19 @@
                 <hr class="g-brd-gray-light-v4 g-my-15">
                 <div class="btn-group justified-content g-mb-40">
                     <label class="u-check">
-                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="radGroupBtn1_1" type="radio">
-                        <span class="btn btn-block u-btn-outline-lightgray g-color-white--checked g-bg-primary--checked g-brd-left-none--md rounded-0">Relevanz</span>
+<!--                            <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="sort" type="radio" value="">-->
+                        <a class="btn btn-block u-btn-outline-lightgray g-color-white--checked g-bg-primary--checked rounded-0"
+                           th:href="@{/spielefinder(t=${t},q=${q},sort=)}">Relevanz</a>
                     </label>
                     <label class="u-check">
-                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="radGroupBtn1_1" type="radio" checked>
-                        <span class="btn btn-block u-btn-outline-lightgray g-color-white--checked g-bg-primary--checked rounded-0">Titel</span>
+<!--                            <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="sort" type="radio" value="title">-->
+                        <a class="btn btn-block u-btn-outline-lightgray g-color-white--checked g-bg-primary--checked rounded-0"
+                           th:href="@{/spielefinder(t=${t},q=${q},sort=title)}">Titel</a>
                     </label>
                     <label class="u-check">
-                        <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="radGroupBtn1_1" type="radio" checked>
-                        <span class="btn btn-block u-btn-outline-lightgray g-color-white--checked g-bg-primary--checked rounded-0">Zeit</span>
+<!--                            <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="sort" type="radio" value="update">-->
+                        <a class="btn btn-block u-btn-outline-lightgray g-color-white--checked g-bg-primary--checked rounded-0"
+                           th:href="@{/spielefinder(t=${t},q=${q},sort=last_update)}">Zeit</a>
                     </label>
                 </div>
                 <!-- End Sort By -->
@@ -90,6 +86,18 @@
                         </label>
                     </div>
                     <!-- End Checkbox -->
+                    
+                    <!-- Checkbox -->
+                    <div class="form-group g-mb-10">
+                        <label class="u-check g-pl-30">
+                            <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" checked>
+                            <div class="u-check-icon-checkbox-v4 g-absolute-centered--y g-left-0">
+                                <i class="fa" data-check-icon="&#xf00c"></i>
+                            </div>
+                            Forum
+                        </label>
+                    </div>
+                    <!-- End Checkbox -->                    
                 </form>
                 <!-- End Result Types -->
             </div>
@@ -103,7 +111,11 @@
 
                 <!-- Search Info -->
                 <div class="d-md-flex justify-content-between g-mb-30">
-                    <h3 class="h6 text-uppercase g-mb-10 g-mb--lg"><span class="g-color-gray-dark-v1" data-th-text="${count}">0</span> Ergebnis(se)</h3>
+                    <h3 class="h6 text-uppercase g-mb-10 g-mb--lg">
+                        <span class="g-color-gray-dark-v1" data-th-text="${count}">0</span> 
+                        <span th:if="${count == 1}">Ergebnis</span>
+                        <span th:if="${count != 1}">Ergebnisse</span>
+                    </h3>
                 </div>
                 <!-- End Search Info -->
 
