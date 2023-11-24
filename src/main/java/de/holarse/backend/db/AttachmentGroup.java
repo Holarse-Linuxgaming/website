@@ -30,5 +30,10 @@ public class AttachmentGroup extends Base {
     public void setLabel(String label) {
         this.label = label;
     }
+
+    @Override
+    public String toString() {
+        return "AttachmentGroup{" + "code=" + code + ", label=" + label + '}';
+    }
     
 }

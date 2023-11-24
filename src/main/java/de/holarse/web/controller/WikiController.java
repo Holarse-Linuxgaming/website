@@ -2,16 +2,18 @@ package de.holarse.web.controller;
 
 import de.holarse.backend.db.Article;
 import de.holarse.backend.db.ArticleRevision;
+import de.holarse.backend.db.Attachment;
 import de.holarse.backend.db.NodeSlug;
 import de.holarse.backend.db.NodeStatus;
 import de.holarse.backend.db.Tag;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.ArticleRevisionRepository;
+import de.holarse.backend.db.repositories.AttachmentRepository;
 import de.holarse.backend.db.repositories.NodeSlugRepository;
 import de.holarse.backend.db.repositories.TagRepository;
 import de.holarse.backend.view.ArticleView;
+import de.holarse.backend.view.SettingsView;
 import de.holarse.backend.view.TagView;
-import de.holarse.config.JmsQueueTypes;
 import static de.holarse.config.JmsQueueTypes.QUEUE_SEARCH;
 import de.holarse.queues.commands.SearchRefresh;
 import de.holarse.web.controller.commands.ArticleForm;
@@ -22,6 +24,7 @@ import de.holarse.web.services.SlugService;
 import de.holarse.web.services.TagService;
 import jakarta.persistence.EntityNotFoundException;
 import java.security.Principal;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
@@ -56,6 +59,9 @@ public class WikiController {
     
     @Autowired
     private TagRepository tagRepository;
+
+    @Autowired
+    private AttachmentRepository attachmentRepository;
     
     @Autowired
     private SlugService slugService;
@@ -109,6 +115,8 @@ public class WikiController {
 //            }
 //        }
 
+        final List<Attachment> websiteLinks = attachmentRepository.findByGroup(article.getNodeId(), "website").stream().limit(3).toList();
+        
         // View zusammenstellen
         final ArticleView view = ArticleView.of(articleRevision);
         view.setNodeId(article.getNodeId());
@@ -116,6 +124,9 @@ public class WikiController {
         view.setTagList(tags.stream().map(TagView::of).toList()); // TODO Sort by weight
         view.setContent(renderer.render(view.getContent(), null));
         //view.setSlug(mainSlug.getName());
+        view.getWebsiteLinks().setLink1(websiteLinks.size() >= 1 ? websiteLinks.get(0) : null);
+        view.getWebsiteLinks().setLink1(websiteLinks.size() >= 2 ? websiteLinks.get(1) : null);
+        view.getWebsiteLinks().setLink1(websiteLinks.size() >= 3 ? websiteLinks.get(2) : null);
 //        
         mv.addObject("view", view);
         
@@ -144,8 +155,17 @@ public class WikiController {
         form.setTitle7(articleRevision.getTitle7());
         form.setContent(articleRevision.getContent());
         
+        final List<Attachment> websiteLinks = attachmentRepository.findByGroup(article.getNodeId(), "website").stream().limit(3).toList();
+        logger.debug("Links: {}", websiteLinks);
+        form.getWebsiteLinks().setLink1(websiteLinks.size() >= 1 ? websiteLinks.get(0) : new Attachment());
+        form.getWebsiteLinks().setLink2(websiteLinks.size() >= 2 ? websiteLinks.get(1) : new Attachment());
+        form.getWebsiteLinks().setLink3(websiteLinks.size() >= 3 ? websiteLinks.get(2) : new Attachment());        
+        
         form.setTags(tags.stream().map(t -> t.getName()).collect(Collectors.joining(", ")));
+        form.setSettings(SettingsView.of(article.getNodeStatus()));
 
+        logger.debug("WebsiteLinks: {}", form.getWebsiteLinks());
+        
         return mv.addObject("form", form);
     }
     
@@ -174,9 +194,16 @@ public class WikiController {
 
         // TODO Bilder, Anhänge 
         
+        // Website Links
+        
+        
         // Status
         final NodeStatus nodeStatus = article.getNodeStatus();
-        nodeStatus.setPublished(form.isPublished());
+        // TODO Nur vom Moderator zusetzen!
+        nodeStatus.setPublished(form.getSettings().isPublished());
+        nodeStatus.setArchived(form.getSettings().isArchived());
+        nodeStatus.setCommentable(form.getSettings().isCommentable());
+        nodeStatus.setDeleted(form.getSettings().isDeleted());
         
         // Artikel auf neue Revision setzen
         article.setArticleRevision(articleRevision);
@@ -185,9 +212,7 @@ public class WikiController {
         articleRepository.saveAndFlush(article);
         
         // Suche aktualisieren
-        if (nodeStatus.isPublished()) { 
-            jmsTemplate.convertAndSend(QUEUE_SEARCH, new SearchRefresh());
-        }
+        jmsTemplate.convertAndSend(QUEUE_SEARCH, new SearchRefresh());
         
         final NodeSlug nodeSlug = nodeSlugRepository.findMainSlug(nodeId).orElseThrow(EntityNotFoundException::new);
         return new ModelAndView(String.format("redirect:{}", nodeSlug.getName()));

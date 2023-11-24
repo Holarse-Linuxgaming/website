@@ -1,0 +1,6 @@
+<div th:fragment="links(links)">
+    <h2>Links</h2>
+    <ul th:each="link : ${links}">
+        <li><a href="" th:href="@{${link.data}}" th:text="${link.description}?: ${link.data}"></a></li>
+    </ul>   
+</div>

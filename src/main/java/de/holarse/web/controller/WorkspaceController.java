@@ -79,7 +79,7 @@ public class WorkspaceController {
         mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/workspace/article");
         
         final ArticleForm articleForm = new ArticleForm();
-        articleForm.setPublished(true);
+        articleForm.getSettings().setPublished(true);
         mv.addObject("form", articleForm);
         
         return mv;
@@ -116,7 +116,7 @@ public class WorkspaceController {
         // Status anlegen
         final NodeStatus nodeStatus = new NodeStatus();
         nodeStatus.setNodeId(nodeId);
-        nodeStatus.setPublished(form.isPublished());
+        nodeStatus.setPublished(form.getSettings().isPublished());
 
         // Slug anlegen
         final NodeSlug nodeSlug = slugService.slugify(articleRevision);

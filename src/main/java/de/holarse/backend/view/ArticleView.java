@@ -1,6 +1,7 @@
 package de.holarse.backend.view;
 
 import de.holarse.backend.db.ArticleRevision;
+import de.holarse.backend.db.Attachment;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,8 @@ public class ArticleView {
     private String tags;
     // Tags as views for display
     private List<TagView> tagList = new ArrayList<>();
+    
+    private WebsiteLinkView websiteLinks = new WebsiteLinkView();
      
     public static ArticleView of(final ArticleRevision ar) {
         final ArticleView av = new ArticleView();
@@ -154,6 +157,14 @@ public class ArticleView {
 
     public void setSlug(String slug) {
         this.slug = slug;
+    }
+
+    public WebsiteLinkView getWebsiteLinks() {
+        return websiteLinks;
+    }
+
+    public void setWebsiteLinks(WebsiteLinkView websiteLinks) {
+        this.websiteLinks = websiteLinks;
     }
 
 }

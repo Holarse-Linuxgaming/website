@@ -1,5 +1,7 @@
 package de.holarse.web.controller.commands;
 
+import de.holarse.backend.view.SettingsView;
+import de.holarse.backend.view.WebsiteLinkView;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -21,8 +23,11 @@ public class ArticleForm {
     private String content;
     @NotBlank
     private String tags;
-    private boolean published;
+    
+    private WebsiteLinkView websiteLinks = new WebsiteLinkView();
 
+    private SettingsView settings = new SettingsView();
+    
     public int getNodeId() {
         return nodeId;
     }
@@ -103,12 +108,20 @@ public class ArticleForm {
         this.tags = tags;
     }
 
-    public boolean isPublished() {
-        return published;
+    public WebsiteLinkView getWebsiteLinks() {
+        return websiteLinks;
     }
 
-    public void setPublished(boolean published) {
-        this.published = published;
+    public void setWebsiteLinks(WebsiteLinkView websiteLinks) {
+        this.websiteLinks = websiteLinks;
+    }
+
+    public SettingsView getSettings() {
+        return settings;
+    }
+
+    public void setSettings(SettingsView settings) {
+        this.settings = settings;
     }
     
 }

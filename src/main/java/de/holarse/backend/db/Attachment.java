@@ -27,7 +27,7 @@ public class Attachment extends TimestampedBase {
     
     @ManyToOne
     @JoinColumn(name="attachment_type_id", nullable=false, referencedColumnName = "id")
-    private AttachmentGroup group;            
+    private AttachmentType attachmentType;            
     
     @Column(name = "attachment_data", length = 4096)
     private String data;
@@ -56,12 +56,12 @@ public class Attachment extends TimestampedBase {
         this.description = description;
     }
 
-    public AttachmentGroup getGroup() {
-        return group;
+    public AttachmentType getAttachmentType() {
+        return attachmentType;
     }
 
-    public void setGroup(AttachmentGroup group) {
-        this.group = group;
+    public void setAttachmentType(AttachmentType attachmentType) {
+        this.attachmentType = attachmentType;
     }
 
     public String getData() {
@@ -70,6 +70,11 @@ public class Attachment extends TimestampedBase {
 
     public void setData(String data) {
         this.data = data;
+    }
+
+    @Override
+    public String toString() {
+        return "Attachment{" + "nodeId=" + nodeId + ", weight=" + weight + ", description=" + description + ", attachmentType=" + attachmentType + ", data=" + data + '}';
     }
     
 }

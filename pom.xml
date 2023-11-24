@@ -17,6 +17,7 @@
         <spring.security.version>6.1.4</spring.security.version>
         <slf4jVersion>2.0.9</slf4jVersion>
         <jackson.version>2.15.3</jackson.version>
+        <thymeleaf.version>3.1.2.RELEASE</thymeleaf.version>
         
         <maven.compiler.release>17</maven.compiler.release>
     </properties>
@@ -144,17 +145,17 @@
         <dependency>
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf</artifactId>
-            <version>3.1.2.RELEASE</version>
+            <version>${thymeleaf.version}</version>
         </dependency>
         <dependency>
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf-spring6</artifactId>
-            <version>3.1.2.RELEASE</version>
+            <version>${thymeleaf.version}</version>
         </dependency>   
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity6</artifactId>
-            <version>3.1.2.RELEASE</version>
+            <version>${thymeleaf.version}</version>
         </dependency>           
 
         <!-- https://mvnrepository.com/artifact/org.hamcrest/hamcrest -->

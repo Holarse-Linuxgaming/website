@@ -2,19 +2,20 @@
 <div class="row justify-content-center">
     <div class="col-sm-8 col-lg-5">
         <div class="u-shadow-v21 g-bg-white rounded g-py-40 g-px-30">
-            
+
             <ul>
                 <li class="submenuitem"><a href="#" data-th-href="@{/wiki/{nodeId}/edit(nodeId=${view.nodeId})}">bearbeiten</a></li>
             </ul>
-            
+
             <header class="text-center mb-4">
                 <h2 class="h2 g-color-black g-font-weight-600" data-th-text="${view.title1}"></h2>
             </header>
-            
+
             <ul th:replace="~{sites/shared/tags/list :: taglist(tags=${view.tagList})}"></ul>
-            
+
             <p data-th-text="${view.content}"></p>
             
+            <p th:replace="~{sites/shared/links :: links(links=${view.links})}"></p>
         </div>
     </div>
 </div>

@@ -1,99 +1,151 @@
-<!-- Title 1 -->
-<div class="form-group g-mb-20">
-  <label class="col-sm-3 col-form-label g-mb-10" for="title1">Titel</label>
-  <input data-th-field="*{title1}" class="form-control form-control-md rounded-0" type="text" placeholder="Haupttitel des Artikels">
-</div>
-<!-- End Title 1 -->
+<!-- Nav tabs -->
+<ul class="nav u-nav-v1-1 u-nav-primary g-brd-bottom--md g-brd-primary g-mb-20" role="tablist" data-target="nav-1-1-default-hor-left-underline" data-tabs-mobile-type="slide-up-down" data-btn-classes="btn btn-md btn-block rounded-0 u-btn-outline-primary g-mb-20">
+    <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#article-edit-tab-main" role="tab">Titel + Inhalt</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#article-edit-tab-alternative-titles" role="tab">Alternativ-Titel</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#article-edit-tab-links" role="tab">Links</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#article-edit-tab-settings" role="tab">Einstellungen</a>
+    </li>    
+</ul>
+<!-- End Nav tabs -->
 
-<!-- Title 2 -->
-<div class="form-group g-mb-20 block-title block-title2">
-  <label class="col-sm-3 col-form-label g-mb-10" for="title2">Alternativtitel (2)</label>
-  <input data-th-field="*{title2}" class="form-control form-control-md rounded-0" type="text" placeholder="Mögliche alternative Titel">
-  <a href="#" class="btn btn-md btn-remove-article-title" data-field="title2">
-      <i class="fa fa fa-minus"></i>
-  </a>              
-</div>
-<!-- End Title 2 -->        
+<!-- Tab panes -->
+<div id="nav-1-1-default-hor-left-underline" class="tab-content">
+    <!-- Tab Titel + Inhalt -->
+    <div class="tab-pane fade show active" id="article-edit-tab-main" role="tabpanel">
 
-<!-- Title 3 -->
-<div class="form-group g-mb-20 block-title block-title3">
-  <label class="col-sm-3 col-form-label g-mb-10" for="title3">Alternativtitel (3)</label>
-  <input data-th-field="*{title3}" class="form-control form-control-md rounded-0" type="text" placeholder="Mögliche alternative Titel">
-  <a href="#" class="btn btn-md btn-remove-article-title" data-field="title3">
-      <i class="fa fa fa-minus"></i>
-  </a>              
-</div>
-<!-- End Title 3 -->    
+        <!-- Title 1 -->
+        <div class="form-group g-mb-20">
+            <label class="col-sm-3 col-form-label g-mb-10" for="title1">Titel</label>
+            <input data-th-field="*{title1}" class="form-control form-control-md rounded-0" type="text" placeholder="Haupttitel des Artikels">
+        </div>
+        <!-- End Title 1 -->
 
-<!-- Title 4 -->
-<div class="form-group g-mb-20 block-title block-title4">
-  <label class="col-sm-3 col-form-label g-mb-10" for="title4">Alternativtitel (4)</label>
-  <input data-th-field="*{title4}" class="form-control form-control-md rounded-0" type="text" placeholder="Mögliche alternative Titel">
-  <a href="#" class="btn btn-md btn-remove-article-title" data-field="title4">
-      <i class="fa fa fa-minus"></i>
-  </a>    
-</div>
-<!-- End Title 4 -->   
+        <!-- Title 7 -->
+        <div class="form-group g-mb-20">
+            <label class="col-sm-3 col-form-label g-mb-10" for="tags">Tags</label>
+            <input data-th-field="*{tags}" class="form-control form-control-md rounded-0" type="text" placeholder="Tags kommasepariert">
+        </div>
+        <!-- End Title 7 -->        
 
-<!-- Title 5 -->
-<div class="form-group g-mb-20 block-title block-title5">
-  <label class="col-sm-3 col-form-label g-mb-10" for="title5">Alternativtitel (5)</label>
-  <input data-th-field="*{title5}" class="form-control form-control-md rounded-0" type="text" placeholder="Mögliche alternative Titel">
-  <a href="#" class="btn btn-md btn-remove-article-title" data-field="title5">
-      <i class="fa fa fa-minus"></i>
-  </a>              
-</div>
-<!-- End Title 5 -->   
+        <!-- Textarea Expandable -->
+        <div class="form-group g-mb-20">
+            <label class="col-sm-3 col-form-label g-mb-10" for="content">Inhalt</label>
+            <textarea data-th-field="*{content}" class="form-control form-control-md rounded-0" rows="10" placeholder="Text area"></textarea>
+            <small class="form-text text-muted g-font-size-default g-mt-10">
+                <strong>Note:</strong> expands on focus.
+            </small>
+        </div>
+        <!-- End Textarea Expandable -->          
+    </div>
 
-<!-- Title 6 -->
-<div class="form-group g-mb-20 block-title block-title6">
-  <label class="col-sm-3 col-form-label g-mb-10" for="title6">Alternativtitel (6)</label>
-  <input data-th-field="*{title6}" class="form-control form-control-md rounded-0" type="text" placeholder="Mögliche alternative Titel">
-  <a href="#" class="btn btn-md btn-remove-article-title" data-field="title6">
-      <i class="fa fa fa-minus"></i>
-  </a>              
-</div>
-<!-- End Title 6 -->   
+    <!-- Tab Alternativtitel -->
+    <div class="tab-pane fade show" id="article-edit-tab-alternative-titles" role="tabpanel">
 
-<!-- Title 7 -->
-<div class="form-group g-mb-20 block-title block-title7">
-  <label class="col-sm-3 col-form-label g-mb-10" for="title7">Alternativtitel (7)</label>
-  <input data-th-field="*{title7}" class="form-control form-control-md rounded-0" type="text" placeholder="Mögliche alternative Titel">
-  <a href="#" class="btn btn-md btn-remove-article-title" data-field="title7">
-      <i class="fa fa fa-minus"></i>
-  </a>          
-</div>
-<!-- End Title 7 -->
+        <!-- Title 2 -->
+        <div class="form-group g-mb-20 block-title block-title2">
+            <label class="col-sm-3 col-form-label g-mb-10" for="title2">Alternativtitel (2)</label>
+            <input data-th-field="*{title2}" class="form-control form-control-md rounded-0" type="text" placeholder="Mögliche alternative Titel">
+        </div>
+        <!-- End Title 2 -->        
 
-<a href="#" id="btn-workspace-add-title" class="btn btn-md">
-    <i class="fa fa fa-plus"></i>
-</a>
+        <!-- Title 3 -->
+        <div class="form-group g-mb-20 block-title block-title3">
+            <label class="col-sm-3 col-form-label g-mb-10" for="title3">Alternativtitel (3)</label>
+            <input data-th-field="*{title3}" class="form-control form-control-md rounded-0" type="text" placeholder="Mögliche alternative Titel">
+        </div>
+        <!-- End Title 3 -->    
 
-<!-- Title 7 -->
-<div class="form-group g-mb-20">
-  <label class="col-sm-3 col-form-label g-mb-10" for="tags">Tags</label>
-  <input data-th-field="*{tags}" class="form-control form-control-md rounded-0" type="text" placeholder="Tags kommasepariert">
-</div>
-<!-- End Title 7 -->        
+        <!-- Title 4 -->
+        <div class="form-group g-mb-20 block-title block-title4">
+            <label class="col-sm-3 col-form-label g-mb-10" for="title4">Alternativtitel (4)</label>
+            <input data-th-field="*{title4}" class="form-control form-control-md rounded-0" type="text" placeholder="Mögliche alternative Titel">
+        </div>
+        <!-- End Title 4 -->   
 
-<!-- Textarea Expandable -->
-<div class="form-group g-mb-20">
-  <label class="col-sm-3 col-form-label g-mb-10" for="content">Inhalt</label>
-  <textarea data-th-field="*{content}" class="form-control form-control-md rounded-0" rows="10" placeholder="Text area"></textarea>
-  <small class="form-text text-muted g-font-size-default g-mt-10">
-    <strong>Note:</strong> expands on focus.
-  </small>
-</div>
-<!-- End Textarea Expandable -->        
+        <!-- Title 5 -->
+        <div class="form-group g-mb-20 block-title block-title5">
+            <label class="col-sm-3 col-form-label g-mb-10" for="title5">Alternativtitel (5)</label>
+            <input data-th-field="*{title5}" class="form-control form-control-md rounded-0" type="text" placeholder="Mögliche alternative Titel">
+        </div>
+        <!-- End Title 5 -->   
 
-<!-- Toggles Checkbox -->
-<div class="form-group">
-  <label class="d-flex align-items-center justify-content-between">Veröffentlicht?</label>
-  <input class="" type="checkbox" checked="" data-th-field="*{published}">
-</div>
-<!-- End Toggles Checkbox -->        
+        <!-- Title 6 -->
+        <div class="form-group g-mb-20 block-title block-title6">
+            <label class="col-sm-3 col-form-label g-mb-10" for="title6">Alternativtitel (6)</label>
+            <input data-th-field="*{title6}" class="form-control form-control-md rounded-0" type="text" placeholder="Mögliche alternative Titel">
+        </div>
+        <!-- End Title 6 -->   
+
+        <!-- Title 7 -->
+        <div class="form-group g-mb-20 block-title block-title7">
+            <label class="col-sm-3 col-form-label g-mb-10" for="title7">Alternativtitel (7)</label>
+            <input data-th-field="*{title7}" class="form-control form-control-md rounded-0" type="text" placeholder="Mögliche alternative Titel">
+        </div>
+        <!-- End Title 7 -->
+    </div>    
+
+    <!-- Tab Links -->
+    <div class="tab-pane fade show" id="article-edit-tab-links" role="tabpanel">
+        <!-- Website Link 1 -->
+        <div class="form-group g-mb-20 block-title block-title7">
+
+            <input data-th-field="*{websiteLinks.link1.id}" type="hidden">
+
+            <label class="col-sm-3 col-form-label g-mb-10" for="title7">Beschreibung</label>
+            <input data-th-field="*{websiteLinks.link1.description}" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Projekt/Webseite">
+
+            <label class="col-sm-3 col-form-label g-mb-10" for="title7">URL</label>
+            <input data-th-field="*{websiteLinks.link1.data}" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Projekt/Webseite">            
+
+        </div>
+        <!-- End Website Link 1 -->
+
+        <!-- Website Link 2 -->
+        <div class="form-group g-mb-20 block-title block-title7">
+            <input data-th-field="*{websiteLinks.link2.id}" type="hidden">
+
+            <label class="col-sm-3 col-form-label g-mb-10" for="title7">Beschreibung</label>
+            <input data-th-field="*{websiteLinks.link2.description}" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Projekt/Webseite">
+
+            <label class="col-sm-3 col-form-label g-mb-10" for="title7">URL</label>
+            <input data-th-field="*{websiteLinks.link2.data}" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Projekt/Webseite">            
+        </div>
+        <!-- End Website Link 2 -->
+
+        <!-- Website Link 3 -->
+        <div class="form-group g-mb-20 block-title g-brd-around">
+            <input data-th-field="*{websiteLinks.link3.id}" type="hidden">
+
+            <label class="col-sm-3 col-form-label g-mb-10" for="title7">Beschreibung</label>
+            <input data-th-field="*{websiteLinks.link3.description}" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Projekt/Webseite">
+
+            <label class="col-sm-3 col-form-label g-mb-10" for="title7">URL</label>
+            <input data-th-field="*{websiteLinks.link3.data}" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Projekt/Webseite">            
+        </div>
+        <!-- End Website Link 3 -->
 
 
-<div class="form-group">
-    <input type="submit" value="Speichern" class="btn btn-md u-btn-primary g-mr-10 g-mb-15" />
-</div>
+    </div>    
+
+    <!-- Tab Einstellungen -->
+    <div class="tab-pane fade show" id="article-edit-tab-settings" role="tabpanel">
+
+        <!-- Toggles Checkbox -->
+        <div class="form-group">
+            <label class="d-flex align-items-center justify-content-between">Veröffentlicht?</label>
+            <input class="" type="checkbox" checked="" data-th-field="*{settings.published}">
+        </div>
+        <!-- End Toggles Checkbox -->        
+    </div>    
+
+
+    <div class="form-group">
+        <input type="submit" value="Speichern" class="btn btn-md u-btn-primary g-mr-10 g-mb-15" />
+    </div>

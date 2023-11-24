@@ -63,5 +63,10 @@ public class AttachmentType extends Base {
     public void setDataType(AttachmentDataType dataType) {
         this.dataType = dataType;
     }
+
+    @Override
+    public String toString() {
+        return "AttachmentType{" + "code=" + code + ", label=" + label + ", attachmentGroup=" + attachmentGroup + ", dataType=" + dataType + '}';
+    }
     
 }
