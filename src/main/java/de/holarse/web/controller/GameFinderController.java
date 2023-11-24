@@ -56,14 +56,7 @@ public class GameFinderController {
             @RequestParam(name = "a", defaultValue = "") final String toggleTag,
             @RequestParam(name = "sort", defaultValue = "") final String sort,
             @RequestParam(name = "s", defaultValue = "article,news,thread") final List<String> scope,
-            final ModelAndView mv) {
-        mv.setViewName("layouts/bare");
-        mv.addObject("title", "Die Linuxspiele-Seite für Linuxspieler");
-        mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/search/results");        
-                
-        // Ermitteln der Taggruppen und der dazugehörigen Tags
-        final List<TagGroup> tagGroups = tagGroupRepository.findAllTagGroups(Sort.by(Sort.Order.desc("weight"), Sort.Order.desc("t.useCount")));
-        
+            final ModelAndView mv) {            
         // Ein Tag soll entweder hinzugeschaltet oder weggenommen werden. Danach Seite neuladen
         if (!StringUtils.isBlank(toggleTag)) {
             if (selectedTags.contains(toggleTag)) {
@@ -78,7 +71,7 @@ public class GameFinderController {
                                                                                   .queryParam("t", String.join(",", selectedTags)).encode()
                                                                                   .queryParam("q", query).encode()
                                                                                   .queryParam("s", scope)                    
-                                                                                  .queryParam("c", "0") // Dont count the redirect
+                                                                                  .queryParam("c", "0") // Do not pagecount the redirect
                                                                                   .build();
             
             return new ModelAndView(String.format("redirect:/%s", uriComponents.toUriString()));
@@ -110,6 +103,13 @@ public class GameFinderController {
                             searchRepository.searchTags(String.join(TAG_DELIMITER, selectedTags), scope, pageRequest) :
                             searchRepository.searchTags(String.join(TAG_DELIMITER, selectedTags), orJoinQuery, scope, pageRequest);            
         }
+        
+        // Ermitteln der Taggruppen und der dazugehörigen Tags
+        final List<TagGroup> tagGroups = tagGroupRepository.findAllTagGroups(Sort.by(Sort.Order.desc("tg.weight"), Sort.Order.desc("t.weight"), Sort.Order.desc("t.useCount")));                        
+
+        mv.setViewName("layouts/bare");
+        mv.addObject("title", "Die Linuxspiele-Seite für Linuxspieler");
+        mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/search/results");         
         
         mv.addObject("count", searchResults.getTotalElements());
         mv.addObject("tagGroups", tagGroups);

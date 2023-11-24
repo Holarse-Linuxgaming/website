@@ -2,11 +2,13 @@ create table if not exists taggroups(
 	id integer primary key default nextval('hibernate_sequence'),
 	
 	name varchar(255),
+        code varchar(255) not null unique,
 	weight integer,
+        description varchar(255),
 	
 	created timestamptz not null default CURRENT_TIMESTAMP,
 	updated timestamptz not null default CURRENT_TIMESTAMP,
-    update_userid integer references users(id)	
+        update_userid integer references users(id)	
 );
 
 create table if not exists tags(

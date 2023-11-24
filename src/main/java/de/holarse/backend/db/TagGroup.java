@@ -13,11 +13,20 @@ import java.util.List;
 @Table(name = "taggroups")
 @Entity
 public class TagGroup extends TimestampedBase {
+
+    private static final long serialVersionUID = 2L;
     
     @Column
     private String name;
+    
+    @Column
+    private String code;
+    
     @Column
     private int weight;
+    
+    @Column(length = 255)
+    private String description;
     
     @OneToMany(mappedBy = "tagGroup")
     private List<Tag> tags = new ArrayList<>();
@@ -26,6 +35,22 @@ public class TagGroup extends TimestampedBase {
     @JoinColumn(name="update_userid", nullable=false, referencedColumnName = "id")
     private User user;
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+    
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
     public List<Tag> getTags() {
         return tags;
     }
