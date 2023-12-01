@@ -33,6 +33,8 @@ public interface ArticleRepository extends JpaRepository<Article, Integer>, Node
     @Query(value = "FROM Article a " + 
                    "JOIN FETCH a.articleRevision " + 
                    "JOIN FETCH a.nodeStatus as ns " + 
+                   "LEFT JOIN FETCH a.websiteLinks as link_web " +
+                   "LEFT JOIN FETCH a.screenshots as link_scr " +            
                    "JOIN a.nodeSlugs as sl " +
                    "LEFT JOIN FETCH a.tags " +            
                    "WHERE NOT ns.deleted " + 

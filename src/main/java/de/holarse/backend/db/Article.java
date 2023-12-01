@@ -13,13 +13,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.hibernate.annotations.FilterJoinTable;
 
 @Table(name = "articles")
 @Entity
 public class Article extends Base {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
     
     @Column(name = "nodeid")
     private int nodeId;
@@ -46,10 +45,6 @@ public class Article extends Base {
     @OneToMany(cascade = { CascadeType.ALL })
     @JoinColumn(name="nodeid", insertable=false, nullable=false, updatable = false, referencedColumnName = "nodeid")    
     private Set<NodeSlug> nodeSlugs = new HashSet<>();
-    
-    @OneToMany
-    @JoinColumn(name="nodeid", insertable=false, nullable=false, updatable = false, referencedColumnName = "nodeid")    
-    private List<Attachment> attachments = new ArrayList<>();
     
     public int getNodeId() {
         return nodeId;
@@ -97,14 +92,6 @@ public class Article extends Base {
 
     public void setNodeSlugs(Set<NodeSlug> nodeSlugs) {
         this.nodeSlugs = nodeSlugs;
-    }
-
-    public List<Attachment> getAttachments() {
-        return attachments;
-    }
-
-    public void setAttachments(List<Attachment> attachments) {
-        this.attachments = attachments;
     }
     
 }

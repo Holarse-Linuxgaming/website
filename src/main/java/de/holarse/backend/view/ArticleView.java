@@ -28,7 +28,7 @@ public class ArticleView {
     // Tags as views for display
     private List<TagView> tagList = new ArrayList<>();
     
-    private WebsiteLinkView websiteLinks = new WebsiteLinkView();
+    private List<AttachmentView> websiteLinks = new ArrayList<>();
      
     public static ArticleView of(final ArticleRevision ar) {
         final ArticleView av = new ArticleView();
@@ -159,11 +159,11 @@ public class ArticleView {
         this.slug = slug;
     }
 
-    public WebsiteLinkView getWebsiteLinks() {
+    public List<AttachmentView> getWebsiteLinks() {
         return websiteLinks;
     }
 
-    public void setWebsiteLinks(WebsiteLinkView websiteLinks) {
+    public void setWebsiteLinks(List<AttachmentView> websiteLinks) {
         this.websiteLinks = websiteLinks;
     }
 

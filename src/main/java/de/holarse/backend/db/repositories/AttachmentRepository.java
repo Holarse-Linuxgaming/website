@@ -12,7 +12,7 @@ public interface AttachmentRepository extends JpaRepository<Attachment, Integer>
             "join a.attachmentType at " +
             "join at.attachmentGroup ag " +
             "where a.nodeId = :nodeId and ag.code = :code " + 
-            "order by a.weight")
+            "order by a.weight, a.id")
     List<Attachment> findByGroup(@Param("nodeId") Integer nodeId, @Param("code") String code);
     
 }

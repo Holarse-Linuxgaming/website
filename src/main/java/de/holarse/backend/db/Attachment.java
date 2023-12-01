@@ -4,6 +4,7 @@
  */
 package de.holarse.backend.db;
 
+import de.holarse.backend.view.AttachmentView;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -75,6 +76,24 @@ public class Attachment extends TimestampedBase {
     @Override
     public String toString() {
         return "Attachment{" + "nodeId=" + nodeId + ", weight=" + weight + ", description=" + description + ", attachmentType=" + attachmentType + ", data=" + data + '}';
+    }
+    
+    /**
+     * Ein neues Attachment aus einem View erzeugen
+     * @param av
+     * @param nodeId
+     * @param attachmentType
+     * @return 
+     */
+    public static Attachment build(final AttachmentView av, final Integer nodeId, final AttachmentType attachmentType) {
+        final Attachment att = new Attachment();
+        att.setData(av.getData());
+        att.setDescription(av.getDescription());
+        att.setWeight(av.getWeight());
+        att.setNodeId(nodeId);
+        att.setAttachmentType(attachmentType);
+        
+        return att;
     }
     
 }

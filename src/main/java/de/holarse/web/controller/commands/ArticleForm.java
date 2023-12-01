@@ -1,9 +1,11 @@
 package de.holarse.web.controller.commands;
 
+import de.holarse.backend.view.AttachmentView;
 import de.holarse.backend.view.SettingsView;
-import de.holarse.backend.view.WebsiteLinkView;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ArticleForm {
 
@@ -24,7 +26,7 @@ public class ArticleForm {
     @NotBlank
     private String tags;
     
-    private WebsiteLinkView websiteLinks = new WebsiteLinkView();
+    private List<AttachmentView> websiteLinks = new ArrayList<>();
 
     private SettingsView settings = new SettingsView();
     
@@ -108,11 +110,11 @@ public class ArticleForm {
         this.tags = tags;
     }
 
-    public WebsiteLinkView getWebsiteLinks() {
+    public List<AttachmentView> getWebsiteLinks() {
         return websiteLinks;
     }
 
-    public void setWebsiteLinks(WebsiteLinkView websiteLinks) {
+    public void setWebsiteLinks(List<AttachmentView> websiteLinks) {
         this.websiteLinks = websiteLinks;
     }
 

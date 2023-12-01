@@ -9,9 +9,11 @@ import de.holarse.backend.db.Tag;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.ArticleRevisionRepository;
 import de.holarse.backend.db.repositories.AttachmentRepository;
+import de.holarse.backend.db.repositories.AttachmentTypeRepository;
 import de.holarse.backend.db.repositories.NodeSlugRepository;
 import de.holarse.backend.db.repositories.TagRepository;
 import de.holarse.backend.view.ArticleView;
+import de.holarse.backend.view.AttachmentView;
 import de.holarse.backend.view.SettingsView;
 import de.holarse.backend.view.TagView;
 import static de.holarse.config.JmsQueueTypes.QUEUE_SEARCH;
@@ -24,7 +26,10 @@ import de.holarse.web.services.SlugService;
 import de.holarse.web.services.TagService;
 import jakarta.persistence.EntityNotFoundException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
@@ -62,6 +67,9 @@ public class WikiController {
 
     @Autowired
     private AttachmentRepository attachmentRepository;
+    
+    @Autowired
+    private AttachmentTypeRepository attachmentTypeRepository;
     
     @Autowired
     private SlugService slugService;
@@ -115,7 +123,7 @@ public class WikiController {
 //            }
 //        }
 
-        final List<Attachment> websiteLinks = attachmentRepository.findByGroup(article.getNodeId(), "website").stream().limit(3).toList();
+        final List<Attachment> websiteLinks = attachmentRepository.findByGroup(article.getNodeId(), "website");
         
         // View zusammenstellen
         final ArticleView view = ArticleView.of(articleRevision);
@@ -124,10 +132,8 @@ public class WikiController {
         view.setTagList(tags.stream().map(TagView::of).toList()); // TODO Sort by weight
         view.setContent(renderer.render(view.getContent(), null));
         //view.setSlug(mainSlug.getName());
-        view.getWebsiteLinks().setLink1(websiteLinks.size() >= 1 ? websiteLinks.get(0) : null);
-        view.getWebsiteLinks().setLink1(websiteLinks.size() >= 2 ? websiteLinks.get(1) : null);
-        view.getWebsiteLinks().setLink1(websiteLinks.size() >= 3 ? websiteLinks.get(2) : null);
-//        
+        view.setWebsiteLinks(websiteLinks.stream().map(AttachmentView::of).toList());
+
         mv.addObject("view", view);
         
         return mv;
@@ -155,11 +161,9 @@ public class WikiController {
         form.setTitle7(articleRevision.getTitle7());
         form.setContent(articleRevision.getContent());
         
-        final List<Attachment> websiteLinks = attachmentRepository.findByGroup(article.getNodeId(), "website").stream().limit(3).toList();
+        final List<Attachment> websiteLinks = attachmentRepository.findByGroup(article.getNodeId(), "website");
         logger.debug("Links: {}", websiteLinks);
-        form.getWebsiteLinks().setLink1(websiteLinks.size() >= 1 ? websiteLinks.get(0) : new Attachment());
-        form.getWebsiteLinks().setLink2(websiteLinks.size() >= 2 ? websiteLinks.get(1) : new Attachment());
-        form.getWebsiteLinks().setLink3(websiteLinks.size() >= 3 ? websiteLinks.get(2) : new Attachment());        
+        form.setWebsiteLinks(websiteLinks.stream().map(AttachmentView::of).toList());
         
         form.setTags(tags.stream().map(t -> t.getName()).collect(Collectors.joining(", ")));
         form.setSettings(SettingsView.of(article.getNodeStatus()));
@@ -194,9 +198,31 @@ public class WikiController {
 
         // TODO Bilder, Anhänge 
         
+        //
         // Website Links
+        //
+        final Map<Boolean, List<AttachmentView>> websiteLinksMap = form.getWebsiteLinks().stream().collect(Collectors.partitioningBy(av -> av.isMarkAsDeleted()));
+        // Die zu Löschenden verarbeiten
+        attachmentRepository.deleteAllById(websiteLinksMap.get(Boolean.TRUE).stream().map(av -> av.getId()).toList());
         
+        final List<Attachment> createdAndUpdatedAttachments = new ArrayList<>();
+        // Die neuen Entities umwandeln und speichern
+        createdAndUpdatedAttachments.addAll(websiteLinksMap.get(Boolean.FALSE).stream()
+                                                                       .filter(av -> av.getId() == null)
+                                                                       .map(av -> Attachment.build(av, nodeId, attachmentTypeRepository.findByCode("link")))
+                                                                       .toList());
+        // Die bestehenden finden und updaten
         
+        for (final AttachmentView av : websiteLinksMap.get(Boolean.FALSE).stream().filter(av -> av.getId() != null).toList()) {
+            final Attachment att = attachmentRepository.findById(av.getId()).orElseThrow(EntityNotFoundException::new);
+            att.setWeight(av.getWeight());
+            att.setData(av.getData());
+            att.setDescription(av.getDescription());
+            
+            createdAndUpdatedAttachments.add(att);
+        }
+        attachmentRepository.saveAllAndFlush(createdAndUpdatedAttachments);
+                
         // Status
         final NodeStatus nodeStatus = article.getNodeStatus();
         // TODO Nur vom Moderator zusetzen!
@@ -216,6 +242,24 @@ public class WikiController {
         
         final NodeSlug nodeSlug = nodeSlugRepository.findMainSlug(nodeId).orElseThrow(EntityNotFoundException::new);
         return new ModelAndView(String.format("redirect:{}", nodeSlug.getName()));
-    }    
+    }
+    
+    protected Attachment createOrUpdate(final Integer nodeId, final Attachment formAttachment) {
+        Attachment dbAttachment;
+        if (formAttachment.getId() == null) {
+            // Create
+            dbAttachment = new Attachment();
+            dbAttachment.setNodeId(nodeId);
+            
+        } else {
+             dbAttachment = attachmentRepository.findById(formAttachment.getId()).orElseThrow(IllegalArgumentException::new);
+        }
+        
+        dbAttachment.setDescription(formAttachment.getDescription());
+        dbAttachment.setData(formAttachment.getData());
+        dbAttachment.setWeight(formAttachment.getWeight());
+        
+        return dbAttachment;
+    }
     
 }
