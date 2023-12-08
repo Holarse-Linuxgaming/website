@@ -39,7 +39,7 @@
             <label class="col-sm-3 col-form-label g-mb-10" for="content">Inhalt</label>
             <textarea data-th-field="*{content}" class="form-control form-control-md rounded-0" rows="10" placeholder="Text area"></textarea>
             <small class="form-text text-muted g-font-size-default g-mt-10">
-                <strong>Note:</strong> expands on focus.
+                <strong>Hinweis:</strong> Die Hilfeseite zur Wiki-Syntax findet ihr <a href="#" th:href="@{/help/wiki-syntax}" target="_blank">hier</a>.
             </small>
         </div>
         <!-- End Textarea Expandable -->          
@@ -93,45 +93,24 @@
 
     <!-- Tab Links -->
     <div class="tab-pane fade show" id="article-edit-tab-links" role="tabpanel">
-        <!-- Website Link 1 -->
-        <div class="form-group g-mb-20 block-title block-title7">
+        
+        <ul data-th-each="websiteLink,iter : *{websiteLinks}">
+            <!-- Website Link -->
+            <div class="form-group g-mb-20 block-title block-title7">
 
-            <input data-th-field="*{websiteLinks.link1.id}" type="hidden">
+                <span th:text="Link + ' ' + |${iter.count}|"></span>
+                <input data-th-field="*{websiteLinks[__${iter.index}__].id}" type="hidden">
 
-            <label class="col-sm-3 col-form-label g-mb-10" for="title7">Beschreibung</label>
-            <input data-th-field="*{websiteLinks.link1.description}" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Projekt/Webseite">
+                <label class="col-sm-3 col-form-label g-mb-10" th:for="${'websiteLinks[__${iter.index}__].description'}">Beschreibung</label>
+                <input data-th-field="*{websiteLinks[__${iter.index}__].description}" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Projekt/Webseite">
 
-            <label class="col-sm-3 col-form-label g-mb-10" for="title7">URL</label>
-            <input data-th-field="*{websiteLinks.link1.data}" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Projekt/Webseite">            
+                <label class="col-sm-3 col-form-label g-mb-10" th:for="${'websiteLinks[__${iter.index}__].data'}">URL</label>
+                <input data-th-field="*{websiteLinks[__${iter.index}__].data}" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Projekt/Webseite">            
 
-        </div>
-        <!-- End Website Link 1 -->
-
-        <!-- Website Link 2 -->
-        <div class="form-group g-mb-20 block-title block-title7">
-            <input data-th-field="*{websiteLinks.link2.id}" type="hidden">
-
-            <label class="col-sm-3 col-form-label g-mb-10" for="title7">Beschreibung</label>
-            <input data-th-field="*{websiteLinks.link2.description}" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Projekt/Webseite">
-
-            <label class="col-sm-3 col-form-label g-mb-10" for="title7">URL</label>
-            <input data-th-field="*{websiteLinks.link2.data}" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Projekt/Webseite">            
-        </div>
-        <!-- End Website Link 2 -->
-
-        <!-- Website Link 3 -->
-        <div class="form-group g-mb-20 block-title g-brd-around">
-            <input data-th-field="*{websiteLinks.link3.id}" type="hidden">
-
-            <label class="col-sm-3 col-form-label g-mb-10" for="title7">Beschreibung</label>
-            <input data-th-field="*{websiteLinks.link3.description}" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Projekt/Webseite">
-
-            <label class="col-sm-3 col-form-label g-mb-10" for="title7">URL</label>
-            <input data-th-field="*{websiteLinks.link3.data}" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Projekt/Webseite">            
-        </div>
-        <!-- End Website Link 3 -->
-
-
+            </div>
+            <!-- End Website Link -->
+        </ul>
+        
     </div>    
 
     <!-- Tab Einstellungen -->

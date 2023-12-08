@@ -59,7 +59,10 @@ public class AttachmentView {
     public void setMarkAsDeleted(boolean markAsDeleted) {
         this.markAsDeleted = markAsDeleted;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "AttachmentView{" + "id=" + id + ", description=" + description + ", data=" + data + ", weight=" + weight + ", markAsDeleted=" + markAsDeleted + '}';
+    }
     
 }
