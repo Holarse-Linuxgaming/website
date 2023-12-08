@@ -29,7 +29,6 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
@@ -176,6 +175,8 @@ public class WikiController {
     @Transactional
     @PostMapping("{nodeId}")
     public ModelAndView update(@PathVariable("nodeId") final int nodeId, @ModelAttribute("form") final ArticleForm form, final ModelAndView mv, final Principal principal) {
+        logger.debug("Updating by form {}", form);
+        
         final Article article = articleRepository.findByNodeId(nodeId).orElseThrow(EntityNotFoundException::new);
         
         // Aktualisieren und als neue Revision speichern

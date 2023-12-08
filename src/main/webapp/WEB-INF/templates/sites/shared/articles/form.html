@@ -93,13 +93,16 @@
 
     <!-- Tab Links -->
     <div class="tab-pane fade show" id="article-edit-tab-links" role="tabpanel">
-        
+
         <ul data-th-each="websiteLink,iter : *{websiteLinks}">
             <!-- Website Link -->
             <div class="form-group g-mb-20 block-title block-title7">
 
                 <span th:text="Link + ' ' + |${iter.count}|"></span>
                 <input data-th-field="*{websiteLinks[__${iter.index}__].id}" type="hidden">
+                
+                <input data-th-field="*{websiteLinks[__${iter.index}__].weight}" type="hidden">
+                <input data-th-field="*{websiteLinks[__${iter.index}__].markAsDeleted}" type="hidden">
 
                 <label class="col-sm-3 col-form-label g-mb-10" th:for="${'websiteLinks[__${iter.index}__].description'}">Beschreibung</label>
                 <input data-th-field="*{websiteLinks[__${iter.index}__].description}" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Projekt/Webseite">
@@ -107,10 +110,27 @@
                 <label class="col-sm-3 col-form-label g-mb-10" th:for="${'websiteLinks[__${iter.index}__].data'}">URL</label>
                 <input data-th-field="*{websiteLinks[__${iter.index}__].data}" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Projekt/Webseite">            
 
+                
+                
             </div>
             <!-- End Website Link -->
         </ul>
-        
+        <!-- Neuer Eintrag -->
+        <div class="form-group g-mb-20 block-title block-title7">
+
+            <span>Neuer Link</span>
+            <input name="form.websiteLinks[][id]" type="hidden">
+            <input name="form.websiteLinks[][weight]" type="hidden" value="0">
+            <input name="form.websiteLinks[][markAsDeleted]" type="hidden" value="0">
+
+            <label class="col-sm-3 col-form-label g-mb-10" for="form.websiteLinks[][description]">Beschreibung</label>
+            <input name="form.websiteLinks[][description]" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Projekt/Webseite">
+
+            <label class="col-sm-3 col-form-label g-mb-10" for="form.websiteLinks[][data]">URL</label>
+            <input name="form.websiteLinks[][data]" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Projekt/Webseite">            
+
+        </div>        
+
     </div>    
 
     <!-- Tab Einstellungen -->
