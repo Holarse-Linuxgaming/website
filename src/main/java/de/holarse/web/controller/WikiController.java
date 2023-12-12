@@ -12,6 +12,7 @@ import de.holarse.backend.db.repositories.AttachmentRepository;
 import de.holarse.backend.db.repositories.AttachmentTypeRepository;
 import de.holarse.backend.db.repositories.NodeSlugRepository;
 import de.holarse.backend.db.repositories.TagRepository;
+import de.holarse.backend.types.NodeType;
 import de.holarse.backend.view.ArticleView;
 import de.holarse.backend.view.AttachmentView;
 import de.holarse.backend.view.SettingsView;
@@ -36,6 +37,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +46,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -202,6 +206,7 @@ public class WikiController {
         //
         // Website Links
         //
+        logger.debug("Link-Attachments: {}", form.getWebsiteLinks());
         final Map<Boolean, List<AttachmentView>> websiteLinksMap = form.getWebsiteLinks().stream().collect(Collectors.partitioningBy(av -> av.isMarkAsDeleted()));
         // Die zu Löschenden verarbeiten
         attachmentRepository.deleteAllById(websiteLinksMap.get(Boolean.TRUE).stream().map(av -> av.getId()).toList());
@@ -213,7 +218,6 @@ public class WikiController {
                                                                        .map(av -> Attachment.build(av, nodeId, attachmentTypeRepository.findByCode("link")))
                                                                        .toList());
         // Die bestehenden finden und updaten
-        
         for (final AttachmentView av : websiteLinksMap.get(Boolean.FALSE).stream().filter(av -> av.getId() != null).toList()) {
             final Attachment att = attachmentRepository.findById(av.getId()).orElseThrow(EntityNotFoundException::new);
             att.setWeight(av.getWeight());
@@ -223,7 +227,8 @@ public class WikiController {
             createdAndUpdatedAttachments.add(att);
         }
         attachmentRepository.saveAllAndFlush(createdAndUpdatedAttachments);
-                
+        logger.debug("Saved attachments");        
+        
         // Status
         final NodeStatus nodeStatus = article.getNodeStatus();
         // TODO Nur vom Moderator zusetzen!
@@ -237,11 +242,12 @@ public class WikiController {
         article.setTags(articleTags);        
         article.setNodeStatus(nodeStatus);
         articleRepository.saveAndFlush(article);
+        logger.debug("Saved article");
         
         // Suche aktualisieren
         jmsTemplate.convertAndSend(QUEUE_SEARCH, new SearchRefresh());
         
-        final NodeSlug nodeSlug = nodeSlugRepository.findMainSlug(nodeId).orElseThrow(EntityNotFoundException::new);
+        final NodeSlug nodeSlug = nodeSlugRepository.findMainSlug(nodeId, NodeType.article).orElseThrow(EntityNotFoundException::new);
         return new ModelAndView(String.format("redirect:{}", nodeSlug.getName()));
     }
     

@@ -16,7 +16,7 @@ public interface NodeSlugRepository extends JpaRepository<NodeSlug, Integer> {
     
     boolean existsByNameAndSlugContext(final String name, final NodeType slugContext);
     
-    @Query("from NodeSlug ns where nodeId = :nodeId order by ns.created desc limit 1")
-    Optional<NodeSlug> findMainSlug(@Param("nodeId") final Integer nodeId);
+    @Query("from NodeSlug ns where ns.nodeId = :nodeId and ns.slugContext = :context order by ns.created desc limit 1")
+    Optional<NodeSlug> findMainSlug(@Param("nodeId") final Integer nodeId, @Param("context") final NodeType nodeType);
     
 }

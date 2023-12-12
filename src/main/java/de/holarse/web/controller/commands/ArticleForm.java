@@ -26,7 +26,7 @@ public class ArticleForm {
     @NotBlank
     private String tags;
     
-    private List<AttachmentView> websiteLinks = new ArrayList<>();
+        private List<AttachmentView> websiteLinks = new ArrayList<>();
 
     private SettingsView settings = new SettingsView();
     
