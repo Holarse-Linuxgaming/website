@@ -27,6 +27,8 @@ public class ApiPrincipal implements UserDetails {
         this.user = user;
     }
 
+    
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> roles = new HashSet<>();

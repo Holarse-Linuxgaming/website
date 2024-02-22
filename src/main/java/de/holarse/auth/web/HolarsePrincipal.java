@@ -16,7 +16,7 @@ public class HolarsePrincipal implements UserDetails {
     private final User user;
 
     public HolarsePrincipal(final User user) {
-        this.user = user;
+	this.user = user;
     }
 
     @Override
