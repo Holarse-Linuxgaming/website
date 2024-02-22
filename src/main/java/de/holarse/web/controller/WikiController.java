@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -212,6 +213,7 @@ public class WikiController {
         // Die neuen Entities umwandeln und speichern
         createdAndUpdatedAttachments.addAll(websiteLinksMap.get(Boolean.FALSE).stream()
                                                                        .filter(av -> av.getId() == null)
+                                                                       .filter(av -> StringUtils.isNotBlank(av.getData()))
                                                                        .map(av -> Attachment.build(av, nodeId, attachmentTypeRepository.findByCode("link")))
                                                                        .toList());
         // Die bestehenden finden und updaten
@@ -245,7 +247,8 @@ public class WikiController {
         jmsTemplate.convertAndSend(QUEUE_SEARCH, new SearchRefresh());
         
         final NodeSlug nodeSlug = nodeSlugRepository.findMainSlug(nodeId, NodeType.article).orElseThrow(EntityNotFoundException::new);
-        return new ModelAndView(String.format("redirect:{}", nodeSlug.getName()));
+        logger.debug("Should redirect to {}", nodeSlug.getName());
+        return new ModelAndView(String.format("redirect:%s", nodeSlug.getName()));
     }
     
     protected Attachment createOrUpdate(final Integer nodeId, final Attachment formAttachment) {
