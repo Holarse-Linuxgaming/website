@@ -1,22 +1,35 @@
 <!-- Login -->
 <div class="row justify-content-center">
-    <div class="col-sm-8 col-lg-5">
-        <div class="u-shadow-v21 g-bg-white rounded g-py-40 g-px-30">
+    <div class="col-sm-10">
+        <div class="u-shadow-v21 g-bg-white rounded">
 
-            <ul>
-                <li class="submenuitem"><a href="#" data-th-href="@{/wiki/{nodeId}/edit(nodeId=${view.nodeId})}">bearbeiten</a></li>
-            </ul>
-
-            <header class="text-center mb-4">
-                <h2 class="h2 g-color-black g-font-weight-600" data-th-text="${view.title1}"></h2>
+            <header class="u-heading-v2-1--bottom g-mb-30">
+                <h2 class="u-heading-v2__title g-mb-10" data-th-text="${view.title1}">Lorem ipsum standard</h2>
+                <div th:each="altTitle: ${view.alternativeTitles}">
+                    <h4 class="g-font-weight-200" data-th-text="${altTitle}"></h4>
+                </div>
             </header>
-
-            <ul th:replace="~{sites/shared/tags/list :: taglist(tags=${view.tagList})}"></ul>
-
-            <p data-th-text="${view.content}"></p>
-            
-            <p th:replace="~{sites/shared/links :: links(links=${view.websiteLinks})}"></p>
+            <section>
+                <p data-th-text="${view.content}"></p>
+            </section>
         </div>
+    </div>
+    <div class="col-sm-2">
+        <ul class="list-group list-group-horizontal">
+            <a href="#" class="list-group-item flex-fill" data-th-href="@{/wiki/{nodeId}/edit(nodeId=${view.nodeId})}">bearbeiten</a>
+            <a href="#" class="list-group-item flex-fill">Änderungen</a>
+            <a href="#" class="list-group-item flex-fill">Statistik</a>
+        </ul>
+
+        <div class="u-heading-v1-2 g-bg-main g-brd-primary g-mb-20">
+            <h2 class="h3 u-heading-v1__title">Tags</h2>
+        </div>
+        <ul th:replace="~{sites/shared/tags/list :: taglist(tags=${view.tagList})}"></ul>
+
+        <div class="u-heading-v1-2 g-bg-main g-brd-primary g-mb-20">
+            <h2 class="h3 u-heading-v1__title">Links</h2>
+        </div>
+        <p th:replace="~{sites/shared/links :: links(links=${view.websiteLinks})}"></p>
     </div>
 </div>
 <!-- End Login -->

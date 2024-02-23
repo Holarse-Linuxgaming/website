@@ -1,11 +1,6 @@
 package de.holarse.web.controller;
 
-import de.holarse.backend.db.Article;
-import de.holarse.backend.db.ArticleRevision;
-import de.holarse.backend.db.Attachment;
-import de.holarse.backend.db.NodeSlug;
-import de.holarse.backend.db.NodeStatus;
-import de.holarse.backend.db.Tag;
+import de.holarse.backend.db.*;
 import de.holarse.backend.db.repositories.*;
 import de.holarse.backend.types.AttachmentDataType;
 import de.holarse.backend.types.NodeType;
@@ -112,6 +107,7 @@ public class WikiController {
         final Article article = articleRepository.findBySlug(slug).orElseThrow(EntityNotFoundException::new);
         final ArticleRevision articleRevision = article.getArticleRevision();
         final Set<Tag> tags = article.getTags();
+        final List<TagGroup> relevantTagGroups = tags.stream().map(t -> t.getTagGroup()).toList();
         //final NodeSlug mainSlug = nodeSlugRepository.findMainSlug(article.getNodeId()).orElseThrow(EntityNotFoundException::new);
         
         // TODO
@@ -134,7 +130,6 @@ public class WikiController {
         // View zusammenstellen
         final ArticleView view = ArticleView.of(articleRevision);
         view.setNodeId(article.getNodeId());
-        view.setTags(tags.stream().map(t -> t.getName()).collect(Collectors.joining(", ")));
         view.setTagList(tags.stream().map(TagView::of).toList()); // TODO Sort by weight
         view.setContent(renderer.render(view.getContent(), null));
         //view.setSlug(mainSlug.getName());

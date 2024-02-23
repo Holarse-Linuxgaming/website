@@ -1,6 +1,5 @@
 <div th:fragment="links(links)">
-    <h2>Links</h2>
-    <ul th:each="link : ${links}">
-        <li><a href="" th:href="@{${link.data}}" th:text="${link.description}?: ${link.data}"></a></li>
-    </ul>   
+    <div class="list-group" th:each="link : ${links}">
+        <a class="list-group-item list-group-item-action" href="" th:href="@{${link.data}}" th:text="${link.description}?: ${link.data}"></a>
+    </div>
 </div>

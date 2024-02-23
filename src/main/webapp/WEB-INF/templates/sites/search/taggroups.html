@@ -18,7 +18,7 @@
                 <div id="accordion-11-body-01" class="collapse show" role="tabpanel" aria-labelledby="accordion-11-heading-01">
                     <div class="u-accordion__body g-color-gray-dark-v5">
                         <span th:text="${tagGroup.description}"></span>
-                        <div th:replace="~{sites/search/tags :: taglist(tags=${tagGroup.tags})}"></div>
+                        <div th:replace="~{sites/shared/tags/list :: taglist(tags=${tagGroup.tags})}"></div>
                     </div>
                 </div>
             </div>

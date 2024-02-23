@@ -2,6 +2,8 @@ package de.holarse.backend.view;
 
 import de.holarse.backend.db.ArticleRevision;
 import de.holarse.backend.db.Attachment;
+import org.apache.commons.lang3.StringUtils;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,8 @@ public class ArticleView {
     private String title5;
     private String title6;
     private String title7;
+
+    private List<String> alternativeTitles = new ArrayList<>();
     
     private String content;
     private LocalDateTime created;
@@ -43,6 +47,13 @@ public class ArticleView {
         av.setContent(ar.getContent());
         av.setCreated(ar.getCreated().toLocalDateTime());
         av.setUpdated(ar.getUpdated().toLocalDateTime());
+
+        if (StringUtils.isNotBlank(ar.getTitle2())) { av.getAlternativeTitles().add(ar.getTitle2()); }
+        if (StringUtils.isNotBlank(ar.getTitle3())) { av.getAlternativeTitles().add(ar.getTitle3()); }
+        if (StringUtils.isNotBlank(ar.getTitle4())) { av.getAlternativeTitles().add(ar.getTitle4()); }
+        if (StringUtils.isNotBlank(ar.getTitle5())) { av.getAlternativeTitles().add(ar.getTitle5()); }
+        if (StringUtils.isNotBlank(ar.getTitle6())) { av.getAlternativeTitles().add(ar.getTitle6()); }
+        if (StringUtils.isNotBlank(ar.getTitle7())) { av.getAlternativeTitles().add(ar.getTitle7()); }
 
         return av;        
     }
@@ -167,4 +178,11 @@ public class ArticleView {
         this.websiteLinks = websiteLinks;
     }
 
+    public List<String> getAlternativeTitles() {
+        return alternativeTitles;
+    }
+
+    public void setAlternativeTitles(List<String> alternativeTitles) {
+        this.alternativeTitles = alternativeTitles;
+    }
 }
