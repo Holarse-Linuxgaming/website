@@ -6,12 +6,8 @@ import de.holarse.backend.db.Attachment;
 import de.holarse.backend.db.NodeSlug;
 import de.holarse.backend.db.NodeStatus;
 import de.holarse.backend.db.Tag;
-import de.holarse.backend.db.repositories.ArticleRepository;
-import de.holarse.backend.db.repositories.ArticleRevisionRepository;
-import de.holarse.backend.db.repositories.AttachmentRepository;
-import de.holarse.backend.db.repositories.AttachmentTypeRepository;
-import de.holarse.backend.db.repositories.NodeSlugRepository;
-import de.holarse.backend.db.repositories.TagRepository;
+import de.holarse.backend.db.repositories.*;
+import de.holarse.backend.types.AttachmentDataType;
 import de.holarse.backend.types.NodeType;
 import de.holarse.backend.view.ArticleView;
 import de.holarse.backend.view.AttachmentView;
@@ -23,6 +19,7 @@ import de.holarse.web.controller.commands.ArticleForm;
 import de.holarse.web.defines.WebDefines;
 import static de.holarse.web.defines.WebDefines.WIKI_ARTICLES_DEFAULT_PAGE_SIZE;
 import de.holarse.web.renderer.Renderer;
+import de.holarse.web.services.AttachmentService;
 import de.holarse.web.services.SlugService;
 import de.holarse.web.services.TagService;
 import jakarta.persistence.EntityNotFoundException;
@@ -32,6 +29,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,13 +70,19 @@ public class WikiController {
     
     @Autowired
     private AttachmentTypeRepository attachmentTypeRepository;
+
+    @Autowired
+    private AttachmentGroupRepository attachmentGroupRepository;
     
     @Autowired
     private SlugService slugService;
     
     @Autowired
     private TagService tagService;
-    
+
+    @Autowired
+    private AttachmentService attachmentService;
+
     @Autowired
     private Renderer renderer;
     
@@ -124,7 +129,7 @@ public class WikiController {
 //            }
 //        }
 
-        final List<Attachment> websiteLinks = attachmentRepository.findByGroup(article.getNodeId(), "website");
+        final List<Attachment> websiteLinks = attachmentService.getAttachments(article, attachmentGroupRepository.findByCode("website"));
         
         // View zusammenstellen
         final ArticleView view = ArticleView.of(articleRevision);
@@ -161,8 +166,9 @@ public class WikiController {
         form.setTitle6(articleRevision.getTitle6());
         form.setTitle7(articleRevision.getTitle7());
         form.setContent(articleRevision.getContent());
-        
-        final List<Attachment> websiteLinks = attachmentRepository.findByGroup(article.getNodeId(), "website");
+
+        // Attachments
+        final List<Attachment> websiteLinks = attachmentService.getAttachments(article, attachmentGroupRepository.findByCode("website"));
         logger.debug("Links: {}", websiteLinks);
         form.setWebsiteLinks(websiteLinks.stream().map(AttachmentView::of).toList());
         
