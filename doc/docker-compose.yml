@@ -54,6 +54,16 @@ services:
       networks:
         - holarse-dev
 
+  mail:
+    image: axllent/mailpit
+    container_name: mail
+    restart: always
+    ports:
+      - 8025:8025
+      - 1025:1025
+    networks:
+      - holarse-dev
+
 volumes:
   website_my_pgdata: 
       external: true

@@ -120,7 +120,9 @@ public class RegisterController {
 
         final UserData userData = new UserData();
         user.setUserData(userData);
-        
+
+        // TODO: Mail an Email-Adresse mit Verification-Key asynchron anleiern....
+
         // Slugs
         UserSlug userSlug = slugService.slugify(user);
         userSlug.setUser(user);
