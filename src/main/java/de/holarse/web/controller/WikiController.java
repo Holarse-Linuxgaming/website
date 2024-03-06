@@ -3,11 +3,10 @@ package de.holarse.web.controller;
 import de.holarse.backend.db.*;
 import de.holarse.backend.db.repositories.*;
 import de.holarse.backend.types.AttachmentDataType;
+import de.holarse.backend.types.AttachmentGroupType;
 import de.holarse.backend.types.NodeType;
-import de.holarse.backend.view.ArticleView;
-import de.holarse.backend.view.AttachmentView;
-import de.holarse.backend.view.SettingsView;
-import de.holarse.backend.view.TagView;
+import de.holarse.backend.view.*;
+
 import static de.holarse.config.JmsQueueTypes.QUEUE_SEARCH;
 import de.holarse.queues.commands.SearchRefresh;
 import de.holarse.web.controller.commands.ArticleForm;
@@ -19,10 +18,7 @@ import de.holarse.web.services.SlugService;
 import de.holarse.web.services.TagService;
 import jakarta.persistence.EntityNotFoundException;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -41,6 +37,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 @RequestMapping(value = {"/wiki", "/wiki/" })
@@ -96,7 +93,7 @@ public class WikiController {
         return mv;
     }
     
-    @GetMapping("{slug}")
+    @GetMapping(value = "{slug}")
     public ModelAndView show(@PathVariable("slug") final String slug, final ModelAndView mv, final Principal principal) {
         mv.setViewName("layouts/bare");
         mv.addObject("title", "Die Linuxspiele-Seite für Linuxspieler");
@@ -125,23 +122,37 @@ public class WikiController {
 //            }
 //        }
 
-        final List<Attachment> websiteLinks = attachmentService.getAttachments(article, attachmentGroupRepository.findByCode("website"));
+        final List<Attachment> websiteLinks = attachmentService.getAttachments(article, attachmentGroupRepository.findByCode(AttachmentGroupType.website.name()));
+        final List<Attachment> videos = attachmentService.getAttachments(article, attachmentGroupRepository.findByCode(AttachmentGroupType.video.name()));
         
         // View zusammenstellen
         final ArticleView view = ArticleView.of(articleRevision);
         view.setNodeId(article.getNodeId());
-        view.setTagList(tags.stream().map(TagView::of).toList()); // TODO Sort by weight
+        view.setTagList(tags.stream().map(TagView::of).sorted(Comparator.comparingInt(TagView::getWeight).reversed().thenComparing(TagView::getUseCount).reversed().thenComparing(TagView::getName)).toList());
         view.setContent(renderer.render(view.getContent(), null));
         //view.setSlug(mainSlug.getName());
         view.setWebsiteLinks(websiteLinks.stream().map(AttachmentView::of).toList());
+        view.setYoutubeVideos(videos.stream().map(YoutubeView::of).toList());
 
         mv.addObject("view", view);
         
         return mv;
     }
-    
-    @GetMapping("{nodeId}/edit")
-    public ModelAndView edit(@PathVariable("nodeId") final Integer nodeId, final ModelAndView mv, final Principal principal) {
+
+    /**
+     * Weiterleitung der lesbaren URL auf die Edit-URL
+     * @param slug
+     * @param mv
+     * @return
+     */
+    @GetMapping(value = "{slug}", params="edit")
+    public RedirectView edit(@PathVariable final String slug, final ModelAndView mv) {
+        final Article article = articleRepository.findBySlug(slug).orElseThrow(EntityNotFoundException::new);
+        return new RedirectView(String.format("%d/edit", article.getNodeId()));
+    }
+
+    @GetMapping(value = "{nodeId}/edit")
+    public ModelAndView edit(@PathVariable final Integer nodeId, final ModelAndView mv, final Principal principal) {
         mv.setViewName("layouts/bare");
         mv.addObject("title", "Die Linuxspiele-Seite für Linuxspieler");
         mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/wiki/form");

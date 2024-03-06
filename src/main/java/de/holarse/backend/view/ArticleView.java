@@ -33,6 +33,7 @@ public class ArticleView {
     private List<TagView> tagList = new ArrayList<>();
     
     private List<AttachmentView> websiteLinks = new ArrayList<>();
+    private List<YoutubeView> youtubeVideos = new ArrayList<>();
      
     public static ArticleView of(final ArticleRevision ar) {
         final ArticleView av = new ArticleView();
@@ -184,5 +185,13 @@ public class ArticleView {
 
     public void setAlternativeTitles(List<String> alternativeTitles) {
         this.alternativeTitles = alternativeTitles;
+    }
+
+    public List<YoutubeView> getYoutubeVideos() {
+        return youtubeVideos;
+    }
+
+    public void setYoutubeVideos(List<YoutubeView> youtubeVideos) {
+        this.youtubeVideos = youtubeVideos;
     }
 }

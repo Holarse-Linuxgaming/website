@@ -6,13 +6,15 @@ public class TagView {
     
     private String name;
     private String slug;
-    private int useCount;
+    private Integer useCount;
+    private Integer weight;
     
     public static TagView of(final Tag tag) {
         final TagView view = new TagView();
         view.setName(tag.getName());
         view.setSlug(tag.getSlug());
         view.setUseCount(tag.getUseCount());
+        view.setWeight(tag.getWeight());
 
         return view;
     }
@@ -33,11 +35,19 @@ public class TagView {
         this.slug = slug;
     }
 
-    public int getUseCount() {
+    public Integer getUseCount() {
         return useCount;
     }
 
-    public void setUseCount(int useCount) {
+    public void setUseCount(Integer useCount) {
         this.useCount = useCount;
+    }
+
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
     }
 }

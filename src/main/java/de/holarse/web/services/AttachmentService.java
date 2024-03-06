@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,7 +19,7 @@ public class AttachmentService {
 
     @Autowired
     private AttachmentRepository attachmentRepository;
-    private Optional<Map<String, List<Attachment>>> nodeAttachmentGroups = Optional.empty();
+    private Map<String, List<Attachment>> nodeAttachmentGroups = new HashMap<>();
 
     protected Map<String, List<Attachment>> splitAttachments(final List<Attachment> attachments) {
         // TODO Sorting by weight
@@ -37,10 +35,14 @@ public class AttachmentService {
         }
 
         if (nodeAttachmentGroups.isEmpty()) {
-            // Daten laden und aufsplitten
-            nodeAttachmentGroups = Optional.of(splitAttachments(attachmentRepository.findByNode(article.getNodeId())));
+            nodeAttachmentGroups.putAll(splitAttachments(attachmentRepository.findByNode(article.getNodeId())));
         }
 
-        return nodeAttachmentGroups.get().get(attachmentGroup.getCode());
+        if (nodeAttachmentGroups.containsKey(attachmentGroup.getCode())) {
+            return nodeAttachmentGroups.get(attachmentGroup.getCode());
+        } else {
+            return new ArrayList<>();
+        }
+
     }
 }

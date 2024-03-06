@@ -21,26 +21,34 @@
     <div class="tab-pane fade show active" id="article-edit-tab-main" role="tabpanel">
 
         <!-- Title 1 -->
-        <div class="form-group g-mb-20">
-            <label class="col-sm-3 col-form-label g-mb-10" for="title1">Titel</label>
-            <input data-th-field="*{title1}" class="form-control form-control-md rounded-0" type="text" placeholder="Haupttitel des Artikels">
+        <div class="form-group row g-mb-5">
+            <label class="col-sm-1 col-form-label g-mb-5" for="title1">Titel</label>
+            <div class="col-sm-11">
+                <input data-th-field="*{title1}" class="form-control form-control-md rounded-0" type="text" placeholder="Haupttitel des Artikels">
+                <small class="form-text text-muted g-font-size-default g-mt-5">Unter diesem Titel ist das Spiel oder das Tool hauptsächlich bekannt. Primär betrachten wir den deutschsprachigen Raum.</small>
+            </div>
+
         </div>
         <!-- End Title 1 -->
 
-        <!-- Title 7 -->
-        <div class="form-group g-mb-20">
-            <label class="col-sm-3 col-form-label g-mb-10" for="tags">Tags</label>
-            <input data-th-field="*{tags}" class="form-control form-control-md rounded-0" type="text" placeholder="Tags kommasepariert">
+        <!-- Tags -->
+        <div class="form-group row g-mb-20">
+            <label class="col-sm-1 col-form-label g-mb-5" for="tags">Tags</label>
+            <div class="col-sm-11">
+                <input data-th-field="*{tags}" class="form-control form-control-md rounded-0" type="text" placeholder="Tags kommasepariert">
+            </div>
         </div>
-        <!-- End Title 7 -->        
+        <!-- Tags -->
 
         <!-- Textarea Expandable -->
-        <div class="form-group g-mb-20">
-            <label class="col-sm-3 col-form-label g-mb-10" for="content">Inhalt</label>
-            <textarea data-th-field="*{content}" class="form-control form-control-md rounded-0" rows="10" placeholder="Text area"></textarea>
-            <small class="form-text text-muted g-font-size-default g-mt-10">
-                <strong>Hinweis:</strong> Die Hilfeseite zur Wiki-Syntax findet ihr <a href="#" th:href="@{/help/wiki-syntax}" target="_blank">hier</a>.
-            </small>
+        <div class="form-group row g-mb-20">
+            <label class="col-sm-1 col-form-label g-mb-10" for="content">Inhalt</label>
+            <div class="col-sm-11">
+                <textarea data-th-field="*{content}" class="form-control form-control-md rounded-0" rows="50" placeholder="Text area"></textarea>
+                <small class="form-text text-muted g-font-size-default g-mt-10">
+                    <strong>Hinweis:</strong> Die Hilfeseite zur Wiki-Syntax findet ihr <a href="#" th:href="@{/help/wiki-syntax}" target="_blank">hier</a>.
+                </small>
+            </div>
         </div>
         <!-- End Textarea Expandable -->          
     </div>
@@ -49,44 +57,56 @@
     <div class="tab-pane fade show" id="article-edit-tab-alternative-titles" role="tabpanel">
 
         <!-- Title 2 -->
-        <div class="form-group g-mb-20 block-title block-title2">
-            <label class="col-sm-3 col-form-label g-mb-10" for="title2">Alternativtitel (2)</label>
-            <input data-th-field="*{title2}" class="form-control form-control-md rounded-0" type="text" placeholder="Mögliche alternative Titel">
+        <div class="form-group row g-mb-20 block-title block-title2">
+            <label class="col-sm-1 col-form-label g-mb-10" for="title2">Alternativtitel #2</label>
+            <div class="col-sm-11">
+                <input data-th-field="*{title2}" class="form-control form-control-md rounded-0" type="text" placeholder="Mögliche alternative Titel">
+            </div>
         </div>
         <!-- End Title 2 -->        
 
         <!-- Title 3 -->
-        <div class="form-group g-mb-20 block-title block-title3">
-            <label class="col-sm-3 col-form-label g-mb-10" for="title3">Alternativtitel (3)</label>
-            <input data-th-field="*{title3}" class="form-control form-control-md rounded-0" type="text" placeholder="Mögliche alternative Titel">
+        <div class="form-group row g-mb-20 block-title block-title3">
+            <label class="col-sm-1 col-form-label g-mb-10" for="title3">Alternativtitel #3</label>
+            <div class="col-sm-11">
+                <input data-th-field="*{title3}" class="form-control form-control-md rounded-0" type="text" placeholder="Mögliche alternative Titel">
+            </div>
         </div>
         <!-- End Title 3 -->    
 
         <!-- Title 4 -->
-        <div class="form-group g-mb-20 block-title block-title4">
-            <label class="col-sm-3 col-form-label g-mb-10" for="title4">Alternativtitel (4)</label>
-            <input data-th-field="*{title4}" class="form-control form-control-md rounded-0" type="text" placeholder="Mögliche alternative Titel">
+        <div class="form-group row g-mb-20 block-title block-title4">
+            <label class="col-sm-1 col-form-label g-mb-10" for="title4">Alternativtitel #4</label>
+            <div class="col-sm-11">
+                <input data-th-field="*{title4}" class="form-control form-control-md rounded-0" type="text" placeholder="Mögliche alternative Titel">
+            </div>
         </div>
         <!-- End Title 4 -->   
 
         <!-- Title 5 -->
-        <div class="form-group g-mb-20 block-title block-title5">
-            <label class="col-sm-3 col-form-label g-mb-10" for="title5">Alternativtitel (5)</label>
-            <input data-th-field="*{title5}" class="form-control form-control-md rounded-0" type="text" placeholder="Mögliche alternative Titel">
+        <div class="form-group row g-mb-20 block-title block-title5">
+            <label class="col-sm-1 col-form-label g-mb-10" for="title5">Alternativtitel #5</label>
+            <div class="col-sm-11">
+                <input data-th-field="*{title5}" class="form-control form-control-md rounded-0" type="text" placeholder="Mögliche alternative Titel">
+            </div>
         </div>
         <!-- End Title 5 -->   
 
         <!-- Title 6 -->
-        <div class="form-group g-mb-20 block-title block-title6">
-            <label class="col-sm-3 col-form-label g-mb-10" for="title6">Alternativtitel (6)</label>
-            <input data-th-field="*{title6}" class="form-control form-control-md rounded-0" type="text" placeholder="Mögliche alternative Titel">
+        <div class="form-group row g-mb-20 block-title block-title6">
+            <label class="col-sm-1 col-form-label g-mb-10" for="title6">Alternativtitel #6</label>
+            <div class="col-sm-11">
+                <input data-th-field="*{title6}" class="form-control form-control-md rounded-0" type="text" placeholder="Mögliche alternative Titel">
+            </div>
         </div>
         <!-- End Title 6 -->   
 
         <!-- Title 7 -->
-        <div class="form-group g-mb-20 block-title block-title7">
-            <label class="col-sm-3 col-form-label g-mb-10" for="title7">Alternativtitel (7)</label>
-            <input data-th-field="*{title7}" class="form-control form-control-md rounded-0" type="text" placeholder="Mögliche alternative Titel">
+        <div class="form-group row g-mb-20 block-title block-title7">
+            <label class="col-sm-1 col-form-label g-mb-10" for="title7">Alternativtitel #7</label>
+            <div class="col-sm-11">
+                <input data-th-field="*{title7}" class="form-control form-control-md rounded-0" type="text" placeholder="Mögliche alternative Titel">
+            </div>
         </div>
         <!-- End Title 7 -->
     </div>    
@@ -96,19 +116,21 @@
 
         <ul data-th-each="websiteLink,iter : *{websiteLinks}">
             <!-- Website Link -->
-            <div class="form-group g-mb-20 block-title block-title7">
+            <div class="form-group row g-mb-20 block-title block-title7">
 
-                <span th:text="Link + ' #' + |${iter.count} + 1|"></span>
+                <label class="col-sm-1 col-form-label g-mb-1" th:text="Link + ' #' + |${iter.count}|"></label>
                 <input data-th-field="*{websiteLinks[__${iter.index}__].id}" type="hidden">
                 
                 <input data-th-field="*{websiteLinks[__${iter.index}__].weight}" type="hidden">
                 <input data-th-field="*{websiteLinks[__${iter.index}__].markAsDeleted}" type="hidden">
 
-                <label class="col-sm-3 col-form-label g-mb-10" th:for="${'websiteLinks[__${iter.index}__].description'}">Beschreibung</label>
-                <input data-th-field="*{websiteLinks[__${iter.index}__].description}" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Projekt/Webseite">
+                <div class="col-sm-11">
+                    <label class="col-sm-3 col-form-label g-mb-10" th:for="${'websiteLinks[__${iter.index}__].description'}">Beschreibung</label>
+                    <input data-th-field="*{websiteLinks[__${iter.index}__].description}" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Projekt/Webseite">
 
-                <label class="col-sm-3 col-form-label g-mb-10" th:for="${'websiteLinks[__${iter.index}__].data'}">URL</label>
-                <input data-th-field="*{websiteLinks[__${iter.index}__].data}" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Projekt/Webseite">            
+                    <label class="col-sm-3 col-form-label g-mb-10" th:for="${'websiteLinks[__${iter.index}__].data'}">URL</label>
+                    <input data-th-field="*{websiteLinks[__${iter.index}__].data}" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Projekt/Webseite">
+                </div>
             </div>
             <!-- End Website Link -->
         </ul>
