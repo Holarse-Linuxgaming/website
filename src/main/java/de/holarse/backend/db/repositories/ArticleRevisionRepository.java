@@ -5,6 +5,7 @@ import de.holarse.backend.db.datasets.CurrentArticle;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -27,4 +28,7 @@ public interface ArticleRevisionRepository extends JpaRepository<ArticleRevision
 //           "INNER JOIN Article a ON a.nodeId = ar.nodeId " +
 //           "WHERE ar.nodeId = :nodeId")
 //    Optional<ArticleRevision> findCurrentByNodeId(@Param("nodeId") final int nodeId);
+
+    @Query("from ArticleRevision ar where ar.nodeId = :nodeId")
+    Page<ArticleRevision> findHistory(@Param("nodeId") final Integer nodeId, final Pageable pageable);
 }

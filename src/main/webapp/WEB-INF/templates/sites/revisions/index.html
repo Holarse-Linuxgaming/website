@@ -1,0 +1,66 @@
+<section class="g-pt-50 g-pb-90">
+    <div class="container">
+        <div class="row">
+            Revisionen von
+            <h3 class="h4 g-mb-15">
+                <a class="u-link-v5 g-color-gray-dark-v1 g-color-primary--hover" href="#" data-th-href="@{view.url}" data-th-text="${view.title1}"></a>
+            </h3>
+        </div>
+        <div class="row">
+
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Revision</th>
+                        <th>Datum</th>
+                        <th>Autor</th>
+                        <th>Changelog</th>
+                        <th colspan="2">
+                            <a href="#!" class="btn btn-xs u-btn-primary g-mr-10 g-mb-15">
+                                <i class="fa fa-exchange g-mr-3"></i>
+                                Unterschiede anzeigen
+                            </a>
+                        </th>
+                        <th>Operationen</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr data-th-each="revision : ${revisions}">
+                        <td><a href="#" data-th-href="@{/wiki/{nodeId}/revisions/{revisionId}/view(nodeId=${revision.nodeId},revisionId=${revision.revision})}" data-th-text="${revision.revision}"></a></td>
+                        <td data-th-text="${revision.created}"></td>
+                        <td data-th-text="${revision.author?.login}"></td>
+                        <td data-th-text="${revision.changelog}"></td>
+                        <td>
+                            <label class="form-check-inline u-check">
+                            <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="revisionLeftGroup" type="radio" checked="">
+                            <div class="u-check-icon-font g-absolute-centered--y g-left-0">
+                                <i class="fa" data-check-icon="" data-uncheck-icon=""></i>
+                            </div>
+                            </label>
+                        </td>
+                        <td>
+                            <label class="form-check-inline u-check">
+                            <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="revisionRightGroup" type="radio" checked="">
+                            <div class="u-check-icon-font g-absolute-centered--y g-left-0">
+                                <i class="fa" data-check-icon="" data-uncheck-icon=""></i>
+                            </div>
+                            </label>
+                        </td>
+                        <td colspan="2">
+                            <a href="#!" class="btn btn-xs u-btn-primary g-mr-10 g-mb-15">
+                                <i class="fa fa-mail-reply g-mr-3"></i>
+                                Zurücksetzen
+                            </a>
+                            <a href="#!" class="btn btn-xs u-btn-primary g-mr-10 g-mb-15">
+                                <i class="fa fa-trash g-mr-3"></i>
+                                Löschen
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+        </div>
+    </div>
+</section>

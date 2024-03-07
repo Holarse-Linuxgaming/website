@@ -1,8 +1,6 @@
 package de.holarse.backend.db;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Table(name = "article_revisions")
 @Entity
@@ -30,6 +28,16 @@ public class ArticleRevision extends TimestampedBase {
     private String title7;
     @Column(length = 16384)    
     private String content;
+
+    @OneToOne(cascade = { CascadeType.ALL })
+    @JoinColumn(name="update_userid", insertable=false, nullable=false, updatable = false, referencedColumnName = "id")
+    private User author;
+
+    @Column(length = 512)
+    private String teaser;
+
+    @Column(length = 255)
+    private String changelog;
 
     public Integer getNodeId() {
         return nodeId;
@@ -111,4 +119,27 @@ public class ArticleRevision extends TimestampedBase {
         this.content = content;
     }
 
+    public String getChangelog() {
+        return changelog;
+    }
+
+    public void setChangelog(String changelog) {
+        this.changelog = changelog;
+    }
+
+    public String getTeaser() {
+        return teaser;
+    }
+
+    public void setTeaser(String teaser) {
+        this.teaser = teaser;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
 }

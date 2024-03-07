@@ -2,6 +2,7 @@ package de.holarse.backend.view;
 
 import de.holarse.backend.db.ArticleRevision;
 import de.holarse.backend.db.Attachment;
+import de.holarse.backend.db.NodeSlug;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDateTime;
@@ -26,7 +27,10 @@ public class ArticleView {
     private String content;
     private LocalDateTime created;
     private LocalDateTime updated;
-    
+
+    // Calculated Values
+    private transient String url;
+
     // Tags as editable String
     private String tags;
     // Tags as views for display
@@ -35,7 +39,7 @@ public class ArticleView {
     private List<AttachmentView> websiteLinks = new ArrayList<>();
     private List<YoutubeView> youtubeVideos = new ArrayList<>();
      
-    public static ArticleView of(final ArticleRevision ar) {
+    public static ArticleView of(final ArticleRevision ar, final NodeSlug slug) {
         final ArticleView av = new ArticleView();
         av.setNodeId(ar.getNodeId());
         av.setTitle1(ar.getTitle1());
@@ -55,6 +59,8 @@ public class ArticleView {
         if (StringUtils.isNotBlank(ar.getTitle5())) { av.getAlternativeTitles().add(ar.getTitle5()); }
         if (StringUtils.isNotBlank(ar.getTitle6())) { av.getAlternativeTitles().add(ar.getTitle6()); }
         if (StringUtils.isNotBlank(ar.getTitle7())) { av.getAlternativeTitles().add(ar.getTitle7()); }
+
+        av.setUrl(String.format("/wiki/%s", slug.getName()));
 
         return av;        
     }
@@ -193,5 +199,13 @@ public class ArticleView {
 
     public void setYoutubeVideos(List<YoutubeView> youtubeVideos) {
         this.youtubeVideos = youtubeVideos;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

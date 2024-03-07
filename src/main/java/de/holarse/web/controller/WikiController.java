@@ -11,6 +11,8 @@ import static de.holarse.config.JmsQueueTypes.QUEUE_SEARCH;
 import de.holarse.queues.commands.SearchRefresh;
 import de.holarse.web.controller.commands.ArticleForm;
 import de.holarse.web.defines.WebDefines;
+
+import static de.holarse.web.defines.WebDefines.REVISION_DEFAULT_PAGE_SIZE;
 import static de.holarse.web.defines.WebDefines.WIKI_ARTICLES_DEFAULT_PAGE_SIZE;
 import de.holarse.web.renderer.Renderer;
 import de.holarse.web.services.AttachmentService;
@@ -26,7 +28,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Controller;
@@ -105,7 +109,7 @@ public class WikiController {
         final ArticleRevision articleRevision = article.getArticleRevision();
         final Set<Tag> tags = article.getTags();
         final List<TagGroup> relevantTagGroups = tags.stream().map(t -> t.getTagGroup()).toList();
-        //final NodeSlug mainSlug = nodeSlugRepository.findMainSlug(article.getNodeId()).orElseThrow(EntityNotFoundException::new);
+        final NodeSlug mainSlug = nodeSlugRepository.findMainSlug(articleRevision.getNodeId(), NodeType.article).orElseThrow(EntityNotFoundException::new);
         
         // TODO
 //        if (article.getNodeStatus().isDeleted() || !article.getNodeStatus().isPublished()) {
@@ -126,7 +130,7 @@ public class WikiController {
         final List<Attachment> videos = attachmentService.getAttachments(article, attachmentGroupRepository.findByCode(AttachmentGroupType.video.name()));
         
         // View zusammenstellen
-        final ArticleView view = ArticleView.of(articleRevision);
+        final ArticleView view = ArticleView.of(articleRevision, mainSlug);
         view.setNodeId(article.getNodeId());
         view.setTagList(tags.stream().map(TagView::of).sorted(Comparator.comparingInt(TagView::getWeight).reversed().thenComparing(TagView::getUseCount).reversed().thenComparing(TagView::getName)).toList());
         view.setContent(renderer.render(view.getContent(), null));
@@ -188,7 +192,7 @@ public class WikiController {
     
     @Transactional
     @PostMapping("{nodeId}")
-    public ModelAndView update(@PathVariable("nodeId") final int nodeId, @ModelAttribute("form") final ArticleForm form, final ModelAndView mv, final Principal principal) {
+    public ModelAndView update(@PathVariable final int nodeId, @ModelAttribute("form") final ArticleForm form, final ModelAndView mv, final Principal principal) {
         logger.debug("Updating by form {}", form);
         
         final Article article = articleRepository.findByNodeId(nodeId).orElseThrow(EntityNotFoundException::new);
@@ -262,7 +266,7 @@ public class WikiController {
         logger.debug("Should redirect to {}", nodeSlug.getName());
         return new ModelAndView(String.format("redirect:%s", nodeSlug.getName()));
     }
-    
+
     protected Attachment createOrUpdate(final Integer nodeId, final Attachment formAttachment) {
         Attachment dbAttachment;
         if (formAttachment.getId() == null) {
