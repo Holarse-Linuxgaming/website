@@ -131,6 +131,7 @@ public class MultipleHttpSecurityConfig {
         .authorizeHttpRequests((requests) -> requests.requestMatchers(antMatcher("/profile"),
                                                                       antMatcher("/workspace/**"),
                                                                       antMatcher("/wiki/*/edit"),
+                                                                      antMatcher("/news/*/edit"),
                                                                       antMatcher("/logout")).authenticated())
         
         // Normale Webseite, auch als Gast nutzbar
@@ -138,6 +139,7 @@ public class MultipleHttpSecurityConfig {
                                                                       antMatcher("/search/**"),
                                                                       antMatcher("/tags/**"),
                                                                       antMatcher("/wiki/**"),
+                                                                      antMatcher("/news/**"),
                                                                       antMatcher("/help/**"),
                                                                       antMatcher("/spielefinder/**"),
                                                                       antMatcher("/category/*/*"), // Legacy-Tag-URLs
