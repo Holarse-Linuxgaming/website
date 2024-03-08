@@ -1,11 +1,6 @@
 package de.holarse.web.services;
 
-import de.holarse.backend.db.Article;
-import de.holarse.backend.db.ArticleRevision;
-import de.holarse.backend.db.NodeSlug;
-import de.holarse.backend.db.Tag;
-import de.holarse.backend.db.User;
-import de.holarse.backend.db.UserSlug;
+import de.holarse.backend.db.*;
 import de.holarse.backend.db.repositories.NodeSlugRepository;
 import de.holarse.backend.db.repositories.TagRepository;
 import de.holarse.backend.db.repositories.UserRepository;
@@ -64,6 +59,30 @@ public class SlugService {
         }
 
         throw new IllegalStateException("ran out of article revision slug titles");
+    }
+
+    public NodeSlug slugify(final NewsRevision revision) {
+        final String title = revision.getTitle();
+        final String slugifiedTitle = slugify(title);
+        final List<String> possibleSlugs = new ArrayList<>(101);
+        possibleSlugs.add(slugifiedTitle);
+        possibleSlugs.addAll(IntStream.rangeClosed(1, 100).boxed().map(n -> String.format("%s-%d", slugifiedTitle, n)).toList());
+
+        for (final String possibleSlug : possibleSlugs) {
+            final boolean result = nodeSlugRepository.existsByNameAndSlugContext(possibleSlug, NodeType.news);
+            log.debug("User {} testing slug {} exists: {}", title, possibleSlug, result);
+            if (!result) {
+                final NodeSlug nodeSlug = new NodeSlug();
+                nodeSlug.setName(possibleSlug);
+                nodeSlug.setNodeId(revision.getNodeId());
+                nodeSlug.setSlugContext(NodeType.news);
+
+                return nodeSlug;
+            }
+            log.debug("slug {} exists", title, possibleSlug);
+        }
+
+        throw new IllegalStateException("ran out of news revision slug titles");
     }
    
     /**

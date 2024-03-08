@@ -1,5 +1,6 @@
 package de.holarse.web.controller;
 
+import de.holarse.auth.web.HolarsePrincipal;
 import de.holarse.backend.db.*;
 import de.holarse.backend.db.repositories.*;
 import de.holarse.backend.types.AttachmentDataType;
@@ -33,6 +34,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -75,6 +77,9 @@ public class WikiController {
     
     @Autowired
     private TagService tagService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private AttachmentService attachmentService;
@@ -192,11 +197,13 @@ public class WikiController {
     
     @Transactional
     @PostMapping("{nodeId}")
-    public ModelAndView update(@PathVariable final int nodeId, @ModelAttribute("form") final ArticleForm form, final ModelAndView mv, final Principal principal) {
+    public ModelAndView update(@PathVariable final int nodeId, @ModelAttribute("form") final ArticleForm form, final ModelAndView mv, final Authentication authentication) {
         logger.debug("Updating by form {}", form);
         
         final Article article = articleRepository.findByNodeId(nodeId).orElseThrow(EntityNotFoundException::new);
-        
+
+        final User author = userRepository.findById( ((HolarsePrincipal)authentication.getPrincipal()).getUser().getId() ).orElseThrow(EntityNotFoundException::new);
+
         // Aktualisieren und als neue Revision speichern
         final int revision = articleRevisionRepository.nextRevision();
         
@@ -211,6 +218,8 @@ public class WikiController {
         articleRevision.setTitle6(form.getTitle6());
         articleRevision.setTitle7(form.getTitle7());
         articleRevision.setContent(form.getContent());
+        articleRevision.setChangelog("TODO Changelog im Form"); // TODO Changelog im Article-Form
+        articleRevision.setAuthor(author);
         articleRevisionRepository.save(articleRevision);
         
         final Set<Tag> articleTags = tagService.extract(form);

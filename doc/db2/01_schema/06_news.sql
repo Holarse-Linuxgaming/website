@@ -2,6 +2,7 @@ create table if not exists news_categories(
     id integer primary key default nextval('hibernate_sequence'),
     name varchar(255) not null,
     active bool default false,
+    weight integer default 0,
 
     created timestamptz not null default CURRENT_TIMESTAMP,
     updated timestamptz not null default CURRENT_TIMESTAMP,
@@ -25,9 +26,8 @@ create table if not exists news_revisions(
     
     content varchar(16384),
     content_lang varchar(12) not null default 'german', 
-    
-    category varchar(255),
-    category_lang varchar(12) not null default 'german'
+
+    news_category_id integer references news_categories(id)
 );
 
 create table if not exists news(

@@ -1,24 +1,25 @@
 package de.holarse.web.controller;
 
-import de.holarse.backend.db.Article;
-import de.holarse.backend.db.ArticleRevision;
-import de.holarse.backend.db.NodeSlug;
-import de.holarse.backend.db.NodeStatus;
-import de.holarse.backend.db.Tag;
-import de.holarse.backend.db.repositories.ArticleRepository;
-import de.holarse.backend.db.repositories.ArticleRevisionRepository;
-import de.holarse.backend.db.repositories.NodeStatusRepository;
+import de.holarse.auth.web.HolarsePrincipal;
+import de.holarse.backend.db.*;
+import de.holarse.backend.db.repositories.*;
+
 import static de.holarse.config.JmsQueueTypes.QUEUE_SEARCH;
 import de.holarse.queues.commands.SearchRefresh;
 import de.holarse.web.controller.commands.ArticleForm;
+import de.holarse.web.controller.commands.NewsForm;
 import de.holarse.web.defines.WebDefines;
 import de.holarse.web.services.SlugService;
 import de.holarse.web.services.TagService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
+
+import java.util.List;
 import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.jms.core.JmsTemplate;
@@ -40,13 +41,25 @@ public class WorkspaceController {
     
     @Autowired
     private ArticleRepository articleRepository;
+
+    @Autowired
+    private NewsRepository newsRepository;
     
     @Autowired
     private ArticleRevisionRepository articleRevisionRepository;
+
+    @Autowired
+    private NewsRevisionRepository newsRevisionRepository;
     
     @Autowired
     private NodeStatusRepository nodeStatusRepository;
-    
+
+    @Autowired
+    private NewsCategoryRepository newsCategoryRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
     @Autowired
     private SlugService slugService;
     
@@ -86,6 +99,77 @@ public class WorkspaceController {
         
         return mv;
     }
+
+    @GetMapping("add/news")
+    public ModelAndView addNews(final ModelAndView mv) {
+        mv.setViewName("layouts/bare");
+        mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/workspace/news");
+
+        final NewsForm form = new NewsForm();
+        form.getSettings().setPublished(true);
+
+        final List<NewsCategory> newsCategories = newsCategoryRepository.findActiveCategories();
+
+        mv.addObject("news_categories", newsCategories);
+        mv.addObject("form", form);
+
+        return mv;
+    }
+
+    @Transactional
+    @PostMapping("add/news")
+    public ModelAndView saveNews(@Valid @ModelAttribute("form") final NewsForm form, final BindingResult result, final ModelAndView mv, final Authentication authentication) {
+        if (result.hasErrors()) {
+            mv.setViewName("layouts/bare");
+            mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/workspace/news");
+            return mv;
+        }
+
+        final User author = userRepository.findById( ((HolarsePrincipal)authentication.getPrincipal()).getUser().getId() ).orElseThrow(EntityNotFoundException::new);
+        final NewsCategory newsCategory = newsCategoryRepository.findById(form.getNewsCategoryId()).orElseThrow(EntityNotFoundException::new);
+
+        final int nodeId = newsRepository.nextNodeId();
+        final int revision = newsRevisionRepository.nextRevision();
+
+        // NewsRevision anlegen aus Form
+        final NewsRevision newsRevision = new NewsRevision();
+        newsRevision.setNodeId(nodeId);
+        newsRevision.setRevision(revision);
+        newsRevision.setTitle(form.getTitle());
+        newsRevision.setContent(form.getContent());
+        newsRevision.setAuthor(author);
+        newsRevision.setNewsCategory(newsCategory);
+        newsRevision.setChangelog("Angelegt");
+        newsRevisionRepository.saveAndFlush(newsRevision);
+
+        log.debug("NewsRevision: {}", newsRevision);
+
+        // NodeStatus anlegen
+        final NodeStatus nodeStatus = new NodeStatus();
+        nodeStatus.setNodeId(nodeId);
+        nodeStatus.setPublished(form.getSettings().isPublished());
+
+        // Slug anlegen
+        final NodeSlug nodeSlug = slugService.slugify(newsRevision);
+
+        // News anlegen
+        final News news = new News();
+        news.setNodeId(nodeId);
+        news.setNewsRevision(newsRevision); // TODO Referenz auf NewsRevision wird noch nicht gespeichert
+        news.setNodeStatus(nodeStatus);
+        news.getSlugs().add(nodeSlug);
+
+        newsRepository.saveAndFlush(news);
+
+        log.debug("News: {}", news);
+
+        // Suche aktualisieren
+      if (nodeStatus.isPublished()) {
+            jmsTemplate.convertAndSend(QUEUE_SEARCH, new SearchRefresh());
+      }
+
+        return new ModelAndView("redirect:/", HttpStatus.CREATED);
+    }
     
     @Transactional
     @PostMapping("add/article")
@@ -95,6 +179,8 @@ public class WorkspaceController {
             mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/workspace/article");            
             return mv;
         }
+
+        final User author = userRepository.findById( ((HolarsePrincipal)authentication.getPrincipal()).getUser().getId() ).orElseThrow(EntityNotFoundException::new);
 
         final int nodeId = articleRepository.nextNodeId();
         final int revision = articleRevisionRepository.nextRevision();
@@ -111,6 +197,8 @@ public class WorkspaceController {
         articleRevision.setTitle6(form.getTitle6());
         articleRevision.setTitle7(form.getTitle7());
         articleRevision.setContent(form.getContent());
+        articleRevision.setAuthor(author);
+        articleRevision.setChangelog("Angelegt");
         articleRevisionRepository.saveAndFlush(articleRevision);
 
         log.debug("New Article Revision: {}, Node: {} for ID: {}", articleRevision.getRevision(), articleRevision.getNodeId(), articleRevision.getId());

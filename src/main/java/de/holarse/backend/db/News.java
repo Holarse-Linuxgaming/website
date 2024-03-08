@@ -9,41 +9,42 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+
 import java.util.HashSet;
 import java.util.Set;
 
-@Table(name = "articles")
+@Table(name = "news")
 @Entity
-public class Article extends Base {
+public class News extends Base {
 
     private static final long serialVersionUID = 2L;
-    
+
     @Column(name = "nodeid")
     private int nodeId;
-    
+
     @OneToOne
     @JoinColumn(name = "revisionid", referencedColumnName = "id")
-    private ArticleRevision articleRevision;
-    
+    private NewsRevision newsRevision;
+
     @Column(name = "drupalid")
     private Integer drupalId;
-    
+
     @OneToOne(cascade = { CascadeType.ALL })
     @JoinColumn(name="nodeid", insertable=false, nullable=false, updatable = false, referencedColumnName = "nodeid")
-    private NodeStatus nodeStatus;  
-    
+    private NodeStatus nodeStatus;
+
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
-        name = "node_tags", 
-        joinColumns = { @JoinColumn(name = "nodeid", insertable=false, nullable=false, updatable = false, referencedColumnName = "nodeid") }, 
-        inverseJoinColumns = { @JoinColumn(name = "tagid") }
+            name = "node_tags",
+            joinColumns = { @JoinColumn(name = "nodeid", insertable=false, nullable=false, updatable = false, referencedColumnName = "nodeid") },
+            inverseJoinColumns = { @JoinColumn(name = "tagid") }
     )
-    private Set<Tag> tags = new HashSet<>();    
-    
-    @OneToMany(cascade = { CascadeType.ALL }, targetEntity=NodeSlug.class)
-    @JoinColumn(name="nodeid", insertable=false, nullable=false, updatable = false, referencedColumnName = "nodeid")
-    private Set<NodeSlug> nodeSlugs = new HashSet<>();
-    
+    private Set<Tag> tags = new HashSet<>();
+
+    @OneToMany(cascade = { CascadeType.ALL })
+    @JoinColumn(name="nodeid", referencedColumnName = "nodeid")
+    private Set<NodeSlug> slugs = new HashSet<>(); // Muss nodeSlugz heissen, weil nodeSlugs in Article referenziert ist. Siehe Bug https://lists.jboss.org/pipermail/hibernate-issues/2011-January/027658.html
+
     public int getNodeId() {
         return nodeId;
     }
@@ -60,12 +61,12 @@ public class Article extends Base {
         this.drupalId = drupalId;
     }
 
-    public ArticleRevision getArticleRevision() {
-        return articleRevision;
+    public NewsRevision getNewsRevision() {
+        return newsRevision;
     }
 
-    public void setArticleRevision(ArticleRevision articleRevision) {
-        this.articleRevision = articleRevision;
+    public void setNewsRevision(NewsRevision articleRevision) {
+        this.newsRevision = newsRevision;
     }
 
     public NodeStatus getNodeStatus() {
@@ -84,12 +85,23 @@ public class Article extends Base {
         this.tags = tags;
     }
 
-    public Set<NodeSlug> getNodeSlugs() {
-        return nodeSlugs;
+    public Set<NodeSlug> getSlugs() {
+        return slugs;
     }
 
-    public void setNodeSlugs(Set<NodeSlug> nodeSlugs) {
-        this.nodeSlugs = nodeSlugs;
+    public void setSlugs(Set<NodeSlug> slugs) {
+        this.slugs = slugs;
     }
-    
+
+    @Override
+    public String toString() {
+        return "News{" +
+                "nodeId=" + nodeId +
+                ", newsRevision=" + newsRevision +
+                ", drupalId=" + drupalId +
+                ", nodeStatus=" + nodeStatus +
+                ", tags=" + tags +
+                ", slugs=" + slugs +
+                '}';
+    }
 }

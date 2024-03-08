@@ -7,37 +7,19 @@ import jakarta.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArticleForm {
-
-    private int nodeId;
-    
+public class ArticleForm extends AbstractNodeForm {
     @NotBlank
     private String title1;
-    
     private String title2;
     private String title3;
     private String title4;
     private String title5;
     private String title6;
-    private String title7; 
-    @NotBlank
-    @Size(min = 10)
-    private String content;
+    private String title7;
+
     @NotBlank
     private String tags;
-    
-        private List<AttachmentView> websiteLinks = new ArrayList<>();
 
-    private SettingsView settings = new SettingsView();
-    
-    public int getNodeId() {
-        return nodeId;
-    }
-
-    public void setNodeId(int nodeId) {
-        this.nodeId = nodeId;
-    }
-    
     public String getTitle1() {
         return title1;
     }
@@ -94,36 +76,12 @@ public class ArticleForm {
         this.title7 = title7;
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
     public String getTags() {
         return tags;
     }
 
     public void setTags(String tags) {
         this.tags = tags;
-    }
-
-    public List<AttachmentView> getWebsiteLinks() {
-        return websiteLinks;
-    }
-
-    public void setWebsiteLinks(List<AttachmentView> websiteLinks) {
-        this.websiteLinks = websiteLinks;
-    }
-
-    public SettingsView getSettings() {
-        return settings;
-    }
-
-    public void setSettings(SettingsView settings) {
-        this.settings = settings;
     }
     
 }

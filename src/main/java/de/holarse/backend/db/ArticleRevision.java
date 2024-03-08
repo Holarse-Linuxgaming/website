@@ -4,14 +4,10 @@ import jakarta.persistence.*;
 
 @Table(name = "article_revisions")
 @Entity
-public class ArticleRevision extends TimestampedBase {
+public class ArticleRevision extends RevisionedNode {
     
     private static final long serialVersionUID = 1L;
-    
-    @Column(name = "nodeid", nullable = false)
-    private Integer nodeId;
-    @Column(name = "revision", nullable = false)
-    private Integer revision;
+
     @Column(length = 512)
     private String title1;
     @Column(length = 512)
@@ -29,31 +25,8 @@ public class ArticleRevision extends TimestampedBase {
     @Column(length = 16384)    
     private String content;
 
-    @OneToOne(cascade = { CascadeType.ALL })
-    @JoinColumn(name="update_userid", insertable=false, nullable=false, updatable = false, referencedColumnName = "id")
-    private User author;
-
     @Column(length = 512)
     private String teaser;
-
-    @Column(length = 255)
-    private String changelog;
-
-    public Integer getNodeId() {
-        return nodeId;
-    }
-
-    public void setNodeId(Integer nodeId) {
-        this.nodeId = nodeId;
-    }
-
-    public Integer getRevision() {
-        return revision;
-    }
-
-    public void setRevision(Integer revision) {
-        this.revision = revision;
-    }
 
     public String getTitle1() {
         return title1;
@@ -119,27 +92,11 @@ public class ArticleRevision extends TimestampedBase {
         this.content = content;
     }
 
-    public String getChangelog() {
-        return changelog;
-    }
-
-    public void setChangelog(String changelog) {
-        this.changelog = changelog;
-    }
-
     public String getTeaser() {
         return teaser;
     }
 
     public void setTeaser(String teaser) {
         this.teaser = teaser;
-    }
-
-    public User getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(User author) {
-        this.author = author;
     }
 }

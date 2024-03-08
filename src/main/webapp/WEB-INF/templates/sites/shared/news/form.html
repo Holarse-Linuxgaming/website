@@ -1,0 +1,112 @@
+<!-- Nav tabs -->
+<ul class="nav u-nav-v1-1 u-nav-primary g-brd-bottom--md g-brd-primary g-mb-20" role="tablist" data-target="nav-1-1-default-hor-left-underline" data-tabs-mobile-type="slide-up-down" data-btn-classes="btn btn-md btn-block rounded-0 u-btn-outline-primary g-mb-20">
+    <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#article-edit-tab-main" role="tab">Titel + Inhalt</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#article-edit-tab-links" role="tab">Links</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#article-edit-tab-settings" role="tab">Einstellungen</a>
+    </li>    
+</ul>
+<!-- End Nav tabs -->
+
+<!-- Tab panes -->
+<div id="nav-1-1-default-hor-left-underline" class="tab-content">
+    <!-- Tab Titel + Inhalt -->
+    <div class="tab-pane fade show active" id="article-edit-tab-main" role="tabpanel">
+
+        <!-- Title -->
+        <div class="form-group row g-mb-5">
+            <label class="col-sm-1 col-form-label g-mb-5" for="title">Titel</label>
+            <div class="col-sm-11">
+                <input data-th-field="*{title}" class="form-control form-control-md rounded-0" type="text" placeholder="Titel der Neuigkeit">
+                <small class="form-text text-muted g-font-size-default g-mt-5">Überschrift der Neuigkeit oder Nachricht</small>
+            </div>
+
+        </div>
+        <!-- End Title -->
+
+        <!-- News-Kategorie -->
+        <div class="form-group row g-mb-5">
+            <label class="col-sm-1 col-form-label g-mb-5" for="newsCategoryId">Kategorie</label>
+            <div class="col-sm-11">
+                <select data-th-field="*{newsCategoryId}">
+                    <option data-th-each="nc : ${news_categories}" data-th-value="${nc.id}" data-th-text="${nc.name}"></option>
+                </select>
+                <small class="form-text text-muted g-font-size-default g-mt-5">Grobe Kategorie dieser Nachricht</small>
+            </div>
+
+        </div>
+        <!-- End Title 1 -->
+
+        <!-- Textarea Expandable -->
+        <div class="form-group row g-mb-20">
+            <label class="col-sm-1 col-form-label g-mb-10" for="content">Inhalt</label>
+            <div class="col-sm-11">
+                <textarea data-th-field="*{content}" class="form-control form-control-md rounded-0" rows="50" placeholder="Text area"></textarea>
+                <small class="form-text text-muted g-font-size-default g-mt-10">
+                    <strong>Hinweis:</strong> Die Hilfeseite zur Wiki-Syntax findet ihr <a href="#" th:href="@{/help/wiki-syntax}" target="_blank">hier</a>.
+                </small>
+            </div>
+        </div>
+        <!-- End Textarea Expandable -->          
+    </div>
+
+    <!-- Tab Links -->
+    <div class="tab-pane fade show" id="article-edit-tab-links" role="tabpanel">
+
+        <ul data-th-each="websiteLink,iter : *{websiteLinks}">
+            <!-- Website Link -->
+            <div class="form-group row g-mb-20 block-title block-title7">
+
+                <label class="col-sm-1 col-form-label g-mb-1" th:text="Link + ' #' + |${iter.count}|"></label>
+                <input data-th-field="*{websiteLinks[__${iter.index}__].id}" type="hidden">
+                
+                <input data-th-field="*{websiteLinks[__${iter.index}__].weight}" type="hidden">
+                <input data-th-field="*{websiteLinks[__${iter.index}__].markAsDeleted}" type="hidden">
+
+                <div class="col-sm-11">
+                    <label class="col-sm-3 col-form-label g-mb-10" th:for="${'websiteLinks[__${iter.index}__].description'}">Beschreibung</label>
+                    <input data-th-field="*{websiteLinks[__${iter.index}__].description}" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Projekt/Webseite">
+
+                    <label class="col-sm-3 col-form-label g-mb-10" th:for="${'websiteLinks[__${iter.index}__].data'}">URL</label>
+                    <input data-th-field="*{websiteLinks[__${iter.index}__].data}" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Projekt/Webseite">
+                </div>
+            </div>
+            <!-- End Website Link -->
+        </ul>
+        <!-- Neuer Eintrag -->
+        <div class="form-group g-mb-20 block-title block-title7">
+
+            <span>Neuer Link</span>
+            <input data-th-name="websiteLinks[ + |${#lists.size(form.websiteLinks)}| + ].id" type="text" hidden>
+            <input data-th-name="websiteLinks[ + |${#lists.size(form.websiteLinks)}| + ].weight" value="0" type="text" hidden>
+            <input data-th-name="websiteLinks[ + |${#lists.size(form.websiteLinks)}| + ].markAsDeleted" value="0" type="text" hidden>
+
+            <label class="col-sm-3 col-form-label g-mb-10" data-th-for="form.websiteLinks[][description]">Beschreibung</label>
+            <input data-th-name="websiteLinks[ + |${#lists.size(form.websiteLinks)}| + ].description" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Projekt/Webseite">
+
+            <label class="col-sm-3 col-form-label g-mb-10" data-th-for="form.websiteLinks[][data]">URL</label>
+            <input data-th-name="websiteLinks[ + |${#lists.size(form.websiteLinks)}| + ].data" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Projekt/Webseite">            
+
+        </div>        
+
+    </div>    
+
+    <!-- Tab Einstellungen -->
+    <div class="tab-pane fade show" id="article-edit-tab-settings" role="tabpanel">
+
+        <!-- Toggles Checkbox -->
+        <div class="form-group">
+            <label class="d-flex align-items-center justify-content-between">Veröffentlicht?</label>
+            <input class="" type="checkbox" checked="" data-th-field="*{settings.published}">
+        </div>
+        <!-- End Toggles Checkbox -->        
+    </div>    
+
+
+    <div class="form-group">
+        <input type="submit" value="Speichern" class="btn btn-md u-btn-primary g-mr-10 g-mb-15" />
+    </div>

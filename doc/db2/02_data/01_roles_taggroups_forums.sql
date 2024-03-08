@@ -81,3 +81,4 @@ insert into attachment_types (code, label, attachment_group_id, datatype) values
 ('flatpak', 'Flatpak', (select id from attachment_groups where code = 'repo'), 'url'),
 ('Snap', 'Snap', (select id from attachment_groups where code = 'repo'), 'url');
 
+insert into news_categories(name, active, weight) values ('News', true, 70), ('Drückblick', true, 50), ('Kurznews', true, 30), ('Review', true, 20), ('Artikel', true, 10), ('In eigener Sache', true, 1);
