@@ -132,6 +132,7 @@ public class MultipleHttpSecurityConfig {
                                                                       antMatcher("/workspace/**"),
                                                                       antMatcher("/wiki/*/edit"),
                                                                       antMatcher("/news/*/edit"),
+                                                                      antMatcher("/webapi/**"),
                                                                       antMatcher("/logout")).authenticated())
         
         // Normale Webseite, auch als Gast nutzbar
@@ -147,7 +148,7 @@ public class MultipleHttpSecurityConfig {
                                                                       antMatcher("/privacy"),
                                                                       antMatcher("/impressum"),
                                                                       antMatcher("/imprint")).permitAll())
-        
+
         // Form-Login
         .formLogin(form -> form.loginPage("/login").permitAll()
                                .successHandler(successHandler())

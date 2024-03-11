@@ -33,7 +33,7 @@ public class SearchControllerTest {
     
     @BeforeEach
     public void setup() throws Exception {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         controller = new SearchController();
     }
     

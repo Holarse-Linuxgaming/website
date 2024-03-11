@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import de.holarse.backend.db.SearchIndex;
 import de.holarse.backend.db.datasets.SearchResultView;
+import de.holarse.backend.view.TagRecommendation;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,5 +41,13 @@ public interface SearchRepository extends JpaRepository<SearchIndex, Integer> {
     @Modifying
     @Query(value = "refresh materialized view mv_searchindex", nativeQuery = true)
     void refreshIndex();
+    
+    /**
+     * Ermittelt Tags als Vorschlag in der Tagleiste
+     * @param query
+     * @return 
+     */
+    @Query(value = "select ms.wlabel as label, ms.use_count as useCount from mv_suggestions ms where ms.wtype = 'tag' and word @@ websearch_to_tsquery('german', :query) order by use_count", nativeQuery = true)
+    List<TagRecommendation> autocompleteTags(@Param("query") final String query);
     
 }

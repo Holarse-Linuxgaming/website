@@ -25,7 +25,7 @@ public class WelcomeControllerTest {
     
     @BeforeEach
     public void setup() throws Exception {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         controller = new WelcomeController();
         controller.apiUserRepository = apiUserRepositoryMock;
     }
