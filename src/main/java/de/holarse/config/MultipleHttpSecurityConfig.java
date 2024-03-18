@@ -133,7 +133,7 @@ public class MultipleHttpSecurityConfig {
                                                                       antMatcher("/wiki/*/edit"),
                                                                       antMatcher("/news/*/edit"),
                                                                       antMatcher("/webapi/**"),
-                                                                      antMatcher("/logout")).authenticated())
+                                                                      antMatcher("/logout")).hasRole("USER"))
         
         // Normale Webseite, auch als Gast nutzbar
         .authorizeHttpRequests((requests) -> requests.requestMatchers(antMatcher("/"),

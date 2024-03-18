@@ -1,6 +1,7 @@
 package de.holarse.web.api;
 
 import de.holarse.backend.db.repositories.SearchRepository;
+import de.holarse.backend.view.TagRecommendation;
 import de.holarse.backend.view.TagView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,9 +25,9 @@ public class TagApiController {
     SearchRepository searchRepository;
 
     @GetMapping(value = "autocomplete", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<TagView> autoComplete(@RequestParam final String query) {
+    public List<TagRecommendation> autoComplete(@RequestParam final String query) {
         logger.info("Autocomplete request for input {}", query);
-        return new ArrayList<>();
+        return searchRepository.autocompleteTags(query);
     }
 
 }

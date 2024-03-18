@@ -3,6 +3,7 @@ package de.holarse.web.controller;
 import de.holarse.auth.web.HolarsePrincipal;
 import de.holarse.web.defines.WebDefines;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,9 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class ProfileController {
     
     @GetMapping
-    public ModelAndView show(final Authentication authentication, final ModelAndView mv) {
+    public ModelAndView show(@AuthenticationPrincipal HolarsePrincipal principal, final ModelAndView mv) {
         
-        final HolarsePrincipal principal = (HolarsePrincipal) authentication.getPrincipal();
         mv.addObject("user", principal.getUser());
         
         mv.setViewName("layouts/bare");
