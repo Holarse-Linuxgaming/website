@@ -2,6 +2,8 @@ package de.holarse.web.controller;
 
 import de.holarse.backend.db.ApiUser;
 import de.holarse.backend.db.repositories.ApiUserRepository;
+import de.holarse.backend.db.repositories.ArticleRepository;
+import de.holarse.backend.db.repositories.NewsRepository;
 import de.holarse.test.TestHelper;
 import de.holarse.web.defines.WebDefines;
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,7 +22,13 @@ public class WelcomeControllerTest {
 
     @Mock
     ApiUserRepository apiUserRepositoryMock;
-    
+
+    @Mock
+    ArticleRepository articleRepositoryMock;
+
+    @Mock
+    NewsRepository newsRepositoryMock;
+
     private WelcomeController controller;
     
     @BeforeEach
@@ -28,13 +36,14 @@ public class WelcomeControllerTest {
         MockitoAnnotations.openMocks(this);
         controller = new WelcomeController();
         controller.apiUserRepository = apiUserRepositoryMock;
+        controller.articleRepository = articleRepositoryMock;
+        controller.newsRepository = newsRepositoryMock;
     }
     
     @Test
     public void textIndexPage() throws Exception {
         when(apiUserRepositoryMock.findByLogin("dummy")).thenReturn(Mockito.mock(ApiUser.class));
-        
-        
+
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
         var result = mockMvc.perform(MockMvcRequestBuilders.get("/"))
                 .andExpect(MockMvcResultMatchers.status().isOk())

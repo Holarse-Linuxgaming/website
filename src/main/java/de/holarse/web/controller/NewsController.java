@@ -26,7 +26,7 @@ public class NewsController {
         mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/news/index");
 
         // TODO: Wieder entfernen, nur zum Testen
-        mv.addObject("items", newsRepository.listCurrent(pageable));
+        //mv.addObject("items", newsRepository.findFrontpageItems(pageable));
         return mv;
     }
 }

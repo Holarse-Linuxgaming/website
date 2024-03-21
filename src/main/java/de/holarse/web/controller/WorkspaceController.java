@@ -157,7 +157,7 @@ public class WorkspaceController {
         news.setNodeId(nodeId);
         news.setNewsRevision(newsRevision); // TODO Referenz auf NewsRevision wird noch nicht gespeichert
         news.setNodeStatus(nodeStatus);
-        news.getSlugs().add(nodeSlug);
+        news.getNodeSlugz().add(nodeSlug);
 
         newsRepository.saveAndFlush(news);
 
@@ -217,7 +217,7 @@ public class WorkspaceController {
         // Artikel anlegen
         final Article article = new Article();
         article.setNodeId(nodeId);
-        article.setArticleRevision(articleRevision);        
+        article.setNodeRevision(articleRevision);
         article.setNodeStatus(nodeStatus);
         article.getNodeSlugs().add(nodeSlug);
         article.setTags(tags);

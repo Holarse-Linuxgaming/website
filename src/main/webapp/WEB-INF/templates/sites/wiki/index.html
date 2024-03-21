@@ -6,8 +6,8 @@
                 <h2 class="h2 g-color-black g-font-weight-600">Das Holarse-Wiki</h2>
             </header>
 
-            <ul data-th-each="article : ${articles}">
-                <li><a href="#" data-th-href="@{/wiki/{slug}(slug=${article.slug})}" data-th-text="${article.title1}"></a></li>
+            <ul data-th-each="item : ${articles}">
+                <li><a href="#" data-th-href="@{/wiki/{slug}(slug=${item.slug})}" data-th-text="${item.title}"></a></li>
             </ul>
             
         </div>

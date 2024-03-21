@@ -48,7 +48,7 @@ public class RevisionController {
         final Page<ArticleRevision> revisions = articleRevisionRepository.findHistory(nodeId, pageable);
         final NodeSlug mainSlug = nodeSlugRepository.findMainSlug(nodeId, NodeType.article).orElseThrow(EntityNotFoundException::new);
 
-        mv.addObject("view", ArticleView.of(currentArticle.getArticleRevision(), mainSlug));
+        mv.addObject("view", ArticleView.of(currentArticle.getNodeRevision(), mainSlug));
         mv.addObject("revisions", articleRevisionRepository.findHistory(nodeId, pageable));
 
         return mv;

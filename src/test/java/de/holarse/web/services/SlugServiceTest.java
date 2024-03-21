@@ -25,7 +25,7 @@ public class SlugServiceTest {
     
     @BeforeEach
     public void setup() {
-        MockitoAnnotations.initMocks(this);        
+        MockitoAnnotations.openMocks(this);
         slugService = new SlugService();
         slugService.nodeSlugRepository = nodeSlugRepositoryMock;
         slugService.tagRepository = tagRepositoryMock;

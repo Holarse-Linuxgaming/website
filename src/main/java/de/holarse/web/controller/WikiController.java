@@ -3,7 +3,6 @@ package de.holarse.web.controller;
 import de.holarse.auth.web.HolarsePrincipal;
 import de.holarse.backend.db.*;
 import de.holarse.backend.db.repositories.*;
-import de.holarse.backend.types.AttachmentDataType;
 import de.holarse.backend.types.AttachmentGroupType;
 import de.holarse.backend.types.NodeType;
 import de.holarse.backend.view.*;
@@ -13,7 +12,6 @@ import de.holarse.queues.commands.SearchRefresh;
 import de.holarse.web.controller.commands.ArticleForm;
 import de.holarse.web.defines.WebDefines;
 
-import static de.holarse.web.defines.WebDefines.REVISION_DEFAULT_PAGE_SIZE;
 import static de.holarse.web.defines.WebDefines.WIKI_ARTICLES_DEFAULT_PAGE_SIZE;
 import de.holarse.web.renderer.Renderer;
 import de.holarse.web.services.AttachmentService;
@@ -23,15 +21,12 @@ import jakarta.persistence.EntityNotFoundException;
 import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.security.core.Authentication;
@@ -91,13 +86,13 @@ public class WikiController {
     private JmsTemplate jmsTemplate;
     
     @GetMapping
-    public ModelAndView index(@PageableDefault(sort={"title1"}, value=WIKI_ARTICLES_DEFAULT_PAGE_SIZE) final Pageable pageable, final ModelAndView mv) {
+    public ModelAndView index(@PageableDefault(sort={"title"}, value=WIKI_ARTICLES_DEFAULT_PAGE_SIZE) final Pageable pageable, final ModelAndView mv) {
         mv.setViewName("layouts/bare");
         mv.addObject("title", "Die Linuxspiele-Seite für Linuxspieler");
         mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/wiki/index");
         
         // TODO: Wieder entfernen, nur zum Testen
-        mv.addObject("articles", articleRepository.listCurrentArticles(pageable));
+        mv.addObject("articles", articleRepository.findFrontpageItems(pageable));
 //        
         return mv;
     }
@@ -111,7 +106,7 @@ public class WikiController {
         boolean adminOverride = false;
         
         final Article article = articleRepository.findBySlug(slug).orElseThrow(EntityNotFoundException::new);
-        final ArticleRevision articleRevision = article.getArticleRevision();
+        final ArticleRevision articleRevision = article.getNodeRevision();
         final Set<Tag> tags = article.getTags();
         final List<TagGroup> relevantTagGroups = tags.stream().map(t -> t.getTagGroup()).toList();
         final NodeSlug mainSlug = nodeSlugRepository.findMainSlug(articleRevision.getNodeId(), NodeType.article).orElseThrow(EntityNotFoundException::new);
@@ -167,7 +162,7 @@ public class WikiController {
         mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/wiki/form");
 
         var article = articleRepository.findByNodeId(nodeId).orElseThrow(EntityNotFoundException::new);
-        var articleRevision = article.getArticleRevision();
+        var articleRevision = article.getNodeRevision();
         var tags = article.getTags();
         
         // Form zusammenstellen
@@ -262,7 +257,7 @@ public class WikiController {
         nodeStatus.setDeleted(form.getSettings().isDeleted());
         
         // Artikel auf neue Revision setzen
-        article.setArticleRevision(articleRevision);
+        article.setNodeRevision(articleRevision);
         article.setTags(articleTags);        
         article.setNodeStatus(nodeStatus);
         articleRepository.saveAndFlush(article);

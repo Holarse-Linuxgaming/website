@@ -23,7 +23,7 @@ public class Article extends Base {
     
     @OneToOne
     @JoinColumn(name = "revisionid", referencedColumnName = "id")
-    private ArticleRevision articleRevision;
+    private ArticleRevision nodeRevision;
     
     @Column(name = "drupalid")
     private Integer drupalId;
@@ -60,12 +60,12 @@ public class Article extends Base {
         this.drupalId = drupalId;
     }
 
-    public ArticleRevision getArticleRevision() {
-        return articleRevision;
+    public ArticleRevision getNodeRevision() {
+        return nodeRevision;
     }
 
-    public void setArticleRevision(ArticleRevision articleRevision) {
-        this.articleRevision = articleRevision;
+    public void setNodeRevision(ArticleRevision nodeRevision) {
+        this.nodeRevision = nodeRevision;
     }
 
     public NodeStatus getNodeStatus() {

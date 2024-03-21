@@ -13,6 +13,9 @@ public class NewsRevision extends RevisionedNode {
     @Column(length = 16384)
     private String content;
 
+    @Column(length = 512)
+    private String teaser;
+
     @ManyToOne(cascade = { CascadeType.ALL })
     @JoinColumn(name="news_category_id", referencedColumnName = "id")
     private NewsCategory newsCategory;
@@ -24,6 +27,10 @@ public class NewsRevision extends RevisionedNode {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public String getTeaser() { return teaser; }
+
+    public void setTeaser(String teaser) { this.teaser = teaser;  }
 
     public String getContent() {
         return content;

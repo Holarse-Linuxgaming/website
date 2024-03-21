@@ -41,9 +41,12 @@ public class News extends Base {
     )
     private Set<Tag> tags = new HashSet<>();
 
+    /**
+     * Muss nodeSlugz heissen, weil nodeSlugs in @see de.holarse.backend.db.Article referenziert ist. Siehe Bug https://lists.jboss.org/pipermail/hibernate-issues/2011-January/027658.html
+     */
     @OneToMany(cascade = { CascadeType.ALL })
     @JoinColumn(name="nodeid", referencedColumnName = "nodeid")
-    private Set<NodeSlug> slugs = new HashSet<>(); // Muss nodeSlugz heissen, weil nodeSlugs in Article referenziert ist. Siehe Bug https://lists.jboss.org/pipermail/hibernate-issues/2011-January/027658.html
+    private Set<NodeSlug> nodeSlugz = new HashSet<>();
 
     public int getNodeId() {
         return nodeId;
@@ -85,12 +88,12 @@ public class News extends Base {
         this.tags = tags;
     }
 
-    public Set<NodeSlug> getSlugs() {
-        return slugs;
+    public Set<NodeSlug> getNodeSlugz() {
+        return nodeSlugz;
     }
 
-    public void setSlugs(Set<NodeSlug> slugs) {
-        this.slugs = slugs;
+    public void setNodeSlugz(Set<NodeSlug> nodeSlugz) {
+        this.nodeSlugz = nodeSlugz;
     }
 
     @Override
@@ -101,7 +104,7 @@ public class News extends Base {
                 ", drupalId=" + drupalId +
                 ", nodeStatus=" + nodeStatus +
                 ", tags=" + tags +
-                ", slugs=" + slugs +
+                ", slugs=" + nodeSlugz +
                 '}';
     }
 }

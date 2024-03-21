@@ -28,6 +28,9 @@ public class ArticleRevision extends RevisionedNode {
     @Column(length = 512)
     private String teaser;
 
+    @OneToOne(mappedBy = "nodeRevision")
+    private Article article;
+
     public String getTitle1() {
         return title1;
     }
@@ -98,5 +101,13 @@ public class ArticleRevision extends RevisionedNode {
 
     public void setTeaser(String teaser) {
         this.teaser = teaser;
+    }
+
+    public Article getArticle() {
+        return article;
+    }
+
+    public void setArticle(Article article) {
+        this.article = article;
     }
 }
