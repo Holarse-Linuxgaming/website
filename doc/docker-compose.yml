@@ -46,11 +46,11 @@ services:
       - holarse-dev
 
   cache:
-      image: redis:latest
+      image: memcached:latest
       container_name: cache
       restart: always
       ports:
-        - 6379:6379
+        - 11212:11212
       networks:
         - holarse-dev
 

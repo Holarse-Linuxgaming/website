@@ -206,7 +206,7 @@
             <version>3.5.1</version>
         </dependency>
         
-<!--        <dependency>
+        <!--        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.6.0</version>
@@ -296,7 +296,22 @@
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>8.0.1.Final</version>
+        </dependency>  
+        
+        <!-- Caching -->
+        <dependency>
+            <groupId>javax.cache</groupId>
+            <artifactId>cache-api</artifactId>
+            <version>1.1.1</version>
         </dependency>        
+        <!-- https://mvnrepository.com/artifact/net.spy/spymemcached -->
+        <dependency>
+            <groupId>net.spy</groupId>
+            <artifactId>spymemcached</artifactId>
+            <version>2.12.3</version>
+        </dependency>
+      
+                 
      
     </dependencies>
 
