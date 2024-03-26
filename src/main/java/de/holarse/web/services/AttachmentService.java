@@ -1,11 +1,9 @@
 package de.holarse.web.services;
 
-import de.holarse.backend.db.Article;
 import de.holarse.backend.db.Attachment;
 import de.holarse.backend.db.AttachmentGroup;
-import de.holarse.backend.db.AttachmentType;
+import de.holarse.backend.db.Node;
 import de.holarse.backend.db.repositories.AttachmentRepository;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
@@ -26,16 +24,16 @@ public class AttachmentService {
         return attachments.stream().collect(Collectors.groupingBy(a -> a.getAttachmentType().getAttachmentGroup().getCode()));
     }
 
-    public List<Attachment> getAttachments(final Article article, final AttachmentGroup attachmentGroup) {
-        if (article == null) {
-            throw new IllegalArgumentException("article is null");
+    public List<Attachment> getAttachments(final Node node, final AttachmentGroup attachmentGroup) {
+        if (node == null) {
+            throw new IllegalArgumentException("node is null");
         }
         if (attachmentGroup == null) {
             throw new IllegalArgumentException("attachmentGroup is null");
         }
 
         if (nodeAttachmentGroups.isEmpty()) {
-            nodeAttachmentGroups.putAll(splitAttachments(attachmentRepository.findByNode(article.getNodeId())));
+            nodeAttachmentGroups.putAll(splitAttachments(attachmentRepository.findByNode(node.getNodeId())));
         }
 
         if (nodeAttachmentGroups.containsKey(attachmentGroup.getCode())) {

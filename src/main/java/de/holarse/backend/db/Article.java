@@ -14,7 +14,7 @@ import java.util.Set;
 
 @Table(name = "articles")
 @Entity
-public class Article extends Base {
+public class Article extends Base implements Node {
 
     private static final long serialVersionUID = 2L;
     
@@ -44,10 +44,12 @@ public class Article extends Base {
     @JoinColumn(name="nodeid", insertable=false, nullable=false, updatable = false, referencedColumnName = "nodeid")
     private Set<NodeSlug> nodeSlugs = new HashSet<>();
     
+    @Override
     public int getNodeId() {
         return nodeId;
     }
 
+    @Override    
     public void setNodeId(int nodeId) {
         this.nodeId = nodeId;
     }

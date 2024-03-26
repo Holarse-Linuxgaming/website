@@ -15,7 +15,7 @@ import java.util.Set;
 
 @Table(name = "news")
 @Entity
-public class News extends Base {
+public class News extends Base implements Node {
 
     private static final long serialVersionUID = 2L;
 
@@ -24,7 +24,7 @@ public class News extends Base {
 
     @OneToOne
     @JoinColumn(name = "revisionid", referencedColumnName = "id")
-    private NewsRevision newsRevision;
+    private NewsRevision nodeRevision;
 
     @Column(name = "drupalid")
     private Integer drupalId;
@@ -48,10 +48,12 @@ public class News extends Base {
     @JoinColumn(name="nodeid", referencedColumnName = "nodeid")
     private Set<NodeSlug> nodeSlugz = new HashSet<>();
 
+    @Override    
     public int getNodeId() {
         return nodeId;
     }
 
+    @Override    
     public void setNodeId(int nodeId) {
         this.nodeId = nodeId;
     }
@@ -64,12 +66,12 @@ public class News extends Base {
         this.drupalId = drupalId;
     }
 
-    public NewsRevision getNewsRevision() {
-        return newsRevision;
+    public NewsRevision getNodeRevision() {
+        return nodeRevision;
     }
 
-    public void setNewsRevision(NewsRevision articleRevision) {
-        this.newsRevision = newsRevision;
+    public void setNodeRevision(NewsRevision nodeRevision) {
+        this.nodeRevision = nodeRevision;
     }
 
     public NodeStatus getNodeStatus() {
@@ -100,7 +102,7 @@ public class News extends Base {
     public String toString() {
         return "News{" +
                 "nodeId=" + nodeId +
-                ", newsRevision=" + newsRevision +
+                ", nodeRevision=" + nodeRevision +
                 ", drupalId=" + drupalId +
                 ", nodeStatus=" + nodeStatus +
                 ", tags=" + tags +

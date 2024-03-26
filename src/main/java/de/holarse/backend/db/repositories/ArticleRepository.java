@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Integer>, NodeAwareRepository {
 
-    @Query(value = "SELECT nr.nodeId, sl.name as slug, null as nodeType, nr.title1 as title, nr.teaser FROM Article n " +
+    @Query(value = "SELECT nr.nodeId, sl.name as slug, null as nodeType, nr.title1 as title, nr.teaser, concat('wiki/', sl.name) as url FROM Article n " +
             "JOIN n.nodeRevision as nr " +
             "JOIN n.nodeStatus as ns " +
             "JOIN n.nodeSlugs as sl " +

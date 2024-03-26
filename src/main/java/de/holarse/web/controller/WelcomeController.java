@@ -1,6 +1,5 @@
 package de.holarse.web.controller;
 
-import de.holarse.backend.db.ApiUser;
 import de.holarse.backend.db.repositories.ApiUserRepository;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.NewsRepository;

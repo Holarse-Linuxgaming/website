@@ -7,9 +7,8 @@ public interface FrontpageItemView {
     Integer getNodeId();
     String getSlug();
     NodeType getNodeType();
-
     String getTitle();
-
     String getTeaser();
+    String getUrl();
 
 }

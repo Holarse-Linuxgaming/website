@@ -155,7 +155,7 @@ public class WorkspaceController {
         // News anlegen
         final News news = new News();
         news.setNodeId(nodeId);
-        news.setNewsRevision(newsRevision); // TODO Referenz auf NewsRevision wird noch nicht gespeichert
+        news.setNodeRevision(newsRevision); // TODO Referenz auf NewsRevision wird noch nicht gespeichert
         news.setNodeStatus(nodeStatus);
         news.getNodeSlugz().add(nodeSlug);
 
