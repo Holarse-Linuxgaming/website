@@ -35,6 +35,7 @@ import java.security.Principal;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -45,7 +46,7 @@ public class NewsController {
     final static transient Logger logger = LoggerFactory.getLogger(NewsController.class);
     
     @Autowired
-    private NewsRepository newsRepository;
+    NewsRepository newsRepository;
     
     @Autowired
     private NodeSlugRepository nodeSlugRepository; 
@@ -69,7 +70,7 @@ public class NewsController {
     private NewsCategoryRepository newsCategoryRepository;
     
     @GetMapping
-    public ModelAndView index(@PageableDefault(sort = {"title"}, value = NEWS_ARTICLES_DEFAULT_PAGE_SIZE) final Pageable pageable, final ModelAndView mv) {
+    public ModelAndView index(@PageableDefault(sort = {"title"}, value = NEWS_ARTICLES_DEFAULT_PAGE_SIZE) final PageRequest pageable, final ModelAndView mv) {
         mv.setViewName("layouts/bare");
         mv.addObject("title", "Die Linuxspiele-Seite für Linuxspieler");
         mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/news/index");

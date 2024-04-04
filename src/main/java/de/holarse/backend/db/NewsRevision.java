@@ -16,6 +16,9 @@ public class NewsRevision extends RevisionedNode {
     @Column(length = 512)
     private String teaser;
 
+    @OneToOne(mappedBy = "nodeRevision")
+    private News news;    
+    
     @ManyToOne(cascade = { CascadeType.ALL })
     @JoinColumn(name="news_category_id", referencedColumnName = "id")
     private NewsCategory newsCategory;
@@ -50,10 +53,7 @@ public class NewsRevision extends RevisionedNode {
 
     @Override
     public String toString() {
-        return "NewsRevision{" +
-                "title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", newsCategory=" + newsCategory +
-                '}';
+        return "NewsRevision{id=" + getId() + ", "+ "title=" + title + ", content=" + content + ", teaser=" + teaser + ", newsCategory=" + newsCategory + '}';
     }
+
 }
