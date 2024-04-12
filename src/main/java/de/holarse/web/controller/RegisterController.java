@@ -11,9 +11,10 @@ import de.holarse.backend.db.repositories.UserSlugRepository;
 import de.holarse.backend.db.repositories.UserStatusRepository;
 import de.holarse.backend.types.PasswordType;
 import de.holarse.config.JmsQueueTypes;
-import de.holarse.queues.commands.RegisterMailMessage;
+import de.holarse.mail.RegisterMailMessage;
 import de.holarse.web.controller.commands.RegisterForm;
 import de.holarse.web.defines.WebDefines;
+import de.holarse.web.services.EmailRenderService;
 import de.holarse.web.services.RegisterFormValidationService;
 import de.holarse.web.services.RegisterService;
 import de.holarse.web.services.SlugService;
@@ -78,7 +79,10 @@ public class RegisterController {
     private PasswordEncoder passwordEncoder;      
     
     @Autowired
-    private JmsTemplate jmsTemplate;    
+    private JmsTemplate jmsTemplate;  
+    
+    @Autowired
+    private EmailRenderService emailRenderService;
 
     @GetMapping
     public ModelAndView index(final ModelAndView mv) {
@@ -133,8 +137,8 @@ public class RegisterController {
         userSlugRepository.saveAndFlush(userSlug);
         
         // TODO: Mail an Email-Adresse mit Verification-Key asynchron anleiern....
-        RegisterMailMessage rmm = new RegisterMailMessage(user);
-        jmsTemplate.convertAndSend(JmsQueueTypes.QUEUE_MAIL, rmm);        
+        final RegisterMailMessage rmm = new RegisterMailMessage(user);
+        jmsTemplate.convertAndSend(JmsQueueTypes.QUEUE_MAIL, emailRenderService.to(rmm));
         
         mv.addObject("validationKey", userStatus.getVerificationHash());        
         mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/accounts/registered");

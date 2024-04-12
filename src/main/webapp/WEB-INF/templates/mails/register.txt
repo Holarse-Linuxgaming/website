@@ -1,0 +1,5 @@
+Hallo, [( #{username} )]
+bitte aktiviere dein Konto mit diesem Link:
+http://localhost:8080/holarseweb/register/verify?v=[{ #{verification_hash} }]
+Der Link ist noch gültig bis [( #{valid_until} )]
+Dein Holarse-Team

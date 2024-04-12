@@ -2,6 +2,7 @@ package de.holarse.config;
 
 import de.holarse.web.interceptors.RequestLoggingInterceptor;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -19,31 +20,35 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
+import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
+import org.thymeleaf.templatemode.TemplateMode;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
+import org.thymeleaf.templateresolver.ITemplateResolver;
 
 @Configuration
 @EnableWebMvc
 @EnableSpringDataWebSupport
 @EnableScheduling
 @EnableTransactionManagement
-@ComponentScan(basePackages = "de.holarse" )
+@ComponentScan(basePackages = "de.holarse")
 @PropertySources({
-    @PropertySource("classpath:application.properties"), 
+    @PropertySource("classpath:application.properties"),
     @PropertySource("classpath:credential.properties"),
     @PropertySource("classpath:git.properties")})
 public class AppConfig implements WebMvcConfigurer {
 
     @Autowired
-    private ApplicationContext applicationContext;     
-    
+    private ApplicationContext applicationContext;
+
     @Bean
     public HandlerInterceptor requestLoggingInterceptor() {
         return new RequestLoggingInterceptor();
     }
-    
+
     @Bean
     public MultipartResolver filterMultipartResolver() {
         return new StandardServletMultipartResolver();
@@ -53,9 +58,8 @@ public class AppConfig implements WebMvcConfigurer {
 //    public void configurePathMatch(final PathMatchConfigurer configurer) {
 //        configurer.setUseTrailingSlashMatch(true);
 //    }
-
     @Bean
-    public SpringResourceTemplateResolver springTemplateResolver(){
+    public SpringResourceTemplateResolver springTemplateResolver() {
         SpringResourceTemplateResolver springTemplateResolver = new SpringResourceTemplateResolver();
         springTemplateResolver.setApplicationContext(this.applicationContext);
         springTemplateResolver.setPrefix("/WEB-INF/templates/");
@@ -64,21 +68,42 @@ public class AppConfig implements WebMvcConfigurer {
     }
     
     @Bean
-    public SpringTemplateEngine springTemplateEngine(){
-        SpringTemplateEngine springTemplateEngine = new SpringTemplateEngine();
-        springTemplateEngine.setTemplateResolver(springTemplateResolver());
-        springTemplateEngine.addDialect(new SpringSecurityDialect()); 
-       return springTemplateEngine;
-    }
+    public SpringResourceTemplateResolver textTemplateResolver() {
+        SpringResourceTemplateResolver springTemplateResolver = new SpringResourceTemplateResolver();
+        springTemplateResolver.setApplicationContext(this.applicationContext);
+        springTemplateResolver.setPrefix("/WEB-INF/templates/");
+        springTemplateResolver.setSuffix(".txt");
+        springTemplateResolver.setTemplateMode(TemplateMode.TEXT);
+        springTemplateResolver.setCharacterEncoding("UTF-8");
+        springTemplateResolver.setCacheable(false);        
+        return springTemplateResolver;
+    }    
     
+    @Bean(value = "emailTemplateEngine")
+    public TemplateEngine emailTemplateEngine() {
+        final SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+        // Resolver for TEXT emails
+        templateEngine.addTemplateResolver(textTemplateResolver());
+        return templateEngine;
+    }
+
     @Bean
-    public ViewResolver viewResolver(){
+    public SpringTemplateEngine springTemplateEngine() {
+        final SpringTemplateEngine springTemplateEngine = new SpringTemplateEngine();
+        // Resolver for HTML pages
+        springTemplateEngine.setTemplateResolver(springTemplateResolver());
+        springTemplateEngine.addDialect(new SpringSecurityDialect());
+        return springTemplateEngine;
+    }
+
+    @Bean
+    public ViewResolver viewResolver() {
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
         viewResolver.setTemplateEngine(springTemplateEngine());
         viewResolver.setCharacterEncoding(StandardCharsets.UTF_8.name());
         return viewResolver;
-    }      
-        
+    }
+
     /**
      * Configure ResourceHandlers to serve static resources like CSS/ Javascript
      * etc...
@@ -88,24 +113,22 @@ public class AppConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
         // TODO später dann vom Dateisystem über NGINX ausliefern
-        registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/assets/"); 
+        registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/assets/");
     }
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
     }
-    
+
     @Bean
     public LocalValidatorFactoryBean validator() {
         return new LocalValidatorFactoryBean();
-    }    
+    }
 
     @Override
     public void addInterceptors(final InterceptorRegistry registry) {
         registry.addInterceptor(requestLoggingInterceptor());
     }
-    
-    
 
 }
