@@ -42,5 +42,10 @@ public class MailCommand implements Serializable {
     public void setBody(String body) {
         this.body = body;
     }
+
+    @Override
+    public String toString() {
+        return "MailCommand{" + "sender=" + sender + ", recipients=" + recipients + ", subject=" + subject + '}';
+    }
     
 }

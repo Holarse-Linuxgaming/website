@@ -136,9 +136,11 @@ public class RegisterController {
         userSlug.setUser(user);
         userSlugRepository.saveAndFlush(userSlug);
         
-        // TODO: Mail an Email-Adresse mit Verification-Key asynchron anleiern....
+        log.debug("Preparing mail to send");
         final RegisterMailMessage rmm = new RegisterMailMessage(user);
+        log.debug("Passing mail to queue");
         jmsTemplate.convertAndSend(JmsQueueTypes.QUEUE_MAIL, emailRenderService.to(rmm));
+        log.debug("Passing complete");
         
         mv.addObject("validationKey", userStatus.getVerificationHash());        
         mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/accounts/registered");
