@@ -58,53 +58,53 @@ jobs:
         run: mvn package
       - name: Deploy Database 1
         run:
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/01_base.sql
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/01_base.sql
       - name: Deploy Database 2
         run:         
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/02_authentication.sql
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/02_authentication.sql
       - name: Deploy Database 3
         run:
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/02a_nodes.sql
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/02a_nodes.sql
       - name: Deploy Database 4
         run:
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/02b_slugs.sql
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/02b_slugs.sql
       - name: Deploy Database 5
         run:
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/03_articles.sql
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/03_articles.sql
       - name: Deploy Database 6
         run:
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/04_comments.sql
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/04_comments.sql
       - name: Deploy Database 7
         run:
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/05_tags.sql
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/05_tags.sql
       - name: Deploy Database 8
         run:
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/06_news.sql
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/06_news.sql
       - name: Deploy Database 9
         run:
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/07_logging.sql
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/07_logging.sql
       - name: Deploy Database 10
         run:
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/08_forum.sql
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/08_forum.sql
       - name: Deploy Database 11
         run:
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/09_attachments.sql
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/09_attachments.sql
       - name: Deploy Database 12
         run:
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/10_search.sql
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/10_search.sql
       - name: Deploy Database 13
         run:
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/12_messages.sql
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/12_messages.sql
       - name: Deploy Database 14
         run:
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/14_drückblick.sql
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/14_drückblick.sql
       - name: Deploy Database 15
         run:
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/15-migration-20240222-2250.sql
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/15-migration-20240222-2250.sql
       - name: Deploy Database 16
         run:
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/16-migration-20240302-0728.sql
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/16-migration-20240302-0728.sql
       - name: Deploy Database 17
         run:
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/17-migration-20240321-2301.sql
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/17-migration-20240321-2301.sql
 
