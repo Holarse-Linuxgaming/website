@@ -47,7 +47,7 @@ jobs:
       - name: Deploy Database
         env:
           # The hostname used to communicate with the PostgreSQL service container
-          DB_HOST: postgres
+          DB_HOST: localhost
           DB_NAME: holarse
           DB_USER: postgres
           DB_PASS: geheim
