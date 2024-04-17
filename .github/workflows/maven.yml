@@ -17,12 +17,15 @@ jobs:
     runs-on: ubuntu-latest  
     services:
           # Label used to access the service container
+          # https://docs.github.com/en/actions/using-containerized-services/creating-postgresql-service-containers
+          # https://hub.docker.com/_/postgres
           postgres:
             # Docker Hub image
             image: postgres
             # Provide the password for postgres
             env:
               POSTGRES_DB: holarse
+              POSTGRES_USER: holarse
               POSTGRES_PASSWORD: postgres
               POSTGRES_HOST_AUTH_METHOD: trust
             # Set health checks to wait until postgres has started
