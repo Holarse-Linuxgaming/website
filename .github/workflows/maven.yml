@@ -53,7 +53,7 @@ jobs:
           # The hostname used to communicate with the PostgreSQL service container
           DB_HOST: localhost
           DB_NAME: holarse
-          DB_USER: postgres
+          DB_USER: holarse
           DB_PASS: geheim
           DB_PORT: 5432    
         run: "PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/01_base.sql"
