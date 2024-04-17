@@ -6,23 +6,50 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Java CI with Maven
+name: HolaCMS31
 
 on:
   push:
     branches: [ "holacms31" ]
 jobs:
+  container-job:
+    # Containers must run in Linux based operating systems
+    runs-on: ubuntu-latest  
+    services:
+          # Label used to access the service container
+          postgres:
+            # Docker Hub image
+            image: postgres
+            # Provide the password for postgres
+            env:
+              POSTGRES_PASSWORD: postgres
+            # Set health checks to wait until postgres has started
+            options: >-
+              --health-cmd pg_isready
+              --health-interval 10s
+              --health-timeout 5s
+              --health-retries 5
+            ports:
+              # Maps tcp port 5432 on service container to the host
+              - 5432:5432
+  
   build:
     runs-on: ubuntu-latest
+    
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
-        fetch-depth: 0
-    - run: git init    
-    - name: Set up JDK 17
-      uses: actions/setup-java@v1.4.4
+        fetch-depth: 0    
+    - uses: actions/setup-java@v4    
       with:
         java-version: '17'
         cache: maven
-    - name: Build with Maven
+    - name: Build and Test HolaCMS
       run: mvn package
+    - name: Deploy Database
+      env:
+        # The hostname used to communicate with the PostgreSQL service container
+        POSTGRES_HOST: postgres
+        # The default PostgreSQL port
+        POSTGRES_PORT: 5432    
+      run: echo "hello"
