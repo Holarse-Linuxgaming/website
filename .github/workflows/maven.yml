@@ -32,10 +32,6 @@ jobs:
             ports:
               # Maps tcp port 5432 on service container to the host
               - 5432:5432
-  
-  build:
-    runs-on: ubuntu-latest
-    
     steps:
       - uses: actions/checkout@v4
         with:
@@ -52,4 +48,6 @@ jobs:
           POSTGRES_HOST: postgres
           # The default PostgreSQL port
           POSTGRES_PORT: 5432    
-        run: echo "${POSTGRES_HOST}:${POSTGRES_PORT}"
+        run: echo "${POSTGRES_HOST}:${POSTGRES_PORT}"              
+
+
