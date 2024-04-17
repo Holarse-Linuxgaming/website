@@ -37,19 +37,19 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0    
-    - uses: actions/setup-java@v4    
-      with:
-        java-version: '17'
-        cache: maven
-    - name: Build and Test HolaCMS
-      run: mvn package
-    - name: Deploy Database
-      env:
-        # The hostname used to communicate with the PostgreSQL service container
-        POSTGRES_HOST: postgres
-        # The default PostgreSQL port
-        POSTGRES_PORT: 5432    
-      run: echo "hello"
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0    
+      - uses: actions/setup-java@v4    
+        with:
+          java-version: '17'
+          cache: maven
+      - name: Build and Test HolaCMS
+        run: mvn package
+      - name: Deploy Database
+        env:
+          # The hostname used to communicate with the PostgreSQL service container
+          POSTGRES_HOST: postgres
+          # The default PostgreSQL port
+          POSTGRES_PORT: 5432    
+        run: echo "${POSTGRES_HOST}:${POSTGRES_PORT}"
