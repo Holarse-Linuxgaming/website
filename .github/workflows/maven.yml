@@ -56,9 +56,13 @@ jobs:
           DB_USER: holarse
           DB_PASS: geheim
           DB_PORT: 5432    
-        run: |
+        run: script 01
           PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/01_base.sql
+      - name: script 02
+        run:
           PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/02_authentication.sql
+      - name: der rest
+        run: |
           PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/02a_nodes.sql
           PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/02b_slugs.sql
           PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/03_articles.sql
