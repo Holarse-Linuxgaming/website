@@ -57,21 +57,21 @@ jobs:
           DB_PASS: geheim
           DB_PORT: 5432    
         run: |
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/01_base.sql &&
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/02_authentication.sql &&
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/02a_nodes.sql &&
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/02b_slugs.sql &&
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/03_articles.sql &&
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/04_comments.sql &&
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/05_tags.sql &&
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/06_news.sql &&
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/07_logging.sql &&
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/08_forum.sql &&
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/09_attachments.sql &&
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/10_search.sql &&
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/12_messages.sql &&
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/14_drückblick.sql &&
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/15-migration-20240222-2250.sql &&
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/16-migration-20240302-0728.sql &&     
-          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/17-migration-20240321-2301.sql 
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/01_base.sql || exit 1
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/02_authentication.sql || exit 1
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/02a_nodes.sql || exit 1
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/02b_slugs.sql || exit 1
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/03_articles.sql || exit 1
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/04_comments.sql || exit 1
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/05_tags.sql || exit 1
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/06_news.sql || exit 1
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/07_logging.sql || exit 1
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/08_forum.sql || exit 1
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/09_attachments.sql || exit 1
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/10_search.sql || exit 1
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/12_messages.sql || exit 1
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/14_drückblick.sql || exit 1
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/15-migration-20240222-2250.sql || exit 1
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/16-migration-20240302-0728.sql || exit 1
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/17-migration-20240321-2301.sql || exit 1
 
