@@ -21,7 +21,7 @@ jobs:
           # https://hub.docker.com/_/postgres
           postgres:
             # Docker Hub image
-            image: postgres
+            image: postgres:16
             # Provide the password for postgres
             env:
               POSTGRES_DB: holarse
@@ -43,7 +43,7 @@ jobs:
           fetch-depth: 0    
       - uses: actions/setup-java@v4    
         with:
-          java-version: '17'
+          java-version: '21'
           cache: maven
           distribution: 'temurin'
       - name: Build and Test HolaCMS
