@@ -22,6 +22,7 @@ jobs:
             image: postgres
             # Provide the password for postgres
             env:
+              POSTGRES_DB: holarse
               POSTGRES_PASSWORD: postgres
             # Set health checks to wait until postgres has started
             options: >-
@@ -40,14 +41,16 @@ jobs:
         with:
           java-version: '17'
           cache: maven
+          distribution: 'temurin'
       - name: Build and Test HolaCMS
         run: mvn package
       - name: Deploy Database
         env:
           # The hostname used to communicate with the PostgreSQL service container
-          POSTGRES_HOST: postgres
-          # The default PostgreSQL port
-          POSTGRES_PORT: 5432    
-        run: echo "${POSTGRES_HOST}:${POSTGRES_PORT}"              
-
+          DB_HOST: postgres
+          DB_NAME: holarse
+          DB_USER: postgres
+          DB_PASS: geheim
+          DB_PORT: 5432    
+        run: "PGPASSWORD=${DB_PASSWORD} /usr/bin/psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME}"
 
