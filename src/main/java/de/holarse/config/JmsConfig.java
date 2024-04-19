@@ -50,7 +50,7 @@ public class JmsConfig {
         connectionFactory.setUserName(amqUsername);
         connectionFactory.setPassword(amqPassword);
         
-        connectionFactory.setTrustedPackages(Arrays.asList("de.holarse.backend.api.drückblick", "de.holarse.backend.types", "de.holarse.queues.commands"));
+        connectionFactory.setTrustedPackages(Arrays.asList("de.holarse.backend.api", "de.holarse.backend.types", "de.holarse.queues.commands", "java.util", "java.lang"));
         
         return connectionFactory;        
     }    

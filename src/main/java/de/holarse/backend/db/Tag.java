@@ -16,6 +16,7 @@ public class Tag extends TimestampedBase {
 
     public Tag(final String name) {
         this.name = name;
+        this.nameLang = "german";
     }
     
     @Column(length = 255)

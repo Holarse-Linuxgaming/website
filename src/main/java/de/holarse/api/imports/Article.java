@@ -1,9 +1,7 @@
 package de.holarse.api.imports;
 
-import de.holarse.config.JmsQueueTypes;
-import static de.holarse.config.JmsQueueTypes.*;
-import static de.holarse.config.RoleApiTypes.*;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,25 +16,28 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Secured({ROLE_API_IMPORT, ROLE_API_ADMIN})
+import static de.holarse.config.JmsQueueTypes.*;
+import static de.holarse.config.RoleApiTypes.*;
+
+@Secured({ROLE_API_ADMIN, ROLE_API_IMPORT})
 @RestController
-@RequestMapping("/api/import/users")
-public class User {
-    
-    private final static transient Logger log = LoggerFactory.getLogger(User.class);    
-    
+@RequestMapping({"/api/import/articles", "/api/import/articles/"})
+public class Article {
+
+    private final static transient Logger log = LoggerFactory.getLogger(Article.class);
+
     @Autowired
     private JmsTemplate jmsTemplate;
-    
+
     @Transactional
     @PostMapping(consumes = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<String> upload(@RequestBody final de.holarse.backend.api.User importUser) throws Exception {
+    public ResponseEntity<String> upload(@Valid @RequestBody final de.holarse.backend.api.Article importItem) throws Exception {
         try {
-            jmsTemplate.convertAndSend(QUEUE_IMPORTS_USERS, importUser);
+            jmsTemplate.convertAndSend(QUEUE_IMPORTS_ARTICLES, importItem);
         } catch (JmsException je) {
             throw new RuntimeException("error while jms send", je);
-        }        
-        return new ResponseEntity<>("OK", HttpStatus.CREATED);
-    }    
-    
+        }
+        return new ResponseEntity<>("", HttpStatus.CREATED);
+    }
+
 }

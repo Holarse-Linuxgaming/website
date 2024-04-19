@@ -10,18 +10,39 @@ public class ArticleRevision extends RevisionedNode {
 
     @Column(length = 512)
     private String title1;
+    @Column(length = 12, name = "title1_lang")
+    private String title1Lang;    
+    
     @Column(length = 512)
     private String title2;
+    @Column(length = 12, name = "title2_lang")
+    private String title2Lang;        
+    
     @Column(length = 512)
     private String title3;
+    @Column(length = 12, name = "title3_lang")
+    private String title3Lang;        
+    
     @Column(length = 512)
     private String title4;
+    @Column(length = 12, name = "title4_lang")
+    private String title4Lang;        
+    
     @Column(length = 512)
     private String title5;
+    @Column(length = 12, name = "title5_lang")
+    private String title5Lang;        
+    
     @Column(length = 512)
     private String title6;
+    @Column(length = 12, name = "title6_lang")
+    private String title6Lang;        
+    
     @Column(length = 512)
     private String title7;
+    @Column(length = 12, name = "title7_lang")
+    private String title7Lang;        
+    
     @Column(length = 16384)    
     private String content;
 
@@ -110,4 +131,61 @@ public class ArticleRevision extends RevisionedNode {
     public void setArticle(Article article) {
         this.article = article;
     }
+
+    public String getTitle1Lang() {
+        return title1Lang;
+    }
+
+    public void setTitle1Lang(String title1Lang) {
+        this.title1Lang = title1Lang;
+    }
+
+    public String getTitle2Lang() {
+        return title2Lang;
+    }
+
+    public void setTitle2Lang(String title2Lang) {
+        this.title2Lang = title2Lang;
+    }
+
+    public String getTitle3Lang() {
+        return title3Lang;
+    }
+
+    public void setTitle3Lang(String title3Lang) {
+        this.title3Lang = title3Lang;
+    }
+
+    public String getTitle4Lang() {
+        return title4Lang;
+    }
+
+    public void setTitle4Lang(String title4Lang) {
+        this.title4Lang = title4Lang;
+    }
+
+    public String getTitle5Lang() {
+        return title5Lang;
+    }
+
+    public void setTitle5Lang(String title5Lang) {
+        this.title5Lang = title5Lang;
+    }
+
+    public String getTitle6Lang() {
+        return title6Lang;
+    }
+
+    public void setTitle6Lang(String title6Lang) {
+        this.title6Lang = title6Lang;
+    }
+
+    public String getTitle7Lang() {
+        return title7Lang;
+    }
+
+    public void setTitle7Lang(String title7Lang) {
+        this.title7Lang = title7Lang;
+    }
+    
 }

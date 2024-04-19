@@ -6,7 +6,7 @@ import de.holarse.backend.db.UserStatus;
 import de.holarse.backend.db.repositories.RoleRepository;
 import de.holarse.backend.db.repositories.UserRepository;
 import de.holarse.backend.types.PasswordType;
-import static de.holarse.config.JmsQueueTypes.QUEUE_IMPORTS;
+import static de.holarse.config.JmsQueueTypes.*;
 import de.holarse.config.RoleUserTypes;
 import de.holarse.web.services.SlugService;
 import java.time.OffsetDateTime;
@@ -32,7 +32,7 @@ public class UserWorker {
     @Autowired
     SlugService slugService;
 
-    @JmsListener(destination = QUEUE_IMPORTS)
+    @JmsListener(destination = QUEUE_IMPORTS_USERS)
     public void importUsers(final de.holarse.backend.api.User queueEntry) {
         // Gibt es einen solchen User bereits? Dann updaten, sonst anlegen
         User user = userRepository.findByLogin(queueEntry.getLogin());

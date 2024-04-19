@@ -3,7 +3,7 @@ create table if not exists taggroups(
 	
 	name varchar(255),
         code varchar(255) not null unique,
-	weight integer,
+	weight integer default 0,
         description varchar(255),
 	
 	created timestamptz not null default CURRENT_TIMESTAMP,

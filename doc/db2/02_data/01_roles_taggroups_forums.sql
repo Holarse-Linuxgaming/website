@@ -20,7 +20,8 @@ INSERT INTO taggroups(id, name, code) VALUES
 (nextval('hibernate_sequence'), 'Plattform', 'PLATFORM'),
 (nextval('hibernate_sequence'), 'Technisch', 'TECHNICAL'),
 (nextval('hibernate_sequence'), 'Engine', 'ENGINE'),
-(nextval('hibernate_sequence'), 'Paketmanager', 'PACKAGEMANAGER');
+(nextval('hibernate_sequence'), 'Paketmanager', 'PACKAGEMANAGER'),
+(nextval('hibernate_sequence'), 'Sonstiges', 'OTHER');
 
 
 -- 3. Forums

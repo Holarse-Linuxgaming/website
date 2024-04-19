@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DrückblickWorker {
     
-    private final static transient Logger log = LoggerFactory.getLogger(UserWorker.class);
+    private final static transient Logger log = LoggerFactory.getLogger(ArticleImportWorker.class);
     
     @Autowired
     private DrückblickRepository drückblickRepository;

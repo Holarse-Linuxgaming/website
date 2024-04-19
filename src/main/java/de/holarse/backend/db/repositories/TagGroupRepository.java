@@ -13,4 +13,6 @@ public interface TagGroupRepository extends JpaRepository<TagGroup, Integer> {
     @Query("from TagGroup tg join fetch tg.tags t")
     List<TagGroup> findAllTagGroups(final Sort sort);
     
+    TagGroup findByCode(final String code);
+    
 }
