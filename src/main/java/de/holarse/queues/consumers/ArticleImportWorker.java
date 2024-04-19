@@ -53,16 +53,25 @@ public class ArticleImportWorker {
         for (final Title title : queueEntry.getTitles()) {
             i++;
             switch (i) {
-                case 1 -> { articleRevision.setTitle1(title.getValue()); articleRevision.setTitle1Lang("german"); }
-                case 2 -> { articleRevision.setTitle2(title.getValue()); articleRevision.setTitle2Lang("german"); }
-                case 3 -> { articleRevision.setTitle3(title.getValue()); articleRevision.setTitle3Lang("german"); }
-                case 4 -> { articleRevision.setTitle4(title.getValue()); articleRevision.setTitle4Lang("german"); }
-                case 5 -> { articleRevision.setTitle5(title.getValue()); articleRevision.setTitle5Lang("german"); }
-                case 6 -> { articleRevision.setTitle6(title.getValue()); articleRevision.setTitle6Lang("german"); }
-                case 7 -> { articleRevision.setTitle7(title.getValue()); articleRevision.setTitle7Lang("german"); }
+                case 1 -> articleRevision.setTitle1(title.getValue());
+                case 2 -> articleRevision.setTitle2(title.getValue());
+                case 3 -> articleRevision.setTitle3(title.getValue());
+                case 4 -> articleRevision.setTitle4(title.getValue());
+                case 5 -> articleRevision.setTitle5(title.getValue());
+                case 6 -> articleRevision.setTitle6(title.getValue());
+                case 7 -> articleRevision.setTitle7(title.getValue());
                 default -> log.warn("Too many titles (>7) in this article, ignoring the rest");
             }
         }
+        
+        articleRevision.setTitle1Lang("english");
+        articleRevision.setTitle2Lang("english");
+        articleRevision.setTitle3Lang("english");
+        articleRevision.setTitle4Lang("english");
+        articleRevision.setTitle5Lang("english");
+        articleRevision.setTitle6Lang("english");
+        articleRevision.setTitle7Lang("english");
+        
         articleRevision.setContent(queueEntry.getContent().getValue());
         articleRevision.setNodeId(nodeId);
         articleRevision.setRevision(revision);

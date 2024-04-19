@@ -11,25 +11,25 @@ create table if not exists article_revisions(
     changelog varchar(255),
     
     title1 varchar(512),
-    title1_lang varchar(12) default 'english',
+    title1_lang varchar(12) not null default 'english',
     title2 varchar(512),
-    title2_lang varchar(12) default 'english',
+    title2_lang varchar(12) not null default 'english',
     title3 varchar(512),
-    title3_lang varchar(12) default 'english',
+    title3_lang varchar(12) not null default 'english',
     title4 varchar(512),
-    title4_lang varchar(12) default 'english',
+    title4_lang varchar(12) not null default 'english',
     title5 varchar(512),
-    title5_lang varchar(12) default 'english',
+    title5_lang varchar(12) not null default 'english',
     title6 varchar(512),
-    title6_lang varchar(12) default 'english',
+    title6_lang varchar(12) not null default 'english',
     title7 varchar(512),
-    title7_lang varchar(12) default 'english',
+    title7_lang varchar(12) not null default 'english',
     
     teaser varchar(512),
-    teaser_lang varchar(12) default 'german',
+    teaser_lang varchar(12) not null default 'german',
     
     content varchar(16384),
-    content_lang varchar(12) default 'german'
+    content_lang varchar(12) not null default 'german'
 );
 
 -- Artikel
