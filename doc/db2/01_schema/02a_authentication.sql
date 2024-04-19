@@ -59,7 +59,9 @@ create table users (
 
 create table user_roles (
 	user_id integer not null references users(id),
-	role_id integer not null references roles(id)
+	role_id integer not null references roles(id),
+
+	unique(user_id, role_id)
 );
 
 create index idx_user_verification_hash on user_status (verification_hash, locked, verified);

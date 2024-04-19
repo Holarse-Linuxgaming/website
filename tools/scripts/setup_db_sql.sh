@@ -1,3 +1,5 @@
+#!/bin/bash
+
 BASE_FILES=$(find doc/db2/01_schema/ -type f | sort)
 echo $BASE_FILES
 

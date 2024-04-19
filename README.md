@@ -34,7 +34,7 @@ git login git.holarse.de
 
 Jetzt noch die Datenbank initial befüllen mit dem Script
 ```bash
-./setup_db_sql.sh
+./tools/scripts/setup_db_sql.sh
 ```
 
 und die Containerbande starten mit
@@ -42,14 +42,27 @@ und die Containerbande starten mit
 docker-compose -f doc/docker-compose.yml up
 ```
 
+### Kompilieren
+Die installierbare WAR-Datei erhält man durch das Bauen mit
+
+    mvn clean package
+
+im Hauptverzeichnis, wo sich auch die ```pom.xml``` befindet. Beim ersten Durchlaufen werden die gesamten Abhängigkeiten von
+Maven aufgelöst und heruntergeladen.
+
+Ist Tomcat so konfiguriert, dass das ROOT-Verzeichnis auf das Target-Verzeichnis zeigt, dann sollte die Webseite bereits unter http://localhost:8080 angezeigt werden. Sonst kann man die Datei ```/target/holarseweb.war``` über
+die Tomcat-Manager-Konsole installieren.
+
 ### Apache Artemis Message-Queue
 Die Message-Queue ist unter http://localhost:8161 erreichbar.
 
 ### Datenbank
 Die Datenbank ist unter http://localhost:5432 erreichbar.
 
-### Webseite
+### Mails
+Der Mailcatcher ist unter http://localhost:8025 erreichbar.
 
+### Webseite
 Die Webseite ist unter http://localhost:8080/holarseweb/ erreichbar.
 
 #### Manuelles Deployment
@@ -69,31 +82,14 @@ Dann kann die Datenbank und der Benutzer manuell auf dem Datenbank-Server via
 
 angelegt werden.
 
-Dann folgt das Schema-Script unter ```doc/db2/01_schema``` ebenfalls noch als postgres-Benutzer mit
-
-    psql -h HOST -U postgres -d holarse -W -f 01_*.sql
- 
-Dann die weiteren Dateien aufsteigend in den Nummern, bis es keine mehr gibt.
-
-Danach können einige Daten importiert werden. Diese sind unter ```doc/db2/02_data```.
-
-    
-An dieser Stelle ist Holarse eingerichtet. Die Daten können nun importiert werden. Danach müssen die Daten noch bereinigt werden mit dem Script:
-
-    psql -h HOST -U holarse -d holarse -W -f doc/db/04_after_article_import.sql
-
-Willkommen im HolaCMS 3-Testsystem!
-
-### Kompilieren
-Die installierbare WAR-Datei erhält man durch das Bauen mit
-    
-    mvn clean package
-    
-im Hauptverzeichnis, wo sich auch die ```pom.xml``` befindet. Beim ersten Durchlaufen werden die gesamten Abhängigkeiten von
-Maven aufgelöst und heruntergeladen.
-
-Ist Tomcat so konfiguriert, dass das ROOT-Verzeichnis auf das Target-Verzeichnis zeigt, dann sollte die Webseite bereits unter http://localhost:8080 angezeigt werden. Sonst kann man die Datei ```/target/holarseweb.war``` über
-die Tomcat-Manager-Konsole installieren.
+Die Datenbankscripte können, wie oben schon genannt, über das Script ```tools/scripts/setup_db_sql.sh``` eingefügt werden.
 
 ### Login
-Zuerst einen Benutzer anlegen und diesen dann per SQL zum Admin erheben, indem in die Tabelle ```users_roles``` ein Eintrag mit beiden Foreign-Keys angelegt wird.
+Zuerst einen Benutzer über die Oberfläche registrieren und diesen dann per SQL zum Admin erheben:
+
+```bash
+tools/scripts/make_user_admin.sh DEINBENUTZERNAME
+```
+
+# Ende
+Willkommen im HolaCMS 3-Testsystem!
