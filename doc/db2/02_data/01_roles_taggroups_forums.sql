@@ -7,20 +7,20 @@ INSERT INTO roles (id, code, access_level) VALUES
 (nextval('hibernate_sequence'), 'TRUSTED_USER', 500);
 
 -- 2. Tag groups
-INSERT INTO taggroups(id, name) VALUES 
-(nextval('hibernate_sequence'), 'LICENSE'),
-(nextval('hibernate_sequence'), 'GENRE'),
-(nextval('hibernate_sequence'), 'MULTIPLAYER'),
-(nextval('hibernate_sequence'), 'STORE'),
-(nextval('hibernate_sequence'), 'FRANCHISE'),
-(nextval('hibernate_sequence'), 'COMPANY'),
-(nextval('hibernate_sequence'), 'DEVELOPER'),
-(nextval('hibernate_sequence'), 'PUBLISHER'),
-(nextval('hibernate_sequence'), 'PORTER'),
-(nextval('hibernate_sequence'), 'PLATFORM'),
-(nextval('hibernate_sequence'), 'TECHNICAL'),
-(nextval('hibernate_sequence'), 'ENGINE'),
-(nextval('hibernate_sequence'), 'PACKAGEMANAGER');
+INSERT INTO taggroups(id, name, code) VALUES
+(nextval('hibernate_sequence'), 'Lizenz', 'LICENSE'),
+(nextval('hibernate_sequence'), 'Genre', 'GENRE'),
+(nextval('hibernate_sequence'), 'Multiplayer', 'MULTIPLAYER'),
+(nextval('hibernate_sequence'), 'Händler', 'STORE'),
+(nextval('hibernate_sequence'), 'Franchise', 'FRANCHISE'),
+(nextval('hibernate_sequence'), 'Firma', 'COMPANY'),
+(nextval('hibernate_sequence'), 'Entwickler', 'DEVELOPER'),
+(nextval('hibernate_sequence'), 'Publisher', 'PUBLISHER'),
+(nextval('hibernate_sequence'), 'Portierer', 'PORTER'),
+(nextval('hibernate_sequence'), 'Plattform', 'PLATFORM'),
+(nextval('hibernate_sequence'), 'Technisch', 'TECHNICAL'),
+(nextval('hibernate_sequence'), 'Engine', 'ENGINE'),
+(nextval('hibernate_sequence'), 'Paketmanager', 'PACKAGEMANAGER');
 
 
 -- 3. Forums
@@ -79,6 +79,6 @@ insert into attachment_types (code, label, attachment_group_id, datatype) values
 
 ('appimage', 'AppImage', (select id from attachment_groups where code = 'repo'), 'url'),
 ('flatpak', 'Flatpak', (select id from attachment_groups where code = 'repo'), 'url'),
-('Snap', 'Snap', (select id from attachment_groups where code = 'repo'), 'url');
+('snap', 'Snap', (select id from attachment_groups where code = 'repo'), 'url');
 
 insert into news_categories(name, active, weight) values ('News', true, 70), ('Drückblick', true, 50), ('Kurznews', true, 30), ('Review', true, 20), ('Artikel', true, 10), ('In eigener Sache', true, 1);

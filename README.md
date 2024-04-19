@@ -15,24 +15,42 @@ Den Import der Dateien kann man über die REST-API durchführen. Es gibt zwei Sc
 ## Webapp
 
 ### Anforderungen
-* Java 17
+* Java 21
 * Docker, docker-compose
 * Apache Maven 3.x
-* Containerisiert: Apache Tomcat 10, Apache Artemis, PostgreSQL 15
+* Containerisiert: Apache Tomcat 10, Apache Artemis, PostgreSQL 16
 
 ### Container-Deployment
-Starten mit
-
+Zuerst die Volumes für Postgres und AMQ anlegen
+```bash
+docker volume create website_my_pgdata
+docker volume create amq_journal_data
 ```
+
+dann am Holarse Container-Repository anmelden
+```bash
+git login git.holarse.de
+```
+
+Jetzt noch die Datenbank initial befüllen mit dem Script
+```bash
+./setup_db_sql.sh
+```
+
+und die Containerbande starten mit
+```bash
 docker-compose -f doc/docker-compose.yml up
 ```
-Ggf. muss man sich am Holarse-Container-Repo unter git.holarse.de anmelden.
 
 ### Apache Artemis Message-Queue
 Die Message-Queue ist unter http://localhost:8161 erreichbar.
 
 ### Datenbank
 Die Datenbank ist unter http://localhost:5432 erreichbar.
+
+### Webseite
+
+Die Webseite ist unter http://localhost:8080/holarseweb/ erreichbar.
 
 #### Manuelles Deployment
 Die Datenbank per Distro-Repo einbinden oder von dem Postgresql-bereitgestelltem Repository. Die Anleitungen finden sich in ```/doc/db/```.

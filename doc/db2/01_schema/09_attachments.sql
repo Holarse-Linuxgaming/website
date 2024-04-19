@@ -1,4 +1,4 @@
-create type attachment_data_type as enum ('url', 'storage');
+create type attachment_data_type as enum ('url', 'storage', 'yes_or_no');
 
 create table if not exists attachment_groups(
     id integer primary key default nextval('hibernate_sequence'),

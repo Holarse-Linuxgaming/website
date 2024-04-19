@@ -49,6 +49,5 @@ CREATE OR REPLACE FUNCTION update_tag_use_count() RETURNS TRIGGER AS $trg_tag_us
 $trg_tag_usecount$ LANGUAGE plpgsql;
 ALTER FUNCTION update_tag_use_count() OWNER TO holarse;
 
-DROP TRIGGER IF EXISTS trg_tag_usecount ON node_tags CASCADE;
 CREATE TRIGGER trg_tag_usecount AFTER INSERT OR DELETE ON node_tags
 FOR EACH ROW EXECUTE PROCEDURE update_tag_use_count();
