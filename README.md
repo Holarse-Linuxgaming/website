@@ -25,6 +25,7 @@ Zuerst die Volumes für Postgres und AMQ anlegen
 ```bash
 docker volume create website_my_pgdata
 docker volume create amq_journal_data
+docker volume create storage_data
 ```
 
 dann am Holarse Container-Repository anmelden
@@ -61,6 +62,9 @@ Die Datenbank ist unter http://localhost:5432 erreichbar.
 
 ### Mails
 Der Mailcatcher ist unter http://localhost:8025 erreichbar.
+
+### S3-Storage
+Die Storage-Console (minio) ist unter http://localhost:9001 erreichbar.
 
 ### Webseite
 Die Webseite ist unter http://localhost:8080/holarseweb/ erreichbar.

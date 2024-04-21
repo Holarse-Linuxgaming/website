@@ -21,11 +21,27 @@ services:
       container_name: amq
       restart: always
       ports:
-          - 8161:8161
-          - 61616:61616
+        - 8161:8161
+        - 61616:61616
       volumes:
         - amq_journal_data:/opt/holaq/data
       networks:
+        - holarse-dev
+
+  storage:
+    image: minio/minio
+    container_name: minio
+    restart: always
+    command: server --console-address ":9001" /data
+    environment:
+        MINIO_ROOT_USER: minioadmin
+        MINIO_ROOT_PASSWORD: minioadmin
+    ports:
+        - 9000:9000
+        - 9001:9001
+    volumes:
+        - storage_data:/data
+    networks:
         - holarse-dev
 
   app:
@@ -64,9 +80,12 @@ services:
 
 volumes:
   website_my_pgdata: 
-      external: true
+    external: true
   amq_journal_data:
-      external: true
+    external: true
+  storage_data:
+    external: true
+
 
 networks:
   holarse-dev:

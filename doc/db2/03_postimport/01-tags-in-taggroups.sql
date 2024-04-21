@@ -1,20 +1,20 @@
-UPDATE tags SET taggroup_id = (SELECT id FROm taggroups WHERE name = 'ENGINE')
+@telefoUPDATE tags SET taggroupid = (SELECT id FROm taggroups WHERE code = 'ENGINE')
 WHERE name IN (
     'Adobe AIR',
     'AGS',
     'Allegro',
     'Build Engine',
     'EDuke32',
-    'FIFEngine',
-    'Flash',
-    'FNA',
-    'Game Maker',
-    'godot',
-    'HTML5',
-    'Irrlicht',
-    'Ruby',
-    'Java',
-    'jMonkeyEngine',
+        'FIFEngine',
+        'Flash',
+        'FNA',
+        'Game Maker',
+        'godot',
+        'HTML5',
+        'Irrlicht',
+        'Ruby',
+        'Java',
+        'jMonkeyEngine',
     'jMonkeyVR',
     'Haxeflixel',
     'libgdx',
@@ -46,7 +46,7 @@ WHERE name IN (
 
 
 -- 2. Franchise tags
-UPDATE tags SET taggroup_id = (SELECT id FROM taggroups WHERE name = 'FRANCHISE')
+UPDATE tags SET taggroupid = (SELECT id FROM taggroups WHERE code = 'FRANCHISE')
 WHERE name IN (
     'Anno',
     'assasin',
@@ -75,7 +75,7 @@ WHERE name IN (
 
 
 -- 3. Licence tags
-UPDATE tags SET taggroup_id = (SELECT id FROM taggroups WHERE name = 'LICENSE')
+UPDATE tags SET taggroupid = (SELECT id FROM taggroups WHERE code = 'LICENSE')
 WHERE name IN (
     'Kommerziell',
     'Freeware',
@@ -98,7 +98,7 @@ WHERE name IN (
 
 
 -- 4. Multiplayer tags (with more multiplayer!)
-UPDATE tags SET taggroup_id = (SELECT id FROM taggroups WHERE name = 'MULTIPLAYER')
+UPDATE tags SET taggroupid = (SELECT id FROM taggroups WHERE code = 'MULTIPLAYER')
 WHERE name IN (
     '10+Spieler',
     '10-Spieler',
@@ -175,7 +175,7 @@ WHERE name IN (
 
 
 -- 5. Platform tags
-UPDATE tags SET taggroup_id = (SELECT id FROM taggroups WHERE name = 'PLATFORM')
+UPDATE tags SET taggroupid = (SELECT id FROM taggroups WHERE code = 'PLATFORM')
 WHERE name IN (
     'native',
     'amd64',
@@ -207,7 +207,7 @@ WHERE name IN (
 
 
 -- 6. Store tags
-UPDATE tags SET taggroup_id = (SELECT id FROM taggroups WHERE name = 'STORE')
+UPDATE tags SET taggroupid = (SELECT id FROM taggroups WHERE code = 'STORE')
 WHERE name IN (
     'deliver2',
     'GOG',
@@ -220,7 +220,7 @@ WHERE name IN (
 
 
 -- 7. Genre tags
-UPDATE tags SET taggroup_id = (SELECT id FROM taggroups WHERE name = 'GENRE')
+UPDATE tags SET taggroupid = (SELECT id FROM taggroups WHERE code = 'GENRE')
 WHERE name IN (
     'Arcade',
     'Shooter',
@@ -444,7 +444,7 @@ WHERE name IN (
 
 
 -- 8. Porter tags
-UPDATE tags SET taggroup_id = (SELECT id FROM taggroups WHERE name = 'PORTER')
+UPDATE tags SET taggroupid = (SELECT id FROM taggroups WHERE code = 'PORTER')
 WHERE name IN (
     'Asypr',
     'Feral Interactive',
@@ -458,7 +458,7 @@ WHERE name IN (
 
 
 -- 9. Package Manager tags
-UPDATE tags SET taggroup_id = (SELECT id FROM taggroups WHERE name = 'PACKAGEMANAGER')
+UPDATE tags SET taggroupid = (SELECT id FROM taggroups WHERE code = 'PACKAGEMANAGER')
 WHERE name IN (
     'PPA',
     'SNAP',
@@ -471,14 +471,14 @@ WHERE name IN (
 -- 10. Adjustments for the articles and tags (must be run as last instruction!)
 -- FIXME: Check if target tag already exists within a tag-set of an article. Maybe window functions?
 --- Rename tags if target tag is not yet present
-BEGIN TRANSACTION;
-UPDATE articles_tags
-SET tags_id = (SELECT id FROM tags WHERE name = 'Kommerziell')
-WHERE tags_id = (SELECT id FROM tags WHERE name = 'Kommerztiell')
-      AND article_id NOT IN (SELECT article_id FROM articles_tags WHERE tags_id = (SELECT id FROM tags WHERE name = 'Kommerziell'));
+--BEGIN TRANSACTION;
+--UPDATE articles_tags
+--SET tags_id = (SELECT id FROM tags WHERE name = 'Kommerziell')
+--WHERE tags_id = (SELECT id FROM tags WHERE name = 'Kommerztiell')
+      --AND article_id NOT IN (SELECT article_id FROM articles_tags WHERE tags_id = (SELECT id FROM tags WHERE name = 'Kommerziell'));
 
-DELETE FROM articles_tags WHERE tags_id = (SELECT id FROM tags WHERE name = 'Kommerztiell');
-COMMIT;
+--DELETE FROM articles_tags WHERE tags_id = (SELECT id FROM tags WHERE name = 'Kommerztiell');
+--COMMIT;
 
 UPDATE tags SET name = 'infinite runner' WHERE name = 'infinte runner';
 
@@ -606,7 +606,7 @@ DELETE FROM tags WHERE name = 'engine';
 COMMIT;
 
 --- Tag assignment
-INSERT INTO tags(id, created, name, taggroup_id)
+INSERT INTO tags(id, created, name, taggroupid)
 VALUES
     (nextval('hibernate_sequence'), current_timestamp, 'Feral Store', (SELECT id FROM taggroups WHERE name = 'STORE'));
 
