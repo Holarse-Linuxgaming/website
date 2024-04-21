@@ -7,7 +7,7 @@
             </header>
 
             <ul data-th-each="item : ${items}">
-                <li><a href="#" data-th-href="@{/news/{slug}(slug=${news.slug})}" data-th-text="${news.title}"></a></li>
+                <li><a href="#" data-th-href="@{/news/{slug}(slug=${item.slug})}" data-th-text="${item.title}"></a></li>
             </ul>
             
         </div>

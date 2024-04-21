@@ -70,7 +70,7 @@ public class NewsController {
     private NewsCategoryRepository newsCategoryRepository;
     
     @GetMapping
-    public ModelAndView index(@PageableDefault(sort = {"title"}, value = NEWS_ARTICLES_DEFAULT_PAGE_SIZE) final PageRequest pageable, final ModelAndView mv) {
+    public ModelAndView index(@PageableDefault(sort = {"title"}, value = NEWS_ARTICLES_DEFAULT_PAGE_SIZE) final Pageable pageable, final ModelAndView mv) {
         mv.setViewName("layouts/bare");
         mv.addObject("title", "Die Linuxspiele-Seite für Linuxspieler");
         mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/news/index");
