@@ -1,18 +1,3 @@
---------
--- This script can be run by an admin user (e.g. postgres)
--- or the holarse user and should be used, after the articles
--- has been imported.
---------
-
--- Variables for the script
-\set dbUser holarse
-\set apiUser dummy
---- API Password: geheim
-\set apiPassword ADDB0F5E7826C857D7376D1BD9BC33C0C544790A2EAC96144A8AF22B1298C940
-
-
--- 1. Engine tags
-\echo '-- Update engine tags --'
 UPDATE tags SET taggroup_id = (SELECT id FROm taggroups WHERE name = 'ENGINE')
 WHERE name IN (
     'Adobe AIR',
@@ -61,7 +46,6 @@ WHERE name IN (
 
 
 -- 2. Franchise tags
-\echo '-- Update franchise tags --'
 UPDATE tags SET taggroup_id = (SELECT id FROM taggroups WHERE name = 'FRANCHISE')
 WHERE name IN (
     'Anno',
@@ -91,7 +75,6 @@ WHERE name IN (
 
 
 -- 3. Licence tags
-\echo '-- Update licence tags --'
 UPDATE tags SET taggroup_id = (SELECT id FROM taggroups WHERE name = 'LICENSE')
 WHERE name IN (
     'Kommerziell',
@@ -115,7 +98,6 @@ WHERE name IN (
 
 
 -- 4. Multiplayer tags (with more multiplayer!)
-\echo '-- Update multiplayer tags --'
 UPDATE tags SET taggroup_id = (SELECT id FROM taggroups WHERE name = 'MULTIPLAYER')
 WHERE name IN (
     '10+Spieler',
@@ -193,7 +175,6 @@ WHERE name IN (
 
 
 -- 5. Platform tags
-\echo '-- Update plattform tags --'
 UPDATE tags SET taggroup_id = (SELECT id FROM taggroups WHERE name = 'PLATFORM')
 WHERE name IN (
     'native',
@@ -226,7 +207,6 @@ WHERE name IN (
 
 
 -- 6. Store tags
-\echo '-- Update store tags --'
 UPDATE tags SET taggroup_id = (SELECT id FROM taggroups WHERE name = 'STORE')
 WHERE name IN (
     'deliver2',
@@ -240,7 +220,6 @@ WHERE name IN (
 
 
 -- 7. Genre tags
-\echo '-- Update genre tags --'
 UPDATE tags SET taggroup_id = (SELECT id FROM taggroups WHERE name = 'GENRE')
 WHERE name IN (
     'Arcade',
@@ -465,7 +444,6 @@ WHERE name IN (
 
 
 -- 8. Porter tags
-\echo '-- Update porter tags --'
 UPDATE tags SET taggroup_id = (SELECT id FROM taggroups WHERE name = 'PORTER')
 WHERE name IN (
     'Asypr',
@@ -480,7 +458,6 @@ WHERE name IN (
 
 
 -- 9. Package Manager tags
-\echo '-- Update package manager tags --'
 UPDATE tags SET taggroup_id = (SELECT id FROM taggroups WHERE name = 'PACKAGEMANAGER')
 WHERE name IN (
     'PPA',
@@ -493,7 +470,6 @@ WHERE name IN (
 
 -- 10. Adjustments for the articles and tags (must be run as last instruction!)
 -- FIXME: Check if target tag already exists within a tag-set of an article. Maybe window functions?
-\echo '-- Adjustments for articles and tags --'
 --- Rename tags if target tag is not yet present
 BEGIN TRANSACTION;
 UPDATE articles_tags
@@ -643,11 +619,5 @@ INSERT INTO articles_tags(article_id, tags_id)
     LEFT JOIN articles_tags at3 ON at3.article_id = a.id AND at3.tags_id = (SELECT id FROM tags WHERE name = 'Kommerziell')
     WHERE at1.tags_id IS NOT null AND at2.tags_id IS NOT null AND at3.tags_id IS NOT null;
 
--- Update Searchindex and SlugView
-refresh materialized view search.mv_suggestions;
-refresh materialized view search.mv_searchindex;
-refresh materialized view search.mv_slugs;
 
--- End
-\echo '----'
-\echo 'Done!'
+
