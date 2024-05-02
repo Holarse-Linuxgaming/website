@@ -20,3 +20,13 @@ $(function() {
         });
     });    
 });
+
+// Register Filepond-Plugins
+FilePond.registerPlugin(FilePondPluginFileEncode);
+const inputElement = document.querySelector('input[type="file"][name="filepond"]');
+FilePond.create(inputElement, {
+    storeAsFile: false,
+    allowFileEncode: true,
+    allowMultiple: true,
+    allowReorder: true,
+});

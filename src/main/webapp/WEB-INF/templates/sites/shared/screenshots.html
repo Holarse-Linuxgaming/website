@@ -1,0 +1,5 @@
+<div data-th-fragment="render(screenshots)">
+    <div class="list-group" data-th-each="screenshot : ${screenshots}">
+        <img class="img-fluid" src="" data-th-src="@{${screenshot.data}}" alt="Image Description" />
+    </div>
+</div>

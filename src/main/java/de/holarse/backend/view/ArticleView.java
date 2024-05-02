@@ -38,6 +38,7 @@ public class ArticleView {
     
     private List<AttachmentView> websiteLinks = new ArrayList<>();
     private List<YoutubeView> youtubeVideos = new ArrayList<>();
+    private List<ScreenshotView> screenshotViews = new ArrayList<>();
      
     public static ArticleView of(final ArticleRevision ar, final NodeSlug slug) {
         final ArticleView av = new ArticleView();
@@ -207,5 +208,13 @@ public class ArticleView {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public List<ScreenshotView> getScreenshots() {
+        return screenshotViews;
+    }
+
+    public void setScreenshots(List<ScreenshotView> screenshotViews) {
+        this.screenshotViews = screenshotViews;
     }
 }

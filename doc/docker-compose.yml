@@ -58,7 +58,9 @@ services:
       - '../target/holarseweb.war:/usr/local/tomcat/webapps/holarseweb.war'
     networks:
       - holarse-dev
-
+    environment:
+      - OCI_ACCESSKEYID=${OCI_ACCESSKEYID}
+      - OCI_SECRETKEYID=${OCI_SECRETKEYID}
   cache:
       image: memcached:latest
       container_name: cache

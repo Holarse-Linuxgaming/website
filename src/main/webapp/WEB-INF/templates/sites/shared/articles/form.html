@@ -10,6 +10,9 @@
         <a class="nav-link" data-toggle="tab" href="#article-edit-tab-links" role="tab">Links</a>
     </li>
     <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#article-edit-tab-screenshots" role="tab">Screenshots</a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" data-toggle="tab" href="#article-edit-tab-settings" role="tab">Einstellungen</a>
     </li>    
 </ul>
@@ -150,7 +153,33 @@
 
         </div>        
 
-    </div>    
+    </div>
+
+    <!-- Tab Screenshots -->
+    <div class="tab-pane fade show" id="article-edit-tab-screenshots" role="tabpanel">
+
+        <!-- List of existing screenshots -->
+        <ul data-th-each="screenshot,iter : *{screenshots}">
+            <!-- Existing Screenshot-Item -->
+            <div class="form-group row g-mb-20 block-title block-title7">
+
+                <label class="col-sm-1 col-form-label g-mb-1" data-th-text="Link + ' #' + |${iter.count}|"></label>
+                <input data-th-field="*{screenshot[__${iter.index}__].id}" type="hidden">
+
+                <input data-th-field="*{screenshot[__${iter.index}__].weight}" type="hidden">
+                <input data-th-field="*{screenshot[__${iter.index}__].markAsDeleted}" type="hidden">
+
+                <div class="col-sm-11">
+                    <label class="col-sm-3 col-form-label g-mb-10" data-th-for="${'screenshot[__${iter.index}__].description'}">Beschreibung</label>
+                    <input data-th-field="*{screenshot[__${iter.index}__].description}" class="form-control form-control-md rounded-0" type="text" placeholder="Beschreibung zum Bild">
+                </div>
+            </div>
+            <!-- End Screenshots -->
+        </ul>
+
+        <!-- New Screenshot -->
+        <input type="file" name="filepond" multiple />
+    </div>
 
     <!-- Tab Einstellungen -->
     <div class="tab-pane fade show" id="article-edit-tab-settings" role="tabpanel">

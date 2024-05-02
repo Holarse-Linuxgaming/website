@@ -1,6 +1,7 @@
 package de.holarse.web.controller.commands;
 
 import de.holarse.backend.view.AttachmentView;
+import de.holarse.backend.view.ScreenshotView;
 import de.holarse.backend.view.SettingsView;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -16,6 +17,7 @@ public abstract class AbstractNodeForm {
     private String content;
 
     private List<AttachmentView> websiteLinks = new ArrayList<>();
+    private List<ScreenshotView> screenshots = new ArrayList<>();
 
     private SettingsView settings = new SettingsView();
 
@@ -50,5 +52,8 @@ public abstract class AbstractNodeForm {
     public void setSettings(SettingsView settings) {
         this.settings = settings;
     }
+
+    public void setScreenshots(List<ScreenshotView> screenshots) { this.screenshots = screenshots ;}
+    public List<ScreenshotView> getScreenshots() { return screenshots; };
 
 }

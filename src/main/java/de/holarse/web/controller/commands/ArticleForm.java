@@ -4,6 +4,9 @@ import de.holarse.backend.view.AttachmentView;
 import de.holarse.backend.view.SettingsView;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+
+import java.io.File;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +22,8 @@ public class ArticleForm extends AbstractNodeForm {
 
     @NotBlank
     private String tags;
+
+    private List<FileUploadForm> filepond = new ArrayList<>();
 
     public String getTitle1() {
         return title1;
@@ -83,5 +88,12 @@ public class ArticleForm extends AbstractNodeForm {
     public void setTags(String tags) {
         this.tags = tags;
     }
-    
+
+    public List<FileUploadForm> getFilepond() {
+        return filepond;
+    }
+
+    public void setFilepond(List<FileUploadForm> filepond) {
+        this.filepond = filepond;
+    }
 }

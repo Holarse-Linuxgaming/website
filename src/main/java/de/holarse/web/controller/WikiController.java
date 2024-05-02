@@ -1,5 +1,7 @@
 package de.holarse.web.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.holarse.auth.web.HolarsePrincipal;
 import de.holarse.backend.db.*;
 import de.holarse.backend.db.repositories.*;
@@ -10,15 +12,15 @@ import de.holarse.backend.view.*;
 import static de.holarse.config.JmsQueueTypes.QUEUE_SEARCH;
 import de.holarse.queues.commands.SearchRefresh;
 import de.holarse.web.controller.commands.ArticleForm;
+import de.holarse.web.controller.commands.FileUploadForm;
 import de.holarse.web.defines.WebDefines;
 
 import static de.holarse.web.defines.WebDefines.WIKI_ARTICLES_DEFAULT_PAGE_SIZE;
 import de.holarse.web.renderer.Renderer;
-import de.holarse.web.services.AttachmentService;
-import de.holarse.web.services.SlugService;
-import de.holarse.web.services.TagService;
+import de.holarse.web.services.*;
 import jakarta.persistence.EntityNotFoundException;
 import java.security.Principal;
+import java.time.OffsetDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -80,6 +82,12 @@ public class WikiController {
     private AttachmentService attachmentService;
 
     @Autowired
+    private ObjectStorageService objectStorageService;
+
+    @Autowired
+    private FileUploadService fileUploadService;
+
+    @Autowired
     private Renderer renderer;
     
     @Autowired
@@ -128,7 +136,8 @@ public class WikiController {
 
         final List<Attachment> websiteLinks = attachmentService.getAttachments(article, attachmentGroupRepository.findByCode(AttachmentGroupType.website.name()));
         final List<Attachment> videos = attachmentService.getAttachments(article, attachmentGroupRepository.findByCode(AttachmentGroupType.video.name()));
-        
+        final List<Attachment> screenshots = attachmentService.getAttachments(article, attachmentGroupRepository.findByCode(AttachmentGroupType.image.name()));
+
         // View zusammenstellen
         final ArticleView view = ArticleView.of(articleRevision, mainSlug);
         view.setNodeId(article.getNodeId());
@@ -137,6 +146,7 @@ public class WikiController {
         //view.setSlug(mainSlug.getName());
         view.setWebsiteLinks(websiteLinks.stream().map(AttachmentView::of).toList());
         view.setYoutubeVideos(videos.stream().map(YoutubeView::of).toList());
+        view.setScreenshots(screenshots.stream().map(ScreenshotView::of).map(ssv -> objectStorageService.patchUrl(ssv)).toList());
 
         mv.addObject("view", view);
         
@@ -178,7 +188,7 @@ public class WikiController {
         form.setContent(articleRevision.getContent());
 
         // Attachments
-        final List<Attachment> websiteLinks = attachmentService.getAttachments(article, attachmentGroupRepository.findByCode("website"));
+        final List<Attachment> websiteLinks = attachmentService.getAttachments(article, attachmentGroupRepository.findByCode(AttachmentGroupType.website.name()));
         logger.debug("Links: {}", websiteLinks);
         form.setWebsiteLinks(websiteLinks.stream().map(AttachmentView::of).toList());
         
@@ -192,12 +202,28 @@ public class WikiController {
     
     @Transactional
     @PostMapping("{nodeId}")
-    public ModelAndView update(@PathVariable final int nodeId, @ModelAttribute("form") final ArticleForm form, final ModelAndView mv, final Authentication authentication) {
+    public ModelAndView update(@PathVariable final int nodeId, @ModelAttribute("form") final ArticleForm form, final ModelAndView mv, final Authentication authentication) throws JsonProcessingException {
         logger.debug("Updating by form {}", form);
         
         final Article article = articleRepository.findByNodeId(nodeId).orElseThrow(EntityNotFoundException::new);
 
         final User author = userRepository.findById( ((HolarsePrincipal)authentication.getPrincipal()).getUser().getId() ).orElseThrow(EntityNotFoundException::new);
+
+        final AttachmentType attScreenshot = attachmentTypeRepository.findByCode("screenshot");
+        final AttachmentType attLink = attachmentTypeRepository.findByCode("link");
+
+        List<Attachment> addedScreenShots = new ArrayList<>();
+        final List<FileUploadForm> screenshots = fileUploadService.readFileUpload(form);
+        for (FileUploadForm screenshot : screenshots) {
+            final String hashedFilename = objectStorageService.writeToCloud(screenshot);
+            Attachment attachment = new Attachment();
+            attachment.setData(hashedFilename);
+            attachment.setAttachmentType(attScreenshot);
+            attachment.setWeight(0);
+            attachment.setNodeId(nodeId);
+            attachment.setCreated(OffsetDateTime.now());
+            addedScreenShots.add(attachment);
+        }
 
         // Aktualisieren und als neue Revision speichern
         final int revision = articleRevisionRepository.nextRevision();
@@ -206,12 +232,19 @@ public class WikiController {
         articleRevision.setNodeId(nodeId);
         articleRevision.setRevision(revision);
         articleRevision.setTitle1(form.getTitle1());
+        articleRevision.setTitle1Lang(WebDefines.TITLE_LANG_GERMAN);
         articleRevision.setTitle2(form.getTitle2());
+        articleRevision.setTitle2Lang(WebDefines.TITLE_LANG_GERMAN);
         articleRevision.setTitle3(form.getTitle3());
+        articleRevision.setTitle3Lang(WebDefines.TITLE_LANG_GERMAN);
         articleRevision.setTitle4(form.getTitle4());
+        articleRevision.setTitle4Lang(WebDefines.TITLE_LANG_GERMAN);
         articleRevision.setTitle5(form.getTitle5());
+        articleRevision.setTitle5Lang(WebDefines.TITLE_LANG_GERMAN);
         articleRevision.setTitle6(form.getTitle6());
+        articleRevision.setTitle6Lang(WebDefines.TITLE_LANG_GERMAN);
         articleRevision.setTitle7(form.getTitle7());
+        articleRevision.setTitle7Lang(WebDefines.TITLE_LANG_GERMAN);
         articleRevision.setContent(form.getContent());
         articleRevision.setChangelog("TODO Changelog im Form"); // TODO Changelog im Article-Form
         articleRevision.setAuthor(author);
@@ -225,16 +258,16 @@ public class WikiController {
         // Website Links
         //
         logger.debug("Link-Attachments: {}", form.getWebsiteLinks());
-        final Map<Boolean, List<AttachmentView>> websiteLinksMap = form.getWebsiteLinks().stream().collect(Collectors.partitioningBy(av -> av.isMarkAsDeleted()));
+        final Map<Boolean, List<AttachmentView>> websiteLinksMap = form.getWebsiteLinks().stream().collect(Collectors.partitioningBy(AttachmentView::isMarkAsDeleted));
         // Die zu Löschenden verarbeiten
-        attachmentRepository.deleteAllById(websiteLinksMap.get(Boolean.TRUE).stream().map(av -> av.getId()).toList());
+        attachmentRepository.deleteAllById(websiteLinksMap.get(Boolean.TRUE).stream().map(AttachmentView::getId).toList());
         
         final List<Attachment> createdAndUpdatedAttachments = new ArrayList<>();
         // Die neuen Entities umwandeln und speichern
         createdAndUpdatedAttachments.addAll(websiteLinksMap.get(Boolean.FALSE).stream()
                                                                        .filter(av -> av.getId() == null)
                                                                        .filter(av -> StringUtils.isNotBlank(av.getData()))
-                                                                       .map(av -> Attachment.build(av, nodeId, attachmentTypeRepository.findByCode("link")))
+                                                                       .map(av -> Attachment.build(av, nodeId, attLink))
                                                                        .toList());
         // Die bestehenden finden und updaten
         for (final AttachmentView av : websiteLinksMap.get(Boolean.FALSE).stream().filter(av -> av.getId() != null).toList()) {
@@ -246,7 +279,10 @@ public class WikiController {
             createdAndUpdatedAttachments.add(att);
         }
         attachmentRepository.saveAllAndFlush(createdAndUpdatedAttachments);
-        logger.debug("Saved attachments");        
+        logger.debug("Saved attachments (links)");
+
+        attachmentRepository.saveAllAndFlush(addedScreenShots);
+        logger.debug("Saved attachments (screenshots");
         
         // Status
         final NodeStatus nodeStatus = article.getNodeStatus();

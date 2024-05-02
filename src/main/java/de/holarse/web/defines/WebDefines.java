@@ -11,6 +11,9 @@ public class WebDefines {
     public static final int REVISION_DEFAULT_PAGE_SIZE = 10;
     
     public static final String TAG_DELIMITER = "@@@";
-    
+
+    public static final String TITLE_LANG_GERMAN = "german";
+    public static final String TITLE_LANG_ENGLISH = "english";
+
     private WebDefines() {}
 }

@@ -48,4 +48,5 @@ holarse-website.code-workspace
 docs
 
 *.log
-nb-configuration.xml
+onb-configuration.xml
+.dev-environments

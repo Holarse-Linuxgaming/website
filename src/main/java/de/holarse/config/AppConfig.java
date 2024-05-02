@@ -1,5 +1,6 @@
 package de.holarse.config;
 
+import de.holarse.web.converters.StringToFilepondConverter;
 import de.holarse.web.interceptors.RequestLoggingInterceptor;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
@@ -38,6 +40,7 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 @PropertySources({
     @PropertySource("classpath:application.properties"),
     @PropertySource("classpath:credential.properties"),
+    @PropertySource("classpath:cloud.properties"),
     @PropertySource("classpath:git.properties")})
 public class AppConfig implements WebMvcConfigurer {
 
@@ -129,6 +132,11 @@ public class AppConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(final InterceptorRegistry registry) {
         registry.addInterceptor(requestLoggingInterceptor());
+    }
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(new StringToFilepondConverter());
     }
 
 }

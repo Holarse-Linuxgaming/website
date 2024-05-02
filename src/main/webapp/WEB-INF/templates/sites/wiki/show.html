@@ -12,6 +12,8 @@
             <section>
                 <p data-th-text="${view.content}"></p>
             </section>
+
+            <p th:replace="~{sites/shared/screenshots :: render(screenshots=${view.screenshots})}"></p>
         </div>
     </div>
     <div class="col-sm-2">
