@@ -1,0 +1,28 @@
+<div class="row justify-content-center">
+    <div class="col-sm-10">
+        <div class="u-shadow-v21 g-bg-white rounded">
+
+            <header class="u-heading-v2-1--bottom g-mb-30">
+                <h2 class="u-heading-v2__title g-mb-10" data-th-text="${title1}">Lorem ipsum standard</h2>
+            </header>
+            <section>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Zeit</th>
+                            <th>Zugriffe</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-th-each="stat : ${stats}">
+                                <td data-th-text="${stat.time}"></td>
+                                <td data-th-text="${stat.amount}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

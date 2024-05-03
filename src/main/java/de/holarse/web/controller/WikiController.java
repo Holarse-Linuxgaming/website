@@ -7,6 +7,7 @@ import de.holarse.backend.db.*;
 import de.holarse.backend.db.repositories.*;
 import de.holarse.backend.types.AttachmentGroupType;
 import de.holarse.backend.types.NodeType;
+import de.holarse.backend.types.StatIntervalType;
 import de.holarse.backend.view.*;
 
 import static de.holarse.config.JmsQueueTypes.QUEUE_SEARCH;
@@ -34,11 +35,7 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -104,12 +101,45 @@ public class WikiController {
 //        
         return mv;
     }
+
+    @GetMapping(value = "{slug}", params="stats")
+    public RedirectView stats(@PathVariable final String slug, final ModelAndView mv) {
+        final Article article = articleRepository.findBySlug(slug).orElseThrow(EntityNotFoundException::new);
+        return new RedirectView(String.format("%d/stats", article.getNodeId()));
+    }
+
+    @GetMapping(value = "{nodeId}/stats")
+    public ModelAndView stats(@PathVariable final Integer nodeId,
+                              @RequestParam(value="interval", defaultValue = "daily") final StatIntervalType statIntervalType,
+                              @RequestParam(value="amount", defaultValue = "3") final int amount,
+                              final ModelAndView mv) {
+        mv.setViewName("layouts/bare");
+        mv.addObject("title", "Die Linuxspiele-Seite für Linuxspieler");
+        mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/wiki/stats");
+
+        final Article article = articleRepository.findByNodeId(nodeId).orElseThrow(EntityNotFoundException::new);
+        final ArticleRevision articleRevision = article.getNodeRevision();
+
+        final List<NodeStatisticsView> stats = switch (statIntervalType) {
+            case daily -> articleRepository.getDailyStats(article.getNodeId(), amount);
+            case monthly -> articleRepository.getMonthlyStats(article.getNodeId(), amount);
+        };
+
+        stats.forEach(s -> logger.debug("Stats: time: {} amount: {}", s.getTime(), s.getAmount()));
+
+
+        mv.addObject("title1", articleRevision.getTitle1());
+        mv.addObject("interval", statIntervalType);
+        mv.addObject("amount", amount);
+        mv.addObject("stats", stats);
+        return mv;
+    }
     
     @GetMapping(value = "{slug}")
     public ModelAndView show(@PathVariable("slug") final String slug, final ModelAndView mv, final Principal principal) {
         mv.setViewName("layouts/bare");
         mv.addObject("title", "Die Linuxspiele-Seite für Linuxspieler");
-        mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/wiki/show");       
+        mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/wiki/show");
 
         boolean adminOverride = false;
         
@@ -118,7 +148,9 @@ public class WikiController {
         final Set<Tag> tags = article.getTags();
         final List<TagGroup> relevantTagGroups = tags.stream().map(t -> t.getTagGroup()).toList();
         final NodeSlug mainSlug = nodeSlugRepository.findMainSlug(articleRevision.getNodeId(), NodeType.article).orElseThrow(EntityNotFoundException::new);
-        
+
+        mv.addObject("nodeid", article.getNodeId());
+
         // TODO
 //        if (article.getNodeStatus().isDeleted() || !article.getNodeStatus().isPublished()) {
 //            logger.debug("Principal: {}", principal);

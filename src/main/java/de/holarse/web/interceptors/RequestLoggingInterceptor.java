@@ -57,7 +57,7 @@ public class RequestLoggingInterceptor implements HandlerInterceptor {
     public void afterCompletion(final HttpServletRequest request, final HttpServletResponse response, final Object handler, final Exception ex) throws Exception {
         final String requestPath = request.getServletPath();
         // Ignorierte URLs nun ja... ignorieren
-        if (IGNORED_URLS.stream().anyMatch(i -> requestPath.startsWith(i))) {
+        if (IGNORED_URLS.stream().anyMatch(requestPath::startsWith)) {
             return;
         }
         
@@ -80,8 +80,10 @@ public class RequestLoggingInterceptor implements HandlerInterceptor {
                 //logger.debug("Admin user browsing");
                 internal = true;
             }
-        }        
-        
+        }
+
+        final Integer nodeId = (Integer) request.getAttribute("nodeid");
+
         final PageVisit pageVisit = new PageVisit();
         pageVisit.setUrl(StringUtils.substring(requestPath, 0, 2083));
         pageVisit.setHttpStatus(response.getStatus());
@@ -91,6 +93,7 @@ public class RequestLoggingInterceptor implements HandlerInterceptor {
         pageVisit.setVisitorId(request.getRequestedSessionId());
         pageVisit.setSearchWord(StringUtils.substring(request.getParameter("q"), 0, 255));
         pageVisit.setInternal(internal);
+        pageVisit.setNodeId(nodeId);
         pageVisit.setBot(false);
         
         if (request.getParameterNames().hasMoreElements()) {
