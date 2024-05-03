@@ -189,10 +189,14 @@ public class WikiController {
 
         // Attachments
         final List<Attachment> websiteLinks = attachmentService.getAttachments(article, attachmentGroupRepository.findByCode(AttachmentGroupType.website.name()));
-        logger.debug("Links: {}", websiteLinks);
         form.setWebsiteLinks(websiteLinks.stream().map(AttachmentView::of).toList());
-        
-        form.setTags(tags.stream().map(t -> t.getName()).collect(Collectors.joining(", ")));
+
+        final List<Attachment> videos = attachmentService.getAttachments(article, attachmentGroupRepository.findByCode(AttachmentGroupType.video.name()));
+        form.setVideos(videos.stream().map(YoutubeView::of).toList());
+        final List<Attachment> screenshots = attachmentService.getAttachments(article, attachmentGroupRepository.findByCode(AttachmentGroupType.image.name()));
+        form.setScreenshots(screenshots.stream().map(ScreenshotView::of).map(ssv -> objectStorageService.patchUrl(ssv)).toList());
+
+        form.setTags(tags.stream().map(Tag::getName).collect(Collectors.joining(", ")));
         form.setSettings(SettingsView.of(article.getNodeStatus()));
 
         logger.debug("WebsiteLinks: {}", form.getWebsiteLinks());
@@ -211,6 +215,7 @@ public class WikiController {
 
         final AttachmentType attScreenshot = attachmentTypeRepository.findByCode("screenshot");
         final AttachmentType attLink = attachmentTypeRepository.findByCode("link");
+        final AttachmentType attVideo = attachmentTypeRepository.findByCode("youtube");
 
         List<Attachment> addedScreenShots = new ArrayList<>();
         final List<FileUploadForm> screenshots = fileUploadService.readFileUpload(form);
@@ -281,6 +286,34 @@ public class WikiController {
         attachmentRepository.saveAllAndFlush(createdAndUpdatedAttachments);
         logger.debug("Saved attachments (links)");
 
+        //
+        // Videos
+        //
+        logger.debug("Video-Attachments: {}", form.getVideos());
+        final Map<Boolean, List<YoutubeView>> videoMaps = form.getVideos().stream().collect(Collectors.partitioningBy(AttachmentView::isMarkAsDeleted));
+        // Die zu Löschenden verarbeiten
+        attachmentRepository.deleteAllById(videoMaps.get(Boolean.TRUE).stream().map(AttachmentView::getId).toList());
+
+        final List<Attachment> createdAndUpdatedVideos = new ArrayList<>();
+        // Die neuen Entities umwandeln und speichern
+        createdAndUpdatedVideos.addAll(videoMaps.get(Boolean.FALSE).stream()
+                .filter(av -> av.getId() == null)
+                .filter(av -> StringUtils.isNotBlank(av.getData()))
+                .map(av -> Attachment.build(av, nodeId, attVideo))
+                .toList());
+        // Die bestehenden finden und updaten
+        for (final AttachmentView av : videoMaps.get(Boolean.FALSE).stream().filter(av -> av.getId() != null).toList()) {
+            final Attachment att = attachmentRepository.findById(av.getId()).orElseThrow(EntityNotFoundException::new);
+            att.setWeight(av.getWeight());
+            att.setData(av.getData());
+            att.setDescription(av.getDescription());
+
+            createdAndUpdatedVideos.add(att);
+        }
+        attachmentRepository.saveAllAndFlush(createdAndUpdatedVideos);
+        logger.debug("Saved attachments (videos)");
+
+        // Neue Screenshots
         attachmentRepository.saveAllAndFlush(addedScreenShots);
         logger.debug("Saved attachments (screenshots");
         

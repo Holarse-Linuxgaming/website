@@ -49,4 +49,4 @@ docs
 
 *.log
 onb-configuration.xml
-.dev-environments
+.env

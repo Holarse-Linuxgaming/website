@@ -10,6 +10,9 @@
         <a class="nav-link" data-toggle="tab" href="#article-edit-tab-links" role="tab">Links</a>
     </li>
     <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#article-edit-tab-videos" role="tab">Videos</a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" data-toggle="tab" href="#article-edit-tab-screenshots" role="tab">Screenshots</a>
     </li>
     <li class="nav-item">
@@ -146,12 +149,53 @@
             <input data-th-name="websiteLinks[ + |${#lists.size(form.websiteLinks)}| + ].markAsDeleted" value="0" type="text" hidden>
 
             <label class="col-sm-3 col-form-label g-mb-10" data-th-for="form.websiteLinks[][description]">Beschreibung</label>
-            <input data-th-name="websiteLinks[ + |${#lists.size(form.websiteLinks)}| + ].description" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Projekt/Webseite">
+            <input data-th-name="websiteLinks[ + |${#lists.size(form.websiteLinks)}| + ].description" class="form-control form-control-md rounded-0" type="text" placeholder="Beschreibung des Links">
 
             <label class="col-sm-3 col-form-label g-mb-10" data-th-for="form.websiteLinks[][data]">URL</label>
-            <input data-th-name="websiteLinks[ + |${#lists.size(form.websiteLinks)}| + ].data" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Projekt/Webseite">            
+            <input data-th-name="websiteLinks[ + |${#lists.size(form.websiteLinks)}| + ].data" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Projekt/Webseite">
 
         </div>        
+
+    </div>
+
+    <!-- Tab Videos -->
+    <div class="tab-pane fade show" id="article-edit-tab-videos" role="tabpanel">
+
+        <ul data-th-each="video,iter : *{videos}">
+            <!-- Website Link -->
+            <div class="form-group row g-mb-20 block-title block-title7">
+
+                <label class="col-sm-1 col-form-label g-mb-1" th:text="Link + ' #' + |${iter.count}|"></label>
+                <input data-th-field="*{videos[__${iter.index}__].id}" type="hidden">
+
+                <input data-th-field="*{videos[__${iter.index}__].weight}" type="hidden">
+                <input data-th-field="*{videos[__${iter.index}__].markAsDeleted}" type="hidden">
+
+                <div class="col-sm-11">
+                    <label class="col-sm-3 col-form-label g-mb-10" th:for="${'videos[__${iter.index}__].description'}">Beschreibung</label>
+                    <input data-th-field="*{videos[__${iter.index}__].description}" class="form-control form-control-md rounded-0" type="text" placeholder="Beschreibung">
+
+                    <label class="col-sm-3 col-form-label g-mb-10" th:for="${'videos[__${iter.index}__].data'}">URL</label>
+                    <input data-th-field="*{videos[__${iter.index}__].data}" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Video">
+                </div>
+            </div>
+            <!-- End Website Link -->
+        </ul>
+        <!-- Neuer Eintrag -->
+        <div class="form-group g-mb-20 block-title block-title7">
+
+            <span>Neuer Link</span>
+            <input data-th-name="videos[ + |${#lists.size(form.videos)}| + ].id" type="text" hidden>
+            <input data-th-name="videos[ + |${#lists.size(form.videos)}| + ].weight" value="0" type="text" hidden>
+            <input data-th-name="videos[ + |${#lists.size(form.videos)}| + ].markAsDeleted" value="0" type="text" hidden>
+
+            <label class="col-sm-3 col-form-label g-mb-10" data-th-for="form.videos[][description]">Beschreibung</label>
+            <input data-th-name="videos[ + |${#lists.size(form.videos)}| + ].description" class="form-control form-control-md rounded-0" type="text" placeholder="Beschreibung des Links">
+
+            <label class="col-sm-3 col-form-label g-mb-10" data-th-for="form.videos[][data]">URL</label>
+            <input data-th-name="videos[ + |${#lists.size(form.videos)}| + ].data" class="form-control form-control-md rounded-0" type="text" placeholder="Link zum Projekt/Webseite">
+
+        </div>
 
     </div>
 
@@ -163,16 +207,13 @@
             <!-- Existing Screenshot-Item -->
             <div class="form-group row g-mb-20 block-title block-title7">
 
-                <label class="col-sm-1 col-form-label g-mb-1" data-th-text="Link + ' #' + |${iter.count}|"></label>
-                <input data-th-field="*{screenshot[__${iter.index}__].id}" type="hidden">
+                <label class="col-sm-1 col-form-label g-mb-1" data-th-text="Bild + ' #' + |${iter.count}|"></label>
+                <img class="img-fluid img-thumbnail rounded-circle" data-th-src="*{screenshots[__${iter.index}__].data}" alt="">
 
-                <input data-th-field="*{screenshot[__${iter.index}__].weight}" type="hidden">
-                <input data-th-field="*{screenshot[__${iter.index}__].markAsDeleted}" type="hidden">
+                <input data-th-field="*{screenshots[__${iter.index}__].id}" type="hidden">
+                <input data-th-field="*{screenshots[__${iter.index}__].weight}" type="hidden">
+                <input data-th-field="*{screenshots[__${iter.index}__].markAsDeleted}" type="hidden">
 
-                <div class="col-sm-11">
-                    <label class="col-sm-3 col-form-label g-mb-10" data-th-for="${'screenshot[__${iter.index}__].description'}">Beschreibung</label>
-                    <input data-th-field="*{screenshot[__${iter.index}__].description}" class="form-control form-control-md rounded-0" type="text" placeholder="Beschreibung zum Bild">
-                </div>
             </div>
             <!-- End Screenshots -->
         </ul>

@@ -2,37 +2,29 @@ package de.holarse.backend.view;
 
 import de.holarse.backend.db.Attachment;
 
-public class YoutubeView {
+public class YoutubeView extends AttachmentView {
 
-    private Integer id;
+    final static transient String YOUTUBE_NOCOOKIE_URL="https://www.youtube-nocookie.com/embed/%s?origin=https://holarse.de";
+
     private String url;
-    private String description;
-    private Integer weight;
+
+    public YoutubeView() {
+        super();
+    }
+
+    public YoutubeView(final AttachmentView av) {
+        super();
+        setId(av.getId());
+        setData(av.getData());
+        setWeight(av.getWeight());
+        setDescription(av.getDescription());
+        setMarkAsDeleted(av.isMarkAsDeleted());
+    }
 
     public static YoutubeView of(final Attachment attachment) {
-        final YoutubeView view = new YoutubeView();
-        view.setId(attachment.getId());
-        view.setUrl(attachment.getData());
-        view.setDescription(attachment.getDescription());
-        view.setWeight(attachment.getWeight());
-
+        final YoutubeView view = new YoutubeView(AttachmentView.of(attachment));
+        view.setUrl(String.format(YOUTUBE_NOCOOKIE_URL, attachment.getData()));
         return view;
-    }
-
-    public Integer getWeight() {
-        return weight;
-    }
-
-    public void setWeight(Integer weight) {
-        this.weight = weight;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getUrl() {
@@ -41,13 +33,5 @@ public class YoutubeView {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 }

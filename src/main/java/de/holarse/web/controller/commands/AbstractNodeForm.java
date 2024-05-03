@@ -3,6 +3,7 @@ package de.holarse.web.controller.commands;
 import de.holarse.backend.view.AttachmentView;
 import de.holarse.backend.view.ScreenshotView;
 import de.holarse.backend.view.SettingsView;
+import de.holarse.backend.view.YoutubeView;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -18,6 +19,7 @@ public abstract class AbstractNodeForm {
 
     private List<AttachmentView> websiteLinks = new ArrayList<>();
     private List<ScreenshotView> screenshots = new ArrayList<>();
+    private List<YoutubeView> videos = new ArrayList<>();
 
     private SettingsView settings = new SettingsView();
 
@@ -56,4 +58,11 @@ public abstract class AbstractNodeForm {
     public void setScreenshots(List<ScreenshotView> screenshots) { this.screenshots = screenshots ;}
     public List<ScreenshotView> getScreenshots() { return screenshots; };
 
+    public List<YoutubeView> getVideos() {
+        return videos;
+    }
+
+    public void setVideos(List<YoutubeView> videos) {
+        this.videos = videos;
+    }
 }

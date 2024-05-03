@@ -28,22 +28,6 @@ services:
       networks:
         - holarse-dev
 
-  storage:
-    image: minio/minio
-    container_name: minio
-    restart: always
-    command: server --console-address ":9001" /data
-    environment:
-        MINIO_ROOT_USER: minioadmin
-        MINIO_ROOT_PASSWORD: minioadmin
-    ports:
-        - 9000:9000
-        - 9001:9001
-    volumes:
-        - storage_data:/data
-    networks:
-        - holarse-dev
-
   app:
     image: tomcat:11.0-jdk21-openjdk
     container_name: app
@@ -61,6 +45,7 @@ services:
     environment:
       - OCI_ACCESSKEYID=${OCI_ACCESSKEYID}
       - OCI_SECRETKEYID=${OCI_SECRETKEYID}
+
   cache:
       image: memcached:latest
       container_name: cache
@@ -85,9 +70,6 @@ volumes:
     external: true
   amq_journal_data:
     external: true
-  storage_data:
-    external: true
-
 
 networks:
   holarse-dev:
