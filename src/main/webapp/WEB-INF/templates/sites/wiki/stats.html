@@ -6,18 +6,19 @@
                 <h2 class="u-heading-v2__title g-mb-10" data-th-text="${title1}">Lorem ipsum standard</h2>
             </header>
             <section>
-                <div class="table-responsive">
-                    <table class="table table-hover">
+                <div id="article-chart">
+                    <table class="charts-css column show-labels show-primary-axis">
+                        <caption>Zugriffe auf den Artikel</caption>
                         <thead>
-                        <tr>
-                            <th>Zeit</th>
-                            <th>Zugriffe</th>
-                        </tr>
+                            <tr>
+                                <th scope="col">Zeit</th>
+                                <th scope="col">Zugriffe</th>
+                            </tr>
                         </thead>
                         <tbody>
                             <tr data-th-each="stat : ${stats}">
-                                <td data-th-text="${stat.time}"></td>
-                                <td data-th-text="${stat.amount}"></td>
+                                <th scope="row" data-th-text="${stat.time}"></th>
+                                <td data-th-style="'--size: calc(' + ${stat.amount} + '/100.0);'"><span class="data" data-th-text="${stat.amount}"></span></td>
                             </tr>
                         </tbody>
                     </table>
