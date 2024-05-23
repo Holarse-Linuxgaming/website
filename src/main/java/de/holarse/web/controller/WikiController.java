@@ -111,7 +111,7 @@ public class WikiController {
     @GetMapping(value = "{nodeId}/stats")
     public ModelAndView stats(@PathVariable final Integer nodeId,
                               @RequestParam(value="interval", defaultValue = "daily") final StatIntervalType statIntervalType,
-                              @RequestParam(value="amount", defaultValue = "30") final int amount,
+                              @RequestParam(value="amount", defaultValue = "7") final int amount,
                               final ModelAndView mv) {
         mv.setViewName("layouts/bare");
         mv.addObject("title", "Die Linuxspiele-Seite für Linuxspieler");
