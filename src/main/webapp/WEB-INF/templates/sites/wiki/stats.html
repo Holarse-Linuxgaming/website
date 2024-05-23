@@ -7,7 +7,7 @@
             </header>
             <section>
                 <div id="article-chart">
-                    <table class="charts-css column show-labels show-primary-axis">
+                    <table class="charts-css column show-heading show-labels show-primary-axis data-outside">
                         <caption>Zugriffe auf den Artikel</caption>
                         <thead>
                             <tr>
@@ -18,7 +18,7 @@
                         <tbody>
                             <tr data-th-each="stat : ${stats}">
                                 <th scope="row" data-th-text="${stat.time}"></th>
-                                <td data-th-style="'--size: calc(' + ${stat.amount} + '/100.0);'"><span class="data" data-th-text="${stat.amount}"></span></td>
+                                <td data-th-style="'--size: calc(' + ${stat.amount} + '/100.0);'"><span class="data outside" data-th-text="${stat.amount}"></span></td>
                             </tr>
                         </tbody>
                     </table>
