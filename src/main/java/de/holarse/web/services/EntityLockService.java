@@ -21,6 +21,11 @@ import de.holarse.backend.db.LockableEntity;
 import de.holarse.backend.db.User;
 import de.holarse.backend.db.repositories.EntityWriteLockRepository;
 import java.time.OffsetDateTime;
+import java.util.Optional;
+
+import de.holarse.exceptions.EntityLockedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Role;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,22 +37,44 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class EntityLockService {
-    
+
+    private final static transient Logger logger = LoggerFactory.getLogger(EntityLockService.class);
+
     @Autowired
     EntityWriteLockRepository ewlRepo;
     
     public void lock(final LockableEntity lockable, final User lockingUser) {
-        EntityWriteLock ewl = new EntityWriteLock();
+        final EntityWriteLock ewl = new EntityWriteLock();
         ewl.setEntity(lockable.getNodeType());
         ewl.setRowId(lockable.getId());
         ewl.setWriteLockUpdated(OffsetDateTime.now());
         ewl.setWriteLockUser(lockingUser);
         
-        ewlRepo.save(ewl);
+        ewlRepo.saveAndFlush(ewl);
+    }
+
+    public void tryToLock(final LockableEntity lockable, final User lockingUser) throws EntityLockedException {
+        logger.debug("Checking for lock on id={} type={}", lockable.getId(), lockable.getNodeType());
+        // Check if entity is already locked?
+        var lock = getLock(lockable);
+        if (lock.isPresent()) {
+            throw new EntityLockedException(lockable, lock.get());
+        }
+
+        logger.debug("No valid locks on id={} type={}. Purging old locks.", lockable.getId(), lockable.getNodeType());
+        ewlRepo.unlockAll(lockable.getId(), lockable.getNodeType());
+
+        logger.debug("Locking id={} type={} for {}", lockable.getId(), lockable.getNodeType(), lockingUser.getLogin());
+        lock(lockable, lockingUser);
     }
     
     public void unlock(final LockableEntity lockable, final User lockingUser) {
-        ewlRepo.unlock(lockable.getId(), lockable.getNodeType(), lockingUser.getId().intValue());
+        ewlRepo.unlock(lockable.getId(), lockable.getNodeType(), lockingUser);
+    }
+
+    public Optional<EntityWriteLock> getLock(final LockableEntity lockable) {
+        var lockAge = OffsetDateTime.now().minusMinutes(15);
+        return ewlRepo.findByLockId(lockable.getId(), lockAge);
     }
     
     @PreAuthorize("hasRole('ADMIN')")

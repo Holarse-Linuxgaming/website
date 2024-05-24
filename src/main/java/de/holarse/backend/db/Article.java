@@ -1,20 +1,14 @@
 package de.holarse.backend.db;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import de.holarse.backend.types.NodeType;
+import jakarta.persistence.*;
+
 import java.util.HashSet;
 import java.util.Set;
 
 @Table(name = "articles")
 @Entity
-public class Article extends Base implements Node {
+public class Article extends Base implements Node, LockableEntity {
 
     private static final long serialVersionUID = 2L;
     
@@ -93,5 +87,8 @@ public class Article extends Base implements Node {
     public void setNodeSlugs(Set<NodeSlug> nodeSlugs) {
         this.nodeSlugs = nodeSlugs;
     }
+
+    @Transient
+    public NodeType getNodeType() { return NodeType.article; }
     
 }

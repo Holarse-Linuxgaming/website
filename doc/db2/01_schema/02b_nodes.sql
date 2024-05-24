@@ -23,11 +23,11 @@ create table if not exists node_status (
 create table if not exists entity_writelocks(
     id integer primary key default nextval('hibernate_sequence'),
     entity node_type not null,
-    row_id integer not null unique,
+    row_id integer not null,
     user_id integer references users(id),
-    write_lock_updated timestamptz
+    write_lock_updated timestamptz,
+    unique(entity, row_id)
 );
-
 
 -- Eindeutiger Zähler für "Revisionen" 
 create sequence revision_sequence start with 10000;

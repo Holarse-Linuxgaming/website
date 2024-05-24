@@ -17,12 +17,19 @@
 package de.holarse.backend.db.repositories;
 
 import de.holarse.backend.db.EntityWriteLock;
+import de.holarse.backend.db.User;
 import de.holarse.backend.types.NodeType;
+
+import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -30,17 +37,24 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface EntityWriteLockRepository extends JpaRepository<EntityWriteLock, Integer> {
-    
-    @Query(value="delete from entity_writelocks ew where ew.entity = :entity and ew.row_id = :rowId and ew.user_id = :userId", nativeQuery = true)
-    void unlock(@Param("rowId") final Integer rowId, @Param("entity") final NodeType nodeType, @Param("userId") Integer userId);
-    
-    @Query(value="delete from entity_writelocks ew where ew.entity = :entity and ew.row_id = :rowId", nativeQuery = true)
+
+    @Transactional
+    @Modifying
+    @Query("delete from EntityWriteLock ew where ew.entity = :entity and ew.rowId = :rowId and ew.writeLockUser = :user")
+    void unlock(@Param("rowId") final Integer rowId, @Param("entity") final NodeType nodeType, @Param("user") User user);
+
+    @Transactional
+    @Modifying
+    @Query("delete from EntityWriteLock ew where ew.entity = :entity and ew.rowId = :rowId")
     void unlockAll(@Param("rowId") final Integer rowId, @Param("entity") final NodeType nodeType);
     
-    @Query(value="SELECT 1 from entity_writelocks ew where ew.entity = :entity and ew.row_id = :rowId", nativeQuery = true)
+    @Query("SELECT case when count(1) > 0 then true else false end from EntityWriteLock ewl where ewl.entity = :entity and ewl.rowId = :rowId")
     boolean existsLock(@Param("rowId") final Integer rowId, @Param("entity") final NodeType nodeType);
     
-    @Query(value="SELECT ew.* from entity_writelocks ew where ew.entity = :entity", nativeQuery = true)
+    @Query("FROM EntityWriteLock ewl where ewl.entity = :entity")
     List<EntityWriteLock> findAllByType(@Param("entity") final NodeType entity);
-    
+
+    @Query("FROM EntityWriteLock ewl where ewl.rowId = :rowId and ewl.writeLockUpdated >= :lockAge")
+    Optional<EntityWriteLock> findByLockId(@Param("rowId") final Integer rowId, @Param("lockAge") final OffsetDateTime lockAge);
+
 }

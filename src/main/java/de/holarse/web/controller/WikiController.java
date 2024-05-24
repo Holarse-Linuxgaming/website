@@ -11,6 +11,8 @@ import de.holarse.backend.types.StatIntervalType;
 import de.holarse.backend.view.*;
 
 import static de.holarse.config.JmsQueueTypes.QUEUE_SEARCH;
+
+import de.holarse.exceptions.EntityLockedException;
 import de.holarse.queues.commands.SearchRefresh;
 import de.holarse.web.controller.commands.ArticleForm;
 import de.holarse.web.controller.commands.FileUploadForm;
@@ -32,6 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,6 +86,9 @@ public class WikiController {
 
     @Autowired
     private FileUploadService fileUploadService;
+
+    @Autowired
+    private EntityLockService entityLockService;
 
     @Autowired
     private Renderer renderer;
@@ -198,7 +204,7 @@ public class WikiController {
     }
 
     @GetMapping(value = "{nodeId}/edit")
-    public ModelAndView edit(@PathVariable final Integer nodeId, final ModelAndView mv, final Principal principal) {
+    public ModelAndView edit(@PathVariable final Integer nodeId, final ModelAndView mv, final Authentication authentication) {
         mv.setViewName("layouts/bare");
         mv.addObject("title", "Die Linuxspiele-Seite für Linuxspieler");
         mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/wiki/form");
@@ -206,7 +212,10 @@ public class WikiController {
         var article = articleRepository.findByNodeId(nodeId).orElseThrow(EntityNotFoundException::new);
         var articleRevision = article.getNodeRevision();
         var tags = article.getTags();
-        
+
+        // Versuchen den Artikel für uns zu sperren
+        entityLockService.tryToLock(article, ((HolarsePrincipal)authentication.getPrincipal()).getUser());
+
         // Form zusammenstellen
         final ArticleForm form = new ArticleForm();
         form.setNodeId(articleRevision.getNodeId());
@@ -232,7 +241,7 @@ public class WikiController {
         form.setSettings(SettingsView.of(article.getNodeStatus()));
 
         logger.debug("WebsiteLinks: {}", form.getWebsiteLinks());
-        
+
         return mv.addObject("form", form);
     }
     
@@ -366,7 +375,10 @@ public class WikiController {
         
         // Suche aktualisieren
         jmsTemplate.convertAndSend(QUEUE_SEARCH, new SearchRefresh());
-        
+
+        // Lock wieder lösen
+        entityLockService.unlock(article, author);
+
         final NodeSlug nodeSlug = nodeSlugRepository.findMainSlug(nodeId, NodeType.article).orElseThrow(EntityNotFoundException::new);
         logger.debug("Should redirect to {}", nodeSlug.getName());
         return new ModelAndView(String.format("redirect:%s", nodeSlug.getName()));

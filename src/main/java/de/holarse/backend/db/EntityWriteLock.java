@@ -38,10 +38,10 @@ import org.hibernate.annotations.Type;
 public class EntityWriteLock extends Base  {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Enumerated(EnumType.STRING)
-//    @Type(PostgreSQLEnumType.class)
-    @Column(name="entity")
+    @Type(PostgreSQLEnumType.class)
+    @Column(name = "entity", columnDefinition = "node_type")
     private NodeType entity;    
    
     @Column(name="row_id")
@@ -51,7 +51,7 @@ public class EntityWriteLock extends Base  {
     @JoinColumn(name="user_id", nullable=false, referencedColumnName = "id")
     private User writeLockUser;    
 
-    @Column(name = "write_lock_updated", insertable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE default CURRENT_TIMESTAMP")    
+    @Column(name = "write_lock_updated", columnDefinition = "TIMESTAMP WITH TIME ZONE default CURRENT_TIMESTAMP")
     private OffsetDateTime writeLockUpdated;        
 
     public NodeType getEntity() {
