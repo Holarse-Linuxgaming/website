@@ -39,6 +39,8 @@ public class ArticleView {
     private List<AttachmentView> websiteLinks = new ArrayList<>();
     private List<YoutubeView> youtubeVideos = new ArrayList<>();
     private List<ScreenshotView> screenshotViews = new ArrayList<>();
+
+    private Integer revision;
      
     public static ArticleView of(final ArticleRevision ar, final NodeSlug slug) {
         final ArticleView av = new ArticleView();
@@ -53,6 +55,7 @@ public class ArticleView {
         av.setContent(ar.getContent());
         av.setCreated(ar.getCreated().toLocalDateTime());
         av.setUpdated(ar.getUpdated().toLocalDateTime());
+        av.setRevision(ar.getRevision());
 
         if (StringUtils.isNotBlank(ar.getTitle2())) { av.getAlternativeTitles().add(ar.getTitle2()); }
         if (StringUtils.isNotBlank(ar.getTitle3())) { av.getAlternativeTitles().add(ar.getTitle3()); }
@@ -216,5 +219,13 @@ public class ArticleView {
 
     public void setScreenshots(List<ScreenshotView> screenshotViews) {
         this.screenshotViews = screenshotViews;
+    }
+
+    public Integer getRevision() {
+        return revision;
+    }
+
+    public void setRevision(Integer revision) {
+        this.revision = revision;
     }
 }

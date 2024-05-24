@@ -91,6 +91,9 @@ public class WikiController {
     private EntityLockService entityLockService;
 
     @Autowired
+    private ArticleService articleService;
+
+    @Autowired
     private Renderer renderer;
     
     @Autowired
@@ -151,41 +154,10 @@ public class WikiController {
         
         final Article article = articleRepository.findBySlug(slug).orElseThrow(EntityNotFoundException::new);
         final ArticleRevision articleRevision = article.getNodeRevision();
-        final Set<Tag> tags = article.getTags();
-        final List<TagGroup> relevantTagGroups = tags.stream().map(t -> t.getTagGroup()).toList();
-        final NodeSlug mainSlug = nodeSlugRepository.findMainSlug(articleRevision.getNodeId(), NodeType.article).orElseThrow(EntityNotFoundException::new);
 
-        mv.addObject("nodeid", article.getNodeId());
+        final ArticleView view = articleService.buildArticleView(article, articleRevision);
 
-        // TODO
-//        if (article.getNodeStatus().isDeleted() || !article.getNodeStatus().isPublished()) {
-//            logger.debug("Principal: {}", principal);
-//            if (principal instanceof HolarsePrincipal holarsePrincipal) {
-//                if (holarsePrincipal.getAuthorities().stream().filter(a -> a.getAuthority().equalsIgnoreCase(RoleUserTypes.ROLE_USER_ADMIN)).count() > 0) {
-//                    adminOverride = true;
-//                }
-//            }
-//            
-//            if (!adminOverride) {
-//                mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/wiki/blocked");        
-//                return mv;                
-//            }
-//        }
-
-        final List<Attachment> websiteLinks = attachmentService.getAttachments(article, attachmentGroupRepository.findByCode(AttachmentGroupType.website.name()));
-        final List<Attachment> videos = attachmentService.getAttachments(article, attachmentGroupRepository.findByCode(AttachmentGroupType.video.name()));
-        final List<Attachment> screenshots = attachmentService.getAttachments(article, attachmentGroupRepository.findByCode(AttachmentGroupType.image.name()));
-
-        // View zusammenstellen
-        final ArticleView view = ArticleView.of(articleRevision, mainSlug);
-        view.setNodeId(article.getNodeId());
-        view.setTagList(tags.stream().map(TagView::of).sorted(Comparator.comparingInt(TagView::getWeight).reversed().thenComparing(TagView::getUseCount).reversed().thenComparing(TagView::getName)).toList());
-        view.setContent(renderer.render(view.getContent(), null));
-        //view.setSlug(mainSlug.getName());
-        view.setWebsiteLinks(websiteLinks.stream().map(AttachmentView::of).toList());
-        view.setYoutubeVideos(videos.stream().map(YoutubeView::of).toList());
-        view.setScreenshots(screenshots.stream().map(ScreenshotView::of).map(ssv -> objectStorageService.patchUrl(ssv)).toList());
-
+        mv.addObject("nodeid", articleRevision.getNodeId());
         mv.addObject("view", view);
         
         return mv;
@@ -244,7 +216,7 @@ public class WikiController {
 
         return mv.addObject("form", form);
     }
-    
+
     @Transactional
     @PostMapping("{nodeId}")
     public ModelAndView update(@PathVariable final int nodeId, @ModelAttribute("form") final ArticleForm form, final ModelAndView mv, final Authentication authentication) throws JsonProcessingException {

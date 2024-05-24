@@ -1,5 +1,8 @@
 package de.holarse.web.controller;
 
+import com.github.difflib.DiffUtils;
+import com.github.difflib.text.DiffRow;
+import com.github.difflib.text.DiffRowGenerator;
 import de.holarse.backend.db.Article;
 import de.holarse.backend.db.ArticleRevision;
 import de.holarse.backend.db.NodeSlug;
@@ -9,6 +12,7 @@ import de.holarse.backend.db.repositories.NodeSlugRepository;
 import de.holarse.backend.types.NodeType;
 import de.holarse.backend.view.ArticleView;
 import de.holarse.web.defines.WebDefines;
+import de.holarse.web.services.ArticleService;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,8 +25,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
-
 import static de.holarse.web.defines.WebDefines.REVISION_DEFAULT_PAGE_SIZE;
+import java.util.Arrays;
+import java.util.List;
 
 @Controller
 public class RevisionController {
@@ -34,6 +39,9 @@ public class RevisionController {
 
     @Autowired
     private ArticleRevisionRepository articleRevisionRepository;
+
+    @Autowired
+    private ArticleService articleService;
 
     @Autowired
     private NodeSlugRepository nodeSlugRepository;
@@ -51,6 +59,8 @@ public class RevisionController {
         mv.addObject("view", ArticleView.of(currentArticle.getNodeRevision(), mainSlug));
         mv.addObject("revisions", articleRevisionRepository.findHistory(nodeId, pageable));
 
+
+
         return mv;
     }
 
@@ -60,9 +70,45 @@ public class RevisionController {
         mv.addObject("title", "Die Linuxspiele-Seite für Linuxspieler");
         mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/revisions/show");
 
+        final ArticleRevision articleRevision = articleRevisionRepository.findByRevisionId(nodeId, revision).orElseThrow(EntityNotFoundException::new);
 
+        final Article article = articleRepository.findByNodeId(nodeId).orElseThrow(EntityNotFoundException::new);
+        final ArticleView view = articleService.buildArticleView(article, articleRevision);
+
+        mv.addObject("nodeid", articleRevision.getNodeId());
+        mv.addObject("view", view);
 
         return mv;
     }
 
+    @GetMapping("/wiki/{nodeId}/revisions/view/{revision1}/{revision2}")
+    public ModelAndView diff(@PathVariable final Integer nodeId, @PathVariable final Integer revision1, @PathVariable final Integer revision2, final ModelAndView mv) {
+        mv.setViewName("layouts/bare");
+        mv.addObject("title", "Die Linuxspiele-Seite für Linuxspieler");
+        mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/revisions/diff");
+
+        final ArticleRevision articleRevision1 = articleRevisionRepository.findByRevisionId(nodeId, revision1).orElseThrow(EntityNotFoundException::new);
+        final ArticleRevision articleRevision2 = articleRevisionRepository.findByRevisionId(nodeId, revision2).orElseThrow(EntityNotFoundException::new);
+
+        final Article article = articleRepository.findByNodeId(nodeId).orElseThrow(EntityNotFoundException::new);
+
+        final ArticleView view1 = articleService.buildArticleView(article, articleRevision1);
+        final ArticleView view2 = articleService.buildArticleView(article, articleRevision2);
+
+        final DiffRowGenerator diffGenerator = DiffRowGenerator.create().showInlineDiffs(true).mergeOriginalRevised(true).inlineDiffByWord(true).oldTag(f -> "~").newTag(f -> "**").build();
+        final List<DiffRow> diffRows = diffGenerator.generateDiffRows(Arrays.asList(view1.getContent().split("\n")), Arrays.asList(view2.getContent().split("\n")));
+        
+        final StringBuilder buffer = new StringBuilder(4096);
+        for (final DiffRow diffRow : diffRows) {
+            buffer.append(diffRow.getOldLine()).append("\n");
+            buffer.append(diffRow.getNewLine()).append("\n");
+        }
+
+        mv.addObject("nodeid", article.getNodeId());
+        mv.addObject("view1", view1);
+        mv.addObject("view2", view2);
+        mv.addObject("diff", buffer.toString());
+
+        return mv;
+    }
 }

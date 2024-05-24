@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 /**
  *
  * @author comrad
@@ -17,5 +19,8 @@ public interface ArticleRevisionRepository extends JpaRepository<ArticleRevision
 
     @Query("from ArticleRevision ar where ar.nodeId = :nodeId")
     Page<ArticleRevision> findHistory(@Param("nodeId") final Integer nodeId, final Pageable pageable);
+
+    @Query("from ArticleRevision ar where ar.nodeId = :nodeId and ar.revision = :revisionId")
+    Optional<ArticleRevision> findByRevisionId(@Param("nodeId") final Integer nodeId, @Param("revisionId") final Integer revisionId);
 
 }
