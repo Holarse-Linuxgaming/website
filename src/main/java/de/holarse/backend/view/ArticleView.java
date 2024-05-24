@@ -27,6 +27,7 @@ public class ArticleView {
     private String content;
     private LocalDateTime created;
     private LocalDateTime updated;
+    private String changelog;
 
     // Calculated Values
     private transient String url;
@@ -56,6 +57,7 @@ public class ArticleView {
         av.setCreated(ar.getCreated().toLocalDateTime());
         av.setUpdated(ar.getUpdated().toLocalDateTime());
         av.setRevision(ar.getRevision());
+        av.setChangelog(ar.getChangelog());
 
         if (StringUtils.isNotBlank(ar.getTitle2())) { av.getAlternativeTitles().add(ar.getTitle2()); }
         if (StringUtils.isNotBlank(ar.getTitle3())) { av.getAlternativeTitles().add(ar.getTitle3()); }
@@ -211,6 +213,14 @@ public class ArticleView {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getChangelog() {
+        return changelog;
+    }
+
+    public void setChangelog(String changelog) {
+        this.changelog = changelog;
     }
 
     public List<ScreenshotView> getScreenshots() {

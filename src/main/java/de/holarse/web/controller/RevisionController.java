@@ -96,18 +96,35 @@ public class RevisionController {
         final ArticleView view2 = articleService.buildArticleView(article, articleRevision2);
 
         final DiffRowGenerator diffGenerator = DiffRowGenerator.create().showInlineDiffs(true).mergeOriginalRevised(true).inlineDiffByWord(true).oldTag(f -> "~").newTag(f -> "**").build();
-        final List<DiffRow> diffRows = diffGenerator.generateDiffRows(Arrays.asList(view1.getContent().split("\n")), Arrays.asList(view2.getContent().split("\n")));
-        
-        final StringBuilder buffer = new StringBuilder(4096);
-        for (final DiffRow diffRow : diffRows) {
-            buffer.append(diffRow.getOldLine()).append("\n");
-            buffer.append(diffRow.getNewLine()).append("\n");
-        }
+
+        final StringBuilder contentLeft = new StringBuilder();
+        contentLeft.append(view1.getTitle1()).append("\n");
+        contentLeft.append(view1.getTitle2()).append("\n");
+        contentLeft.append(view1.getTitle3()).append("\n");
+        contentLeft.append(view1.getTitle4()).append("\n");
+        contentLeft.append(view1.getTitle5()).append("\n");
+        contentLeft.append(view1.getTitle6()).append("\n");
+        contentLeft.append(view1.getTitle7()).append("\n");
+        contentLeft.append(view1.getContent());
+
+        final StringBuilder contentRight = new StringBuilder();
+        contentRight.append(view1.getTitle1()).append("\n");
+        contentRight.append(view1.getTitle2()).append("\n");
+        contentRight.append(view1.getTitle3()).append("\n");
+        contentRight.append(view1.getTitle4()).append("\n");
+        contentRight.append(view1.getTitle5()).append("\n");
+        contentRight.append(view1.getTitle6()).append("\n");
+        contentRight.append(view1.getTitle7()).append("\n");
+        contentRight.append(view1.getContent());
+
+        final List<DiffRow> diffRows = diffGenerator.generateDiffRows(
+                Arrays.asList(contentLeft.toString().split("\n")),
+                Arrays.asList(contentRight.toString().split("\n")));
 
         mv.addObject("nodeid", article.getNodeId());
         mv.addObject("view1", view1);
         mv.addObject("view2", view2);
-        mv.addObject("diff", buffer.toString());
+        mv.addObject("diffRows", diffRows);
 
         return mv;
     }
