@@ -17,7 +17,7 @@
                         <th>Autor</th>
                         <th>Changelog</th>
                         <th colspan="2">
-                            <a href="#!" class="btn btn-xs u-btn-primary g-mr-10 g-mb-15">
+                            <a href="#!" class="btn btn-xs u-btn-primary g-mr-10 g-mb-15" data-th-onclick="opendiff([[${view.nodeId}]])">
                                 <i class="fa fa-exchange g-mr-3"></i>
                                 Unterschiede anzeigen
                             </a>
@@ -33,7 +33,7 @@
                         <td data-th-text="${revision.changelog}"></td>
                         <td>
                             <label class="form-check-inline u-check">
-                            <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="revisionLeftGroup" type="radio" data-th-checked="${iterStat.index == 1}? #{checked}">
+                            <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="revisionLeftGroup" type="radio" data-th-attr="data-revision=${revision.revision}" data-th-checked="${iterStat.index == 1}? #{checked}">
                             <div class="u-check-icon-font g-absolute-centered--y g-left-0">
                                 <i class="fa" data-check-icon="" data-uncheck-icon=""></i>
                             </div>
@@ -41,18 +41,18 @@
                         </td>
                         <td>
                             <label class="form-check-inline u-check">
-                            <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="revisionRightGroup" type="radio" data-th-checked="${iterStat.index == 0}? #{checked}">
+                            <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="revisionRightGroup" type="radio" data-th-attr="data-revision=${revision.revision}" data-th-checked="${iterStat.index == 0}? #{checked}">
                             <div class="u-check-icon-font g-absolute-centered--y g-left-0">
                                 <i class="fa" data-check-icon="" data-uncheck-icon=""></i>
                             </div>
                             </label>
                         </td>
                         <td colspan="2">
-                            <a href="#!" class="btn btn-xs u-btn-primary g-mr-10 g-mb-15">
+                            <a href="#!" data-th-unless="${iterStat.index == 0}" class="btn btn-xs u-btn-primary g-mr-10 g-mb-15" data-th-href="@{/wiki/{nodeId}/revisions/{revisionId}/reset(nodeId=${revision.nodeId},revisionId=${revision.revision})}">
                                 <i class="fa fa-mail-reply g-mr-3"></i>
                                 Zurücksetzen
                             </a>
-                            <a href="#!" class="btn btn-xs u-btn-primary g-mr-10 g-mb-15">
+                            <a href="#!" class="btn btn-xs u-btn-primary g-mr-10 g-mb-15" data-th-href="@{/wiki/{nodeId}/revisions/{revisionId}/delete(nodeId=${revision.nodeId},revisionId=${revision.revision})}">
                                 <i class="fa fa-trash g-mr-3"></i>
                                 Löschen
                             </a>

@@ -30,3 +30,13 @@ FilePond.create(inputElement, {
     allowMultiple: true,
     allowReorder: true,
 });
+
+// Liest die ausgewählten diffs aus und verlinkt auf die URL
+function opendiff(nodeId) {
+    var revisionLeft = $("input[name=revisionLeftGroup]:checked").data("revision");
+    var revisionRight = $("input[name=revisionRightGroup]:checked").data("revision");
+
+    var url = "revisions/view/" + revisionLeft + "/" + revisionRight;
+    console.log(url);
+    window.location.href = url;
+}
