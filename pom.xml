@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.holarse</groupId>
@@ -13,15 +13,15 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.version>6.0.13</spring.version>
-        <spring.security.version>6.1.4</spring.security.version>
-        <slf4jVersion>2.0.9</slf4jVersion>
-        <jackson.version>2.15.3</jackson.version>
+        <spring.version>6.1.12</spring.version>
+        <spring.security.version>6.3.1</spring.security.version>
+        <slf4jVersion>2.0.16</slf4jVersion>
+        <jackson.version>2.17.2</jackson.version>
         <thymeleaf.version>3.1.2.RELEASE</thymeleaf.version>
-        
-        <maven.compiler.release>17</maven.compiler.release>
+
+        <maven.compiler.release>21</maven.compiler.release>
     </properties>
-  
+
     <dependencies>
         <!-- https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api -->
         <dependency>
@@ -30,20 +30,20 @@
             <version>6.0.0</version>
             <scope>provided</scope>
         </dependency>
-        
+
         <!-- https://mvnrepository.com/artifact/jakarta.persistence/jakarta.persistence-api -->
         <dependency>
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
             <version>3.1.0</version>
         </dependency>
-        
+
         <!-- https://mvnrepository.com/artifact/jakarta.jms/jakarta.jms-api -->
         <dependency>
             <groupId>jakarta.jms</groupId>
             <artifactId>jakarta.jms-api</artifactId>
             <version>3.1.0</version>
-        </dependency>        
+        </dependency>
 
         <!-- Spring -->
         <dependency>
@@ -60,7 +60,7 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
             <version>${spring.version}</version>
-        </dependency>        
+        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
@@ -70,20 +70,20 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
             <version>${spring.version}</version>
-        </dependency>        
+        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
             <version>${spring.version}</version>
         </dependency>
-        
+
         <!-- Tests -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>${spring.version}</version>
             <scope>test</scope>
-        </dependency> 
+        </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
@@ -96,20 +96,20 @@
             <version>2.8.0</version>
             <scope>test</scope>
         </dependency>
-        
+
         <!-- Messaging -->
         <!-- https://mvnrepository.com/artifact/org.apache.activemq/activemq-spring -->
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-client-jakarta</artifactId>
             <version>5.18.2</version>
-        </dependency>   
+        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jms</artifactId>
             <version>${spring.version}</version>
-        </dependency>        
-    
+        </dependency>
+
         <!-- Spring Security -->
         <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
         <dependency>
@@ -126,32 +126,32 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
             <version>${spring.security.version}</version>
-        </dependency>    
+        </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-taglibs</artifactId>
             <version>${spring.security.version}</version>
-        </dependency>            
+        </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-crypto</artifactId>
             <version>${spring.security.version}</version>
         </dependency>
-        
+
         <!-- JUnit-Test Framework -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>5.9.2</version>
             <scope>test</scope>
-        </dependency>        
+        </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>5.9.2</version>
             <scope>test</scope>
         </dependency>
-        
+
         <!-- Thymeleaf Template Engine -->
         <dependency>
             <groupId>org.thymeleaf</groupId>
@@ -162,12 +162,12 @@
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf-spring6</artifactId>
             <version>${thymeleaf.version}</version>
-        </dependency>   
+        </dependency>
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity6</artifactId>
             <version>${thymeleaf.version}</version>
-        </dependency>           
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.hamcrest/hamcrest -->
         <dependency>
@@ -176,7 +176,7 @@
             <version>2.2</version>
             <scope>test</scope>
         </dependency>
-        
+
         <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-test -->
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -190,8 +190,8 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
             <version>${spring.version}</version>
-        </dependency>    
-            
+        </dependency>
+
         <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-core</artifactId>
@@ -202,8 +202,8 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
             <version>3.1.2</version>
-        </dependency>   
-        
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/io.hypersistence/hypersistence-utils-hibernate-62 -->
         <dependency>
             <groupId>io.hypersistence</groupId>
@@ -229,37 +229,37 @@
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
             <version>1.7.32</version>
-        </dependency>  
+        </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
             <version>${jackson.version}</version>
         </dependency>
-        
+
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-xml</artifactId>
             <version>${jackson.version}</version>
         </dependency>
-       
+
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
-        </dependency>      
-        
+        </dependency>
+
         <dependency>
             <groupId>com.fasterxml.woodstox</groupId>
             <artifactId>woodstox-core</artifactId>
             <version>6.4.0</version>
-        </dependency>        
-    
+        </dependency>
+
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
@@ -271,13 +271,13 @@
             <artifactId>commons-io</artifactId>
             <version>2.13.0</version>
         </dependency>
-    
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-math3</artifactId>
             <version>3.6.1</version>
         </dependency>
-    
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -289,38 +289,38 @@
             <artifactId>commons-text</artifactId>
             <version>1.10.0</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>8.0.1.Final</version>
-        </dependency>  
-        
+        </dependency>
+
         <!-- Caching -->
         <dependency>
             <groupId>javax.cache</groupId>
             <artifactId>cache-api</artifactId>
             <version>1.1.1</version>
-        </dependency>        
+        </dependency>
         <!-- https://mvnrepository.com/artifact/net.spy/spymemcached -->
         <dependency>
             <groupId>net.spy</groupId>
             <artifactId>spymemcached</artifactId>
             <version>2.12.3</version>
         </dependency>
-        
+
         <!-- Mail -->
         <!-- https://mvnrepository.com/artifact/jakarta.mail/jakarta.mail-api -->
         <dependency>
             <groupId>jakarta.activation</groupId>
             <artifactId>jakarta.activation-api</artifactId>
             <version>2.0.1</version>
-        </dependency>        
+        </dependency>
         <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>jakarta.mail</artifactId>
             <version>2.0.1</version>
-        </dependency>               
+        </dependency>
         <dependency>
             <groupId>jakarta.mail</groupId>
             <artifactId>jakarta.mail-api</artifactId>
@@ -339,30 +339,32 @@
             <artifactId>java-diff-utils</artifactId>
             <version>4.12</version>
         </dependency>
-     
+
+
     </dependencies>
 
     <build>
         <finalName>holarseweb</finalName>
-        
+
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>false</filtering>
             </resource>
         </resources>
-        
-        <plugins> 
+
+        <plugins>
             <!-- Java Compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.10.1</version>
+                <version>3.13.0</version>
                 <configuration>
                     <compilerArgs>
                         <arg>-Xlint:unchecked</arg>
                         <arg>-Xlint:deprecation</arg>
                     </compilerArgs>
+                    <parameters>true</parameters>
                     <debug>true</debug>
                 </configuration>
             </plugin>
@@ -370,10 +372,11 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.2.2</version>
+                <version>3.4.0</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <!--                    <outputDirectory>c:/holarse/openliberty-19.0.0.6/wlp/usr/servers/holarse/dropins/</outputDirectory>-->
+                    <!--
+                    <outputDirectory>c:/holarse/openliberty-19.0.0.6/wlp/usr/servers/holarse/dropins/</outputDirectory>-->
                     <warName>holarseweb</warName>
                 </configuration>
             </plugin>
@@ -381,7 +384,7 @@
             <plugin>
                 <groupId>pl.project13.maven</groupId>
                 <artifactId>git-commit-id-plugin</artifactId>
-                <version>2.2.4</version>
+                <version>4.9.10</version>
                 <executions>
                     <execution>
                         <id>get-the-git-infos</id>
@@ -408,7 +411,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.3.1</version>
                 <configuration>
                     <argLine>
                         --add-opens java.base/java.lang=ALL-UNNAMED
@@ -417,7 +420,7 @@
                         --add-opens java.base/java.util=ALL-UNNAMED
                     </argLine>
                 </configuration>
-            </plugin>            
+            </plugin>
         </plugins>
     </build>
 
