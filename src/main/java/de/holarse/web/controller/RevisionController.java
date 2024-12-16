@@ -95,8 +95,14 @@ public class RevisionController {
         final ArticleView view1 = articleService.buildArticleView(article, articleRevision1);
         final ArticleView view2 = articleService.buildArticleView(article, articleRevision2);
 
-        final DiffRowGenerator diffGenerator = DiffRowGenerator.create().showInlineDiffs(true).mergeOriginalRevised(true).inlineDiffByWord(true).oldTag(f -> "~").newTag(f -> "**").build();
+        final DiffRowGenerator diffGenerator = DiffRowGenerator.create()
+                .showInlineDiffs(true)
+                .inlineDiffByWord(true)
+                .oldTag(f -> "~")
+                .newTag(f -> "**")
+                .build();
 
+        // Generate Diff bewtween Title(s) and Content
         final StringBuilder contentLeft = new StringBuilder();
         contentLeft.append(view1.getTitle1()).append("\n");
         contentLeft.append(view1.getTitle2()).append("\n");
@@ -108,18 +114,22 @@ public class RevisionController {
         contentLeft.append(view1.getContent());
 
         final StringBuilder contentRight = new StringBuilder();
-        contentRight.append(view1.getTitle1()).append("\n");
-        contentRight.append(view1.getTitle2()).append("\n");
-        contentRight.append(view1.getTitle3()).append("\n");
-        contentRight.append(view1.getTitle4()).append("\n");
-        contentRight.append(view1.getTitle5()).append("\n");
-        contentRight.append(view1.getTitle6()).append("\n");
-        contentRight.append(view1.getTitle7()).append("\n");
-        contentRight.append(view1.getContent());
+        contentRight.append(view2.getTitle1()).append("\n");
+        contentRight.append(view2.getTitle2()).append("\n");
+        contentRight.append(view2.getTitle3()).append("\n");
+        contentRight.append(view2.getTitle4()).append("\n");
+        contentRight.append(view2.getTitle5()).append("\n");
+        contentRight.append(view2.getTitle6()).append("\n");
+        contentRight.append(view2.getTitle7()).append("\n");
+        contentRight.append(view2.getContent());
 
         final List<DiffRow> diffRows = diffGenerator.generateDiffRows(
                 Arrays.asList(contentLeft.toString().split("\n")),
                 Arrays.asList(contentRight.toString().split("\n")));
+
+        for (final DiffRow dr : diffRows) {
+            logger.debug("old: {}, new: {}", dr.getOldLine(), dr.getNewLine());
+        }
 
         mv.addObject("nodeid", article.getNodeId());
         mv.addObject("view1", view1);
