@@ -20,6 +20,7 @@ services:
       image: git.holarse.de/holarse-linuxgaming/holarse/holaq:latest
       container_name: amq
       restart: always
+      build: amq/
       ports:
         - 8161:8161
         - 61616:61616
