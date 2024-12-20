@@ -20,7 +20,7 @@
                                         <span class="media-body align-self-center">
                           <strong>Fehler!</strong> Leider gab es einen Fehler beim Anmelden.
                                             <p>
-                                                <div data-th-value="${param.error}"></div>
+                                                <div data-th-text="${session['errormsg']}"></div>
                                             </p>
                         </span>
                     </div>

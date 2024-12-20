@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
@@ -42,6 +43,7 @@ public class SecureAccountFailureHandler extends SimpleUrlAuthenticationFailureH
                                         final HttpServletResponse response,
                                         final AuthenticationException exception) throws IOException, ServletException {
 
+        super.setDefaultFailureUrl("/login?error=1");
 
         final String username = request.getParameter("username");
         log.debug("Login für User {} fehlgeschlagen.", username, exception);
@@ -59,20 +61,19 @@ public class SecureAccountFailureHandler extends SimpleUrlAuthenticationFailureH
                     userStatus.setLocked(true);
                     log.warn("Benutzer {} wurde wegen zu vielen Fehlversuchen gesperrt.", username);
                     userStatusRepository.save(userStatus);
-                    super.setDefaultFailureUrl("/login?error=too-many-attempts");
+                    request.getSession().setAttribute("errormsg", "Konto wurde gesperrt");
                 } else {
                     log.warn("Benutzer {} ist gesperrt.", username);
-                    super.setDefaultFailureUrl("/login?error=locked");
+                    request.getSession().setAttribute("errormsg", "Konto ist gesperrt");
                 }
-
-
             } else {
                 log.error("User login {} has no user_status assoc", username);
-                super.setDefaultFailureUrl("/login?error=incomplete");
+                request.getSession().setAttribute("errormsg", "Konto ist unvollständig");
+
             }
         } else {
             log.error("User login {} is not known", username);
-            super.setDefaultFailureUrl("/login?error=invalid");
+            request.getSession().setAttribute("errormsg", "Benutzername oder Passwort ist falsch.");
         }
 
         super.onAuthenticationFailure(request, response, exception);
