@@ -1,4 +1,4 @@
-<!-- Login -->
+<!-- List News Items Start -->
 <div class="row justify-content-center">
     <div class="col-sm-8 col-lg-5">
         <div class="u-shadow-v21 g-bg-white rounded g-py-40 g-px-30">
@@ -6,13 +6,15 @@
                 <h2 class="h2 g-color-black g-font-weight-600">Die News-Beiträge</h2>
             </header>
 
-            <ul data-th-each="item : ${items}">
-                <li><a href="#" data-th-href="@{/news/{slug}(slug=${item.slug})}" data-th-text="${item.title}"></a></li>
+            <ul data-th-each="searchResult : ${searchResults}">
+                <li><a href="#" data-th-href="@{/news/{slug}(slug=${searchResult.slug})}" data-th-text="${searchResult.title}"></a></li>
             </ul>
             
         </div>
     </div>
 </div>
-<!-- End Login -->
+<!-- List News Items End -->
+
+<section data-th-replace="~{sites/search/pagination :: pagination(searchResults=${searchResults})}"></section>
 
 

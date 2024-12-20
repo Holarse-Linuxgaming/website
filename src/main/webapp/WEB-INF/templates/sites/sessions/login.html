@@ -6,7 +6,47 @@
                 <h2 class="h2 g-color-black g-font-weight-600">Login</h2>
             </header>
 
-            <p>${error}</p>
+            <div data-th-if="${param.error}">
+                <!-- Red Alert -->
+                <div class="alert alert-dismissible fade show g-bg-red g-color-white rounded-0" role="alert">
+                    <button type="button" class="close u-alert-close--light" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+
+                    <div class="media">
+                        <span class="d-flex g-mr-10 g-mt-5">
+                          <i class="icon-ban g-font-size-25"></i>
+                        </span>
+                                        <span class="media-body align-self-center">
+                          <strong>Fehler!</strong> Leider gab es einen Fehler beim Anmelden.
+                                            <p>
+                                                <div data-th-value="${param.error}"></div>
+                                            </p>
+                        </span>
+                    </div>
+                </div>
+                <!-- End Red Alert -->
+            </div>
+
+            <div data-th-if="${param.logout}">
+                <!-- Teal Alert -->
+                <div class="alert alert-dismissible fade show g-bg-teal g-color-white rounded-0" role="alert">
+                    <button type="button" class="close u-alert-close--light" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+
+                    <div class="media">
+                        <span class="d-flex g-mr-10 g-mt-5">
+                          <i class="icon-check g-font-size-25"></i>
+                        </span>
+                                        <span class="media-body align-self-center">
+                          <strong>Abgemeldet!</strong> Du hast dich erfolgreich abgemeldet.
+                        </span>
+                    </div>
+                </div>
+                <!-- End Teal Alert -->
+
+            </div>
             
             <!-- Form -->
             <form data-th-action="@{/login}" data-th-object="${loginForm}" class="g-py-15" method="POST">
@@ -35,6 +75,8 @@
                         </div>
                     </div>
                 </div>
+
+
 
                 <div class="mb-4">
                     <button class="btn btn-md btn-block u-btn-primary rounded g-py-13" type="submit">Anmelden</button>

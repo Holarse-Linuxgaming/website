@@ -1,14 +1,13 @@
 package de.holarse.backend.db.repositories;
 
-import de.holarse.backend.db.Article;
 import de.holarse.backend.db.News;
 import de.holarse.backend.view.FrontpageItemView;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 import org.springframework.data.repository.query.Param;
 
@@ -20,7 +19,7 @@ public interface NewsRepository extends JpaRepository<News, Integer>, NodeAwareR
             + "JOIN n.nodeStatus as ns "
             + "JOIN n.nodeSlugz as sl "
             + "WHERE ns.published and NOT ns.deleted and sl.id = (SELECT max(_sl.id) FROM NodeSlug _sl where _sl.nodeId = n.nodeId)")
-    List<FrontpageItemView> findFrontpageItems(final Pageable pageable);
+    Page<FrontpageItemView> findFrontpageItems(final Pageable pageable);
     
     @Query(value = "FROM News n " + 
                    "JOIN FETCH n.nodeRevision nr " + 

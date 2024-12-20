@@ -44,8 +44,7 @@ public class SecureAccountFailureHandler extends SimpleUrlAuthenticationFailureH
 
 
         final String username = request.getParameter("username");
-
-        log.debug("Login für User " + username + " fehlgeschlagen.", exception);
+        log.debug("Login für User {} fehlgeschlagen.", username, exception);
 
         final User user = userRepository.findByLogin(username);
         if (user != null) {
@@ -54,18 +53,28 @@ public class SecureAccountFailureHandler extends SimpleUrlAuthenticationFailureH
                 userStatus.setFailedLogins(user.getStatus().getFailedLogins() + 1);
                 userStatus.setUpdated(OffsetDateTime.now());
 
+                log.info("Benutzer {} hat nun {} fehlgeschlagene Login-Versuche.", username, user.getStatus().getFailedLogins());
+
                 if (!userStatus.isLocked() && hasTooManyFailedAttempts(userStatus)) {
                     userStatus.setLocked(true);
                     log.warn("Benutzer {} wurde wegen zu vielen Fehlversuchen gesperrt.", username);
+                    userStatusRepository.save(userStatus);
+                    super.setDefaultFailureUrl("/login?error=too-many-attempts");
+                } else {
+                    log.warn("Benutzer {} ist gesperrt.", username);
+                    super.setDefaultFailureUrl("/login?error=locked");
                 }
-                userStatusRepository.save(userStatus);
-                super.setDefaultFailureUrl("/login?error=locked");
+
+
             } else {
                 log.error("User login {} has no user_status assoc", username);
                 super.setDefaultFailureUrl("/login?error=incomplete");
             }
-        }                                 
-        
+        } else {
+            log.error("User login {} is not known", username);
+            super.setDefaultFailureUrl("/login?error=invalid");
+        }
+
         super.onAuthenticationFailure(request, response, exception);
     }
     

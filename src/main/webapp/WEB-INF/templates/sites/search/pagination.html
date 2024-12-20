@@ -4,7 +4,7 @@
         <ul class="list-inline">
             <li class="list-inline-item g-hidden-sm-down" data-th-if="${searchResults.hasPrevious}">
                 <a class="u-pagination-v1__item u-pagination-v1-5 rounded g-pa-4-11"
-                   href="#!" data-th-href="@{?(q=${q},t=${t},s=${s},page=${searchResults.previousPageable.pageNumber},size=${searchResults.previousPageable.pageSize})}"  aria-label="Previous">
+                   href="#!" data-th-href="@{?(q=${q},t=${t},s=${s},page=${searchResults.previousOrFirstPageable.pageNumber},size=${searchResults.previousOrFirstPageable.pageSize})}"  aria-label="Previous">
                                     <span aria-hidden="true">
                                         <i class="fa fa-angle-left g-mr-5"></i>
                                     </span>
@@ -13,14 +13,14 @@
             </li>
             <li class="list-inline-item g-hidden-sm-down">
                 <a class="list-inline-item font-italic">
-                    <span th:text="${searchResults.number + 1}"></span>
+                    <span th:text="${searchResults.number}"></span>
                     von
                     <span th:text="${searchResults.totalPages}"></span>
                 </a>
             </li>
             <li class="list-inline-item g-hidden-sm-down" data-th-if="${searchResults.hasNext}">
                 <a class="u-pagination-v1__item u-pagination-v1-5 rounded g-pa-4-11"
-                   href="#!" data-th-href="@{?(q=${q},t=${t},s=${s},page=${searchResults.nextPageable.pageNumber},size=${searchResults.nextPageable.pageSize})}" aria-label="Next">
+                   href="#!" data-th-href="@{?(q=${q},t=${t},s=${s},page=${searchResults.nextOrLastPageable.pageNumber},size=${searchResults.nextOrLastPageable.pageSize})}" aria-label="Next">
                                     <span aria-hidden="true">
                                         <i class="fa fa-angle-right g-ml-5"></i>
                                     </span>

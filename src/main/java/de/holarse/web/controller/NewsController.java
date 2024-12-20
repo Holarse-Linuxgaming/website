@@ -21,6 +21,7 @@ import de.holarse.web.controller.commands.NewsForm;
 import de.holarse.web.defines.WebDefines;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -70,12 +71,12 @@ public class NewsController {
     private NewsCategoryRepository newsCategoryRepository;
     
     @GetMapping
-    public ModelAndView index(@PageableDefault(sort = {"title"}, value = NEWS_ARTICLES_DEFAULT_PAGE_SIZE) final Pageable pageable, final ModelAndView mv) {
+    public ModelAndView index(@PageableDefault(sort = {"nr.updated", "nr.created"}, direction = Sort.Direction.ASC, value = NEWS_ARTICLES_DEFAULT_PAGE_SIZE) final Pageable pageable, final ModelAndView mv) {
         mv.setViewName("layouts/bare");
         mv.addObject("title", "Die Linuxspiele-Seite für Linuxspieler");
         mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/news/index");
 
-        mv.addObject("items", newsRepository.findFrontpageItems(pageable));
+        mv.addObject("searchResults", newsRepository.findFrontpageItems(pageable));
         return mv;
     }
     

@@ -137,6 +137,7 @@ public class MultipleHttpSecurityConfig {
         
         // Normale Webseite, auch als Gast nutzbar
         .authorizeHttpRequests((requests) -> requests.requestMatchers(antMatcher("/"),
+                                                                      antMatcher("/login**"),
                                                                       antMatcher("/search/**"),
                                                                       antMatcher("/tags/**"),
                                                                       antMatcher("/wiki/**"),
@@ -150,10 +151,11 @@ public class MultipleHttpSecurityConfig {
                                                                       antMatcher("/imprint")).permitAll())
 
         // Form-Login
-        .formLogin(form -> form.loginPage("/login").permitAll()
-                               .successHandler(successHandler())
-                               .failureHandler(failureHandler()))
-        
+        .formLogin(form -> form
+                .loginPage("/login").permitAll()
+                .failureHandler(failureHandler())
+                .successHandler(successHandler()))
+
         // Logout
         .logout(logout -> logout.logoutUrl("/logout"))
         

@@ -37,10 +37,10 @@ public class WelcomeController {
         mv.addObject("title", "Die Linuxspiele-Seite für Linuxspieler");
         mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/welcome");
 
-        var pageRequest = PageRequest.of(0, 10, Sort.by("nr.updated").descending().and(Sort.by("nr.created").descending()));
+        var pageRequest = PageRequest.of(1, 10, Sort.by("nr.updated").descending().and(Sort.by("nr.created").descending()));
 
         final List<FrontpageItemView> articles = articleRepository.findFrontpageItems(pageRequest);
-        final List<FrontpageItemView> news = newsRepository.findFrontpageItems(pageRequest);
+        final List<FrontpageItemView> news = newsRepository.findFrontpageItems(pageRequest) != null ? newsRepository.findFrontpageItems(pageRequest).getContent() : new ArrayList<>();
         
         final List<FrontpageItemView> items = new ArrayList<>();
         items.addAll(articles);
