@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -39,6 +40,9 @@ public class GameFinderController {
     
     @Autowired
     private SearchRepository searchRepository;
+
+    @Value("${holarse.search.rankLimit}")
+    private Float rankLimit;
     
     @ModelAttribute
     public SearchForm setupSearchForm() {
@@ -46,7 +50,8 @@ public class GameFinderController {
     }    
     
     // Standardsortierung nach Ergebnis-Ranking
-    final static Sort defaultRankSorted = JpaSort.unsafe(Sort.Direction.DESC, "ts_rank(document, websearch_to_tsquery('german', :query))");    
+    // See https://www.postgresql.org/docs/current/textsearch-controls.html#TEXTSEARCH-RANKING
+    final static Sort defaultRankSorted = JpaSort.unsafe(Sort.Direction.DESC, "ts_rank_cd(document, websearch_to_tsquery('german', :query), 16)");
         
     @GetMapping
     public ModelAndView index(
@@ -96,7 +101,7 @@ public class GameFinderController {
         Page<SearchResultView> searchResults;
         if (selectedTags.isEmpty()) {
             // Garkeine Tags gesetzt, wir suchen im Text
-            searchResults = searchRepository.search(orJoinQuery, scope, pageRequest);
+            searchResults = searchRepository.search(orJoinQuery, scope, rankLimit, pageRequest);
         } else {
             // Tags gesetzt, also Tag-basierte Suche
             searchResults = StringUtils.isAllBlank(query) ? 

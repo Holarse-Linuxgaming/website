@@ -17,9 +17,12 @@ import org.springframework.data.domain.Pageable;
 @Repository
 public interface SearchRepository extends JpaRepository<SearchIndex, Integer> {
     
-    @Query(value = "select nodeid as nodeid, ptitle as title, purl as url, left(content, 100) || '...' as teaser, doctype, last_update from mv_searchindex " +
-                   "where document @@ websearch_to_tsquery('german', :query) and doctype\\:\\:character varying in (:scope)", nativeQuery = true)
-    Page<SearchResultView> search(@Param("query") final String query, @Param("scope") final List<String> scope, final Pageable pageable);
+    @Query(value = "select nodeid as nodeid, ptitle as title, purl as url, left(content, 100) || '...' as teaser, doctype, last_update, " +
+                   "ts_rank_cd(document, websearch_to_tsquery('german', :query), 16) as rank " +
+                   "from mv_searchindex " +
+                   "where document @@ websearch_to_tsquery('german', :query) and doctype\\:\\:character varying in (:scope) " +
+                   "and ts_rank_cd(document, websearch_to_tsquery('german', :query), 16) > :rankLimit ", nativeQuery = true)
+    Page<SearchResultView> search(@Param("query") final String query, @Param("scope") final List<String> scope, @Param("rankLimit") final Float rankLimit, final Pageable pageable);
 
     /***
      * Die Tag-Delimiter müssen @@@ sein, weil das Semikolon von Pagable-Ersetzungsmuster fälschlicherweise als Ende erkannt wird

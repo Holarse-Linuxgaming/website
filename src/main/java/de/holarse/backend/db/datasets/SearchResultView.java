@@ -9,5 +9,7 @@ public interface SearchResultView {
     String getUrl();
     String getDocType();
     String getTeaser();
-    LocalDateTime getLastUpdate();    
+    LocalDateTime getLastUpdate();
+    Float getRank();
+
 }
