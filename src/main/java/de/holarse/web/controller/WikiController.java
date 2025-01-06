@@ -6,6 +6,7 @@ import de.holarse.auth.web.HolarsePrincipal;
 import de.holarse.backend.db.*;
 import de.holarse.backend.db.repositories.*;
 import de.holarse.backend.types.AttachmentGroupType;
+import de.holarse.backend.types.NodeTagsType;
 import de.holarse.backend.types.NodeType;
 import de.holarse.backend.types.StatIntervalType;
 import de.holarse.backend.view.*;
@@ -226,6 +227,8 @@ public class WikiController {
 
         final User author = userRepository.findById( ((HolarsePrincipal)authentication.getPrincipal()).getUser().getId() ).orElseThrow(EntityNotFoundException::new);
 
+        final Set<Tag> articleTags = tagService.extract(form);
+
         final AttachmentType attScreenshot = attachmentTypeRepository.findByCode("screenshot");
         final AttachmentType attLink = attachmentTypeRepository.findByCode("link");
         final AttachmentType attVideo = attachmentTypeRepository.findByCode("youtube");
@@ -266,9 +269,13 @@ public class WikiController {
         articleRevision.setContent(form.getContent());
         articleRevision.setChangelog("TODO Changelog im Form"); // TODO Changelog im Article-Form
         articleRevision.setAuthor(author);
+
+        // Tags einfrieren
+        var frozenTagsList = new NodeTagsType();
+        frozenTagsList.setTags(articleTags.stream().map(Tag::getName).toList());
+        articleRevision.setTagslist(frozenTagsList);
+
         articleRevisionRepository.save(articleRevision);
-        
-        final Set<Tag> articleTags = tagService.extract(form);
 
         // TODO Bilder, Anhänge 
         

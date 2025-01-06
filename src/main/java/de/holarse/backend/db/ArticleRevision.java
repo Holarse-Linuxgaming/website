@@ -1,6 +1,9 @@
 package de.holarse.backend.db;
 
+import de.holarse.backend.types.NodeTagsType;
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Table(name = "article_revisions")
 @Entity
@@ -51,6 +54,9 @@ public class ArticleRevision extends RevisionedNode {
 
     @OneToOne(mappedBy = "nodeRevision")
     private Article article;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    private NodeTagsType tagslist;
 
     public String getTitle1() {
         return title1;
@@ -187,5 +193,12 @@ public class ArticleRevision extends RevisionedNode {
     public void setTitle7Lang(String title7Lang) {
         this.title7Lang = title7Lang;
     }
-    
+
+    public NodeTagsType getTagslist() {
+        return tagslist;
+    }
+
+    public void setTagslist(NodeTagsType tagslist) {
+        this.tagslist = tagslist;
+    }
 }

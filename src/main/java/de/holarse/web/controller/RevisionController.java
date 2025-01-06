@@ -28,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 import static de.holarse.web.defines.WebDefines.REVISION_DEFAULT_PAGE_SIZE;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class RevisionController {
@@ -111,7 +112,16 @@ public class RevisionController {
         contentLeft.append(view1.getTitle5()).append("\n");
         contentLeft.append(view1.getTitle6()).append("\n");
         contentLeft.append(view1.getTitle7()).append("\n");
+
+        if (articleRevision1.getTagslist() != null) {
+            contentLeft.append(articleRevision1.getTagslist().getTags().stream().sorted().collect(Collectors.joining(",")));
+        } else {
+            contentLeft.append("");
+        }
+        contentLeft.append("\n");
+
         contentLeft.append(view1.getContent());
+
 
         final StringBuilder contentRight = new StringBuilder();
         contentRight.append(view2.getTitle1()).append("\n");
@@ -121,7 +131,16 @@ public class RevisionController {
         contentRight.append(view2.getTitle5()).append("\n");
         contentRight.append(view2.getTitle6()).append("\n");
         contentRight.append(view2.getTitle7()).append("\n");
-        contentRight.append(view2.getContent());
+
+        if (articleRevision2.getTagslist() != null) {
+            contentRight.append(articleRevision2.getTagslist().getTags().stream().sorted().collect(Collectors.joining(",")));
+        } else {
+            contentRight.append("");
+        }
+        contentRight.append("\n");
+
+        contentRight.append(view2.getContent()).append("\n");
+
 
         final List<DiffRow> diffRows = diffGenerator.generateDiffRows(
                 Arrays.asList(contentLeft.toString().split("\n")),
