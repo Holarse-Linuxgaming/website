@@ -14,6 +14,7 @@ import de.holarse.backend.view.ArticleView;
 import de.holarse.web.defines.WebDefines;
 import de.holarse.web.services.ArticleService;
 import jakarta.persistence.EntityNotFoundException;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,16 +104,19 @@ public class RevisionController {
                 .newTag(f -> "**")
                 .build();
 
-        // Generate Diff bewtween Title(s) and Content
+        //
+        // Linke Seite bauen
+        //
         final StringBuilder contentLeft = new StringBuilder();
-        contentLeft.append(view1.getTitle1()).append("\n");
-        contentLeft.append(view1.getTitle2()).append("\n");
-        contentLeft.append(view1.getTitle3()).append("\n");
-        contentLeft.append(view1.getTitle4()).append("\n");
-        contentLeft.append(view1.getTitle5()).append("\n");
-        contentLeft.append(view1.getTitle6()).append("\n");
-        contentLeft.append(view1.getTitle7()).append("\n");
+        contentLeft.append(StringUtils.defaultIfBlank(view1.getTitle1(), "")).append("\n");
+        contentLeft.append(StringUtils.defaultIfBlank(view1.getTitle2(), "")).append("\n");
+        contentLeft.append(StringUtils.defaultIfBlank(view1.getTitle3(), "")).append("\n");
+        contentLeft.append(StringUtils.defaultIfBlank(view1.getTitle4(), "")).append("\n");
+        contentLeft.append(StringUtils.defaultIfBlank(view1.getTitle5(), "")).append("\n");
+        contentLeft.append(StringUtils.defaultIfBlank(view1.getTitle6(), "")).append("\n");
+        contentLeft.append(StringUtils.defaultIfBlank(view1.getTitle7(), "")).append("\n");
 
+        // Tags
         if (articleRevision1.getTagslist() != null) {
             contentLeft.append(articleRevision1.getTagslist().getTags().stream().sorted().collect(Collectors.joining(",")));
         } else {
@@ -120,18 +124,22 @@ public class RevisionController {
         }
         contentLeft.append("\n");
 
+        // Hauptinhalt
         contentLeft.append(view1.getContent());
 
-
+        //
+        // Rechte Seite bauen
+        //
         final StringBuilder contentRight = new StringBuilder();
-        contentRight.append(view2.getTitle1()).append("\n");
-        contentRight.append(view2.getTitle2()).append("\n");
-        contentRight.append(view2.getTitle3()).append("\n");
-        contentRight.append(view2.getTitle4()).append("\n");
-        contentRight.append(view2.getTitle5()).append("\n");
-        contentRight.append(view2.getTitle6()).append("\n");
-        contentRight.append(view2.getTitle7()).append("\n");
+        contentRight.append(StringUtils.defaultIfBlank(view2.getTitle1(), "")).append("\n");
+        contentRight.append(StringUtils.defaultIfBlank(view2.getTitle2(), "")).append("\n");
+        contentRight.append(StringUtils.defaultIfBlank(view2.getTitle3(), "")).append("\n");
+        contentRight.append(StringUtils.defaultIfBlank(view2.getTitle4(), "")).append("\n");
+        contentRight.append(StringUtils.defaultIfBlank(view2.getTitle5(), "")).append("\n");
+        contentRight.append(StringUtils.defaultIfBlank(view2.getTitle6(), "")).append("\n");
+        contentRight.append(StringUtils.defaultIfBlank(view2.getTitle7(), "")).append("\n");
 
+        // Tags
         if (articleRevision2.getTagslist() != null) {
             contentRight.append(articleRevision2.getTagslist().getTags().stream().sorted().collect(Collectors.joining(",")));
         } else {
@@ -139,6 +147,7 @@ public class RevisionController {
         }
         contentRight.append("\n");
 
+        // Hauptinhalt
         contentRight.append(view2.getContent()).append("\n");
 
 
