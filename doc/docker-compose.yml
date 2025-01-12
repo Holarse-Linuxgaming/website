@@ -30,7 +30,7 @@ services:
         - holarse-dev
 
   app:
-    image: tomcat:11.0-jdk21-openjdk
+    image: tomcat:11.0.2-jdk21-openjdk-slim
     container_name: app
     restart: always
     ports:
