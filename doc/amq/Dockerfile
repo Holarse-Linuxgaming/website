@@ -1,11 +1,11 @@
-FROM opensuse/leap:15.5
-ARG AMQ_VERSION=2.31.0
+FROM opensuse/leap:15.6
+ARG AMQ_VERSION=2.38.0
 
 ENV ARTEMIS_USER holarse
 ENV ARTEMIS_PASSWORD geheim
 ENV ANONYMOUS_LOGIN false
 
-RUN zypper ref && zypper in -y java-17-openjdk-headless wget tar gzip libaio
+RUN zypper ref && zypper in -y java-21-openjdk-headless wget tar gzip libaio
 RUN mkdir -p /opt/
 WORKDIR /opt/
 RUN wget "https://www.apache.org/dyn/closer.cgi?filename=activemq/activemq-artemis/${AMQ_VERSION}/apache-artemis-${AMQ_VERSION}-bin.tar.gz&action=download" -O apache-artemis-${AMQ_VERSION}-bin.tar.gz
