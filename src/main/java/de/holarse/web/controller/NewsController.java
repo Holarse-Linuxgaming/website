@@ -19,6 +19,7 @@ import de.holarse.backend.view.SettingsView;
 import de.holarse.backend.view.YoutubeView;
 import de.holarse.web.controller.commands.NewsForm;
 import de.holarse.web.defines.WebDefines;
+import de.holarse.web.renderer.ContentRenderer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -29,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import static de.holarse.web.defines.WebDefines.NEWS_ARTICLES_DEFAULT_PAGE_SIZE;
-import de.holarse.web.renderer.Renderer;
+import de.holarse.web.renderer.ContentRenderer;
 import de.holarse.web.services.AttachmentService;
 import jakarta.persistence.EntityNotFoundException;
 import java.security.Principal;
@@ -53,7 +54,7 @@ public class NewsController {
     private NodeSlugRepository nodeSlugRepository; 
     
     @Autowired
-    private Renderer renderer;    
+    private ContentRenderer renderer;
 
     @Autowired
     private AttachmentService attachmentService;    

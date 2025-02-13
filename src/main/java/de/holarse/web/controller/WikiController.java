@@ -20,7 +20,7 @@ import de.holarse.web.controller.commands.FileUploadForm;
 import de.holarse.web.defines.WebDefines;
 
 import static de.holarse.web.defines.WebDefines.WIKI_ARTICLES_DEFAULT_PAGE_SIZE;
-import de.holarse.web.renderer.Renderer;
+import de.holarse.web.renderer.ContentRenderer;
 import de.holarse.web.services.*;
 import jakarta.persistence.EntityNotFoundException;
 import java.security.Principal;
@@ -95,7 +95,7 @@ public class WikiController {
     private ArticleService articleService;
 
     @Autowired
-    private Renderer renderer;
+    private ContentRenderer renderer;
     
     @Autowired
     private JmsTemplate jmsTemplate;

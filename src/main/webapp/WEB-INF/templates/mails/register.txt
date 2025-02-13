@@ -1,5 +1,21 @@
-Hallo, [( #{username} )]
-bitte aktiviere dein Konto mit diesem Link:
-http://localhost:8080/holarseweb/register/verify?v=[{ #{verification_hash} }]
-Der Link ist noch gültig bis [( #{valid_until} )]
+Hallo, [(${username})],
+
+toll, dass du dir ein Konto auf Holarse - Spielen unter Linux eingerichtet hast. Um aktiv an der größten, deutschsprachigen 
+Linuxspieleplattform mitzuwirken, musst du nur noch dein Konto bestätigen.
+
+Solltest du kein Konto eingerichtet haben, so musst du nichts weiter tun. Vermutlich hat jemand deine Email-Adresse bei der Registrierung 
+angegeben. Wenn das Holarse-Konto nicht innerhalb der Frist aktiviert wird, dann verfällt es. Du musst in dem Fall also nichts
+weiter tun.
+
+Dein Konto kannst du unter diesem Link aktivieren:
+
+https://localhost:8080/holarseweb/register/verify?v=[(${verification_hash})]
+
+Der Link ist noch gültig bis [(${valid_until})].
+
+Viel Spass auf Holarse,
+
 Dein Holarse-Team
+
+---
+Holarse - Spielen unter Linux - https://holarse.de

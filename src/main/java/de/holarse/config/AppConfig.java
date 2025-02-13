@@ -77,9 +77,8 @@ public class AppConfig implements WebMvcConfigurer {
         springTemplateResolver.setApplicationContext(this.applicationContext);
         springTemplateResolver.setPrefix("/WEB-INF/templates/");
         springTemplateResolver.setSuffix(".txt");
-        springTemplateResolver.setTemplateMode(TemplateMode.TEXT);
         springTemplateResolver.setCharacterEncoding("UTF-8");
-        springTemplateResolver.setCacheable(false);        
+        springTemplateResolver.setCacheable(false);
         return springTemplateResolver;
     }    
     

@@ -6,7 +6,7 @@ import de.holarse.backend.db.repositories.NodeSlugRepository;
 import de.holarse.backend.types.AttachmentGroupType;
 import de.holarse.backend.types.NodeType;
 import de.holarse.backend.view.*;
-import de.holarse.web.renderer.Renderer;
+import de.holarse.web.renderer.ContentRenderer;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,7 @@ public class ArticleService {
     private NodeSlugRepository nodeSlugRepository;
 
     @Autowired
-    private Renderer renderer;
+    private ContentRenderer renderer;
 
     public ArticleView buildArticleView(final Article article, final ArticleRevision articleRevision) {
         final Set<Tag> tags = article.getTags();
