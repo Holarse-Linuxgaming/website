@@ -30,11 +30,12 @@ services:
         - holarse-dev
 
   app:
-    image: tomcat:11.0.2-jdk21-openjdk-slim
+    image: tomcat:11-jdk21
     container_name: app
     restart: always
     ports:
       - 8080:8080
+      - 9090:9090
     volumes:
       - './tomcat/conf/context.xml:/usr/local/tomcat/conf/context.xml'
       - './tomcat/conf/server.xml:/usr/local/tomcat/conf/server.xml'
@@ -46,6 +47,7 @@ services:
     environment:
       - OCI_ACCESSKEYID=${OCI_ACCESSKEYID}
       - OCI_SECRETKEYID=${OCI_SECRETKEYID}
+      - JAVA_OPTS=-Dcom.sun.management.jmxremote.port=9090 -Dcom.sun.management.jmxremote.host=0.0.0.0 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false
 
   cache:
       image: memcached:latest
