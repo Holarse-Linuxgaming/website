@@ -1,6 +1,15 @@
 
 # Use postgres/example user/password credentials
 services:
+  front:
+    image: caddy:2.10-alpine
+    container_name: front
+    ports:
+      - 80:80
+    volumes:
+      - ./development/caddy/conf:/etc/caddy
+    networks:
+      - holarse-dev
   db:
     image: postgres:15
     container_name: db
@@ -17,10 +26,9 @@ services:
       - holarse-dev
 
   amq:
-      image: git.holarse.de/holarse-linuxgaming/holarse/holaq:latest
       container_name: amq
-      restart: always
-      build: amq/
+      restart: on-failure      
+      build: development/amq/
       ports:
         - 8161:8161
         - 61616:61616
@@ -30,29 +38,28 @@ services:
         - holarse-dev
 
   app:
-    image: tomcat:11-jdk21
     container_name: app
-    restart: always
+    build:
+      context: .
+      dockerfile: development/tomcat/Dockerfile
+    restart: on-failure
     ports:
       - 8080:8080
       - 9090:9090
     volumes:
-      - './tomcat/conf/context.xml:/usr/local/tomcat/conf/context.xml'
-      - './tomcat/conf/server.xml:/usr/local/tomcat/conf/server.xml'
-      - './tomcat/conf/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml'
-      - './tomcat/lib/postgresql-42.3.1.jar:/usr/local/tomcat/lib/postgresql-42.3.1.jar'
-      - '../target/holarseweb.war:/usr/local/tomcat/webapps/holarseweb.war'
+      - ./development/tomcat/conf/context.xml:/usr/local/tomcat/conf/context.xml:ro
+      - ./development/tomcat/conf/server.xml:/usr/local/tomcat/conf/server.xml:ro
+      - ./development/tomcat/conf/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml:ro
+      - ./development/tomcat/lib/postgresql-42.3.1.jar:/usr/local/tomcat/lib/postgresql-42.3.1.jar:ro
+      - ./app/target/holarseweb.war:/usr/local/tomcat/webapps/holarseweb.war:ro
     networks:
       - holarse-dev
-    environment:
-      - OCI_ACCESSKEYID=${OCI_ACCESSKEYID}
-      - OCI_SECRETKEYID=${OCI_SECRETKEYID}
-      - JAVA_OPTS=-Dcom.sun.management.jmxremote.port=9090 -Dcom.sun.management.jmxremote.host=0.0.0.0 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false
-
+    env_file:
+      - development/tomcat/tomcat.env
   cache:
       image: memcached:latest
       container_name: cache
-      restart: always
+      restart: on-failure      
       ports:
         - 11212:11212
       networks:
@@ -61,7 +68,7 @@ services:
   mail:
     image: axllent/mailpit
     container_name: mail
-    restart: always
+    restart: on-failure    
     ports:
       - 8025:8025
       - 1025:1025
@@ -70,9 +77,7 @@ services:
 
 volumes:
   website_my_pgdata: 
-    external: true
   amq_journal_data:
-    external: true
 
 networks:
   holarse-dev:

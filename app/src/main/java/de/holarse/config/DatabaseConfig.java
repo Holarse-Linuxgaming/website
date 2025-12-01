@@ -1,10 +1,14 @@
 package de.holarse.config;
 
+import java.beans.BeanProperty;
 import java.util.Properties;
 import jakarta.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import org.flywaydb.core.Flyway;
+import org.flywaydb.core.api.configuration.FluentConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
@@ -21,6 +25,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class DatabaseConfig {
 
     @Bean
+    @DependsOn("flyway")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
@@ -39,7 +44,7 @@ public class DatabaseConfig {
     @Bean(name="dataSource")
     public DataSource dataSource() {
         final JndiDataSourceLookup lookup = new JndiDataSourceLookup();
-        return lookup.getDataSource("jdbc/holarse");        
+        return lookup.getDataSource("jdbc/holarse");    
     }
     
     @Bean
@@ -64,4 +69,15 @@ public class DatabaseConfig {
         properties.setProperty("hibernate.hbm2ddl.extra_physical_table_types", "PARTITIONED TABLE"); // See https://github.com/thingsboard/thingsboard/issues/2570#issuecomment-721121151
         return properties;
     }
+
+    @Bean
+    public org.flywaydb.core.api.configuration.Configuration flywayConfig(DataSource dataSource) {
+        return new FluentConfiguration().dataSource(dataSource);
+    }
+    
+    @Bean(initMethod = "migrate")
+    public Flyway flyway(org.flywaydb.core.api.configuration.Configuration flywayConfig) {
+        return Flyway.configure().configuration(flywayConfig).load();
+    }
+
 }

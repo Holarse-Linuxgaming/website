@@ -1,8 +1,5 @@
 begin transaction;
 
--- set migration version
-update migration_version set version='20240222-2250';
-
 -- Interne Downloads und Interne Tool-Downloads per Attachment
 insert into attachment_groups (code, label) values ('internal', 'Internes');
 

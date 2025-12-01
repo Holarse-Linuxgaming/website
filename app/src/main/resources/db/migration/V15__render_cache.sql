@@ -1,10 +1,5 @@
 begin;
 
-create table migration_version(version varchar(255));
-
--- set migration version
-update migration_version set version='20240222-2250';
-
 -- render cache
 create type render_cache_type as enum ('empty',     -- Einfach nur leer
                                        'unchanged', -- Ohne Anpassungen

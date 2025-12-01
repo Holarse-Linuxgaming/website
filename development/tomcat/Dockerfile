@@ -1,0 +1,2 @@
+FROM tomcat:11-jdk21
+EXPOSE 8080

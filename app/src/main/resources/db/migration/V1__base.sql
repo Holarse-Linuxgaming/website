@@ -1,7 +1,3 @@
--- Die Datenbank komplett säubern
-drop schema public cascade;
-create schema public;
-
 -- Basis-Sequenz für alle Einträge anlegen
 create sequence hibernate_sequence start with 1;
 grant select, update on sequence hibernate_sequence to holarse;
