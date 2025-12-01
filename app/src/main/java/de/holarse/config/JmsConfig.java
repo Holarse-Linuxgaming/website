@@ -18,8 +18,10 @@ package de.holarse.config;
 
 import jakarta.jms.ConnectionFactory;
 import jakarta.jms.DeliveryMode;
+import jakarta.jms.JMSException;
 import java.util.Arrays;
-import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.activemq.artemis.api.jms.ActiveMQJMSClient;
+import org.apache.activemq.artemis.jms.client.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -44,20 +46,20 @@ public class JmsConfig {
     private String amqPassword;
     
     @Bean
-    public ConnectionFactory jmsConnectionFactory() {
-        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
+    public ConnectionFactory jmsConnectionFactory() throws Exception {
+        ActiveMQConnectionFactory connectionFactory = ActiveMQJMSClient.createConnectionFactory(amqBrokerUrl, "holaq");
         connectionFactory.setBrokerURL(amqBrokerUrl);
-        connectionFactory.setUserName(amqUsername);
+        connectionFactory.setUser(amqUsername);
         connectionFactory.setPassword(amqPassword);
         
-        connectionFactory.setTrustedPackages(Arrays.asList("de.holarse.backend.api", "de.holarse.backend.types", "de.holarse.queues.commands", "java.util", "java.lang"));
+        //connectionFactory.setTrustedPackages(Arrays.asList("de.holarse.backend.api", "de.holarse.backend.types", "de.holarse.queues.commands", "java.util", "java.lang"));
         
         return connectionFactory;        
     }    
     
     @Bean
     @Qualifier("jmsTemplate")    
-    public JmsTemplate jmsTemplateConnectionFactory() {
+    public JmsTemplate jmsTemplateConnectionFactory() throws Exception {
         final JmsTemplate jmsTemplate = new JmsTemplate();
         jmsTemplate.setDeliveryMode(DeliveryMode.PERSISTENT);
         jmsTemplate.setSessionTransacted(true);
@@ -67,7 +69,7 @@ public class JmsConfig {
     }
     
     @Bean
-    public DefaultJmsListenerContainerFactory jmsListenerContainerFactory() {
+    public DefaultJmsListenerContainerFactory jmsListenerContainerFactory() throws Exception {
         final DefaultJmsListenerContainerFactory listenerFactory = new DefaultJmsListenerContainerFactory();
         listenerFactory.setConnectionFactory((jmsConnectionFactory()));
         return listenerFactory;

@@ -1,7 +1,6 @@
 package de.holarse.backend.db;
 
 import de.holarse.backend.types.AttachmentDataType;
-import io.hypersistence.utils.hibernate.type.basic.PostgreSQLEnumType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -9,7 +8,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.JdbcType;
 import org.hibernate.annotations.Type;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
 @Entity
 @Table(name = "attachment_types")
@@ -28,7 +29,7 @@ public class AttachmentType extends Base {
     private AttachmentGroup attachmentGroup;
     
     @Enumerated(EnumType.STRING)
-    @Type(PostgreSQLEnumType.class)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
     @Column(columnDefinition = "attachment_data_type", name = "datatype")    
     private AttachmentDataType dataType;
 

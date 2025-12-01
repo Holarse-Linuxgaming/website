@@ -41,7 +41,7 @@ services:
     container_name: app
     build:
       context: .
-      dockerfile: development/tomcat/Dockerfile
+      dockerfile: development/app/Dockerfile
     restart: on-failure
     ports:
       - 8080:8080

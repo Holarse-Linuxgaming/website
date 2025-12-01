@@ -2,13 +2,14 @@ package de.holarse.backend.db;
 
 import de.holarse.backend.types.DrückblickSourceType;
 import de.holarse.backend.types.NodeType;
-import io.hypersistence.utils.hibernate.type.basic.PostgreSQLEnumType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.JdbcType;
 import org.hibernate.annotations.Type;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
 @Table(name = "drückblick_entries")
 @Entity
@@ -30,7 +31,7 @@ public class DrückblickEntry extends TimestampedBase implements LockableEntity 
     private String category;
     
     @Enumerated(EnumType.STRING)
-    @Type(PostgreSQLEnumType.class)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
     @Column(columnDefinition = "drückblick_source_type")
     private DrückblickSourceType source;
 

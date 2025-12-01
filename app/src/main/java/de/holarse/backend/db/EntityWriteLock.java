@@ -17,7 +17,6 @@
 package de.holarse.backend.db;
 
 import de.holarse.backend.types.NodeType;
-import io.hypersistence.utils.hibernate.type.basic.PostgreSQLEnumType;
 import java.time.OffsetDateTime;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -27,7 +26,9 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.JdbcType;
 import org.hibernate.annotations.Type;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
 /**
  * Allgemeine Writelock-Tabelle für alle Arten von geteilten, speicherbaren Daten.
@@ -40,7 +41,7 @@ public class EntityWriteLock extends Base  {
     private static final long serialVersionUID = 1L;
 
     @Enumerated(EnumType.STRING)
-    @Type(PostgreSQLEnumType.class)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
     @Column(name = "entity", columnDefinition = "node_type")
     private NodeType entity;    
    

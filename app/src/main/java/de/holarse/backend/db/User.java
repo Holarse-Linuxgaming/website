@@ -1,7 +1,6 @@
 package de.holarse.backend.db;
 
 import de.holarse.backend.types.PasswordType;
-import io.hypersistence.utils.hibernate.type.basic.PostgreSQLEnumType;
 import java.util.HashSet;
 import java.util.Set;
 import jakarta.persistence.CascadeType;
@@ -15,7 +14,9 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.JdbcType;
 import org.hibernate.annotations.Type;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
 @Table(name = "users")
 @Entity
@@ -27,7 +28,7 @@ public class User extends TimestampedBase {
     private String email;
     private Integer drupalId;
     @Enumerated(EnumType.STRING)
-    @Type(PostgreSQLEnumType.class)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
     @Column(columnDefinition = "password_type")
     private PasswordType hashType;
     private String digest;

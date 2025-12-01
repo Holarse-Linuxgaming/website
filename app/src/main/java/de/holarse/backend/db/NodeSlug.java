@@ -1,13 +1,14 @@
 package de.holarse.backend.db;
 
 import de.holarse.backend.types.NodeType;
-import io.hypersistence.utils.hibernate.type.basic.PostgreSQLEnumType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.JdbcType;
 import org.hibernate.annotations.Type;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
 @Table(name = "node_slugs")
 @Entity
@@ -25,7 +26,7 @@ public class NodeSlug extends TimestampedBase {
     private boolean main;
     
     @Enumerated(EnumType.STRING)
-    @Type(PostgreSQLEnumType.class)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
     @Column(columnDefinition = "node_type", name = "slug_context")
     private NodeType slugContext;
 

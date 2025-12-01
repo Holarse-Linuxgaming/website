@@ -4,7 +4,6 @@ import de.holarse.backend.db.Attachment;
 import de.holarse.backend.view.AttachmentView;
 import de.holarse.backend.view.ScreenshotView;
 import de.holarse.web.controller.commands.FileUploadForm;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +21,7 @@ import java.io.File;
 import java.net.URI;
 import java.nio.file.Path;
 import java.util.Base64;
+import org.springframework.util.DigestUtils;
 
 /**
  * Service zum Speichern von Daten in einem S3-kompatiblem Bucket
@@ -58,7 +58,7 @@ public class ObjectStorageService {
         final RequestBody body = RequestBody.fromBytes(data);
 
 
-        final String digest = DigestUtils.md5Hex(data);
+        final String digest = DigestUtils.md5DigestAsHex(data);
         logger.trace("Converted base64 to bytes, having digest: {}", digest);
         final String ext = FilenameUtils.getExtension(form.getName());
         final String key = String.format("%s.%s", digest, ext);
