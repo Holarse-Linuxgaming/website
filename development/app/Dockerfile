@@ -1,3 +1,7 @@
-FROM maven:3-eclipse-temurin-21
+FROM eclipse-temurin:25-jdk-alpine
 
-ENTRYPOINT [ "mvn", "clean", "package" ]
+VOLUME [ "/app" ]
+
+EXPOSE 8080
+
+ENTRYPOINT [ "java", "-jar", "/app/holarseweb.jar" ]

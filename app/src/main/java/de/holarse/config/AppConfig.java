@@ -37,71 +37,70 @@ import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 @PropertySources({
     @PropertySource("classpath:application.properties"),
     @PropertySource("classpath:credential.properties"),
-    @PropertySource("classpath:cloud.properties"),
-    @PropertySource("classpath:git.properties")})
+    @PropertySource("classpath:cloud.properties")})
 public class AppConfig implements WebMvcConfigurer {
 
-    @Autowired
-    private ApplicationContext applicationContext;
+    // @Autowired
+    // private ApplicationContext applicationContext;
 
-    @Bean
-    public HandlerInterceptor requestLoggingInterceptor() {
-        return new RequestLoggingInterceptor();
-    }
+    // @Bean
+    // public HandlerInterceptor requestLoggingInterceptor() {
+    //     return new RequestLoggingInterceptor();
+    // }
 
-    @Bean
-    public MultipartResolver filterMultipartResolver() {
-        return new StandardServletMultipartResolver();
-    }
+    // @Bean
+    // public MultipartResolver filterMultipartResolver() {
+    //     return new StandardServletMultipartResolver();
+    // }
 
 //    @Override
 //    public void configurePathMatch(final PathMatchConfigurer configurer) {
 //        configurer.setUseTrailingSlashMatch(true);
 //    }
-    @Bean
-    public SpringResourceTemplateResolver springTemplateResolver() {
-        SpringResourceTemplateResolver springTemplateResolver = new SpringResourceTemplateResolver();
-        springTemplateResolver.setApplicationContext(this.applicationContext);
-        springTemplateResolver.setPrefix("/WEB-INF/templates/");
-        springTemplateResolver.setSuffix(".html");
-        return springTemplateResolver;
-    }
+    // @Bean
+    // public SpringResourceTemplateResolver springTemplateResolver() {
+    //     SpringResourceTemplateResolver springTemplateResolver = new SpringResourceTemplateResolver();
+    //     springTemplateResolver.setApplicationContext(this.applicationContext);
+    //     springTemplateResolver.setPrefix("/WEB-INF/templates/");
+    //     springTemplateResolver.setSuffix(".html");
+    //     return springTemplateResolver;
+    // }
     
-    @Bean
-    public SpringResourceTemplateResolver textTemplateResolver() {
-        SpringResourceTemplateResolver springTemplateResolver = new SpringResourceTemplateResolver();
-        springTemplateResolver.setApplicationContext(this.applicationContext);
-        springTemplateResolver.setPrefix("/WEB-INF/templates/");
-        springTemplateResolver.setSuffix(".txt");
-        springTemplateResolver.setCharacterEncoding("UTF-8");
-        springTemplateResolver.setCacheable(false);
-        return springTemplateResolver;
-    }    
+    // @Bean
+    // public SpringResourceTemplateResolver textTemplateResolver() {
+    //     SpringResourceTemplateResolver springTemplateResolver = new SpringResourceTemplateResolver();
+    //     springTemplateResolver.setApplicationContext(this.applicationContext);
+    //     springTemplateResolver.setPrefix("/WEB-INF/templates/");
+    //     springTemplateResolver.setSuffix(".txt");
+    //     springTemplateResolver.setCharacterEncoding("UTF-8");
+    //     springTemplateResolver.setCacheable(false);
+    //     return springTemplateResolver;
+    // }    
     
-    @Bean(value = "emailTemplateEngine")
-    public TemplateEngine emailTemplateEngine() {
-        final SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-        // Resolver for TEXT emails
-        templateEngine.addTemplateResolver(textTemplateResolver());
-        return templateEngine;
-    }
+    // @Bean(value = "emailTemplateEngine")
+    // public TemplateEngine emailTemplateEngine() {
+    //     final SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+    //     // Resolver for TEXT emails
+    //     templateEngine.addTemplateResolver(textTemplateResolver());
+    //     return templateEngine;
+    // }
 
-    @Bean
-    public SpringTemplateEngine springTemplateEngine() {
-        final SpringTemplateEngine springTemplateEngine = new SpringTemplateEngine();
-        // Resolver for HTML pages
-        springTemplateEngine.setTemplateResolver(springTemplateResolver());
-        springTemplateEngine.addDialect(new SpringSecurityDialect());
-        return springTemplateEngine;
-    }
+    // @Bean
+    // public SpringTemplateEngine springTemplateEngine() {
+    //     final SpringTemplateEngine springTemplateEngine = new SpringTemplateEngine();
+    //     // Resolver for HTML pages
+    //     springTemplateEngine.setTemplateResolver(springTemplateResolver());
+    //     springTemplateEngine.addDialect(new SpringSecurityDialect());
+    //     return springTemplateEngine;
+    // }
 
-    @Bean
-    public ViewResolver viewResolver() {
-        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
-        viewResolver.setTemplateEngine(springTemplateEngine());
-        viewResolver.setCharacterEncoding(StandardCharsets.UTF_8.name());
-        return viewResolver;
-    }
+    // @Bean
+    // public ViewResolver viewResolver() {
+    //     ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+    //     viewResolver.setTemplateEngine(springTemplateEngine());
+    //     viewResolver.setCharacterEncoding(StandardCharsets.UTF_8.name());
+    //     return viewResolver;
+    // }
 
     /**
      * Configure ResourceHandlers to serve static resources like CSS/ Javascript
@@ -109,35 +108,35 @@ public class AppConfig implements WebMvcConfigurer {
      *
      * @param registry
      */
-    @Override
-    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-        // TODO später dann vom Dateisystem über NGINX ausliefern
-        registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/assets/");
-    }
+    // @Override
+    // public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+    //     // TODO später dann vom Dateisystem über NGINX ausliefern
+    //     registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/assets/");
+    // }
 
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-        return new PropertySourcesPlaceholderConfigurer();
-    }
+    // @Bean
+    // public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+    //     return new PropertySourcesPlaceholderConfigurer();
+    // }
 
-    @Bean
-    public LocalValidatorFactoryBean validator() {
-        return new LocalValidatorFactoryBean();
-    }
+    // @Bean
+    // public LocalValidatorFactoryBean validator() {
+    //     return new LocalValidatorFactoryBean();
+    // }
 
-    @Override
-    public void addInterceptors(final InterceptorRegistry registry) {
-        registry.addInterceptor(requestLoggingInterceptor());
-    }
+    // @Override
+    // public void addInterceptors(final InterceptorRegistry registry) {
+    //     registry.addInterceptor(requestLoggingInterceptor());
+    // }
 
-    @Override
-    public void addFormatters(FormatterRegistry registry) {
-        registry.addConverter(new StringToFilepondConverter());
-    }
+    // @Override
+    // public void addFormatters(FormatterRegistry registry) {
+    //     registry.addConverter(new StringToFilepondConverter());
+    // }
 
-    @Bean
-    PageableHandlerMethodArgumentResolverCustomizer pageableResolverCustomizer() {
-        return pageableResolver -> pageableResolver.setOneIndexedParameters(true);
-    }
+    // @Bean
+    // PageableHandlerMethodArgumentResolverCustomizer pageableResolverCustomizer() {
+    //     return pageableResolver -> pageableResolver.setOneIndexedParameters(true);
+    // }
 
 }

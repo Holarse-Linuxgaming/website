@@ -7,7 +7,7 @@
     <groupId>de.holarse</groupId>
     <artifactId>HolarseWeb</artifactId>
     <version>3.1</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <name>holacms31</name>
 
@@ -440,11 +440,25 @@
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
-                <filtering>false</filtering>
+                <filtering>true</filtering>
+                <excludes>
+                    <exclude>**/*.psd</exclude>
+                    <exclude>**/*.ttf</exclude>
+                </excludes>
             </resource>
         </resources>
 
         <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.9.0</version>
+            </plugin>
+
             <!-- Java Compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -457,58 +471,7 @@
                     </compilerArgs>
                     <parameters>true</parameters>
                     <debug>true</debug>
-                </configuration>
-            </plugin>
-            <!-- WAR-Datei erstellen -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>3.4.0</version>
-                <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <!--
-                    <outputDirectory>c:/holarse/openliberty-19.0.0.6/wlp/usr/servers/holarse/dropins/</outputDirectory>-->
-                </configuration>
-            </plugin>
-            <!-- Git-Version -->
-            <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
-                <version>4.9.10</version>
-                <executions>
-                    <execution>
-                        <id>get-the-git-infos</id>
-                        <goals>
-                            <goal>revision</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
-                    <prefix>git</prefix>
-                    <verbose>false</verbose>
-                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
-                    <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
-                    <format>properties</format>
-                    <gitDescribe>
-                        <skip>false</skip>
-                        <always>false</always>
-                        <dirty>-dirty</dirty>
-                    </gitDescribe>
-                </configuration>
-            </plugin>
-            <!-- Workaround for InaccessibleObjectException in Java 21 -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.3.1</version>
-                <configuration>
-                    <argLine>
-                        --add-opens java.base/java.lang=ALL-UNNAMED
-                        --add-opens java.base/java.time=ALL-UNNAMED
-                        --add-opens java.base/java.time.format=ALL-UNNAMED
-                        --add-opens java.base/java.util=ALL-UNNAMED
-                    </argLine>
+                    <testRelease>21</testRelease>
                 </configuration>
             </plugin>
         </plugins>

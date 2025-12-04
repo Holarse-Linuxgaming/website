@@ -42,20 +42,14 @@ services:
     build:
       context: .
       dockerfile: development/app/Dockerfile
-    restart: on-failure
+    restart: no
     ports:
       - 8080:8080
       - 9090:9090
     volumes:
-      - ./development/tomcat/conf/context.xml:/usr/local/tomcat/conf/context.xml:ro
-      - ./development/tomcat/conf/server.xml:/usr/local/tomcat/conf/server.xml:ro
-      - ./development/tomcat/conf/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml:ro
-      - ./development/tomcat/lib/postgresql-42.3.1.jar:/usr/local/tomcat/lib/postgresql-42.3.1.jar:ro
-      - ./app/target/holarseweb.war:/usr/local/tomcat/webapps/holarseweb.war:ro
+      - ./app/target/:/app:ro
     networks:
       - holarse-dev
-    env_file:
-      - development/tomcat/tomcat.env
   cache:
       image: memcached:latest
       container_name: cache
