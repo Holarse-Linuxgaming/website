@@ -28,12 +28,14 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 import org.springframework.context.annotation.Primary;
+import org.thymeleaf.templatemode.TemplateMode;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 @Configuration
 public class AppConfig {
 
-    @Autowired
-    private ApplicationContext applicationContext;
+    //@Autowired
+    //private ApplicationContext applicationContext;
 
     // @Bean
     // public HandlerInterceptor requestLoggingInterceptor() {
@@ -52,23 +54,23 @@ public class AppConfig {
 
      @Primary
      @Bean
-     public SpringResourceTemplateResolver springTemplateResolver() {
-         SpringResourceTemplateResolver springTemplateResolver = new SpringResourceTemplateResolver();
-         springTemplateResolver.setApplicationContext(this.applicationContext);
-         springTemplateResolver.setPrefix("/WEB-INF/templates/");
-         springTemplateResolver.setSuffix(".html");
-         return springTemplateResolver;
+     public ClassLoaderTemplateResolver htmlTemplateResolver() {
+        final ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
+        resolver.setPrefix("classpath:templates/");        
+        resolver.setSuffix(".html");
+        resolver.setTemplateMode(TemplateMode.HTML);
+        return resolver;
      }
     
      @Bean
-     public SpringResourceTemplateResolver textTemplateResolver() {
-         SpringResourceTemplateResolver springTemplateResolver = new SpringResourceTemplateResolver();
-         springTemplateResolver.setApplicationContext(this.applicationContext);
-         springTemplateResolver.setPrefix("/WEB-INF/templates/");
-         springTemplateResolver.setSuffix(".txt");
-         springTemplateResolver.setCharacterEncoding("UTF-8");
-         springTemplateResolver.setCacheable(false);
-         return springTemplateResolver;
+     public ClassLoaderTemplateResolver textTemplateResolver() {
+        final ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
+        resolver.setPrefix("classpath:templates/");        
+        resolver.setSuffix(".txt");
+        resolver.setTemplateMode(TemplateMode.TEXT);
+        resolver.setCharacterEncoding("UTF-8");
+        resolver.setCacheable(false);        
+        return resolver;
      }
     
      @Bean(value = "emailTemplateEngine")
@@ -84,7 +86,7 @@ public class AppConfig {
      public SpringTemplateEngine springTemplateEngine() {
          final SpringTemplateEngine springTemplateEngine = new SpringTemplateEngine();
          // Resolver for HTML pages
-         springTemplateEngine.setTemplateResolver(springTemplateResolver());
+         springTemplateEngine.setTemplateResolver(htmlTemplateResolver());
          springTemplateEngine.addDialect(new SpringSecurityDialect());
          return springTemplateEngine;
      }
@@ -103,11 +105,7 @@ public class AppConfig {
      *
      * @param registry
      */
-    // @Override
-    // public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-    //     // TODO später dann vom Dateisystem über NGINX ausliefern
-    //     registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/assets/");
-    // }
+
 
     // @Bean
     // public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
