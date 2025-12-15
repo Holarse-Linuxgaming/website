@@ -1,0 +1,7 @@
+[env]
+#OCI_ACCESSKEYID = 
+#OCI_SECRETKEYID = 
+
+[tools]
+caddy = "2.10"
+java = "21"

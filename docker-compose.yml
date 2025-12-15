@@ -1,78 +1,77 @@
 
-# Use postgres/example user/password credentials
+name: holarse
 services:
   front:
     image: caddy:2.10-alpine
-    container_name: front
+    restart: on-failure
     ports:
-      - 80:80
+      - "127.0.0.1:80:80"
     volumes:
       - ./development/caddy/conf:/etc/caddy
+      - caddy_data:/data
     networks:
-      - holarse-dev
+      - holarse-front
   db:
     image: postgres:15
-    container_name: db
-    restart: always
+    restart: on-failure
     environment:
       POSTGRES_USER: holarse
       POSTGRES_PASSWORD: geheim
       POSTGRES_DB: holarse
     ports:
-      - 5432:5432
+      - "127.0.0.1:5432:5432"
     volumes:
       - website_my_pgdata:/var/lib/postgresql/data
     networks:
-      - holarse-dev
+      - holarse-back
 
-  amq:
-      container_name: amq
-      restart: on-failure      
+  queue:
+      restart: on-failure
       build: development/amq/
       ports:
-        - 8161:8161
-        - 61616:61616
+        - "127.0.0.1:8161:8161"
+        - "127.0.0.1:61616:61616"
       volumes:
         - amq_journal_data:/opt/holaq/data
       networks:
-        - holarse-dev
+        - holarse-back
 
   app:
-    container_name: app
     build:
       context: .
       dockerfile: development/app/Dockerfile
     restart: no
+    env_file:
+      - development/oci.env
     ports:
-      - 8080:8080
-      - 9090:9090
+      - "127.0.0.1:8080:8080"
     volumes:
       - ./app/target/:/app:ro
     networks:
-      - holarse-dev
+      - holarse-back
   cache:
       image: memcached:latest
-      container_name: cache
       restart: on-failure      
       ports:
-        - 11212:11212
+        - "127.0.0.1:11212:11212"
       networks:
-        - holarse-dev
+        - holarse-back
 
   mail:
     image: axllent/mailpit
-    container_name: mail
     restart: on-failure    
     ports:
-      - 8025:8025
-      - 1025:1025
+      - "127.0.0.1:8025:8025"
+      - "127.0.0.1:1025:1025"
     networks:
-      - holarse-dev
+      - holarse-front
 
 volumes:
   website_my_pgdata: 
   amq_journal_data:
+  caddy_data:
 
 networks:
-  holarse-dev:
-    driver: bridge
+  holarse-front:
+  holarse-back:
+

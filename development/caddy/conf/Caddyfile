@@ -1,17 +1,11 @@
 {
 	auto_https off
-	debug
+	log {
+		output stdout
+		level INFO
+	}
 }
 
-www.holarse.localhost:80 {
-	rewrite * /holarseweb{uri}
-	reverse_proxy * http://app:8080
-}
-
-amq.holarse.localhost:80 {
-	reverse_proxy * http://amq:8161
-}
-
-mail.holarse.localhost:80 {
-	reverse_proxy * http://mail:8025
+http://holarse.localhost {
+	reverse_proxy http://holarse-app-1:8080
 }

@@ -34,7 +34,6 @@ public class MultipleHttpSecurityConfig {
 
     private final static transient Logger log = LoggerFactory.getLogger(MultipleHttpSecurityConfig.class);
     
-    
     @Autowired
     @Qualifier("webUserDetailsService")            
     private UserDetailsService webUserDetailsService;

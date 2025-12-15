@@ -1,3 +1,5 @@
+compile-and-restart: stop-app build-app build-container up-app
+	
 up:
 	docker compose up
 
@@ -7,10 +9,16 @@ down:
 logs:
 	docker compose logs -f
 
-build:
+stop-app:
+	docker compose stop app
+
+up-app:
+	docker compose up app -d
+
+build-app:
 	docker run -it --rm -u ubuntu -v ~/.m2:/home/ubuntu/.m2 -v.:/opt/build -e MAVEN_CONFIG=/home/ubuntu/.m2 -w /opt/build/app/ maven:3-eclipse-temurin-21 mvn clean package
 
-build-container:
+build-container: build-app
 	docker compose build app
 
 clean:

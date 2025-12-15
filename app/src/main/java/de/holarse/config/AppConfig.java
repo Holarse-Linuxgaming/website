@@ -27,21 +27,13 @@ import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
+import org.springframework.context.annotation.Primary;
 
 @Configuration
-@EnableWebMvc
-@EnableSpringDataWebSupport
-@EnableScheduling
-@EnableTransactionManagement
-@ComponentScan(basePackages = "de.holarse")
-@PropertySources({
-    @PropertySource("classpath:application.properties"),
-    @PropertySource("classpath:credential.properties"),
-    @PropertySource("classpath:cloud.properties")})
-public class AppConfig implements WebMvcConfigurer {
+public class AppConfig {
 
-    // @Autowired
-    // private ApplicationContext applicationContext;
+    @Autowired
+    private ApplicationContext applicationContext;
 
     // @Bean
     // public HandlerInterceptor requestLoggingInterceptor() {
@@ -57,42 +49,45 @@ public class AppConfig implements WebMvcConfigurer {
 //    public void configurePathMatch(final PathMatchConfigurer configurer) {
 //        configurer.setUseTrailingSlashMatch(true);
 //    }
-    // @Bean
-    // public SpringResourceTemplateResolver springTemplateResolver() {
-    //     SpringResourceTemplateResolver springTemplateResolver = new SpringResourceTemplateResolver();
-    //     springTemplateResolver.setApplicationContext(this.applicationContext);
-    //     springTemplateResolver.setPrefix("/WEB-INF/templates/");
-    //     springTemplateResolver.setSuffix(".html");
-    //     return springTemplateResolver;
-    // }
-    
-    // @Bean
-    // public SpringResourceTemplateResolver textTemplateResolver() {
-    //     SpringResourceTemplateResolver springTemplateResolver = new SpringResourceTemplateResolver();
-    //     springTemplateResolver.setApplicationContext(this.applicationContext);
-    //     springTemplateResolver.setPrefix("/WEB-INF/templates/");
-    //     springTemplateResolver.setSuffix(".txt");
-    //     springTemplateResolver.setCharacterEncoding("UTF-8");
-    //     springTemplateResolver.setCacheable(false);
-    //     return springTemplateResolver;
-    // }    
-    
-    // @Bean(value = "emailTemplateEngine")
-    // public TemplateEngine emailTemplateEngine() {
-    //     final SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-    //     // Resolver for TEXT emails
-    //     templateEngine.addTemplateResolver(textTemplateResolver());
-    //     return templateEngine;
-    // }
 
-    // @Bean
-    // public SpringTemplateEngine springTemplateEngine() {
-    //     final SpringTemplateEngine springTemplateEngine = new SpringTemplateEngine();
-    //     // Resolver for HTML pages
-    //     springTemplateEngine.setTemplateResolver(springTemplateResolver());
-    //     springTemplateEngine.addDialect(new SpringSecurityDialect());
-    //     return springTemplateEngine;
-    // }
+     @Primary
+     @Bean
+     public SpringResourceTemplateResolver springTemplateResolver() {
+         SpringResourceTemplateResolver springTemplateResolver = new SpringResourceTemplateResolver();
+         springTemplateResolver.setApplicationContext(this.applicationContext);
+         springTemplateResolver.setPrefix("/WEB-INF/templates/");
+         springTemplateResolver.setSuffix(".html");
+         return springTemplateResolver;
+     }
+    
+     @Bean
+     public SpringResourceTemplateResolver textTemplateResolver() {
+         SpringResourceTemplateResolver springTemplateResolver = new SpringResourceTemplateResolver();
+         springTemplateResolver.setApplicationContext(this.applicationContext);
+         springTemplateResolver.setPrefix("/WEB-INF/templates/");
+         springTemplateResolver.setSuffix(".txt");
+         springTemplateResolver.setCharacterEncoding("UTF-8");
+         springTemplateResolver.setCacheable(false);
+         return springTemplateResolver;
+     }
+    
+     @Bean(value = "emailTemplateEngine")
+     public TemplateEngine emailTemplateEngine() {
+         final SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+         // Resolver for TEXT emails
+         templateEngine.addTemplateResolver(textTemplateResolver());
+         return templateEngine;
+     }
+
+     @Primary
+     @Bean
+     public SpringTemplateEngine springTemplateEngine() {
+         final SpringTemplateEngine springTemplateEngine = new SpringTemplateEngine();
+         // Resolver for HTML pages
+         springTemplateEngine.setTemplateResolver(springTemplateResolver());
+         springTemplateEngine.addDialect(new SpringSecurityDialect());
+         return springTemplateEngine;
+     }
 
     // @Bean
     // public ViewResolver viewResolver() {

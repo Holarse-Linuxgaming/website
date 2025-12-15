@@ -50,3 +50,5 @@ docs
 *.log
 onb-configuration.xml
 .env
+
+.mise.local.toml
