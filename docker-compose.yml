@@ -38,18 +38,17 @@ services:
         - holarse-back
 
   app:
-    build:
-      context: .
-      dockerfile: development/app/Dockerfile
+    image: eclipse-temurin:25-alpine
     restart: no
     env_file:
       - development/oci.env
     ports:
       - "127.0.0.1:8080:8080"
     volumes:
-      - ./app/target/:/app:ro
+      - ./app/target/holarseweb.jar:/opt/holarseweb.jar:ro
     networks:
       - holarse-back
+    command: /bin/sh -c "java -jar /opt/holarseweb.jar"
   cache:
       image: memcached:latest
       restart: on-failure      
