@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified" targetNamespace="http://holarse.de/export/v1/" version="1.0" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:h="http://holarse.de/export/v1/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="user">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="login" type="xs:string"/>
+				<xs:element name="created" type="xs:dateTime"/>
+				<xs:element minOccurs="0" name="signature" type="xs:string"/>
+				<xs:element name="email" type="xs:string"/>
+				<xs:element default="false" name="locked" type="xs:boolean"/>
+				<xs:element minOccurs="0" name="avatar" type="xs:string"/>
+				<xs:element name="password" type="h:password"/>
+				<xs:group ref="h:roles"/>
+			</xs:sequence>
+			<xs:attribute name="uid" type="xs:long"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="article">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="h:node">
+					<xs:all>
+						<xs:element maxOccurs="1" minOccurs="1" ref="h:titles"/>
+						<xs:element maxOccurs="1" minOccurs="1" ref="h:tags"/>
+					</xs:all>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="news">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="h:node">
+					<xs:all>
+						<xs:element maxOccurs="1" minOccurs="1" name="title" type="xs:string"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="subtitle" type="xs:string"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="category" type="xs:string"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="source" type="xs:string"/>
+						<xs:element maxOccurs="unbounded" minOccurs="0" ref="h:newsupdates"/>
+					</xs:all>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="comment">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="h:node">
+					<xs:all>
+						<xs:element name="nodeid" type="xs:long"/>
+					</xs:all>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="titletype">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="MAIN"/>
+			<xs:enumeration value="ALTERNATIVE"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="title">
+		<xs:sequence>
+			<xs:element name="title" type="xs:string"/>
+			<xs:element name="type" type="h:titletype"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="titles">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" name="titles" type="h:title"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="attachments">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" name="attachments" type="h:attachment"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="tag">
+		<xs:simpleContent>
+			<xs:extension base="xs:string"/>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:group name="tags">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="tags" type="h:tag"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:simpleType name="contenttype">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PLAIN"/>
+			<xs:enumeration value="MARKDOWN"/>
+			<xs:enumeration value="WIKI"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="content">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="type" type="h:contenttype"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:simpleType name="role">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ANONYMOUS"/>
+			<xs:enumeration value="USER"/>
+			<xs:enumeration value="CORE"/>
+			<xs:enumeration value="ADMIN"/>
+			<xs:enumeration value="MODERATOR"/>
+			<xs:enumeration value="REPORTER"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:group name="roles">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="roles" type="h:role"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:simpleType name="passwordtype">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="MD5"/>
+			<xs:enumeration value="SHA512"/>
+			<xs:enumeration value="BCRYPT"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="password">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="type" type="h:passwordtype"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="state">
+		<xs:sequence>
+			<xs:element default="false" name="locked" type="xs:boolean"/>
+			<xs:element default="true" name="commentable" type="xs:boolean"/>
+			<xs:element default="false" name="draft" type="xs:boolean"/>
+			<xs:element default="true" name="published" type="xs:boolean"/>
+			<xs:element default="false" name="deleted" type="xs:boolean"/>
+			<xs:element default="false" name="archived" type="xs:boolean"/>
+			<xs:element default="false" name="ftp" type="xs:boolean"/>
+			<xs:element default="false" name="ftptools" type="xs:boolean"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="revision">
+		<xs:sequence>
+			<xs:element name="revid" type="xs:long"/>
+			<xs:element minOccurs="0" name="changelog" type="xs:string"/>
+			<xs:element name="author" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType abstract="true" name="node">
+		<xs:all>
+			<xs:element maxOccurs="1" minOccurs="1" name="created" type="xs:dateTime"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="author" type="xs:string"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="revision" type="h:revision"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="state" type="h:state"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="content" type="h:content"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" ref="h:attachments"   />
+		</xs:all>
+		<xs:attribute name="uid" type="xs:long"/>
+	</xs:complexType>
+	<xs:complexType name="newsupdate">
+		<xs:complexContent>
+			<xs:extension base="h:node"/>
+		</xs:complexContent>
+	</xs:complexType>
+        <xs:group name="attachments">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="attachment" type="h:attachment"/>
+		</xs:sequence>            
+        </xs:group>
+	<xs:group name="newsupdates">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="update" type="h:newsupdate"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:simpleType name="datatype">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="URI"/>
+			<xs:enumeration value="BASE64"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="attachmenttype">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="LINK"/>
+			<xs:enumeration value="IMAGE"/>
+			<xs:enumeration value="FILE"/>
+			<xs:enumeration value="YOUTUBE"/>
+			<xs:enumeration value="YTCHANNEL"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="attachment">
+		<xs:complexContent>
+			<xs:extension base="h:attachedData"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="attachedData">
+		<xs:sequence>
+			<xs:element name="ordering" type="xs:long"/>
+			<xs:element name="description" type="xs:string"/>
+			<xs:element maxOccurs="1" name="datatype" type="h:datatype"/>
+			<xs:element maxOccurs="1" name="data" type="xs:string"/>
+		</xs:sequence>
+		<xs:attribute name="mimetype" type="xs:string"/>
+		<xs:attribute name="attachmenttype" type="h:attachmenttype"/>
+	</xs:complexType>
+</xs:schema>

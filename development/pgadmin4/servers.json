@@ -1,0 +1,17 @@
+{
+    "Servers": {
+        "1": {
+            "Name": "Holarse Dev",
+            "Group": "Server Group 1",
+            "Port": 5432,
+            "Username": "holarse",
+            "Password": "geheim",
+            "Host": "db",
+            "MaintenanceDB": "postgres",
+            "ConnectionParameters": {
+                "sslmode": "prefer",
+                "connect_timeout": 10
+            }
+        }
+    }
+}

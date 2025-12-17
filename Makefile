@@ -1,17 +1,32 @@
+compile-and-restart: stop-app build-app build-container up-app
+	
 up:
-	docker compose -f doc/docker-compose.yml up -d
+	docker compose up
 
 down:
-	docker compose -f doc/docker-compose.yml down
+	docker compose down
 
 logs:
-	docker compose -f doc/docker-compose.yml logs -f
+	docker compose logs -f
 
-build:
-	docker run -it --rm -u ubuntu -v ~/.m2:/home/ubuntu/.m2 -v.:/opt/app -e MAVEN_CONFIG=/home/ubuntu/.m2 -w /opt/app/ maven:3-eclipse-temurin-21 mvn clean package
+stop-app:
+	docker compose stop app
+
+up-app:
+	docker compose up app -d
+
+build-app:
+	docker run -it --rm -u ubuntu -v ~/.m2:/home/ubuntu/.m2 -v.:/opt/build -e MAVEN_CONFIG=/home/ubuntu/.m2 -w /opt/build/app/ maven:3-eclipse-temurin-25 mvn clean package
+
+build-container: build-app
+	docker compose build app
+
+clean:
+	$(RM) -rf app/target
+	docker compose rm app
 
 restart:
-	docker compose -f doc/docker-compose.yml restart app
+	docker compose restart app
 
 open:
 	xdg-open http://localhost:8080/holarseweb

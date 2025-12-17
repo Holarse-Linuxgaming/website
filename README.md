@@ -21,26 +21,16 @@ Den Import der Dateien kann man über die REST-API durchführen. Es gibt zwei Sc
 * Containerisiert: Apache Tomcat 10, Apache Artemis, PostgreSQL 16
 
 ### Container-Deployment
-Zuerst die Volumes für Postgres und AMQ anlegen
-```bash
-docker volume create website_my_pgdata
-docker volume create amq_journal_data
-docker volume create storage_data
-```
+Die Volumes für PostgreSQL und AMQ werden automatisch angelegt.
 
-dann am Holarse Container-Repository anmelden
+Dnd die Containerbande starten mit
 ```bash
-git login git.holarse.de
+make up
 ```
 
 Jetzt noch die Datenbank initial befüllen mit dem Script
 ```bash
 ./tools/scripts/setup_db_sql.sh
-```
-
-und die Containerbande starten mit
-```bash
-docker-compose -f doc/docker-compose.yml up
 ```
 
 ### Kompilieren
@@ -55,38 +45,22 @@ Ist Tomcat so konfiguriert, dass das ROOT-Verzeichnis auf das Target-Verzeichnis
 die Tomcat-Manager-Konsole installieren.
 
 ### Apache Artemis Message-Queue
-Die Message-Queue ist unter http://localhost:8161 erreichbar.
+Die Message-Queue ist unter http://queue.holarse.localhost erreichbar (Sonst Port 8161).
 
 ### Datenbank
-Die Datenbank ist unter http://localhost:5432 erreichbar.
+Die Datenbank ist unter http://db.holarse.localhost erreichbar.
 
 ### Mails
-Der Mailcatcher ist unter http://localhost:8025 erreichbar.
+Der Mailcatcher ist unter http://mail.holarse.localhost erreichbar (Sonst Port 8025).
 
 ### S3-Storage
-Die Storage-Console (minio) ist unter http://localhost:9001 erreichbar.
+Die Storage-Console (minio) ist unter http://s3.holarse.localhost erreichbar (sonst Port 9001)
 
 ### Webseite
-Die Webseite ist unter http://localhost:8080/holarseweb/ erreichbar.
+Die Webseite ist unter http://www.holarse.localhost erreichbar (sonst http://localhost:8080/holarseweb)
 
-#### Manuelles Deployment
-Die Datenbank per Distro-Repo einbinden oder von dem Postgresql-bereitgestelltem Repository. Die Anleitungen finden sich in ```/doc/db/```.
-
-Die Benutzer müssen vorab angelegt werden. Zudem ist in der ```postgresql.conf``` noch die Authentifizierung von md5 (Standard) auf 
-```
-password_encryption = scram-sha-256
-```
-zu ändern.
-
-Dann kann die Datenbank und der Benutzer manuell auf dem Datenbank-Server via
-
-    su - postgres
-    createrole holarse
-    createdb -O holarse holarse
-
-angelegt werden.
-
-Die Datenbankscripte können, wie oben schon genannt, über das Script ```tools/scripts/setup_db_sql.sh``` eingefügt werden.
+### Datenbank
+Die Datenbank ist per docker compose initialisiert. Die Datenbankscripte werden über Flyway migriert.
 
 ### Login
 Zuerst einen Benutzer über die Oberfläche registrieren und diesen dann per SQL zum Admin erheben:

@@ -1,4 +1,4 @@
-@telefoUPDATE tags SET taggroupid = (SELECT id FROm taggroups WHERE code = 'ENGINE')
+UPDATE tags SET taggroupid = (SELECT id FROm taggroups WHERE code = 'ENGINE')
 WHERE name IN (
     'Adobe AIR',
     'AGS',
