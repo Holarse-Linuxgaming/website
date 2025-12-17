@@ -30,7 +30,7 @@ public class AttachmentType extends Base {
     
     @Enumerated(EnumType.STRING)
     @JdbcType(PostgreSQLEnumJdbcType.class)
-    @Column(columnDefinition = "attachment_data_type", name = "datatype")    
+    @Column(name = "datatype")    
     private AttachmentDataType dataType;
 
     public String getCode() {

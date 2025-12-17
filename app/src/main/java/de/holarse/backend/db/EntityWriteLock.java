@@ -42,7 +42,7 @@ public class EntityWriteLock extends Base  {
 
     @Enumerated(EnumType.STRING)
     @JdbcType(PostgreSQLEnumJdbcType.class)
-    @Column(name = "entity", columnDefinition = "node_type")
+    @Column(name = "entity")
     private NodeType entity;    
    
     @Column(name="row_id")

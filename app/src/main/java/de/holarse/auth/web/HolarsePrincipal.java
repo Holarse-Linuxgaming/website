@@ -22,7 +22,7 @@ public class HolarsePrincipal implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> roles = new HashSet<>();
-        roles.add(new SimpleGrantedAuthority(ROLE_USER)); // Standardrolle "Gast"
+        roles.add(new SimpleGrantedAuthority(ROLE_USER)); // Standardrolle "User"
         roles.addAll(user.getRoles());
         
         return roles;

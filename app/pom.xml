@@ -471,7 +471,7 @@
                     </compilerArgs>
                     <parameters>true</parameters>
                     <debug>true</debug>
-                    <testRelease>21</testRelease>
+                    <testRelease>25</testRelease>
                 </configuration>
             </plugin>
         </plugins>

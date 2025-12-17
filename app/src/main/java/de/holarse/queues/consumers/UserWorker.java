@@ -57,9 +57,9 @@ public class UserWorker {
         }
         
         // Standardrolle ist noch nicht vorhanden
-        if (user.getRoles().stream().filter(r -> r.getCode().equalsIgnoreCase(RoleUserTypes.ROLE_USER_TRUSTED)).count() == 0) {
+        if (user.getRoles().stream().filter(r -> r.getCode().equalsIgnoreCase(RoleUserTypes.ROLE_USER)).count() == 0) {
             // Also anlegen
-            user.getRoles().add(roleRepository.findByCode("TRUSTED_USER"));
+            user.getRoles().add(roleRepository.findByCode("USER"));
         }
         
         // Rollen aus Import anlegen

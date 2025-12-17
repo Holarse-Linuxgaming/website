@@ -26,10 +26,11 @@ public class User extends TimestampedBase {
     
     private String login;
     private String email;
+    @Column(name = "drupalid")    
     private Integer drupalId;
     @Enumerated(EnumType.STRING)
     @JdbcType(PostgreSQLEnumJdbcType.class)
-    @Column(columnDefinition = "password_type")
+    @Column(name = "hashtype")
     private PasswordType hashType;
     private String digest;
     

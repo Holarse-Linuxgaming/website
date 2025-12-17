@@ -32,7 +32,6 @@ public class DrückblickEntry extends TimestampedBase implements LockableEntity 
     
     @Enumerated(EnumType.STRING)
     @JdbcType(PostgreSQLEnumJdbcType.class)
-    @Column(columnDefinition = "drückblick_source_type")
     private DrückblickSourceType source;
 
     @Column    

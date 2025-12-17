@@ -27,7 +27,7 @@ public class NodeSlug extends TimestampedBase {
     
     @Enumerated(EnumType.STRING)
     @JdbcType(PostgreSQLEnumJdbcType.class)
-    @Column(columnDefinition = "node_type", name = "slug_context")
+    @Column(name = "slug_context")
     private NodeType slugContext;
 
     public Integer getNodeId() {

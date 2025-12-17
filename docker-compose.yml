@@ -15,10 +15,8 @@ services:
   db:
     image: postgres:15
     restart: on-failure
-    environment:
-      POSTGRES_USER: holarse
-      POSTGRES_PASSWORD: geheim
-      POSTGRES_DB: holarse
+    env_file:
+      - development/db.env
     ports:
       - "127.0.0.1:5432:5432"
     volumes:
@@ -26,14 +24,33 @@ services:
     networks:
       - holarse-back
 
+  pgadmin4:
+    image: elestio/pgadmin:REL-9_8
+    restart: on-failure
+    env_file:
+      - development/db.env
+    environment:
+      - PGADMIN_LISTEN_PORT=9090
+    ports:
+      - "127.0.0.1:9090:9090"
+    volumes:
+      - ./servers.json:/pgadmin4/servers.json
+    networks:
+      - holarse-front
+      - holarse-back      
+
   queue:
+      image: apache/activemq-artemis:2.44.0
       restart: on-failure
-      build: development/amq/
+      env_file:
+        - development/db.env
+      environment:
+        - EXTRA_ARGS=--http-host 0.0.0.0 --relax-jolokia --no-amqp-acceptor --no-hornetq-acceptor --no-mqtt-acceptor --no-stomp-acceptor --queues drueckblick,import,mail,searchidx
       ports:
         - "127.0.0.1:8161:8161"
         - "127.0.0.1:61616:61616"
       volumes:
-        - amq_journal_data:/opt/holaq/data
+        - amq_journal_data:/var/lib/artemis-instance
       networks:
         - holarse-back
 
@@ -42,6 +59,7 @@ services:
     restart: no
     env_file:
       - development/oci.env
+      - development/db.env
     ports:
       - "127.0.0.1:8080:8080"
     volumes:

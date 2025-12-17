@@ -103,7 +103,6 @@
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="ANONYMOUS"/>
 			<xs:enumeration value="USER"/>
-			<xs:enumeration value="TRUSTED_USER"/>
 			<xs:enumeration value="CORE"/>
 			<xs:enumeration value="ADMIN"/>
 			<xs:enumeration value="MODERATOR"/>

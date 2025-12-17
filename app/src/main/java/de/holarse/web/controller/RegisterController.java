@@ -116,7 +116,6 @@ public class RegisterController {
         user.setEmail(registerForm.getEmail());
         user.setHashType(PasswordType.bcrypt);
         user.setDigest(passwordEncoder.encode(registerForm.getPassword()));
-        user.getRoles().add(roleRepository.findByCode("TRUSTED_USER"));
              
         final UserStatus userStatus = new UserStatus();
         userStatus.setCreated(OffsetDateTime.now());
