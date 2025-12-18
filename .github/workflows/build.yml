@@ -34,9 +34,9 @@ jobs:
             image: postgres:15
             # Provide the password for postgres
             env:
-              POSTGRES_DB: ${DB_NAME}
-              POSTGRES_USER: ${DB_USER}
-              POSTGRES_PASSWORD: ${DB_PASS}
+              POSTGRES_DB: $DB_NAME
+              POSTGRES_USER: $DB_USER
+              POSTGRES_PASSWORD: $DB_PASS
               POSTGRES_HOST_AUTH_METHOD: trust
             # Set health checks to wait until postgres has started
             options: >-
@@ -64,6 +64,6 @@ jobs:
       - name: Try migrations
         run: cd app && mvn flyway:migrate
         env:
-          POSTGRES_URL: "jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}"
-          POSTGRES_USER: "${DB_USER}"
-          POSTGRES_PASSWORD: "${DB_PASS}"
+          POSTGRES_URL: "jdbc:postgresql://$DB_HOST:$DB_PORT/$DB_NAME"
+          POSTGRES_USER: "$DB_USER"
+          POSTGRES_PASSWORD: "$DB_PASS"
