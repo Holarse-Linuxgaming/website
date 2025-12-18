@@ -14,25 +14,27 @@ on:
   workflow_dispatch:
 
 jobs:
-  container-job:
-    # Containers must run in Linux based operating systems
+  runner-job:
     runs-on: ubuntu-latest
     services:
-          postgres:
-            # Docker Hub image
-            image: postgres:15
-            # Provide the password for postgres
-            env:
-              POSTGRES_DB: holarse
-              POSTGRES_USER: holarse
-              POSTGRES_PASSWORD: holarse
-              POSTGRES_HOST_AUTH_METHOD: trust
-            # Set health checks to wait until postgres has started
-            options: >-
-              --health-cmd pg_isready
-              --health-interval 10s
-              --health-timeout 5s
-              --health-retries 5
+      postgres:
+        # Docker Hub image
+        image: postgres:15
+        # Provide the password for postgres
+        env:
+          POSTGRES_DB: holarse
+          POSTGRES_USER: holarse
+          POSTGRES_PASSWORD: holarse
+          POSTGRES_HOST_AUTH_METHOD: trust
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5432              
     steps:
       - name: Checkout sources
         uses: actions/checkout@v5
@@ -50,6 +52,6 @@ jobs:
       - name: Try migrations
         run: cd app && mvn flyway:migrate
         env:
-          POSTGRES_URL: jdbc:postgresql://postgres/holarse
+          POSTGRES_URL: jdbc:postgresql://localhost/holarse
           POSTGRES_USER: holarse
           POSTGRES_PASSWORD: holarse
