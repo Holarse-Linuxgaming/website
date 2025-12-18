@@ -18,7 +18,7 @@ services:
     env_file:
       - development/db.env
     ports:
-      - "127.0.0.1:5432:5432"
+      - "5432:5432"
     volumes:
       - website_my_pgdata:/var/lib/postgresql/data
     networks:

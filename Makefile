@@ -25,6 +25,11 @@ clean:
 	$(RM) -rf app/target
 	docker compose rm app
 
+db-migrate:
+	docker compose up db -d
+	docker run -it --rm --add-host=host.docker.internal:host-gateway --env-file development/db.env --env POSTGRES_URL=jdbc:postgresql://host.docker.internal:5432/holarse -u ubuntu -v ~/.m2:/home/ubuntu/.m2 -v.:/opt/build -e MAVEN_CONFIG=/home/ubuntu/.m2 -w /opt/build/app/ maven:3-eclipse-temurin-25 mvn flyway:migrate
+	docker compose down db
+
 restart:
 	docker compose restart app
 
