@@ -50,6 +50,6 @@ jobs:
       - name: Try migrations
         run: cd app && mvn flyway:migrate
         env:
-          POSTGRES_URL: "jdbc:postgresql://postgres/holarse"
-          POSTGRES_USER: "holarse"
-          POSTGRES_PASSWORD: "holarse"
+          POSTGRES_URL: jdbc:postgresql://postgres/holarse
+          POSTGRES_USER: holarse
+          POSTGRES_PASSWORD: holarse
