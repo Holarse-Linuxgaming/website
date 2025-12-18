@@ -1,0 +1,194 @@
+<section class="g-pt-50 g-pb-90">
+    <div class="container">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-3 g-pr-40--lg g-mb-50 g-mb-0--lg">
+                <h2 class="h5 text-uppercase g-color-gray-dark-v1">Filter</h2>
+                <hr class="g-brd-gray-light-v4 g-my-15">
+
+                <!-- Search Form -->
+                <form action="" id="searchform-2" class="">
+                    <input type="hidden" value="" name="t" th:value="${t}" />
+                    <input type="hidden" value="" name="sort" th:value="${sort}" />
+                    <div class="input-group g-brd-primary--focus">
+                        <input class="form-control rounded-0 u-form-control" type="search" placeholder="Nach Text filtern" name="q" data-th-value="${q}">
+                        <div class="input-group-addon p-0">
+                            <button class="btn rounded-0 btn-primary btn-md g-font-size-14 g-px-18" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <!-- End Search Form -->    
+
+                <!-- Tags -->
+                <h2 class="h5 text-uppercase g-color-gray-dark-v1">Aktivierte Tags</h2>
+                <hr class="g-brd-gray-light-v4 g-my-15">
+                <span th:replace="~{sites/shared/tags/list :: tagcloud(tags=${selectedTags})}"></span>
+                <!-- End Tags -->
+
+                <!-- Categories -->
+                <h2 class="h5 text-uppercase g-color-gray-dark-v1">Kategorien</h2>
+                <hr class="g-brd-gray-light-v4 g-my-15">
+                <ul class="list-unstyled g-mb-40">
+                    <li class="my-3">
+                        <span th:replace="~{sites/search/taggroups :: categories(tagGroups=${tagGroups})}"></span>
+                    </li>
+                </ul>
+                <!-- End Categories -->
+
+                <!-- Sort By -->
+                <h2 class="h5 text-uppercase g-color-gray-dark-v1">Sortieren nach</h2>
+                <hr class="g-brd-gray-light-v4 g-my-15">
+                <div class="btn-group justified-content g-mb-40">
+                    <label class="u-check">
+                        <!--                            <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="sort" type="radio" value="">-->
+                        <a class="btn btn-block u-btn-outline-lightgray g-color-white--checked g-bg-primary--checked rounded-0"
+                           th:href="@{/spielefinder(t=${t},q=${q},sort=)}">Relevanz</a>
+                    </label>
+                    <label class="u-check">
+                        <!--                            <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="sort" type="radio" value="title">-->
+                        <a class="btn btn-block u-btn-outline-lightgray g-color-white--checked g-bg-primary--checked rounded-0"
+                           th:href="@{/spielefinder(t=${t},q=${q},sort=title)}">Titel</a>
+                    </label>
+                    <label class="u-check">
+                        <!--                            <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="sort" type="radio" value="update">-->
+                        <a class="btn btn-block u-btn-outline-lightgray g-color-white--checked g-bg-primary--checked rounded-0"
+                           th:href="@{/spielefinder(t=${t},q=${q},sort=last_update)}">Zeit</a>
+                    </label>
+                </div>
+                <!-- End Sort By -->
+
+                <!-- Result Types -->
+                <h2 class="h5 text-uppercase g-color-gray-dark-v1">Suchen in</h2>
+                <hr class="g-brd-gray-light-v4 g-my-15">
+                <form>
+                    <!-- Checkbox -->
+                    <div class="form-group g-mb-10">
+                        <label class="u-check g-pl-30">
+                            <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" checked>
+                            <div class="u-check-icon-checkbox-v4 g-absolute-centered--y g-left-0">
+                                <i class="fa" data-check-icon="&#xf00c"></i>
+                            </div>
+                            Artikeln
+                        </label>
+                    </div>
+                    <!-- End Checkbox -->
+
+                    <!-- Checkbox -->
+                    <div class="form-group g-mb-10">
+                        <label class="u-check g-pl-30">
+                            <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" checked>
+                            <div class="u-check-icon-checkbox-v4 g-absolute-centered--y g-left-0">
+                                <i class="fa" data-check-icon="&#xf00c"></i>
+                            </div>
+                            News
+                        </label>
+                    </div>
+                    <!-- End Checkbox -->
+
+                    <!-- Checkbox -->
+                    <div class="form-group g-mb-10">
+                        <label class="u-check g-pl-30">
+                            <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" checked>
+                            <div class="u-check-icon-checkbox-v4 g-absolute-centered--y g-left-0">
+                                <i class="fa" data-check-icon="&#xf00c"></i>
+                            </div>
+                            Forum
+                        </label>
+                    </div>
+                    <!-- End Checkbox -->                    
+                </form>
+                <!-- End Result Types -->
+            </div>
+            <!-- End Sidebar -->
+
+            <!-- Search Results -->
+            <div class="col-lg-9">
+                <div class="container text-center g-py-100--md g-py-80">
+                    <h2 class="h1 text-uppercase g-font-weight-300 g-mb-30">
+                        Suchergebnis
+                    </h2>
+                </div>
+
+                <!-- Search Info -->
+                <div class="d-md-flex justify-content-between g-mb-30">
+                    <h3 class="h6 text-uppercase g-mb-10 g-mb--lg">
+                        <span class="g-color-gray-dark-v1" data-th-text="${count}">0</span> 
+                        <span th:if="${count == 1}">Ergebnis</span>
+                        <span th:if="${count != 1}">Ergebnisse</span>
+                    </h3>
+                </div>
+                <!-- End Search Info -->
+
+                <!-- Search Results here -->
+
+                <!-- Search Result -->
+                <section th:replace="~{sites/search/result :: resultlist(items=${searchResults})}"></section>
+                <!-- End Search Result -->
+
+                <hr class="g-brd-gray-light-v4 g-my-40">                    
+
+                <!-- End Search Results -->
+
+                <!-- Pagination -->
+                <nav class="text-center g-mb-50" aria-label="Page Navigation">
+                    <ul class="list-inline">
+                        <li class="list-inline-item g-hidden-sm-down" data-th-if="${searchResults.hasPrevious}">
+                            <a class="u-pagination-v1__item u-pagination-v1-5 rounded g-pa-4-11" 
+                               href="#!" data-th-href="@{?(q=${q},t=${t},s=${s},page=${searchResults.previousPageable.pageNumber},size=${searchResults.previousPageable.pageSize})}"  aria-label="Previous">
+                                <span aria-hidden="true">
+                                    <i class="fa fa-angle-left g-mr-5"></i>
+                                </span>
+                                <span class="sr-only">Zurück</span>
+                            </a>
+                        </li>
+                        <li class="list-inline-item g-hidden-sm-down">
+                            <a class="list-inline-item font-italic">
+                                <span th:text="${searchResults.number + 1}"></span>
+                                von
+                                <span th:text="${searchResults.totalPages}"></span>
+                            </a>
+                        </li>                    
+                        <li class="list-inline-item g-hidden-sm-down" data-th-if="${searchResults.hasNext}">
+                            <a class="u-pagination-v1__item u-pagination-v1-5 rounded g-pa-4-11" 
+                               href="#!" data-th-href="@{?(q=${q},t=${t},s=${s},page=${searchResults.nextPageable.pageNumber},size=${searchResults.nextPageable.pageSize})}" aria-label="Next">
+                                <span aria-hidden="true">
+                                    <i class="fa fa-angle-right g-ml-5"></i>
+                                </span>
+                                <span class="sr-only">Weiter</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- End Pagination -->
+
+                <h3 class="h5 g-color-gray-dark-v1 g-mb-20">Ähnliche Suchbegriffe</h3>
+
+                <!-- Tags -->
+                <ul class="u-list-inline mb-0">
+                    <li class="list-inline-item g-mb-10">
+                        <a class="u-tags-v1 g-color-main g-brd-around g-brd-gray-light-v3 g-bg-gray-dark-v2--hover g-brd-gray-dark-v2--hover g-color-white--hover rounded g-py-4 g-px-10" href="#!">Wrapbootstrap</a>
+                    </li>
+                    <li class="list-inline-item g-mb-10">
+                        <a class="u-tags-v1 g-color-main g-brd-around g-brd-gray-light-v3 g-bg-gray-dark-v2--hover g-brd-gray-dark-v2--hover g-color-white--hover rounded g-py-4 g-px-10" href="#!">Web Design</a>
+                    </li>
+                    <li class="list-inline-item g-mb-10">
+                        <a class="u-tags-v1 g-color-main g-brd-around g-brd-gray-light-v3 g-bg-gray-dark-v2--hover g-brd-gray-dark-v2--hover g-color-white--hover rounded g-py-4 g-px-10" href="#!">Best Responsive Bootstrap Template</a>
+                    </li>
+                    <li class="list-inline-item g-mb-10">
+                        <a class="u-tags-v1 g-color-main g-brd-around g-brd-gray-light-v3 g-bg-gray-dark-v2--hover g-brd-gray-dark-v2--hover g-color-white--hover rounded g-py-4 g-px-10" href="#!">Thematic Pages</a>
+                    </li>
+                    <li class="list-inline-item g-mb-10">
+                        <a class="u-tags-v1 g-color-main g-brd-around g-brd-gray-light-v3 g-bg-gray-dark-v2--hover g-brd-gray-dark-v2--hover g-color-white--hover rounded g-py-4 g-px-10" href="#!">Corporate &amp; Business Template</a>
+                    </li>
+                    <li class="list-inline-item g-mb-10">
+                        <a class="u-tags-v1 g-color-main g-brd-around g-brd-gray-light-v3 g-bg-gray-dark-v2--hover g-brd-gray-dark-v2--hover g-color-white--hover rounded g-py-4 g-px-10" href="#!">SASS</a>
+                    </li>
+                </ul>
+                <!-- End Tags -->
+            </div>
+            <!-- End Search Results -->
+        </div>
+    </div>
+</section>

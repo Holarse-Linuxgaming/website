@@ -1,0 +1,139 @@
+<div class="container">
+    <div class="row">
+
+        <div data-th-replace="~{sites/profiles/profile_menu}"></div>
+
+        <!-- Profle Content -->
+        <div class="col-lg-9">
+            <!-- Nav tabs -->
+            <ul class="nav nav-justified u-nav-v1-1 u-nav-primary g-brd-bottom--md g-brd-bottom-2 g-brd-primary g-mb-20" role="tablist" data-target="nav-1-1-default-hor-left-underline" data-tabs-mobile-type="slide-up-down" data-btn-classes="btn btn-md btn-block rounded-0 u-btn-outline-primary g-mb-20">
+                <li class="nav-item">
+                    <a class="nav-link g-py-10 active" data-toggle="tab" href="#nav-1-1-default-hor-left-underline--1" role="tab">Profil bearbeiten</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link g-py-10 active" data-toggle="tab" href="#nav-1-1-default-hor-left-underline--1" role="tab">Passwort ändern</a>
+                </li>                
+            </ul>
+            <!-- End Nav tabs -->
+
+            <!-- Tab panes -->
+            <div id="nav-1-1-default-hor-left-underline" class="tab-content">
+                <!-- Edit Profile -->
+                <div class="tab-pane fade show active" id="nav-1-1-default-hor-left-underline--1" role="tabpanel">
+                    <h2 class="h4 g-font-weight-300">Manage your Name, ID and Email Addresses</h2>
+                    <p>Below are name, email addresse, contacts and more on file for your account.</p>
+
+                    <ul class="list-unstyled g-mb-30">
+                        <!-- Name -->
+                        <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+                            <div class="g-pr-10">
+                                <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Benutzername</strong>
+                                <span class="align-top" data-th-text="${user.login}"></span>
+                            </div>
+                            <span>
+                                <i class="icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"></i>
+                            </span>
+                        </li>
+                        <!-- End Name -->
+
+                        <!-- Primary Email Address -->
+                        <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+                            <div class="g-pr-10">
+                                <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Email-Adresse</strong>
+                                <span class="align-top" data-th-text="${user.email}"></span>
+                            </div>
+                            <span>
+                                <i class="icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"></i>
+                            </span>
+                        </li>
+                        <!-- End Primary Email Address -->
+                        
+                        <!-- Rollen -->
+                        <li class="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+                            <div class="g-pr-10">
+                                <strong class="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Rollen</strong>
+                                <ul class="u-list-inline" data-th-each="role: ${user.roles}">
+                                    <li class="list-inline-item g-mb-10">
+                                        <a class="u-tags-v1 g-color-main g-brd-around g-brd-gray-light-v3 g-bg-gray-dark-v2--hover g-brd-gray-dark-v2--hover g-color-white--hover g-py-4 g-px-10" data-th-text="${role.code}"></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <span>
+                                <i class="icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"></i>
+                            </span>
+                        </li>
+                        <!-- End Rollen -->                        
+                    </ul>
+
+                    <div class="text-sm-right">
+                        <a class="btn u-btn-darkgray rounded-0 g-py-12 g-px-25 g-mr-10" href="#!">Abbrechen</a>
+                        <a class="btn u-btn-primary rounded-0 g-py-12 g-px-25" href="#!">Speichern</a>
+                    </div>
+                </div>
+                <!-- End Edit Profile -->
+
+                <!-- Security Settings -->
+                <div class="tab-pane fade" id="nav-1-1-default-hor-left-underline--2" role="tabpanel">
+                    <h2 class="h4 g-font-weight-300">Security Settings</h2>
+                    <p class="g-mb-25">Reset your password, change verifications and so on.</p>
+
+                    <form>
+                        <!-- Current Password -->
+                        <div class="form-group row g-mb-25">
+                            <label class="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mb-10">Current password</label>
+                            <div class="col-sm-9">
+                                <div class="input-group g-brd-primary--focus">
+                                    <input class="form-control form-control-md border-right-0 rounded-0 g-py-13 pr-0" type="password" placeholder="Current password">
+                                    <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">
+                                        <i class="icon-lock"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Current Password -->
+
+                        <!-- New Password -->
+                        <div class="form-group row g-mb-25">
+                            <label class="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mb-10">New password</label>
+                            <div class="col-sm-9">
+                                <div class="input-group g-brd-primary--focus">
+                                    <input class="form-control form-control-md border-right-0 rounded-0 g-py-13 pr-0" type="password" placeholder="New password">
+                                    <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">
+                                        <i class="icon-lock"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End New Password -->
+
+                        <!-- Save Password -->
+                        <div class="form-group row g-mb-25">
+                            <label class="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mb-10">Save password</label>
+                            <div class="col-sm-9">
+                                <label class="form-check-inline u-check mx-0">
+                                    <input class="g-hidden-xs-up g-pos-abs g-top-0 g-right-0" name="savePassword" type="checkbox">
+                                    <div class="u-check-icon-radio-v7">
+                                        <i class="d-inline-block"></i>
+                                    </div>
+                                </label>
+                                <small class="d-block text-muted">When you check this box, you will be saved automatically login to your profile account. Also, you will be always logged in all our services.</small>
+                            </div>
+                        </div>
+                        <!-- End Save Password -->
+
+                        <hr class="g-brd-gray-light-v4 g-my-25">
+
+                        <div class="text-sm-right">
+                            <a class="btn u-btn-darkgray rounded-0 g-py-12 g-px-25 g-mr-10" href="#!">Cancel</a>
+                            <a class="btn u-btn-primary rounded-0 g-py-12 g-px-25" href="#!">Save Changes</a>
+                        </div>
+                    </form>
+                </div>
+                <!-- End Security Settings -->
+
+            </div>
+            <!-- End Tab panes -->
+        </div>
+        <!-- End Profle Content -->
+    </div>
+</div>

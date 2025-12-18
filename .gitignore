@@ -48,3 +48,7 @@ holarse-website.code-workspace
 docs
 
 *.log
+onb-configuration.xml
+.env
+
+.mise.local.toml

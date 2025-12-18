@@ -1,0 +1,5 @@
+<div th:fragment="links(links)">
+    <div class="list-group" th:each="link : ${links}">
+        <a class="list-group-item list-group-item-action" href="" th:href="@{${link.data}}" th:text="${link.description}?: ${link.data}"></a>
+    </div>
+</div>

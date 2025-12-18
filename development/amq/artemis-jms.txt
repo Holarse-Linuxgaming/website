@@ -1,0 +1,2 @@
+/opt/apache-artemis-2.29.0/bin/artemis create --no-amqp-acceptor --no-hornetq-acceptor --no-mqtt-acceptor --no-stomp-acceptor --home /opt/apache-artemis-2.29.0/ --user holarse --password geheim --queues drueckblick,import,mail,searchidx --http-host 0.0.0.0 --require-login holaq
+/opt/holaq/holaq/bin/artemis user add --user holarse --password geheim --user-command-user web --user-command-password geheim --role web

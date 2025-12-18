@@ -1,0 +1,16 @@
+#!/bin/bash
+
+APIUSER=dummy
+APITOKEN=ADDB0F5E7826C857D7376D1BD9BC33C0C544790A2EAC96144A8AF22B1298C940
+PG_PASSWORD=geheim
+ARTICLE_DIR=$1
+
+BASE_FILES=$(find $1/user-*.xml -type f | sort)
+
+PG_PASSWORD=geheim
+
+for i in $BASE_FILES; do
+	echo "Importing $i"
+	curl -u $APIUSER:$APITOKEN -X POST -H "Accept: application/xml" -H "Content-Type: application/xml" http://localhost:8080/holarseweb/api/import/users -d @$i
+done
+

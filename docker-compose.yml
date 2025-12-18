@@ -1,0 +1,95 @@
+
+name: holarse
+services:
+  front:
+    image: caddy:2.10
+    restart: on-failure
+    ports:
+      - "127.0.0.1:80:80"
+    volumes:
+      - ./development/caddy/conf:/etc/caddy
+      - caddy_data:/data
+    networks:
+      - holarse-front
+      - holarse-back
+  db:
+    image: postgres:15
+    restart: on-failure
+    env_file:
+      - development/db.env
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - website_my_pgdata:/var/lib/postgresql/data
+    networks:
+      - holarse-back
+
+  pgadmin4:
+    image: elestio/pgadmin:REL-9_8
+    restart: on-failure
+    env_file:
+      - development/db.env
+    environment:
+      - PGADMIN_LISTEN_PORT=9090
+    ports:
+      - "127.0.0.1:9090:9090"
+    volumes:
+      - ./servers.json:/pgadmin4/servers.json
+    networks:
+      - holarse-front
+      - holarse-back      
+
+  queue:
+      image: apache/activemq-artemis:2.44.0
+      restart: on-failure
+      env_file:
+        - development/db.env
+      environment:
+        - EXTRA_ARGS=--http-host 0.0.0.0 --relax-jolokia --no-amqp-acceptor --no-hornetq-acceptor --no-mqtt-acceptor --no-stomp-acceptor --queues drueckblick,import,mail,searchidx
+      ports:
+        - "127.0.0.1:8161:8161"
+        - "127.0.0.1:61616:61616"
+      volumes:
+        - amq_journal_data:/var/lib/artemis-instance
+      networks:
+        - holarse-back
+
+  app:
+    image: eclipse-temurin:25-alpine
+    restart: no
+    env_file:
+      - development/oci.env
+      - development/db.env
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - ./app/target/holarseweb.jar:/opt/holarseweb.jar:ro
+    networks:
+      - holarse-back
+    command: /bin/sh -c "java -jar /opt/holarseweb.jar"
+  cache:
+      image: memcached:latest
+      restart: on-failure      
+      ports:
+        - "127.0.0.1:11212:11212"
+      networks:
+        - holarse-back
+  mail:
+    image: axllent/mailpit
+    restart: on-failure    
+    ports:
+      - "127.0.0.1:8025:8025"
+      - "127.0.0.1:1025:1025"
+    networks:
+      - holarse-front
+      - holarse-back
+
+volumes:
+  website_my_pgdata: 
+  amq_journal_data:
+  caddy_data:
+
+networks:
+  holarse-front:
+  holarse-back:
+

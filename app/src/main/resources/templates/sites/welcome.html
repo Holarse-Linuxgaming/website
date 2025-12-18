@@ -1,0 +1,24 @@
+<!-- Blog Masonry Blocks -->
+<div class="masonry-grid row">
+    <div class="masonry-grid-sizer col-sm-1"></div>
+
+    <span data-th-each="item : ${items}">
+        <div class="masonry-grid-item col-lg-6 g-mb-30">
+            <!-- Article -->
+            <article class="u-shadow-v11 g-bg-cover g-bg-size-cover g-bg-pos-top-center g-bg-purple-gradient-opacity-v1--after" style="background-image: url(../../assets/img-temp/500x450/img11.jpg);">
+                <div class="g-pos-rel g-z-index-1 g-px-50 g-py-60">
+                    <div class="mb-5">
+                        <div class="g-width-20 g-height-1 g-bg-white-opacity-0_5 mb-4"></div>
+                        <span class="d-block g-color-white-opacity-0_9" data-th-text="${item.title}">Titel</span>
+                        <h4 class="h5 g-color-white-opacity-0_9" data-th-text="${item.teaser}">Teaser</h4>
+                    </div>
+                    <h2 class="g-color-white g-font-weight-700 g-font-size-45 text-capitalize mb-5">InVision</h2>
+                    <a class="btn btn-md u-btn-outline-white g-font-weight-600 text-uppercase g-rounded-25 g-px-25" href="#!" data-th-href="${item.url}">Read more</a>
+                </div>
+            </article>
+            <!-- End Article -->
+        </div>
+
+    </span>    
+</div>
+<!-- End Blog Masonry Blocks -->

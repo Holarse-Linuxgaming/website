@@ -1,0 +1,3 @@
+#!/bin/bash
+
+docker-compose -f doc/docker-compose.yml exec -T db psql -v ON_ERROR_STOP=1 -U holarse -d holarse -c "refresh materialized view mv_searchindex"

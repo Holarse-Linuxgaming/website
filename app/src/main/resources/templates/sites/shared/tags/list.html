@@ -1,0 +1,22 @@
+<div th:fragment="tagcloud(tags)">
+    <ul class="list-inline g-mb-40">
+        <li class="list-inline-item my-2" th:each="tag : ${tags}">
+            <a class="u-tags-v1 g-color-main g-brd-around g-brd-gray-light-v3 g-bg-gray-dark-v2--hover g-brd-gray-dark-v2--hover g-color-white--hover rounded g-py-4 g-px-10" 
+               href="" th:href="@{/spielefinder(t=${t},q=${q},a=${tag.slug},sort=${sort})}">
+                <span th:text="${tag.name}"></span>
+                <span class="d-inline-block g-font-size-12 g-min-width-40 g-brd-around g-color-gray-dark-v5 g-brd-gray-light-v3 text-center rounded g-px-10 g-py-3" th:text="${tag.useCount}">0</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<div th:fragment="taglist(tags)">
+    <ul class="list-unstyled g-mb-40">
+        <li class="my-3" th:each="tag : ${tags}">
+            <a class="d-flex justify-content-between u-link-v5 g-color-gray-dark-v1 g-parent" href="#" th:href="@{/spielefinder(t=${t},q=${q},a=${tag.slug},sort=${sort})}">
+                <span th:text="${tag.name}"></span> 
+                <span class="d-inline-block g-font-size-12 g-min-width-40 g-brd-around g-color-gray-dark-v5 g-brd-gray-light-v3 text-center rounded g-px-10 g-py-3" th:text="${tag.useCount}">0</span>
+            </a>
+        </li>
+    </ul>    
+</div>

@@ -1,0 +1,91 @@
+<div class="col g-ml-45 g-ml-0--lg g-pb-65--md">
+    <!-- Breadcrumb-v1 -->
+    <div class="g-hidden-sm-down g-bg-gray-light-v8 g-pa-20">
+        <ul class="u-list-inline g-color-gray-dark-v6">
+
+            <li class="list-inline-item g-mr-10">
+                <a class="u-link-v5 g-color-gray-dark-v6 g-color-lightblue-v3--hover g-valign-middle" href="#" data-th-href="@{/admin/}">Admin</a>
+                <i class="hs-admin-angle-right g-font-size-12 g-color-gray-light-v6 g-valign-middle g-ml-10"></i>
+            </li>
+
+            <li class="list-inline-item">
+                <span class="g-valign-middle"><a href="#" data-th-href="@{/admin/apiusers/}">API-Users</a></span>
+                <i class="hs-admin-angle-right g-font-size-12 g-color-gray-light-v6 g-valign-middle g-ml-10"></i>
+            </li>
+            
+            <li class="list-inline-item">
+                <span class="g-valign-middle"><span data-th-text="${apiuser.login ?: 'Neu'}">Benutzer</span>
+            </li>            
+        </ul>
+    </div>
+    <!-- End Breadcrumb-v1 -->
+
+    <div class="g-pa-20">
+
+        <div class="g-mb-20">
+            <div class="d-flex">
+                <div class="align-self-md-center">
+                    <div class="h-100 g-brd-around g-brd-gray-light-v7 g-rounded-4 g-pa-15 g-pa-20--md">
+                        <form action="#" data-th-action="@{/admin/apiusers/}" data-th-object="${apiuser}" method="post" class="g-brd-around g-brd-gray-light-v4 g-pa-30 g-mb-30">
+                            <input type="hidden" data-th-field="*{id}" />
+                            
+                            <div class="form-group row g-mb-30">
+                                <label class="col-sm-3 col-form-label g-mb-10" for="login">Login</label>
+                                <div class="col-sm-9">
+                                    <input type="text" data-th-field="*{login}" class="form-control u-form-control rounded-0" />
+                                    <small th:if="${#fields.hasErrors('login')}" th:errors="*{login}" class="form-control-feedback d-block g-bg-red g-color-white g-font-size-12 g-px-14 g-py-3 mt-0"></small>
+                                </div>
+                            </div>
+
+                            <div class="form-group row g-mb-30">
+                                <label class="col-sm-3 col-form-label g-mb-10" for="token">Token</label>
+                                <div class="col-sm-9">
+                                    <input type="text" data-th-field="*{token}" class="form-control u-form-control rounded-0" />
+                                    <small th:if="${#fields.hasErrors('token')}" th:errors="*{token}" class="form-control-feedback d-block g-bg-red g-color-white g-font-size-12 g-px-14 g-py-3 mt-0"></small>
+                                </div>
+                            </div>                            
+
+                            <div class="form-group row g-mb-30">
+                                <label class="col-sm-3 col-form-label g-mb-10" for="roleName">Rollenname</label>
+                                <div class="col-sm-9">
+                                    <input type="text" data-th-field="*{roleName}" class="form-control u-form-control rounded-0" />
+                                    <small th:if="${#fields.hasErrors('roleName')}" th:errors="*{roleName}" class="form-control-feedback d-block g-bg-red g-color-white g-font-size-12 g-px-14 g-py-3 mt-0"></small>
+                                </div>
+                            </div>                                                        
+
+                            <div class="form-group row g-mb-30">
+                                <label class="col-sm-3 col-form-label g-mb-10" for="validUntil">Gültig bis</label>
+                                <div class="col-sm-9">
+                                    <input type="text" data-th-field="*{validUntil}" class="form-control u-form-control rounded-0 u-datepicker-v1 js-datepicker">
+                                        <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-dark-v5 rounded-0">
+                                          <i class="icon-calendar"></i>
+                                        </div>  
+                                        <small th:if="${#fields.hasErrors('validUntil')}" th:errors="*{validUntil}" class="form-control-feedback d-block g-bg-red g-color-white g-font-size-12 g-px-14 g-py-3 mt-0"></small>
+                                    </input>
+                                </div>
+                            </div>                                                                                    
+
+                            <div class="form-group row g-mb-30">
+                                <label class="d-flex align-items-center justify-content-between" for="active">
+                                    <span>Aktiv?</span>
+                                    <div class="u-check">
+                                      <input class="" type="checkbox" data-th-field="*{active}">
+                                      <div class="u-check-icon-radio-v8">
+                                        <i class="fa" data-check-icon=""></i>
+                                      </div>
+                                    </div>                                    
+                                </label>
+                            </div>
+                            
+                            <p>
+                                <input type="submit" value="Speichern" class="btn btn-md u-btn-primary g-mr-10 g-mb-15" />
+                                <a href="#" data-th-href="@{/admin/apiusers/}" class="btn btn-md u-btn-red g-mr-10 g-mb-15">Abbrechen</a>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>    
+        
+    </div>
+</div>        

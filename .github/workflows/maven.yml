@@ -1,0 +1,112 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: HolaCMS31
+
+env:
+  # The hostname used to communicate with the PostgreSQL service container
+  DB_HOST: localhost
+  DB_NAME: holarse
+  DB_USER: holarse
+  DB_PASS: geheim
+  DB_PORT: 5432   
+
+on:
+  push:
+    branches: [ "holacms31" ]
+jobs:
+  container-job:
+    # Containers must run in Linux based operating systems
+    runs-on: ubuntu-latest  
+    services:
+          # Label used to access the service container
+          # https://docs.github.com/en/actions/using-containerized-services/creating-postgresql-service-containers
+          # https://hub.docker.com/_/postgres
+          postgres:
+            # Docker Hub image
+            image: postgres:16
+            # Provide the password for postgres
+            env:
+              POSTGRES_DB: holarse
+              POSTGRES_USER: holarse
+              POSTGRES_PASSWORD: postgres
+              POSTGRES_HOST_AUTH_METHOD: trust
+            # Set health checks to wait until postgres has started
+            options: >-
+              --health-cmd pg_isready
+              --health-interval 10s
+              --health-timeout 5s
+              --health-retries 5
+            ports:
+              # Maps tcp port 5432 on service container to the host
+              - 5432:5432
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0    
+      - uses: actions/setup-java@v4    
+        with:
+          java-version: '21'
+          cache: maven
+          distribution: 'temurin'
+      - name: Build and Test HolaCMS
+        run: mvn package
+      - name: Deploy Database 1
+        run: 
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/01_base.sql        
+      - name: Deploy Database 2
+        run:           
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/02a_authentication.sql
+      - name: Deploy Database 3
+        run:  
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/02b_nodes.sql
+      - name: Deploy Database 4
+        run: 
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/02c_slugs.sql
+      - name: Deploy Database 5
+        run:           
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/03_articles.sql
+      - name: Deploy Database 6
+        run:           
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/04_comments.sql
+      - name: Deploy Database 7
+        run:           
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/05_tags.sql
+      - name: Deploy Database 8
+        run:           
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/06_news.sql
+      - name: Deploy Database 9
+        run:           
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/07_logging.sql
+      - name: Deploy Database 10
+        run:           
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/08_forum.sql
+      - name: Deploy Database 11
+        run:           
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/09_attachments.sql
+      - name: Deploy Database 12
+        run:           
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/10_search.sql
+      - name: Deploy Database 13
+        run:           
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/12_messages.sql
+      - name: Deploy Database 14
+        run:           
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/14_drückblick.sql
+      - name: Deploy Database 15
+        run:           
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/15-migration-20240222-2250.sql
+      - name: Deploy Database 16
+        run:           
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/16-migration-20240302-0728.sql
+      - name: Deploy Database 17
+        run:           
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/01_schema/17-migration-20240321-2301.sql
+      - name: Deploy Initial Data
+        run:
+          PGPASSWORD=${DB_PASS} /usr/bin/psql -v ON_ERROR_STOP=1 -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} -d ${DB_NAME} < $GITHUB_WORKSPACE/doc/db2/02_data/01_roles_taggroups_forums.sql

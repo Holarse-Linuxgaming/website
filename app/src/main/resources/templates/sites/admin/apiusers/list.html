@@ -1,0 +1,65 @@
+<div class="col g-ml-45 g-ml-0--lg g-pb-65--md">
+    <!-- Breadcrumb-v1 -->
+    <div class="g-hidden-sm-down g-bg-gray-light-v8 g-pa-20">
+        <ul class="u-list-inline g-color-gray-dark-v6">
+
+            <li class="list-inline-item g-mr-10">
+                <a class="u-link-v5 g-color-gray-dark-v6 g-color-lightblue-v3--hover g-valign-middle" href="#" data-th-href="@{/admin/}">Admin</a>
+                <i class="hs-admin-angle-right g-font-size-12 g-color-gray-light-v6 g-valign-middle g-ml-10"></i>
+            </li>
+
+            <li class="list-inline-item">
+                <span class="g-valign-middle">API-Benutzer</span>
+            </li>
+        </ul>
+    </div>
+    <!-- End Breadcrumb-v1 -->
+
+    <div class="g-pa-20">
+
+        <div class="table-responsive g-mb-40">
+            <div>
+                <a href="#" data-th-href="@{/admin/apiusers/new}" class="btn u-btn-primary g-mr-10 g-mb-15" alt="Neuer Eintrag">
+                    <i class="fa fa-plus"></i>
+                </a>
+            </div>
+            <table class="table u-table--v3 g-color-black">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Login</th>
+                        <th>Rollenname</th>
+                        <th>Gültig bis</th>
+                        <th>Aktiv</th>
+                        <th>Erstellt</th>
+                        <th>Aktualisiert</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr th:each="apiuser : ${apiusers}">
+                        <td>
+                            <a class="js-edit u-link-v5 g-color-gray-light-v6 g-color-lightblue-v3--hover" href="#" data-th-href="@{{id}(id=${apiuser.id})}" data-th-text="${apiuser.id}"></a>
+                        </td>
+                        <td th:text=${apiuser.login}></td>
+                        <td th:text=${apiuser.roleName}></td>
+                        <td th:text="${apiuser.validUntil}"></td>
+                        <td th:text="${apiuser.active}"></td>
+                        <td th:text="${apiuser.created}"></td>
+                        <td th:text="${apiuser.updated}"></td>
+                        <td>
+                            <a class="js-edit u-link-v5 g-color-gray-light-v6 g-color-lightblue-v3--hover" href="#" data-th-href="@{{id}/edit(id=${apiuser.id})}">
+                                <i class="hs-admin-pencil"></i>
+                            </a>
+                            <a class="u-link-v5 g-color-gray-light-v6 g-color-lightblue-v3--hover g-text-underline--none--hover g-ml-12" href="#" data-th-href="@{{id}/delete(id=${apiuser.id})}">
+                                <i class="hs-admin-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>    
+</div>

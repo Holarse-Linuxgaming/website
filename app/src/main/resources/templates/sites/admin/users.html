@@ -1,0 +1,105 @@
+<div class="col g-ml-45 g-ml-0--lg g-pb-65--md">
+    <!-- Breadcrumb-v1 -->
+    <div class="g-hidden-sm-down g-bg-gray-light-v8 g-pa-20">
+        <ul class="u-list-inline g-color-gray-dark-v6">
+
+            <li class="list-inline-item g-mr-10">
+                <a class="u-link-v5 g-color-gray-dark-v6 g-color-lightblue-v3--hover g-valign-middle" href="#!">Admin</a>
+                <i class="hs-admin-angle-right g-font-size-12 g-color-gray-light-v6 g-valign-middle g-ml-10"></i>
+            </li>
+
+            <li class="list-inline-item">
+                <span class="g-valign-middle">Benutzer</span>
+            </li>
+        </ul>
+    </div>
+    <!-- End Breadcrumb-v1 -->
+
+    <div class="g-pa-20">
+
+        <div class="g-mb-20">
+            <div class="d-flex">
+                <div class="align-self-md-center">
+                    <header>
+                        <h2 class="g-font-weight-400 g-font-size-16 g-color-black mb-0">Benutzer</h2>
+                    </header>                
+                </div>
+                <div class="align-self-md-center">
+                    <label class="g-font-weight-400 g-font-size-15 g-pl-30" for="users-select-size">Anzahl</label>
+                    <select id="users-select-size" onchange="updateUrlWithSize(this.value)" class="js-custom-select w-50 u-select-v2 u-shadow-v19 g-brd-none g-color-black g-color-primary--hover g-bg-white text-left g-rounded-30 g-pl-30 g-py-12" name="users-select-size">            
+                        <option data-th-each="i : ${ {5,10,25,50,100} }" data-th-value="${i}" data-th-text="${i}" data-th-selected="${i == users.pageable.pageSize}" class="g-brd-secondary-light-v2 g-color-black g-color-white--active g-bg-primary--active"></option>
+                    </select>
+                </div>
+            </div>
+        </div>        
+
+        <div class="table-responsive g-mb-40">
+            <table class="table u-table--v3 g-color-black">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Login</th>
+                        <th>Email</th>
+                        <th>Status (L/V/FL)</th>
+                        <th>Letztes Login</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr th:each="user : ${users}">
+                        <td th:text=${user.id}></td>
+                        <td th:text=${user.login}></td>
+                        <td th:text=${user.email}></td>
+                        <td>
+                            <span th:text=${user.locked}></span>
+                            <span th:text=${user.verified}></span>
+                            <span th:text=${user.failedLogins}></span>
+                        </td> 
+                        <td th:text="${user.lastLogin}"></td>
+                        <td>
+                            <a class="js-edit u-link-v5 g-color-gray-light-v6 g-color-lightblue-v3--hover" href="#" data-th-href="@{/admin/users/{id}(id=${user.id})}">
+                                <i class="hs-admin-pencil"></i>
+                            </a>
+                            <a class="u-link-v5 g-color-gray-light-v6 g-color-lightblue-v3--hover g-text-underline--none--hover g-ml-12" href="#!">
+                                <i class="hs-admin-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Pagination #15 -->
+            <nav class="text-center" aria-label="Page Navigation">
+                <ul class="list-inline">
+                    <li class="list-inline-item" data-th-if="${users.hasPrevious}">
+                        <a class="u-pagination-v1__item g-brd-around g-brd-2 g-brd-gray-dark-v2 g-color-gray-dark-v2 g-bg-gray-dark-v2--hover g-color-white--hover g-brd-gray-dark-v2--hover g-rounded-3 g-pa-4-13" 
+                           href="#!" data-th-href="@{?(page=${users.previousPageable.pageNumber},size=${users.previousPageable.pageSize})}"  aria-label="Previous">
+                            <span aria-hidden="true">
+                                <i class="fa fa-angle-left g-mr-5"></i>
+                            </span>
+                            <span class="sr-only">Zurück</span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item font-italic">
+                        <a class="g-color-gray-dark-v3 g-pa-7-14">
+                            <span th:text="${users.number + 1}"></span>
+                            von
+                            <span th:text="${users.totalPages}"></span></a>
+                    </li>                    
+                    <li class="list-inline-item" data-th-if="${users.hasNext}">
+                        <a class="u-pagination-v1__item g-brd-around g-brd-2 g-brd-gray-dark-v2 g-color-gray-dark-v2 g-bg-gray-dark-v2--hover g-color-white--hover g-brd-gray-dark-v2--hover g-rounded-3 g-pa-4-13" 
+                           href="#!" data-th-href="@{?(page=${users.nextPageable.pageNumber},size=${users.nextPageable.pageSize})}" aria-label="Next">
+                            <span aria-hidden="true">
+                                <i class="fa fa-angle-right g-ml-5"></i>
+                            </span>
+                            <span class="sr-only">Weiter</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- End Pagination #15 -->            
+
+        </div>
+    </div>    
+</div>

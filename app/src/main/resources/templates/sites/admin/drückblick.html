@@ -1,0 +1,78 @@
+<div class="col g-ml-45 g-ml-0--lg g-pb-65--md">
+    <!-- Breadcrumb-v1 -->
+    <div class="g-hidden-sm-down g-bg-gray-light-v8 g-pa-20">
+        <ul class="u-list-inline g-color-gray-dark-v6">
+
+            <li class="list-inline-item g-mr-10">
+                <a class="u-link-v5 g-color-gray-dark-v6 g-color-lightblue-v3--hover g-valign-middle" href="#!">Admin</a>
+                <i class="hs-admin-angle-right g-font-size-12 g-color-gray-light-v6 g-valign-middle g-ml-10"></i>
+            </li>
+
+            <li class="list-inline-item">
+                <span class="g-valign-middle">Drückblick-Einträge</span>
+            </li>
+        </ul>
+    </div>
+    <!-- End Breadcrumb-v1 -->
+
+    <div class="g-pa-20">
+
+        <div class="g-mb-20">
+            <div class="d-flex">
+                <div class="align-self-md-center">
+                    <header>
+                        <h2 class="g-font-weight-400 g-font-size-16 g-color-black mb-0">Drückblick-Einträge</h2>
+                    </header>                
+                </div>
+            </div>
+        </div>        
+
+        <div class="table-responsive">
+            <table class="table table-bordered u-table--v2">
+                <thead class="text-uppercase g-letter-spacing-1">
+                    <tr>
+                        <th></th>
+                        <th class="g-font-weight-300 g-color-black">#</th>
+                        <th class="g-font-weight-300 g-color-black">Name</th>
+                        <th class="g-font-weight-300 g-color-black">Kategorie</th>
+                        <th class="g-font-weight-300 g-color-black">Nachricht</th>
+                        <th class="g-font-weight-300 g-color-black">Quelle</th>
+                        <th class="g-font-weight-300 g-color-black">Reporter</th>
+                        <th class="g-font-weight-300 g-color-black">URL</th>
+                        <th class="g-font-weight-300 g-color-black">Changelog</th>
+                        <th class="g-font-weight-300 g-color-black"></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <th:block th:each="item: ${items}">
+                        <tr th:attr="onfocus=|dbl_mark_busy('dbl-edit-${item.id}')|" th:id="|dbl-edit-${item.id}|">
+                            <td>
+                                <span class="u-icon-v3 g-bg-red g-mr-15 g-mb-15">
+                                    <i class="fa fa-lock g-color-white g-font-size-25"></i>
+                                </span>
+                                
+                                <span class="u-icon-v3 g-bg-green g-mr-15 g-mb-15">
+                                    <i class="fa fa-unlock-alt g-color-white g-font-size-25"></i>
+                                </span>                                
+                            </td>
+                                <td th:text="${item.id}"></td>
+                                <td><input th:value=${item.name} /></td>
+                                <td><input th:value=${item.category} /></td>
+                                <td><input th:value=${item.message} /></td>
+                                <td><input th:value=${item.source} /></td>
+                                <td th:text="${item.reporter}"></td>
+                                <td><input th:value="${item.url}" /><a th:href="${item.url}" href="#" target="_blank"><i class="hs-admin-link g-font-size-18 g-mr-7"></i></a></td>
+                                <td><textarea th:value=${item.changelog}></textarea></td>
+                                <td>
+                                    <a class="g-color-gray-dark-v5 g-text-underline--none--hover g-pa-5" href="#!" th:attr="onclick=|dbl_mark_deleted('dbl-edit-${item.id}')|">
+                                        <i class="fa fa-trash-o g-font-size-25 g-mr-7"></i>
+                                    </a>
+                                </td>
+                        </tr>
+                    </th:block>
+                </tbody>
+            </table>
+        </div>
+    </div>    
+</div>

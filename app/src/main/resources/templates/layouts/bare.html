@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="de-de">
+  <head>
+    <!-- Title -->
+    <title>Holarse - Spielen unter Linux
+        <span th-data-text="${title}"></span>
+    </title>
+
+    <div data-th-replace="~{fragments/head_top}"></div>
+  </head>
+
+  <body>
+      <div data-th-replace="~{fragments/header}"></div>
+      <div class="container-fluid g-px-30 g-py-200">
+        <div data-th-replace="~{${content}}"></div>
+      </div>
+      <div data-th-replace="~{fragments/footer}"></div>
+      
+      <div data-th-replace="~{fragments/goto}"></div>
+
+      <div data-th-replace="~{fragments/head_bottom}"></div>
+
+  <!-- JS Plugins Init. -->
+  <script>
+    $(document).on('ready', function () {
+      // initialization of go to
+      $.HSCore.components.HSGoTo.init('.js-go-to');
+
+      // initialization of masonry
+      $('.masonry-grid').masonry({
+          columnWidth: '.masonry-grid-sizer',
+          itemSelector: '.masonry-grid-item',
+          percentPosition: true
+      });
+    });
+
+    $(window).on('load', function () {
+      // initialization of header
+      $.HSCore.components.HSHeader.init($('#js-header'));
+    });
+  </script>
+  
+  <!-- Page-specific javascript -->
+  <script id="page-scriptlet">
+      console.log("im the default scriptlet");
+  </script>
+  </body>
+</html>

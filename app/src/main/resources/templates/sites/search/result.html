@@ -1,0 +1,28 @@
+<div th:fragment="resultlist(items)">
+    <article th:each="item : ${items}">
+        <h3 class="h4 g-mb-15">
+            <a class="u-link-v5 g-color-gray-dark-v1 g-color-primary--hover" href="#" th:href="@{${item.url}}" th:text="${item.title}"></a>
+        </h3>
+
+        <div class="d-lg-flex justify-content-between align-items-center g-mb-15">
+            <!-- Search Info -->
+            <ul class="list-inline g-mb-10 g-mb-0--lg">
+                <li class="list-inline-item g-mr-30">
+                    <img class="g-height-25 g-width-25 rounded-circle g-mr-5" src="../../assets/img-temp/100x100/img7.jpg" alt="Image Description">
+                </li>
+                <li class="list-inline-item g-mr-30">
+                    <i class="icon-calendar g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> <span th:text="${item.lastUpdate}"></span>
+                </li>
+            </ul>
+            <!-- End Search Info -->
+        </div>     
+
+        <p class="g-mb-15" th:text="${item.teaser}">Nullam elementum tincidunt massa, a pulvinar leo ultricies ut. Ut fringilla lectus tellusimp imperdiet molestie est volutpat at, sed viverra cursus nibh. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
+            voluptatum deleniti atque corrupti quos dolores.</p>
+       
+        <!-- Search Rating -->
+        <span class="g-color-gray-dark-v5" th:text="${item.rank}"></span>
+        <span class="g-color-gray-dark-v5">722,538 Ansichten</span>
+        <a href="" th:href="@{${item.url}}" th:text="Lesen"></a>        
+    </article>
+</div>

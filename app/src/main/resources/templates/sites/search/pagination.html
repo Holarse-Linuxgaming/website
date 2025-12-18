@@ -1,0 +1,33 @@
+<div th:fragment="pagination(searchResults)">
+    <!-- Pagination -->
+    <nav class="text-center g-mb-50" aria-label="Page Navigation">
+        <ul class="list-inline">
+            <li class="list-inline-item g-hidden-sm-down" data-th-if="${searchResults.hasPrevious}">
+                <a class="u-pagination-v1__item u-pagination-v1-5 rounded g-pa-4-11"
+                   href="#!" data-th-href="@{?(q=${q},t=${t},s=${s},page=${searchResults.previousOrFirstPageable.pageNumber},size=${searchResults.previousOrFirstPageable.pageSize})}"  aria-label="Previous">
+                                    <span aria-hidden="true">
+                                        <i class="fa fa-angle-left g-mr-5"></i>
+                                    </span>
+                    <span class="sr-only">Zurück</span>
+                </a>
+            </li>
+            <li class="list-inline-item g-hidden-sm-down">
+                <a class="list-inline-item font-italic">
+                    <span th:text="${searchResults.number}"></span>
+                    von
+                    <span th:text="${searchResults.totalPages}"></span>
+                </a>
+            </li>
+            <li class="list-inline-item g-hidden-sm-down" data-th-if="${searchResults.hasNext}">
+                <a class="u-pagination-v1__item u-pagination-v1-5 rounded g-pa-4-11"
+                   href="#!" data-th-href="@{?(q=${q},t=${t},s=${s},page=${searchResults.nextOrLastPageable.pageNumber},size=${searchResults.nextOrLastPageable.pageSize})}" aria-label="Next">
+                                    <span aria-hidden="true">
+                                        <i class="fa fa-angle-right g-ml-5"></i>
+                                    </span>
+                    <span class="sr-only">Weiter</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <!-- End Pagination -->
+</div>

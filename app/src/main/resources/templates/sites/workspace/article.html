@@ -1,0 +1,33 @@
+<div class="container">
+    <!-- Breadcrumbs -->
+    <section class="g-bg-gray-light-v5 g-py-5">
+      <div class="container">
+        <div class="d-sm-flex text-center">
+          <div class="align-self-center">
+            <h2 class="h3 g-font-weight-300 w-100 g-mb-10 g-mb-0--md">Neuer Artikel</h2>
+          </div>
+
+          <div class="align-self-center ml-auto">
+            <ul class="u-list-inline">
+              <li class="list-inline-item g-mr-5">
+                <a class="u-link-v5 g-color-main" href="#!" data-th-href="@{/workspace/}">Workspace</a>
+                <i class="g-color-gray-light-v2 g-ml-5">/</i>
+              </li>
+              <li class="list-inline-item g-mr-5">
+                <a class="u-link-v5 g-color-main" href="#!" data-th-href="@{/workspace/add/}">Neue Inhalte</a>
+                <i class="g-color-gray-light-v2 g-ml-5">/</i>
+              </li>
+              <li class="list-inline-item g-color-primary">
+                <span>Artikel</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>    
+    
+    <form class="g-brd-around g-brd-gray-light-v4 g-pa-30 g-mb-30" data-th-action="@{/workspace/add/article}" data-th-object="${form}" method="post">
+        <div data-th-replace="~{sites/shared/articles/form}"></div>   
+    </form>
+    
+</div>

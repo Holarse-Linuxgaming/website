@@ -1,0 +1,7 @@
+<div data-th-fragment="render(videos)">
+    <div class="list-group" data-th-each="video : ${videos}">
+        <div class="embed-responsive embed-responsive-16by9 g-mb-30">
+            <iframe width="100%" data-th-src="@{${video.url}}" frameborder="0" allowfullscreen=""></iframe>
+        </div>
+    </div>
+</div>

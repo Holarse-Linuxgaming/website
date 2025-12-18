@@ -1,0 +1,23 @@
+{
+	auto_https off
+	log {
+		output stdout
+		level INFO
+	}
+}
+
+http://www.holarse.localhost {
+	reverse_proxy http://app:8080
+}
+
+http://db.holarse.localhost {
+	reverse_proxy http://pgadmin4:9090
+}
+
+http://queue.holarse.localhost {
+	reverse_proxy http://queue:8161
+}
+
+http://mail.holarse.localhost {
+	reverse_proxy http://mail:8025
+}

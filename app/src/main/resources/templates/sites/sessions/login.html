@@ -1,0 +1,94 @@
+<!-- Login -->
+<div class="row justify-content-center">
+    <div class="col-sm-8 col-lg-5">
+        <div class="u-shadow-v21 g-bg-white rounded g-py-40 g-px-30">
+            <header class="text-center mb-4">
+                <h2 class="h2 g-color-black g-font-weight-600">Login</h2>
+            </header>
+
+            <div data-th-if="${param.error}">
+                <!-- Red Alert -->
+                <div class="alert alert-dismissible fade show g-bg-red g-color-white rounded-0" role="alert">
+                    <button type="button" class="close u-alert-close--light" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+
+                    <div class="media">
+                        <span class="d-flex g-mr-10 g-mt-5">
+                          <i class="icon-ban g-font-size-25"></i>
+                        </span>
+                                        <span class="media-body align-self-center">
+                          <strong>Fehler!</strong> Leider gab es einen Fehler beim Anmelden.
+                                            <p>
+                                                <div data-th-text="${session['errormsg']}"></div>
+                                            </p>
+                        </span>
+                    </div>
+                </div>
+                <!-- End Red Alert -->
+            </div>
+
+            <div data-th-if="${param.logout}">
+                <!-- Teal Alert -->
+                <div class="alert alert-dismissible fade show g-bg-teal g-color-white rounded-0" role="alert">
+                    <button type="button" class="close u-alert-close--light" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+
+                    <div class="media">
+                        <span class="d-flex g-mr-10 g-mt-5">
+                          <i class="icon-check g-font-size-25"></i>
+                        </span>
+                                        <span class="media-body align-self-center">
+                          <strong>Abgemeldet!</strong> Du hast dich erfolgreich abgemeldet.
+                        </span>
+                    </div>
+                </div>
+                <!-- End Teal Alert -->
+
+            </div>
+            
+            <!-- Form -->
+            <form data-th-action="@{/login}" data-th-object="${loginForm}" class="g-py-15" method="POST">
+                <div class="mb-4">
+                    <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Benutzername</label>
+                    <input class="form-control g-color-black g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-brd-primary--hover rounded g-py-15 g-px-15" type="text" placeholder="Benutzername" name="username">
+                    <small data-th-if="${#fields.hasErrors('username')}" data-th-errorclass="error" data-th-errors="*{username}" class="form-control-feedback d-block g-bg-red g-color-white g-font-size-12 g-px-14 g-py-3 mt-0" />
+                </div>
+
+                <div class="g-mb-35">
+                    <label class="g-color-gray-dark-v2 g-font-weight-600 g-font-size-13">Password</label>
+                    <input class="form-control g-color-black g-bg-white g-bg-white--focus g-brd-gray-light-v4 g-brd-primary--hover rounded g-py-15 g-px-15 mb-3" type="password" placeholder="Password" name="password">
+                    <small data-th-if="${#fields.hasErrors('password')}" data-th-errorclass="error" data-th-errors="*{password}" class="form-control-feedback d-block g-bg-red g-color-white g-font-size-12 g-px-14 g-py-3 mt-0" />                    
+                    <div class="row justify-content-between">
+                        <div class="col align-self-center">
+                            <label class="form-check-inline u-check g-color-gray-dark-v5 g-font-size-12 g-pl-25 mb-0">
+                                <input class="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" name="keep_signed_in">
+                                <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0">
+                                    <i class="fa" data-check-icon="&#xf00c"></i>
+                                </div>
+                                Angemeldet bleiben
+                            </label>
+                        </div>
+                        <div class="col align-self-center text-right">
+                            <a class="g-font-size-12" href="#!">Passwort vergessen?</a>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="mb-4">
+                    <button class="btn btn-md btn-block u-btn-primary rounded g-py-13" type="submit">Anmelden</button>
+                </div>
+            </form>
+            <!-- End Form -->
+
+            <footer class="text-center">
+                <p class="g-color-gray-dark-v5 g-font-size-13 mb-0">Noch kein Holarse-Konto? <a class="g-font-weight-600" href="#" data-th-href="@{/register}">Konto anlegen</a>
+                </p>
+            </footer>
+        </div>
+    </div>
+</div>
+<!-- End Login -->
