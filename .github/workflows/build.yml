@@ -10,7 +10,6 @@ name: HolaCMS31
 
 env:
   # The hostname used to communicate with the PostgreSQL service container for testing
-  DB_HOST: localhost
   DB_NAME: holarse
   DB_USER: holarse
   DB_PASS: geheim
@@ -24,19 +23,16 @@ on:
 jobs:
   container-job:
     # Containers must run in Linux based operating systems
-    runs-on: ubuntu-latest  
+    runs-on: ubuntu-latest
     services:
-          # Label used to access the service container
-          # https://docs.github.com/en/actions/using-containerized-services/creating-postgresql-service-containers
-          # https://hub.docker.com/_/postgres
           postgres:
             # Docker Hub image
             image: postgres:15
             # Provide the password for postgres
             env:
-              POSTGRES_DB: $DB_NAME
-              POSTGRES_USER: $DB_USER
-              POSTGRES_PASSWORD: $DB_PASS
+              POSTGRES_DB: ${{ env.DB_NAME }}
+              POSTGRES_USER: ${{ env.DB_USER }}
+              POSTGRES_PASSWORD: ${{ env.DB_PASS }}
               POSTGRES_HOST_AUTH_METHOD: trust
             # Set health checks to wait until postgres has started
             options: >-
@@ -44,9 +40,6 @@ jobs:
               --health-interval 10s
               --health-timeout 5s
               --health-retries 5
-            ports:
-              # Maps tcp port 5432 on service container to the host
-              - 5432:5432
     steps:
       - name: Checkout sources
         uses: actions/checkout@v5
@@ -64,6 +57,6 @@ jobs:
       - name: Try migrations
         run: cd app && mvn flyway:migrate
         env:
-          POSTGRES_URL: "jdbc:postgresql://$DB_HOST:$DB_PORT/$DB_NAME"
-          POSTGRES_USER: "$DB_USER"
-          POSTGRES_PASSWORD: "$DB_PASS"
+          POSTGRES_URL: "jdbc:postgresql://postgres/${{ env.DB_NAME }}"
+          POSTGRES_USER: "${{ env.DB_USER }}"
+          POSTGRES_PASSWORD: "${{ env.DB_PASS }}"
