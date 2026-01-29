@@ -1,6 +1,5 @@
 package de.holarse.backend.db;
 
-import java.io.Serializable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;

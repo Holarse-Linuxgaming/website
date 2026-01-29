@@ -27,8 +27,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import org.hibernate.annotations.JdbcType;
-import org.hibernate.annotations.Type;
-import org.hibernate.dialect.PostgreSQLEnumJdbcType;
+import org.hibernate.dialect.type.PostgreSQLEnumJdbcType;
 
 /**
  * Allgemeine Writelock-Tabelle für alle Arten von geteilten, speicherbaren Daten.

@@ -15,7 +15,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.8</version>
+        <version>4.0.2</version>
     </parent>
 
     <properties>
@@ -27,7 +27,6 @@
         <maven.compiler.release>25</maven.compiler.release>
         <maven.compiler.source>25</maven.compiler.source>
         <maven.compiler.target>25</maven.compiler.target>
-        
     </properties>
 
     <dependencies>
@@ -424,19 +423,22 @@
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
-            <version>11.9.1</version>
+            <version>11.14.1</version>
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-database-postgresql</artifactId>
             <version>11.9.1</version>
-        </dependency>        
-
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-flyway</artifactId>
+        </dependency>           
     </dependencies>
 
     <build>
         <finalName>holarseweb</finalName>
-
         <resources>
             <resource>
                 <directory>src/main/resources</directory>

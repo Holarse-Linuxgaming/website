@@ -15,8 +15,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import org.hibernate.annotations.JdbcType;
-import org.hibernate.annotations.Type;
-import org.hibernate.dialect.PostgreSQLEnumJdbcType;
+import org.hibernate.dialect.type.PostgreSQLEnumJdbcType;
 
 @Table(name = "users")
 @Entity

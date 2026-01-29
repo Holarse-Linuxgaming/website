@@ -7,8 +7,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import org.hibernate.annotations.JdbcType;
-import org.hibernate.annotations.Type;
-import org.hibernate.dialect.PostgreSQLEnumJdbcType;
+import org.hibernate.dialect.type.PostgreSQLEnumJdbcType;
 
 @Table(name = "node_slugs")
 @Entity

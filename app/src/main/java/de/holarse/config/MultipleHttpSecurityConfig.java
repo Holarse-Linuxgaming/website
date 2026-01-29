@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -20,16 +19,11 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
-import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyAuthoritiesMapper;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 
 import de.holarse.auth.web.SecureAccountFailureHandler;
@@ -90,24 +84,21 @@ public class MultipleHttpSecurityConfig {
 
     @Bean
     public DaoAuthenticationProvider drupal6AuthenticationProvider() {
-        final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(webUserDetailsService);
+        final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(webUserDetailsService);
         authProvider.setPasswordEncoder(drupalEncoder());
         return authProvider;
     }
 
     @Bean
     public DaoAuthenticationProvider holaCms3AuthenticationProvider() {
-        final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(webUserDetailsService);
+        final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(webUserDetailsService);
         authProvider.setPasswordEncoder(bcryptEncoder());
         return authProvider;
     }
     
     @Bean
     public DaoAuthenticationProvider apiAuthenticationProvider() {
-        final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(apiUserDetailsService);
+        final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(apiUserDetailsService);
         authProvider.setPasswordEncoder(noneEncoder());
         return authProvider;
     }
@@ -128,14 +119,28 @@ public class MultipleHttpSecurityConfig {
     }
 
     @Bean
-    @Order(2)
-    public SecurityFilterChain webFormSecurityFilterChain(final HttpSecurity http, final HandlerMappingIntrospector introspector) throws Exception {
-        // Workaround für CVS 2023-34035 - https://spring.io/security/cve-2023-34035        
-//        var mvc = new MvcRequestMatcher.Builder(introspector).servletPath("/");
-        
+    public SecurityFilterChain webFormSecurityFilterChain(final HttpSecurity http) throws Exception {
         log.debug("webFormSecurityFilterChain");
         
-        return http.cors(Customizer.withDefaults())
+        return 
+        
+        //
+        // API
+        //
+        http
+            .securityMatcher("/api/**")
+            .csrf((csrf) -> csrf.disable()) // Für normale API-Abfragen ist kein CSRF notwendig                
+            // Jede API-Anfrage muss grundsätzlich erstmal ROLE_API haben, Details sind dann an der Method-Security definiert
+            .authorizeHttpRequests((requests) -> requests.anyRequest().hasRole("API")) 
+            .authenticationProvider(apiAuthenticationProvider())
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .httpBasic(Customizer.withDefaults())        
+          
+        //
+        // Restliche Webseite
+        //
+        .securityMatcher("/**")
+        .cors(Customizer.withDefaults())
         
         // Authorisierungsverfahren Drupal6 (md5) und holaCms3 (bcrypt)
         .authenticationProvider(drupal6AuthenticationProvider()).authenticationProvider(holaCms3AuthenticationProvider())
@@ -191,32 +196,8 @@ public class MultipleHttpSecurityConfig {
 
         // Logout
         .logout(logout -> logout.logoutUrl("/logout"))
-        
+
         // Fertig
         .build();
     }
-  
-    /**
-     * REST-API Authentication
-     * @param http
-     * @param introspector
-     * @return
-     * @throws Exception 
-     */
-    @Bean
-    @Order(1)
-    public SecurityFilterChain apiSecurityFilterChain(final HttpSecurity http, final HandlerMappingIntrospector introspector) throws Exception {
-        // Workaround für CVS 2023-34035 - https://spring.io/security/cve-2023-34035        
-        //var mvc = new MvcRequestMatcher.Builder(introspector).servletPath("/");
-        
-        return http
-            .securityMatcher("/api/**")
-            .csrf((csrf) -> csrf.disable()) // Für normale API-Abfragen ist kein CSRF notwendig                
-            // Jede Anfrage muss grundsätzlich erstmal ROLE_API haben, Details sind dann an der Method-Security definiert
-            .authorizeHttpRequests((requests) -> requests.anyRequest().hasRole("API")) 
-            .authenticationProvider(apiAuthenticationProvider())
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .httpBasic(Customizer.withDefaults())
-            .build();
-    }    
 }

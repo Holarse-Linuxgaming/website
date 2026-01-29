@@ -1,11 +1,8 @@
 package de.holarse.backend.db;
 
-import java.io.Serializable;
 import java.time.OffsetDateTime;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Table(name = "user_status")
