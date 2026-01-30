@@ -51,10 +51,10 @@ public interface EntityWriteLockRepository extends JpaRepository<EntityWriteLock
     @Query("SELECT case when count(1) > 0 then true else false end from EntityWriteLock ewl where ewl.entity = :entity and ewl.rowId = :rowId")
     boolean existsLock(@Param("rowId") final Integer rowId, @Param("entity") final NodeType nodeType);
     
-    @Query("FROM EntityWriteLock ewl where ewl.entity = :entity")
+    @Query("select ewl FROM EntityWriteLock ewl where ewl.entity = :entity")
     List<EntityWriteLock> findAllByType(@Param("entity") final NodeType entity);
 
-    @Query("FROM EntityWriteLock ewl where ewl.rowId = :rowId and ewl.writeLockUpdated >= :lockAge")
+    @Query("select ewl FROM EntityWriteLock ewl where ewl.rowId = :rowId and ewl.writeLockUpdated >= :lockAge")
     Optional<EntityWriteLock> findByLockId(@Param("rowId") final Integer rowId, @Param("lockAge") final OffsetDateTime lockAge);
 
 }

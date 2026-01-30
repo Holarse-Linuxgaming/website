@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface NewsCategoryRepository extends JpaRepository<NewsCategory, Integer> {
 
-    @Query("from NewsCategory nc where nc.active order by nc.weight desc, nc.name")
+    @Query("select nc from NewsCategory nc where nc.active order by nc.weight desc, nc.name")
     List<NewsCategory> findActiveCategories();
 
 }

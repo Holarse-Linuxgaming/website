@@ -56,7 +56,7 @@ services:
 
   app:
     image: eclipse-temurin:25-alpine
-    restart: no
+    restart: unless-stopped
     env_file:
       - development/oci.env
       - development/db.env

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DrückblickRepository extends JpaRepository<DrückblickEntry, Integer>{
  
-    @Query(value = "select de.* from drückblick_entries de where not done order by created", nativeQuery = true)
-    public List<DrückblickEntry> findUnattended();
+    @Query("select de from DrückblickEntry de where not de.done order by de.created")
+    List<DrückblickEntry> findUnattended();
     
 }

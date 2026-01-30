@@ -21,7 +21,7 @@ public interface NewsRepository extends JpaRepository<News, Integer>, NodeAwareR
             + "WHERE ns.published and NOT ns.deleted and sl.id = (SELECT max(_sl.id) FROM NodeSlug _sl where _sl.nodeId = n.nodeId)")
     Page<FrontpageItemView> findFrontpageItems(final Pageable pageable);
     
-    @Query(value = "FROM News n " + 
+    @Query(value = "select n FROM News n " + 
                    "JOIN FETCH n.nodeRevision nr " + 
                    "JOIN FETCH n.nodeStatus as ns " +        
                    "JOIN n.nodeSlugz as sl " +

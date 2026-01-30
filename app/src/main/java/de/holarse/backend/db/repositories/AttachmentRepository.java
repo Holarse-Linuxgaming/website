@@ -11,14 +11,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AttachmentRepository extends JpaRepository<Attachment, Integer> {
     
-    @Query("from Attachment a " + 
+    @Query("select a from Attachment a " + 
             "join a.attachmentType at " +
             "join at.attachmentGroup ag " +
             "where a.nodeId = :nodeId and ag.code = :code " + 
             "order by a.weight, a.id")
     List<Attachment> findByGroup(@Param("nodeId") Integer nodeId, @Param("code") String code);
 
-    @Query("from Attachment a " +
+    @Query("select a from Attachment a " +
             "join fetch a.attachmentType at " +
             "join fetch at.attachmentGroup ag " +
             "where a.nodeId = :nodeId")

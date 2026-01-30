@@ -6,15 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -42,7 +47,7 @@ public class MultipleHttpSecurityConfig {
     private String hierarchy;
 
     @Autowired
-    @Qualifier("webUserDetailsService")            
+    @Qualifier("webUserDetailsService")
     private UserDetailsService webUserDetailsService;
     
     @Autowired
@@ -64,6 +69,12 @@ public class MultipleHttpSecurityConfig {
         return new NonePasswordEncoder();
     }
 
+    // To bundle Spring Security + Spring Data
+    @Bean
+    public SecurityEvaluationContextExtension securityEvaluationContextExtension() {
+        return new SecurityEvaluationContextExtension();
+    }    
+
     @Bean
     public GrantedAuthoritiesMapper authoritiesMapper(RoleHierarchy roleHierarchy) {
         return new RoleHierarchyAuthoritiesMapper(roleHierarchy);
@@ -73,6 +84,7 @@ public class MultipleHttpSecurityConfig {
     @Bean
     static MethodSecurityExpressionHandler methodSecurityExpressionHandler(final RoleHierarchy roleHierarchy) {
         DefaultMethodSecurityExpressionHandler expressionHandler = new DefaultMethodSecurityExpressionHandler();
+        // TODO: Must change RoleHierarchy handling before moving to Spring 8.
         expressionHandler.setRoleHierarchy(roleHierarchy);
         return expressionHandler;
     }
@@ -83,21 +95,21 @@ public class MultipleHttpSecurityConfig {
     }
 
     @Bean
-    public DaoAuthenticationProvider drupal6AuthenticationProvider() {
+    public AuthenticationProvider drupal6AuthenticationProvider() {
         final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(webUserDetailsService);
         authProvider.setPasswordEncoder(drupalEncoder());
         return authProvider;
     }
 
     @Bean
-    public DaoAuthenticationProvider holaCms3AuthenticationProvider() {
+    public AuthenticationProvider holaCms3AuthenticationProvider() {
         final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(webUserDetailsService);
         authProvider.setPasswordEncoder(bcryptEncoder());
         return authProvider;
     }
     
     @Bean
-    public DaoAuthenticationProvider apiAuthenticationProvider() {
+    public AuthenticationProvider apiAuthenticationProvider() {
         final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(apiUserDetailsService);
         authProvider.setPasswordEncoder(noneEncoder());
         return authProvider;
@@ -118,84 +130,101 @@ public class MultipleHttpSecurityConfig {
         return new SecureAccountFailureHandler();
     }
 
+    // @Bean
+    // public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+    //     return authConfig.getAuthenticationManager();
+    // }    
+
+    // @Bean
+    // public AuthenticationManager authManager(final HttpSecurity http) throws Exception {
+    //     return http.getSharedObject(AuthenticationManagerBuilder.class)
+    //                .authenticationProvider(apiAuthenticationProvider())
+    //                .authenticationProvider(holaCms3AuthenticationProvider())
+    //                .authenticationProvider(drupal6AuthenticationProvider())
+    //     .build();
+    // } 
+
     @Bean
+    @Order(1)
+    public SecurityFilterChain apiSecurityFilterChain(final HttpSecurity http) throws Exception {
+        log.debug("apiSecurityFilterChain");
+        return http.securityMatcher("/api/**")
+                   .csrf(AbstractHttpConfigurer::disable) // Für normale API-Abfragen ist kein CSRF notwendig
+                   .cors(AbstractHttpConfigurer::disable) // Für normale API-Abfragen ist kein CORS notwendig
+                   // Jede API-Anfrage muss grundsätzlich erstmal ROLE_API haben, Details sind dann an der Method-Security definiert
+                   .authorizeHttpRequests((auth) -> auth.requestMatchers("/api/**").hasRole("API"))
+                   .authenticationProvider(apiAuthenticationProvider())
+                   .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                   .httpBasic(Customizer.withDefaults())
+        .build();
+    }
+
+    @Bean
+    @Order(2)
     public SecurityFilterChain webFormSecurityFilterChain(final HttpSecurity http) throws Exception {
         log.debug("webFormSecurityFilterChain");
         
-        return 
+        return http
+            .securityMatcher("/**")
+            .cors(Customizer.withDefaults())
+            
+            // Authorisierungsverfahren Drupal6 (md5) und holaCms3 (bcrypt)
+            .authenticationProvider(drupal6AuthenticationProvider()).authenticationProvider(holaCms3AuthenticationProvider())
         
-        //
-        // API
-        //
-        http
-            .securityMatcher("/api/**")
-            .csrf((csrf) -> csrf.disable()) // Für normale API-Abfragen ist kein CSRF notwendig                
-            // Jede API-Anfrage muss grundsätzlich erstmal ROLE_API haben, Details sind dann an der Method-Security definiert
-            .authorizeHttpRequests((requests) -> requests.anyRequest().hasRole("API")) 
-            .authenticationProvider(apiAuthenticationProvider())
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .httpBasic(Customizer.withDefaults())        
-          
-        //
-        // Restliche Webseite
-        //
-        .securityMatcher("/**")
-        .cors(Customizer.withDefaults())
-        
-        // Authorisierungsverfahren Drupal6 (md5) und holaCms3 (bcrypt)
-        .authenticationProvider(drupal6AuthenticationProvider()).authenticationProvider(holaCms3AuthenticationProvider())
-       
-        // Was ignoriert werden soll und keiner Authentifizierung bedarf
-        .authorizeHttpRequests((auth) -> auth.requestMatchers("/assets/**",
-                                                              "/favicon.ico",
-                                                              "/sitemap.xml",
-                                                              "/age.xml",
-                                                              "/age-de.xml",
-                                                              "/miracle.xml",
-                                                              "/robots.txt",
-                                                              "/humans.txt").permitAll())
+            // Was ignoriert werden soll und keiner Authentifizierung bedarf
+            .authorizeHttpRequests((auth) -> auth.requestMatchers("/assets/**",
+                                                                "/favicon.ico",
+                                                                "/sitemap.xml",
+                                                                "/age.xml",
+                                                                "/age-de.xml",
+                                                                "/miracle.xml",
+                                                                "/robots.txt",
+                                                                "/humans.txt").permitAll())
 
-        // Admin-Bereich nur für Admins
-        .authorizeHttpRequests((auth) -> auth.requestMatchers("/admin/**").hasRole("ADMIN"))
-        
-        // Login- und Registrierungsbereich
-        .authorizeHttpRequests((auth) -> auth.requestMatchers("/register/**").permitAll())
+            // Admin-Bereich nur für Admins
+            .authorizeHttpRequests((auth) -> auth.requestMatchers("/admin/**").hasRole("ADMIN"))
+            
+            // Login- und Registrierungsbereich
+            .authorizeHttpRequests((auth) -> auth.requestMatchers("/register/**").permitAll())
 
 
-        // Bereich nur für authentifizierte Benutzer jeglicher Rollen, z.B. Profil, edit-Seiten, logout
-        .authorizeHttpRequests((auth) -> auth.requestMatchers("/profile",
-                                                                      "/workspace/**",
-                                                                      "/wiki/*/edit",
-                                                                      "/news/*/edit",
-                                                                      "/webapi/**",
-                                                                      "/logout").hasRole("USER"))
-        
-        // Normale Webseite, auch als Gast nutzbar
-        .authorizeHttpRequests((auth) -> auth.requestMatchers("/",
-                                                              "/login**",
-                                                              "/search/**",
-                                                              "/tags/**",
-                                                              "/wiki/**",
-                                                              "/news/**",
-                                                              "/help/**",
-                                                              "/spielefinder/**",
-                                                              "/category/*/*", // Legacy-Tag-URLs
-                                                              "/categories/**",
-                                                              "/holarse-services/**",
-                                                              "/downloads/**",
-                                                              "/datenschutz",
-                                                              "/privacy",
-                                                              "/impressum",
-                                                              "/imprint").permitAll())
+            // Bereich nur für authentifizierte Benutzer jeglicher Rollen, z.B. Profil, edit-Seiten, logout
+            .authorizeHttpRequests((auth) -> auth.requestMatchers("/profile",
+                                                                        "/workspace/**",
+                                                                        "/wiki/*/edit",
+                                                                        "/news/*/edit",
+                                                                        "/webapi/**",
+                                                                        "/logout").hasRole("USER"))
+            
+            // Normale Webseite, auch als Gast nutzbar
+            .authorizeHttpRequests((auth) -> auth.requestMatchers("/",
+                                                                "/login**",
+                                                                "/search/**",
+                                                                "/tags/**",
+                                                                "/wiki/**",
+                                                                "/news/**",
+                                                                "/help/**",
+                                                                "/spielefinder/**",
+                                                                "/category/*/*", // Legacy-Tag-URLs
+                                                                "/categories/**",
+                                                                "/holarse-services/**",
+                                                                "/downloads/**",
+                                                                "/datenschutz",
+                                                                "/privacy",
+                                                                "/impressum",
+                                                                "/imprint").permitAll())
 
-        // Form-Login
-        .formLogin(form -> form
-                .loginPage("/login").permitAll()
-                .failureHandler(failureHandler())
-                .successHandler(successHandler()))
+            // Alles andere wird geschützt
+            .authorizeHttpRequests((auth) -> auth.anyRequest().authenticated())
 
-        // Logout
-        .logout(logout -> logout.logoutUrl("/logout"))
+            // Form-Login
+            .formLogin(form -> form
+                    .loginPage("/login").permitAll()
+                    .failureHandler(failureHandler())
+                    .successHandler(successHandler()))
+
+            // Logout
+            .logout(logout -> logout.logoutUrl("/logout"))
 
         // Fertig
         .build();

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserStatusRepository extends JpaRepository<UserStatus, Long> {
     
-    @Query("from UserStatus us where us.verificationHash = :verificationHash and not us.locked and not us.verified and us.verificationHashValidUntil > current_timestamp")
+    @Query("select us from UserStatus us where us.verificationHash = :verificationHash and not us.locked and not us.verified and us.verificationHashValidUntil > current_timestamp")
     Optional<UserStatus> findByValidVerification(@Param("verificationHash") final String verificationHash);
     
 }

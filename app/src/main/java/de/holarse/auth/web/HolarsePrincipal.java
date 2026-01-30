@@ -62,5 +62,11 @@ public class HolarsePrincipal implements UserDetails {
         return isAccountNonLocked();
     }
 
+    @Override
+    public String toString() {
+        return "HolarsePrincipal [getUsername()=" + getUsername() + ", isAccountNonExpired()=" + isAccountNonExpired()
+                + ", isAccountNonLocked()=" + isAccountNonLocked() + ", isCredentialsNonExpired()="
+                + isCredentialsNonExpired() + ", isEnabled()=" + isEnabled() + "]";
+    }
     
 }

@@ -1,4 +1,4 @@
-compile-and-restart: stop-app build-app build-container up-app
+compile-and-restart: build-app stop-app up-app
 	
 up:
 	docker compose up
