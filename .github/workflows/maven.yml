@@ -40,8 +40,13 @@ jobs:
         if: always()
         with:
           name: surefire-test-reports
-          path: '**/target/surefire-reports/' # Finds reports in all modules
+          path: '**/app/target/surefire-reports/' # Finds reports in all modules
           retention-days: 5 # Saves space by deleting old reports after 5 days        
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v6
+        if: success() || failure()
+        with:
+          report_paths: '**/app/target/surefire-reports/TEST-*.xml'
   database:
     runs-on: ubuntu-latest  
     services:
@@ -72,7 +77,7 @@ jobs:
           wget -qO- https://github.com/flyway/flyway/releases/download/flyway-${{ env.FLYWAY_VERSION }}/flyway-commandline-${{ env.FLYWAY_VERSION }}-linux-x64.tar.gz | tar -xvz && sudo ln -s `pwd`/flyway-${{ env.FLYWAY_VERSION }}/flyway /usr/local/bin       
       - name: Run Flyway Migrations
         env:
-          FLYWAY_URL: jdbc:pgsql://${{env.DB_HOST}}:${{env.DB_PORT}}/${{env.DB_NAME}}
+          FLYWAY_URL: jdbc:postgresql://${{env.DB_HOST}}:${{env.DB_PORT}}/${{env.DB_NAME}}
           FLYWAY_USER: ${{env.DB_USER}}
           FLYWAY_PASSWORD: ${{env.DB_PASS}}
           FLYWAY_SCHEMAS: public
