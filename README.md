@@ -15,8 +15,8 @@ Den Import der Dateien kann man über die REST-API durchführen. Es gibt zwei Sc
 ## Webapp
 
 ### Anforderungen
-* Java 21
-* Docker, docker-compose
+* Java 25
+* Docker, docker-compose, just
 * Apache Maven 3.x
 * Containerisiert: Apache Tomcat 10, Apache Artemis, PostgreSQL 16
 

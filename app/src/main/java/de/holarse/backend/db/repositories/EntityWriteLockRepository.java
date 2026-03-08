@@ -41,20 +41,20 @@ public interface EntityWriteLockRepository extends JpaRepository<EntityWriteLock
     @Transactional
     @Modifying
     @Query("delete from EntityWriteLock ew where ew.entity = :entity and ew.rowId = :rowId and ew.writeLockUser = :user")
-    void unlock(@Param("rowId") final Integer rowId, @Param("entity") final NodeType nodeType, @Param("user") User user);
+    void unlock(@Param("rowId") Integer rowId, @Param("entity") NodeType nodeType, @Param("user") User user);
 
     @Transactional
     @Modifying
     @Query("delete from EntityWriteLock ew where ew.entity = :entity and ew.rowId = :rowId")
-    void unlockAll(@Param("rowId") final Integer rowId, @Param("entity") final NodeType nodeType);
+    void unlockAll(@Param("rowId") Integer rowId, @Param("entity") NodeType nodeType);
     
     @Query("SELECT case when count(1) > 0 then true else false end from EntityWriteLock ewl where ewl.entity = :entity and ewl.rowId = :rowId")
-    boolean existsLock(@Param("rowId") final Integer rowId, @Param("entity") final NodeType nodeType);
+    boolean existsLock(@Param("rowId") Integer rowId, @Param("entity") NodeType nodeType);
     
     @Query("select ewl FROM EntityWriteLock ewl where ewl.entity = :entity")
-    List<EntityWriteLock> findAllByType(@Param("entity") final NodeType entity);
+    List<EntityWriteLock> findAllByType(@Param("entity") NodeType entity);
 
     @Query("select ewl FROM EntityWriteLock ewl where ewl.rowId = :rowId and ewl.writeLockUpdated >= :lockAge")
-    Optional<EntityWriteLock> findByLockId(@Param("rowId") final Integer rowId, @Param("lockAge") final OffsetDateTime lockAge);
+    Optional<EntityWriteLock> findByLockId(@Param("rowId") Integer rowId, @Param("lockAge") OffsetDateTime lockAge);
 
 }

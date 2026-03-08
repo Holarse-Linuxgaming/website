@@ -4,4 +4,6 @@
 
 [tools]
 caddy = "2.10"
-java = "21"
+java = "25"
+maven = "3.9.13"
+just = "1.46.0"

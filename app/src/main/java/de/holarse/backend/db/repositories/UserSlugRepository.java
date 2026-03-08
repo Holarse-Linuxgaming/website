@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserSlugRepository extends JpaRepository<UserSlug, Integer> {
 
-    @Query(value = "select count(1) from user_slugs us where us.name = :name", nativeQuery = true)
-    int isSlugUsed(@Param("name") final String name);
+    @Query(value = "select count(us) > 0 from user_slugs us where us.name = :name", nativeQuery = true)
+    boolean isSlugUsed(@Param("name") String name);
     
 }

@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 public interface AttachmentGroupRepository extends JpaRepository<AttachmentGroup, Integer> {
 
-    AttachmentGroup findByCode(final String code);
+    AttachmentGroup findByCode(String code);
 
 }

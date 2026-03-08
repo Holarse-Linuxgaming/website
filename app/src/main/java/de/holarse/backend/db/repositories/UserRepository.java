@@ -7,10 +7,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
     
-    User findByLogin(final String login);
-    User findByEmail(final String email);
+    User findByLogin(String login);
+    User findByEmail(String email);
     
-    User findByLoginOrEmail(final String login, final String email);
+    User findByLoginOrEmail(String login, String email);
         
 //    @Query(value = "select u.* from users u inner join user_status us on us.id = u.id "
 //            + "where us.verification_hash = :verificationHash "

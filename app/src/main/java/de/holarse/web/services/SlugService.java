@@ -101,7 +101,7 @@ public class SlugService {
         
         for (final String possibleSlug : possibleSlugs) {
             log.debug("User {} testing slug {}", user.getLogin(), possibleSlug);
-            if (userSlugRepository.isSlugUsed(possibleSlug) == 0) {
+            if (!userSlugRepository.isSlugUsed(possibleSlug)) {
                 final UserSlug us = new UserSlug();
                 us.setCreated(OffsetDateTime.now());
                 us.setName(possibleSlug);

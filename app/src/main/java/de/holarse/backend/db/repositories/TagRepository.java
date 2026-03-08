@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TagRepository extends JpaRepository<Tag, Integer> {
     
-    boolean existsBySlug(final String slug);
-    Optional<Tag> findByName(final String name);
-    Optional<Tag> findBySlug(final String slug);
+    boolean existsBySlug(String slug);
+    Optional<Tag> findByName(String name);
+    Optional<Tag> findBySlug(String slug);
 }

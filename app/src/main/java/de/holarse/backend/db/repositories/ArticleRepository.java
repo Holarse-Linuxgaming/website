@@ -25,7 +25,7 @@ public interface ArticleRepository extends JpaRepository<Article, Integer>, Node
             JOIN n.nodeStatus as ns
             JOIN n.nodeSlugs as sl
             WHERE ns.published and NOT ns.deleted and sl.id = (SELECT max(_sl.id) FROM NodeSlug _sl where _sl.nodeId = n.nodeId)""")
-    List<FrontpageItemView> findFrontpageItems(final Pageable pageable);
+    List<FrontpageItemView> findFrontpageItems(Pageable pageable);
     
     @Query(value = """
         SELECT a 
@@ -33,7 +33,7 @@ public interface ArticleRepository extends JpaRepository<Article, Integer>, Node
         JOIN FETCH a.nodeRevision
         LEFT JOIN FETCH a.tags
         WHERE a.nodeId = :nodeId""")
-    Optional<Article> findByNodeId(@Param("nodeId") final int nodeId);
+    Optional<Article> findByNodeId(@Param("nodeId") int nodeId);
     
     @Query(value = """
             SELECT a 
@@ -44,6 +44,6 @@ public interface ArticleRepository extends JpaRepository<Article, Integer>, Node
             LEFT JOIN FETCH a.tags 
             WHERE ns.published and NOT ns.deleted 
             AND sl.name = :slug""")
-    Optional<Article> findBySlug(@Param("slug") final String slug);
+    Optional<Article> findBySlug(@Param("slug") String slug);
 
 }

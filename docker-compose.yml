@@ -24,21 +24,6 @@ services:
     networks:
       - holarse-back
 
-  pgadmin4:
-    image: elestio/pgadmin:REL-9_8
-    restart: on-failure
-    env_file:
-      - development/db.env
-    environment:
-      - PGADMIN_LISTEN_PORT=9090
-    ports:
-      - "127.0.0.1:9090:9090"
-    volumes:
-      - ./servers.json:/pgadmin4/servers.json
-    networks:
-      - holarse-front
-      - holarse-back      
-
   queue:
       image: apache/activemq-artemis:2.44.0
       restart: on-failure
@@ -66,6 +51,7 @@ services:
       - ./app/target/holarseweb.jar:/opt/holarseweb.jar:ro
     networks:
       - holarse-back
+    user: 1000:1000
     command: /bin/sh -c "java -jar /opt/holarseweb.jar"
   cache:
       image: memcached:latest

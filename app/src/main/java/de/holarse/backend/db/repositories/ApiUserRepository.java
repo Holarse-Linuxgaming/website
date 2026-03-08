@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ApiUserRepository extends JpaRepository<ApiUser, Integer> {
     
-    ApiUser findByLogin(final String login);
+    ApiUser findByLogin(String login);
 
 }

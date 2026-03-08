@@ -20,7 +20,7 @@ public interface NodeAwareRepository {
             "where (np.nodeid = :nodeId or np.nodeid is null) " +
             "group by to_char(stdate, 'YYYY-MM-DD') " +
             "order by to_char(stdate, 'YYYY-MM-DD')", nativeQuery = true)
-    List<NodeStatisticsView> getDailyStats(@Param("nodeId") final Integer nodeId, @Param("days") final int days);
+    List<NodeStatisticsView> getDailyStats(@Param("nodeId") Integer nodeId, @Param("days") int days);
 
     @Query(value = "select to_char(stdate, 'YYYY-MM') as time, " +
                    "count(np.nodeid) as amount " +
@@ -31,7 +31,7 @@ public interface NodeAwareRepository {
                    "where (np.nodeid = :nodeId or np.nodeid is null) " +
                    "group by to_char(stdate, 'YYYY-MM') " +
                    "order by to_char(stdate, 'YYYY-MM')", nativeQuery = true)
-    List<NodeStatisticsView> getMonthlyStats(@Param("nodeId") final Integer nodeId, @Param("months") final int months);
+    List<NodeStatisticsView> getMonthlyStats(@Param("nodeId") Integer nodeId, @Param("months") int months);
 
 
 }

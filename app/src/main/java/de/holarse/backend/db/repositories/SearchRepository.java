@@ -17,12 +17,18 @@ import org.springframework.data.domain.Pageable;
 @Repository
 public interface SearchRepository extends JpaRepository<SearchIndex, Integer> {
     
-    @Query(value = "select nodeid as nodeid, ptitle as title, purl as url, left(content, 100) || '...' as teaser, doctype, last_update, " +
-                   "ts_rank_cd(document, websearch_to_tsquery('german', :query), 16) as rank " +
-                   "from mv_searchindex " +
-                   "where document @@ websearch_to_tsquery('german', :query) and doctype\\:\\:character varying in (:scope) " +
-                   "and ts_rank_cd(document, websearch_to_tsquery('german', :query), 16) > :rankLimit ", nativeQuery = true)
-    Page<SearchResultView> search(@Param("query") final String query, @Param("scope") final List<String> scope, @Param("rankLimit") final Float rankLimit, final Pageable pageable);
+    @Query(value = """
+        select nodeid as nodeid, 
+               ptitle as title, 
+               purl as url, 
+               left(content, 100) || '...' as teaser, 
+               doctype, 
+               last_update,
+               ts_rank_cd(document, websearch_to_tsquery('german', :query), 16) as rank 
+        from mv_searchindex 
+        where document @@ websearch_to_tsquery('german', :query) and doctype\\:\\:character varying in (:scope) 
+        and ts_rank_cd(document, websearch_to_tsquery('german', :query), 16) > :rankLimit """, nativeQuery = true)
+    Page<SearchResultView> search(@Param("query") String query, @Param("scope") List<String> scope, @Param("rankLimit") Float rankLimit, Pageable pageable);
 
     /***
      * Die Tag-Delimiter müssen @@@ sein, weil das Semikolon von Pagable-Ersetzungsmuster fälschlicherweise als Ende erkannt wird
@@ -31,15 +37,24 @@ public interface SearchRepository extends JpaRepository<SearchIndex, Integer> {
      * @param pageable
      * @return 
      */
-    @Query(value = "select nodeid as nodeid, ptitle as title, purl as url, left(content, 100) || '...' as teaser, doctype, last_update from mv_searchindex " +
-                   "where string_to_array(tags, '@@@') @> string_to_array(:tags, '@@@') and doctype\\:\\:character varying in (:scope)", nativeQuery = true)            
-    Page<SearchResultView> searchTags(@Param("tags") final String tags, @Param("scope") final List<String> scope, final Pageable pageable);
+    @Query(value = """
+        select nodeid as nodeid, 
+               ptitle as title, 
+               purl as url, 
+               left(content, 100) || '...' as teaser, 
+               doctype, 
+               last_update 
+        from mv_searchindex 
+        where string_to_array(tags, '@@@') @> string_to_array(:tags, '@@@') and doctype\\:\\:character varying in (:scope)""", nativeQuery = true)
+    Page<SearchResultView> searchTags(@Param("tags") String tags, @Param("scope") List<String> scope, Pageable pageable);
 
-    @Query(value = "select nodeid as nodeid, ptitle as title, purl as url, left(content, 100) || '...' as teaser, doctype, last_update from mv_searchindex " +
-                   "where string_to_array(tags, '@@@') @> string_to_array(:tags, '@@@') " +
-                   "and document @@ websearch_to_tsquery('german', :query) " + 
-                   "and doctype\\:\\:character varying in (:scope)", nativeQuery = true)
-    Page<SearchResultView> searchTags(@Param("tags") final String tags, @Param("query") final String query, @Param("scope") final List<String> scope, final Pageable pageable);    
+    @Query(value = """
+        select nodeid as nodeid, ptitle as title, purl as url, left(content, 100) || '...' as teaser, doctype, last_update 
+        from mv_searchindex
+        where string_to_array(tags, '@@@') @> string_to_array(:tags, '@@@') 
+        and document @@ websearch_to_tsquery('german', :query) 
+        and doctype\\:\\:character varying in (:scope)""", nativeQuery = true)
+    Page<SearchResultView> searchTags(@Param("tags") String tags, @Param("query") String query, @Param("scope") List<String> scope, Pageable pageable);    
     
     @Modifying
     @Query(value = "refresh materialized view mv_searchindex", nativeQuery = true)
@@ -50,7 +65,12 @@ public interface SearchRepository extends JpaRepository<SearchIndex, Integer> {
      * @param query
      * @return 
      */
-    @Query(value = "select ms.wlabel as label, ms.use_count as useCount from mv_suggestions ms where ms.wtype = 'tag' and word @@ websearch_to_tsquery('german', :query) order by use_count", nativeQuery = true)
-    List<TagRecommendation> autocompleteTags(@Param("query") final String query);
+    @Query(value = """
+        select ms.wlabel as label, ms.use_count as useCount 
+        from mv_suggestions ms 
+        where ms.wtype = 'tag' 
+        and word @@ websearch_to_tsquery('german', :query) 
+        order by use_count""", nativeQuery = true)
+    List<TagRecommendation> autocompleteTags(@Param("query") String query);
     
 }

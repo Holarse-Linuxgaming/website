@@ -19,7 +19,7 @@ public interface NewsRepository extends JpaRepository<News, Integer>, NodeAwareR
             + "JOIN n.nodeStatus as ns "
             + "JOIN n.nodeSlugz as sl "
             + "WHERE ns.published and NOT ns.deleted and sl.id = (SELECT max(_sl.id) FROM NodeSlug _sl where _sl.nodeId = n.nodeId)")
-    Page<FrontpageItemView> findFrontpageItems(final Pageable pageable);
+    Page<FrontpageItemView> findFrontpageItems(Pageable pageable);
     
     @Query(value = "select n FROM News n " + 
                    "JOIN FETCH n.nodeRevision nr " + 
@@ -28,7 +28,7 @@ public interface NewsRepository extends JpaRepository<News, Integer>, NodeAwareR
                    "LEFT JOIN FETCH n.tags " +            
                    "WHERE ns.published and NOT ns.deleted " +
                    "AND sl.name = :slug")
-    Optional<News> findBySlug(@Param("slug") final String slug);    
+    Optional<News> findBySlug(@Param("slug") String slug);    
     
-    Optional<News> findByNodeId(final Integer nodeId);
+    Optional<News> findByNodeId(Integer nodeId);
 }
