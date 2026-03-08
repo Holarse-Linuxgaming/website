@@ -15,6 +15,7 @@ env:
   DB_USER: holarse
   DB_PASS: geheim
   DB_PORT: 5432   
+  FLYWAY_VERSION: 12.0.3
 
 on:
   push:
@@ -55,12 +56,16 @@ jobs:
           java-version: '25'
           cache: maven
           distribution: 'temurin'
-      - name: Build and Test HolaCMS
+      - name: Build
         run: cd app && mvn package
-      - name: Flyway Migrate
-        uses: flyway/execute-action@v1
-        with:
-          url: ${DB_HOST}
-          user: ${DB_USER}
-          password: ${DB_PASS}
-          command: migrate          
+      - name: Setup Flyway
+        run: |
+          wget -qO- https://download.red-gate.com/maven/release/org/flywaydb/enterprise/flyway-commandline/${{ env.FLYWAY_VERSION }}/flyway-commandline-${{ env.FLYWAY_VERSION }}-linux-x64.tar.gz | tar -xvz && sudo ln -s `pwd`/flyway-${{ env.FLYWAY_VERSION }}/flyway /usr/local/bin 
+      - name: Run Flyway Migrations
+        env:
+          FLYWAY_URL: jdbc:pgsql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+          FLYWAY_USER: ${DB_USER}
+          FLYWAY_PASSWORD: ${DB_PASS}
+          FLYWAY_SCHEMAS: public
+        run: |
+          flyway migrate
