@@ -19,6 +19,7 @@ env:
 on:
   push:
     branches: [ "holacms31" ]
+  workflow_dispatch:
 jobs:
   container-job:
     # Containers must run in Linux based operating systems
