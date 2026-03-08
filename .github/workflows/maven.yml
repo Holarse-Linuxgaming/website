@@ -35,9 +35,13 @@ jobs:
           distribution: 'temurin'
       - name: Build
         run: cd app && mvn package
-      - name: Setup Flyway
-        run: |
-          wget -qO- https://github.com/flyway/flyway/releases/download/flyway-${{ env.FLYWAY_VERSION }}/flyway-commandline-${{ env.FLYWAY_VERSION }}-linux-x64.tar.gz | tar -xvz && sudo ln -s `pwd`/flyway-${{ env.FLYWAY_VERSION }}/flyway /usr/local/bin 
+      - name: Upload Surefire Reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: surefire-test-reports
+          path: '**/target/surefire-reports/' # Finds reports in all modules
+          retention-days: 5 # Saves space by deleting old reports after 5 days        
   database:
     runs-on: ubuntu-latest  
     services:
@@ -63,6 +67,9 @@ jobs:
               # Maps tcp port 5432 on service container to the host
               - 5432:5432
     steps:
+      - name: Setup Flyway
+        run: |
+          wget -qO- https://github.com/flyway/flyway/releases/download/flyway-${{ env.FLYWAY_VERSION }}/flyway-commandline-${{ env.FLYWAY_VERSION }}-linux-x64.tar.gz | tar -xvz && sudo ln -s `pwd`/flyway-${{ env.FLYWAY_VERSION }}/flyway /usr/local/bin       
       - name: Run Flyway Migrations
         env:
           FLYWAY_URL: jdbc:pgsql://${{env.DB_HOST}}:${{env.DB_PORT}}/${{env.DB_NAME}}
