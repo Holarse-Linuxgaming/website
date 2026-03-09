@@ -29,6 +29,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.util.backoff.FixedBackOff;
 
 /**
  *
@@ -44,6 +45,9 @@ public class JmsConfig {
     private String amqUsername;
     @Value("${amq.password}")
     private String amqPassword;
+
+    private final Long recoveryInterval = 5000L; // milliseconds
+    private final Long receiveTimeout = 250L; // milliseconds
     
     @Bean
     public ConnectionFactory jmsConnectionFactory() throws Exception {
@@ -72,6 +76,9 @@ public class JmsConfig {
     public DefaultJmsListenerContainerFactory jmsListenerContainerFactory() throws Exception {
         final DefaultJmsListenerContainerFactory listenerFactory = new DefaultJmsListenerContainerFactory();
         listenerFactory.setConnectionFactory((jmsConnectionFactory()));
+        listenerFactory.setRecoveryInterval(recoveryInterval);
+        listenerFactory.setReceiveTimeout(receiveTimeout);
+        listenerFactory.setBackOff(new FixedBackOff(recoveryInterval));
         return listenerFactory;
     }
     

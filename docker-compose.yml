@@ -3,7 +3,7 @@ name: holarse
 services:
   front:
     image: caddy:2.10
-    restart: on-failure
+    restart: no
     ports:
       - "127.0.0.1:80:80"
     volumes:
@@ -14,7 +14,7 @@ services:
       - holarse-back
   db:
     image: postgres:15
-    restart: on-failure
+    restart: no
     env_file:
       - development/db.env
     ports:
@@ -26,7 +26,7 @@ services:
 
   queue:
       image: apache/activemq-artemis:2.44.0
-      restart: on-failure
+      restart: no
       env_file:
         - development/db.env
       environment:
@@ -41,7 +41,7 @@ services:
 
   app:
     image: eclipse-temurin:25-alpine
-    restart: unless-stopped
+    restart: no
     env_file:
       - development/oci.env
       - development/db.env
@@ -54,15 +54,15 @@ services:
     user: 1000:1000
     command: /bin/sh -c "java -jar /opt/holarseweb.jar"
   cache:
-      image: memcached:latest
-      restart: on-failure      
+      image: redis:8.6-alpine
+      restart: no
       ports:
-        - "127.0.0.1:11212:11212"
+        - "127.0.0.1:6379:6379"
       networks:
         - holarse-back
   mail:
     image: axllent/mailpit
-    restart: on-failure    
+    restart: no
     ports:
       - "127.0.0.1:8025:8025"
       - "127.0.0.1:1025:1025"

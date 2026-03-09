@@ -179,7 +179,8 @@ public class MultipleHttpSecurityConfig {
                                                                 "/age-de.xml",
                                                                 "/miracle.xml",
                                                                 "/robots.txt",
-                                                                "/humans.txt").permitAll())
+                                                                "/humans.txt",
+                                                                "/error").permitAll())
 
             // Admin-Bereich nur für Admins
             .authorizeHttpRequests((auth) -> auth.requestMatchers("/admin/**").hasRole("ADMIN"))
