@@ -72,6 +72,9 @@ jobs:
               # Maps tcp port 5432 on service container to the host
               - 5432:5432
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0      
       - name: Setup Flyway
         run: |
           wget -qO- https://github.com/flyway/flyway/releases/download/flyway-${{ env.FLYWAY_VERSION }}/flyway-commandline-${{ env.FLYWAY_VERSION }}-linux-x64.tar.gz | tar -xvz && sudo ln -s `pwd`/flyway-${{ env.FLYWAY_VERSION }}/flyway /usr/local/bin       
