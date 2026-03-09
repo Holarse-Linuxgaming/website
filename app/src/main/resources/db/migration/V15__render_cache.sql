@@ -1,5 +1,3 @@
-begin;
-
 -- render cache
 create type render_cache_type as enum ('empty',     -- Einfach nur leer
                                        'unchanged', -- Ohne Anpassungen
@@ -19,5 +17,3 @@ create table render_cache(
         updated timestamptz not null default CURRENT_TIMESTAMP,
         unique(node_id, render_type)
 );
-
-commit;
