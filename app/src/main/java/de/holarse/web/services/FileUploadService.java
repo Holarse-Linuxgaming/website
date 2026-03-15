@@ -20,7 +20,7 @@ public class FileUploadService {
 
     public List<FileUploadForm> readFileUpload(final ArticleForm form) throws JsonProcessingException {
         // Filepond String als Json extrahieren
-        final List<FileUploadForm> result = new ArrayList<>();
+        final List<String> result = new ArrayList<>();
 
         logger.debug("FILEUPLOAD: {}", form.getFilepond().size());
         //logger.debug("RAW: {}", String.join(";", form.getFilepond()));
@@ -32,7 +32,7 @@ public class FileUploadService {
 //            result.add(screenshotUpload);
 //        }
 
-        return form.getFilepond();
+        return new ArrayList<>();
     }
 
 }

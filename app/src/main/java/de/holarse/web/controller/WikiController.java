@@ -234,7 +234,7 @@ public class WikiController {
         final AttachmentType attVideo = attachmentTypeRepository.findByCode("youtube");
 
         List<Attachment> addedScreenShots = new ArrayList<>();
-        final List<FileUploadForm> screenshots = fileUploadService.readFileUpload(form);
+        final List<FileUploadForm> screenshots = fileUploadService.readFileUpload(form).stream().filter(f -> f.getSize() > 0).toList();
         for (FileUploadForm screenshot : screenshots) {
             final String hashedFilename = objectStorageService.writeToCloud(screenshot);
             Attachment attachment = new Attachment();

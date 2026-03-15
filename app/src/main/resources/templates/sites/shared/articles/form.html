@@ -31,6 +31,7 @@
             <label class="col-sm-1 col-form-label g-mb-5" for="title1">Titel</label>
             <div class="col-sm-11">
                 <input data-th-field="*{title1}" class="form-control form-control-md rounded-0" type="text" placeholder="Haupttitel des Artikels">
+                <small th:if="${#fields.hasErrors('title1')}" th:errors="*{title1}" class="form-control-feedback d-block g-bg-red g-color-white g-font-size-12 g-px-14 g-py-3 mt-0">This is a required field.</small>
                 <small class="form-text text-muted g-font-size-default g-mt-5">Unter diesem Titel ist das Spiel oder das Tool hauptsächlich bekannt. Primär betrachten wir den deutschsprachigen Raum.</small>
             </div>
 
@@ -42,6 +43,7 @@
             <label class="col-sm-1 col-form-label g-mb-5" for="tags">Tags</label>
             <div class="col-sm-11">
                 <input data-th-field="*{tags}" class="form-control form-control-md rounded-0" type="text" placeholder="Tags kommasepariert">
+                <small th:if="${#fields.hasErrors('tags')}" th:errors="*{tags}" class="form-control-feedback d-block g-bg-red g-color-white g-font-size-12 g-px-14 g-py-3 mt-0">This is a required field.</small>
             </div>
         </div>
         <!-- Tags -->
@@ -51,6 +53,7 @@
             <label class="col-sm-1 col-form-label g-mb-10" for="content">Inhalt</label>
             <div class="col-sm-11">
                 <textarea data-th-field="*{content}" class="form-control form-control-md rounded-0" rows="50" placeholder="Text area"></textarea>
+                <small th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="form-control-feedback d-block g-bg-red g-color-white g-font-size-12 g-px-14 g-py-3 mt-0">This is a required field.</small>
                 <small class="form-text text-muted g-font-size-default g-mt-10">
                     <strong>Hinweis:</strong> Die Hilfeseite zur Wiki-Syntax findet ihr <a href="#" th:href="@{/help/wiki-syntax}" target="_blank">hier</a>.
                 </small>

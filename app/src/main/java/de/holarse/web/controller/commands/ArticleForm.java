@@ -1,17 +1,12 @@
 package de.holarse.web.controller.commands;
 
-import de.holarse.backend.view.AttachmentView;
-import de.holarse.backend.view.SettingsView;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
-import java.io.File;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ArticleForm extends AbstractNodeForm {
-    @NotBlank
+    @NotBlank(message = "Der Artikelname darf nicht leer sein")
     private String title1;
     private String title2;
     private String title3;
@@ -20,10 +15,10 @@ public class ArticleForm extends AbstractNodeForm {
     private String title6;
     private String title7;
 
-    @NotBlank
+    @NotBlank(message = "Bitte Tags vergeben")
     private String tags;
 
-    private List<FileUploadForm> filepond = new ArrayList<>();
+    private List<String> filepond = new ArrayList<>();
 
     public String getTitle1() {
         return title1;
@@ -89,11 +84,11 @@ public class ArticleForm extends AbstractNodeForm {
         this.tags = tags;
     }
 
-    public List<FileUploadForm> getFilepond() {
+    public List<String> getFilepond() {
         return filepond;
     }
 
-    public void setFilepond(List<FileUploadForm> filepond) {
+    public void setFilepond(List<String> filepond) {
         this.filepond = filepond;
     }
 }

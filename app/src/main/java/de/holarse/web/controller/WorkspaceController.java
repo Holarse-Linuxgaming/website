@@ -173,6 +173,7 @@ public class WorkspaceController {
     @PostMapping("add/article")
     public ModelAndView saveArticle(@Valid @ModelAttribute("form") final ArticleForm form, final BindingResult result, final ModelAndView mv, final Authentication authentication) {
         if (result.hasErrors()) {
+            log.error("Article Form Errors: {}", result.getFieldErrors());
             mv.setViewName("layouts/bare");
             mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/workspace/article");            
             return mv;
@@ -219,6 +220,9 @@ public class WorkspaceController {
         // Tags verarbeiten
         final Set<Tag> tags = tagService.extract(form);
         
+        // Manuell Filepond JSON parsen
+        // {"id": "yxcv", "name": "Bildschirmphoto2.png", type="image/png", "size": 1230000, "metadata": {}, "data": "base64encodedimage"}
+
         // Artikel anlegen
         final Article article = new Article();
         article.setNodeId(nodeId);
