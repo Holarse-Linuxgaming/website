@@ -1,4 +1,4 @@
-DOCKER_OPTS=--env-file development/db.env --env-file development/oci.env
+DOCKER_OPTS=--env-file development/db.env --env-file development/oci.env --env-file development/queue.env
 
 default: rebuild
 
@@ -16,29 +16,29 @@ clean:
 	$(MAKE) -C app $@
 
 up:
-	docker compose up -d
+	docker compose $(DOCKER_OPTS) up -d
 
 logs:
-	docker compose logs -f
+	docker compose $(DOCKER_OPTS) logs -f
 
 down:
-	docker compose down
+	docker compose $(DOCKER_OPTS) down 
 
 shell:
-	docker compose -f docker-compose.yml exec -it app /bin/bash
+	docker compose $(DOCKER_OPTS) exec -it app /bin/bash
 
 status:
-	docker compose -f docker-compose.yml ps
+	docker compose $(DOCKER_OPTS) ps
 
 setup:
 	mise install
 	yarn install
 
 app-down:
-	docker compose stop app
+	docker compose $(DOCKER_OPTS) stop app
 
 app-up:
-	docker compose up app -d
+	docker compose $(DOCKER_OPTS) up app -d
 
 db-dump:
 	docker compose exec db pg_dump -U holarse holarse > ./backup/holarse-$(shell date +"%Y-%m-%d-%H%M%S%z").sql

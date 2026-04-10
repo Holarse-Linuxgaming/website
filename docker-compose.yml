@@ -2,7 +2,7 @@
 name: holarse
 services:
   front:
-    image: caddy:2.10
+    image: caddy:2.11-alpine
     restart: no
     ports:
       - "127.0.0.1:80:80"
@@ -13,7 +13,7 @@ services:
       - holarse-front
       - holarse-back
   db:
-    image: postgres:18
+    image: postgres:18.3-trixie
     restart: no
     env_file:
       - development/db.env
@@ -26,12 +26,10 @@ services:
       - holarse-back
 
   queue:
-      image: apache/activemq-artemis:2.44.0
+      image: apache/artemis:2.52.0-alpine
       restart: no
       env_file:
-        - development/db.env
-      environment:
-        - EXTRA_ARGS=--http-host 0.0.0.0 --relax-jolokia --no-amqp-acceptor --no-hornetq-acceptor --no-mqtt-acceptor --no-stomp-acceptor --queues drueckblick,import,mail,searchidx
+        - development/queue.env
       ports:
         - "127.0.0.1:8161:8161"
         - "127.0.0.1:61616:61616"
@@ -46,6 +44,7 @@ services:
     env_file:
       - development/oci.env
       - development/db.env
+      - development/queue.env
     ports:
       - "127.0.0.1:8080:8080"
     volumes:
@@ -62,7 +61,7 @@ services:
       networks:
         - holarse-back
   mail:
-    image: axllent/mailpit
+    image: axllent/mailpit:v1.29
     restart: no
     ports:
       - "127.0.0.1:8025:8025"
@@ -79,4 +78,3 @@ volumes:
 networks:
   holarse-front:
   holarse-back:
-
