@@ -1,4 +1,4 @@
- function updateUrlWithSize(newSize) {
+function updateUrlWithSize(newSize: string) {
     const url = new URL(location.href);
     url.searchParams.set("size", newSize);
     location.href = url.href;
@@ -7,7 +7,7 @@
 $.datepicker.setDefaults( $.datepicker.regional[ "de" ] );
 
 $(function() {
-    $(".btn-remove-article-title").click(function(evt) {
+    $(".btn-remove-article-title").click(function() {
         var item = ".block-" + $(this).data("field");
         $(item).hide('slow');
     });
@@ -23,7 +23,7 @@ $(function() {
 
 // Register Filepond-Plugins
 FilePond.registerPlugin(FilePondPluginFileEncode);
-const inputElement = document.querySelector('input[type="file"][name="filepond"]');
+const inputElement = $('input[type="file"][name="filepond"]')[0];
 FilePond.create(inputElement, {
     storeAsFile: false,
     allowFileEncode: true,
@@ -32,7 +32,7 @@ FilePond.create(inputElement, {
 });
 
 // Liest die ausgewählten diffs aus und verlinkt auf die URL
-function opendiff(nodeId) {
+function opendiff() {
     var revisionLeft = $("input[name=revisionLeftGroup]:checked").data("revision");
     var revisionRight = $("input[name=revisionRightGroup]:checked").data("revision");
 

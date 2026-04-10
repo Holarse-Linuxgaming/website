@@ -52,3 +52,7 @@ onb-configuration.xml
 .env
 
 .mise.local.toml
+app/src/main/resources/assets/css/
+.yarn/
+.pnp.*
+backup/

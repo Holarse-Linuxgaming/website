@@ -16,9 +16,22 @@ Den Import der Dateien kann man über die REST-API durchführen. Es gibt zwei Sc
 
 ### Anforderungen
 * Java 25
-* Docker, docker-compose, just
-* Apache Maven 3.x
-* Containerisiert: Apache Tomcat 10, Apache Artemis, PostgreSQL 16
+* Docker, docker-compose, make, mise
+* Containerisiert: Apache Artemis, PostgreSQL, caddy, mailpit
+
+### Setup
+Der Aufruf von 
+```sh
+make setup
+```
+wird die nötigen Tools via mise und yarn installieren.
+
+### Build
+Der Build der Applikation und das generieren der CSS-Dateien wird mit
+```sh
+make build
+```
+ausgeführt.
 
 ### Container-Deployment
 Die Volumes für PostgreSQL und AMQ werden automatisch angelegt.
@@ -28,21 +41,14 @@ Dnd die Containerbande starten mit
 make up
 ```
 
-Jetzt noch die Datenbank initial befüllen mit dem Script
-```bash
-./tools/scripts/setup_db_sql.sh
-```
+Der Start der Spring Boot-Applikation führt auch automatisch die Datenbankmigration aus.
 
 ### Kompilieren
-Die installierbare WAR-Datei erhält man durch das Bauen mit
-
-    mvn clean package
-
-im Hauptverzeichnis, wo sich auch die ```pom.xml``` befindet. Beim ersten Durchlaufen werden die gesamten Abhängigkeiten von
-Maven aufgelöst und heruntergeladen.
-
-Ist Tomcat so konfiguriert, dass das ROOT-Verzeichnis auf das Target-Verzeichnis zeigt, dann sollte die Webseite bereits unter http://localhost:8080 angezeigt werden. Sonst kann man die Datei ```/target/holarseweb.war``` über
-die Tomcat-Manager-Konsole installieren.
+Ein Neukompilieren und ein Restart der App wird durch
+```sh
+make rebuild
+```
+erreicht.
 
 ### Apache Artemis Message-Queue
 Die Message-Queue ist unter http://queue.holarse.localhost erreichbar (Sonst Port 8161).
@@ -65,7 +71,7 @@ Die Datenbank ist per docker compose initialisiert. Die Datenbankscripte werden 
 ### Login
 Zuerst einen Benutzer über die Oberfläche registrieren und diesen dann per SQL zum Admin erheben:
 
-```bash
+```sh
 tools/scripts/make_user_admin.sh DEINBENUTZERNAME
 ```
 

@@ -13,14 +13,15 @@ services:
       - holarse-front
       - holarse-back
   db:
-    image: postgres:15
+    image: postgres:18
     restart: no
     env_file:
       - development/db.env
     ports:
       - "127.0.0.1:5432:5432"
     volumes:
-      - website_my_pgdata:/var/lib/postgresql/data
+      - website_my_pgdata:/var/lib/postgresql/18/docker
+      - ./backup:/backup
     networks:
       - holarse-back
 

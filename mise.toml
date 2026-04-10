@@ -1,9 +1,4 @@
-[env]
-#OCI_ACCESSKEYID = 
-#OCI_SECRETKEYID = 
-
 [tools]
-caddy = "2.10"
 java = "25"
 maven = "3.9.13"
-just = "1.46.0"
+yarn = "4.13.0"

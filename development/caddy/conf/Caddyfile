@@ -6,7 +6,7 @@
 	}
 }
 
-http://www.holarse.localhost {
+http://holarse.localhost {
 	reverse_proxy http://app:8080
 }
 

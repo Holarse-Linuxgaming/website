@@ -1,0 +1,16 @@
+@use "../../../../../../src/unify263/assets/scss/unify.scss" as base;
+
+.hol-bg-color {
+    background-color: base.$g-color-primary;
+}
+
+.g-bg-holarse {
+    background-color: base.$g-color-primary;
+}
+
+.tagsinput {
+    width: auto;
+    border: none;
+    height: auto;
+    padding: 0px;
+}
