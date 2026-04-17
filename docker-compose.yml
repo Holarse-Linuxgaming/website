@@ -69,11 +69,22 @@ services:
     networks:
       - holarse-front
       - holarse-back
+  mariadb:
+    image: mariadb:10.3
+    env_file:
+      - development/db.env
+    restart: no
+    volumes:
+      - drupal_data:/var/lib/mysql
+      - ./import:/docker-entrypoint-initdb.d
+    ports:
+      - "127.0.0.1:13306:3306"
 
 volumes:
   website_my_pgdata: 
   amq_journal_data:
   caddy_data:
+  drupal_data:
 
 networks:
   holarse-front:

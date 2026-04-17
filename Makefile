@@ -47,3 +47,14 @@ db-reindex:
 	docker compose exec db reindexdb -U holarse --all
 	docker compose exec db psql -U holarse -A holarse -c "ALTER DATABASE holarse REFRESH COLLATION VERSION;"
 	docker compose exec db psql -U holarse -A holarse -c "REINDEX DATABASE;"
+
+reset-drupal:
+	docker compose $(DOCKER_OPTS) down mariadb
+	docker volume rm holarse_drupal_data
+	docker compose $(DOCKER_OPTS) up mariadb -d
+
+export-build:
+	$(MAKE) -C tools/HolarseExport build
+
+export-run:
+	$(MAKE) -C tools/HolarseExport run
