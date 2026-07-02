@@ -25,6 +25,21 @@ services:
     networks:
       - holarse-back
 
+  pgadmin4:
+    image: dpage/pgadmin4:latest
+    restart: no
+    env_file:
+      - development/db.env
+    volumes:
+      - ./development/pgadmin4_servers.json:/pgadmin4/servers.json:ro
+    networks:
+      - holarse-front
+      - holarse-back
+    ports: 
+      - "127.0.0.1:9090:9090"
+    depends_on:
+      - db
+
   queue:
       image: apache/artemis:2.52.0-alpine
       restart: no
