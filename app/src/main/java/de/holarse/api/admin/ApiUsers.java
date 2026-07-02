@@ -23,7 +23,7 @@ public class ApiUsers {
     
     @GetMapping(value = "token.json", produces = MediaType.APPLICATION_JSON_VALUE)
     public RandomToken createRandomToken() {
-        final String randomToken = RandomStringUtils.randomAlphabetic(20);
+        final String randomToken = RandomStringUtils.secure().nextAlphanumeric(20);
         final String hash = passwordEncoder.encode(randomToken);
         
         return new RandomToken(randomToken, hash);
