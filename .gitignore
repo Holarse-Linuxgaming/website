@@ -57,4 +57,5 @@ app/src/main/resources/assets/css/
 .pnp.*
 backup/
 import/*.sql
+import/*.xml
 export/*.xml

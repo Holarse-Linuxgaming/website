@@ -10,16 +10,15 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jms.JmsException;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static de.holarse.config.JmsQueueTypes.*;
-import static de.holarse.config.RoleApiTypes.*;
 
-@Secured({ROLE_API_ADMIN, ROLE_API_IMPORT})
+@PreAuthorize("hasRole('API_IMPORT')")
 @RestController
 @RequestMapping({"/api/import/articles", "/api/import/articles/"})
 public class Article {

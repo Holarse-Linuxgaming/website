@@ -1,3 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
+source development/db.env
 
-docker-compose -f doc/docker-compose.yml exec -T db psql -v ON_ERROR_STOP=1 -U holarse -d holarse -c "refresh materialized view mv_searchindex"
+export POSTGRES_USER
+export POSTGRES_DB
+
+docker compose exec -T db psql -v ON_ERROR_STOP=1 -U ${POSTGRES_USER} -d ${POSTGRES_DB} -c "refresh materialized view mv_searchindex"

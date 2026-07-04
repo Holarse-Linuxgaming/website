@@ -1,16 +1,25 @@
-#!/bin/bash
-
-APIUSER=dummy
-APITOKEN=ADDB0F5E7826C857D7376D1BD9BC33C0C544790A2EAC96144A8AF22B1298C940
-PG_PASSWORD=geheim
+#!/usr/bin/env bash
 ARTICLE_DIR=$1
 
-BASE_FILES=$(find $1/article-*.xml -type f | sort)
+if [ -z "$APIUSER" ]; then
+	echo "APIUSER not set"
+	exit 1
+fi
 
-PG_PASSWORD=geheim
+if [ -z "$APITOKEN" ]; then
+	echo "APITOKEN not set"
+	exit 2
+fi
+
+if [ -z "$ARTICLE_DIR" ]; then
+	echo "Please specify import directory as parameter"
+	exit 3
+fi
+
+BASE_FILES=$(find $ARTICLE_DIR/article-*.xml -type f | sort)
 
 for i in $BASE_FILES; do
 	echo "Importing $i"
-	curl -u $APIUSER:$APITOKEN -X POST -H "Accept: application/xml" -H "Content-Type: application/xml" http://localhost:8080/holarseweb/api/import/articles -d @$i
+	curl -u "$APIUSER":"$APITOKEN" -X POST -H "Accept: application/xml" -H "Content-Type: application/xml" http://holarse.localhost/api/import/articles -d @$i
 done
 

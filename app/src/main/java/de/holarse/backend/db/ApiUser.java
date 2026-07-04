@@ -1,8 +1,12 @@
 package de.holarse.backend.db;
 
-import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
+
+import de.holarse.backend.types.ApiRoleType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 
 @Table(name = "apiusers")
@@ -17,9 +21,11 @@ public class ApiUser extends TimestampedBase {
     private String token;    
     
     @Column(name = "valid_until")    
-    private OffsetDateTime validUntil;    
+    private ZonedDateTime validUntil;    
     
-    private String roleName;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "rolename")
+    private ApiRoleType roleName;
     
     @Column(columnDefinition = "boolean default true")
     private boolean active;
@@ -40,19 +46,19 @@ public class ApiUser extends TimestampedBase {
         this.token = token;
     }
 
-    public OffsetDateTime getValidUntil() {
+    public ZonedDateTime getValidUntil() {
         return validUntil;
     }
 
-    public void setValidUntil(OffsetDateTime validUntil) {
+    public void setValidUntil(ZonedDateTime validUntil) {
         this.validUntil = validUntil;
     }
 
-    public String getRoleName() {
+    public ApiRoleType getRoleName() {
         return roleName;
     }
 
-    public void setRoleName(String roleName) {
+    public void setRoleName(ApiRoleType roleName) {
         this.roleName = roleName;
     }
 

@@ -38,25 +38,21 @@
                             </div>
 
                             <div class="form-group row g-mb-30">
-                                <label class="col-sm-3 col-form-label g-mb-10" for="token">Token</label>
-                                <div class="col-sm-9">
-                                    <input type="text" data-th-field="*{token}" class="form-control u-form-control rounded-0" />
-                                    <small th:if="${#fields.hasErrors('token')}" th:errors="*{token}" class="form-control-feedback d-block g-bg-red g-color-white g-font-size-12 g-px-14 g-py-3 mt-0"></small>
-                                </div>
-                            </div>                            
-
-                            <div class="form-group row g-mb-30">
                                 <label class="col-sm-3 col-form-label g-mb-10" for="roleName">Rollenname</label>
-                                <div class="col-sm-9">
-                                    <input type="text" data-th-field="*{roleName}" class="form-control u-form-control rounded-0" />
-                                    <small th:if="${#fields.hasErrors('roleName')}" th:errors="*{roleName}" class="form-control-feedback d-block g-bg-red g-color-white g-font-size-12 g-px-14 g-py-3 mt-0"></small>
-                                </div>
+                                <select th:field="*{roleName}" class="form-control">
+                                    <option value="">-- Authorisierung auswählen --</option>
+                                    <option th:each="apiType : ${apiTypes}"
+                                            th:value="${apiType}"
+                                            th:text="${apiType}">
+                                    </option>
+                                </select>                                    
+                                <small th:if="${#fields.hasErrors('roleName')}" th:errors="*{roleName}" class="form-control-feedback d-block g-bg-red g-color-white g-font-size-12 g-px-14 g-py-3 mt-0"></small>
                             </div>                                                        
 
                             <div class="form-group row g-mb-30">
                                 <label class="col-sm-3 col-form-label g-mb-10" for="validUntil">Gültig bis</label>
                                 <div class="col-sm-9">
-                                    <input type="text" data-th-field="*{validUntil}" class="form-control u-form-control rounded-0 u-datepicker-v1 js-datepicker">
+                                    <input type="date" data-th-field="*{validUntil}" class="form-control u-form-control rounded-0">
                                         <div class="input-group-addon d-flex align-items-center g-bg-white g-color-gray-dark-v5 rounded-0">
                                           <i class="icon-calendar"></i>
                                         </div>  

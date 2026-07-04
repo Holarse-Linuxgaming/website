@@ -1,7 +1,7 @@
 package de.holarse.auth.api;
 
 import de.holarse.backend.db.ApiUser;
-import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,13 +27,11 @@ public class ApiPrincipal implements UserDetails {
         this.user = user;
     }
 
-    
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> roles = new HashSet<>();
         roles.add(new SimpleGrantedAuthority("ROLE_API"));
-        roles.add(new SimpleGrantedAuthority("ROLE_" + user.getRoleName().toUpperCase()));
+        roles.add(new SimpleGrantedAuthority(user.getRoleName().name()));
 
         log.debug("roles: " + roles);
         
@@ -57,7 +55,9 @@ public class ApiPrincipal implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return user.getValidUntil() == null || user.getValidUntil().isBefore(OffsetDateTime.now());
+        log.debug("valid until: {}", user.getValidUntil());
+        log.debug("now        : {}", ZonedDateTime.now());
+        return user.getValidUntil() != null && ZonedDateTime.now().isBefore(user.getValidUntil());
     }
 
     @Override
@@ -67,7 +67,7 @@ public class ApiPrincipal implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return user.getValidUntil() == null || user.getValidUntil().isBefore(OffsetDateTime.now());
+        return isAccountNonExpired();
     }
 
     @Override

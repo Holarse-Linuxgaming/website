@@ -25,8 +25,6 @@ public class HolarseApiUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
         
-        log.debug("LOADED API USER " + user);
-        
         return new ApiPrincipal(user);
     }
     

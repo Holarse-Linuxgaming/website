@@ -1,36 +1,32 @@
 package de.holarse.backend.view;
 
 import de.holarse.backend.db.ApiUser;
+import de.holarse.backend.types.ApiRoleType;
 import jakarta.validation.constraints.NotNull;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class ApiUserView {
 
     private Integer id;
+    
     @NotNull
     private String login;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDate validUntil;
+    
     @NotNull
-    private String token;
-    private OffsetDateTime validUntil;
-    @NotNull
-    private String roleName;
+    private ApiRoleType roleName;
+    
     private boolean active;
+    
     private OffsetDateTime created;
     private OffsetDateTime updated;
-
-    public static ApiUserView of(final ApiUser apiuser) {
-        final ApiUserView uv = new ApiUserView();
-        uv.setId(apiuser.getId());
-        uv.setLogin(apiuser.getLogin());
-        uv.setToken(apiuser.getToken());
-        uv.setValidUntil(apiuser.getValidUntil());
-        uv.setRoleName(apiuser.getRoleName());
-        uv.setCreated(apiuser.getCreated());
-        uv.setUpdated(apiuser.getUpdated());
-        uv.setActive(apiuser.isActive());
-
-        return uv;
-    }
 
     public Integer getId() {
         return id;
@@ -46,30 +42,6 @@ public class ApiUserView {
 
     public void setLogin(String login) {
         this.login = login;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public OffsetDateTime getValidUntil() {
-        return validUntil;
-    }
-
-    public void setValidUntil(OffsetDateTime validUntil) {
-        this.validUntil = validUntil;
-    }
-
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
     }
 
     public boolean isActive() {
@@ -94,6 +66,22 @@ public class ApiUserView {
 
     public void setUpdated(OffsetDateTime updated) {
         this.updated = updated;
+    }
+
+    public ApiRoleType getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(ApiRoleType roleName) {
+        this.roleName = roleName;
+    }
+
+    public LocalDate getValidUntil() {
+        return validUntil;
+    }
+
+    public void setValidUntil(LocalDate validUntil) {
+        this.validUntil = validUntil;
     }
 
 

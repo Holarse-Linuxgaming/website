@@ -16,16 +16,20 @@
  */
 package de.holarse.web.controller.admin;
 
+import de.holarse.backend.api.admin.RandomToken;
 import de.holarse.backend.db.ApiUser;
 import de.holarse.backend.db.repositories.ApiUserRepository;
+import de.holarse.backend.types.ApiRoleType;
 import de.holarse.backend.view.ApiUserView;
-import de.holarse.config.RoleApiTypes;
+import de.holarse.web.services.ApiUserPasswordGeneratorService;
+
 import static de.holarse.utils.ModelAndViewFactory.makeAdminLayout;
 import static de.holarse.web.defines.WebDefines.ADMIN_USERS_DEFAULT_PAGE_SIZE;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import java.time.OffsetDateTime;
-import java.util.List;
+import java.time.ZoneId;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +43,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 /**
  *
@@ -52,9 +57,10 @@ public class AdminApiUsers {
     
     @Autowired
     private ApiUserRepository apiUserRepository;
-    
-    private final static List<String> apiTypes = RoleApiTypes.getTypes();
 
+    @Autowired
+    private ApiUserPasswordGeneratorService passwordGeneratorService;
+    
     @GetMapping
     public ModelAndView index(@PageableDefault(sort={"login"}, value=ADMIN_USERS_DEFAULT_PAGE_SIZE) final Pageable pageable, final ModelAndView mv) {
         makeAdminLayout(mv, "sites/admin/apiusers/list");
@@ -66,52 +72,58 @@ public class AdminApiUsers {
     public ModelAndView create(final ModelAndView mv) {
         makeAdminLayout(mv, "sites/admin/apiusers/form");
         mv.addObject("apiuser", new ApiUserView());
-        mv.addObject("apiTypes", apiTypes);        
+        mv.addObject("apiTypes", ApiRoleType.values());
         return mv;
     }
     
     @GetMapping("{apiUserId}")
     public ModelAndView show(@PathVariable("apiUserId") final Integer userId, final ModelAndView mv) {
-        makeAdminLayout(mv, "sites/admin/apiusers/form");  
+        makeAdminLayout(mv, "sites/admin/apiusers/form");
         mv.addObject("apiuser", apiUserRepository.findById(userId).orElseThrow(EntityNotFoundException::new));
         return mv;
     }
-    
-    @GetMapping("{apiUserId}/edit")
-    public ModelAndView edit(@PathVariable("apiUserId") final Integer userId, final ModelAndView mv) {
-        makeAdminLayout(mv, "sites/admin/apiusers/form");  
-        mv.addObject("apiuser", apiUserRepository.findById(userId).orElseThrow(EntityNotFoundException::new));
-        return mv;
-    }    
 
-    public ModelAndView update(final ApiUser backendUser, ApiUser user, final BindingResult result, final ModelAndView mv) {
-        backendUser.setLogin(user.getLogin());
-        backendUser.setRoleName(user.getRoleName());
-        backendUser.setToken(user.getToken());
-        backendUser.setValidUntil(user.getValidUntil());
-        backendUser.setActive(user.isActive());
-        backendUser.setUpdated(OffsetDateTime.now());
-        
-        apiUserRepository.saveAndFlush(backendUser);
-        return new ModelAndView("redirect:.");
+    @GetMapping("{apiUserId}/toggle/active")
+    public RedirectView toggleActive(@PathVariable("apiUserId") final Integer userId, final ModelAndView mv) {
+        final ApiUser apiUser = apiUserRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
+        apiUser.setActive(!apiUser.isActive());
+        apiUser.setUpdated(OffsetDateTime.now());
+        apiUserRepository.saveAndFlush(apiUser);
+
+        return new RedirectView("/admin/apiusers/");
     }
-    
+
+    @GetMapping("{apiUserId}/delete")
+    public RedirectView delete(@PathVariable("apiUserId") final Integer userId, final ModelAndView mv) {
+        final ApiUser apiUser = apiUserRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
+        apiUserRepository.delete(apiUser);
+
+        return new RedirectView("/admin/apiusers/");
+    }    
+     
     @PostMapping
-    public ModelAndView save(@Valid @ModelAttribute("apiuser") ApiUser user, final BindingResult result, final ModelAndView mv) {
+    public ModelAndView save(@Valid @ModelAttribute("apiuser") ApiUserView user, final BindingResult result, final ModelAndView mv) {
         if (result.hasErrors()) {
-            makeAdminLayout(mv, "sites/admin/apiusers/list");
+            makeAdminLayout(mv, "sites/admin/apiusers/form");
             return mv;
         }
 
-        ApiUser backendUser;
-        if (user.getId() == null) {
-            backendUser = new ApiUser();
-            backendUser.setCreated(OffsetDateTime.now());
-        } else {
-            backendUser = apiUserRepository.findById(user.getId()).orElseThrow(EntityNotFoundException::new);    
-        }
+        final RandomToken randomToken = passwordGeneratorService.createNewToken();
 
-        return update(backendUser, user, result, mv);
+        final ApiUser backendUser = new ApiUser();
+        backendUser.setLogin(user.getLogin());
+        backendUser.setRoleName(user.getRoleName());
+        backendUser.setValidUntil(user.getValidUntil().atStartOfDay(ZoneId.systemDefault()));
+        backendUser.setActive(user.isActive());
+        backendUser.setCreated(OffsetDateTime.now());
+        backendUser.setUpdated(OffsetDateTime.now());
+        backendUser.setToken(randomToken.digest());
+
+        apiUserRepository.saveAndFlush(backendUser);
+
+        final ModelAndView tokenMv = makeAdminLayout(mv, "sites/admin/apiusers/token");
+        tokenMv.addObject("token", randomToken.token());
+        return tokenMv;
     }    
     
 }

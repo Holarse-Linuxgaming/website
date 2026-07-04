@@ -3,6 +3,7 @@ package de.holarse.config;
 import java.util.Arrays;
 import java.util.List;
 
+@Deprecated
 public final class RoleApiTypes {
     
     /**

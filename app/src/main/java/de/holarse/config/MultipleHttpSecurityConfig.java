@@ -111,7 +111,7 @@ public class MultipleHttpSecurityConfig {
     @Bean
     public AuthenticationProvider apiAuthenticationProvider() {
         final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(apiUserDetailsService);
-        authProvider.setPasswordEncoder(noneEncoder());
+        authProvider.setPasswordEncoder(bcryptEncoder());
         return authProvider;
     }
 
