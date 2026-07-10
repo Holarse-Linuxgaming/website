@@ -23,22 +23,6 @@
     
   <!-- JS Plugins Init. -->
   <script>
-    $(document).on('ready', function () {
-      // initialization of go to
-      $.HSCore.components.HSGoTo.init('.js-go-to');
-
-      // initialization of masonry
-        $('.masonry-grid').masonry({
-          columnWidth: '.masonry-grid-sizer',
-          itemSelector: '.masonry-grid-item',
-          percentPosition: true
-        });
-    });
-
-    $(window).on('load', function () {
-      // initialization of header
-      $.HSCore.components.HSHeader.init($('#js-header'));
-    });
   </script>    
   </body>
 </html>

@@ -1,19 +1,39 @@
 DOCKER_OPTS=--env-file development/db.env --env-file development/oci.env --env-file development/queue.env
+NODE_MODULES=node_modules/
+ASSETS=app/src/main/resources/assets
+SASS_OPTS=--load-path=node_modules --no-source-map --style=compressed --quiet-deps 
 
 default: rebuild
 
 build: build-frontend build-backend
 
-build-backend:
+build-backend: copy-dependencies
 	$(MAKE) -C app $@
 
-build-frontend:
-	yarn sass app/src/main/resources/assets/scss/holarse.scss:app/src/main/resources/assets/css/holarse.css
+build-frontend: copy-dependencies setup-yarn
+	yarn sass $(SASS_OPTS) app/src/main/resources/assets/scss/holarse.scss:app/src/main/resources/assets/css/holarse.min.css
 
 rebuild: build app-down app-up 
 
 clean:
 	$(MAKE) -C app $@
+
+clean-yarn:
+	$(RM) -rf .yarn
+	$(RM) .pnp.cjs
+	$(RM) .pnp.loader.mjs
+	$(RM) $(ASSETS)/css/*
+	$(RM) $(ASSETS)/js/*.min.js
+	$(RM) $(ASSETS)/js/de-de.js
+
+copy-dependencies:
+	# bootstrap css is included in sass build
+	cp $(NODE_MODULES)/bootstrap/dist/js/bootstrap.min.js $(ASSETS)/js/
+	cp $(NODE_MODULES)/@popperjs/core/dist/umd/popper.min.js $(ASSETS)/js/
+	cp $(NODE_MODULES)/charts.css/dist/charts.min.css $(ASSETS)/css/
+	cp $(NODE_MODULES)/filepond/dist/filepond.min.css $(ASSETS)/css/
+	cp $(NODE_MODULES)/filepond/dist/filepond.min.js $(ASSETS)/js/
+	cp $(NODE_MODULES)/filepond/locale/de-de.js $(ASSETS)/js/
 
 up:
 	docker compose $(DOCKER_OPTS) up -d
@@ -30,8 +50,12 @@ shell:
 status:
 	docker compose $(DOCKER_OPTS) ps
 
-setup:
+setup: setup-mise setup-yarn
+
+setup-mise:
 	mise install
+
+setup-yarn:
 	yarn install
 
 app-down:

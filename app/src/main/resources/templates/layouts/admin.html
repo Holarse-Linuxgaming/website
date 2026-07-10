@@ -3,11 +3,7 @@
     <head>
         <!-- Title -->
         <title>Holarse - Spielen unter Linux - Adminbereich</title>
-
         <div data-th-replace="~{fragments/head_top}"></div>
-        <link rel="stylesheet" data-th-href="@{/assets/vendor/hs-admin-icons/hs-admin-icons.css}" href="">
-        <link rel="stylesheet" data-th-href="@{/assets/css/unify-admin.css}" href="">
-        
         <div data-th-replace="~{fragments/csrf}"></div>
     </head>
 <body>
@@ -99,28 +95,7 @@
 
     <div data-th-replace="~{fragments/head_bottom}"></div>
 
-    <!-- JS Custom -->
-    <script data-th-src="@{/assets/js/admin.js}"></script>
-    
-    <!-- jQuery UI Widgets -->
-    <script  src="../../../assets/vendor/jquery-ui/ui/widgets/datepicker.js"></script>
-
-    <!-- JS Unify -->
-    <script  src="../../../assets/js/components/hs.datepicker.js"></script>
-    
-    
-    <!-- JS Plugins Init. -->
     <script>
-        $(document).on('ready', function () {
-            // initialization of go to
-            $.HSCore.components.HSGoTo.init('.js-go-to');
-            // initialization of custom select
-            $('.js-select').selectpicker();
-            // initialization of datatables
-            $.HSCore.components.HSDatatables.init('.js-datatable');  
-            // datepicker
-            $.HSCore.components.HSDatepicker.init('.js-datepicker');
-        });
     </script>    
 </body>
 </html>
