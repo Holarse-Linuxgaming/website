@@ -1,38 +1,19 @@
 package de.holarse.config;
 
-import de.holarse.web.converters.StringToFilepondConverter;
-import de.holarse.web.interceptors.RequestLoggingInterceptor;
-import java.nio.charset.StandardCharsets;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+import nz.net.ultraq.thymeleaf.layoutdialect.LayoutDialect;
+
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.data.web.config.EnableSpringDataWebSupport;
-import org.springframework.data.web.config.PageableHandlerMethodArgumentResolverCustomizer;
-import org.springframework.format.FormatterRegistry;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-import org.springframework.web.multipart.MultipartResolver;
-import org.springframework.web.multipart.support.StandardServletMultipartResolver;
-import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.*;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring6.SpringTemplateEngine;
-import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
-import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 import org.springframework.context.annotation.Primary;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 @Configuration
-public class AppConfig {
+public class AppConfig implements WebMvcConfigurer {
 
     //@Autowired
     //private ApplicationContext applicationContext;
@@ -51,6 +32,16 @@ public class AppConfig {
 //    public void configurePathMatch(final PathMatchConfigurer configurer) {
 //        configurer.setUseTrailingSlashMatch(true);
 //    }
+
+
+    /**
+     * Thymeleaf layout dialect
+     * @return
+    **/
+    @Bean
+    public LayoutDialect layoutDialect() {
+        return new LayoutDialect();
+    }
 
      @Primary
      @Bean
@@ -88,6 +79,7 @@ public class AppConfig {
          // Resolver for HTML pages
          springTemplateEngine.setTemplateResolver(htmlTemplateResolver());
          springTemplateEngine.addDialect(new SpringSecurityDialect());
+         springTemplateEngine.addDialect(layoutDialect());
          return springTemplateEngine;
      }
 

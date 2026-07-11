@@ -5,6 +5,7 @@
   "dependencies": {
     "@popperjs/core": "^2.11.8",
     "bootstrap": "5.3.8",
+    "bootstrap-icons": "^1.13.1",
     "charts.css": "^1.2.0",
     "filepond": "^4.32.12"
   }

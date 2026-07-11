@@ -1,69 +1,51 @@
-<!-- Header -->
-<header id="js-header" class="u-header u-header--sticky-top u-header--toggle-section" data-header-fix-moment="300">
-
-    <div data-th-replace="~{fragments/topbar}"></div>
-
-
-    <div class="u-header__section u-header__section--dark g-transition-0_3 g-py-10 holarse-box-shadow g-bg-white" data-header-fix-moment-exclude="u-header__section--light g-brd-bottom g-py-10 g-bg-white" data-header-fix-moment-classes="u-header__section--dark g-bg-black-opacity-0_7 g-py-0">
-        <nav class="navbar navbar-expand-lg">
-            <div class="container">
-                <!-- Responsive Toggle Button -->
-                <button class="navbar-toggler navbar-toggler-right btn g-line-height-1 g-brd-none g-pa-0 g-pos-abs g-top-3 g-right-0" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navBar" data-toggle="collapse" data-target="#navBar">
-                    <span class="hamburger hamburger--slider">
-                        <span class="hamburger-box">
-                            <span class="hamburger-inner"></span>
-                        </span>
-                    </span>
-                </button>
-                <!-- End Responsive Toggle Button -->
-
-                <!-- Logo -->
-                <a data-th-href="@{/}" class="navbar-brand u-header__logo">
-                    <img class="u-header__logo-img u-header__logo-img--main" width="60%" min-width="240px" data-th-src="@{/assets/images/holarse/holarse_logo_text.svg}" alt="Holarse - Spielen unter Linux">
-                </a>
-                <!-- End Logo -->
-
-                <!-- Navigation -->
-                <div class="collapse navbar-collapse align-items-center flex-sm-row g-pt-20 g-pt-5--lg" id="navBar">
-                    <ul class="navbar-nav text-uppercase g-font-weight-600 ml-auto">
-                        <li class="nav-item g-mx-20--lg">
-                            <a data-th-href="@{/news}" class="nav-link px-0">News</a>
-                        </li>
-                        <li class="nav-item g-mx-20--lg">
-                            <a data-th-href="@{/spielefinder}" class="nav-link px-0">Spiele-Finder</a>
-                        </li>
-                        <li class="nav-item g-mx-20--lg active">
-                            <a data-th-href="@{/wiki}" class="nav-link px-0">Artikel</a>
-                        </li>
-                        <li class="nav-item g-mx-20--lg">
-                            <a data-th-href="@{/categories}" class="nav-link px-0">Kategorien</a>
-                        </li>
-                        <li class="nav-item g-mx-20--lg">
-                            <a data-th-href="@{/holarse-services}" class="nav-link px-0">Services</a>
-                        </li>
-                        <li class="nav-item g-mx-20--lg">
-                            <a data-th-href="@{/downloads}" class="nav-link px-0">Downloads</a>
-                        </li>                    
-                    </ul>
-
-                    <!-- Search Form -->
-                    <form action="#" id="searchform-1" class="u-searchform-v1" data-th-action="@{/search}" method="POST">
-                        <!-- <input type="hidden" data-th-name="${_csrf.parameterName}" data-th-value="${_csrf.token}" /> -->
-                        <div class="input-group g-brd-primary--focus">
-                            <input class="form-control rounded-0 u-form-control" type="search" placeholder="Linuxspiele finden..." name="query" data-th-value="${q}">
-                            <div class="input-group-addon p-0">
-                                <button class="btn rounded-0 btn-primary btn-md g-font-size-14 g-px-18" type="submit">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                    <!-- End Search Form -->                
-
-                </div>
-                <!-- End Navigation -->
-            </div>
-        </nav>
+<nav th:fragment="top" class="row bg-primary text-light">
+    <div class="col-2">
+        Hier kommt ein lustiger Spruch!
     </div>
-</header>
-<!-- End Header -->
+    <div class="col-6">
+        Spacing
+    </div>
+    <div class="col-4">
+        <a href="#" th:href="@{/login}">Login</a> / <a href="#" th:href="@{/register}">Registrieren</a>
+    </div>
+</nav>
+
+<nav th:fragment="menu" class="navbar bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/}">
+            <img th:src="@{/assets/images/holarse/logo-with-text.png}" alt="Logo" width="100%" height="100%" class="d-inline-block align-text-top">
+        </a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                </li>
+            </ul>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+
+    </div>
+</nav>

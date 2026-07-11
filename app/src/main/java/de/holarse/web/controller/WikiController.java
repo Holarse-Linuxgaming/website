@@ -2,6 +2,7 @@ package de.holarse.web.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import de.holarse.auth.web.HolarsePrincipal;
 import de.holarse.backend.db.*;
 import de.holarse.backend.db.repositories.*;
@@ -39,6 +40,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -146,11 +148,7 @@ public class WikiController {
     }
     
     @GetMapping(value = "{slug}")
-    public ModelAndView show(@PathVariable("slug") final String slug, final ModelAndView mv, final Principal principal) {
-        mv.setViewName("layouts/bare");
-        mv.addObject("title", "Die Linuxspiele-Seite für Linuxspieler");
-        mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/wiki/show");
-
+    public String show(@PathVariable("slug") final String slug, final Model model) {
         boolean adminOverride = false;
         
         final Article article = articleRepository.findBySlug(slug).orElseThrow(EntityNotFoundException::new);
@@ -158,10 +156,10 @@ public class WikiController {
 
         final ArticleView view = articleService.buildArticleView(article, articleRevision);
 
-        mv.addObject("nodeid", articleRevision.getNodeId());
-        mv.addObject("view", view);
+        model.addAttribute("nodeid", articleRevision.getNodeId());
+        model.addAttribute("view", view);
         
-        return mv;
+        return "sites/wiki/show";
     }
 
     /**

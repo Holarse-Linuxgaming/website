@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -32,10 +33,8 @@ public class WelcomeController {
     NewsRepository newsRepository;
 
     @GetMapping
-    public ModelAndView index(final ModelAndView mv) {
-        mv.setViewName("layouts/landing");
-        mv.addObject("title", "Die Linuxspiele-Seite für Linuxspieler");
-        mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/welcome");
+    public String index(final Model model) {
+        model.addAttribute("title", "Die Linuxspiele-Seite für Linuxspieler");
 
         var pageRequest = PageRequest.of(1, 10, Sort.by("nr.updated").descending().and(Sort.by("nr.created").descending()));
 
@@ -47,9 +46,9 @@ public class WelcomeController {
         items.addAll(news);
         // TODO Sortieren nach belieben
         
-        mv.addObject("items", items);
+        model.addAttribute("items", items);
 
-        return mv;
+        return "sites/welcome";
     }
     
 }

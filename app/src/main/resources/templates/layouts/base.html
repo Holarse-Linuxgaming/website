@@ -7,8 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-    <!-- TODO TO BE REMOVED -->
-
     <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE" th:text="#{application.title}"></title>
     <!-- <title>Holarse - Spielen unter Linux
         <span th-data-text="${title}"></span>
@@ -20,6 +18,9 @@
     <!-- Holarsified Bootstrap -->
     <link rel="stylesheet" data-th-href="@{/assets/css/holarse.min.css}" href="">
 
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" data-th-href="@{/assets/css/bootstrap-icons.min.css}" href="">
+
     <!-- Filepond -->
     <link rel="stylesheet" data-th-href="@{/assets/css/filepond.min.css}" href="">
 
@@ -29,36 +30,10 @@
 <body>
     <!-- Layout -->
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-m-2">
-                Hier kommt ein lustiger Spruch!
-                <!-- <nav th:replace="~{fragments/header :: nav}"></nav> -->
-            </div>
-            <div class="col-md-6">
-                Spacing
-            </div>
-            <div class="col-md-4">
-                Login / Register
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                Logo
-            </div>
-            <div class="col-md-8">
-                Menu
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <main layout:fragment="content"></main>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                Footer
-            </div>
-        </div>
+        <nav th:replace="~{fragments/header :: top}"></nav>
+        <nav th:replace="~{fragments/header :: menu}"></nav>
+        <main layout:fragment="content"></main>
+        <footer th:replace="~{fragments/footer :: footer}"></footer>
     </div>
 
     <!-- Bootstrap -->

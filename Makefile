@@ -25,6 +25,7 @@ clean-yarn:
 	$(RM) $(ASSETS)/css/*
 	$(RM) $(ASSETS)/js/*.min.js
 	$(RM) $(ASSETS)/js/de-de.js
+	$(RM) $(ASSETS)/fonts/*
 
 copy-dependencies:
 	# bootstrap css is included in sass build
@@ -34,6 +35,9 @@ copy-dependencies:
 	cp $(NODE_MODULES)/filepond/dist/filepond.min.css $(ASSETS)/css/
 	cp $(NODE_MODULES)/filepond/dist/filepond.min.js $(ASSETS)/js/
 	cp $(NODE_MODULES)/filepond/locale/de-de.js $(ASSETS)/js/
+	
+	cp $(NODE_MODULES)/bootstrap-icons/font/bootstrap-icons.min.css $(ASSETS)/css/
+	cp $(NODE_MODULES)/bootstrap-icons/font/fonts/* $(ASSETS)/css/fonts/
 
 up:
 	docker compose $(DOCKER_OPTS) up -d
