@@ -13,7 +13,9 @@ public final class ExportMain {
     public static void main(String[] args) throws Exception {
         log.setLevel(Level.WARNING);
         
-        ExportMain e = new ExportMain();
+        Configuration.init(Configuration.CONFIG_FILE);
+
+        final ExportMain e = new ExportMain();
     }
 
     public ExportMain() throws Exception {
@@ -23,7 +25,7 @@ public final class ExportMain {
         exports.add(new ArticleExport());
         exports.add(new NewsExport());
         
-        try (final Connection c = ExportConnection.Connect()) {
+        try (final Connection c = ExportConnection.connect()) {
             for (Export e : exports) {
                 e.export(c);
             }

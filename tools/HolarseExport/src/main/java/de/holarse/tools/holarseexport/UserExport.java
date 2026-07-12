@@ -3,7 +3,6 @@ package de.holarse.tools.holarseexport;
 import de.holarse.backend.export.Password;
 import de.holarse.backend.export.Role;
 import de.holarse.backend.export.User;
-import static de.holarse.tools.holarseexport.ExportMain.log;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

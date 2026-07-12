@@ -13,6 +13,9 @@ build-backend: copy-dependencies
 build-frontend: copy-dependencies setup-yarn
 	yarn sass $(SASS_OPTS) app/src/main/resources/assets/scss/holarse.scss:app/src/main/resources/assets/css/holarse.min.css
 
+build-export:
+	$(MAKE) -C tools/HolarseExport build
+
 rebuild: build app-down app-up 
 
 clean:

@@ -5,15 +5,36 @@
  */
 package de.holarse.tools.holarseexport;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Properties;
 
 /**
  *
  * @author comrad
  */
 public final class Configuration {
-    
-        public final static DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");    
-    
+
+        public static final String CONFIG_FILE = "export.properties";
+        
+        private static Properties prop = null;
+
+        public static void init(final String configFile) throws IOException {
+                prop = load(configFile);
+        }
+
+        private static Properties load(final String configFile) throws IOException {
+                final Properties p = new Properties();
+                p.load(new FileReader(configFile));
+                return p;
+        }
+
+        public static String get(final String key) {
+                return prop.getProperty(key);
+        }
+
+        public static String get(final String key,  final String defaultValue) {
+                return prop.getProperty(key, defaultValue);
+        }
+
 }
