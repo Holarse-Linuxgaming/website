@@ -8,6 +8,12 @@ import de.holarse.backend.export.State;
 import de.holarse.backend.export.Tag;
 import de.holarse.backend.export.Title;
 import de.holarse.tools.helper.AttachmentHelper;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -298,13 +304,23 @@ public class ArticleExport implements Export {
                 while (result.next()) {
                     final String image = result.getString("filepath");
                     if (StringUtils.isNotBlank(image)) {
-                        final Attachment att = new Attachment();
-                        att.setType("SCREENSHOT");
-                        att.setGroup("IMAGE");
-                        att.setContent(image);
-                        att.setPrio(prio++);
-                        
-                        attachments.add(att);                        
+
+                        try {
+                            final Path path = Path.of(Configuration.get("media_base_dir"), image);
+                            final String base64Image = MediaExporter.readAsBase64(path);
+
+                            final Attachment att = new Attachment();
+                            att.setName(Path.of(image).getFileName().toString());
+                            att.setType("SCREENSHOT");
+                            att.setGroup("IMAGE");
+                            att.setContent(base64Image);
+                            att.setPrio(prio++);
+                            att.setFileSize(Files.size(path));
+                            
+                            attachments.add(att);
+                        } catch (IOException ioex) {
+                            log.log(Level.WARNING, "Image IO error", ioex);
+                        }                                        
                     }
                 }
             }        
@@ -316,12 +332,22 @@ public class ArticleExport implements Export {
                 while (result.next()) {
                     final String file = result.getString("filepath");
                     if (StringUtils.isNotBlank(file)) {
-                        final Attachment att = new Attachment();
-                        att.setType("FILE");
-                        att.setGroup("FILE");
-                        att.setContent(file);
+
+                        try {
+                            final Path path = Path.of(Configuration.get("media_base_dir"), file);
+                            final String base64File = MediaExporter.readAsBase64(path);
                         
-                        attachments.add(att);                        
+                            final Attachment att = new Attachment();
+                            att.setName(path.getFileName().toString());
+                            att.setType("FILE");
+                            att.setGroup("FILE");
+                            att.setContent(base64File);
+                            att.setFileSize(Files.size(path));
+                        
+                            attachments.add(att);                        
+                        } catch (IOException ioex) {
+                            log.log(Level.WARNING, "File IO error", ioex);
+                        }
                     }
                 }
             }                

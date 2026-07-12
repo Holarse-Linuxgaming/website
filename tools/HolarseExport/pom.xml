@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.holarse.tools</groupId>
     <artifactId>HolarseExport</artifactId>
@@ -11,32 +11,39 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>25</java.version>
     </properties>
-    
+
     <dependencies>
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
             <version>2.3.0</version>
-        </dependency>        
-        
+        </dependency>
+
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
             <version>2.9.8</version>
-        </dependency>        
-        
+        </dependency>
+
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-xml</artifactId>
             <version>2.9.8</version>
-        </dependency>        
-        
+        </dependency>
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.8.1</version>
-        </dependency>   
-        
+        </dependency>
+
+        <!-- Source: https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.22.0</version>
+        </dependency>
+
         <!-- Nötig ab Java 9 -->
         <dependency>
             <groupId>javax.xml.bind</groupId>
@@ -50,16 +57,16 @@
             <artifactId>slf4j-api</artifactId>
             <version>2.0.18</version>
             <scope>compile</scope>
-        </dependency>        
-                  
+        </dependency>
+
         <!-- Source: https://mvnrepository.com/artifact/org.slf4j/jul-to-slf4j -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jul-to-slf4j</artifactId>
             <version>2.0.18</version>
             <scope>compile</scope>
-        </dependency>        
-        
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>
@@ -75,9 +82,10 @@
                         <arg>-Xlint:unchecked</arg>
                         <arg>-Xlint:deprecation</arg>
                     </compilerArgs>
-<!--                    <outputDirectory>/home/comrad/Downloads/wlp/usr/servers/holarse/dropins</outputDirectory>-->
+                    <!--
+                    <outputDirectory>/home/comrad/Downloads/wlp/usr/servers/holarse/dropins</outputDirectory>-->
                 </configuration>
-            </plugin>            
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -102,8 +110,8 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>        
-            
+            </plugin>
+
         </plugins>
     </build>
 </project>

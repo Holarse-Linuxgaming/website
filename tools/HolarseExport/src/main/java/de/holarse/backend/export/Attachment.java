@@ -6,6 +6,11 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 @JacksonXmlRootElement(localName="attachment")
 public class Attachment {
 
+    private static final long serialVersionUID = 3L;
+
+    @JacksonXmlProperty(isAttribute = true)    
+    private String name;
+
     @JacksonXmlProperty(isAttribute = true)
     private Long prio;
     
@@ -20,6 +25,9 @@ public class Attachment {
 
     @JacksonXmlProperty
     private String description;
+
+    @JacksonXmlProperty(isAttribute = true)    
+    private Long fileSize;
 
     public Long getPrio() {
         return prio;
@@ -61,10 +69,26 @@ public class Attachment {
         this.group = group;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize(Long fileSize) {
+        this.fileSize = fileSize;
+    }
+
     @Override
     public String toString() {
-        return "Attachment{" + "prio=" + prio + ", type=" + type + ", group=" + group + ", content=" + content + ", description=" + description + '}';
+        return "Attachment [name=" + name + ", prio=" + prio + ", type=" + type + ", group=" + group + ", description="
+                + description + ", fileSize=" + fileSize + "]";
     }
-   
-    
+
 }

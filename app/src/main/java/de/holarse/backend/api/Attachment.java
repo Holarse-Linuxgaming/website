@@ -7,7 +7,10 @@ import java.io.Serializable;
 @JacksonXmlRootElement(localName="attachment")
 public class Attachment implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 3L;
+
+    @JacksonXmlProperty(isAttribute = true)    
+    private String name;    
 
     @JacksonXmlProperty(isAttribute = true)
     private Long prio;
@@ -23,6 +26,9 @@ public class Attachment implements Serializable {
 
     @JacksonXmlProperty
     private String description;
+
+    @JacksonXmlProperty(isAttribute = true)    
+    private Long fileSize;    
 
     public Long getPrio() {
         return prio;
@@ -63,5 +69,28 @@ public class Attachment implements Serializable {
     public void setGroup(String group) {
         this.group = group;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+    public Long getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize(Long fileSize) {
+        this.fileSize = fileSize;
+    }
+
+    @Override
+    public String toString() {
+        return "Attachment [name=" + name + ", prio=" + prio + ", type=" + type + ", group=" + group + ", description="
+                + description + ", fileSize=" + fileSize + "]";
+    }    
     
 }
