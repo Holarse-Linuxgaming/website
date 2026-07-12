@@ -29,10 +29,10 @@
   </head>
 <body>
     <!-- Layout -->
-    <div class="container-fluid">
-        <nav th:replace="~{fragments/header :: top}"></nav>
-        <nav th:replace="~{fragments/header :: menu}"></nav>
-        <main layout:fragment="content"></main>
+    <nav th:replace="~{fragments/header :: top}"></nav>
+    <nav th:replace="~{fragments/header :: menu}"></nav>     
+    <div class="container-fluid hol-links">
+        <main layout:fragment="content"></main>    
         <footer th:replace="~{fragments/footer :: footer}"></footer>
     </div>
 

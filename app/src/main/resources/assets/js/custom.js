@@ -1,10 +1,10 @@
-function updateUrlWithSize(newSize: string) {
+// $.datepicker.setDefaults( $.datepicker.regional[ "de" ] );
+
+function updateUrlWithSize(newSize) {
     const url = new URL(location.href);
     url.searchParams.set("size", newSize);
     location.href = url.href;
 };
-
-$.datepicker.setDefaults( $.datepicker.regional[ "de" ] );
 
 $(function() {
     $(".btn-remove-article-title").click(function() {

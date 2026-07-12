@@ -3,14 +3,16 @@
 
 // Include any default variable overrides here (though functions won’t be available)
 
+@use "sass:color";
+
 @use "variables" as v;
 @use "bootstrap/scss/bootstrap" with (
     $primary: v.$brand-primary
 );
 
 .hol-gradient-bar {
-  --logo-zone: 20%;      // roughly matches logo width
-  --transition-end: 35%; // where it becomes fully primary
+  --logo-zone: 12%;      // roughly matches logo width
+  --transition-end: 25%; // where it becomes fully primary
 
   background: linear-gradient(
     to right, 
@@ -39,4 +41,65 @@ body {
   border-radius: 0.25rem;
   padding: 1.5rem;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); // very subtle lift
+}
+
+.hol-gradient-bar .nav-link {
+    color: #ffffff;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.hol-gradient-bar .nav-link:hover,
+.hol-gradient-bar .nav-link:focus {
+    color: color.mix(white, v.$brand-primary, 80%); // soft light tint of brand color
+}
+
+.hol-gradient-bar .nav-link.active {
+    color: #ffffff;
+    font-weight: 700;
+    border-bottom: 2px solid #ffffff;
+}
+
+.hol-gradient-bar .nav-link.disabled {
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.hol-gradient-bar .dropdown-toggle::after {
+    color: #ffffff;
+}
+
+.hol-gradient-bar .dropdown-menu {
+    background-color: #ffffff;
+    border: 1px solid v.$brand-primary;
+}
+
+.hol-gradient-bar .dropdown-item {
+    color: #333333;
+}
+
+.hol-gradient-bar .dropdown-item:hover {
+    background-color: color.mix(white, v.$brand-primary, 90%);
+    color: v.$brand-primary;
+}
+
+.hol-gradient-bar .btn-outline-light {
+    border-color: #ffffff;
+    color: #ffffff;
+}
+
+.hol-gradient-bar .btn-outline-light:hover {
+    background-color: #ffffff;
+    color: v.$brand-primary;
+}
+
+div.hol-links a {
+    color: v.$brand-primary;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+div.hol-links a:hover,
+div.hol-links a:focus {
+    color: v.$brand-primary;
+    text-decoration: underline;
 }

@@ -1,74 +1,105 @@
-<div class="container-fluid" th:fragment="footer">
-    <footer class="p-5">
-        <div class="row">
-            <div class="col-6 col-md-2 mb-3">
-                <h5>Themen</h5>
-                <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><a th:href="@{/}" class="nav-link p-0 text-body-secondary">Home</a></li>
-                    <li class="nav-item mb-2"><a th:href="@{/spielefinder}" class="nav-link p-0 text-body-secondary">Spielefinder</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Drückblick</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Archiv</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Themen</a></li>
-                </ul>
-            </div>
-            <div class="col-6 col-md-2 mb-3">
-                <h5>Community</h5>
-                <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><a href="https://store.steampowered.com/curator/4317648-Holarse-Linuxgaming" class="nav-link p-0 text-body-secondary" target="_blank">Steam</a></li>
-                    <li class="nav-item mb-2"><a href="https://discord.gg/TZSmUyg" class="nav-link p-0 text-body-secondary" target="_blank">Discord</a></li>
-                    <li class="nav-item mb-2"><a href="https://www.youtube.com/holarse" class="nav-link p-0 text-body-secondary" target="_blank">Youtube</a></li>
-                    <li class="nav-item mb-2"><a href="https://mastodon.social/@holarse" class="nav-link p-0 text-body-secondary" target="_blank">Mastodon</a></li>
-                    <li class="nav-item mb-2"><a href="https://chat.holarse.de" class="nav-link p-0 text-body-secondary" target="_blank">IRC</a></li>
-                </ul>
-            </div>
-            <div class="col-6 col-md-2 mb-3">
-                <h5>Rechtliches</h5>
-                <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><a th:href="@{/kontakt}" class="nav-link p-0 text-body-secondary">Kontakt</a></li>
-                    <li class="nav-item mb-2"><a th:href="@{/impressum}" class="nav-link p-0 text-body-secondary">Impressum</a></li>
-                    <li class="nav-item mb-2"><a th:href="@{/datenschutz}" class="nav-link p-0 text-body-secondary">Datenschutz</a></li>
-                    <li class="nav-item mb-2"><a href="https://github.com/Holarse-Linuxgaming/" class="nav-link p-0 text-body-secondary" target="_blank">Open Source</a></li>
-                    <li class="nav-item mb-2"><a th:href="@{/über_uns}" class="nav-link p-0 text-body-secondary">Über uns</a></li>
-                </ul>
-            </div>
-            <div class="col-md-5 offset-md-1 mb-3">
-                <img th:src="@{/assets/images/holarse/penguin_computing_tux.png}" width="50%" height="100%">
-            </div>
-        </div>
-        <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
-            <p>&copy; 2000 - 2026 Holarse - Spielen unter Linux</p>
-            <ul class="list-unstyled d-flex">
-                <li class="ms-3">
-                    <a class="link-body-emphasis" href="//files.holarse.de" aria-label="Downloads" target="_blank">
-                        <i class="bi bi-cloud-download"></i>
-                    </a>
-                </li>                
-                <li class="ms-3">
-                    <a class="link-body-emphasis" href="https://store.steampowered.com/curator/4317648-Holarse-Linuxgaming" aria-label="Steam" target="_blank">
-                        <i class="bi bi-steam"></i>
-                    </a>
-                </li>
-                <li class="ms-3">
-                    <a class="link-body-emphasis" href="https://discord.gg/TZSmUyg" aria-label="Discord" target="_blank">
-                        <i class="bi bi-discord"></i>
-                    </a>
-                </li>
-                <li class="ms-3">
-                    <a class="link-body-emphasis" href="https://www.youtube.com/holarse" aria-label="Youtube" target="_blank">
-                        <i class="bi bi-youtube"></i>
-                    </a>
-                </li>
-                <li class="ms-3">
-                    <a class="link-body-emphasis" href="https://mastodon.social/@holarse" aria-label="Mastodon" target="_blank">
-                        <i class="bi bi-mastodon"></i>
-                    </a>
-                </li>
-                <li class="ms-3">
-                    <a class="link-body-emphasis" href="https://chat.holarse.de" aria-label="IRC" target="_blank">
-                        <i class="bi bi-chat"></i>
-                    </a>
-                </li>                            
+<footer class="p-5" th:fragment="footer">
+    <div class="row">
+        <div class="col-6 col-md-2 mb-3">
+            <h5>Themen</h5>
+            <ul class="nav flex-column">
+                <li class="nav-item mb-2"><a th:href="@{/}" class="nav-link p-0 text-body-secondary">Home</a></li>
+                <li class="nav-item mb-2"><a th:href="@{/spielefinder}"
+                        class="nav-link p-0 text-body-secondary">Spielefinder</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Drückblick</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Archiv</a></li>
+                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Themen</a></li>
             </ul>
         </div>
-    </footer>
-</div>
+        <div class="col-6 col-md-2 mb-3">
+            <h5>Community</h5>
+            <ul class="nav flex-column">
+                <li class="nav-item mb-2"><a href="https://store.steampowered.com/curator/4317648-Holarse-Linuxgaming"
+                        class="nav-link p-0 text-body-secondary" target="_blank">Steam</a></li>
+                <li class="nav-item mb-2"><a href="https://discord.gg/TZSmUyg" class="nav-link p-0 text-body-secondary"
+                        target="_blank">Discord</a></li>
+                <li class="nav-item mb-2"><a href="https://www.youtube.com/holarse"
+                        class="nav-link p-0 text-body-secondary" target="_blank">Youtube</a></li>
+                <li class="nav-item mb-2"><a href="https://mastodon.social/@holarse"
+                        class="nav-link p-0 text-body-secondary" target="_blank">Mastodon</a></li>
+                <li class="nav-item mb-2"><a href="https://chat.holarse.de" class="nav-link p-0 text-body-secondary"
+                        target="_blank">IRC</a></li>
+            </ul>
+        </div>
+        <div class="col-6 col-md-2 mb-3">
+            <h5>Rechtliches</h5>
+            <ul class="nav flex-column">
+                <li class="nav-item mb-2"><a th:href="@{/kontakt}" class="nav-link p-0 text-body-secondary">Kontakt</a>
+                </li>
+                <li class="nav-item mb-2"><a th:href="@{/impressum}"
+                        class="nav-link p-0 text-body-secondary">Impressum</a></li>
+                <li class="nav-item mb-2"><a th:href="@{/datenschutz}"
+                        class="nav-link p-0 text-body-secondary">Datenschutz</a></li>
+                <li class="nav-item mb-2"><a href="https://github.com/Holarse-Linuxgaming/"
+                        class="nav-link p-0 text-body-secondary" target="_blank">Open Source</a></li>
+                <li class="nav-item mb-2"><a th:href="@{/über_uns}" class="nav-link p-0 text-body-secondary">Über
+                        uns</a></li>
+            </ul>
+        </div>
+        <div class="col-6 col-md-2 mb-3">
+            <h5>Im Netz</h5>
+            <ul class="nav flex-column">
+                <li class="nav-item mb-2"><a href="https://www.upgradetolinux.com/linux-gaming/" class="nav-link p-0 text-body-secondary" target="_blank">Upgrade To Linux</a></li>
+                <li class="nav-item mb-2"><a href="https://hatnix.net/streamplan.html" class="nav-link p-0 text-body-secondary" target="_blank">Hatnix</a></li>
+                <li class="nav-item mb-2"><a href="https://www.twitch.tv/nerdgrrrl" class="nav-link p-0 text-body-secondary" target="_blank">Nerdgrrrl</a></li>
+            </ul>
+        </div>        
+        <div class="col-md-4">
+            <img th:src="@{/assets/images/holarse/penguin_computing_tux.png}" width="50%" height="100%">
+        </div>
+    </div>
+    <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
+        <p>&copy; 2000 - 2026 Holarse - Spielen unter Linux</p>
+        <ul class="list-unstyled d-flex">
+            <li class="ms-3">
+                <a class="link-body-emphasis" href="https://github.com/Holarse-Linuxgaming/website/commit/17b307bc7c62853cec88197f280683d966492b33" aria-label="Git Commit Id" target="_blank">
+                    <i class="bi bi-git"></i>
+                    17b307b
+                </a>
+            </li>
+            <li class="ms-3">
+                <a class="link-body-emphasis" href="//files.holarse.de" aria-label="Downloads" target="_blank">
+                    <i class="bi bi-cloud-download"></i>
+                </a>
+            </li>
+            <li class="ms-3">
+                <a class="link-body-emphasis" href="https://store.steampowered.com/curator/4317648-Holarse-Linuxgaming"
+                    aria-label="Steam" target="_blank">
+                    <i class="bi bi-steam"></i>
+                </a>
+            </li>
+            <li class="ms-3">
+                <a class="link-body-emphasis" href="https://discord.gg/TZSmUyg" aria-label="Discord" target="_blank">
+                    <i class="bi bi-discord"></i>
+                </a>
+            </li>
+            <li class="ms-3">
+                <a class="link-body-emphasis" href="https://www.youtube.com/holarse" aria-label="Youtube"
+                    target="_blank">
+                    <i class="bi bi-youtube"></i>
+                </a>
+            </li>
+            <li class="ms-3">
+                <a class="link-body-emphasis" href="https://mastodon.social/@holarse" aria-label="Mastodon"
+                    target="_blank">
+                    <i class="bi bi-mastodon"></i>
+                </a>
+            </li>
+            <li class="ms-3">
+                <a class="link-body-emphasis" href="https://chat.holarse.de" aria-label="IRC" target="_blank">
+                    <i class="bi bi-chat"></i>
+                </a>
+            </li>
+            <li class="ms-3">
+                <a class="link-body-emphasis" href="https://www.upgradetolinux.com/linux-gaming/" aria-label="Upgrade To Linux" target="_blank">
+                    <i class="bi bi-tux"></i>
+                </a>
+            </li>            
+        </ul>
+    </div>
+</footer>

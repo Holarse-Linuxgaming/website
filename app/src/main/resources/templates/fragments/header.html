@@ -1,4 +1,5 @@
-<nav th:fragment="top" class="d-flex align-items-center justify-content-between px-3 py-2 bg-light flex-nowrap top-bar">
+<nav th:fragment="top"
+    class="d-flex align-items-center justify-content-between px-3 py-2 bg-light flex-nowrap top-bar hol-links">
     <span class="flex-shrink-1">Hier kommt ein lustiger Spruch!</span>
     <div class="d-flex align-items-center flex-shrink-0">
         <a href="#" th:href="@{/login}" class="btn btn-sm text-white bg-primary mx-3">Login</a>
@@ -6,43 +7,63 @@
     </div>
 </nav>
 
-<nav th:fragment="menu" class="navbar hol-gradient-bar">
-    <div class="d-flex align-items-center justify-content-between px-3 py-2">
+<nav th:fragment="menu" class="navbar navbar-expand-lg hol-gradient-bar">
+    <div class="container-fluid">
+        <!-- Logo -->
         <a class="navbar-brand" th:href="@{/}">
             <img th:src="@{/assets/images/holarse/logo-with-text.png}" alt="Logo" width="100%" height="100%"
                 class="d-inline-block align-text-top">
         </a>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                </li>
-            </ul>
+
+        <!-- Hamburger menu -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Menu items -->
+        <div class="collapse navbar-collapse flex-fill" id="navbarSupportedContent">
+            <div class="container-fluid">
+                <ul class="navbar-nav d-flex justify-content-evenly w-100 ms-lg-5 me-lg-5 mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" th:href="@{/news}">News</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" th:href="@{/spielefinder}">Spielefinder</a>
+                    </li>
+                    <!-- <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Dropdown
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li> -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" th:href="@{/themen}">Themen</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" th:href="@{/themen}">Themen</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://files.holarse.de">Downloads</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://play.holarse.de">Gameserver</a>
+                    </li>                    
+                </ul>
+            </div>
+
+            <!-- Search form -->
             <form class="d-flex" role="search">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
         </div>
-
     </div>
 </nav>
