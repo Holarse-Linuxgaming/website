@@ -3,6 +3,40 @@
 
 // Include any default variable overrides here (though functions won’t be available)
 
+@use "variables" as v;
 @use "bootstrap/scss/bootstrap" with (
-    $primary: #db4938
+    $primary: v.$brand-primary
 );
+
+.hol-gradient-bar {
+  --logo-zone: 20%;      // roughly matches logo width
+  --transition-end: 35%; // where it becomes fully primary
+
+  background: linear-gradient(
+    to right, 
+    #ffffff 0%,
+    #ffffff var(--logo-zone), 
+    v.$brand-primary var(--transition-end)
+  );
+}
+
+.top-bar a, 
+.breadcrumb-bar a {
+  color: v.$brand-primary;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+body {
+  background-color: #f8f9fa;
+}
+
+.content-card {
+  background-color: #ffffff;
+  border-radius: 0.25rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); // very subtle lift
+}

@@ -5,21 +5,22 @@
 <head>
 </head>
 
-<main layout:fragment="content">
+<main layout:fragment="content" class="content-card">
     <nav class="row">
         <div class="col-12">
             <nav th:replace="~{fragments/breadcrumbs :: breadcrumb}"></nav>
         </div>
     </nav>
     <div class="row">
-        <div class="col-8">
+        <div class="col-9">
             <div class="row">
                 <div class="col-12">
                     <!-- Title(s) -->
-                    <h2 class="u-heading-v2__title g-mb-10" data-th-text="${view.title1}">Lorem ipsum standard</h2>
-                    <div th:each="altTitle: ${view.alternativeTitles}">
-                        <h4 class="g-font-weight-200" data-th-text="${altTitle}"></h4>
-                    </div>
+                    <p class="h1" th:text="${view.title1}">Article title</h2>
+                    <!-- Alternative titles -->
+                    <ul th:each="altTitle: ${view.alternativeTitles}" class="list-group list-group-horizontal">
+                        <li class="list-group-item" th:text="${altTitle}"></li>
+                    </ul>
                 </div>      
             </div>
             <div class="row">
@@ -28,35 +29,27 @@
                 </div>
             </div>
         </div>
-        <div class="col-4">
-            <!-- Tags -->
-            <div class="u-heading-v1-2 g-bg-main g-brd-primary g-mb-20">
-                <h2 class="h3 u-heading-v1__title">Tags</h2>
-            </div>
+        <div class="col-3 text-end">
+            <p class="h2">Tags</p>
             <ul th:replace="~{sites/shared/tags/list :: taglist(tags=${view.tagList})}"></ul>
 
-            <!-- Screenshots -->
+            <p class="h2">Screenshots</p>
             <p th:replace="~{sites/shared/screenshots :: render(screenshots=${view.screenshots})}"></p>
 
-            <!-- Videos -->
+            <p class="h2">Videos</p>
             <p th:replace="~{sites/shared/videos :: render(videos=${view.youtubeVideos})}"></p>            
 
-            <!-- Links -->
-            <div class="u-heading-v1-2 g-bg-main g-brd-primary g-mb-20">
-                <h2 class="h3 u-heading-v1__title">Links</h2>
-            </div>
+            <p class="h2">Links</p>
             <p th:replace="~{sites/shared/links :: links(links=${view.websiteLinks})}"></p>            
 
-            <!-- Revision -->
-            <div>
-                Aktuelle Revision: <div data-th-text="${view.revision}"></div>
-            </div>
+            <p class="h2">Revision</p>
+            Aktuelle Revision: <div data-th-text="${view.revision}"></div>
             
             <!-- Actions -->
-            <ul class="list-group list-group-horizontal">
-                <a href="?edit" class="list-group-item flex-fill">bearbeiten</a>
-                <a href="#" class="list-group-item flex-fill" data-th-href="@{/wiki/{nodeId}/revisions(nodeId=${view.nodeId})}">Änderungen</a>
-                <a href="?stats" class="list-group-item flex-fill">Statistik</a>
+            <ul class="list-group">
+                <a href="#" th:href="@{/wiki/{nodeId}/edit(nodeId=${view.nodeId})}" class="list-group-item flex-fill">bearbeiten</a>
+                <a href="#" th:href="@{/wiki/{nodeId}/revisions(nodeId=${view.nodeId})}" class="list-group-item flex-fill">Änderungen</a>
+                <a href="#" th:href="@{/wiki/{nodeId}/stats(nodeId=${view.nodeId})}" class="list-group-item flex-fill">Statistik</a>
             </ul>             
         </div>
     </div>
