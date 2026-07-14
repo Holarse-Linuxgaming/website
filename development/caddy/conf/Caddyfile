@@ -21,3 +21,7 @@ http://queue.holarse.localhost {
 http://mail.holarse.localhost {
 	reverse_proxy http://mail:8025
 }
+
+http://s3.holarse.localhost {
+	reverse_proxy http://storage_webui:3909
+}

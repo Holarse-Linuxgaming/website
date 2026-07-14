@@ -60,7 +60,7 @@ Die Datenbank ist unter http://db.holarse.localhost erreichbar.
 Der Mailcatcher ist unter http://mail.holarse.localhost erreichbar (Sonst Port 8025).
 
 ### S3-Storage
-Die Storage-Console (minio) ist unter http://s3.holarse.localhost erreichbar (sonst Port 9001)
+Die Storage-Console (garage) ist unter http://s3.holarse.localhost erreichbar (sonst Port 3909)
 
 ### Webseite
 Die Webseite ist unter http://www.holarse.localhost erreichbar (sonst http://localhost:8080/holarseweb)

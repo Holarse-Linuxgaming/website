@@ -85,10 +85,44 @@ services:
       - holarse-front
       - holarse-back
 
+  storage:
+    image: dxflrs/garage:v2.3.0
+    restart: no
+    env_file:
+      - ./development/s3.env
+    ports: 
+      - 3900:3900
+      - 3901:3901
+      - 3902:3902
+      - 3903:3903
+    networks:
+      - holarse-back
+    volumes:
+      - ./development/garage/garage.toml:/etc/garage.toml:ro
+      - s3_data:/var/lib/garage/data
+      - s3_meta:/var/lib/garage/meta      
+    command: /garage server --single-node --default-bucket    
+
+  storage_webui:
+    image: khairul169/garage-webui:latest
+    restart: unless-stopped
+    networks:
+      - holarse-front
+      - holarse-back
+    volumes:
+      - ./development/garage/garage.toml:/etc/garage.toml:ro
+    ports:
+      - 3909:3909
+    environment:
+      API_BASE_URL: "http://storage:3903"
+      S3_ENDPOINT_URL: "http://storage:3900"
+
 volumes:
   website_my_pgdata: 
   amq_journal_data:
   caddy_data:
+  s3_data:
+  s3_meta:  
 
 networks:
   holarse-front:
