@@ -57,7 +57,7 @@ services:
     image: eclipse-temurin:25-alpine
     restart: no
     env_file:
-      - development/oci.env
+      - development/s3.env
       - development/db.env
       - development/queue.env
     ports:

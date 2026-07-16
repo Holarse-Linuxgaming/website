@@ -20,6 +20,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.JpaSort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,14 +55,14 @@ public class GameFinderController {
     final static Sort defaultRankSorted = JpaSort.unsafe(Sort.Direction.DESC, "ts_rank_cd(document, websearch_to_tsquery('german', :query), 16)");
         
     @GetMapping
-    public ModelAndView index(
+    public String index(
             @PageableDefault(value = WebDefines.DEFAULT_LIST_SIZE) Pageable pageable, 
             @RequestParam(name = "t", defaultValue = "") final List<String> selectedTags,
             @RequestParam(name = "q", defaultValue = "") final String query,
             @RequestParam(name = "a", defaultValue = "") final String toggleTag,
             @RequestParam(name = "sort", defaultValue = "") final String sort,
             @RequestParam(name = "s", defaultValue = "article,news,thread") final List<String> scope,
-            final ModelAndView mv) {            
+            final Model model) {            
         // Ein Tag soll entweder hinzugeschaltet oder weggenommen werden. Danach Seite neuladen
         if (!StringUtils.isBlank(toggleTag)) {
             if (selectedTags.contains(toggleTag)) {
@@ -79,7 +80,7 @@ public class GameFinderController {
                                                                                   .queryParam("c", "0") // Do not pagecount the redirect
                                                                                   .build();
             
-            return new ModelAndView(String.format("redirect:/%s", uriComponents.toUriString()));
+            return String.format("redirect:/%s", uriComponents.toUriString());
         }
         
         // TODO: Normalisieren und Aliasse auflösen
@@ -112,23 +113,21 @@ public class GameFinderController {
         // Ermitteln der Taggruppen und der dazugehörigen Tags
         final List<TagGroup> tagGroups = tagGroupRepository.findAllTagGroups(Sort.by(Sort.Order.desc("tg.weight"), Sort.Order.desc("t.weight"), Sort.Order.desc("t.useCount")));                        
 
-        mv.setViewName("layouts/bare");
-        mv.addObject("title", "Die Linuxspiele-Seite für Linuxspieler");
-        mv.addObject(WebDefines.DEFAULT_VIEW_ATTRIBUTE_NAME, "sites/search/results");         
+        model.addAttribute("title", "Die Linuxspiele-Seite für Linuxspieler");
         
-        mv.addObject("count", searchResults.getTotalElements());
-        mv.addObject("tagGroups", tagGroups);
-        mv.addObject("searchResults", searchResults);
+        model.addAttribute("count", searchResults.getTotalElements());
+        model.addAttribute("tagGroups", tagGroups);
+        model.addAttribute("searchResults", searchResults);
         
-        mv.addObject("t", String.join(",", selectedTags));
-        mv.addObject("selectedTags", selectedTags.stream().map(s -> tagRepository.findBySlug(s))
+        model.addAttribute("t", String.join(",", selectedTags));
+        model.addAttribute("selectedTags", selectedTags.stream().map(s -> tagRepository.findBySlug(s))
                                                           .filter(Optional::isPresent)
                                                           .map(Optional::get)
                                                           .toList());
-        mv.addObject("q", query);
-        mv.addObject("sort", sort);
+        model.addAttribute("q", query);
+        model.addAttribute("sort", sort);
         
-        return mv;
+        return "sites/search/results";
     }
     
 }

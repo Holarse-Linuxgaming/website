@@ -1,4 +1,4 @@
-DOCKER_OPTS=--env-file development/db.env --env-file development/oci.env --env-file development/queue.env --env-file development/s3.env
+DOCKER_OPTS=--env-file development/db.env --env-file development/queue.env --env-file development/s3.env
 NODE_MODULES=node_modules/
 ASSETS=app/src/main/resources/assets
 SASS_OPTS=--load-path=node_modules --no-source-map --style=compressed --quiet-deps 
