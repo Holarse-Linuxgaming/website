@@ -221,6 +221,7 @@ public class MultipleHttpSecurityConfig {
             // Form-Login
             .formLogin(form -> form
                     .loginPage("/login").permitAll()
+                    .usernameParameter("username")
                     .failureHandler(failureHandler())
                     .successHandler(successHandler()))
 

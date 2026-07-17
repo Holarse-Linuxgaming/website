@@ -1,0 +1,11 @@
+<div th:fragment="toastlist(toasts)">
+    <div class="toast-container position-static top-0 end-0">
+    <div class="toast" role="alert" th:each="toast : ${toasts}">
+        <div class="toast-header">
+            <strong class="me-auto" th:toast="${toast.header}">Bootstrap</strong>
+            <small class="text-body-secondary" th:text="${toast.time}">just now</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body" th:text="${toast.message}">Toast message</div>
+    </div>        
+</div>

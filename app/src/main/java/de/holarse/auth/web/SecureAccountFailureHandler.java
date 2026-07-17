@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
@@ -29,6 +28,8 @@ public class SecureAccountFailureHandler extends SimpleUrlAuthenticationFailureH
     
     private final static transient int MAX_FAILED_LOGINS = 3;
 
+    private final static String ERROR_STRING = "Benutzername oder Passwort ist falsch.";
+
     @Autowired
     private UserRepository userRepository;
     
@@ -46,44 +47,46 @@ public class SecureAccountFailureHandler extends SimpleUrlAuthenticationFailureH
         super.setDefaultFailureUrl("/login?error=1");
 
         final String username = request.getParameter("username");
+        final String errorMsg = handleUserState(username);
+
         log.debug("Login für User {} fehlgeschlagen.", username, exception);
 
-        final User user = userRepository.findByLogin(username);
-        if (user != null) {
-            final UserStatus userStatus = user.getStatus();
-            if (userStatus != null) {
-                userStatus.setFailedLogins(user.getStatus().getFailedLogins() + 1);
-                userStatus.setUpdated(OffsetDateTime.now());
-
-                log.info("Benutzer {} hat nun {} fehlgeschlagene Login-Versuche.", username, user.getStatus().getFailedLogins());
-
-                if (!userStatus.isLocked() && hasTooManyFailedAttempts(userStatus)) {
-                    userStatus.setLocked(true);
-                    log.warn("Benutzer {} wurde wegen zu vielen Fehlversuchen gesperrt.", username);
-                    userStatusRepository.save(userStatus);
-                    request.getSession().setAttribute("errormsg", "Konto wurde gesperrt");
-                } else {
-                    log.warn("Benutzer {} ist gesperrt.", username);
-                    request.getSession().setAttribute("errormsg", "Konto ist gesperrt");
-                }
-            } else {
-                log.error("User login {} has no user_status assoc", username);
-                request.getSession().setAttribute("errormsg", "Konto ist unvollständig");
-
-            }
-        } else {
-            log.error("User login {} is not known", username);
-            request.getSession().setAttribute("errormsg", "Benutzername oder Passwort ist falsch.");
-        }
+        request.getSession().setAttribute("loginError", errorMsg);
 
         super.onAuthenticationFailure(request, response, exception);
     }
-    
-    private boolean hasTooManyFailedAttempts(final UserStatus userStatus) {
+
+    private String handleUserState(final String username) {
+        final User user = userRepository.findByLogin(username);
+        if (user == null) {
+            log.warn("User {} was not found in database", username);
+            return ERROR_STRING;
+        }
+
+        final UserStatus userStatus = user.getStatus();
         if (userStatus == null) {
-            return true;
+            log.warn("User {} has no userstatus", user);
+            return ERROR_STRING;
+        }
+
+        if (userStatus.isLocked()) {
+            log.warn("User {} tried to login on locked account", user);
+            return ERROR_STRING;
+        }
+
+        userStatus.setFailedLogins(user.getStatus().getFailedLogins() + 1);
+        userStatus.setUpdated(OffsetDateTime.now());
+        
+        if (userStatus.getFailedLogins() > MAX_FAILED_LOGINS) {
+            log.warn("User {} exceeded max login attempts", user);
+            userStatus.setLocked(true);
+            userStatusRepository.save(userStatus);
+            return ERROR_STRING;
         }
         
-        return userStatus.getFailedLogins() > MAX_FAILED_LOGINS;
+        userStatusRepository.save(userStatus);
+
+        return ERROR_STRING;
     }
+
 }

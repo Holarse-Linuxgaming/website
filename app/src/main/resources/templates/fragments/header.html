@@ -1,10 +1,16 @@
 <nav th:fragment="top"
     class="d-flex align-items-center justify-content-between px-3 py-2 bg-light flex-nowrap top-bar hol-links">
     <span class="flex-shrink-1">Hier kommt ein lustiger Spruch!</span>
-    <div class="d-flex align-items-center flex-shrink-0">
+
+    <div class="d-flex align-items-center flex-shrink-0" sec:authorize="!isAuthenticated()">
         <a href="#" th:href="@{/login}" class="btn btn-sm text-white bg-primary mx-3">Login</a>
         <a href="#" th:href="@{/register}" class="me-3 text-dark text-decoration-none">Neues Konto</a>
     </div>
+    <div class="d-flex align-items-center flex-shrink-0" sec:authorize="isAuthenticated()">
+        <a href="#" th:href="@{/admin}" class="btn btn-sm text-white bg-primary mx-3" sec:authorize="hasRole('ROLE_CORE')">Admin-Bereich</a>
+        <a href="#" th:href="@{/profile}" class="btn btn-sm text-white bg-primary mx-3"><span sec:authentication="name"></span></a>
+        <a href="#" th:href="@{/logout}" class="me-3 text-dark text-decoration-none">Logout</a>
+    </div>    
 </nav>
 
 <nav th:fragment="menu" class="navbar navbar-expand-lg hol-gradient-bar">

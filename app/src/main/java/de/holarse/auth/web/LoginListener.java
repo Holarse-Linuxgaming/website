@@ -1,7 +1,6 @@
 package de.holarse.auth.web;
 
 import de.holarse.backend.db.User;
-import de.holarse.backend.db.UserStatus;
 import de.holarse.backend.db.repositories.UserRepository;
 import de.holarse.backend.db.repositories.UserStatusRepository;
 import de.holarse.backend.types.PasswordType;

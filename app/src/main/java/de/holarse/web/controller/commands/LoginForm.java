@@ -1,14 +1,16 @@
 package de.holarse.web.controller.commands;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 
 public class LoginForm {
 
+    @Email
     @NotEmpty
     private String username;
+
     @NotEmpty
     private String password;
-    private boolean keep_signed_in;
 
     public String getUsername() {
         return username;
@@ -24,14 +26,6 @@ public class LoginForm {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public boolean isKeep_signed_in() {
-        return keep_signed_in;
-    }
-
-    public void setKeep_signed_in(boolean keep_signed_in) {
-        this.keep_signed_in = keep_signed_in;
     }
     
 }

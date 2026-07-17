@@ -14,7 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.FlashMapManager;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.support.SessionFlashMapManager;
 
 /**
  * Stell die Willkommensseite mit dem Mural dar
@@ -47,6 +49,8 @@ public class WelcomeController {
         // TODO Sortieren nach belieben
         
         model.addAttribute("items", items);
+
+        
 
         return "sites/welcome";
     }
