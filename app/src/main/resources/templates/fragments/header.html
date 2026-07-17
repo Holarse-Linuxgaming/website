@@ -67,8 +67,8 @@
             </div>
 
             <!-- Search form -->
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+            <form th:action="@{/spielefinder}" th:object="${searchForm}" class="form-control" role="search" method="get">
+                <input class="form-control me-2" type="search" placeholder="Spiele finden..." th:field="*{q}" />
             </form>
         </div>
     </div>

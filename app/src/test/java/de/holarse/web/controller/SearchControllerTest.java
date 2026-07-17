@@ -41,7 +41,7 @@ public class SearchControllerTest {
     public void testSearchForm() throws Exception {
         final String searchTerm = "döner";
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
-        mockMvc.perform(post("/search").param("query", searchTerm).with(csrf())).andExpect(status().is3xxRedirection());
+        mockMvc.perform(post("/search").param("q", searchTerm).with(csrf())).andExpect(status().is3xxRedirection());
                 //assertEquals("sites/search/results", TestHelper.getContentView(result));
     }      
     

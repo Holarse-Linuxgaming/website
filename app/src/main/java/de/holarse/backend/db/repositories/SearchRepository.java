@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import de.holarse.backend.db.SearchIndex;
 import de.holarse.backend.db.datasets.SearchResultView;
+import de.holarse.backend.types.SearchScopeType;
 import de.holarse.backend.view.TagRecommendation;
 import java.util.List;
 import org.springframework.data.domain.Page;

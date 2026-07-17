@@ -186,7 +186,7 @@ public class MultipleHttpSecurityConfig {
             .authorizeHttpRequests((auth) -> auth.requestMatchers("/admin/**").hasRole("ADMIN"))
             
             // Login- und Registrierungsbereich
-            .authorizeHttpRequests((auth) -> auth.requestMatchers("/register/**").permitAll())
+            .authorizeHttpRequests((auth) -> auth.requestMatchers("/register/**", "/login/**", "/password_reset").permitAll())
 
 
             // Bereich nur für authentifizierte Benutzer jeglicher Rollen, z.B. Profil, edit-Seiten, logout
@@ -199,8 +199,6 @@ public class MultipleHttpSecurityConfig {
             
             // Normale Webseite, auch als Gast nutzbar
             .authorizeHttpRequests((auth) -> auth.requestMatchers("/",
-                                                                "/login**",
-                                                                "/search/**",
                                                                 "/tags/**",
                                                                 "/wiki/**",
                                                                 "/news/**",
