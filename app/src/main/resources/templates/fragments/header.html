@@ -67,7 +67,7 @@
             </div>
 
             <!-- Search form -->
-            <form th:action="@{/spielefinder}" th:object="${searchForm}" class="form-control" role="search" method="get">
+            <form th:action="@{/spielefinder}" th:object="${searchForm}" role="search" method="get">
                 <input class="form-control me-2" type="search" placeholder="Spiele finden..." th:field="*{q}" />
             </form>
         </div>

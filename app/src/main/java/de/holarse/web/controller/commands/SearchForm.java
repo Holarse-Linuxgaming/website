@@ -18,8 +18,8 @@ public class SearchForm {
     /** Selected Tags */
     private List<String> t = new ArrayList<>();
 
-    /** Toggle tags */
-    private List<String> a = new ArrayList<>();
+    /** Tag to be toggled */
+    private String a = "";
 
     /** Sort */
     private SearchSortType sort = SearchSortType.rank;
@@ -40,14 +40,6 @@ public class SearchForm {
         this.t = t;
     }
 
-    public List<String> getA() {
-        return a;
-    }
-
-    public void setA(final List<String> a) {
-        this.a = a;
-    }
-
     public SearchSortType getSort() {
         return sort;
     }
@@ -63,7 +55,15 @@ public class SearchForm {
 
     public void setS(final List<SearchScopeType> s) {
         this.s = s;
-    }    
+    }
+
+    public String getA() {
+        return a;
+    }
+
+    public void setA(String a) {
+        this.a = a;
+    }
 
     public static SearchForm create() {
         final SearchForm searchForm = new SearchForm();

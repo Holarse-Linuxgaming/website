@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 
 import static de.holarse.web.defines.WebDefines.TAG_DELIMITER;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -70,7 +71,26 @@ public class GameFinderController {
             @Valid @ModelAttribute("searchFormDetail") final SearchForm searchForm,
             final Model model) {       
         logger.debug("searchForm at start: {}", searchForm);
-        // Ein Tag soll entweder hinzugeschaltet oder weggenommen werden. Danach Seite neuladen
+        final List<String> selectedTags = searchForm.getT();
+
+        // Ein Tag soll entweder hinzugeschaltet oder weggenommen werden.
+        if (StringUtils.isNotBlank(searchForm.getA())) {
+            if (selectedTags.contains(searchForm.getA())) {
+                selectedTags.remove(searchForm.getA());
+            } else {
+                selectedTags.add(searchForm.getA());
+            }
+
+            // TODO: Tags normalisieren und Aliasse auflösen
+            final UriComponents uriComponents = UriComponentsBuilder.newInstance().path("spielefinder")
+                                                                                  .queryParam("t", String.join(",", selectedTags)).encode()
+                                                                                  .queryParam("q", searchForm.getQ()).encode()
+                                                                                  .queryParam("s", String.join(",", searchForm.getS().stream().map(SearchScopeType::toString).toList()))
+                                                                                  .build();
+            
+            return String.format("redirect:/%s", uriComponents.toUriString());            
+        }
+        
         // if (!StringUtils.isBlank(toggleTag)) {
         //     if (selectedTags.contains(toggleTag)) {
         //         selectedTags.remove(toggleTag);
@@ -139,7 +159,7 @@ public class GameFinderController {
         newSearchForm.setQ(searchForm.getQ());
         newSearchForm.setS(CollectionUtils.isEmpty(searchForm.getS()) ? Arrays.asList(SearchScopeType.values()) : searchForm.getS());
         newSearchForm.setSort(searchForm.getSort());
-        newSearchForm.setT(searchForm.getT());
+        newSearchForm.setT(selectedTags);
 
         logger.debug("newSearchForm: {}", newSearchForm);
 

@@ -20,6 +20,9 @@
             </div>
 
             <h4 class="text-uppercase border-bottom">Tags</h4>
+            <ul class="list-group">
+                <li class="list-group-item" th:each="tag : ${searchFormDetail.t}" th:text="${tag}"></li>
+            </ul>
 
             <h4 class="text-uppercase border-bottom">Suchen in</h4>
                 <div class="form-check">
