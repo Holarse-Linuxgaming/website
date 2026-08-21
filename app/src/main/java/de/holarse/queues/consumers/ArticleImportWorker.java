@@ -9,6 +9,7 @@ import de.holarse.backend.db.Tag;
 import de.holarse.backend.db.repositories.ArticleRepository;
 import de.holarse.backend.db.repositories.ArticleRevisionRepository;
 import de.holarse.backend.db.repositories.RoleRepository;
+import de.holarse.backend.db.repositories.TagRepository;
 import de.holarse.backend.db.repositories.UserRepository;
 import static de.holarse.config.JmsQueueTypes.*;
 import de.holarse.web.services.SlugService;
@@ -39,6 +40,9 @@ public class ArticleImportWorker {
     
     @Autowired
     private TagService tagService;    
+
+    @Autowired
+    private TagRepository tagRepository;
 
     @Transactional
     @JmsListener(destination = QUEUE_IMPORTS_ARTICLES)
@@ -86,6 +90,7 @@ public class ArticleImportWorker {
         final NodeSlug nodeSlug = slugService.slugify(articleRevision);        
             
         final Set<Tag> tags = tagService.extract(queueEntry);
+        tagRepository.saveAllAndFlush(tags);
         
         final Article article = new Article();
         article.setDrupalId(queueEntry.getUid().intValue());
@@ -93,7 +98,10 @@ public class ArticleImportWorker {
         article.setNodeRevision(articleRevision);
         article.setNodeStatus(nodeStatus);
         article.getNodeSlugs().add(nodeSlug);
-        article.setTags(tags);        
+        article.setTags(tags);
+        
+        log.debug("Importable Article: {}", article);
+        
         articleRepository.saveAndFlush(article);
     }    
         

@@ -90,5 +90,11 @@ public class Article extends Base implements Node, LockableEntity {
 
     @Transient
     public NodeType getNodeType() { return NodeType.article; }
+
+    @Override
+    public String toString() {
+        return "Article [nodeId=" + nodeId + ", nodeRevision=" + nodeRevision + ", drupalId=" + drupalId
+                + ", nodeStatus=" + nodeStatus + ", tags=" + tags + ", nodeSlugs=" + nodeSlugs + "]";
+    }
     
 }

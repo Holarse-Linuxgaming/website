@@ -109,5 +109,11 @@ public class Tag extends TimestampedBase {
     public void setUseCount(int useCount) {
         this.useCount = useCount;
     }
+
+    @Override
+    public String toString() {
+        return "Tag [name=" + name + ", nameLang=" + nameLang + ", useCount=" + useCount + ", weight=" + weight
+                + ", alias=" + alias + ", tagGroup=" + tagGroup + ", slug=" + slug + ", user=" + user + "]";
+    }
     
 }

@@ -58,6 +58,7 @@ app/src/main/resources/assets/css/
 .yarn/
 .pnp.*
 backup/
+import/**
 import/*.sql
 import/*.xml
 export/*.xml
